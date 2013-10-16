@@ -12,6 +12,7 @@
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.justdavis.karl.rpstourney</groupId>
 	<artifactId>rps-tourney-parent</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -21,9 +22,8 @@
 		The parent POM for the "Rock-Paper-Scissors Tourney" games.
 	</description>
 
-	<build>
-		<plugins>
-		</plugins>
-	</build>
+	<modules>
+		<module>rps-tourney-api</module>
+	</modules>
 
 </project>
