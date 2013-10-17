@@ -18,6 +18,12 @@
 
 	<dependencies>
 		<dependency>
+			<!-- Used for all sorts of misc. things. -->
+			<groupId>com.justdavis.jessentials</groupId>
+			<artifactId>jessentials-misc</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

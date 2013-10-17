@@ -26,4 +26,38 @@
 		<module>rps-tourney-api</module>
 	</modules>
 
+	<properties>
+		<!-- The version of Java that we'll set our game's projects to use. Android 
+			does not currently support anything later than Java 6, so that's used as 
+			the default. -->
+		<javaSourceVersion>1.6</javaSourceVersion>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Used for all sorts of misc. things. -->
+				<groupId>com.justdavis.jessentials</groupId>
+				<artifactId>jessentials-misc</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<!-- Set the Java source version used by the compiler. -->
+						<source>${javaSourceVersion}</source>
+						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 </project>
