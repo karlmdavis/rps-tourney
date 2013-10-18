@@ -212,8 +212,8 @@ public final class GameSession {
 		}
 
 		// Is the game still in progress?
-		int totalWonRounds = player1Wins + player2Wins;
-		if (totalWonRounds < maxRounds)
+		int numWinsNeeded = (maxRounds / 2) + 1;
+		if (player1Wins < numWinsNeeded && player2Wins < numWinsNeeded)
 			return null;
 
 		// Determine who won.
