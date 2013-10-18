@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+
 /**
  * <p>
  * Models a given play session of the game: tracking the moves that have been
@@ -32,22 +34,25 @@ import java.util.List;
  */
 public final class GameSession {
 	private final int maxRounds;
-	private final IPlayer player1;
-	private final IPlayer player2;
 
 	/**
-	 * This field is mutable. It will be updated by the {@link GameSession}
-	 * itself as play progresses.
+	 * <p>
+	 * Stores the {@link GameRound}s that have been completed. Gets updated by
+	 * {@link #submitThrow(int, PlayerRole, Throw)} as play progresses.
+	 * </p>
+	 * <p>
+	 * This field is mutable.
+	 * </p>
 	 */
 	private final List<GameRound> completedRounds;
 
 	/**
 	 * <p>
-	 * Used to temporarily store the {@link Throw} submitted by {@link #player1}
-	 * for the round that is currently in-progress. If there is no round
-	 * in-progress, or if the {@link IPlayer} has not yet submitted a
-	 * {@link Throw} via {@link #submitThrow(int, IPlayer, Throw)}, this field
-	 * will be <code>null</code>.
+	 * Used to temporarily store the {@link Throw} submitted by
+	 * {@link PlayerRole#PLAYER_1} for the round that is currently in-progress.
+	 * If there is no round in-progress, or if the player has not yet submitted
+	 * a {@link Throw} via {@link #submitThrow(int, PlayerRole, Throw)}, this
+	 * field will be <code>null</code>.
 	 * </p>
 	 * <p>
 	 * This field is mutable.
@@ -57,11 +62,11 @@ public final class GameSession {
 
 	/**
 	 * <p>
-	 * Used to temporarily store the {@link Throw} submitted by {@link #player2}
-	 * for the round that is currently in-progress. If there is no round
-	 * in-progress, or if the {@link IPlayer} has not yet submitted a
-	 * {@link Throw} via {@link #submitThrow(int, IPlayer, Throw)}, this field
-	 * will be <code>null</code>.
+	 * Used to temporarily store the {@link Throw} submitted by
+	 * {@link PlayerRole#PLAYER_2} for the round that is currently in-progress.
+	 * If there is no round in-progress, or if the player has not yet submitted
+	 * a {@link Throw} via {@link #submitThrow(int, PlayerRole, Throw)}, this
+	 * field will be <code>null</code>.
 	 * </p>
 	 * <p>
 	 * This field is mutable.
@@ -81,15 +86,13 @@ public final class GameSession {
 	 * 
 	 * @param maxRounds
 	 *            the value to use for {@link #getMaxRounds()}
-	 * @param player1
-	 *            the value to use for {@link #getPlayer1()}
-	 * @param player2
-	 *            the value to use for {@link #getPlayer2()}
 	 */
-	public GameSession(int maxRounds, IPlayer player1, IPlayer player2) {
+	public GameSession(int maxRounds) {
+		// Sanity check: valid numbers of rounds.
+		if (maxRounds < 1 || maxRounds % 2 == 0)
+			throw new IllegalArgumentException();
+
 		this.maxRounds = maxRounds;
-		this.player1 = player1;
-		this.player2 = player2;
 
 		this.completedRounds = new LinkedList<GameRound>();
 		this.currentThrowPlayer1 = null;
@@ -97,27 +100,11 @@ public final class GameSession {
 	}
 
 	/**
-	 * @return the maximum numbers of (non-tied) {@link GameRound}s that will be
+	 * @return the maximum number of (non-tied) {@link GameRound}s that will be
 	 *         played
 	 */
 	public int getMaxRounds() {
 		return maxRounds;
-	}
-
-	/**
-	 * @return one of the players participating in the game, arbitrarily
-	 *         designated as {@link PlayerRole#PLAYER_1}
-	 */
-	public IPlayer getPlayer1() {
-		return player1;
-	}
-
-	/**
-	 * @return one of the players participating in the game, arbitrarily
-	 *         designated as {@link PlayerRole#PLAYER_2}
-	 */
-	public IPlayer getPlayer2() {
-		return player2;
 	}
 
 	/**
@@ -138,7 +125,10 @@ public final class GameSession {
 		 * Use the getCompletedRounds() accessor here (rather than the field) to
 		 * leverage any locking it performs.
 		 */
-		return Math.min(getCompletedRounds().size(), maxRounds);
+		if (checkForWinner() == null)
+			return getCompletedRounds().size();
+		else
+			return getCompletedRounds().size() - 1;
 	}
 
 	/**
@@ -148,16 +138,21 @@ public final class GameSession {
 	 * @param roundIndex
 	 *            the index of the round that a {@link Throw} is being submitted
 	 *            for. This is included as a parameter to help ensure that the
-	 *            client &amp; server are staying in sync.
+	 *            client &amp; server are staying in sync. See
+	 *            {@link #getCurrentRoundIndex()}.
 	 * @param player
 	 *            the {@link PlayerRole} (which must be either
 	 *            {@link PlayerRole#PLAYER_1} or {@link PlayerRole#PLAYER_2})
 	 *            that is submitting the {@link Throw}
 	 * @param move
-	 *            the {@link Throw} that the {@link IPlayer} has selected for
-	 *            the round
+	 *            the {@link Throw} that the player has selected for the round
 	 */
 	public void submitThrow(int roundIndex, PlayerRole player, Throw move) {
+		/*
+		 * Use the getCompletedRounds() accessor here (rather than the field) to
+		 * leverage any locking it performs.
+		 */
+
 		// Sanity check: game still in progress?
 		if (checkForWinner() != null)
 			throw new IllegalStateException();
@@ -173,7 +168,7 @@ public final class GameSession {
 		boolean isPlayer2 = (player == PlayerRole.PLAYER_2);
 
 		// Sanity check: legit player?
-		if (!isPlayer1 || isPlayer2)
+		if (!isPlayer1 && !isPlayer2)
 			throw new IllegalArgumentException();
 		// Sanity check: player 1 has already submitted throw?
 		if (isPlayer1 && currentThrowPlayer1 != null)
@@ -190,19 +185,61 @@ public final class GameSession {
 
 		// Is the round now over?
 		if (currentThrowPlayer1 != null && currentThrowPlayer2 != null) {
+			// Record the completed round.
 			GameRound completedRound = new GameRound(roundIndex,
 					currentThrowPlayer1, currentThrowPlayer2);
 			completedRounds.add(completedRound);
+
+			// Clean things up for the next round.
+			currentThrowPlayer1 = null;
+			currentThrowPlayer2 = null;
 		}
 	}
 
 	/**
-	 * @return the {@link PlayerRole} for the {@link IPlayer} that won this
-	 *         {@link GameRound}, or <code>null</code> if the game is still
-	 *         in-progress
+	 * @return the {@link PlayerRole} that won this {@link GameSession}, or
+	 *         <code>null</code> if the game is still in-progress
 	 */
 	public PlayerRole checkForWinner() {
-		// TODO Auto-generated method stub
-		return null;
+		// Count the number of rounds won by each player.
+		int player1Wins = 0;
+		int player2Wins = 0;
+		for (GameRound completedRound : getCompletedRounds()) {
+			if (completedRound.determineWinner() == PlayerRole.PLAYER_1)
+				player1Wins++;
+			if (completedRound.determineWinner() == PlayerRole.PLAYER_2)
+				player2Wins++;
+		}
+
+		// Is the game still in progress?
+		int totalWonRounds = player1Wins + player2Wins;
+		if (totalWonRounds < maxRounds)
+			return null;
+
+		// Determine who won.
+		if (player1Wins > player2Wins)
+			return PlayerRole.PLAYER_1;
+		else if (player2Wins > player1Wins)
+			return PlayerRole.PLAYER_2;
+		else
+			throw new BadCodeMonkeyException();
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GameSession [maxRounds=");
+		builder.append(maxRounds);
+		builder.append(", completedRounds=");
+		builder.append(completedRounds);
+		builder.append(", currentThrowPlayer1=");
+		builder.append(currentThrowPlayer1);
+		builder.append(", currentThrowPlayer2=");
+		builder.append(currentThrowPlayer2);
+		builder.append("]");
+		return builder.toString();
 	}
 }

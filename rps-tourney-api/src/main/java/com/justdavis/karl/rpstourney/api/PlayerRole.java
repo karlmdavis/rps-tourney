@@ -1,7 +1,7 @@
 package com.justdavis.karl.rpstourney.api;
 
 /**
- * Enumerates the various roles available to each {@link IPlayer} in the game.
+ * Enumerates the various roles available to each player in the game.
  */
 public enum PlayerRole {
 	/**

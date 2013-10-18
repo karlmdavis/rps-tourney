@@ -21,16 +21,26 @@ public final class GameRound {
 	 * 
 	 * @param roundIndex
 	 *            the value to use for {@link #getRoundIndex()}
-	 * @param currentThrowPlayer1
+	 * @param throwForPlayer1
 	 *            the value to use for {@link #getThrowForPlayer1()}
-	 * @param currentThrowPlayer2
+	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
 	 */
-	public GameRound(int roundIndex, Throw currentThrowPlayer1,
-			Throw currentThrowPlayer2) {
+	public GameRound(int roundIndex, Throw throwForPlayer1,
+			Throw throwForPlayer2) {
+		// Sanity check: legit round.
+		if (roundIndex < 0)
+			throw new IllegalArgumentException();
+		// Sanity check: legit first player Throw.
+		if (throwForPlayer1 == null)
+			throw new IllegalArgumentException();
+		// Sanity check: legit second player Throw.
+		if (throwForPlayer2 == null)
+			throw new IllegalArgumentException();
+
 		this.roundIndex = roundIndex;
-		this.throwForPlayer1 = currentThrowPlayer1;
-		this.throwForPlayer2 = currentThrowPlayer2;
+		this.throwForPlayer1 = throwForPlayer1;
+		this.throwForPlayer2 = throwForPlayer2;
 	}
 
 	/**
@@ -58,8 +68,8 @@ public final class GameRound {
 	}
 
 	/**
-	 * @return the {@link PlayerRole} for the {@link IPlayer} that won this
-	 *         {@link GameRound}, or <code>null</code> if there was a tie
+	 * @return the {@link PlayerRole} that won this {@link GameRound}, or
+	 *         <code>null</code> if there was a tie
 	 */
 	public PlayerRole determineWinner() {
 		/*
@@ -90,4 +100,21 @@ public final class GameRound {
 		// If we get here, I screwed something up. Go boom.
 		throw new BadCodeMonkeyException();
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GameRound [roundIndex=");
+		builder.append(roundIndex);
+		builder.append(", throwForPlayer1=");
+		builder.append(throwForPlayer1);
+		builder.append(", throwForPlayer2=");
+		builder.append(throwForPlayer2);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
