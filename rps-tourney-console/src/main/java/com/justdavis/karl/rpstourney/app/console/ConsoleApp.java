@@ -21,7 +21,10 @@ import com.justdavis.karl.rpstourney.api.GameSession;
 /**
  * <p>
  * The main entry point/driver for the text console version of the
- * "Rock-Paper-Scissors Tourney" game.
+ * "Rock-Paper-Scissors Tourney" game. When run, it will allow a human to play
+ * the game using the text console (or whatever is connected to
+ * {@link System#out} and {@link System#in}). The player's opponent will be a
+ * computer/AI player.
  * </p>
  * <p>
  * This class is pretty much only responsible for application initialization. It
@@ -55,7 +58,7 @@ public final class ConsoleApp {
 	public static void main(String[] args) {
 		// Create and run the app.
 		ConsoleApp app = new ConsoleApp();
-		int exitCode = app.playGameSession(args, System.out, System.in);
+		int exitCode = app.runApp(args, System.out, System.in);
 
 		/*
 		 * This application doesn't have any expected error conditions, aside
@@ -74,9 +77,7 @@ public final class ConsoleApp {
 	}
 
 	/**
-	 * Plays a "Rock-Paper-Scissors" game, using {@link System#out} and
-	 * {@link System#in} to communicate with the player. The player's opponent
-	 * will be a computer/AI player.
+	 * Runs the game application.
 	 * 
 	 * @param args
 	 *            the command line arguments passed to the application when it
@@ -89,7 +90,7 @@ public final class ConsoleApp {
 	 * @return the exit code that the application should return, e.g.
 	 *         {@link #EXIT_CODE_OK}
 	 */
-	int playGameSession(String[] args, PrintStream out, InputStream in) {
+	int runApp(String[] args, PrintStream out, InputStream in) {
 		// Parse the command line options.
 		Options options = parseCommandLineOptions(args);
 		if (options == null) {
