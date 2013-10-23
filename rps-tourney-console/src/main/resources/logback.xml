@@ -1,0 +1,19 @@
+<configuration scan="false">
+	<!-- Required to ensure that JUL respects log level changes. -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator" />
+
+	<!-- This appender will be sent all of the app's logging statements. -->
+	<appender name="APP_LOG" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- All logging output should go to System.err. -->
+		<target>System.err</target>
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Disable all logging by default. The app's Options.debugEnabled flag 
+		can be used to enable logging, if desired. -->
+	<root level="OFF">
+		<appender-ref ref="APP_LOG" />
+	</root>
+</configuration>

@@ -24,6 +24,7 @@
 
 	<modules>
 		<module>rps-tourney-api</module>
+		<module>rps-tourney-console</module>
 	</modules>
 
 	<properties>
@@ -35,6 +36,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.justdavis.karl.rpstourney</groupId>
+				<artifactId>rps-tourney-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<dependency>
 				<!-- Used for all sorts of misc. things. -->
 				<groupId>com.justdavis.jessentials</groupId>

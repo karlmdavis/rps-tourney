@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.justdavis.karl.rpstourney</groupId>
+		<artifactId>rps-tourney-parent</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>rps-tourney-console</artifactId>
+	<packaging>jar</packaging>
+
+	<name>rps-tourney-console</name>
+	<description>
+		A text console version of the "Rock-Paper-Scissors Tourney" game.
+	</description>
+
+	<dependencies>
+		<dependency>
+			<!-- Provides the underlying game. -->
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-api</artifactId>
+		</dependency>
+		<dependency>
+			<!-- Provides misc utility classes. -->
+			<groupId>com.justdavis.jessentials</groupId>
+			<artifactId>jessentials-misc</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- SLF4J is used to make the Java logging dependency mess somewhat sane. 
+				Its APIs should be used by all of the application suite for logging, rather 
+				than the java.util logging, log4j, or whatever else. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<!-- Handles command line argument parsing. -->
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+			<version>2.0.25</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+				<includes>
+					<!-- This override of the defaults is necessary to ensure that non-.java 
+						resource files are included in builds and jars, and that they get filtered. -->
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
+
+</project>
