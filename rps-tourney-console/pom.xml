@@ -29,13 +29,6 @@
 		</dependency>
 
 		<dependency>
-			<!-- SLF4J is used to make the Java logging dependency mess somewhat sane. 
-				Its APIs should be used by all of the application suite for logging, rather 
-				than the java.util logging, log4j, or whatever else. -->
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>

@@ -1,22 +1,17 @@
 package com.justdavis.karl.rpstourney.app.console;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.Properties;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
-import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
-import com.justdavis.karl.misc.resources.ResourcePath;
 import com.justdavis.karl.rpstourney.api.GameSession;
+import com.justdavis.karl.rpstourney.api.ai.RandomAiPlayer;
 
 /**
  * <p>
@@ -47,13 +42,16 @@ public final class ConsoleApp {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConsoleApp.class);
 
+	private final OptionsParser optionsParser;
+
 	/**
 	 * The application entry point for {@link ConsoleApp}.
 	 * 
 	 * @param args
 	 *            the command line arguments passed to the application when it
-	 *            was launched. See {@link #parseCommandLineOptions(String[])}
-	 *            for details on how these are parsed.
+	 *            was launched. See
+	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for
+	 *            details on how these are parsed.
 	 */
 	public static void main(String[] args) {
 		// Create and run the app.
@@ -74,15 +72,22 @@ public final class ConsoleApp {
 	 * Constructs a new {@link ConsoleApp} instance.
 	 */
 	public ConsoleApp() {
+		this.optionsParser = new OptionsParser();
 	}
 
 	/**
+	 * <p>
 	 * Runs the game application.
+	 * </p>
+	 * <p>
+	 * The method is only in the default/package scope to enable unit testing.
+	 * </p>
 	 * 
 	 * @param args
 	 *            the command line arguments passed to the application when it
-	 *            was launched. See {@link #parseCommandLineOptions(String[])}
-	 *            for details on how these are parsed.
+	 *            was launched. See
+	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for
+	 *            details on how these are parsed.
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param in
@@ -92,7 +97,7 @@ public final class ConsoleApp {
 	 */
 	int runApp(String[] args, PrintStream out, InputStream in) {
 		// Parse the command line options.
-		Options options = parseCommandLineOptions(args);
+		Options options = optionsParser.parseCommandLineOptions(args);
 		if (options == null) {
 			return EXIT_CODE_BAD_ARGS;
 		}
@@ -111,55 +116,17 @@ public final class ConsoleApp {
 		 * exit early.
 		 */
 		if (options.isHelpRequested()) {
-			printUsage(out);
+			optionsParser.printUsage(out);
 			return EXIT_CODE_OK;
 		}
 
 		// Play the game.
 		GameSession game = new GameSession(options.getNumRounds());
 		ConsoleGameDriver gameDriver = new ConsoleGameDriver();
-		gameDriver.playGameSession(game, out, in);
+		RandomAiPlayer computerPlayer = new RandomAiPlayer();
+		gameDriver.playGameSession(game, computerPlayer, out, in);
 
 		return EXIT_CODE_OK;
-	}
-
-	/**
-	 * <p>
-	 * Parses the specified {@link String} array of command line options and
-	 * returns an {@link Options} instance representing them, or
-	 * <code>null</code> if they could not be parsed.
-	 * </p>
-	 * <p>
-	 * <strong>Side Effects:</strong> If the command line arguments could not be
-	 * parsed successfully, this miethod will also print out a (hopefully)
-	 * helpful error message and the application usage text, all to
-	 * {@link System#err}.
-	 * </p>
-	 * 
-	 * @param args
-	 *            the command line arguments passed to the application when it
-	 *            was launched
-	 * @return an {@link Options} instance representing the command line
-	 *         arguments passed to the application when it was launched, or
-	 *         <code>null</code> if they could not be parsed
-	 */
-	private static Options parseCommandLineOptions(String[] args) {
-		Options options = new Options();
-		CmdLineParser optionsParser = new CmdLineParser(options);
-		try {
-			optionsParser.parseArgument(args);
-		} catch (CmdLineException e) {
-			/*
-			 * This exception will be thrown if the command line options cannot
-			 * be parsed correctly.
-			 */
-
-			// Print the error and usage.
-			System.err.println(e.getMessage());
-			printUsage(System.err);
-		}
-
-		return options;
 	}
 
 	/**
@@ -177,52 +144,5 @@ public final class ConsoleApp {
 		 * enable them for all child loggers.
 		 */
 		rootLogbackLogger.setLevel(Level.ALL);
-	}
-
-	/**
-	 * Prints out help text regarding the application's command line options.
-	 * 
-	 * @param outputStream
-	 *            the {@link PrintStream} to write to, typically
-	 *            {@link System#out} or {@link System#err}
-	 */
-	private static void printUsage(PrintStream outputStream) {
-		// Create a throw-away parser to use here.
-		CmdLineParser optionsParser = new CmdLineParser(new Options());
-
-		// Print out the usage.
-		outputStream.print("Usage: java -jar ");
-		outputStream.print(getExpectedOutputJarName());
-		outputStream.print(" [OPTION]...\n\n");
-		outputStream.println("Options:");
-		optionsParser.printUsage(outputStream);
-		outputStream.flush();
-	}
-
-	/**
-	 * @return the name of the JAR that this project is expected to produce
-	 */
-	private static String getExpectedOutputJarName() {
-		/*
-		 * To pull this off, I've created a .properties resource file that Maven
-		 * should filter, dropping the output JAR's name into it. This method
-		 * just loads that properties file and pulls the filtered value out from
-		 * it.
-		 */
-
-		// Get the path to the resource.
-		ResourcePath jarDetailsPath = new ResourcePath(ConsoleApp.class,
-				"jar-details.properties");
-
-		// Load & parse the resource.
-		Properties jarDetailsProps = new Properties();
-		try {
-			jarDetailsProps.load(Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(jarDetailsPath.getPath()));
-		} catch (IOException e) {
-			throw new UncheckedIoException(e);
-		}
-
-		return jarDetailsProps.getProperty("project.build.finalName");
 	}
 }

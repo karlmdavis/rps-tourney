@@ -3,7 +3,6 @@ package com.justdavis.karl.rpstourney.app.console;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -11,6 +10,7 @@ import com.justdavis.karl.rpstourney.api.GameRound;
 import com.justdavis.karl.rpstourney.api.GameSession;
 import com.justdavis.karl.rpstourney.api.PlayerRole;
 import com.justdavis.karl.rpstourney.api.Throw;
+import com.justdavis.karl.rpstourney.api.ai.IAiPlayer;
 
 /**
  * Allows a "Rock-Paper-Scissors Tourney" game to be played via a text console
@@ -23,12 +23,15 @@ final class ConsoleGameDriver {
 	 * 
 	 * @param game
 	 *            the {@link GameSession} to play through
+	 * @param computerPlayer
+	 *            the {@link IAiPlayer} to use as the computer opponent
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param in
 	 *            the {@link InputStream} to read the player's input from
 	 */
-	void playGameSession(GameSession game, PrintStream out, InputStream in) {
+	void playGameSession(GameSession game, IAiPlayer computerPlayer,
+			PrintStream out, InputStream in) {
 		// Sanity check: null game.
 		if (game == null)
 			throw new IllegalArgumentException();
@@ -51,7 +54,6 @@ final class ConsoleGameDriver {
 
 		// Play rounds until the game is won.
 		Scanner scanner = new Scanner(in);
-		Random rng = new Random();
 		while (game.checkForWinner() == null) {
 			// Print out the round intro text.
 			out.println(String.format("\nRound %d! %s",
@@ -85,17 +87,9 @@ final class ConsoleGameDriver {
 			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
 					humanMove);
 
-			// Select a random Throw for the computer opponent and submit that.
-			Throw computerMove = null;
-			int threeSidedDieRoll = rng.nextInt(3);
-			if (threeSidedDieRoll == 0)
-				computerMove = Throw.ROCK;
-			else if (threeSidedDieRoll == 1)
-				computerMove = Throw.PAPER;
-			else if (threeSidedDieRoll == 2)
-				computerMove = Throw.SCISSORS;
-			else
-				throw new BadCodeMonkeyException();
+			// Select a Throw for the computer opponent and submit that.
+			Throw computerMove = computerPlayer.selectThrow(
+					game.getMaxRounds(), game.getCompletedRounds());
 			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
 					computerMove);
 
@@ -238,7 +232,7 @@ final class ConsoleGameDriver {
 		 */
 		public static ThrowToken match(String token) {
 			for (ThrowToken throwToken : ThrowToken.values())
-				if (throwToken.getToken().equals(token))
+				if (throwToken.getToken().equalsIgnoreCase(token))
 					return throwToken;
 
 			return null;

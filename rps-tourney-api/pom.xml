@@ -24,8 +24,28 @@
 		</dependency>
 
 		<dependency>
+			<!-- SLF4J is used to make the Java logging dependency mess somewhat sane. 
+				Its APIs should be used by all of the application suite for logging, rather 
+				than the java.util logging, log4j, or whatever else. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- JUnit is also included here in 'compile' scope as an optional dependency. 
+				This is here to allow the com.justdavis.karl.rpstourney.api.ai.tests.AbstractAiPlayerTester 
+				class to be included in src/main/java, rather than src/test/java. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
