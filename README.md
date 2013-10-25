@@ -6,6 +6,8 @@ RPS Tourney
 
 ## Introduction
 
+![Console Game Playthrough](rps-tourney-console/dev/game-gifs/playthrough-win-in-two-rounds.gif)
+
 This is a collection of Rock-Paper-Scissors games. The 1.0 release being worked towards right now is quite modest: it will just be a simple console application that allows for one round of play against a computer opponent. This is more just to build momentum and get a proof of concept in place than anything else.
 
 In later releases, I'm hoping to build both web and Android versions of the game. These would be built on top of a central web service, to allow for networked play.
