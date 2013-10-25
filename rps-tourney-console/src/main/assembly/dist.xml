@@ -17,9 +17,18 @@
 			</includes>
 		</fileSet>
 	</fileSets>
+	<files>
+		<file>
+		    <!-- Include the launch script. -->
+			<source>src/main/assembly/rpstourney.sh</source>
+			<outputDirectory>/</outputDirectory>
+			<fileMode>775</fileMode>
+			<filtered>true</filtered>
+		</file>
+	</files>
 	<dependencySets>
 		<dependencySet>
-		    <!-- Include the project's runtime dependencies. -->
+			<!-- Include the project's runtime dependencies. -->
 			<outputDirectory>/lib/</outputDirectory>
 			<useProjectArtifact>false</useProjectArtifact>
 			<scope>runtime</scope>

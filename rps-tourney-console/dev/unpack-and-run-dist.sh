@@ -14,5 +14,5 @@ mkdir ${projectDirectory}/target/extracted-dist/
 # Unpack the -dist bundle.
 tar --extract --ungzip --file $scriptDirectory/../target/rps-tourney-console-${projectVersion}-dist.tar.gz --directory ${projectDirectory}/target/extracted-dist/
 
-# Run the JAR from the unpacked bundle.
-java -jar $projectDirectory/target/extracted-dist/rps-tourney-console-${projectVersion}/rps-tourney-console-${projectVersion}.jar "$@"
+# Run the app from the unpacked bundle.
+(cd ${projectDirectory}/target/extracted-dist/rps-tourney-console-${projectVersion} && ./rpstourney.sh "$@")
