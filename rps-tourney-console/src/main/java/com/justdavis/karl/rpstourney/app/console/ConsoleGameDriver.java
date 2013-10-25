@@ -56,15 +56,16 @@ final class ConsoleGameDriver {
 		Scanner scanner = new Scanner(in);
 		while (game.checkForWinner() == null) {
 			// Print out the round intro text.
-			out.println(String.format("\nRound %d! %s",
-					game.getCurrentRoundIndex() + 1,
+			out.println(String.format("\nRound %d!",
+					game.getCurrentRoundIndex() + 1));
+			out.println(String.format(" Score: %s",
 					determineScoreText(game.getCompletedRounds())));
 
 			// Wait for the human player to select a valid move.
 			Throw humanMove = null;
 			while (humanMove == null) {
 				// Print out the instructions.
-				out.print(String.format("Select your throw [%s,%s,%s]: ",
+				out.print(String.format(" Select your throw [%s,%s,%s]: ",
 						ThrowToken.ROCK.getToken(),
 						ThrowToken.PAPER.getToken(),
 						ThrowToken.SCISSORS.getToken()));
@@ -78,7 +79,7 @@ final class ConsoleGameDriver {
 				if (selectedThrowToken != null)
 					humanMove = selectedThrowToken.getMove();
 				else
-					out.println("Invalid throw.");
+					out.println(" Invalid throw.");
 
 				// Loop until a valid move is selected.
 			}
@@ -99,18 +100,19 @@ final class ConsoleGameDriver {
 					.get(completedRounds.size() - 1);
 			PlayerRole roundWinner = thisRound.determineWinner();
 			String winOrLossText = determineWinOrLossText(roundWinner);
-			out.println(String.format("You threw %s, computer threw %s. %s",
+			out.println(String.format(" You threw %s, computer threw %s.",
 					ThrowToken.match(thisRound.getThrowForPlayer1())
 							.getFullDisplayText(),
 					ThrowToken.match(thisRound.getThrowForPlayer2())
-							.getFullDisplayText(), winOrLossText));
+							.getFullDisplayText()));
+			out.println(String.format(" %s", winOrLossText));
 		}
 
 		// Print out the game's winner.
 		PlayerRole winner = game.checkForWinner();
 		out.println();
-		out.println(String.format("%s %s", determineWinOrLossText(winner),
-				determineScoreText(game.getCompletedRounds())));
+		out.println(String.format("Final Score: %s", determineScoreText(game.getCompletedRounds())));
+		out.println(determineWinOrLossText(winner));
 	}
 
 	/**
