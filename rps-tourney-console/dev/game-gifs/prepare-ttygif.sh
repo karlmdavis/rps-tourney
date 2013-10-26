@@ -11,7 +11,7 @@
 scriptDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Get the project directory and pull the version from the POM.
-projectDirectory=${scriptDirectory}/..
+projectDirectory=${scriptDirectory}/../..
 projectVersion=`xmllint --xpath "/*[local-name()='project']/*[local-name()='parent']/*[local-name()='version']/text()" ${projectDirectory}/pom.xml`
 
 # Clean up/create the directory we'll use.
