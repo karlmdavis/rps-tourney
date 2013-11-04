@@ -8,11 +8,22 @@ RPS Tourney
 
 ![Console Game Playthrough](rps-tourney-console/dev/game-gifs/playthrough-win-in-two-rounds.gif)
 
-This is a collection of Rock-Paper-Scissors games. The 1.0 release being worked towards right now is quite modest: it will just be a simple console application that allows for one round of play against a computer opponent. This is more just to build momentum and get a proof of concept in place than anything else.
+This is a collection of Rock-Paper-Scissors games. The 1.0 release just completed is quite modest: it just provides a simple console application that allows for against a computer opponent. This was more  to build momentum and get a proof of concept in place than anything else.
 
-In later releases, I'm hoping to build both web and Android versions of the game. These would be built on top of a central web service, to allow for networked play.
+In later releases, I'm planning to build both web and Android versions of the game. These will be built on top of a central web service, to allow for networked play. The web service and web game are planned for inclusion in the next major release, 2.0.
 
 In addition, it would also be interesting to explore AI-only tournaments, similar to [RPSContest.com](http://www.rpscontest.com/).
+
+
+## Releases
+
+### 1.0.0
+
+This release just provides a simple console application that allows for against a computer opponent.
+
+Artifacts:
+
+* [rps-tourney-console-1.0.0-dist.tar.gz](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/1.0.0/rps-tourney-console-1.0.0-dist.tar.gz): the console game
 
 
 ## Inspiration
