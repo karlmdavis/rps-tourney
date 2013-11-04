@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<!-- Provides misc utility classes. -->
-			<groupId>com.justdavis.jessentials</groupId>
+			<groupId>com.justdavis.karl.jessentials</groupId>
 			<artifactId>jessentials-misc</artifactId>
 		</dependency>
 
