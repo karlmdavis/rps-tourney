@@ -130,6 +130,22 @@
 						<target>${javaSourceVersion}</target>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<executions>
+						<execution>
+							<!-- Undoing the config in the parent POM. -->
+							<id>default</id>
+							<goals>
+								<goal>perform</goal>
+							</goals>
+							<configuration>
+								<pomFileName>pom.xml</pomFileName>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
