@@ -133,6 +133,10 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<!-- All modules will have the same version/lifecycle. -->
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
 					<executions>
 						<execution>
 							<!-- Undoing the config in the parent POM. -->
