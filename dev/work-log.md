@@ -15,3 +15,5 @@ This file should never be committed along with other files; it should always be 
 ### 2013-11-04, Monday
 
 * Created this work log file.
+* Created the [2.0 milestone](https://github.com/karlmdavis/rps-tourney/issues?milestone=2&state=open) and the initial set of issues for it.
+    * 30 minutes work.
