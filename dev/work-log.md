@@ -17,3 +17,7 @@ This file should never be committed along with other files; it should always be 
 * Created this work log file.
 * Created the [2.0 milestone](https://github.com/karlmdavis/rps-tourney/issues?milestone=2&state=open) and the initial set of issues for it.
     * 30 minutes work.
+* Added justdavis.com-nexus as a mirror of central in settings.xml.
+    * 5 minutes work.
+* Researched Java REST frameworks. Played with Jersey.
+    * 1 hr work.
