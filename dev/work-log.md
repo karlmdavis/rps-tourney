@@ -21,3 +21,9 @@ This file should never be committed along with other files; it should always be 
     * 5 minutes work.
 * Researched Java REST frameworks. Played with Jersey.
     * 1 hr work.
+
+### 2013-11-05, Tuesday
+
+* Researched Java REST frameworks. Played with Apache CXF. Mostly fiddled with embedding Jetty.
+    * 1.5 hr work.
+    
