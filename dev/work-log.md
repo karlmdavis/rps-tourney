@@ -26,4 +26,8 @@ This file should never be committed along with other files; it should always be 
 
 * Researched Java REST frameworks. Played with Apache CXF. Mostly fiddled with embedding Jetty.
     * 1.5 hr work.
-    
+
+### 2013-11-06, Wednesday
+
+* Tried to get Eclipse's WTP/JavaEE support installed.
+    * 1.0 hr work.
