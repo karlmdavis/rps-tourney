@@ -31,3 +31,5 @@ This file should never be committed along with other files; it should always be 
 
 * Tried to get Eclipse's WTP/JavaEE support installed.
     * 1.0 hr work.
+* Installed Eclipse Kepler, installed WTP and other plugins, got m2e working correctly for JAX-RS project.
+    * 1.5 hr work. (after midnight)
