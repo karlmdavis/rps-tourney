@@ -33,3 +33,8 @@ This file should never be committed along with other files; it should always be 
     * 1.0 hr work.
 * Installed Eclipse Kepler, installed WTP and other plugins, got m2e working correctly for JAX-RS project.
     * 1.5 hr work. (after midnight)
+
+### 2013-11-07, Thursday
+
+* Got a basic "Hello World" and echo service running. Still needs to be cleaned up & committed.
+    * 2.0 hr work.
