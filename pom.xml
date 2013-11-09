@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -9,7 +10,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>2.0.0</version>
+		<version>2.1.0</version>
 	</parent>
 
 	<groupId>com.justdavis.karl.rpstourney</groupId>
@@ -93,6 +94,7 @@
 	<modules>
 		<module>rps-tourney-api</module>
 		<module>rps-tourney-console</module>
+		<module>rps-tourney-webservice</module>
 	</modules>
 
 	<properties>
@@ -115,6 +117,14 @@
 				<groupId>com.justdavis.karl.jessentials</groupId>
 				<artifactId>jessentials-misc</artifactId>
 				<version>[2.0.1-SNAPSHOT,]</version>
+			</dependency>
+
+			<dependency>
+				<!-- Logback can be used as the logging target/backend for SLF4J: all 
+					logging events would be sent to it, if this dependency is included. -->
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.13</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

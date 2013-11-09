@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.justdavis.karl.rpstourney</groupId>
+		<artifactId>rps-tourney-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>rps-tourney-webservice</artifactId>
+	<packaging>war</packaging>
+
+	<name>rps-tourney-webservice</name>
+	<description>
+		A web service for playing the "Rock-Paper-Scissors Tourney" game over 
+		the Internet. Allows for centralized scorekeeping and multiplayer.
+	</description>
+
+	<properties>
+		<!-- Java 1.7 is required by the Eclipse JAX-RS plugin. -->
+		<javaSourceVersion>1.7</javaSourceVersion>
+
+		<jersey.version>2.4</jersey.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- Apache CXF is the framework used to run the JAX-RS web service in 
+				this project. -->
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>2.7.7</version>
+		</dependency>
+		<dependency>
+			<!-- A version of this library is needed to compile, but will already 
+				be bundled with whatever application server this WAR is deployed to. -->
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<!-- JUnit is used for all unit and integration tests. -->
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Jetty is used to host the web service for ITs. -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.0.6.v20130930</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<!-- Set the Java source version used by the compiler. -->
+						<source>${javaSourceVersion}</source>
+						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<!-- Need to lock down a verion to make the enforcer happy. -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<!-- Ensure that this project's integration tests are run as part of 
+					the build. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
