@@ -38,3 +38,10 @@ This file should never be committed along with other files; it should always be 
 
 * Got a basic "Hello World" and echo service running. Still needs to be cleaned up & committed.
     * 2.0 hr work.
+* Spent some time cleaning things up and starting to draft rps-tourney-webservice/dev/README-DEV.md.
+    * 1.0 hr work. (after midnight)
+
+### 2013-11-08, Friday
+
+* Documented references in rps-tourney-webservice/dev/README-DEV.md.
+    * 0.25 hr work.
