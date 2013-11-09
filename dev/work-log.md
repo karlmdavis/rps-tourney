@@ -45,3 +45,5 @@ This file should never be committed along with other files; it should always be 
 
 * Documented references in rps-tourney-webservice/dev/README-DEV.md.
     * 0.25 hr work.
+* Cleaned up the "Hellow World" web service. Added in tests for it.
+    * 1.5 hr work.
