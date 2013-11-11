@@ -47,3 +47,13 @@ This file should never be committed along with other files; it should always be 
     * 0.25 hr work.
 * Cleaned up the "Hello World" web service. Added in tests for it.
     * 1.5 hr work.
+
+### 2013-11-10, Sunday
+
+* Read up on cookies.
+    * 0.75 hr work.
+* Read up on Apache CXF 3.0 and JAX-RS 2.0.
+    * 0.25 hr work.
+* Started creating a login service for guests.
+    * 0.25 hr work.
+
