@@ -57,3 +57,8 @@ This file should never be committed along with other files; it should always be 
 * Started creating a login service for guests.
     * 0.25 hr work.
 
+### 2013-11-11, Monday
+
+* Worked on the guest login service a bit.
+    * 0.25 hr work.
+
