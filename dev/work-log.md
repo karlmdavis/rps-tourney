@@ -62,3 +62,8 @@ This file should never be committed along with other files; it should always be 
 * Worked on the guest login service a bit.
     * 0.25 hr work.
 
+### 2013-11-12, Tuesday
+
+* Worked on the authentication system: documented, diagrammed, and whiteboarded. Next steps: add GUID library, flesh out stub classes, and then implement persistence.
+    * 1.0 hr work.
+
