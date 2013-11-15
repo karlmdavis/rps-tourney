@@ -73,3 +73,9 @@ This file should never be committed along with other files; it should always be 
     * 10 min work.
 * Worked on fleshing out stub classes. Still more to do there.
     * 0.75 hr work.
+
+### 2013-11-14, Thursday
+
+* Removed the GUID library and implemented all of GuestAuthService (not tested).
+    * 0.75 hr work.
+    
