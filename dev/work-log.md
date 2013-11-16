@@ -78,4 +78,11 @@ This file should never be committed along with other files; it should always be 
 
 * Removed the GUID library and implemented all of GuestAuthService (not tested).
     * 0.75 hr work.
+* Started writing tests. Didn't get very far.
+    * 0.25 hr work.
+
+### 2013-11-15, Friday
+
+* Created tests for GuestLoginIdentity and GuestAuthService. Took forever to debug SocketException.
+    * 2.5 hr work.
     
