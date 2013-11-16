@@ -85,4 +85,10 @@ This file should never be committed along with other files; it should always be 
 
 * Created tests for GuestLoginIdentity and GuestAuthService. Took forever to debug SocketException.
     * 2.5 hr work.
-    
+
+### 2013-11-16, Saturday
+
+* Got XML namespaces working correctly in JAX-B and tests.
+    * 1.5 hr work.
+* Cleaned things up and commited the guest logins support.
+    * 0.5 hr work.
