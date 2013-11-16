@@ -4,7 +4,7 @@
 	version="3.0">
 	<servlet>
 		<display-name>Game Service</display-name>
-		<servlet-name>gamesvc</servlet-name>
+		<servlet-name>rpsapi</servlet-name>
 		<servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
@@ -20,7 +20,7 @@
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>gamesvc</servlet-name>
+		<servlet-name>rpsapi</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 </web-app>

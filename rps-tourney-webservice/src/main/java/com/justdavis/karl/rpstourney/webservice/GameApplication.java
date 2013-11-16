@@ -7,6 +7,8 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 
+import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
+
 /**
  * The JAX-RS {@link Application} for the game web service. Specifies all of the
  * services and resources that will be hosted by the application.
@@ -36,6 +38,7 @@ public final class GameApplication extends Application {
 
 		Set<Class<?>> classes = new HashSet<Class<?>>();
 		classes.add(HelloWorldService.class);
+		classes.add(GuestAuthService.class);
 		return classes;
 	}
 

@@ -12,8 +12,6 @@ import org.junit.Test;
  * Integration tests for {@link HelloWorldService}.
  */
 public final class HelloWorldServiceIT {
-	private static final String SERVER_ADDRESS = "http://localhost:8087/";
-
 	private static EmbeddedServer server;
 
 	/**
@@ -45,7 +43,7 @@ public final class HelloWorldServiceIT {
 	 */
 	@Test
 	public void getHelloWorld() {
-		WebClient client = WebClient.create(SERVER_ADDRESS);
+		WebClient client = WebClient.create(server.getServerBaseAddress());
 
 		client.accept(MediaType.TEXT_PLAIN);
 		client.path("helloworld");
@@ -59,7 +57,7 @@ public final class HelloWorldServiceIT {
 	 */
 	@Test
 	public void echo() {
-		WebClient client = WebClient.create(SERVER_ADDRESS);
+		WebClient client = WebClient.create(server.getServerBaseAddress());
 
 		client.accept(MediaType.TEXT_PLAIN);
 		client.path("helloworld/echo/foo");

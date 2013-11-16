@@ -1,7 +1,12 @@
 package com.justdavis.karl.rpstourney.webservice;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 
 /**
  * <p>
@@ -69,6 +74,20 @@ public final class EmbeddedServer {
 			this.server.start();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * @return the base address that Jetty will be serving from (does not
+	 *         include any context paths).
+	 */
+	public URI getServerBaseAddress() {
+		try {
+			URI baseAddress = new URI(String.format("http://localhost:%d/",
+					port));
+			return baseAddress;
+		} catch (URISyntaxException e) {
+			throw new BadCodeMonkeyException();
 		}
 	}
 

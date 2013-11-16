@@ -45,3 +45,24 @@ This project was my first foray into the world of Java web services. I came acro
 * Serving JSON with Apache CXF
     * [Apache CXF Docs: JAX-RS: Data Bindings](http://cxf.apache.org/docs/jax-rs-data-bindings.html)
     * [Apache CXF Docs: JSON Overview](http://cxf.apache.org/docs/json-support.html)
+
+
+## Authentication
+
+The game should support "guest" players: players that have not explicitly created an account. As much as possible, it should try to support these players fully: allowing them to specify a name, allowing them to leave and restart the game without losing their state, tracking their game history, etc. It should allow these users to later "upgrade" their account either by authenticating with a third-party (such as Google, if they're on an Android device) or by specifying a username and password specific to the game itself.
+
+                                   +---------+
+                                   | Account |
+                                   +----+----+
+                                        |
+                                        | (has one or more)
+                                        |
+                                    +---v---+
+                                    | Login |
+             +---------------------->---^---<---------------------+
+             |                          |                         |
+             | (is a)                   | (is a)                  | (is a)
+             |                          |                         |
+    +--------+----------+    +----------+----------+   +----------+--------+
+    | Guest Auth Cookie |    | Username & Password |   | OAuth Credentials |
+    +-------------------+    +---------------------+   +-------------------+
