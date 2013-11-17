@@ -92,3 +92,7 @@ This file should never be committed along with other files; it should always be 
     * 1.5 hr work.
 * Cleaned things up and commited the guest logins support.
     * 0.5 hr work.
+* Reworked guest logins, added AccountService. Ended up on a huge tangent here where I was getting a cookie error that I thought was caused by the ITs not using SSL, so I went and added SSL support to everything. Turns out that wasn't the problem. Oops. I cleaned up the SSL-enabling code anyways, though, and just set that mode to disabled for now.
+    * 8.5 hr work.
+* Started on the GameLoginService, which allows login via email address and password.
+    * 0.5 hr work.
