@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<rps:guestLogin xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1"
-	authToken="e4cf7e62-4896-467d-aef2-897702a5a27f">
-	<rps:account />
-</rps:guestLogin>

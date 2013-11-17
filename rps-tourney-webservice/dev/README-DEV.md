@@ -66,3 +66,5 @@ The game should support "guest" players: players that have not explicitly create
     +--------+----------+    +----------+----------+   +----------+--------+
     | Guest Auth Cookie |    | Username & Password |   | OAuth Credentials |
     +-------------------+    +---------------------+   +-------------------+
+
+Each login mechanism will have separate web service methods that allow clients/users to authenticate. Once authenticated, whatever login mechanism was used will return an authentication cookie (the "auth token") for the Account instance that the login is associated with. All other web service methods that require authentication will simply check for a valid auth token and use that to determine what user/Account is making the call.

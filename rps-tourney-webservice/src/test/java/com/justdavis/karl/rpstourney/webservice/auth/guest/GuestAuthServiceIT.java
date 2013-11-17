@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.GameApplication;
+import com.justdavis.karl.rpstourney.webservice.auth.Account;
 
 /**
  * Integration tests for {@link GuestAuthService}.
@@ -59,12 +60,8 @@ public final class GuestAuthServiceIT {
 		// Verify the results
 		Assert.assertNotNull(response);
 		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
-		GuestLoginIdentity login = (GuestLoginIdentity) response
-				.readEntity(GuestLoginIdentity.class);
-		Assert.assertNotNull(login);
-		Assert.assertNotNull(login.getAuthToken());
-		Assert.assertNotNull(login.getAccount());
-		// TODO verify Account (once that's been fleshed out)
+		Account account = (Account) response.readEntity(Account.class);
+		Assert.assertNotNull(account);
 		// TODO ensure the login was saved to the DB (once we have a DB)
 	}
 }

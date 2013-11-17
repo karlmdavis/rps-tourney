@@ -68,6 +68,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.49</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.49</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>

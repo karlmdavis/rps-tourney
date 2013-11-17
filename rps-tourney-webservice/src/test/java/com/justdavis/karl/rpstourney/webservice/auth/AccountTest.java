@@ -1,13 +1,12 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.net.URL;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -37,26 +36,32 @@ public final class AccountTest {
 	public void jaxbMarshalling() throws JAXBException,
 			XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(MockRootElement.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
-		Account account = new Account();
-		MockRootElement root = new MockRootElement(account);
+		UUID authToken = UUID.randomUUID();
+		Account account = new Account(authToken);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
-		marshaller.marshal(root, domResult);
+		marshaller.marshal(account, domResult);
 
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
 		xpath.setNamespaceContext(new SimpleNamespaceContext("rps",
 				XmlNamespace.RPSTOURNEY));
-		Node accountNode = (Node) xpath.evaluate("/rps:root/rps:account",
+		Node accountNode = (Node) xpath.evaluate("/rps:account",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(accountNode);
+
+		// Ensure that the auth token isn't included.
+		Assert.assertNull(xpath.evaluate("/rps:account/rps:authToken",
+				domResult.getNode(), XPathConstants.NODE));
+		Assert.assertNull(xpath.evaluate("/rps:account/@authToken",
+				domResult.getNode(), XPathConstants.NODE));
+
 		// TODO test account once that class has been fleshed out
 	}
 
@@ -72,8 +77,7 @@ public final class AccountTest {
 	public void jaxbUnmarshalling() throws JAXBException,
 			XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(MockRootElement.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
@@ -81,47 +85,14 @@ public final class AccountTest {
 				.getResource("sample-xml/account-1.xml");
 
 		// Parse the XML to an object.
-		MockRootElement parsedRoot = (MockRootElement) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		Account parsedAccount = (Account) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
-		Assert.assertNotNull(parsedRoot.getAccount());
+		Assert.assertNotNull(parsedAccount);
+
+		// Ensure that the auth token is null (should never be included in XML).
+		Assert.assertNull(parsedAccount.getAuthToken());
+
 		// TODO test account once that class has been fleshed out
-	}
-
-	/**
-	 * A mock class that just stores an {@link Account} instance. As this is a
-	 * JAX-B {@link XmlRootElement}, can be used to test {@link Account}'s
-	 * support for JAX-B.
-	 */
-	@XmlRootElement(name = "root")
-	private static final class MockRootElement {
-		@XmlElement
-		private final Account account;
-
-		/**
-		 * This no-arg/default constructor is required by JAX-B.
-		 */
-		@SuppressWarnings("unused")
-		private MockRootElement() {
-			this.account = null;
-		}
-
-		/**
-		 * Constructs a new {@link MockRootElement} instance.
-		 * 
-		 * @param account
-		 *            the value to use for {@link #getAccount()}
-		 */
-		public MockRootElement(Account account) {
-			this.account = account;
-		}
-
-		/**
-		 * @return the {@link Account} stored in this {@link MockRootElement}
-		 */
-		public Account getAccount() {
-			return account;
-		}
 	}
 }

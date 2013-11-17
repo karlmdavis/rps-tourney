@@ -1,20 +1,33 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
 import java.net.URI;
+import java.util.UUID;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
+import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 
 /**
  * Unit tests for {@link GuestAuthService}.
  */
 public final class GuestAuthServiceTest {
+	/**
+	 * FIXME Remove or rework once actual persistence is in place.
+	 */
+	@After
+	public void removeAccounts() {
+		AccountService.existingAccounts.clear();
+		GuestAuthService.existingLogins.clear();
+	}
+
 	/**
 	 * Ensures that {@link GuestAuthService} creates new
 	 * {@link GuestLoginIdentity}s as expected.
@@ -42,18 +55,21 @@ public final class GuestAuthServiceTest {
 		Assert.assertNotNull(loginResponse);
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				loginResponse.getStatus());
-		GuestLoginIdentity login = (GuestLoginIdentity) loginResponse
-				.getEntity();
-		Assert.assertNotNull(login);
-		Assert.assertNotNull(login.getAuthToken());
-		Assert.assertNotNull(login.getAccount());
+		Account account = (Account) loginResponse.getEntity();
+		Assert.assertNotNull(account);
+		UUID authToken = UUID.fromString(loginResponse.getCookies()
+				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+		Assert.assertEquals(1, AccountService.existingAccounts.size());
+		Assert.assertEquals(AccountService.existingAccounts.get(0)
+				.getAuthToken(), authToken);
 		// TODO verify Account (once that's been fleshed out)
 		// TODO ensure the login was saved to the DB (once we have a DB)
 	}
 
 	/**
-	 * Ensures that {@link GuestAuthService} handles existing logins
-	 * {@link GuestLoginIdentity}s as expected.
+	 * Ensures that
+	 * {@link GuestAuthService#loginAsGuest(UriInfo, java.util.UUID)} behaves as
+	 * expected when the user/client already has an active login.
 	 */
 	@Test
 	public void existingLogin() {
@@ -75,16 +91,14 @@ public final class GuestAuthServiceTest {
 		 * Call the service twice (passing the first response back to the second
 		 * call).
 		 */
-		GuestLoginIdentity login = (GuestLoginIdentity) authService
-				.loginAsGuest(uriInfo, null).getEntity();
+		Response firstLoginResponse = authService.loginAsGuest(uriInfo, null);
+		UUID authToken = UUID.fromString(firstLoginResponse.getCookies()
+				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Response secondLoginResponse = authService.loginAsGuest(uriInfo,
-				login.getAuthToken());
+				authToken);
 
 		// Verify the results
-		GuestLoginIdentity secondLoginEntity = (GuestLoginIdentity) secondLoginResponse
-				.getEntity();
-		Assert.assertEquals(login.getAuthToken(),
-				secondLoginEntity.getAuthToken());
-		// TODO Once we have an Account, verify it's the same in both responses.
+		Assert.assertEquals(Status.CONFLICT.getStatusCode(),
+				secondLoginResponse.getStatus());
 	}
 }

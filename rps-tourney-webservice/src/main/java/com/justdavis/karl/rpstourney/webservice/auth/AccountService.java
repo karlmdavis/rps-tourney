@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 
 /**
