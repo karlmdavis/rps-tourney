@@ -96,3 +96,14 @@ This file should never be committed along with other files; it should always be 
     * 8.5 hr work.
 * Started on the GameLoginService, which allows login via email address and password.
     * 0.5 hr work.
+
+### 2013-11-17, Sunday
+
+* Fixed borked commit from last night. 
+    * 5 min work.
+* Added SonarQube rules for TODOs, FIXMEs, and XXXs. Only applies to non-test code. 
+    * 0.5 hr work.
+* Implemented GameAuthService. No tests yet.
+    * 1.0 hr work.
+* Added tests for GameAuthService. Also created InternetAddressReader.
+    * 2.0 hr work.
