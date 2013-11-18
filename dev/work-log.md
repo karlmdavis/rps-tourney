@@ -107,3 +107,9 @@ This file should never be committed along with other files; it should always be 
     * 1.0 hr work.
 * Added tests for GameAuthService. Also created InternetAddressReader.
     * 2.0 hr work.
+
+### 2013-11-18, Monday
+
+* 1.25h: Read about JAX-RS security. 
+    * Read about JAAS, which doesn't sound like a good fit here. It's more for applications that want to allow their security to be customizable at deployment time. Seems like overkill for this.
+    * Read about JAX-RS filters, which are likely the best choice. I can use them to populate a SecurityContext, and possibly also to drive the javax.annotation.security annotations, which'd be slick.
