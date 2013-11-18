@@ -139,20 +139,20 @@ public final class AccountService {
 	}
 
 	/**
-	 * @param authTokenUuid
+	 * @param authToken
 	 *            the value to match against {@link Account#getAuthToken()}
 	 * @return the {@link Account} instance with the specified
 	 *         {@link Account#getAuthToken()} value, or <code>null</code> if no
 	 *         match was found
 	 */
-	private Account getAccount(UUID authTokenUuid) {
+	private Account getAccount(UUID authToken) {
 		// Search for the Account.
 		Account account = null;
 		for (Account existingAccount : existingAccounts)
-			if (existingAccount.getAuthToken().equals(authTokenUuid))
+			if (existingAccount.getAuthToken().equals(authToken))
 				account = existingAccount;
 
-		if (authTokenUuid != null && account == null) {
+		if (authToken != null && account == null) {
 			/*
 			 * If there was an auth token, a match for it wasn't found. Either
 			 * someone's trying to hack, the Account has been deleted, or
@@ -160,7 +160,7 @@ public final class AccountService {
 			 */
 			LOGGER.warn(
 					"Unable to find an existing account for auth token: {}",
-					authTokenUuid);
+					authToken);
 		}
 
 		return account;

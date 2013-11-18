@@ -55,6 +55,14 @@
 		</dependency>
 
 		<dependency>
+			<!-- Provides access to both a native (platform-specific) and a pure-Java 
+				implementation of the scrypt key derivation function. -->
+			<groupId>com.lambdaworks</groupId>
+			<artifactId>scrypt</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<dependency>
 			<!-- JUnit is used for all unit and integration tests. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

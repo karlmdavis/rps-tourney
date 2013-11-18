@@ -8,6 +8,8 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
+import com.justdavis.karl.rpstourney.webservice.auth.game.InternetAddressReader;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 
 /**
@@ -38,9 +40,14 @@ public final class GameApplication extends Application {
 		 */
 
 		Set<Class<?>> classes = new HashSet<Class<?>>();
+
+		classes.add(InternetAddressReader.class);
+
 		classes.add(HelloWorldService.class);
 		classes.add(AccountService.class);
 		classes.add(GuestAuthService.class);
+		classes.add(GameAuthService.class);
+
 		return classes;
 	}
 

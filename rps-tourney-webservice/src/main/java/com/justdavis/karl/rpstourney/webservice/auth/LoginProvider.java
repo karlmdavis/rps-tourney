@@ -1,5 +1,7 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
+import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
+import com.justdavis.karl.rpstourney.webservice.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 
@@ -28,5 +30,16 @@ public enum LoginProvider {
 	 * @see GuestAuthService
 	 * @see GuestLoginIdentity
 	 */
-	GUEST;
+	GUEST,
+
+	/**
+	 * <p>
+	 * Using this {@link LoginProvider}, clients must specify a username and
+	 * password. It also allows for login sessions to be cached via a cookie.
+	 * </p>
+	 * 
+	 * @see GameAuthService
+	 * @see GameLoginIdentity
+	 */
+	GAME;
 }

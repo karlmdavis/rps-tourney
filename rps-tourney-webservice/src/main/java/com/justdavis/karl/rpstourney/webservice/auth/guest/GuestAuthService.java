@@ -54,10 +54,9 @@ public final class GuestAuthService {
 	 * @param authToken
 	 *            the value of the {@link #COOKIE_NAME_AUTH_TOKEN} cookie, or
 	 *            <code>null</code> to create a new guest login
-	 * @return a {@link Response} containing a new {@link GuestLoginIdentity}
-	 *         instance (or the pre-existing one, if a valid authentication
-	 *         token was provided), along with a {@link #COOKIE_NAME_AUTH_TOKEN}
-	 *         cookie containing {@link GuestLoginIdentity#getAuthToken()}
+	 * @return a {@link Response} containing the new {@link Account} instance,
+	 *         along with a {@link #COOKIE_NAME_AUTH_TOKEN} cookie containing
+	 *         {@link Account#getAuthToken()}
 	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
