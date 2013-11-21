@@ -114,7 +114,18 @@ This file should never be committed along with other files; it should always be 
     * Read about JAAS, which doesn't sound like a good fit here. It's more for applications that want to allow their security to be customizable at deployment time. Seems like overkill for this.
     * Read about JAX-RS filters, which are likely the best choice. I can use them to populate a SecurityContext, and possibly also to drive the javax.annotation.security annotations, which'd be slick.
 
-### 2013-11-18, Monday
+### 2013-11-19, Tuesday
 
 * 0.5h: Read about XML Signatures, SAML, and OAuth 2 support in CXF. 
     * None of these really apply here. They're all more for enterprise systems that need to authenticate between themselves.
+
+### 2013-11-20, Wednesday
+
+* 0.5h: Looked at making use of DynamicFeature.
+    * It looks like CXF's copy of this from the JAX-RS milestone release is significantly out of date.
+    * Two choices:
+        1. Try and figure out how to make the old API work anyways.
+        1. Switch to a SNAPSHOT 3.0 release of CXF.
+    * I think I'm better off just dealing with the old API.
+        * No way to tell how close they are to releasing 3.0.
+        * Pre-releases tend to cause more problems than they solve.
