@@ -121,7 +121,7 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-11-20, Wednesday
 
-* 0.5h: Looked at making use of DynamicFeature.
+* 0.75h: Looked at making use of DynamicFeature.
     * It looks like CXF's copy of this from the JAX-RS milestone release is significantly out of date.
     * Two choices:
         1. Try and figure out how to make the old API work anyways.
