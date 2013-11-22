@@ -129,3 +129,8 @@ This file should never be committed along with other files; it should always be 
     * I think I'm better off just dealing with the old API.
         * No way to tell how close they are to releasing 3.0.
         * Pre-releases tend to cause more problems than they solve.
+
+### 2013-11-21, Thursday
+
+* 0.5h: Figured out how to use DynamicFeature.
+        
