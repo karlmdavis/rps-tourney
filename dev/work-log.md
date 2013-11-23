@@ -133,4 +133,7 @@ This file should never be committed along with other files; it should always be 
 ### 2013-11-21, Thursday
 
 * 0.5h: Figured out how to use DynamicFeature.
-        
+
+### 2013-11-22, Friday
+
+* 1.0h: Implemented AuthorizationFilter.
