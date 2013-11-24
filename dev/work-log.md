@@ -137,3 +137,11 @@ This file should never be committed along with other files; it should always be 
 ### 2013-11-22, Friday
 
 * 1.0h: Implemented AuthorizationFilter.
+* 0.25h: Learned about @BindingPriority, and stubbed out AuthenticationFilter.
+
+### 2013-11-23, Saturday
+
+* 4.0h: Implemented AuthicationFilter.
+    * Started refactoring other services to leverage it.
+    * Working through updating & fixing tests.
+    * (Kind of guessing on time here, was off & on all day.)
