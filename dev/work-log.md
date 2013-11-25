@@ -163,3 +163,10 @@ This file should never be committed along with other files; it should always be 
     * Tried to make the webservice methods' API less JAX-RS-specific.
 * 0.25h: [commit 5386d1556e: Issue #13: Created the EmbeddedServerResource JUnit @ClassRule.](https://github.com/karlmdavis/rps-tourney/commit/5386d1556e56fbd168031a9862f836aee1a5ef1e)
 * 0.25h: [commit 7851b057e9: Issue #13: Refactored HelloWorldService.](https://github.com/karlmdavis/rps-tourney/commit/7851b057e991306bf705e50339a9f34e587a603d)
+
+### 2013-11-25, Monday
+
+* 0.5h: Added Hibernate as a dependency.
+    * Had to add the JBoss repo to Nexus, as the latest releases of Hibernate aren't in Central.
+    * Found the [Hibernate Getting Started Guide](http://docs.jboss.org/hibernate/orm/4.2/quickstart/en-US/html/) for the previous release.
+    * Looks like Hibernate/JPA also allow for bytecode enhancement, so I may still need to configure some Maven plugins for that.
