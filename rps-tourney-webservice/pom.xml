@@ -46,6 +46,13 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
+				@PermitAll, etc. -->
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<dependency>
 			<!-- Needed to replace log4j, which is used by other dependencies here 

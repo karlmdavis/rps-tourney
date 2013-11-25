@@ -1,5 +1,9 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,7 +16,7 @@ import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
  * details, preferences, and history are associated with.
  */
 @XmlRootElement
-public final class Account {
+public final class Account implements Principal {
 	/**
 	 * This field is marked {@link XmlTransient} to help ensure it's never sent
 	 * off of the server by mistake. Any web services wishing to use it in a
@@ -21,12 +25,15 @@ public final class Account {
 	@XmlTransient
 	private final UUID authToken;
 
+	private final Set<SecurityRole> roles;
+
 	/**
 	 * This no-arg/default constructor is required by JAX-B.
 	 */
 	@SuppressWarnings("unused")
 	private Account() {
 		this.authToken = null;
+		this.roles = new HashSet<>();
 	}
 
 	/**
@@ -35,9 +42,16 @@ public final class Account {
 	 * @param authToken
 	 *            the value to use for {@link #getAuthToken()}, which should be
 	 *            a random {@link UUID} for new {@link Account}s
+	 * @param roles
+	 *            the value to use for {@link #getRoles()}
 	 */
-	public Account(UUID authToken) {
+	public Account(UUID authToken, SecurityRole... roles) {
 		this.authToken = authToken;
+
+		this.roles = new HashSet<>();
+		this.roles.add(SecurityRole.USERS);
+		for (SecurityRole role : roles)
+			this.roles.add(role);
 	}
 
 	/**
@@ -56,5 +70,22 @@ public final class Account {
 	 */
 	public UUID getAuthToken() {
 		return this.authToken;
+	}
+
+	/**
+	 * @see java.security.Principal#getName()
+	 */
+	@Override
+	public String getName() {
+		return authToken.toString();
+	}
+
+	/**
+	 * @return an unmodifiable copy of the {@link SecurityRole}s that this user
+	 *         {@link Account} is a member of, which will always include
+	 *         {@link SecurityRole#USERS}
+	 */
+	public Set<SecurityRole> getRoles() {
+		return Collections.unmodifiableSet(roles);
 	}
 }

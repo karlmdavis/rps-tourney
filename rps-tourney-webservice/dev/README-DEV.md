@@ -36,6 +36,8 @@ This project was my first foray into the world of Java web services. I came acro
         * The [GitHub project](https://github.com/karasatishkumar/JAXRS-CXF) associated with it was particularly helpful.
     * [ Converting Jersey REST Examples to Apache CXF](http://www.jroller.com/gmazza/entry/jersey_samples_on_cxf)
         * Don't think I actually used this, but there's a lot of helpful-looking material here.
+    * [JAX-RS 2.0 New Features](http://www.slideshare.net/algermissen/jaxrs-20-new-features)
+        * This is an *amazing* resource. Wish I'd read it much earlier.
 * How to Embed Jetty
     * [Jetty Docs: Embedding Jetty](http://www.eclipse.org/jetty/documentation/current/embedding-jetty.html)
     * [Apache CXF Wiki: JAX-RS Testing](https://cwiki.apache.org/confluence/display/CXF20DOC/JAXRS+Testing)

@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -18,6 +17,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 
 /**
  * This JAX-RS web service allows users to login as a guest. See
@@ -60,8 +60,9 @@ public final class GuestAuthService {
 	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
-	public Response loginAsGuest(@Context UriInfo uriInfo,
-			@CookieParam(AccountService.COOKIE_NAME_AUTH_TOKEN) UUID authToken) {
+	public Response loginAsGuest(
+			@Context UriInfo uriInfo,
+			@CookieParam(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN) UUID authToken) {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
 		 * users/clients want to log out, they must do so explicitly.
@@ -72,28 +73,17 @@ public final class GuestAuthService {
 		// Create the new login.
 		GuestLoginIdentity login = createLogin();
 
-		/*
-		 * Create a Cookie for the new Account's auth token.
-		 */
-		String authTokenString = login.getAccount().getAuthToken().toString();
-		NewCookie authCookie = new NewCookie(
-				AccountService.COOKIE_NAME_AUTH_TOKEN, authTokenString, "/",
-				uriInfo.getBaseUri().getHost(), Cookie.DEFAULT_VERSION,
-				"comment", 60 * 60 * 24 * 365 * 1 /* 1 year */, true);
-
-		/*
-		 * JAX-RS doesn't have support for the "HttpOnly" flag until the full
-		 * 2.0 release. This is a hack to work around that.
-		 */
-		String authCookieValue = authCookie.toString() + ";HttpOnly";
+		// Create an authentication cookie for the new login.
+		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
+				login.getAccount(), uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the new account that's associated with the
 		 * login, and the auth token (as a cookie, so the login is persisted
 		 * between requests).
 		 */
-		return Response.ok().header("Set-Cookie", authCookieValue)
-				.entity(login.getAccount()).build();
+		return Response.ok().cookie(authCookie).entity(login.getAccount())
+				.build();
 	}
 
 	/**

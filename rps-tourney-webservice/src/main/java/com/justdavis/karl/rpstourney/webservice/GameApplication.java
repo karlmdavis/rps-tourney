@@ -7,7 +7,10 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 
+import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthenticationFilter;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthorizationFilter.AuthorizationFilterFeature;
 import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.game.InternetAddressReader;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
@@ -41,12 +44,21 @@ public final class GameApplication extends Application {
 
 		Set<Class<?>> classes = new HashSet<Class<?>>();
 
+		// Register the entity translators.
 		classes.add(InternetAddressReader.class);
 
+		// Register the filters.
+		classes.add(AuthenticationFilter.class);
+		classes.add(AuthorizationFilterFeature.class);
+
+		// Register the resources.
 		classes.add(HelloWorldService.class);
 		classes.add(AccountService.class);
 		classes.add(GuestAuthService.class);
 		classes.add(GameAuthService.class);
+
+		// Register any custom context providers.
+		classes.add(AccountSecurityContextProvider.class);
 
 		return classes;
 	}

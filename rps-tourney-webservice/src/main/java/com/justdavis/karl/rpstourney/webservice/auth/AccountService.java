@@ -1,24 +1,25 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
+import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ws.rs.CookieParam;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 
 /**
@@ -41,12 +42,6 @@ public final class AccountService {
 	 */
 	public static final String SERVICE_PATH_GET_ACCOUNT = "";
 
-	/**
-	 * The name of the {@link Cookie} used to track the
-	 * {@link Account#getAuthToken()} value.
-	 */
-	public static final String COOKIE_NAME_AUTH_TOKEN = "authToken";
-
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AccountService.class);
 
@@ -56,33 +51,43 @@ public final class AccountService {
 	 */
 	public static List<Account> existingAccounts = new LinkedList<>();
 
+	private final SecurityContext securityContext;
+
 	/**
 	 * Constructs a new {@link GameAuthService} instance.
+	 * 
+	 * @param securityContext
+	 *            the {@link SecurityContext} for the request that the
+	 *            {@link AccountService} was instantiated to handle
 	 */
-	public AccountService() {
+	public AccountService(@Context AccountSecurityContext securityContext) {
+		this.securityContext = securityContext;
 	}
 
 	/**
 	 * Allows users to validate that their existing logins (as represented by
-	 * the <code>{@value #COOKIE_NAME_AUTH_TOKEN}</code> cookie) are valid.
+	 * the <code>{@value AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN}</code>
+	 * cookie) are valid.
 	 * 
 	 * @param uriInfo
 	 *            the {@link UriInfo} of the client request
 	 * @param authToken
-	 *            the value of the {@link #COOKIE_NAME_AUTH_TOKEN} cookie, or
-	 *            <code>null</code> to create a new guest login
+	 *            the value of the
+	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
+	 *            or <code>null</code> to create a new guest login
 	 * @return a {@link Response} containing the user's/client's {@link Account}
-	 *         , along with a {@link #COOKIE_NAME_AUTH_TOKEN} cookie containing
-	 *         {@link GuestLoginIdentity#getAuthToken()} (if a valid
+	 *         , along with a
+	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
+	 *         containing {@link GuestLoginIdentity#getAuthToken()} (if a valid
 	 *         authentication token was provided)
 	 */
 	@GET
 	@Path(SERVICE_PATH_VALIDATE)
 	@Produces(MediaType.TEXT_XML)
-	public Response validateAuth(@Context UriInfo uriInfo,
-			@CookieParam(COOKIE_NAME_AUTH_TOKEN) UUID authToken) {
-		// Just pass it through to getAccount(...).
-		return getAccount(uriInfo, authToken);
+	@RolesAllowed({ SecurityRole.ID_USERS })
+	public Response validateAuth() {
+		// Just pass it through to getAccount().
+		return getAccount();
 	}
 
 	/**
@@ -91,51 +96,37 @@ public final class AccountService {
 	 * @param uriInfo
 	 *            the {@link UriInfo} of the client request
 	 * @param authToken
-	 *            the value of the {@link #COOKIE_NAME_AUTH_TOKEN} cookie, or
-	 *            <code>null</code> to create a new guest login
+	 *            the value of the
+	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
+	 *            or <code>null</code> to create a new guest login
 	 * @return a {@link Response} containing a new {@link GuestLoginIdentity}
 	 *         instance (or the pre-existing one, if a valid authentication
-	 *         token was provided), along with a {@link #COOKIE_NAME_AUTH_TOKEN}
-	 *         cookie containing {@link GuestLoginIdentity#getAuthToken()}
+	 *         token was provided), along with a
+	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
+	 *         containing {@link GuestLoginIdentity#getAuthToken()}
 	 */
 	@GET
 	@Path(SERVICE_PATH_GET_ACCOUNT)
 	@Produces(MediaType.TEXT_XML)
-	public Response getAccount(@Context UriInfo uriInfo,
-			@CookieParam(COOKIE_NAME_AUTH_TOKEN) UUID authToken) {
-		// Try to retrieve the existing account (if any) for the auth token.
-		Account account = getAccount(authToken);
-
+	@RolesAllowed({ SecurityRole.ID_USERS })
+	public Response getAccount() {
 		/*
-		 * If no Account was found, return an error.
+		 * Grab the requestor's Account from the SecurityContext. This will have
+		 * been set by the AuthenticationFilter.
 		 */
-		if (account == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-
-		/*
-		 * Create a new Cookie for the auth token. This will update its
-		 * properties (e.g. expiration date), if necessary.
-		 */
-		// TODO This should probably be done in some app-wide filter.
-		String authTokenString = account.getAuthToken().toString();
-		NewCookie authCookie = new NewCookie(COOKIE_NAME_AUTH_TOKEN,
-				authTokenString, "/", uriInfo.getBaseUri().toString(),
-				Cookie.DEFAULT_VERSION, "",
-				60 * 60 * 24 * 365 * 1 /* 1 year */, true);
-
-		/*
-		 * JAX-RS doesn't have support for the "HttpOnly" flag until the full
-		 * 2.0 release. This is a hack to work around that.
-		 */
-		String authCookieValue = authCookie.toString() + ";HttpOnly";
+		Principal userPrincipal = securityContext.getUserPrincipal();
+		if (userPrincipal == null)
+			throw new BadCodeMonkeyException("RolesAllowed not working.");
+		if (!(userPrincipal instanceof Account))
+			throw new BadCodeMonkeyException(
+					"AuthenticationFilter not working.");
+		Account userAccount = (Account) userPrincipal;
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
 		 * so the login is persisted between requests).
 		 */
-		return Response.ok().header("Set-Cookie", authCookieValue)
-				.entity(account).build();
+		return Response.ok().entity(userAccount).build();
 	}
 
 	/**
@@ -145,7 +136,7 @@ public final class AccountService {
 	 *         {@link Account#getAuthToken()} value, or <code>null</code> if no
 	 *         match was found
 	 */
-	private Account getAccount(UUID authToken) {
+	static Account getAccount(UUID authToken) {
 		// Search for the Account.
 		Account account = null;
 		for (Account existingAccount : existingAccounts)

@@ -13,7 +13,6 @@ import javax.ws.rs.core.UriInfo;
  * in a given test should be overridden.
  */
 public class MockUriInfo implements UriInfo {
-
 	/**
 	 * @see javax.ws.rs.core.UriInfo#getPath()
 	 */

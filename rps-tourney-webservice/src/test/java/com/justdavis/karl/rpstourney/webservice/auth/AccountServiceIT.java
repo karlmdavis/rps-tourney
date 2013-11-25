@@ -56,6 +56,27 @@ public final class AccountServiceIT {
 	}
 
 	/**
+	 * Ensures that {@link AccountService#validateAuth()} returns
+	 * {@link Status#UNAUTHORIZED} as expected when called without
+	 * authentication.
+	 */
+	@Test
+	public void validateGuestLoginDenied() {
+		WebClient client = WebClient.create(server.getServerBaseAddress());
+
+		// Validate the login.
+		Response validateResponse = client
+				.replacePath(null)
+				.accept(MediaType.TEXT_XML)
+				.path(AccountService.SERVICE_PATH
+						+ AccountService.SERVICE_PATH_VALIDATE).get();
+
+		// Verify the results
+		Assert.assertEquals(Status.UNAUTHORIZED.getStatusCode(),
+				validateResponse.getStatus());
+	}
+
+	/**
 	 * Ensures that
 	 * {@link AccountService#validateAuth(javax.ws.rs.core.UriInfo, java.util.UUID)}
 	 * works as expected when used with an {@link Account} created via
@@ -74,16 +95,16 @@ public final class AccountServiceIT {
 				loginResponse.getStatus());
 
 		// Validate the login.
-		Response validateRresponse = client
+		Response validateResponse = client
 				.replacePath(null)
 				.accept(MediaType.TEXT_XML)
 				.path(AccountService.SERVICE_PATH
 						+ AccountService.SERVICE_PATH_VALIDATE).get();
 		Assert.assertEquals(Status.OK.getStatusCode(),
-				validateRresponse.getStatus());
+				validateResponse.getStatus());
 
 		// Verify the results
-		Account account = (Account) validateRresponse.readEntity(Account.class);
+		Account account = (Account) validateResponse.readEntity(Account.class);
 		Assert.assertNotNull(account);
 	}
 }

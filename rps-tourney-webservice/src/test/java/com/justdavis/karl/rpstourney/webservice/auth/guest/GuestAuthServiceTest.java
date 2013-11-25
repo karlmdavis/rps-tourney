@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 
 /**
  * Unit tests for {@link GuestAuthService}.
@@ -40,11 +41,11 @@ public final class GuestAuthServiceTest {
 		// Create the mock params to pass to the service .
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getBaseUri()
+			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
 			 */
 			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost");
+			public URI getRequestUri() {
+				return URI.create("http://localhost/");
 			}
 		};
 
@@ -58,7 +59,7 @@ public final class GuestAuthServiceTest {
 		Account account = (Account) loginResponse.getEntity();
 		Assert.assertNotNull(account);
 		UUID authToken = UUID.fromString(loginResponse.getCookies()
-				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Assert.assertEquals(1, AccountService.existingAccounts.size());
 		Assert.assertEquals(AccountService.existingAccounts.get(0)
 				.getAuthToken(), authToken);
@@ -79,11 +80,11 @@ public final class GuestAuthServiceTest {
 		// Create the mock params to pass to the service .
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getBaseUri()
+			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
 			 */
 			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost");
+			public URI getRequestUri() {
+				return URI.create("http://localhost/");
 			}
 		};
 
@@ -93,7 +94,7 @@ public final class GuestAuthServiceTest {
 		 */
 		Response firstLoginResponse = authService.loginAsGuest(uriInfo, null);
 		UUID authToken = UUID.fromString(firstLoginResponse.getCookies()
-				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Response secondLoginResponse = authService.loginAsGuest(uriInfo,
 				authToken);
 

@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 
@@ -48,11 +49,11 @@ public final class GameAuthServiceTest {
 		// Create the mock params to pass to the service .
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getBaseUri()
+			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
 			 */
 			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost");
+			public URI getRequestUri() {
+				return URI.create("http://localhost/");
 			}
 		};
 
@@ -67,7 +68,7 @@ public final class GameAuthServiceTest {
 		Account account = (Account) loginResponse.getEntity();
 		Assert.assertNotNull(account);
 		UUID authToken = UUID.fromString(loginResponse.getCookies()
-				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Assert.assertEquals(1, AccountService.existingAccounts.size());
 		Assert.assertEquals(AccountService.existingAccounts.get(0)
 				.getAuthToken(), authToken);
@@ -91,11 +92,11 @@ public final class GameAuthServiceTest {
 		// Create the mock params to pass to the service .
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getBaseUri()
+			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
 			 */
 			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost");
+			public URI getRequestUri() {
+				return URI.create("http://localhost/");
 			}
 		};
 
@@ -116,7 +117,7 @@ public final class GameAuthServiceTest {
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				createResponse.getStatus());
 		UUID authToken = UUID.fromString(createResponse.getCookies()
-				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Assert.assertEquals(randomAuthToken, authToken);
 	}
 
@@ -136,11 +137,11 @@ public final class GameAuthServiceTest {
 		// Create the mock params to pass to the service .
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getBaseUri()
+			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
 			 */
 			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost");
+			public URI getRequestUri() {
+				return URI.create("http://localhost/");
 			}
 		};
 
@@ -162,7 +163,7 @@ public final class GameAuthServiceTest {
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				loginResponse.getStatus());
 		UUID authToken = UUID.fromString(loginResponse.getCookies()
-				.get(AccountService.COOKIE_NAME_AUTH_TOKEN).getValue());
+				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
 		Assert.assertEquals(randomAuthToken, authToken);
 	}
 }

@@ -1,0 +1,41 @@
+package com.justdavis.karl.rpstourney.webservice.auth;
+
+import javax.annotation.security.RolesAllowed;
+
+/**
+ * Enumerates the security roles used by the application.
+ * 
+ * @see RolesAllowed
+ */
+public enum SecurityRole {
+	/**
+	 * All authenticated users are members of this role, even guest accounts.
+	 */
+	USERS(SecurityRole.ID_USERS);
+
+	/**
+	 * The {@link #getId()} for {@link #USERS}.
+	 */
+	public static final String ID_USERS = "Users";
+
+	private final String id;
+
+	/**
+	 * Enum constant constructor.
+	 * 
+	 * @param id
+	 *            the value to use for {@link #getId()}
+	 */
+	private SecurityRole(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the unique identifier for this {@link SecurityRole}, which for
+	 *         use with the {@link RolesAllowed} annotation, will also be
+	 *         available as a <code>SecurityRole.ID_NNN</code> constant
+	 */
+	public String getId() {
+		return id;
+	}
+}

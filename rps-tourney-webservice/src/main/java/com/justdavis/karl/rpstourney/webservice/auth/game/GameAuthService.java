@@ -10,7 +10,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.lambdaworks.crypto.SCryptUtil;
 
 /**
@@ -105,9 +105,10 @@ public final class GameAuthService {
 	 * @param uriInfo
 	 *            the {@link UriInfo} of the client request
 	 * @param authToken
-	 *            the value of the {@link AccountService#COOKIE_NAME_AUTH_TOKEN}
-	 *            cookie, or <code>null</code> if the client/user is not already
-	 *            logged in
+	 *            the value of the
+	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
+	 *            or <code>null</code> if the client/user is not already logged
+	 *            in
 	 * @param emailAddress
 	 *            the email address to log in as, which must match an existing
 	 *            {@link GameLoginIdentity#getEmailAddress()}
@@ -117,14 +118,15 @@ public final class GameAuthService {
 	 *            for the specified login
 	 * @return a {@link Response} containing the logged-in {@link Account}
 	 *         instance, along with a
-	 *         {@link AccountService#COOKIE_NAME_AUTH_TOKEN} cookie containing
-	 *         {@link Account#getAuthToken()}
+	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
+	 *         containing {@link Account#getAuthToken()}
 	 */
 	@POST
 	@Path(SERVICE_PATH_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	public Response loginWithGameAccount(@Context UriInfo uriInfo,
-			@CookieParam(AccountService.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
+	public Response loginWithGameAccount(
+			@Context UriInfo uriInfo,
+			@CookieParam(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
 			InternetAddress emailAddress, String password) {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
@@ -140,25 +142,16 @@ public final class GameAuthService {
 		if (login == null)
 			return Response.status(Status.FORBIDDEN).build();
 
-		// Grab the auth token for the account and create a cookie for it.
-		String authTokenString = login.getAccount().getAuthToken().toString();
-		NewCookie authCookie = new NewCookie(
-				AccountService.COOKIE_NAME_AUTH_TOKEN, authTokenString, "/",
-				uriInfo.getBaseUri().toString(), Cookie.DEFAULT_VERSION, "", 60
-						* 60 * 24 * 365 * 1, true);
-
-		/*
-		 * JAX-RS doesn't have support for the "HttpOnly" flag until the full
-		 * 2.0 release. This is a hack to work around that.
-		 */
-		String authCookieValue = authCookie.toString() + ";HttpOnly";
+		// Create an authentication cookie for the logged-in Account.
+		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
+				login.getAccount(), uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
 		 * so the login is persisted between requests).
 		 */
-		return Response.ok().header("Set-Cookie", authCookieValue)
-				.entity(login.getAccount()).build();
+		return Response.ok().cookie(authCookie).entity(login.getAccount())
+				.build();
 	}
 
 	/**
@@ -176,9 +169,10 @@ public final class GameAuthService {
 	 * @param uriInfo
 	 *            the {@link UriInfo} of the client request
 	 * @param authToken
-	 *            the value of the {@link AccountService#COOKIE_NAME_AUTH_TOKEN}
-	 *            cookie, or <code>null</code> if the client/user is not already
-	 *            logged in
+	 *            the value of the
+	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
+	 *            or <code>null</code> if the client/user is not already logged
+	 *            in
 	 * @param emailAddress
 	 *            the email address to log in as, which must match an existing
 	 *            {@link GameLoginIdentity#getEmailAddress()}
@@ -188,14 +182,15 @@ public final class GameAuthService {
 	 *            for the specified login
 	 * @return a {@link Response} containing the new/linked {@link Account}
 	 *         instance, along with a
-	 *         {@link AccountService#COOKIE_NAME_AUTH_TOKEN} cookie containing
-	 *         {@link Account#getAuthToken()}
+	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
+	 *         containing {@link Account#getAuthToken()}
 	 */
 	@POST
 	@Path(SERVICE_PATH_CREATE_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	public Response createGameLogin(@Context UriInfo uriInfo,
-			@CookieParam(AccountService.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
+	public Response createGameLogin(
+			@Context UriInfo uriInfo,
+			@CookieParam(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
 			InternetAddress emailAddress, String password) {
 		// Find the existing Account, if any.
 		Account account = null;
@@ -220,25 +215,16 @@ public final class GameAuthService {
 				hashPassword(password));
 		existingLogins.add(login);
 
-		// Grab the auth token for the account and create a cookie for it.
-		String authTokenString = login.getAccount().getAuthToken().toString();
-		NewCookie authCookie = new NewCookie(
-				AccountService.COOKIE_NAME_AUTH_TOKEN, authTokenString, "/",
-				uriInfo.getBaseUri().toString(), Cookie.DEFAULT_VERSION, "", 60
-						* 60 * 24 * 365 * 1, true);
-
-		/*
-		 * JAX-RS doesn't have support for the "HttpOnly" flag until the full
-		 * 2.0 release. This is a hack to work around that.
-		 */
-		String authCookieValue = authCookie.toString() + ";HttpOnly";
+		// Create an authentication cookie for the logged-in Account.
+		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
+				login.getAccount(), uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
 		 * so the login is persisted between requests).
 		 */
-		return Response.ok().header("Set-Cookie", authCookieValue)
-				.entity(login.getAccount()).build();
+		return Response.ok().cookie(authCookie).entity(login.getAccount())
+				.build();
 	}
 
 	/**
