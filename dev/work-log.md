@@ -151,7 +151,7 @@ This file should never be committed along with other files; it should always be 
 ### 2013-11-24, Sunday
 
 * 0.5h: Looking into ContainerRequestContextImpl.getSecurityContext() bug.
-    * Found a commit on trunk (3.0-SNAPSHOT) that fixes it: https://fisheye6.atlassian.com/changelog/cxf?cs=1482410
+    * Found a commit on trunk (3.0-SNAPSHOT) that fixes it: <https://fisheye6.atlassian.com/changelog/cxf?cs=1482410>
 * 0.5h: Read up on Spring Security and Apache Shiro.
     * Spring Security seems to be tightly coupled to the rest of Spring, and with it itself. Don't think it'd be easy to integrate without dragging along the rest of Spring.
     * Apache Shiro doesn't look too bad. Not sure, but it might make it difficult to operate statelessly, as it seems to be big on session management.
@@ -161,3 +161,5 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: Refactored/cleaned up the other services.
     * Leveraged AuthenticationFilter and AuthorizationFilter.
     * Tried to make the webservice methods' API less JAX-RS-specific.
+* 0.25h: [commit 5386d1556e: Issue #13: Created the EmbeddedServerResource JUnit @ClassRule.](https://github.com/karlmdavis/rps-tourney/commit/5386d1556e56fbd168031a9862f836aee1a5ef1e)
+* 0.25h: [commit 7851b057e9: Issue #13: Refactored HelloWorldService.](https://github.com/karlmdavis/rps-tourney/commit/7851b057e991306bf705e50339a9f34e587a603d)
