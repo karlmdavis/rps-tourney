@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice;
+package com.justdavis.karl.rpstourney.webservice.demo;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,17 +10,13 @@ import javax.ws.rs.core.MediaType;
  * A simple JAX-RS web service. Just intended as a proof of concept.
  */
 @Path("/helloworld/")
-public final class HelloWorldService {
+public interface IHelloWorldService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getHelloWorld() {
-		return "Hello World!";
-	}
+	String getHelloWorld();
 
 	@GET
 	@Path("/echo/{phrase}/")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String echo(@PathParam("phrase") String phrase) {
-		return phrase;
-	}
+	String echo(@PathParam("phrase") String phrase);
 }

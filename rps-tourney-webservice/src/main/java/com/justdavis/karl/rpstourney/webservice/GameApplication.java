@@ -14,6 +14,7 @@ import com.justdavis.karl.rpstourney.webservice.auth.AuthorizationFilter.Authori
 import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 import com.justdavis.karl.rpstourney.webservice.auth.game.InternetAddressReader;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
+import com.justdavis.karl.rpstourney.webservice.demo.HelloWorldServiceImpl;
 
 /**
  * The JAX-RS {@link Application} for the game web service. Specifies all of the
@@ -52,7 +53,7 @@ public final class GameApplication extends Application {
 		classes.add(AuthorizationFilterFeature.class);
 
 		// Register the resources.
-		classes.add(HelloWorldService.class);
+		classes.add(HelloWorldServiceImpl.class);
 		classes.add(AccountService.class);
 		classes.add(GuestAuthService.class);
 		classes.add(GameAuthService.class);
