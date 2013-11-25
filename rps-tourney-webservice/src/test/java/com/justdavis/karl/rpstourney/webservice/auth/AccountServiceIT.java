@@ -6,13 +6,11 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
-import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
-import com.justdavis.karl.rpstourney.webservice.GameApplication;
+import com.justdavis.karl.rpstourney.webservice.EmbeddedServerResource;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 
@@ -20,31 +18,8 @@ import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
  * Integration tests for {@link AccountService}.
  */
 public final class AccountServiceIT {
-	private static EmbeddedServer server;
-
-	/**
-	 * Starts an {@link EmbeddedServer}, running {@link GameApplication}.
-	 */
-	@BeforeClass
-	public static void startEmbeddedServer() {
-		if (server != null)
-			throw new IllegalStateException();
-
-		server = new EmbeddedServer();
-		server.startServer();
-	}
-
-	/**
-	 * Stop the {@link EmbeddedServer}.
-	 */
-	@AfterClass
-	public static void stopEmbeddedServer() throws Exception {
-		if (server == null)
-			return;
-
-		server.stopServer();
-		server = null;
-	}
+	@ClassRule
+	public static EmbeddedServerResource server = new EmbeddedServerResource();
 
 	/**
 	 * FIXME Remove or rework once actual persistence is in place.

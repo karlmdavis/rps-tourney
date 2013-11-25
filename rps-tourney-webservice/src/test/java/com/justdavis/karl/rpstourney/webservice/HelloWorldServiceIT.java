@@ -3,40 +3,16 @@ package com.justdavis.karl.rpstourney.webservice;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 /**
  * Integration tests for {@link HelloWorldService}.
  */
 public final class HelloWorldServiceIT {
-	private static EmbeddedServer server;
-
-	/**
-	 * Starts an {@link EmbeddedServer}, running {@link GameApplication}.
-	 */
-	@BeforeClass
-	public static void startEmbeddedServer() {
-		if (server != null)
-			throw new IllegalStateException();
-
-		server = new EmbeddedServer();
-		server.startServer();
-	}
-
-	/**
-	 * Stop the {@link EmbeddedServer}.
-	 */
-	@AfterClass
-	public static void stopEmbeddedServer() throws Exception {
-		if (server == null)
-			return;
-
-		server.stopServer();
-		server = null;
-	}
+	@ClassRule
+	public static EmbeddedServerResource server = new EmbeddedServerResource();
 
 	/**
 	 * Tests {@link HelloWorldService#getHelloWorld()}.
