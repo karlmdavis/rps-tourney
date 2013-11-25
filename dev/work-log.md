@@ -158,3 +158,6 @@ This file should never be committed along with other files; it should always be 
 * 4.0h: Hacked around the bug in CXF's ContainerRequestContextImpl.getSecurityContext().
     * Created unit tests for AuthenticationFilter and AuthorizationFilter.
     * (Kind of guessing on time here, was off & on all day.)
+* 1.0h: Refactored/cleaned up the other services.
+    * Leveraged AuthenticationFilter and AuthorizationFilter.
+    * Tried to make the webservice methods' API less JAX-RS-specific.
