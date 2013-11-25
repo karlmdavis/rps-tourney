@@ -141,7 +141,20 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-11-23, Saturday
 
-* 4.0h: Implemented AuthicationFilter.
+* 4.0h: Implemented AuthenticationFilter.
     * Started refactoring other services to leverage it.
     * Working through updating & fixing tests.
+    * (Kind of guessing on time here, was off & on all day.)
+* 1.0h: Worked on this for another hour or so (after midnight).
+    * Discovered that CXF's ContainerRequestContextImpl.getSecurityContext() is broken beyond use.
+
+### 2013-11-24, Sunday
+
+* 0.5h: Looking into ContainerRequestContextImpl.getSecurityContext() bug.
+    * Found a commit on trunk (3.0-SNAPSHOT) that fixes it: https://fisheye6.atlassian.com/changelog/cxf?cs=1482410
+* 0.5h: Read up on Spring Security and Apache Shiro.
+    * Spring Security seems to be tightly coupled to the rest of Spring, and with it itself. Don't think it'd be easy to integrate without dragging along the rest of Spring.
+    * Apache Shiro doesn't look too bad. Not sure, but it might make it difficult to operate statelessly, as it seems to be big on session management.
+* 4.0h: Hacked around the bug in CXF's ContainerRequestContextImpl.getSecurityContext().
+    * Created unit tests for AuthenticationFilter and AuthorizationFilter.
     * (Kind of guessing on time here, was off & on all day.)
