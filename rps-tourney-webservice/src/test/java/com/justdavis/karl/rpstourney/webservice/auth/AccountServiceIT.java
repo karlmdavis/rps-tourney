@@ -77,11 +77,9 @@ public final class AccountServiceIT {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link AccountService#validateAuth(javax.ws.rs.core.UriInfo, java.util.UUID)}
-	 * works as expected when used with an {@link Account} created via
-	 * {@link GuestAuthService#loginAsGuest(javax.ws.rs.core.UriInfo, java.util.UUID)}
-	 * .
+	 * Ensures that {@link AccountService#validateAuth()} works as expected when
+	 * used with an {@link Account} created via
+	 * {@link GuestAuthService#loginAsGuest()}.
 	 */
 	@Test
 	public void createAndValidateGuestLogin() {

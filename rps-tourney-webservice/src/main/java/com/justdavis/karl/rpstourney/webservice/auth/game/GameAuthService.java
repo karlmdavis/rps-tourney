@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.mail.internet.InternetAddress;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,12 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.lambdaworks.crypto.SCryptUtil;
@@ -46,9 +44,6 @@ public final class GameAuthService {
 	 * {@link #createGameLogin(UriInfo, UUID, InternetAddress, String)}.
 	 */
 	public static final String SERVICE_PATH_CREATE_LOGIN = "/create/";
-
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameAuthService.class);
 
 	/**
 	 * The CPU cost factor (<code>"N"</code>) that will be passed to
@@ -83,12 +78,23 @@ public final class GameAuthService {
 	 */
 	public static List<GameLoginIdentity> existingLogins = new LinkedList<>();
 
+	private final AccountSecurityContext securityContext;
+	private final UriInfo uriInfo;
+
 	/**
 	 * Constructs a new {@link GameAuthService} instance.
+	 * 
+	 * @param securityContext
+	 *            the {@link SecurityContext} for the request that the
+	 *            {@link GameAuthService} was instantiated to handle
+	 * @param uriInfo
+	 *            the {@link UriInfo} for the request that the
+	 *            {@link GameAuthService} was instantiated to handle
 	 */
-	public GameAuthService() {
-		if (existingLogins == null)
-			existingLogins = new LinkedList<>();
+	public GameAuthService(@Context AccountSecurityContext securityContext,
+			@Context UriInfo uriInfo) {
+		this.securityContext = securityContext;
+		this.uriInfo = uriInfo;
 	}
 
 	/**
@@ -102,13 +108,6 @@ public final class GameAuthService {
 	 * log out, first).
 	 * </p>
 	 * 
-	 * @param uriInfo
-	 *            the {@link UriInfo} of the client request
-	 * @param authToken
-	 *            the value of the
-	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
-	 *            or <code>null</code> if the client/user is not already logged
-	 *            in
 	 * @param emailAddress
 	 *            the email address to log in as, which must match an existing
 	 *            {@link GameLoginIdentity#getEmailAddress()}
@@ -124,15 +123,13 @@ public final class GameAuthService {
 	@POST
 	@Path(SERVICE_PATH_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	public Response loginWithGameAccount(
-			@Context UriInfo uriInfo,
-			@CookieParam(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
-			InternetAddress emailAddress, String password) {
+	public Response loginWithGameAccount(InternetAddress emailAddress,
+			String password) {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
 		 * users/clients want to log out, they must do so explicitly.
 		 */
-		if (authToken != null)
+		if (securityContext.getUserPrincipal() != null)
 			return Response.status(Status.CONFLICT).build();
 
 		// Search for a matching login.
@@ -166,13 +163,6 @@ public final class GameAuthService {
 	 * multiple clients/browsers.
 	 * </p>
 	 * 
-	 * @param uriInfo
-	 *            the {@link UriInfo} of the client request
-	 * @param authToken
-	 *            the value of the
-	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
-	 *            or <code>null</code> if the client/user is not already logged
-	 *            in
 	 * @param emailAddress
 	 *            the email address to log in as, which must match an existing
 	 *            {@link GameLoginIdentity#getEmailAddress()}
@@ -188,14 +178,12 @@ public final class GameAuthService {
 	@POST
 	@Path(SERVICE_PATH_CREATE_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	public Response createGameLogin(
-			@Context UriInfo uriInfo,
-			@CookieParam(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN) UUID authToken,
-			InternetAddress emailAddress, String password) {
+	public Response createGameLogin(InternetAddress emailAddress,
+			String password) {
 		// Find the existing Account, if any.
 		Account account = null;
-		if (authToken != null)
-			account = getAccount(authToken);
+		if (securityContext.getUserPrincipal() != null)
+			account = securityContext.getUserPrincipal();
 
 		// Search for a conflicting login.
 		GameLoginIdentity conflictingLogin = matchLogin(emailAddress);
@@ -289,33 +277,5 @@ public final class GameAuthService {
 	 */
 	static boolean checkPassword(String password, GameLoginIdentity login) {
 		return SCryptUtil.check(password, login.getPasswordHash());
-	}
-
-	/**
-	 * @param authToken
-	 *            the value to match against {@link Account#getAuthToken()}
-	 * @return the {@link Account} instance with the specified
-	 *         {@link Account#getAuthToken()} value, or <code>null</code> if no
-	 *         match was found
-	 */
-	private Account getAccount(UUID authToken) {
-		// Search for the Account.
-		Account account = null;
-		for (Account existingAccount : AccountService.existingAccounts)
-			if (existingAccount.getAuthToken().equals(authToken))
-				account = existingAccount;
-
-		if (authToken != null && account == null) {
-			/*
-			 * If there was an auth token, a match for it wasn't found. Either
-			 * someone's trying to hack, the Account has been deleted, or
-			 * something's gone fairly badly wrong.
-			 */
-			LOGGER.warn(
-					"Unable to find an existing account for auth token: {}",
-					authToken);
-		}
-
-		return account;
 	}
 }

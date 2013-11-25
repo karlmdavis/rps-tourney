@@ -11,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
@@ -19,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 
 /**
  * This JAX-RS web service allows users to manage their {@link Account}.
@@ -54,7 +51,7 @@ public final class AccountService {
 	private final SecurityContext securityContext;
 
 	/**
-	 * Constructs a new {@link GameAuthService} instance.
+	 * Constructs a new {@link AccountService} instance.
 	 * 
 	 * @param securityContext
 	 *            the {@link SecurityContext} for the request that the
@@ -69,23 +66,13 @@ public final class AccountService {
 	 * the <code>{@value AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN}</code>
 	 * cookie) are valid.
 	 * 
-	 * @param uriInfo
-	 *            the {@link UriInfo} of the client request
-	 * @param authToken
-	 *            the value of the
-	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
-	 *            or <code>null</code> to create a new guest login
-	 * @return a {@link Response} containing the user's/client's {@link Account}
-	 *         , along with a
-	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
-	 *         containing {@link GuestLoginIdentity#getAuthToken()} (if a valid
-	 *         authentication token was provided)
+	 * @return the user's/client's {@link Account}
 	 */
 	@GET
 	@Path(SERVICE_PATH_VALIDATE)
 	@Produces(MediaType.TEXT_XML)
 	@RolesAllowed({ SecurityRole.ID_USERS })
-	public Response validateAuth() {
+	public Account validateAuth() {
 		// Just pass it through to getAccount().
 		return getAccount();
 	}
@@ -93,23 +80,13 @@ public final class AccountService {
 	/**
 	 * Returns the {@link Account} for the requesting user/client.
 	 * 
-	 * @param uriInfo
-	 *            the {@link UriInfo} of the client request
-	 * @param authToken
-	 *            the value of the
-	 *            {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie,
-	 *            or <code>null</code> to create a new guest login
-	 * @return a {@link Response} containing a new {@link GuestLoginIdentity}
-	 *         instance (or the pre-existing one, if a valid authentication
-	 *         token was provided), along with a
-	 *         {@link AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN} cookie
-	 *         containing {@link GuestLoginIdentity#getAuthToken()}
+	 * @return the user's/client's {@link Account}
 	 */
 	@GET
 	@Path(SERVICE_PATH_GET_ACCOUNT)
 	@Produces(MediaType.TEXT_XML)
 	@RolesAllowed({ SecurityRole.ID_USERS })
-	public Response getAccount() {
+	public Account getAccount() {
 		/*
 		 * Grab the requestor's Account from the SecurityContext. This will have
 		 * been set by the AuthenticationFilter.
@@ -126,7 +103,7 @@ public final class AccountService {
 		 * Return a response with the account and the auth token (as a cookie,
 		 * so the login is persisted between requests).
 		 */
-		return Response.ok().entity(userAccount).build();
+		return userAccount;
 	}
 
 	/**

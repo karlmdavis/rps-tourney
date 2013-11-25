@@ -49,6 +49,13 @@ public final class AccountSecurityContext implements SecurityContext {
 	}
 
 	/**
+	 * Constructs a new {@link AccountSecurityContext} instance.
+	 */
+	public AccountSecurityContext() {
+		this(null, false);
+	}
+
+	/**
 	 * @see javax.ws.rs.core.SecurityContext#getUserPrincipal()
 	 */
 	@Override

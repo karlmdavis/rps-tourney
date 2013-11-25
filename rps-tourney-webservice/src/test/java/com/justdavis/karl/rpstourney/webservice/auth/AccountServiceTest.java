@@ -2,9 +2,6 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,13 +28,10 @@ public final class AccountServiceTest {
 		AccountService.existingAccounts.add(account);
 
 		// Call the service.
-		Response response = new AccountService(new AccountSecurityContext(
-				account)).validateAuth();
+		Account responseAccount = new AccountService(
+				new AccountSecurityContext(account)).validateAuth();
 
 		// Verify the results
-		Assert.assertNotNull(response);
-		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
-		Account resultingAccount = (Account) response.getEntity();
-		Assert.assertNotNull(resultingAccount);
+		Assert.assertNotNull(responseAccount);
 	}
 }

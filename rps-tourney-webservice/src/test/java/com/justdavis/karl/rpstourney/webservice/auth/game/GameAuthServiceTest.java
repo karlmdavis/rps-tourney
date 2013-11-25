@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
@@ -43,10 +44,8 @@ public final class GameAuthServiceTest {
 	 */
 	@Test
 	public void createLogin() throws AddressException {
-		// Create the service.
-		GameAuthService authService = new GameAuthService();
-
-		// Create the mock params to pass to the service .
+		// Create the mock params to pass to the service.
+		AccountSecurityContext securityContext = new AccountSecurityContext();
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
 			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
@@ -57,8 +56,12 @@ public final class GameAuthServiceTest {
 			}
 		};
 
+		// Create the service.
+		GameAuthService authService = new GameAuthService(securityContext,
+				uriInfo);
+
 		// Call the service.
-		Response loginResponse = authService.createGameLogin(uriInfo, null,
+		Response loginResponse = authService.createGameLogin(
 				new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results
@@ -78,18 +81,24 @@ public final class GameAuthServiceTest {
 
 	/**
 	 * Ensures that
-	 * {@link GameAuthService#createGameLogin(UriInfo, UUID, InternetAddress, String)}
-	 * behaves as expected when the user/client already has an active login.
+	 * {@link GameAuthService#createGameLogin(InternetAddress, String)} behaves
+	 * as expected when the user/client already has an active login.
 	 * 
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */
 	@Test
 	public void createLoginWithAuthToken() throws AddressException {
-		// Create the service.
-		GameAuthService authService = new GameAuthService();
+		// Create a guest login (manually).
+		UUID randomAuthToken = UUID.randomUUID();
+		Account account = new Account(randomAuthToken);
+		AccountService.existingAccounts.add(account);
+		GuestLoginIdentity login = new GuestLoginIdentity(account);
+		GuestAuthService.existingLogins.add(login);
 
 		// Create the mock params to pass to the service .
+		AccountSecurityContext securityContext = new AccountSecurityContext(
+				account);
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
 			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
@@ -100,17 +109,13 @@ public final class GameAuthServiceTest {
 			}
 		};
 
-		// Create a guest login (manually).
-		UUID randomAuthToken = UUID.randomUUID();
-		Account account = new Account(randomAuthToken);
-		AccountService.existingAccounts.add(account);
-		GuestLoginIdentity login = new GuestLoginIdentity(account);
-		GuestAuthService.existingLogins.add(login);
+		// Create the service.
+		GameAuthService authService = new GameAuthService(securityContext,
+				uriInfo);
 
 		// Create a new game login.
-		Response createResponse = authService.createGameLogin(uriInfo,
-				randomAuthToken, new InternetAddress("foo@example.com"),
-				"secret");
+		Response createResponse = authService.createGameLogin(
+				new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results.
 		Assert.assertNotNull(createResponse);
@@ -123,7 +128,7 @@ public final class GameAuthServiceTest {
 
 	/**
 	 * Ensures that
-	 * {@link GameAuthService#loginWithGameAccount(UriInfo, UUID, InternetAddress, String)}
+	 * {@link GameAuthService#loginWithGameAccount(InternetAddress, String)}
 	 * behaves as expected when the user/client is not already logged in.
 	 * 
 	 * @throws AddressException
@@ -131,10 +136,8 @@ public final class GameAuthServiceTest {
 	 */
 	@Test
 	public void login() throws AddressException {
-		// Create the service.
-		GameAuthService authService = new GameAuthService();
-
 		// Create the mock params to pass to the service .
+		AccountSecurityContext securityContext = new AccountSecurityContext();
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
 			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
@@ -144,6 +147,10 @@ public final class GameAuthServiceTest {
 				return URI.create("http://localhost/");
 			}
 		};
+
+		// Create the service.
+		GameAuthService authService = new GameAuthService(securityContext,
+				uriInfo);
 
 		// Create the login (manually).
 		UUID randomAuthToken = UUID.randomUUID();
@@ -155,8 +162,8 @@ public final class GameAuthServiceTest {
 		GameAuthService.existingLogins.add(login);
 
 		// Login.
-		Response loginResponse = authService.loginWithGameAccount(uriInfo,
-				null, login.getEmailAddress(), "secret");
+		Response loginResponse = authService.loginWithGameAccount(
+				login.getEmailAddress(), "secret");
 
 		// Verify the results.
 		Assert.assertNotNull(loginResponse);

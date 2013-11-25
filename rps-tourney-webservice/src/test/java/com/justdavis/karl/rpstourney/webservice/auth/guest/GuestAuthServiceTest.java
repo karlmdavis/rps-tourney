@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 
@@ -35,10 +36,8 @@ public final class GuestAuthServiceTest {
 	 */
 	@Test
 	public void createLogin() {
-		// Create the service.
-		GuestAuthService authService = new GuestAuthService();
-
-		// Create the mock params to pass to the service .
+		// Create the mock params to pass to the service.
+		AccountSecurityContext securityContext = new AccountSecurityContext();
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
 			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
@@ -49,8 +48,12 @@ public final class GuestAuthServiceTest {
 			}
 		};
 
+		// Create the service.
+		GuestAuthService authService = new GuestAuthService(securityContext,
+				uriInfo);
+
 		// Call the service.
-		Response loginResponse = authService.loginAsGuest(uriInfo, null);
+		Response loginResponse = authService.loginAsGuest();
 
 		// Verify the results
 		Assert.assertNotNull(loginResponse);
@@ -68,16 +71,13 @@ public final class GuestAuthServiceTest {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link GuestAuthService#loginAsGuest(UriInfo, java.util.UUID)} behaves as
-	 * expected when the user/client already has an active login.
+	 * Ensures that {@link GuestAuthService#loginAsGuest()} behaves as expected
+	 * when the user/client already has an active login.
 	 */
 	@Test
 	public void existingLogin() {
-		// Create the service.
-		GuestAuthService authService = new GuestAuthService();
-
-		// Create the mock params to pass to the service .
+		// Create the mock params to pass to the service.
+		AccountSecurityContext securityContext = new AccountSecurityContext();
 		UriInfo uriInfo = new MockUriInfo() {
 			/**
 			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
@@ -88,15 +88,18 @@ public final class GuestAuthServiceTest {
 			}
 		};
 
-		/*
-		 * Call the service twice (passing the first response back to the second
-		 * call).
-		 */
-		Response firstLoginResponse = authService.loginAsGuest(uriInfo, null);
-		UUID authToken = UUID.fromString(firstLoginResponse.getCookies()
-				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Response secondLoginResponse = authService.loginAsGuest(uriInfo,
-				authToken);
+		// Create the service.
+		GuestAuthService authService = new GuestAuthService(securityContext,
+				uriInfo);
+
+		// Call the service once to login and create an Account.
+		authService.loginAsGuest();
+
+		// Call the service a second time logged in as the new Account.
+		securityContext = new AccountSecurityContext(
+				AccountService.existingAccounts.get(0));
+		authService = new GuestAuthService(securityContext, uriInfo);
+		Response secondLoginResponse = authService.loginAsGuest();
 
 		// Verify the results
 		Assert.assertEquals(Status.CONFLICT.getStatusCode(),
