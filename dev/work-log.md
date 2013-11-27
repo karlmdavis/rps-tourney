@@ -172,3 +172,8 @@ This file should never be committed along with other files; it should always be 
     * Looks like Hibernate/JPA also allow for bytecode enhancement, so I may still need to configure some Maven plugins for that.
 * 0.25h: Started reading through the [Hibernate Getting Started Guide](http://docs.jboss.org/hibernate/orm/4.2/quickstart/en-US/html/).
     * Read as far as Chapter 4, but didn't quite get the code running yet (need to get `persistence.xml` file correct).
+
+### 2013-11-26, Tuesday
+
+* 1.0h: Tried to figure out how to supply a DataSource to Hibernate (via JPA) programmatically.
+    * Looks like I'll have to create a DataSource instance, stick it somewhere in JNDI, and use the `non-jta-data-source` property in `persistence.xml`.
