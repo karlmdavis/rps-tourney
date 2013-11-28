@@ -177,3 +177,8 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: Tried to figure out how to supply a DataSource to Hibernate (via JPA) programmatically.
     * Looks like I'll have to create a DataSource instance, stick it somewhere in JNDI, and use the `non-jta-data-source` property in `persistence.xml`.
+
+### 2013-11-27, Wednesday
+
+* 0.5h: Read through Oracle's JNDI tutorial.
+    * Need to figure out how to stick a DataSource in there, for JPA to pick it up.
