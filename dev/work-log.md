@@ -182,3 +182,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Read through Oracle's JNDI tutorial.
     * Need to figure out how to stick a DataSource in there, for JPA to pick it up.
+
+### 2013-11-28, Thursday
+
+* 0.5h: JNDI is stupid. It's looking like my best option is to create a class that can produce both DataSources and the `javax.persistence.jdbc.*` properties for JPA. Obnoxious.
