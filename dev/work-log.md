@@ -190,3 +190,8 @@ This file should never be committed along with other files; it should always be 
 ### 2013-11-29, Friday
 
 * 0.5h: Got a simple JPA example running in Scratch.java.
+
+### 2013-11-30, Saturday
+
+* 1.0h: Did a lot of random reading about JPA DAOs and the JPA MetaModel.
+    * Still haven't figured out MetaModels, but they sound wonderful.
