@@ -195,3 +195,17 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: Did a lot of random reading about JPA DAOs and the JPA MetaModel.
     * Still haven't figured out MetaModels, but they sound wonderful.
+* 0.5h: Enabled org.hibernate:hibernate-jpamodelgen annotation processing.
+    * Need to document the installation of m2e-apt from the m2e marketplace (<https://community.jboss.org/en/tools/blog/2012/05/20/annotation-processing-support-in-m2e-or-m2e-apt-100-is-out>).
+
+### 2013-12-01, Sunday
+
+* 0.1h: Documented the installation of m2e-apt in `eclipse-kepler-sr1-install-plugins.sh`.
+* 0.75h: Read about detached objects in JPA, J2EE vs. Tomcat, and the [JPA Lifecycle](http://java.boot.by/scbcd5-guide/ch06.html).
+* 4.0h: Created an initial/stub version of `GameAppServiceInit`, which will more-or-less replace GameApplication with Spring-injected resources.
+    * Took a ridiculous amount of reading. Came across the following useful resources:
+        * [Spring framework without XML... At all!](http://nurkiewicz.blogspot.com/2011/01/spring-framework-without-xml-at-all.html)
+        * [REST with JAX-RS: Part 1 - Spring Java Config](http://www.halyph.com/2013/10/rest-with-jax-rs-part-1-spring-java.html)
+        * [Bug 404176 - Jetty's AnnotationConfiguration class does not scan non-jar resources on the classpath (except under WEB-INF/classes)](https://bugs.eclipse.org/bugs/show_bug.cgi?id=404176)
+        * [embed Jetty + Spring + Apache CXF](http://www.sql.ru/forum/1061100/embed-jetty-spring-apache-cxf)
+        * [Spring 3.1 WebApplicationInitializer & Embedded Jetty 8 AnnotationConfiguration](http://t3572.codeinpro.us/q/51501dabe8432c042614285b)
