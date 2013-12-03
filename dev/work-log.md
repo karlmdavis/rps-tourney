@@ -209,3 +209,7 @@ This file should never be committed along with other files; it should always be 
         * [Bug 404176 - Jetty's AnnotationConfiguration class does not scan non-jar resources on the classpath (except under WEB-INF/classes)](https://bugs.eclipse.org/bugs/show_bug.cgi?id=404176)
         * [embed Jetty + Spring + Apache CXF](http://www.sql.ru/forum/1061100/embed-jetty-spring-apache-cxf)
         * [Spring 3.1 WebApplicationInitializer & Embedded Jetty 8 AnnotationConfiguration](http://t3572.codeinpro.us/q/51501dabe8432c042614285b)
+
+### 2013-12-02, Monday
+
+* ??h: Fleshed out `GameAppServiceInit` to replace the config that was being handled by `GameApplication`.
