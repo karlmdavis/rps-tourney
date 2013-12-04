@@ -212,4 +212,10 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-02, Monday
 
-* ??h: Fleshed out `GameAppServiceInit` to replace the config that was being handled by `GameApplication`.
+* 0.25h: Started to flesh out `GameAppServiceInit` to replace the config that was being handled by `GameApplication`.
+    * Didn't get very far. Don't have enough documentation on how to use `JAXRSServerFactoryBean`. Should probably post a StackOverflow question on it.
+
+### 2013-12-03, Tuesday
+
+* 1.0h: Worked on fleshing out `GameAppServiceInit` some more.
+    * Got much farther. Currently hung up on how to register DynamicFeatures.
