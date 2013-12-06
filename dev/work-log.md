@@ -219,3 +219,11 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: Worked on fleshing out `GameAppServiceInit` some more.
     * Got much farther. Currently hung up on how to register DynamicFeatures.
+
+### 2013-12-04, Wednesday
+
+(didn't work; too distracted by reading)
+
+### 2013-12-05, Thursday
+
+* 0.5h: Finished fleshing out `GameAppServiceInit`.
