@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.webservice;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -23,6 +24,7 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -31,8 +33,12 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.webapp.WebInfConfiguration;
+import org.springframework.web.SpringServletContainerInitializer;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 
@@ -109,6 +115,7 @@ public final class EmbeddedServer {
 		WebAppContext webapp = new WebAppContext();
 		webapp.setContextPath("/");
 		webapp.setWar("src/main/webapp");
+		enableAnnotationConfigs(webapp);
 		this.server.setHandler(webapp);
 		/*
 		 * NOTE: the above is not robust enough to handle running things if this
@@ -122,6 +129,30 @@ public final class EmbeddedServer {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * Configures the specified {@link WebAppContext} to load web applications
+	 * that are identified/specified by annotations, e.g. Spring's
+	 * {@link SpringServletContainerInitializer}.
+	 * 
+	 * @param webapp
+	 *            the {@link WebAppContext} to configure
+	 */
+	private static void enableAnnotationConfigs(WebAppContext webapp) {
+		/*
+		 * NOTE: This config is probably not robust enough to handle running
+		 * things if this code is packaged in an unexploded WAR. I'd probably
+		 * need to alter the patterns to include JARs/WARs.
+		 */
+
+		webapp.setAttribute(
+				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+				".*/classes/.*");
+		webapp.setConfigurations(new Configuration[] {
+				new AnnotationConfiguration(), new WebInfConfiguration() });
+		webapp.getMetaData().addContainerResource(
+				Resource.newResource(new File("./target/classes")));
 	}
 
 	/**

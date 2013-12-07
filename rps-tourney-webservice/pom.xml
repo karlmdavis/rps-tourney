@@ -55,6 +55,13 @@
 		</dependency>
 
 		<dependency>
+			<!-- Used for dependency injection of the project's services. -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.2.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<!-- Needed to replace log4j, which is used by other dependencies here 
 				(and excluded). -->
 			<groupId>org.slf4j</groupId>
@@ -83,10 +90,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
-			<version>1.49</version>
+			<!-- Jetty is used to host the web service for ITs. -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+			<version>9.0.6.v20130930</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
