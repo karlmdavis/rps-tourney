@@ -230,4 +230,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-06, Friday
 
-* 0.2h: Cleaned up the switch-to-Spring-code and committed it.
+* 0.25h: Cleaned up the switch-to-Spring-code and committed it.
+* 0.5h: Tried to debug intermittent test failures.
+    * Several failed on Jenkins, and in Eclipse I can make `GuestAuthServiceIT.createLogin()` fail pretty often.
+    * Adding a sleep(5s) to the Jetty startup didn't help.
+
+### 2013-12-07, Saturday
+
+* 0.25h: Debugged the intermittent test failures.
+    * Turns out to have been a bean ordering/dependency issue.
