@@ -18,6 +18,7 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.SpringServletContainerInitializer;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -47,7 +48,8 @@ import com.justdavis.karl.rpstourney.webservice.demo.HelloWorldServiceImpl;
  * 
  * @see AppConfig
  */
-public final class GameApplicationInitializer implements WebApplicationInitializer {
+public final class GameApplicationInitializer implements
+		WebApplicationInitializer {
 	/**
 	 * @see org.springframework.web.WebApplicationInitializer#onStartup(javax.servlet.ServletContext)
 	 */
@@ -104,6 +106,7 @@ public final class GameApplicationInitializer implements WebApplicationInitializ
 		 *         non-Spring JAX-RS applications.
 		 */
 		@Bean
+		@DependsOn("cxf")
 		Server jaxRsServer() {
 			JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance()
 					.createEndpoint(jaxRsApiApplication(),
