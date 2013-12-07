@@ -227,3 +227,7 @@ This file should never be committed along with other files; it should always be 
 ### 2013-12-05, Thursday
 
 * 0.5h: Finished fleshing out `GameAppServiceInit`.
+
+### 2013-12-06, Friday
+
+* 0.2h: Cleaned up the switch-to-Spring-code and committed it.
