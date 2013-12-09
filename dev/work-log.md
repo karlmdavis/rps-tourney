@@ -237,5 +237,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-07, Saturday
 
-* 0.25h: Debugged the intermittent test failures.
+* 0.25h: Solved the intermittent test failures.
     * Turns out to have been a bean ordering/dependency issue.
+* 0.25h: Fixed the Sonar "Unused Imports" rule. It now checks JavaDoc for references, too.
+    * There was actually a setting for this in the rule. Just had to enable it.
+* 0.5h: Started creating the `IDataSourceConnector` and `IConfigLoader` code.
+
+### 2013-12-08, Sunday
+
+* ??h: Worked on the `IDataSourceConnector` and `IConfigLoader` code some more.
