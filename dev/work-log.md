@@ -245,4 +245,13 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-08, Sunday
 
-* ??h: Worked on the `IDataSourceConnector` and `IConfigLoader` code some more.
+* 0.5h: Worked on the `IDataSourceConnector` and `IConfigLoader` code some more.
+    * Fleshed out the comments, got (most of?) the method stubs in place.
+
+### 2013-12-09, Monday
+
+(didn't work; too burned out by day job)
+
+### 2013-12-10, Tuesday
+
+* 0.5h: Implemented `HsqlConnector`. Still need to write tests for it.
