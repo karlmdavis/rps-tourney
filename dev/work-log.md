@@ -255,3 +255,12 @@ This file should never be committed along with other files; it should always be 
 ### 2013-12-10, Tuesday
 
 * 0.5h: Implemented `HsqlConnector`. Still need to write tests for it.
+
+### 2013-12-11, Wednesday
+
+* 0.25h: Wrote unit tests for `HsqlConnector`.
+* 1.0h: Worked on setting up the application's config mechanisms.
+    * Need to flesh out `GameConfig`.
+    * Need to figure out how to use Spring in tests.
+    * Need to flesh out `JpaSpringConfig` such that `EntityManager` instances can be injected.
+    * Then, need to retrofit the existing web services to use JPA.
