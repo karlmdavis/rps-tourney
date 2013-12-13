@@ -264,3 +264,8 @@ This file should never be committed along with other files; it should always be 
     * Need to figure out how to use Spring in tests.
     * Need to flesh out `JpaSpringConfig` such that `EntityManager` instances can be injected.
     * Then, need to retrofit the existing web services to use JPA.
+
+### 2013-12-12, Thursday
+
+* 1.0h: Wrote `GameConfigTest`'s JAX-B tests (and actually got JAX-B working for it).
+    * Turns out, that @XmlElementRef makes things much easier.
