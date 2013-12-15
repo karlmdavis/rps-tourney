@@ -269,3 +269,11 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: Wrote `GameConfigTest`'s JAX-B tests (and actually got JAX-B working for it).
     * Turns out, that @XmlElementRef makes things much easier.
+
+### 2013-12-13, Friday
+
+(didn't work; too burned out by day job)
+
+### 2013-12-14, Saturday
+
+* ??h: Worked on `XmlConfigLoader`.
