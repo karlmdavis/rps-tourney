@@ -276,4 +276,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-14, Saturday
 
-* ??h: Worked on `XmlConfigLoader`.
+* 1.25h: Worked on `XmlConfigLoader`.
+
+### 2013-12-14, Sunday
+
+* 0.75h: Finished `XmlConfigLoader` and its unit tests.
+* 0.75h: Worked on the Spring configuration, and started trying to mock it a bit for the ITs.
+* 1.5h: Figured out how to get Spring's component scanning and mocking/overriding for ITs working.
+* 3.0h: Worked on getting Spring injecting JAX-RS resources. Surprisingly painful.
+    * Got that fixed, but now having trouble injecting @Context objects along wit Spring components.
