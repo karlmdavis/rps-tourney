@@ -294,3 +294,5 @@ This file should never be committed along with other files; it should always be 
     * Seems to be trying to instantiate the bean at startup, before a request has been made, even though the bean is request scoped.
     * Think I need to go the "minimum reproducible testcase" route and post a plea for help on Stack Overflow.
     * Might also give up on the non-XML approach.
+* 0.5h: Created the `rps-tourney-cxf-sandbox` project and got it mostly running.
+    * Still need to try out Spring Context and Component injection in it.
