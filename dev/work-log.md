@@ -284,4 +284,13 @@ This file should never be committed along with other files; it should always be 
 * 0.75h: Worked on the Spring configuration, and started trying to mock it a bit for the ITs.
 * 1.5h: Figured out how to get Spring's component scanning and mocking/overriding for ITs working.
 * 3.0h: Worked on getting Spring injecting JAX-RS resources. Surprisingly painful.
-    * Got that fixed, but now having trouble injecting @Context objects along wit Spring components.
+    * Got that fixed, but now having trouble injecting @Context objects along with Spring components.
+        * I think I'll end up having to inject @Context instances via method injection. Bother.
+
+### 2013-12-15, Monday
+
+* 1.0h: Worked on injecting @Context objects along with Spring components.
+    * Tried injecting @Context instances via method injection. Didn't work.
+    * Seems to be trying to instantiate the bean at startup, before a request has been made, even though the bean is request scoped.
+    * Think I need to go the "minimum reproducible testcase" route and post a plea for help on Stack Overflow.
+    * Might also give up on the non-XML approach.
