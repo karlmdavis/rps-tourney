@@ -304,4 +304,7 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-17, Wednesday
 
-* ??h: Worked on translating my success in `rps-tourney-cxf-sandbox` back to the "real" project.
+* 0.5h: Worked on translating my success in `rps-tourney-cxf-sandbox` back to the "real" project.
+    * Got `AccountServiceIT` passing again.
+    * Still need to ensure that constructor injection for non-Context objects is working.
+    * Still need to retrofit the rest of the resources that way.
