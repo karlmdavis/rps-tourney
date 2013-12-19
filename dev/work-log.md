@@ -301,3 +301,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Got Spring Context and Component injection for request-scoped beans working in `rps-tourney-cxf-sandbox`.
     * Turns out, I'd missed the mention of `<jaxrs:serviceFactories/>` on [CXF: JAX-RS : Services Configuration](http://cxf.apache.org/docs/jaxrs-services-configuration.html#JAXRSServicesConfiguration-ConfiguringJAXRSservicesincontainerwithSpringconfigurationfile.).
+
+### 2013-12-17, Wednesday
+
+* ??h: Worked on translating my success in `rps-tourney-cxf-sandbox` back to the "real" project.
