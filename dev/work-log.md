@@ -308,3 +308,7 @@ This file should never be committed along with other files; it should always be 
     * Got `AccountServiceIT` passing again.
     * Still need to ensure that constructor injection for non-Context objects is working.
     * Still need to retrofit the rest of the resources that way.
+
+### 2013-12-18, Thursday
+
+* ??h: Worked on getting injection of `EntityManager` instances to work.
