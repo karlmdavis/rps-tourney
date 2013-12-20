@@ -311,4 +311,5 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-18, Thursday
 
-* ??h: Worked on getting injection of `EntityManager` instances to work.
+* 0.5h: Worked on getting injection of `EntityManager` instances to work.
+    * Gah, turns out that JPA doesn't support constructor injection at all. Need to use the `@PersistenceUnit` or `@PersistenceContext` annotations.
