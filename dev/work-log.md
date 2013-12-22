@@ -319,3 +319,8 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: Still working on JPA injection.
     * FFS, it looks like Spring doesn't support use of any injected `@Component`s: EMFs are initialized in an earlier phase than autowiring.
     * I'm not sure, but I may have to go with Spring's configuration data loading mechanism (whatever that is).
+
+### 2013-12-19, Friday
+
+* 0.5h: Got JPA injection working.
+    * In @Configuration @Bean bean methods, you have to use method parameter injection of any resources. Otherwise, Spring doesn't seem to be smart enough to follow the dependency chain correctly.
