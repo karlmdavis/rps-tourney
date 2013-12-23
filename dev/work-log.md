@@ -278,7 +278,7 @@ This file should never be committed along with other files; it should always be 
 
 * 1.25h: Worked on `XmlConfigLoader`.
 
-### 2013-12-14, Sunday
+### 2013-12-15, Sunday
 
 * 0.75h: Finished `XmlConfigLoader` and its unit tests.
 * 0.75h: Worked on the Spring configuration, and started trying to mock it a bit for the ITs.
@@ -287,7 +287,7 @@ This file should never be committed along with other files; it should always be 
     * Got that fixed, but now having trouble injecting @Context objects along with Spring components.
         * I think I'll end up having to inject @Context instances via method injection. Bother.
 
-### 2013-12-15, Monday
+### 2013-12-16, Monday
 
 * 1.0h: Worked on injecting @Context objects along with Spring components.
     * Tried injecting @Context instances via method injection. Didn't work.
@@ -297,30 +297,35 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: Created the `rps-tourney-cxf-sandbox` project and got it mostly running.
     * Still need to try out Spring Context and Component injection in it.
 
-### 2013-12-16, Tuesday
+### 2013-12-17, Tuesday
 
 * 0.5h: Got Spring Context and Component injection for request-scoped beans working in `rps-tourney-cxf-sandbox`.
     * Turns out, I'd missed the mention of `<jaxrs:serviceFactories/>` on [CXF: JAX-RS : Services Configuration](http://cxf.apache.org/docs/jaxrs-services-configuration.html#JAXRSServicesConfiguration-ConfiguringJAXRSservicesincontainerwithSpringconfigurationfile.).
 
-### 2013-12-17, Wednesday
+### 2013-12-18, Wednesday
 
 * 0.5h: Worked on translating my success in `rps-tourney-cxf-sandbox` back to the "real" project.
     * Got `AccountServiceIT` passing again.
     * Still need to ensure that constructor injection for non-Context objects is working.
     * Still need to retrofit the rest of the resources that way.
 
-### 2013-12-18, Thursday
+### 2013-12-19, Thursday
 
 * 0.5h: Worked on getting injection of `EntityManager` instances to work.
     * Gah, turns out that JPA doesn't support constructor injection at all. Need to use the `@PersistenceUnit` or `@PersistenceContext` annotations.
 
-### 2013-12-19, Friday
+### 2013-12-20, Friday
 
 * 0.5h: Still working on JPA injection.
     * FFS, it looks like Spring doesn't support use of any injected `@Component`s: EMFs are initialized in an earlier phase than autowiring.
     * I'm not sure, but I may have to go with Spring's configuration data loading mechanism (whatever that is).
 
-### 2013-12-19, Friday
+### 2013-12-21, Saturday
 
 * 0.5h: Got JPA injection working.
     * In @Configuration @Bean bean methods, you have to use method parameter injection of any resources. Otherwise, Spring doesn't seem to be smart enough to follow the dependency chain correctly.
+
+### 2013-12-22, Sunday
+
+* 2.0h: Started adding in actual persistence to the web service methods.
+    * Turned into a bit of a mess. Probably will need to go with DAOs to cut down on the code noise.
