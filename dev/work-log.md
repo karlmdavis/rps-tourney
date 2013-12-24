@@ -329,3 +329,8 @@ This file should never be committed along with other files; it should always be 
 
 * 2.0h: Started adding in actual persistence to the web service methods.
     * Turned into a bit of a mess. Probably will need to go with DAOs to cut down on the code noise.
+
+### 2013-12-23, Monday
+
+* 0.25h: Read some more about Spring's magic JpaRepository implementations.
+    * Not really impressed with the idea. Too much magic. Also: doesn't support detachment.
