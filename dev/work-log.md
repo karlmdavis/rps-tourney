@@ -334,3 +334,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h: Read some more about Spring's magic JpaRepository implementations.
     * Not really impressed with the idea. Too much magic. Also: doesn't support detachment.
+
+### 2013-12-24, Tuesday
+
+* 0.25h: Fixed `AccountTest`, added a couple of method defs to `IAccountsDao`, and some other minor work.
