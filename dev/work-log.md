@@ -341,4 +341,5 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-25, Wednesday
 
-* ??h: Worked on moving the other web service resources over to JPA.
+* 0.5h: Moved `GameAuthService` to JPA, at least to the point where things look right and compile.
+    * Left the DAOs unimplemented and the tests are still not compiling.
