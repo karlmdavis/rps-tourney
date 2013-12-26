@@ -338,3 +338,7 @@ This file should never be committed along with other files; it should always be 
 ### 2013-12-24, Tuesday
 
 * 0.25h: Fixed `AccountTest`, added a couple of method defs to `IAccountsDao`, and some other minor work.
+
+### 2013-12-25, Wednesday
+
+* ??h: Worked on moving the other web service resources over to JPA.
