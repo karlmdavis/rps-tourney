@@ -343,3 +343,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Moved `GameAuthService` to JPA, at least to the point where things look right and compile.
     * Left the DAOs unimplemented and the tests are still not compiling.
+
+### 2013-12-26, Thursday
+
+* 1.5h: Spent some time reading about and enabling Spring transactions.
+    * Probably isn't working right, as I'll need the ITs running to test that out.
+* 1.0h: Fixed up a number of the unit tests.
