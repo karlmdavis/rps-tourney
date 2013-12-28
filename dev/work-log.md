@@ -349,3 +349,8 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: Spent some time reading about and enabling Spring transactions.
     * Probably isn't working right, as I'll need the ITs running to test that out.
 * 1.0h: Fixed up a number of the unit tests.
+
+### 2013-12-27, Friday
+
+* 0.05h: Fixed another unit test: `AuthenticationFilterTest`.
+(mostly spent my free time reading)
