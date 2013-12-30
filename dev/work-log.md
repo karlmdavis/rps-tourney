@@ -352,8 +352,9 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-27, Friday
 
-* 0.05h: Fixed another unit test: `AuthenticationFilterTest`.
 (mostly spent my free time reading)
+
+* 0.05h: Fixed another unit test: `AuthenticationFilterTest`.
 
 ### 2013-12-28, Saturday
 
@@ -365,6 +366,16 @@ This file should never be committed along with other files; it should always be 
 
 ### 2013-12-29, Sunday
 
+(spent the day visiting family in PA)
+
 * 0.05h: Fixed the `src/main/java` compile errors caused by the CXF 3.0 switch.
     * Haven't looked at the `src/test/java` compile problems it caused, though.
-(spent the day visiting family in PA)
+
+### 2013-12-30, Monday
+
+* 1.25h: Made progress on getting `AccountServicesIT` to pass, but still not there.
+    * Fixed the `src/test/java` compile errors.
+    * Got `AuthenticationFilter` running again.
+        * Looks like I'll have to inject `@Context SecurityContext` instances, rather than `@Context AccountSecurityContext` instances. Not 100% on that, but seems likely.
+    * Implemented a bit more of the JPA stuff.
+        * Next step is probably to write tests for the DAOs. Looks like they may not be working as expected.
