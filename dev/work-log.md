@@ -362,3 +362,9 @@ This file should never be committed along with other files; it should always be 
     * Haven't figured out the solution, but it doesn't look it's even trying to run the Authentication filter at all.
     * From what I could see from the CXF code, even if that was running, I still might be having the same problem. Not 100% on that, though.
     * Last thing I tried was bumping to the CXF 3.0 milestone. That's caused some compile errors that I haven't had a chance to sort out, yet.
+
+### 2013-12-29, Sunday
+
+* 0.05h: Fixed the `src/main/java` compile errors caused by the CXF 3.0 switch.
+    * Haven't looked at the `src/test/java` compile problems it caused, though.
+(spent the day visiting family in PA)
