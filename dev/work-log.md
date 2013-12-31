@@ -379,3 +379,11 @@ This file should never be committed along with other files; it should always be 
         * Looks like I'll have to inject `@Context SecurityContext` instances, rather than `@Context AccountSecurityContext` instances. Not 100% on that, but seems likely.
     * Implemented a bit more of the JPA stuff.
         * Next step is probably to write tests for the DAOs. Looks like they may not be working as expected.
+
+### 2013-12-31, Tuesday
+
+* 2.5h: Got `AccountServicesIT` to pass.
+    * Learned that Hibernate doesn't intelligently merge annotations and `orm.xml`: any attribute specified in `orm.xml` will completely replace the annotation-specified properties.
+    * Had to fix the JPA dialect/vendor specified in Spring, from H2 to HSQL.
+        * Will need to make that dynamic, somehow.
+    * Modified the default fetch plan for `Account` instances to pull in everything.
