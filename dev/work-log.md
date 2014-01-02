@@ -387,3 +387,9 @@ This file should never be committed along with other files; it should always be 
     * Had to fix the JPA dialect/vendor specified in Spring, from H2 to HSQL.
         * Will need to make that dynamic, somehow.
     * Modified the default fetch plan for `Account` instances to pull in everything.
+
+### 2014-01-01, Wednesday
+
+(spent most of the day reading)
+
+* 0.05h: Fixed `AuthorizationFilterTest`.
