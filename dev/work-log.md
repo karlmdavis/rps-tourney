@@ -393,3 +393,15 @@ This file should never be committed along with other files; it should always be 
 (spent most of the day reading)
 
 * 0.05h: Fixed `AuthorizationFilterTest`.
+
+### 2014-01-02, Thursday
+
+(spent most of the day reading)
+
+### 2014-01-03, Friday
+
+(spent most of the day reading)
+
+### 2014-01-04, Saturday
+
+* 0.25h: Fixed `GuestLoginIdentityTest` and `GuestAuthServiceTest`.
