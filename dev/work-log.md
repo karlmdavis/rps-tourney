@@ -414,3 +414,10 @@ This file should never be committed along with other files; it should always be 
 * 1.25h: Still more time working on the above problem.
     * Made some progress, though. Created the `SpringJettyConfig` Spring config class, which will launch the `EmbeddedServer`.
     * Problem now is that the `EmbeddedServer` creates a separate Spring context and things get stuck in a loop.
+    * Thought: `AnnotationConfigWebApplicationContext.setParent(ApplicationContext)` might be a solution.
+
+### 2014-01-06, Monday
+
+* 1.5h: Got Spring DI working in JUnit tests with embedded Jetty.
+    * My idea last night was correct: I did have to set the parent Spring `ApplicationContext`.
+    * So far, this is just for `GuestAuthServiceIT`; still need to fix the other tests.
