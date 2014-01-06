@@ -405,3 +405,12 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-04, Saturday
 
 * 0.25h: Fixed `GuestLoginIdentityTest` and `GuestAuthServiceTest`.
+
+### 2014-01-05, Sunday
+
+* 1.0h: Tried to figure out how to get Spring DI working in JUnit tests with embedded Jetty.
+    * The Jetty @Rule being used conflicts with Spring Test's `SpringJUnit4ClassRunner`, as they both end up trying to start a server.
+* 0.5h: More time spent reading about the above problem.
+* 1.25h: Still more time working on the above problem.
+    * Made some progress, though. Created the `SpringJettyConfig` Spring config class, which will launch the `EmbeddedServer`.
+    * Problem now is that the `EmbeddedServer` creates a separate Spring context and things get stuck in a loop.
