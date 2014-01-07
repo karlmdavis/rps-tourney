@@ -421,3 +421,8 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: Got Spring DI working in JUnit tests with embedded Jetty.
     * My idea last night was correct: I did have to set the parent Spring `ApplicationContext`.
     * So far, this is just for `GuestAuthServiceIT`; still need to fix the other tests.
+* 0.5h: Fixed `GameLoginIdentityTest` and `GameAuthServiceTest`. Also implemented most of `GameLoginIdentitiesDaoImpl`.
+* 0.5h: Worked on getting `GameAuthServiceIT` passing.
+    * Fixed the compile errors, but not the test failures.
+    * Still implementing `GameLoginIdentitiesDaoImpl.find(InternetAddress)`.
+    * Looks like I need to add support to Hibernate for persisting `InternetAddress` objects.
