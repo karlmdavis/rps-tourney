@@ -433,3 +433,9 @@ This file should never be committed along with other files; it should always be 
     * Created `InternetAddressUserType`, a custom Hibernate type mapping.
     * Finished implementing `GameLoginIdentitiesDaoImpl`.
     * Stuck on a test error involving URL-encoding of values sent to the web service. May need to switch to the new JAX-RS 2.0 client API.
+
+### 2014-01-08, Wednesday
+
+* 1.0h: Got `GameAuthServiceIT` and `mvn clean verify` passing.
+    * Had to add `@FormParam` annotations to `GameAuthService`. Not sure why these weren't needed before with CXF 2.x, but whatever.
+    * Had to fix up some minor dependency issues with the POM.
