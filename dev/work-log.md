@@ -426,3 +426,10 @@ This file should never be committed along with other files; it should always be 
     * Fixed the compile errors, but not the test failures.
     * Still implementing `GameLoginIdentitiesDaoImpl.find(InternetAddress)`.
     * Looks like I need to add support to Hibernate for persisting `InternetAddress` objects.
+
+### 2014-01-07, Tuesday
+
+* 2.0h: Worked on getting `GameAuthServiceIT` passing.
+    * Created `InternetAddressUserType`, a custom Hibernate type mapping.
+    * Finished implementing `GameLoginIdentitiesDaoImpl`.
+    * Stuck on a test error involving URL-encoding of values sent to the web service. May need to switch to the new JAX-RS 2.0 client API.
