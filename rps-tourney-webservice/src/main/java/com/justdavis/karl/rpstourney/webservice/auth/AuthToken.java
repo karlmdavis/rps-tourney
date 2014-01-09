@@ -3,9 +3,12 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.threeten.bp.Instant;
 
@@ -25,14 +28,19 @@ import org.threeten.bp.Instant;
  * </p>
  */
 @Entity
+@Table(name = "AuthTokens")
 public final class AuthToken {
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.REFRESH, CascadeType.DETACH })
+	@JoinColumn(name = "accountId")
 	private final Account account;
 
 	@Id
+	@Column(name = "token", nullable = false, updatable = false)
 	private final UUID token;
 
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@Column(name = "creationTimestamp", nullable = false, updatable = false)
 	private final Instant creationTimestamp;
 
 	/**

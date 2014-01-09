@@ -2,9 +2,14 @@ package com.justdavis.karl.rpstourney.webservice.auth.game;
 
 import javax.mail.internet.InternetAddress;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.ILoginIdentity;
@@ -29,17 +34,23 @@ import com.justdavis.karl.rpstourney.webservice.jpa.InternetAddressUserType;
  * </p>
  */
 @Entity
+@Table(name = "GameLoginIdentities")
 public final class GameLoginIdentity implements ILoginIdentity {
 	@Id
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@OneToOne(optional = false, cascade = { CascadeType.DETACH,
-			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@JoinColumn(name = "accountId")
 	private final Account account;
 
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
+	@Column(name = "emailAddress", unique = true, nullable = false)
 	private final InternetAddress emailAddress;
 
+	@Column(name = "passwordHash", nullable = false)
 	private final String passwordHash;
 
 	/**

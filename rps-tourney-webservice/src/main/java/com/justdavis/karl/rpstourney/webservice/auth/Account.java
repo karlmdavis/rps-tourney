@@ -6,10 +6,16 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,13 +36,17 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement
 @Entity
+@Table(name = "Accounts")
 public final class Account implements Principal {
 	@Id
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@ElementCollection
 	@XmlElementWrapper(name = "roles")
 	@XmlElement(name = "role")
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "AccountRoles")
 	private final Set<SecurityRole> roles;
 
 	/**
@@ -44,8 +54,8 @@ public final class Account implements Principal {
 	 * off of the server by mistake. Any web services wishing to use it in a
 	 * response will have to do so explicitly.
 	 */
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
 	@XmlTransient
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
 	private final Set<AuthToken> authTokens;
 
 	/**

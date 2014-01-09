@@ -4,7 +4,6 @@
 
 	<persistence-unit name="com.justdavis.karl.rpstourney">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<mapping-file>META-INF/orm.xml</mapping-file>
 		<properties>
 			<!-- The other Hibernate properties are all supplied at runtime when calling 
 				Persistence.createEntityManagerFactory(...). This allows the DB to be configured 
