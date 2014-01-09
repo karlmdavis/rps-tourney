@@ -439,3 +439,14 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: Got `GameAuthServiceIT` and `mvn clean verify` passing.
     * Had to add `@FormParam` annotations to `GameAuthService`. Not sure why these weren't needed before with CXF 2.x, but whatever.
     * Had to fix up some minor dependency issues with the POM.
+* 0.35h: Created `AccountsDaoImplTest` and `GameLoginIdentitiesDaoImplTest`.
+    * Need to create tests for the rest of the methods in the DAOs (beyond just `save(...)`).
+    * Need to add DB "cleanup" code to the DAO tests.
+
+### 2014-01-09, Thursday
+
+* 0.7h: Fleshed out the DAO tests the rest of the way.
+* 0.05h: Addressed the `TODO`s, `FIXME`s, etc. that needed to be cleaned up before a (first) commit.
+    * I left a couple in because I want them as part of the history. They'll need to be cleaned up in a second commit.
+* 1.0h: Fixed the SQL type of `AuthToken.creationTimestamp` via the [Jadira Usertypes library](http://jadira.sourceforge.net/).
+* 0.55h: Swicthed from `orm.xml` to annotations for JPA/Hibernate.
