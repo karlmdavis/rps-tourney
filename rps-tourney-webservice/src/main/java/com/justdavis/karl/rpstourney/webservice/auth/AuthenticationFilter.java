@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ListIterator;
 import java.util.UUID;
 
-import javax.ws.rs.BindingPriority;
+import javax.annotation.Priority;
+import javax.inject.Inject;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -13,6 +15,11 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.SecurityContext;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
@@ -29,8 +36,10 @@ import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.Acco
  * cookies are updated every time a client makes a webservice call.
  * </p>
  */
-@BindingPriority(BindingPriority.AUTHENTICATION)
-public final class AuthenticationFilter implements ContainerRequestFilter,
+@Priority(Priorities.AUTHENTICATION)
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class AuthenticationFilter implements ContainerRequestFilter,
 		ContainerResponseFilter {
 	/**
 	 * The custom authentication scheme ID used by the application.
@@ -38,6 +47,28 @@ public final class AuthenticationFilter implements ContainerRequestFilter,
 	 * @see SecurityContext#getAuthenticationScheme()
 	 */
 	public static String AUTH_SCHEME = "GameAuth";
+
+	private IAccountsDao accountsDao;
+
+	/**
+	 * This public, default, no-arg constructor is required by Spring (for
+	 * request-scoped beans).
+	 */
+	public AuthenticationFilter() {
+	}
+
+	/**
+	 * @param accountsDao
+	 *            the injected {@link IAccountsDao} to use
+	 */
+	@Inject
+	public void setAccountDao(IAccountsDao accountsDao) {
+		// Sanity check: null IAccountsDao?
+		if (accountsDao == null)
+			throw new IllegalArgumentException();
+
+		this.accountsDao = accountsDao;
+	}
 
 	/**
 	 * This callback will be passed each request towards the start of the
@@ -57,7 +88,7 @@ public final class AuthenticationFilter implements ContainerRequestFilter,
 		Account userAccount = null;
 		if (authTokenCookie != null) {
 			UUID authTokenUuid = UUID.fromString(authTokenCookie.getValue());
-			userAccount = AccountService.getAccount(authTokenUuid);
+			userAccount = accountsDao.getAccount(authTokenUuid);
 		}
 
 		// Was the request made over SSL?
@@ -85,8 +116,8 @@ public final class AuthenticationFilter implements ContainerRequestFilter,
 	 * This callback will be passed each request and response towards the end of
 	 * the processing chain for it. It checks the {@link SecurityContext} for
 	 * the request, and if it contains a valid {@link Account} for the
-	 * user/client that made the request, it will set/refresh a cookie
-	 * containing the authentication token for that {@link Account}.
+	 * user/client that made the request, it will refresh the cookie containing
+	 * the authentication token for that {@link Account}.
 	 * 
 	 * @see javax.ws.rs.container.ContainerResponseFilter#filter(javax.ws.rs.container.ContainerRequestContext,
 	 *      javax.ws.rs.container.ContainerResponseContext)
@@ -97,12 +128,31 @@ public final class AuthenticationFilter implements ContainerRequestFilter,
 		// Pull the AccountSecurityContext for the request that's wrapping up.
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
 				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
-
 		Account userAccount = securityContext.getUserPrincipal();
-		if (userAccount != null) {
+
+		// Pull the auth cookie for the response that's wrapping up.
+		Cookie currentAuthCookie = responseContext.getCookies().get(
+				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
+		UUID currentAuthTokenValue = currentAuthCookie != null ? UUID
+				.fromString(currentAuthCookie.getValue()) : null;
+
+		// If there wasn't an auth cookie in the response, check the request.
+		if (currentAuthCookie == null) {
+			currentAuthCookie = requestContext.getCookies().get(
+					AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
+			currentAuthTokenValue = currentAuthCookie != null ? UUID
+					.fromString(currentAuthCookie.getValue()) : null;
+		}
+
+		// Is there a valid SecurityContext and matching auth cookie?
+		if (userAccount != null
+				&& userAccount.isValidAuthToken(currentAuthTokenValue)) {
+			AuthToken currentAuthToken = userAccount
+					.getAuthToken(currentAuthTokenValue);
+
 			// Create the Cookie we'll drop in to the response.
 			NewCookie authTokenCookie = AuthTokenCookieHelper
-					.createAuthTokenCookie(userAccount, requestContext
+					.createAuthTokenCookie(currentAuthToken, requestContext
 							.getUriInfo().getRequestUri());
 
 			// Are there any cookies already in the response?

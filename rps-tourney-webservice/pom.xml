@@ -22,8 +22,29 @@
 		<!-- Java 1.7 is required by the Eclipse JAX-RS plugin. -->
 		<javaSourceVersion>1.7</javaSourceVersion>
 
-		<jersey.version>2.4</jersey.version>
+		<!-- The version of the Spring Framework artifacts to use. -->
+		<spring.version>4.0.0.RELEASE</spring.version>
+
+		<!-- The version of the Apache CXF artifacts to use. -->
+		<cxf.version>3.0.0-milestone1</cxf.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<!-- This repo is used to grab Hibernate and related artifacts. While 
+				Maven Central has many older releases, for some reason the latest artifacts 
+				don't appear to be syncing there. -->
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -35,8 +56,8 @@
 			<!-- Apache CXF is the framework used to run the JAX-RS web service in 
 				this project. -->
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>2.7.7</version>
+			<artifactId>cxf-rt-rs-client</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<!-- A version of this library is needed to compile, but will already 
@@ -55,10 +76,52 @@
 		</dependency>
 
 		<dependency>
-			<!-- Used for dependency injection of the project's services. -->
+			<!-- Provides annotations that specify dependency injection points. -->
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+		<dependency>
+			<!-- The project's dependency injection provider. -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>3.2.5.RELEASE</version>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<!-- The Spring framework's JPA-related APIs, which make working with 
+				JPA a bit easier. -->
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>1.4.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
+				used for building and interacting with the application's SQL database. -->
+			<groupId>.org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.0.CR1</version>
+			<exclusions>
+				<exclusion>
+					<!-- These interfaces, etc. are now included in the JRE. -->
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- The Hibernate JPA Model Generator, which will produce MetaModel classes 
+				for JPA entities. This happens happens automagically via javac's annotation 
+				processor. -->
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>4.3.0.CR1</version>
+		</dependency>
+		<dependency>
+			<!-- Provides the Hibernate mappings required to persist the org.threetenbp:threetenbp 
+				classes correctly. -->
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.extended</artifactId>
+			<version>3.1.0.CR10</version>
 		</dependency>
 
 		<dependency>
@@ -77,9 +140,33 @@
 		</dependency>
 
 		<dependency>
+			<!-- Provides the InternetAddress class used to represent email addresses 
+				in this project. -->
+			<!-- Scoped as 'provided' because it's the responsibility of the web application 
+				container to provide this artifact. -->
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.mail.glassfish</artifactId>
+			<version>1.4.1.v201005082020</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<!-- JUnit is used for all unit and integration tests. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- The project's dependency injection provider. -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<!-- An in-memory embedded SQL DB. Used to speed up DB-related tests. -->
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

@@ -1,7 +1,5 @@
 package com.justdavis.karl.rpstourney.webservice.auth.game;
 
-import java.util.UUID;
-
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
@@ -27,7 +25,7 @@ public final class GameLoginIdentityTest {
 		 * now. Once persistence has been added, it'll be worth testing that.
 		 */
 
-		Account account = new Account(UUID.randomUUID());
+		Account account = new Account();
 		InternetAddress emailAddress = new InternetAddress("foo@example.com");
 		String passwordHash = "foobar";
 		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress,

@@ -9,6 +9,12 @@
 		</encoder>
 	</appender>
 
+	<!-- There's a bug in this class' logging, that causes spurious exceptions 
+		if it's enabled at the debug level. -->
+	<logger
+		name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl"
+		level="info" />
+
 	<!-- Disable all logging by default. The app's Options.debugEnabled flag 
 		can be used to enable logging, if desired. -->
 	<root level="info">

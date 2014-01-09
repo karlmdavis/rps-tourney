@@ -1,7 +1,5 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
-import java.util.UUID;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +19,7 @@ public final class GuestLoginIdentityTest {
 		 * now. Once persistence has been added, it'll be worth testing that.
 		 */
 
-		Account account = new Account(UUID.randomUUID());
+		Account account = new Account();
 		GuestLoginIdentity login = new GuestLoginIdentity(account);
 
 		Assert.assertSame(account, login.getAccount());

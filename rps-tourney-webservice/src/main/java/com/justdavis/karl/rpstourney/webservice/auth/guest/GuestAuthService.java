@@ -1,9 +1,8 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,48 +11,98 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
+import com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao;
+import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 
 /**
  * This JAX-RS web service allows users to login as a guest. See
  * {@link #loginAsGuest(UriInfo, UUID)} for details.
  */
 @Path(GuestAuthService.SERVICE_PATH)
-public final class GuestAuthService {
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class GuestAuthService {
 	/**
 	 * The {@link Path} that this service will be hosted at.
 	 */
 	public static final String SERVICE_PATH = "/auth/guest/";
 
+	private AccountSecurityContext securityContext;
+	private UriInfo uriInfo;
+	private IAccountsDao accountsDao;
+	private IGuestLoginIndentitiesDao loginsDao;
+
 	/**
-	 * The in-memory store used to track existing {@link GuestLoginIdentity}
-	 * instances. FIXME Should be replaced with actual persistence.
+	 * This public, default, no-arg constructor is required by Spring (for
+	 * request-scoped beans).
 	 */
-	public static List<GuestLoginIdentity> existingLogins = new LinkedList<>();
-
-	private final AccountSecurityContext securityContext;
-	private final UriInfo uriInfo;
+	public GuestAuthService() {
+	}
 
 	/**
-	 * Constructs a new {@link GuestAuthService} instance.
-	 * 
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link GuestAuthService} was instantiated to handle
+	 *            the {@link AccountSecurityContext} for the request that the
+	 *            {@link GameAuthService} was instantiated to handle
+	 */
+	@Context
+	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+		// Sanity check: null SecurityContext?
+		if (securityContext == null)
+			throw new IllegalArgumentException();
+
+		this.securityContext = securityContext;
+	}
+
+	/**
 	 * @param uriInfo
 	 *            the {@link UriInfo} for the request that the
-	 *            {@link GuestAuthService} was instantiated to handle
+	 *            {@link GameAuthService} was instantiated to handle
 	 */
-	public GuestAuthService(@Context AccountSecurityContext securityContext,
-			@Context UriInfo uriInfo) {
-		this.securityContext = securityContext;
+	@Context
+	public void setUriInfo(UriInfo uriInfo) {
+		// Sanity check: null UriInfo?
+		if (uriInfo == null)
+			throw new IllegalArgumentException();
+
 		this.uriInfo = uriInfo;
+	}
+
+	/**
+	 * @param accountsDao
+	 *            the injected {@link IAccountsDao} to use
+	 */
+	@Inject
+	public void setAccountDao(IAccountsDao accountsDao) {
+		// Sanity check: null IAccountsDao?
+		if (accountsDao == null)
+			throw new IllegalArgumentException();
+
+		this.accountsDao = accountsDao;
+	}
+
+	/**
+	 * @param loginsDao
+	 *            the injected {@link IGuestLoginIndentitiesDao} to use
+	 */
+	@Inject
+	public void setGuestLoginIdentitiesDao(IGuestLoginIndentitiesDao loginsDao) {
+		// Sanity check: null IGuestLoginIndentitiesDao?
+		if (loginsDao == null)
+			throw new IllegalArgumentException();
+
+		this.loginsDao = loginsDao;
 	}
 
 	/**
@@ -69,6 +118,7 @@ public final class GuestAuthService {
 	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
+	@Transactional
 	public Response loginAsGuest() {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
@@ -81,8 +131,10 @@ public final class GuestAuthService {
 		GuestLoginIdentity login = createLogin();
 
 		// Create an authentication cookie for the new login.
+		AuthToken authToken = accountsDao.selectOrCreateAuthToken(login
+				.getAccount());
 		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
-				login.getAccount(), uriInfo.getRequestUri());
+				authToken, uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the new account that's associated with the
@@ -97,31 +149,12 @@ public final class GuestAuthService {
 	 * @return a new {@link GuestLoginIdentity} (and associated objects)
 	 */
 	private GuestLoginIdentity createLogin() {
-		// Create a random UUID.
-		UUID randomAuthToken = UUID.randomUUID();
-
 		// Create a new blank account to associate the login with.
-		Account blankAccount = new Account(randomAuthToken);
+		Account blankAccount = new Account();
 
-		/*
-		 * Sanity check: does the random UUID already exist? I know this is a
-		 * bit stupid, but some internet searches for ways to create UUIDs in
-		 * Java indicate that the JDK's UUID.randomUuid() might lead to
-		 * collisions. I'll believe it when I see it, but it seems prudent to
-		 * check.
-		 */
-		for (GuestLoginIdentity existingLogin : existingLogins)
-			if (existingLogin.getAccount().getAuthToken()
-					.equals(randomAuthToken))
-				throw new IllegalStateException("Random UUID collision: "
-						+ randomAuthToken);
-
-		// Create the new login.
+		// Create and persist the new login.
 		GuestLoginIdentity newLogin = new GuestLoginIdentity(blankAccount);
-
-		// Persist the new login and account.
-		existingLogins.add(newLogin);
-		AccountService.existingAccounts.add(newLogin.getAccount());
+		loginsDao.save(newLogin);
 
 		return newLogin;
 	}

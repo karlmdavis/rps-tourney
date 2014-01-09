@@ -12,7 +12,8 @@ package com.justdavis.karl.rpstourney.webservice.auth;
  * </p>
  * <ul>
  * <li>It must provide support for marshalling and unmarshalling via JAX-B.</li>
- * <li>TODO: anything else?</li>
+ * <li>It must provide a DAO that uses JPA to retrieve instances from and
+ * persist instances to a database.</li>
  * </ul>
  */
 public interface ILoginIdentity {

@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +27,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.threeten.bp.Clock;
 
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
@@ -45,15 +47,20 @@ public class AuthenticationFilterTest {
 	public void filterRequestForAuth() throws IOException {
 		// Create the mock request to use.
 		ContainerRequestContext requestContext = new MockContainerRequestContext();
-		Account account = new Account(UUID.randomUUID());
-		AccountService.existingAccounts.add(account);
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		Account account = new Account();
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
+				.systemUTC().instant());
+		account.getAuthTokens().add(authToken);
+		accountsDao.save(account);
 		requestContext.getCookies().put(
 				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
-				AuthTokenCookieHelper.createAuthTokenCookie(account,
+				AuthTokenCookieHelper.createAuthTokenCookie(authToken,
 						requestContext.getUriInfo().getRequestUri()));
 
 		// Run the auth filter.
 		AuthenticationFilter authFilter = new AuthenticationFilter();
+		authFilter.setAccountDao(accountsDao);
 		authFilter.filter(requestContext);
 
 		// Verify that the SecurityContext is set.
@@ -82,6 +89,7 @@ public class AuthenticationFilterTest {
 
 		// Run the auth filter.
 		AuthenticationFilter authFilter = new AuthenticationFilter();
+		authFilter.setAccountDao(new MockAccountsDao());
 		authFilter.filter(requestContext);
 
 		// Verify that the SecurityContext is set correctly.
@@ -105,15 +113,20 @@ public class AuthenticationFilterTest {
 	@Test
 	public void filterResponseForAuth() throws IOException {
 		// Create the auth filter.
+		MockAccountsDao accountsDao = new MockAccountsDao();
 		AuthenticationFilter authFilter = new AuthenticationFilter();
+		authFilter.setAccountDao(accountsDao);
 
 		// Create the mock request to use (run the filter on the request).
-		Account account = new Account(UUID.randomUUID());
-		AccountService.existingAccounts.add(account);
+		Account account = new Account();
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
+				.systemUTC().instant());
+		account.getAuthTokens().add(authToken);
+		accountsDao.save(account);
 		ContainerRequestContext requestContext = new MockContainerRequestContext();
 		requestContext.getCookies().put(
 				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
-				AuthTokenCookieHelper.createAuthTokenCookie(account,
+				AuthTokenCookieHelper.createAuthTokenCookie(authToken,
 						requestContext.getUriInfo().getRequestUri()));
 		authFilter.filter(requestContext);
 
@@ -140,7 +153,9 @@ public class AuthenticationFilterTest {
 	@Test
 	public void filterResponseForNoAuth() throws IOException {
 		// Create the auth filter.
+		MockAccountsDao accountsDao = new MockAccountsDao();
 		AuthenticationFilter authFilter = new AuthenticationFilter();
+		authFilter.setAccountDao(accountsDao);
 
 		// Create the mock request to use (run the filter on the request).
 		ContainerRequestContext requestContext = new MockContainerRequestContext();
@@ -264,7 +279,7 @@ public class AuthenticationFilterTest {
 		 */
 		@Override
 		public Map<String, NewCookie> getCookies() {
-			throw new UnsupportedOperationException();
+			return new HashMap<>();
 		}
 
 		/**
@@ -362,6 +377,14 @@ public class AuthenticationFilterTest {
 		@Override
 		public void setEntity(Object entity, Annotation[] annotations,
 				MediaType mediaType) {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @see javax.ws.rs.container.ContainerResponseContext#setEntity(java.lang.Object)
+		 */
+		@Override
+		public void setEntity(Object entity) {
 			throw new UnsupportedOperationException();
 		}
 

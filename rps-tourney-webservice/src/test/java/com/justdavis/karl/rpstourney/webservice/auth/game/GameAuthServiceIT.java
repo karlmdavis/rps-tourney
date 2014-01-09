@@ -1,39 +1,38 @@
 package com.justdavis.karl.rpstourney.webservice.auth.game;
 
+import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.jaxrs.ext.form.Form;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.justdavis.karl.rpstourney.webservice.EmbeddedServerResource;
+import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
+import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 
 /**
  * Integration tests for {@link GameAuthService}.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { SpringITConfigWithJetty.class })
+@WebAppConfiguration
 public final class GameAuthServiceIT {
-	@ClassRule
-	public static EmbeddedServerResource server = new EmbeddedServerResource();
+	@Inject
+	private EmbeddedServer server;
 
-	/**
-	 * FIXME Remove or rework once actual persistence is in place.
-	 */
-	@After
-	public void removeAccounts() {
-		AccountService.existingAccounts.clear();
-		GuestAuthService.existingLogins.clear();
-		GameAuthService.existingLogins.clear();
-	}
+	@Inject
+	private IGameLoginIndentitiesDao loginsDao;
 
 	/**
 	 * Ensures that {@link GameAuthService} creates new
@@ -51,9 +50,8 @@ public final class GameAuthServiceIT {
 		Response createResponse = client
 				.path(GameAuthService.SERVICE_PATH)
 				.path(GameAuthService.SERVICE_PATH_CREATE_LOGIN)
-				.form(new Form().set("emailAddress",
-						new InternetAddress("foo@example.com")).set("password",
-						"secret"));
+				.form(new Form().param("emailAddress", "foo@example.com")
+						.param("password", "secret"));
 
 		// Verify the create results.
 		Assert.assertNotNull(createResponse);
@@ -61,7 +59,9 @@ public final class GameAuthServiceIT {
 				createResponse.getStatus());
 		Account account = (Account) createResponse.readEntity(Account.class);
 		Assert.assertNotNull(account);
-		// TODO ensure the login was saved to the DB (once we have a DB)
+		Assert.assertEquals(1, loginsDao.getLogins().size());
+		Assert.assertEquals(new InternetAddress("foo@example.com"), loginsDao
+				.getLogins().get(0).getEmailAddress());
 
 		// Validate the login.
 		Response validateResponse = client.replacePath(null)

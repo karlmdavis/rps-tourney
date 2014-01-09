@@ -148,4 +148,20 @@ public class MockUriInfo implements UriInfo {
 	public List<Object> getMatchedResources() {
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * @see javax.ws.rs.core.UriInfo#resolve(java.net.URI)
+	 */
+	@Override
+	public URI resolve(URI uri) {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @see javax.ws.rs.core.UriInfo#relativize(java.net.URI)
+	 */
+	@Override
+	public URI relativize(URI uri) {
+		throw new UnsupportedOperationException();
+	}
 }

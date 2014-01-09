@@ -1,34 +1,32 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.justdavis.karl.rpstourney.webservice.EmbeddedServerResource;
+import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
+import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
 
 /**
  * Integration tests for {@link AccountService}.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { SpringITConfigWithJetty.class })
+@WebAppConfiguration
 public final class AccountServiceIT {
-	@ClassRule
-	public static EmbeddedServerResource server = new EmbeddedServerResource();
-
-	/**
-	 * FIXME Remove or rework once actual persistence is in place.
-	 */
-	@After
-	public void removeAccounts() {
-		AccountService.existingAccounts.clear();
-		GuestAuthService.existingLogins.clear();
-	}
+	@Inject
+	private EmbeddedServer server;
 
 	/**
 	 * Ensures that {@link AccountService#validateAuth()} returns
@@ -37,6 +35,12 @@ public final class AccountServiceIT {
 	 */
 	@Test
 	public void validateGuestLoginDenied() {
+		/*
+		 * Just a note: the AccountService will never even be run if everything
+		 * is working correctly. Instead, the AuthorizationFilter will handle
+		 * this.
+		 */
+
 		WebClient client = WebClient.create(server.getServerBaseAddress());
 
 		// Validate the login.

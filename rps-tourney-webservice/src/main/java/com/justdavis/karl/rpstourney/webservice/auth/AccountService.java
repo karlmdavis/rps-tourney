@@ -1,8 +1,6 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.security.Principal;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
@@ -14,8 +12,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 
@@ -23,7 +23,9 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
  * This JAX-RS web service allows users to manage their {@link Account}.
  */
 @Path(AccountService.SERVICE_PATH)
-public final class AccountService {
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class AccountService {
 	/**
 	 * The {@link Path} that this service will be hosted at.
 	 */
@@ -39,25 +41,29 @@ public final class AccountService {
 	 */
 	public static final String SERVICE_PATH_GET_ACCOUNT = "";
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AccountService.class);
-
 	/**
-	 * The in-memory store used to track existing {@link Account} instances.
-	 * FIXME Should be replaced with actual persistence.
+	 * The {@link SecurityContext} of the current request.
 	 */
-	public static List<Account> existingAccounts = new LinkedList<>();
-
-	private final SecurityContext securityContext;
+	private SecurityContext securityContext;
 
 	/**
-	 * Constructs a new {@link AccountService} instance.
-	 * 
+	 * This public, default, no-arg constructor is required by Spring (for
+	 * request-scoped beans).
+	 */
+	public AccountService() {
+	}
+
+	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
+	 *            the {@link AccountSecurityContext} for the request that the
 	 *            {@link AccountService} was instantiated to handle
 	 */
-	public AccountService(@Context AccountSecurityContext securityContext) {
+	@Context
+	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+		// Sanity check: null SecurityContext?
+		if (securityContext == null)
+			throw new IllegalArgumentException();
+
 		this.securityContext = securityContext;
 	}
 
@@ -104,33 +110,5 @@ public final class AccountService {
 		 * so the login is persisted between requests).
 		 */
 		return userAccount;
-	}
-
-	/**
-	 * @param authToken
-	 *            the value to match against {@link Account#getAuthToken()}
-	 * @return the {@link Account} instance with the specified
-	 *         {@link Account#getAuthToken()} value, or <code>null</code> if no
-	 *         match was found
-	 */
-	static Account getAccount(UUID authToken) {
-		// Search for the Account.
-		Account account = null;
-		for (Account existingAccount : existingAccounts)
-			if (existingAccount.getAuthToken().equals(authToken))
-				account = existingAccount;
-
-		if (authToken != null && account == null) {
-			/*
-			 * If there was an auth token, a match for it wasn't found. Either
-			 * someone's trying to hack, the Account has been deleted, or
-			 * something's gone fairly badly wrong.
-			 */
-			LOGGER.warn(
-					"Unable to find an existing account for auth token: {}",
-					authToken);
-		}
-
-		return account;
 	}
 }

@@ -2,8 +2,8 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +41,7 @@ final class MockContainerRequestContext implements ContainerRequestContext {
 	 * @see javax.ws.rs.container.ContainerRequestContext#getPropertyNames()
 	 */
 	@Override
-	public Enumeration<String> getPropertyNames() {
+	public Collection<String> getPropertyNames() {
 		throw new UnsupportedOperationException();
 	}
 

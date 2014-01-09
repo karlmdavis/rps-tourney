@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- This is the JAX-B-unmarshallable GameConfig instance that will be used 
+	by default in integration tests. See MockConfigLoader for details. -->
+<rps:gameConfig xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1"
+	xmlns:jed="http://justdavis.com/karl/jessentials/datasources">
+	<jed:hsqlCoordinates>
+		<jed:url>jdbc:hsqldb:mem:its</jed:url>
+	</jed:hsqlCoordinates>
+</rps:gameConfig>

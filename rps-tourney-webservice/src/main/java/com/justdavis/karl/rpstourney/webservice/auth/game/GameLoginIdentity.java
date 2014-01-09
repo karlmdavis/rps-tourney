@@ -1,10 +1,15 @@
 package com.justdavis.karl.rpstourney.webservice.auth.game;
 
 import javax.mail.internet.InternetAddress;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.ILoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
+import com.justdavis.karl.rpstourney.webservice.jpa.InternetAddressUserType;
 
 /**
  * <p>
@@ -18,11 +23,35 @@ import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
  * out some of the {@link Account} details, e.g. their name, though that's not
  * required.
  * </p>
+ * <p>
+ * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
+ * specified in the <code>META-INF/orm.xml</code> file.
+ * </p>
  */
+@Entity
 public final class GameLoginIdentity implements ILoginIdentity {
+	@Id
+	private long id;
+
+	@OneToOne(optional = false, cascade = { CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private final Account account;
+
+	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
 	private final InternetAddress emailAddress;
+
 	private final String passwordHash;
+
+	/**
+	 * This no-arg/default constructor is required by JPA.
+	 */
+	@SuppressWarnings("unused")
+	private GameLoginIdentity() {
+		this.id = -1;
+		this.account = null;
+		this.emailAddress = null;
+		this.passwordHash = null;
+	}
 
 	/**
 	 * Constructs a new {@link GameLoginIdentity} instance.
@@ -36,6 +65,7 @@ public final class GameLoginIdentity implements ILoginIdentity {
 	 */
 	public GameLoginIdentity(Account account, InternetAddress emailAddress,
 			String passwordHash) {
+		this.id = -1;
 		this.account = account;
 		this.emailAddress = emailAddress;
 		this.passwordHash = passwordHash;
@@ -47,6 +77,26 @@ public final class GameLoginIdentity implements ILoginIdentity {
 	@Override
 	public LoginProvider getLoginProvider() {
 		return LoginProvider.GAME;
+	}
+
+	/**
+	 * <p>
+	 * Returns the unique integer that identifies and represents this
+	 * {@link GameLoginIdentity} instance.
+	 * </p>
+	 * <p>
+	 * This value will be assigned by JPA when the {@link Entity} is persisted.
+	 * Until then, this value should not be accessed.
+	 * </p>
+	 * 
+	 * @return the unique integer that identifies and represents this
+	 *         {@link GameLoginIdentity} instance
+	 */
+	public long getId() {
+		if (id == -1)
+			throw new IllegalStateException("Field value not yet available.");
+
+		return id;
 	}
 
 	/**

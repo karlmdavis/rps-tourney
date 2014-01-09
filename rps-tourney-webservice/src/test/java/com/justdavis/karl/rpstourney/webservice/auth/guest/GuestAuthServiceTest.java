@@ -7,29 +7,19 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
+import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
  * Unit tests for {@link GuestAuthService}.
  */
 public final class GuestAuthServiceTest {
-	/**
-	 * FIXME Remove or rework once actual persistence is in place.
-	 */
-	@After
-	public void removeAccounts() {
-		AccountService.existingAccounts.clear();
-		GuestAuthService.existingLogins.clear();
-	}
-
 	/**
 	 * Ensures that {@link GuestAuthService} creates new
 	 * {@link GuestLoginIdentity}s as expected.
@@ -47,10 +37,16 @@ public final class GuestAuthServiceTest {
 				return URI.create("http://localhost/");
 			}
 		};
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
+				accountsDao);
 
 		// Create the service.
-		GuestAuthService authService = new GuestAuthService(securityContext,
-				uriInfo);
+		GuestAuthService authService = new GuestAuthService();
+		authService.setAccountSecurityContext(securityContext);
+		authService.setUriInfo(uriInfo);
+		authService.setAccountDao(accountsDao);
+		authService.setGuestLoginIdentitiesDao(loginsDao);
 
 		// Call the service.
 		Response loginResponse = authService.loginAsGuest();
@@ -63,11 +59,9 @@ public final class GuestAuthServiceTest {
 		Assert.assertNotNull(account);
 		UUID authToken = UUID.fromString(loginResponse.getCookies()
 				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(1, AccountService.existingAccounts.size());
-		Assert.assertEquals(AccountService.existingAccounts.get(0)
-				.getAuthToken(), authToken);
-		// TODO verify Account (once that's been fleshed out)
-		// TODO ensure the login was saved to the DB (once we have a DB)
+		Assert.assertEquals(1, loginsDao.logins.size());
+		Assert.assertEquals(accountsDao.accounts.get(0).getAuthTokens()
+				.iterator().next().getToken(), authToken);
 	}
 
 	/**
@@ -87,18 +81,24 @@ public final class GuestAuthServiceTest {
 				return URI.create("http://localhost/");
 			}
 		};
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
+				accountsDao);
 
 		// Create the service.
-		GuestAuthService authService = new GuestAuthService(securityContext,
-				uriInfo);
+		GuestAuthService authService = new GuestAuthService();
+		authService.setAccountSecurityContext(securityContext);
+		authService.setUriInfo(uriInfo);
+		authService.setAccountDao(accountsDao);
+		authService.setGuestLoginIdentitiesDao(loginsDao);
 
 		// Call the service once to login and create an Account.
 		authService.loginAsGuest();
 
 		// Call the service a second time logged in as the new Account.
 		securityContext = new AccountSecurityContext(
-				AccountService.existingAccounts.get(0));
-		authService = new GuestAuthService(securityContext, uriInfo);
+				accountsDao.accounts.get(0));
+		authService.setAccountSecurityContext(securityContext);
 		Response secondLoginResponse = authService.loginAsGuest();
 
 		// Verify the results

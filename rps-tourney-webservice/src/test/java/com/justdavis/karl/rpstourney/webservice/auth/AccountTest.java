@@ -1,7 +1,8 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.net.URL;
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,8 +41,7 @@ public final class AccountTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
-		UUID authToken = UUID.randomUUID();
-		Account account = new Account(authToken);
+		Account account = new Account();
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -55,14 +55,15 @@ public final class AccountTest {
 		Node accountNode = (Node) xpath.evaluate("/rps:account",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(accountNode);
-
-		// Ensure that the auth token isn't included.
-		Assert.assertNull(xpath.evaluate("/rps:account/rps:authToken",
-				domResult.getNode(), XPathConstants.NODE));
-		Assert.assertNull(xpath.evaluate("/rps:account/@authToken",
-				domResult.getNode(), XPathConstants.NODE));
-
-		// TODO test account once that class has been fleshed out
+		Node rolesNode = (Node) xpath.evaluate("/rps:account/rps:roles",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNotNull(rolesNode);
+		Node roleNode = (Node) xpath.evaluate(
+				"/rps:account/rps:roles/rps:role[1]", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertNotNull(roleNode);
+		Assert.assertEquals(SecurityRole.USERS.toString(),
+				roleNode.getTextContent());
 	}
 
 	/**
@@ -89,10 +90,7 @@ public final class AccountTest {
 
 		// Verify the results.
 		Assert.assertNotNull(parsedAccount);
-
-		// Ensure that the auth token is null (should never be included in XML).
-		Assert.assertNull(parsedAccount.getAuthToken());
-
-		// TODO test account once that class has been fleshed out
+		Assert.assertEquals(new HashSet<>(Arrays.asList(SecurityRole.USERS)),
+				parsedAccount.getRoles());
 	}
 }

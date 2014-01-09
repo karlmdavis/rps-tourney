@@ -9,4 +9,10 @@ public final class XmlNamespace {
 	 * services.
 	 */
 	public static final String RPSTOURNEY = "http://justdavis.com/karl/rpstourney/api/schema/v1";
+
+	/**
+	 * A convenience-only alias for
+	 * {@link com.justdavis.karl.misc.datasources.XmlNamespace#JE_DATASOURCES}.
+	 */
+	public static final String JE_DATASOURCES = com.justdavis.karl.misc.datasources.XmlNamespace.JE_DATASOURCES;
 }

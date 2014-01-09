@@ -1,5 +1,10 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.ILoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
@@ -10,15 +15,34 @@ import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
  * logins.
  * </p>
  * <p>
- * Each {@link GuestLoginIdentity} instance is basically just a refernce to its
+ * Each {@link GuestLoginIdentity} instance is basically just a reference to its
  * associated {@link Account}. The {@link Account}s for
  * {@link GuestLoginIdentity}s are often created automatically and are thus
  * pretty much blank, unless/until the user fleshes them out, e.g. by providing
  * their name.
  * </p>
+ * <p>
+ * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
+ * specified in the <code>META-INF/orm.xml</code> file.
+ * </p>
  */
+@Entity
 public final class GuestLoginIdentity implements ILoginIdentity {
+	@Id
+	private long id;
+
+	@OneToOne(optional = false, cascade = { CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private final Account account;
+
+	/**
+	 * This no-arg/default constructor is required by JPA.
+	 */
+	@SuppressWarnings("unused")
+	private GuestLoginIdentity() {
+		this.id = -1;
+		this.account = null;
+	}
 
 	/**
 	 * Constructs a new {@link GuestLoginIdentity} instance.
@@ -27,6 +51,7 @@ public final class GuestLoginIdentity implements ILoginIdentity {
 	 *            the value to use for {@link #getAccount()}
 	 */
 	public GuestLoginIdentity(Account account) {
+		this.id = -1;
 		this.account = account;
 	}
 
@@ -36,6 +61,26 @@ public final class GuestLoginIdentity implements ILoginIdentity {
 	@Override
 	public LoginProvider getLoginProvider() {
 		return LoginProvider.GUEST;
+	}
+
+	/**
+	 * <p>
+	 * Returns the unique integer that identifies and represents this
+	 * {@link GuestLoginIdentity} instance.
+	 * </p>
+	 * <p>
+	 * This value will be assigned by JPA when the {@link Entity} is persisted.
+	 * Until then, this value should not be accessed.
+	 * </p>
+	 * 
+	 * @return the unique integer that identifies and represents this
+	 *         {@link GuestLoginIdentity} instance
+	 */
+	public long getId() {
+		if (id == -1)
+			throw new IllegalStateException("Field value not yet available.");
+
+		return id;
 	}
 
 	/**

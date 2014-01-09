@@ -9,32 +9,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.threeten.bp.Clock;
 
 import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
  * Unit tests for {@link GameAuthService}.
  */
 public final class GameAuthServiceTest {
-	/**
-	 * FIXME Remove or rework once actual persistence is in place.
-	 */
-	@After
-	public void removeAccounts() {
-		AccountService.existingAccounts.clear();
-		GuestAuthService.existingLogins.clear();
-		GameAuthService.existingLogins.clear();
-	}
-
 	/**
 	 * Ensures that {@link GameAuthService} creates new
 	 * {@link GameLoginIdentity}s as expected.
@@ -55,10 +44,16 @@ public final class GameAuthServiceTest {
 				return URI.create("http://localhost/");
 			}
 		};
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
+				accountsDao);
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService(securityContext,
-				uriInfo);
+		GameAuthService authService = new GameAuthService();
+		authService.setAccountSecurityContext(securityContext);
+		authService.setUriInfo(uriInfo);
+		authService.setAccountDao(accountsDao);
+		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Call the service.
 		Response loginResponse = authService.createGameLogin(
@@ -72,11 +67,9 @@ public final class GameAuthServiceTest {
 		Assert.assertNotNull(account);
 		UUID authToken = UUID.fromString(loginResponse.getCookies()
 				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(1, AccountService.existingAccounts.size());
-		Assert.assertEquals(AccountService.existingAccounts.get(0)
-				.getAuthToken(), authToken);
-		// TODO verify Account (once that's been fleshed out)
-		// TODO ensure the login was saved to the DB (once we have a DB)
+		Assert.assertEquals(1, loginsDao.logins.size());
+		Assert.assertEquals(accountsDao.accounts.get(0).getAuthTokens()
+				.iterator().next().getToken(), authToken);
 	}
 
 	/**
@@ -90,11 +83,15 @@ public final class GameAuthServiceTest {
 	@Test
 	public void createLoginWithAuthToken() throws AddressException {
 		// Create a guest login (manually).
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
+				accountsDao);
 		UUID randomAuthToken = UUID.randomUUID();
-		Account account = new Account(randomAuthToken);
-		AccountService.existingAccounts.add(account);
-		GuestLoginIdentity login = new GuestLoginIdentity(account);
-		GuestAuthService.existingLogins.add(login);
+		Account account = new Account();
+		AuthToken authToken = new AuthToken(account, randomAuthToken, Clock
+				.systemUTC().instant());
+		account.getAuthTokens().add(authToken);
+		accountsDao.accounts.add(account);
 
 		// Create the mock params to pass to the service .
 		AccountSecurityContext securityContext = new AccountSecurityContext(
@@ -110,8 +107,11 @@ public final class GameAuthServiceTest {
 		};
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService(securityContext,
-				uriInfo);
+		GameAuthService authService = new GameAuthService();
+		authService.setAccountSecurityContext(securityContext);
+		authService.setUriInfo(uriInfo);
+		authService.setAccountDao(accountsDao);
+		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Create a new game login.
 		Response createResponse = authService.createGameLogin(
@@ -121,9 +121,9 @@ public final class GameAuthServiceTest {
 		Assert.assertNotNull(createResponse);
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				createResponse.getStatus());
-		UUID authToken = UUID.fromString(createResponse.getCookies()
+		UUID authTokenValue = UUID.fromString(createResponse.getCookies()
 				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(randomAuthToken, authToken);
+		Assert.assertEquals(randomAuthToken, authTokenValue);
 	}
 
 	/**
@@ -147,19 +147,28 @@ public final class GameAuthServiceTest {
 				return URI.create("http://localhost/");
 			}
 		};
+		MockAccountsDao accountsDao = new MockAccountsDao();
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
+				accountsDao);
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService(securityContext,
-				uriInfo);
+		GameAuthService authService = new GameAuthService();
+		authService.setAccountSecurityContext(securityContext);
+		authService.setUriInfo(uriInfo);
+		authService.setAccountDao(accountsDao);
+		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Create the login (manually).
 		UUID randomAuthToken = UUID.randomUUID();
-		Account account = new Account(randomAuthToken);
-		AccountService.existingAccounts.add(account);
+		Account account = new Account();
+		AuthToken authToken = new AuthToken(account, randomAuthToken, Clock
+				.systemUTC().instant());
+		account.getAuthTokens().add(authToken);
+		accountsDao.accounts.add(account);
 		GameLoginIdentity login = new GameLoginIdentity(account,
 				new InternetAddress("foo@example.com"),
 				GameAuthService.hashPassword("secret"));
-		GameAuthService.existingLogins.add(login);
+		loginsDao.logins.add(login);
 
 		// Login.
 		Response loginResponse = authService.loginWithGameAccount(
@@ -169,8 +178,8 @@ public final class GameAuthServiceTest {
 		Assert.assertNotNull(loginResponse);
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				loginResponse.getStatus());
-		UUID authToken = UUID.fromString(loginResponse.getCookies()
+		UUID authTokenValue = UUID.fromString(loginResponse.getCookies()
 				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(randomAuthToken, authToken);
+		Assert.assertEquals(randomAuthToken, authTokenValue);
 	}
 }

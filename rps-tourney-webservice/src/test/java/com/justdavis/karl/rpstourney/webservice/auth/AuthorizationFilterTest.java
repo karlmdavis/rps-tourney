@@ -2,19 +2,17 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Configurable;
-import javax.ws.rs.core.Feature;
+import javax.ws.rs.core.Configuration;
+import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Assert;
@@ -35,16 +33,16 @@ public class AuthorizationFilterTest {
 	@Test
 	public void configureForRoles() {
 		// Create the Configurable to test against.
-		MockConfigurable configurable = new MockConfigurable();
+		MockFeatureContext featureContext = new MockFeatureContext();
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
 		feature.configure(new MockResourceInfo(MockResource.class, "foo"),
-				configurable);
+				featureContext);
 
 		// Verify that the expected AuthorizationFilter was registered.
-		Assert.assertEquals(1, configurable.providers.size());
-		AuthorizationFilter filter = (AuthorizationFilter) configurable.providers
+		Assert.assertEquals(1, featureContext.providers.size());
+		AuthorizationFilter filter = (AuthorizationFilter) featureContext.providers
 				.get(0);
 		Assert.assertArrayEquals(new String[] { "bob", "frank" },
 				filter.getRolesAllowed());
@@ -57,7 +55,7 @@ public class AuthorizationFilterTest {
 	@Test
 	public void configureForOverriddenRoles() {
 		// Create the Configurable to test against.
-		MockConfigurable configurable = new MockConfigurable();
+		MockFeatureContext configurable = new MockFeatureContext();
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
@@ -79,7 +77,7 @@ public class AuthorizationFilterTest {
 	@Test
 	public void configureForPermitAll() {
 		// Create the Configurable to test against.
-		MockConfigurable configurable = new MockConfigurable();
+		MockFeatureContext configurable = new MockFeatureContext();
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
@@ -97,7 +95,7 @@ public class AuthorizationFilterTest {
 	@Test
 	public void configureForDenyAll() {
 		// Create the Configurable to test against.
-		MockConfigurable configurable = new MockConfigurable();
+		MockFeatureContext configurable = new MockFeatureContext();
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
@@ -149,7 +147,7 @@ public class AuthorizationFilterTest {
 	public void filterToAllow() throws IOException {
 		// Create the request to test against.
 		MockContainerRequestContext requestContext = new MockContainerRequestContext();
-		Account account = new Account(UUID.randomUUID(), SecurityRole.USERS);
+		Account account = new Account();
 		AccountSecurityContext securityContext = new AccountSecurityContext(
 				account);
 		requestContext.setSecurityContext(securityContext);
@@ -243,63 +241,23 @@ public class AuthorizationFilterTest {
 	/**
 	 * A mock {@link Configurable} implementation for use in tests.
 	 */
-	private static final class MockConfigurable implements Configurable {
+	private static final class MockFeatureContext implements FeatureContext {
 		private final List<Object> providers = new LinkedList<>();
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#getProperties()
+		 * @see javax.ws.rs.core.Configurable#getConfiguration()
 		 */
 		@Override
-		public Map<String, Object> getProperties() {
+		public Configuration getConfiguration() {
 			throw new UnsupportedOperationException();
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#getProperty(java.lang.String)
-		 */
-		@Override
-		public Object getProperty(String name) {
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * @see javax.ws.rs.core.Configurable#setProperties(java.util.Map)
-		 */
-		@Override
-		public Configurable setProperties(Map<String, ?> properties) {
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * @see javax.ws.rs.core.Configurable#setProperty(java.lang.String,
+		 * @see javax.ws.rs.core.Configurable#property(java.lang.String,
 		 *      java.lang.Object)
 		 */
 		@Override
-		public Configurable setProperty(String name, Object value) {
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * @see javax.ws.rs.core.Configurable#getFeatures()
-		 */
-		@Override
-		public Collection<Feature> getFeatures() {
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * @see javax.ws.rs.core.Configurable#getProviderClasses()
-		 */
-		@Override
-		public Set<Class<?>> getProviderClasses() {
-			throw new UnsupportedOperationException();
-		}
-
-		/**
-		 * @see javax.ws.rs.core.Configurable#getProviderInstances()
-		 */
-		@Override
-		public Set<Object> getProviderInstances() {
+		public FeatureContext property(String name, Object value) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -307,7 +265,7 @@ public class AuthorizationFilterTest {
 		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class)
 		 */
 		@Override
-		public Configurable register(Class<?> providerClass) {
+		public FeatureContext register(Class<?> componentClass) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -315,7 +273,7 @@ public class AuthorizationFilterTest {
 		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class, int)
 		 */
 		@Override
-		public Configurable register(Class<?> providerClass, int bindingPriority) {
+		public FeatureContext register(Class<?> componentClass, int priority) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -324,19 +282,18 @@ public class AuthorizationFilterTest {
 		 *      java.lang.Class[])
 		 */
 		@Override
-		public <T> Configurable register(Class<T> providerClass,
-				@SuppressWarnings("unchecked") Class<? super T>... contracts) {
+		public FeatureContext register(Class<?> componentClass,
+				Class<?>... contracts) {
 			throw new UnsupportedOperationException();
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class, int,
-		 *      java.lang.Class[])
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class,
+		 *      java.util.Map)
 		 */
 		@Override
-		public <T> Configurable register(Class<T> providerClass,
-				int bindingPriority,
-				@SuppressWarnings("unchecked") Class<? super T>... contracts) {
+		public FeatureContext register(Class<?> componentClass,
+				Map<Class<?>, Integer> contracts) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -344,7 +301,7 @@ public class AuthorizationFilterTest {
 		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object)
 		 */
 		@Override
-		public Configurable register(Object provider) {
+		public FeatureContext register(Object provider) {
 			this.providers.add(provider);
 			return this;
 		}
@@ -353,7 +310,7 @@ public class AuthorizationFilterTest {
 		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object, int)
 		 */
 		@Override
-		public Configurable register(Object provider, int bindingPriority) {
+		public FeatureContext register(Object component, int priority) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -362,19 +319,19 @@ public class AuthorizationFilterTest {
 		 *      java.lang.Class[])
 		 */
 		@Override
-		public <T> Configurable register(Object provider,
-				@SuppressWarnings("unchecked") Class<? super T>... contracts) {
+		public FeatureContext register(Object component, Class<?>... contracts) {
 			throw new UnsupportedOperationException();
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object, int,
-		 *      java.lang.Class[])
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object,
+		 *      java.util.Map)
 		 */
 		@Override
-		public <T> Configurable register(Object provider, int bindingPriority,
-				@SuppressWarnings("unchecked") Class<? super T>... contracts) {
+		public FeatureContext register(Object component,
+				Map<Class<?>, Integer> contracts) {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 }

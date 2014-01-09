@@ -38,6 +38,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.webapp.WebInfConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.SpringServletContainerInitializer;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -72,6 +73,7 @@ public final class EmbeddedServer {
 
 	private final int port;
 	private final boolean enableSsl;
+	private final ApplicationContext springParentContext;
 	private Server server;
 
 	/**
@@ -83,10 +85,16 @@ public final class EmbeddedServer {
 	 * @param <code>true</code> to serve HTTPS (with a randomly generated
 	 *        self-signed cert), <code>false</code> to serve HTTP (just one or
 	 *        the other)
+	 * @param springParentContext
+	 *            the value to use for
+	 *            {@link GameApplicationInitializer#SPRING_PARENT_CONTEXT}, or
+	 *            <code>null</code> to leave this unset
 	 */
-	public EmbeddedServer(int port, boolean enableSsl) {
+	public EmbeddedServer(int port, boolean enableSsl,
+			ApplicationContext springParentContext) {
 		this.port = port;
 		this.enableSsl = enableSsl;
+		this.springParentContext = springParentContext;
 	}
 
 	/**
@@ -94,7 +102,7 @@ public final class EmbeddedServer {
 	 * server; see {@link #startServer()} for that.
 	 */
 	public EmbeddedServer() {
-		this(DEFAULT_PORT, false);
+		this(DEFAULT_PORT, false, null);
 	}
 
 	/**
@@ -115,6 +123,10 @@ public final class EmbeddedServer {
 		WebAppContext webapp = new WebAppContext();
 		webapp.setContextPath("/");
 		webapp.setWar("src/main/webapp");
+		if (this.springParentContext != null)
+			webapp.setAttribute(
+					GameApplicationInitializer.SPRING_PARENT_CONTEXT,
+					springParentContext);
 		enableAnnotationConfigs(webapp);
 		this.server.setHandler(webapp);
 		/*

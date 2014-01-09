@@ -1,23 +1,34 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.justdavis.karl.rpstourney.webservice.EmbeddedServerResource;
+import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
+import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 
 /**
  * Integration tests for {@link GuestAuthService}.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { SpringITConfigWithJetty.class })
+@WebAppConfiguration
 public final class GuestAuthServiceIT {
-	@ClassRule
-	public static EmbeddedServerResource server = new EmbeddedServerResource();
+	@Inject
+	private EmbeddedServer server;
+
+	@Inject
+	private IGuestLoginIndentitiesDao loginsDao;
 
 	/**
 	 * Ensures that {@link GuestAuthService} creates new
@@ -37,6 +48,6 @@ public final class GuestAuthServiceIT {
 		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		Account account = (Account) response.readEntity(Account.class);
 		Assert.assertNotNull(account);
-		// TODO ensure the login was saved to the DB (once we have a DB)
+		Assert.assertEquals(1, loginsDao.getLogins().size());
 	}
 }

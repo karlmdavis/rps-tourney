@@ -4,23 +4,22 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import javax.annotation.Priority;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.BindingPriority;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.Configurable;
+import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**
  * <p>
@@ -34,7 +33,7 @@ import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.Acco
  * classes marked with {@link DenyAll} and/or {@link RolesAllowed} annotations.
  * </p>
  */
-@BindingPriority(BindingPriority.AUTHORIZATION)
+@Priority(Priorities.AUTHORIZATION)
 public final class AuthorizationFilter implements ContainerRequestFilter {
 	private final String[] rolesAllowed;
 
@@ -73,10 +72,9 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 		 * workaround for a bug in CXF 2.7. See AccountSecurityContextProvider
 		 * for details.
 		 */
-		// SecurityContext securityContext =
-		// requestContext.getSecurityContext();
-		SecurityContext securityContext = (SecurityContext) requestContext
-				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
+		SecurityContext securityContext = requestContext.getSecurityContext();
+		// SecurityContext securityContext = (SecurityContext) requestContext
+		// .getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
 
 		// Is the user in any of the allowed roles? If so, we're done.
 		for (String roleAllowed : rolesAllowed)
@@ -100,11 +98,10 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 
 		/**
 		 * @see javax.ws.rs.container.DynamicFeature#configure(javax.ws.rs.container.ResourceInfo,
-		 *      javax.ws.rs.core.Configurable)
+		 *      javax.ws.rs.core.FeatureContext)
 		 */
 		@Override
-		public void configure(ResourceInfo resourceInfo,
-				Configurable configurable) {
+		public void configure(ResourceInfo resourceInfo, FeatureContext context) {
 			/*
 			 * This method will be called once for every webservice method that
 			 * is registered with the JAX-RS application. The Configurable can
@@ -151,7 +148,7 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 
 			// Register the AuthFilter (if it was created).
 			if (authFilter != null) {
-				configurable.register(authFilter);
+				context.register(authFilter);
 				LOGGER.debug(
 						"An {} instance was registered for the {} JAX-RS method.",
 						AuthorizationFilter.class, webServiceMethod);

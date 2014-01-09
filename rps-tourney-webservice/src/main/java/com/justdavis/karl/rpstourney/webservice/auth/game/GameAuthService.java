@@ -1,10 +1,10 @@
 package com.justdavis.karl.rpstourney.webservice.auth.game;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.mail.internet.InternetAddress;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,13 +13,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
+import com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao;
 import com.lambdaworks.crypto.SCryptUtil;
 
 /**
@@ -27,7 +33,9 @@ import com.lambdaworks.crypto.SCryptUtil;
  * {@link #loginAsGuest(UriInfo, UUID)} for details.
  */
 @Path(GameAuthService.SERVICE_PATH)
-public final class GameAuthService {
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class GameAuthService {
 	/**
 	 * The {@link Path} that this service will be hosted at.
 	 */
@@ -72,29 +80,70 @@ public final class GameAuthService {
 	 */
 	private static final int SCRYPT_PARALLELIZATION = 1;
 
+	private AccountSecurityContext securityContext;
+	private UriInfo uriInfo;
+	private IAccountsDao accountsDao;
+	private IGameLoginIndentitiesDao loginsDao;
+
 	/**
-	 * The in-memory store used to track existing {@link GameLoginIdentity}
-	 * instances. FIXME Should be replaced with actual persistence.
+	 * This public, default, no-arg constructor is required by Spring (for
+	 * request-scoped beans).
 	 */
-	public static List<GameLoginIdentity> existingLogins = new LinkedList<>();
-
-	private final AccountSecurityContext securityContext;
-	private final UriInfo uriInfo;
+	public GameAuthService() {
+	}
 
 	/**
-	 * Constructs a new {@link GameAuthService} instance.
-	 * 
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
+	 *            the {@link AccountSecurityContext} for the request that the
 	 *            {@link GameAuthService} was instantiated to handle
+	 */
+	@Context
+	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+		// Sanity check: null AccountSecurityContext?
+		if (securityContext == null)
+			throw new IllegalArgumentException();
+
+		this.securityContext = securityContext;
+	}
+
+	/**
 	 * @param uriInfo
 	 *            the {@link UriInfo} for the request that the
 	 *            {@link GameAuthService} was instantiated to handle
 	 */
-	public GameAuthService(@Context AccountSecurityContext securityContext,
-			@Context UriInfo uriInfo) {
-		this.securityContext = securityContext;
+	@Context
+	public void setUriInfo(UriInfo uriInfo) {
+		// Sanity check: null UriInfo?
+		if (uriInfo == null)
+			throw new IllegalArgumentException();
+
 		this.uriInfo = uriInfo;
+	}
+
+	/**
+	 * @param accountsDao
+	 *            the injected {@link IAccountsDao} to use
+	 */
+	@Inject
+	public void setAccountDao(IAccountsDao accountsDao) {
+		// Sanity check: null IAccountsDao?
+		if (accountsDao == null)
+			throw new IllegalArgumentException();
+
+		this.accountsDao = accountsDao;
+	}
+
+	/**
+	 * @param loginsDao
+	 *            the injected {@link IGameLoginIndentitiesDao} to use
+	 */
+	@Inject
+	public void setGameLoginIdentitiesDao(IGameLoginIndentitiesDao loginsDao) {
+		// Sanity check: null IGameLoginIndentitiesDao?
+		if (loginsDao == null)
+			throw new IllegalArgumentException();
+
+		this.loginsDao = loginsDao;
 	}
 
 	/**
@@ -133,15 +182,21 @@ public final class GameAuthService {
 			return Response.status(Status.CONFLICT).build();
 
 		// Search for a matching login.
-		GameLoginIdentity login = matchLogin(emailAddress, password);
+		GameLoginIdentity login = loginsDao.find(emailAddress);
 
 		// If the login didn't match, return an error.
 		if (login == null)
 			return Response.status(Status.FORBIDDEN).build();
 
+		// Check the login's password.
+		if (!checkPassword(password, login))
+			return Response.status(Status.UNAUTHORIZED).build();
+
 		// Create an authentication cookie for the logged-in Account.
+		AuthToken authToken = accountsDao.selectOrCreateAuthToken(login
+				.getAccount());
 		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
-				login.getAccount(), uriInfo.getRequestUri());
+				authToken, uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
@@ -178,34 +233,35 @@ public final class GameAuthService {
 	@POST
 	@Path(SERVICE_PATH_CREATE_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	public Response createGameLogin(InternetAddress emailAddress,
-			String password) {
+	@Transactional
+	public Response createGameLogin(
+			@FormParam("emailAddress") InternetAddress emailAddress,
+			@FormParam("password") String password) {
 		// Find the existing Account, if any.
 		Account account = null;
 		if (securityContext.getUserPrincipal() != null)
 			account = securityContext.getUserPrincipal();
 
 		// Search for a conflicting login.
-		GameLoginIdentity conflictingLogin = matchLogin(emailAddress);
+		GameLoginIdentity conflictingLogin = loginsDao.find(emailAddress);
 		if (conflictingLogin != null)
 			return Response.status(Status.CONFLICT).build();
 
 		// Create the new Account (if needed).
 		if (account == null) {
-			UUID randomAuthToken = UUID.randomUUID();
-			account = new Account(randomAuthToken);
-
-			AccountService.existingAccounts.add(account);
+			account = new Account();
 		}
 
-		// Create the new login.
+		// Create and persist the new login.
 		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress,
 				hashPassword(password));
-		existingLogins.add(login);
+		loginsDao.save(login);
 
 		// Create an authentication cookie for the logged-in Account.
+		AuthToken authToken = accountsDao.selectOrCreateAuthToken(login
+				.getAccount());
 		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
-				login.getAccount(), uriInfo.getRequestUri());
+				authToken, uriInfo.getRequestUri());
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
@@ -213,45 +269,6 @@ public final class GameAuthService {
 		 */
 		return Response.ok().cookie(authCookie).entity(login.getAccount())
 				.build();
-	}
-
-	/**
-	 * @param emailAddress
-	 *            the email address to match against
-	 *            {@link GameLoginIdentity#getEmailAddress()}
-	 * @return the pre-existing {@link GameLoginIdentity} that matches the
-	 *         specified parameters, or <code>null</code> if no match was found
-	 */
-	private GameLoginIdentity matchLogin(InternetAddress emailAddress) {
-		for (GameLoginIdentity existingLogin : existingLogins) {
-			if (existingLogin.getEmailAddress().equals(emailAddress))
-				return existingLogin;
-		}
-
-		// No match found.
-		return null;
-	}
-
-	/**
-	 * @param emailAddress
-	 *            the email address to match against
-	 *            {@link GameLoginIdentity#getEmailAddress()}
-	 * @param password
-	 *            the password to hash and then match against
-	 *            {@link GameLoginIdentity#getPasswordHash()}
-	 * @return the pre-existing {@link GameLoginIdentity} that matches the
-	 *         specified parameters, or <code>null</code> if no match was found
-	 */
-	private GameLoginIdentity matchLogin(InternetAddress emailAddress,
-			String password) {
-		for (GameLoginIdentity existingLogin : existingLogins) {
-			if (existingLogin.getEmailAddress().equals(emailAddress)
-					&& checkPassword(password, existingLogin))
-				return existingLogin;
-		}
-
-		// No match found.
-		return null;
 	}
 
 	/**
