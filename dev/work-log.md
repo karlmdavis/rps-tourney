@@ -452,3 +452,8 @@ This file should never be committed along with other files; it should always be 
 * 0.55h: Switched from `orm.xml` to annotations for JPA/Hibernate.
 * 0.5h: Committed the changes for Issue #13.
 * 1.5h: Created Issue #24 and Issue #25.
+
+### 2014-01-10, Friday
+
+* 0.5h: Created the `PostgreSqlConnector` and `PostgreSqlCoordinates` classes.
+    * Done, except the `PostgreSqlConnectorTest.createDataSource()` test case still needs to be implemented, once a provisioner is available.
