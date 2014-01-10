@@ -449,4 +449,6 @@ This file should never be committed along with other files; it should always be 
 * 0.05h: Addressed the `TODO`s, `FIXME`s, etc. that needed to be cleaned up before a (first) commit.
     * I left a couple in because I want them as part of the history. They'll need to be cleaned up in a second commit.
 * 1.0h: Fixed the SQL type of `AuthToken.creationTimestamp` via the [Jadira Usertypes library](http://jadira.sourceforge.net/).
-* 0.55h: Swicthed from `orm.xml` to annotations for JPA/Hibernate.
+* 0.55h: Switched from `orm.xml` to annotations for JPA/Hibernate.
+* 0.5h: Committed the changes for Issue #13.
+* 1.5h: Created Issue #24 and Issue #25.
