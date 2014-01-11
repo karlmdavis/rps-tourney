@@ -457,3 +457,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Created the `PostgreSqlConnector` and `PostgreSqlCoordinates` classes.
     * Done, except the `PostgreSqlConnectorTest.createDataSource()` test case still needs to be implemented, once a provisioner is available.
+
+### 2014-01-11, Saturday
+
+* 1.0h: Created the `IDataSourceProvisioner` API and the `HsqlProvisioner` implementation for it.
+    * Now need to create a PostgreSQL implementation.
