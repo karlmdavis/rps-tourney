@@ -35,7 +35,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
-import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -321,11 +320,9 @@ public final class GameApplicationInitializer implements
 		 */
 		@Bean
 		public JpaVendorAdapter jpaVendorAdapter() {
-			// FIXME this needs to come from the IDataSourceConnector
 			HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
 			hibernateJpaVendorAdapter.setShowSql(false);
 			hibernateJpaVendorAdapter.setGenerateDdl(true);
-			hibernateJpaVendorAdapter.setDatabase(Database.HSQL);
 			return hibernateJpaVendorAdapter;
 		}
 
