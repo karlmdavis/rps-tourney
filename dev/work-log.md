@@ -462,3 +462,11 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: Created the `IDataSourceProvisioner` API and the `HsqlProvisioner` implementation for it.
     * Now need to create a PostgreSQL implementation.
+* 3.0h: Created the `PostgreSqlProvisioner` implementation and a bunch of the helper/util code that will actually be used by tests.
+    * Still need to point the tests at an actual PostgreSQL server and verify everything works.
+    * Unit tests are still needed for the helper/utility code, and possibly other things as well.
+* 1.5h: Got `PostgreSqlProvisionerIT` passing.
+    * Not sure why yet, but I have to pass in the DB name to be provisioned in all lower case, or I can't connect to it after it's created (though I can drop it).
+* 2.5h: Wrote tests for `DataSourceProvisionersManager` and friends, got them passing.
+    * Created a PostgreSQL account on `eddings` to get the tests passing on Jenkins, as well.
+    * Now just need to start on adding PostgreSQL support to RPS; almost all of the util code is complete.
