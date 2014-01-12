@@ -467,6 +467,12 @@ This file should never be committed along with other files; it should always be 
     * Unit tests are still needed for the helper/utility code, and possibly other things as well.
 * 1.5h: Got `PostgreSqlProvisionerIT` passing.
     * Not sure why yet, but I have to pass in the DB name to be provisioned in all lower case, or I can't connect to it after it's created (though I can drop it).
-* 2.5h: Wrote tests for `DataSourceProvisionersManager` and friends, got them passing.
+* 2.0h: Wrote tests for `DataSourceProvisionersManager` and friends, got them passing.
     * Created a PostgreSQL account on `eddings` to get the tests passing on Jenkins, as well.
     * Now just need to start on adding PostgreSQL support to RPS; almost all of the util code is complete.
+* 0.5h: Worked on converting `AccountsDaoImplIT` to use the new provisioning framework.
+
+### 2014-01-12, Sunday
+
+* 1.0h: Finished converting `AccountsDaoImplIT` to use the new provisioning framework, and added PostgreSQL tests to it.
+    * The 'try {} finally {}' code in there is kind of a disaster now. Need to come up with a way to clean it up.
