@@ -475,4 +475,9 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-12, Sunday
 
 * 1.0h: Finished converting `AccountsDaoImplIT` to use the new provisioning framework, and added PostgreSQL tests to it.
+    * Had to add nested quotes to all of the JPA table/column annotations. Otherwise, HSQL uppercases everything by default and PostgreSQL lowercases everything. Made it impossible to write tests that query for specific column metadata.
     * The 'try {} finally {}' code in there is kind of a disaster now. Need to come up with a way to clean it up.
+* 3.0h: Still trying to clean up the 'try {} finally {}' code in `AccountsDaoImplIT`. Going in circles on it.
+* 1.5h: Got `AccountsDaoImplIT` and the other DAO ITs running against PostgreSQL and cleaned up.
+    * Created `DaoTestHelper` to clean up the worst of the 'try {} finally {}' mess. It's not perfect, but it's a large improvement.
+    * Eventually, I should work on not having to drop the DBs and recreate the EMF for each test case, as this is painfully slow.
