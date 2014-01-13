@@ -55,7 +55,7 @@ The above script will install the "Eclipse IDE for Java Developers Eclipse IDE f
     $ sudo dev/eclipse-kepler-sr1-install-plugins.sh
 
 
-### Troubleshooting: JavaDoc Rendering
+#### Troubleshooting: JavaDoc Rendering
 
 References:
 
@@ -75,3 +75,44 @@ If the JavaDoc displays in Eclipse are rendering everything as plain text with t
         $ tar -xzf eclipse-java-kepler-SR1-linux-gtk-x86_64.tar.gz
         $ sudo mv eclipse/ /usr/local/eclipse/eclipse-java-kepler-SR1-linux-gtk-x86_64/
         $ sudo chmod a+W /usr/local/eclipse/eclipse-java-kepler-SR1-linux-gtk-x86_64/
+
+
+### PostgreSQL
+
+References:
+
+* [Ubuntu Wiki: PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
+
+This application makes use of a database for its persistent data store. At this time, [PostgreSQL](http://www.postgresql.org/) is the primary database used in production and development (though in-memory [HSQL](http://hsqldb.org/) databases are also used for many of the automated tests). Accordingly, a PostgreSQL database server needs to be available for use during development.
+
+If needed, a PostgreSQL server can be installed as follows:
+
+    $ sudo apt-get install postgresql
+    
+After installation, run the following command to create a user/role in PostgreSQL tied to your local Ubuntu user account:
+
+    $ sudo -u postgres createuser --superuser yourusername --pwprompt
+
+The projects' integration tests are careful not to assume that every developer will have their database servers available at the exact same URL or with the exact same accounts. Instead, [Maven's resource filtering](http://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html) is used to supply these parameters during the builds. For instance, the `jessentials-misc/src/test/resources/datasource-provisioning-targets.xml` file contains properties that are resolved by the Maven build.
+
+Each developer must edit their `~/.m2/settings.xml` file to contain the necessary properties. Here's a sample snippet:
+
+    <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+      <profiles>
+        <profile>
+          <!-- This profile sets the properties needed for integration tests that use the 
+         com.justdavis.karl.misc.datasources.provisioners API. -->
+          <id>justdavis-integration-tests</id>
+          <properties>
+            <com.justdavis.karl.datasources.provisioner.postgresql.server.url>jdbc:postgresql:postgres</com.justdavis.karl.datasources.provisioner.postgresql.server.url>
+            <com.justdavis.karl.datasources.provisioner.postgresql.server.user>karl</com.justdavis.karl.datasources.provisioner.postgresql.server.user>
+            <com.justdavis.karl.datasources.provisioner.postgresql.server.password>secretpw</com.justdavis.karl.datasources.provisioner.postgresql.server.password>
+          </properties>
+        </profile>
+      </profiles>
+      <activeProfiles>
+        <activeProfile>justdavis-integration-tests</activeProfile>
+      </activeProfiles>
+    </settings>
