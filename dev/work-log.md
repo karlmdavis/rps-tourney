@@ -481,3 +481,7 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: Got `AccountsDaoImplIT` and the other DAO ITs running against PostgreSQL and cleaned up.
     * Created `DaoTestHelper` to clean up the worst of the 'try {} finally {}' mess. It's not perfect, but it's a large improvement.
     * Eventually, I should work on not having to drop the DBs and recreate the EMF for each test case, as this is painfully slow.
+
+### 2014-01-13, Monday
+
+* 1.0h: Started work on `LiquibaseSchemaManager`.
