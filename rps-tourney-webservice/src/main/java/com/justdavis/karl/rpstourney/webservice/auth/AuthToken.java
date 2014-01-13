@@ -28,19 +28,19 @@ import org.threeten.bp.Instant;
  * </p>
  */
 @Entity
-@Table(name = "AuthTokens")
+@Table(name = "\"AuthTokens\"")
 public final class AuthToken {
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "accountId")
+	@JoinColumn(name = "\"accountId\"")
 	private final Account account;
 
 	@Id
-	@Column(name = "token", nullable = false, updatable = false)
+	@Column(name = "\"token\"", nullable = false, updatable = false)
 	private final UUID token;
 
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
-	@Column(name = "creationTimestamp", nullable = false, updatable = false)
+	@Column(name = "\"creationTimestamp\"", nullable = false, updatable = false)
 	private final Instant creationTimestamp;
 
 	/**

@@ -36,17 +36,17 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement
 @Entity
-@Table(name = "Accounts")
+@Table(name = "\"Accounts\"")
 public final class Account implements Principal {
 	@Id
-	@Column(name = "id", nullable = false, updatable = false)
+	@Column(name = "\"id\"", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@XmlElementWrapper(name = "roles")
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "AccountRoles")
+	@CollectionTable(name = "\"AccountRoles\"")
 	private final Set<SecurityRole> roles;
 
 	/**

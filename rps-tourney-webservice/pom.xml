@@ -123,6 +123,13 @@
 			<artifactId>usertype.extended</artifactId>
 			<version>3.1.0.CR10</version>
 		</dependency>
+		<dependency>
+			<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
+				Java 7 and above (the '-jdbc4' version supports Java 6 and above). -->
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1100-jdbc41</version>
+		</dependency>
 
 		<dependency>
 			<!-- Needed to replace log4j, which is used by other dependencies here 

@@ -32,16 +32,16 @@ import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
  * </p>
  */
 @Entity
-@Table(name = "GuestLoginIdentities")
+@Table(name = "\"GuestLoginIdentities\"")
 public final class GuestLoginIdentity implements ILoginIdentity {
 	@Id
-	@Column(name = "id", nullable = false, updatable = false)
+	@Column(name = "\"id\"", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "accountId")
+	@JoinColumn(name = "\"accountId\"")
 	private final Account account;
 
 	/**
