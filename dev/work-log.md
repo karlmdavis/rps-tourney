@@ -488,4 +488,9 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-01-14, Tuesday
 
-* 0.5h: Worked on `LiquibaseSchemaManager` a little bit.
+* 0.05h: Worked on `LiquibaseSchemaManager` a little bit.
+
+### 2014-01-15, Wednesday
+
+* 0.5h: Worked on `LiquibaseSchemaManager` a bit.
+    * It looks like it might be running correctly against HSQL. Need to flesh out the test some, though.
