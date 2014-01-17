@@ -494,3 +494,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Worked on `LiquibaseSchemaManager` a bit.
     * It looks like it might be running correctly against HSQL. Need to flesh out the test some, though.
+
+### 2014-01-16, Thursday
+
+* 0.25h: Worked on `LiquibaseSchemaManagerTest` a bit.
+    * Not passing. My best guess is that I need to somehow specify which changesets to run.
