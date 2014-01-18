@@ -499,3 +499,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h: Worked on `LiquibaseSchemaManagerTest` a bit.
     * Not passing. My best guess is that I need to somehow specify which changesets to run.
+
+### 2014-01-17, Friday
+
+* 1.0h: Worked on `LiquibaseSchemaManagerTest` a bit.
+    * Fixed one problem: now passing in just the changeset path, rather than an uninitialized `ChangeSet` instance.
+    * Ran into a bug around table/column name case with HSQL, though: [CORE-1721](https://liquibase.jira.com/browse/CORE-1721).
