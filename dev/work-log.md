@@ -505,3 +505,13 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: Worked on `LiquibaseSchemaManagerTest` a bit.
     * Fixed one problem: now passing in just the changeset path, rather than an uninitialized `ChangeSet` instance.
     * Ran into a bug around table/column name case with HSQL, though: [CORE-1721](https://liquibase.jira.com/browse/CORE-1721).
+
+### 2014-01-18, Saturday
+
+* 1.5h: Fixed [CORE-1721](https://liquibase.jira.com/browse/CORE-1721) and issued a pull request for it.
+* 2.5h: Worked on adding in schema provisioning to the webservice startup and tests.
+    * Had to split up the Spring configuration some, some that the DAO tests aren't initializing JPA twice.
+    * Ended up having to provision the schema via Spring bean initialization, rather than webapp context initialization (which would have been cleaner). Unfortunately, though, Spring insists on initializing the JPA EMF as part of its context creation; that can't be lazy-loaded. Since we're asking Hibernate to verify that the DB schema is correct, this fails if provisioning isn't run prior to that.
+    * Fleshed out the Liquibase changelog for the webservice.
+* 3.0h: Completed [Issue #25](https://github.com/karlmdavis/rps-tourney/issues/25).
+    * Had to hack around a number of bugs/issues in Hibernate/Liquibase around object casing and cross-platform ID columns.
