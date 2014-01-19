@@ -3,10 +3,6 @@ package com.justdavis.karl.rpstourney.webservice;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
@@ -20,7 +16,6 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.ResourceProvider;
 import org.apache.cxf.jaxrs.spring.SpringResourceFactory;
 import org.apache.cxf.transport.servlet.CXFServlet;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,15 +23,10 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.SpringServletContainerInitializer;
 import org.springframework.web.WebApplicationInitializer;
@@ -45,8 +35,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
+import com.justdavis.karl.misc.SpringConfigForJEMisc;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
-import com.justdavis.karl.misc.datasources.IDataSourceConnector;
+import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
+import com.justdavis.karl.misc.datasources.schema.LiquibaseSchemaManager;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthorizationFilter.AuthorizationFilterFeature;
@@ -55,6 +47,7 @@ import com.justdavis.karl.rpstourney.webservice.config.GameConfig;
 import com.justdavis.karl.rpstourney.webservice.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.webservice.config.XmlConfigLoader;
 import com.justdavis.karl.rpstourney.webservice.demo.HelloWorldServiceImpl;
+import com.justdavis.karl.rpstourney.webservice.jpa.SpringJpaConfig;
 
 /**
  * <p>
@@ -112,6 +105,7 @@ public final class GameApplicationInitializer implements
 		} else {
 			rootContext.register(AppSpringConfig.class);
 		}
+		rootContext.refresh();
 
 		// Manage the lifecycle of the root application context.
 		container.addListener(new ContextLoaderListener(rootContext));
@@ -156,8 +150,8 @@ public final class GameApplicationInitializer implements
 	@Configuration
 	@EnableJpaRepositories
 	@EnableTransactionManagement
-	@ComponentScan(basePackageClasses = { IDataSourceConnector.class,
-			GameApplication.class }, excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty") })
+	@ComponentScan(basePackageClasses = { GameApplication.class }, excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty") })
+	@Import({ SpringConfigForJEMisc.class, SpringJpaConfig.class })
 	public static class AppSpringConfig {
 		/**
 		 * @return Returns the {@link SpringBus} that the CXF application uses.
@@ -315,65 +309,20 @@ public final class GameApplicationInitializer implements
 		}
 
 		/**
-		 * @return the Spring {@link JpaVendorAdapter} for the application's
-		 *         database
+		 * @return the {@link IDataSourceSchemaManager} for the application to
+		 *         use
 		 */
 		@Bean
-		public JpaVendorAdapter jpaVendorAdapter() {
-			HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-			hibernateJpaVendorAdapter.setShowSql(false);
-			hibernateJpaVendorAdapter.setGenerateDdl(true);
-			return hibernateJpaVendorAdapter;
-		}
-
-		/**
-		 * @param dataSource
-		 *            the injected {@link DataSource} that the JPA
-		 *            {@link EntityManagerFactory} should be connected to
-		 * @param jpaVendorAdapter
-		 *            the injected {@link JpaVendorAdapter} for the application
-		 * @return the {@link LocalContainerEntityManagerFactoryBean} instance
-		 *         that Spring will use to inject the application's
-		 *         {@link EntityManagerFactory} and {@link EntityManager}s, when
-		 *         requested
-		 */
-		@Bean
-		public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-				DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
-			LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-			lef.setDataSource(dataSource);
-			lef.setJpaVendorAdapter(jpaVendorAdapter);
-			// lef.setPackagesToScan("hello");
-			return lef;
-		}
-
-		/**
-		 * @param entityManagerFactoryBean
-		 *            the injected
-		 *            {@link LocalContainerEntityManagerFactoryBean} that the
-		 *            {@link PlatformTransactionManager} will be associated with
-		 * @return the {@link PlatformTransactionManager} that Spring will use
-		 *         for its managed transactions
-		 */
-		@Bean
-		public PlatformTransactionManager transactionManager(
-				LocalContainerEntityManagerFactoryBean entityManagerFactoryBean) {
-			JpaTransactionManager transactionManager = new JpaTransactionManager();
-			transactionManager.setEntityManagerFactory(entityManagerFactoryBean
-					.getObject());
-			return transactionManager;
-		}
-
-		/**
-		 * @return a Spring {@link BeanPostProcessor} that enables the use of
-		 *         the JPA {@link PersistenceUnit} and
-		 *         {@link PersistenceContext} annotations for injection of
-		 *         {@link EntityManagerFactory} and {@link EntityManager}
-		 *         instances, respectively, into beans
-		 */
-		@Bean
-		public PersistenceAnnotationBeanPostProcessor persistenceAnnotationProcessor() {
-			return new PersistenceAnnotationBeanPostProcessor();
+		public IDataSourceSchemaManager schemaManager(
+				DataSourceConnectorsManager connectorsManager) {
+			/*
+			 * The
+			 * rps-tourney-webservice/src/main/resources/liquibase-change-log
+			 * .xml file contains the Liquibase schema changelog, which will be
+			 * applied at application startup via the DatabaseSchemaInitializer.
+			 */
+			return new LiquibaseSchemaManager(connectorsManager,
+					"liquibase-change-log.xml");
 		}
 	}
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+	objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+
+	<property name="type.binary" value="binary(255)" dbms="hsqldb" />
+	<property name="type.binary" value="bytea" dbms="postgresql" />
+
+	<changeSet id="1" author="karlmdavis">
+		<createTable tableName="Accounts">
+			<column name="id" type="bigint" autoIncrement="true"
+				startWith="1">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="AccountRoles">
+			<column name="accountId" type="bigint">
+				<constraints primaryKey="true" nullable="false"
+					foreignKeyName="AccountRolesToAccounts" referencedTableName="Accounts" />
+			</column>
+			<column name="role" type="varchar(50)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="AuthTokens">
+			<column name="token" type="${type.binary}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="accountId" type="bigint">
+				<constraints nullable="false" foreignKeyName="AuthTokensToAccounts"
+					referencedTableName="Accounts" />
+			</column>
+			<column name="creationTimestamp" type="timestamp">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="GameLoginIdentities">
+			<column name="id" type="bigint" autoIncrement="true"
+				startWith="1">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="accountId" type="bigint">
+				<constraints nullable="false" foreignKeyName="GameLoginIdentitiesToAccounts"
+					referencedTableName="Accounts" />
+			</column>
+			<column name="emailAddress" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="passwordHash" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="GuestLoginIdentities">
+			<column name="id" type="bigint" autoIncrement="true"
+				startWith="1">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="accountId" type="bigint">
+				<constraints nullable="false" foreignKeyName="GuestLoginIdentitiesToAccounts"
+					referencedTableName="Accounts" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2" author="karlmdavis" dbms="postgresql">
+		<!-- PostgreSQL does have a SERIAL data type that would work in lieu of 
+			explicit sequences. However, Hibernate does not seem to fully support them. -->
+		<!-- For some ridiculous reason or other, the sequence names here and in 
+			the JPA annotations must be all lower-case, or things don't work. Seems to 
+			be a bug in Hibernate. -->
+		<createSequence sequenceName="accounts_id_seq" />
+		<createSequence sequenceName="gameloginidentities_id_seq" />
+		<createSequence sequenceName="guestloginidentities_id_seq" />
+	</changeSet>
+
+</databaseChangeLog>

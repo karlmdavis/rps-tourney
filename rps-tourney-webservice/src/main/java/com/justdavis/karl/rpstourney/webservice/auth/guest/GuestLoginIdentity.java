@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
@@ -36,7 +37,8 @@ import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
 public final class GuestLoginIdentity implements ILoginIdentity {
 	@Id
 	@Column(name = "\"id\"", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "GuestLoginIdentities_id_seq")
+	@SequenceGenerator(name = "GuestLoginIdentities_id_seq", sequenceName = "guestloginidentities_id_seq")
 	private long id;
 
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,

@@ -19,7 +19,7 @@ import org.threeten.bp.Clock;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
-import com.justdavis.karl.rpstourney.webservice.SpringITConfig;
+import com.justdavis.karl.rpstourney.webservice.GameApplicationInitializer.AppSpringConfig;
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountsDaoImplIT;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
@@ -29,7 +29,7 @@ import com.justdavis.karl.rpstourney.webservice.jpa.DaoTestHelper;
  * Integration tests for {@link GuestLoginIdentitiesDaoImpl}.
  */
 @RunWith(Parameterized.class)
-@ContextConfiguration(classes = { SpringITConfig.class })
+@ContextConfiguration(classes = { AppSpringConfig.class })
 public final class GuestLoginIdentitiesDaoImplIT {
 	/**
 	 * @return the test run parameters to pass to

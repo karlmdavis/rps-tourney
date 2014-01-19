@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.justdavis.karl.rpstourney.webservice.auth.Account;
@@ -38,7 +39,8 @@ import com.justdavis.karl.rpstourney.webservice.jpa.InternetAddressUserType;
 public final class GameLoginIdentity implements ILoginIdentity {
 	@Id
 	@Column(name = "\"id\"", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "GameLoginIdentities_id_seq")
+	@SequenceGenerator(name = "GameLoginIdentities_id_seq", sequenceName = "gameloginidentities_id_seq")
 	private long id;
 
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,

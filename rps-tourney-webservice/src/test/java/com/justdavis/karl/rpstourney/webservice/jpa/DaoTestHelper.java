@@ -5,8 +5,9 @@ import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.hibernate.jpa.AvailableSettings;
 import org.junit.rules.ExternalResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
@@ -16,6 +17,7 @@ import com.justdavis.karl.misc.datasources.provisioners.DataSourceProvisionersMa
 import com.justdavis.karl.misc.datasources.provisioners.DataSourceProvisionersManager.ProvisioningResult;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningTargetsProvider;
+import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 
 /**
  * <p>
@@ -29,6 +31,9 @@ import com.justdavis.karl.misc.datasources.provisioners.IProvisioningTargetsProv
  */
 public final class DaoTestHelper extends ExternalResource implements
 		TestExecutionListener {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DaoTestHelper.class);
+
 	private final IProvisioningRequest provisioningRequest;
 	private ApplicationContext springAppContext;
 	private DataSourceProvisionersManager provisionersManager;
@@ -95,14 +100,32 @@ public final class DaoTestHelper extends ExternalResource implements
 		this.provisioningResult = provisionersManager.provision(
 				targetsProvider, provisioningRequest);
 
-		// Create the EMF to use for the test.
-		DataSourceConnectorsManager connectorsManager = springAppContext
-				.getBean(DataSourceConnectorsManager.class);
-		Map<String, Object> jpaCoords = connectorsManager
-				.convertToJpaProperties(this.provisioningResult.getCoords());
-		jpaCoords.put(AvailableSettings.SCHEMA_GEN_DATABASE_ACTION, "create");
-		this.entityManagerFactory = Persistence.createEntityManagerFactory(
-				"com.justdavis.karl.rpstourney", jpaCoords);
+		try {
+			// Create the data source repository's schema.
+			IDataSourceSchemaManager schemaManager = springAppContext
+					.getBean(IDataSourceSchemaManager.class);
+			schemaManager.createOrUpgradeSchema(this.provisioningResult
+					.getCoords());
+
+			// Create the EMF to use for the test.
+			DataSourceConnectorsManager connectorsManager = springAppContext
+					.getBean(DataSourceConnectorsManager.class);
+			Map<String, Object> jpaCoords = connectorsManager
+					.convertToJpaProperties(this.provisioningResult.getCoords());
+			this.entityManagerFactory = Persistence.createEntityManagerFactory(
+					"com.justdavis.karl.rpstourney", jpaCoords);
+		} catch (Throwable t) {
+			/*
+			 * If anything in the try block blows up, the after() method won't
+			 * run, and the data source repository won't be deleted, which will
+			 * cause all of the next test cases to fail. So, if we catch any
+			 * exceptions here, we delete the DB, and then wrap-re-throw the
+			 * error.
+			 */
+			deleteProvisionedDataSourceRepository();
+
+			throw new IllegalStateException(t);
+		}
 	}
 
 	/**
@@ -118,8 +141,30 @@ public final class DaoTestHelper extends ExternalResource implements
 			this.entityManagerFactory.close();
 
 		// Delete the data source repository used for the test.
-		if (this.provisionersManager != null && this.provisioningResult != null)
+		deleteProvisionedDataSourceRepository();
+	}
+
+	/**
+	 * Deletes the data source repository that was provisioned and is tracked in
+	 * {@link #provisioningResult} (if any).
+	 */
+	private void deleteProvisionedDataSourceRepository() {
+		if (this.provisionersManager == null || this.provisioningResult == null)
+			return;
+
+		try {
 			this.provisionersManager.delete(provisioningResult);
+		} catch (Throwable t) {
+			/*
+			 * The data source repository delete will often fail if something in
+			 * the test has leaked a connection, as most DB servers will refuse
+			 * to delete a DB with active connections. We don't want the
+			 * "unable to delete" exception to obscure any test failures,
+			 * though, so we'll just log the exception and let this method
+			 * return normally.
+			 */
+			LOGGER.warn("Unable to delete data source repository.", t);
+		}
 	}
 
 	/**

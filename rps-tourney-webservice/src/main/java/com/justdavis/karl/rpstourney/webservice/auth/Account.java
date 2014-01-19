@@ -10,11 +10,15 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -40,13 +44,16 @@ import javax.xml.bind.annotation.XmlTransient;
 public final class Account implements Principal {
 	@Id
 	@Column(name = "\"id\"", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Accounts_id_seq")
+	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "accounts_id_seq")
 	private long id;
 
 	@XmlElementWrapper(name = "roles")
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "\"AccountRoles\"")
+	@CollectionTable(name = "\"AccountRoles\"", joinColumns = @JoinColumn(name = "\"accountId\""))
+	@Column(name = "\"role\"")
+	@Enumerated(EnumType.STRING)
 	private final Set<SecurityRole> roles;
 
 	/**

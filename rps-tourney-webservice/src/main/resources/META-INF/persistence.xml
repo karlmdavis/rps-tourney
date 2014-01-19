@@ -5,6 +5,7 @@
 	<persistence-unit name="com.justdavis.karl.rpstourney">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<!-- The other Hibernate properties are all supplied at runtime when calling 
 				Persistence.createEntityManagerFactory(...). This allows the DB to be configured 
 				elsewhere, rather than in this file that will be built into the app package. -->
