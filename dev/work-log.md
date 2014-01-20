@@ -515,3 +515,7 @@ This file should never be committed along with other files; it should always be 
     * Fleshed out the Liquibase changelog for the webservice.
 * 3.0h: Completed [Issue #25](https://github.com/karlmdavis/rps-tourney/issues/25).
     * Had to hack around a number of bugs/issues in Hibernate/Liquibase around object casing and cross-platform ID columns.
+
+### 2014-01-19, Sunday
+
+* 0.75h: Started reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.3.
