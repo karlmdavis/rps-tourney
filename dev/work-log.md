@@ -523,3 +523,7 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-20, Monday
 
 * 0.5h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.3.3.
+
+### 2014-01-21, Tuesday
+
+* 0.5h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.3.4.
