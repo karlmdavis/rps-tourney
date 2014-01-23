@@ -527,3 +527,8 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-21, Tuesday
 
 * 0.5h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.3.4.
+
+### 2014-01-22, Wednesday
+
+* 0.25h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.5.2.
+    * Also skimmed the [AngularJS](http://angularjs.org/) site's front page a bit, just to get a feel for it.
