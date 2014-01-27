@@ -544,4 +544,8 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-25, Saturday
 
 * 0.25h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.12.
- 0.25h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.13.
+* 0.25h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.16.
+
+### 2014-01-26, Sunday
+
+* 0.05h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.16.2.
