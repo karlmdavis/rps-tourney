@@ -549,3 +549,8 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-26, Sunday
 
 * 0.05h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Made it up to section 16.16.2.
+
+### 2014-01-27, Monday
+
+* 0.5h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Still in section 16.16.2.
+    * Created a stub project. Doesn't build, as I still need to work out the WAR dependency issue.
