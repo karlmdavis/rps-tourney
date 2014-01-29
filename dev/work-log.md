@@ -554,3 +554,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: Reading through the [Spring Web MVC framework](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) guide. Still in section 16.16.2.
     * Created a stub project. Doesn't build, as I still need to work out the WAR dependency issue.
+
+### 2014-01-28, Tuesday
+
+* 0.25h: Played around a little bit with the JAX-RS `Client` API.
