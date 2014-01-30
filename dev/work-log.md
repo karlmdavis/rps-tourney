@@ -558,3 +558,9 @@ This file should never be committed along with other files; it should always be 
 ### 2014-01-28, Tuesday
 
 * 0.25h: Played around a little bit with the JAX-RS `Client` API.
+
+### 2014-01-29, Wednesday
+
+* 0.10h: Read up some more on the `Client` API.
+    * Any resources passed in (e.g. service interfaces) are just relative to the parent `Client` target.
+    * `Client` instances may be expensive to create and dispose. Not sure how best to account for that in the webapp design yet.
