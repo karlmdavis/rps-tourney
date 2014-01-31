@@ -564,3 +564,9 @@ This file should never be committed along with other files; it should always be 
 * 0.10h: Read up some more on the `Client` API.
     * Any resources passed in (e.g. service interfaces) are just relative to the parent `Client` target.
     * `Client` instances may be expensive to create and dispose. Not sure how best to account for that in the webapp design yet.
+
+### 2014-01-30, Thursday
+
+* 0.25h: Created the `rps-tourney-service-api` project stub.
+    * Will need to interface-ify the web service project's resources and pull the interfaces into this new project.
+    * Given a future Android project, it probably makes sense to also create an `rps-tourney-service-client` project and put the `Client` code in there. This assumes, though, that there's a JAX-RS 2.0 implementation for Android. 
