@@ -570,3 +570,11 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: Created the `rps-tourney-service-api` project stub.
     * Will need to interface-ify the web service project's resources and pull the interfaces into this new project.
     * Given a future Android project, it probably makes sense to also create an `rps-tourney-service-client` project and put the `Client` code in there. This assumes, though, that there's a JAX-RS 2.0 implementation for Android. 
+
+### 2014-01-31, Friday
+
+(didn't work on this; traveling from Chapel Hill to Fort Meade)
+
+### 2014-02-01, Saturday
+
+* 0.5h: Started pulling out interfaces to drop into `rps-tourney-service-api`.
