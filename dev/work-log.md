@@ -578,3 +578,10 @@ This file should never be committed along with other files; it should always be 
 ### 2014-02-01, Saturday
 
 * 0.5h: Started pulling out interfaces to drop into `rps-tourney-service-api`.
+
+### 2014-02-02, Sunday
+
+* 2.0h: Finished pulling out interfaces into `rps-tourney-service-api` and got the build working again.
+    * Next step: Fix up the interfaces that return `Request` instances to return legit entities instead. Mostly, I think this is the login-related methods.
+        * Probably want to use request attributes and a filter to set the outgoing cookies.
+    * Also need to fix up the references to `AuthTokenCookieHelper` and the `-webapp` projects's `web.xml` reference to the entry point.
