@@ -585,3 +585,9 @@ This file should never be committed along with other files; it should always be 
     * Next step: Fix up the interfaces that return `Request` instances to return legit entities instead. Mostly, I think this is the login-related methods.
         * Probably want to use request attributes and a filter to set the outgoing cookies.
     * Also need to fix up the references to `AuthTokenCookieHelper` and the `-webapp` projects's `web.xml` reference to the entry point.
+    * Also need to rename all of the `*Service*` classes to match their new interfaces.
+
+### 2014-02-03, Monday
+
+* 2.25h: Worked on fixing the login methods to not return `Response` instances.
+    * Think I'm mostly done, but the `AuthenticationFilter` isn't quite finished and at least some of the ITs are failing.
