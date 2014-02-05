@@ -591,3 +591,9 @@ This file should never be committed along with other files; it should always be 
 
 * 2.25h: Worked on fixing the login methods to not return `Response` instances.
     * Think I'm mostly done, but the `AuthenticationFilter` isn't quite finished and at least some of the ITs are failing.
+
+### 2014-02-04, Tuesday
+
+* 0.5h: Worked on fixing the login methods to not return `Response` instances.
+    * Fixed all of the tests.
+    * Think I'm mostly done with this, but the `AuthenticationFilter` needs comments still.
