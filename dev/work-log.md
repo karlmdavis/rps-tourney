@@ -582,7 +582,7 @@ This file should never be committed along with other files; it should always be 
 ### 2014-02-02, Sunday
 
 * 2.0h: Finished pulling out interfaces into `rps-tourney-service-api` and got the build working again.
-    * Next step: Fix up the interfaces that return `Request` instances to return legit entities instead. Mostly, I think this is the login-related methods.
+    * Next step: Fix up the interfaces that return `Response` instances to return legit entities instead. Mostly, I think this is the login-related methods.
         * Probably want to use request attributes and a filter to set the outgoing cookies.
     * Also need to fix up the references to `AuthTokenCookieHelper` and the `-webapp` projects's `web.xml` reference to the entry point.
     * Also need to rename all of the `*Service*` classes to match their new interfaces.
@@ -597,3 +597,9 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: Worked on fixing the login methods to not return `Response` instances.
     * Fixed all of the tests.
     * Think I'm mostly done with this, but the `AuthenticationFilter` needs comments still.
+
+### 2014-03-03, Monday
+
+* Note: Did not work on project for last month, due to very busy work schedule.
+* 0.25h: Reviewed commit and work logs to refresh my memory, and then added missing Javadoc comments to `AuthenticationFilter`.
+* 0.5h: Comitted the changes and then refactored the project, class, and package names for consistency.
