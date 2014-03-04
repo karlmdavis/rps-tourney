@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.springframework.stereotype.Component;
 
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+
 /**
  * The default {@link IGuestLoginIndentitiesDao} implementation.
  */
@@ -38,7 +40,7 @@ public class GuestLoginIdentitiesDaoImpl implements IGuestLoginIndentitiesDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity)
 	 */
 	@Override
 	public void save(GuestLoginIdentity login) {

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+
 /**
  * A DAO for {@link GameLoginIdentity} JPA entities.
  */

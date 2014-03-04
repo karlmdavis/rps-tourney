@@ -2,6 +2,8 @@ package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
 import java.util.List;
 
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+
 /**
  * A DAO for {@link GuestLoginIdentity} JPA entities.
  */

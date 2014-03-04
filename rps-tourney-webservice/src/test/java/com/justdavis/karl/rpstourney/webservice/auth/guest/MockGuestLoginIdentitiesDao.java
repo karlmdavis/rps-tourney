@@ -3,6 +3,7 @@ package com.justdavis.karl.rpstourney.webservice.auth.guest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
@@ -25,7 +26,7 @@ public final class MockGuestLoginIdentitiesDao implements
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity)
 	 */
 	@Override
 	public void save(GuestLoginIdentity login) {

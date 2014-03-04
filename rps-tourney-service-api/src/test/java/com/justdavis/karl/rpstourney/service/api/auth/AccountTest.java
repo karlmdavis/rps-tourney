@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice.auth;
+package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -19,7 +19,9 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
-import com.justdavis.karl.rpstourney.webservice.XmlNamespace;
+import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 
 /**
  * Unit tests for {@link Account}.

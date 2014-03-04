@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import org.threeten.bp.Clock;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken_;
 
 /**
  * The default {@link IAccountsDao} implementation.
@@ -47,7 +50,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.webservice.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
 	public void save(Account account) {
@@ -112,7 +115,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#selectOrCreateAuthToken(com.justdavis.karl.rpstourney.webservice.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#selectOrCreateAuthToken(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
 	public AuthToken selectOrCreateAuthToken(Account account) {

@@ -13,9 +13,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
 
 /**
  * Integration tests for {@link GuestAuthService}.
@@ -39,7 +41,7 @@ public final class GuestAuthServiceIT {
 		WebClient client = WebClient.create(server.getServerBaseAddress());
 
 		client.accept(MediaType.TEXT_XML);
-		client.path(GuestAuthService.SERVICE_PATH);
+		client.path(IGuestAuthResource.SERVICE_PATH);
 		client.post(null);
 		Response response = client.getResponse();
 

@@ -5,8 +5,9 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao;
 
 /**
@@ -29,7 +30,7 @@ public final class MockGameLoginIdentitiesDao implements
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.guest.IGuestLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity)
 	 */
 	@Override
 	public void save(GameLoginIdentity login) {

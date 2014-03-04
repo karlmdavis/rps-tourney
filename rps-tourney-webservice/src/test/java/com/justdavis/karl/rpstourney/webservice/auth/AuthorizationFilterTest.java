@@ -18,6 +18,8 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.webservice.auth.AuthorizationFilter.AuthorizationFilterFeature;
 

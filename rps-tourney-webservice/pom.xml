@@ -22,34 +22,14 @@
 		<!-- Java 1.7 is required by the Eclipse JAX-RS plugin. -->
 		<javaSourceVersion>1.7</javaSourceVersion>
 
-		<!-- The version of the Spring Framework artifacts to use. -->
-		<spring.version>4.0.0.RELEASE</spring.version>
-
 		<!-- The version of the Apache CXF artifacts to use. -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<!-- This repo is used to grab Hibernate and related artifacts. While 
-				Maven Central has many older releases, for some reason the latest artifacts 
-				don't appear to be syncing there. -->
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.justdavis.karl.rpstourney</groupId>
-			<artifactId>rps-tourney-api</artifactId>
+			<artifactId>rps-tourney-service-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -66,13 +46,6 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
-				@PermitAll, etc. -->
-			<groupId>javax.annotation</groupId>
-			<artifactId>jsr250-api</artifactId>
-			<version>1.0</version>
 		</dependency>
 
 		<dependency>
@@ -99,7 +72,7 @@
 				used for building and interacting with the application's SQL database. -->
 			<groupId>.org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.0.CR1</version>
+			<version>${hibernate.version}</version>
 			<exclusions>
 				<exclusion>
 					<!-- These interfaces, etc. are now included in the JRE. -->
@@ -107,14 +80,6 @@
 					<groupId>xml-apis</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<!-- The Hibernate JPA Model Generator, which will produce MetaModel classes 
-				for JPA entities. This happens happens automagically via javac's annotation 
-				processor. -->
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>4.3.0.CR1</version>
 		</dependency>
 		<dependency>
 			<!-- Provides the Hibernate mappings required to persist the org.threetenbp:threetenbp 
@@ -217,12 +182,6 @@
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
 					</configuration>
-				</plugin>
-				<plugin>
-					<!-- Need to lock down a verion to make the enforcer happy. -->
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.4</version>
 				</plugin>
 				<plugin>
 					<!-- For some mysterious reason, I get SocketExceptions if I run the 

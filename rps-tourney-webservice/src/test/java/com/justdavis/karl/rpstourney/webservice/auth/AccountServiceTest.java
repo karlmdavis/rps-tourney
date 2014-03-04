@@ -3,6 +3,8 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+
 /**
  * Unit tests for {@link AccountService}.
  */

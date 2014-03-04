@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice;
+package com.justdavis.karl.rpstourney.service.api;
 
 /**
  * Just contains the {@link #RPSTOURNEY} constant.

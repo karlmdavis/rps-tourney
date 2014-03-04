@@ -11,6 +11,9 @@ import org.apache.cxf.jaxrs.impl.PropertyHolderFactory;
 import org.apache.cxf.jaxrs.impl.PropertyHolderFactory.PropertyHolder;
 import org.apache.cxf.message.Message;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
+
 /**
  * This {@link SecurityContext} implementation uses {@link Account}s for
  * {@link #getUserPrincipal()} and {@link #isUserInRole(String)}.

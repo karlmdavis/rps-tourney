@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice.jpa;
+package com.justdavis.karl.rpstourney.service.api.hibernate;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -38,7 +38,7 @@ public class InternetAddressUserType implements UserType {
 	 * The same as {@code InternetAddressUserType.class.getName()}, but a
 	 * constant expression that can be referenced in annotations.
 	 */
-	public static final String TYPE_NAME = "com.justdavis.karl.rpstourney.webservice.jpa.InternetAddressUserType";
+	public static final String TYPE_NAME = "com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserType";
 
 	/**
 	 * @see org.hibernate.usertype.UserType#sqlTypes()

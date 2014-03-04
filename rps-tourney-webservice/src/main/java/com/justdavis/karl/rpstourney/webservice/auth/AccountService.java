@@ -1,16 +1,10 @@
 package com.justdavis.karl.rpstourney.webservice.auth;
 
 import java.security.Principal;
-import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -18,29 +12,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 
 /**
- * This JAX-RS web service allows users to manage their {@link Account}.
+ * The JAX-RS server-side implementation of {@link IAccountsResource}.
  */
-@Path(AccountService.SERVICE_PATH)
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class AccountService {
-	/**
-	 * The {@link Path} that this service will be hosted at.
-	 */
-	public static final String SERVICE_PATH = "/account/";
-
-	/**
-	 * The {@link Path} for {@link #validateAuth(UriInfo, UUID)}.
-	 */
-	public static final String SERVICE_PATH_VALIDATE = "/validate/";
-
-	/**
-	 * The {@link Path} for {@link #getAccount(UriInfo, UUID)}.
-	 */
-	public static final String SERVICE_PATH_GET_ACCOUNT = "";
-
+public class AccountService implements IAccountsResource {
 	/**
 	 * The {@link SecurityContext} of the current request.
 	 */
@@ -68,15 +49,9 @@ public class AccountService {
 	}
 
 	/**
-	 * Allows users to validate that their existing logins (as represented by
-	 * the <code>{@value AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN}</code>
-	 * cookie) are valid.
-	 * 
-	 * @return the user's/client's {@link Account}
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#validateAuth()
 	 */
-	@GET
-	@Path(SERVICE_PATH_VALIDATE)
-	@Produces(MediaType.TEXT_XML)
+	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	public Account validateAuth() {
 		// Just pass it through to getAccount().
@@ -84,13 +59,9 @@ public class AccountService {
 	}
 
 	/**
-	 * Returns the {@link Account} for the requesting user/client.
-	 * 
-	 * @return the user's/client's {@link Account}
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getAccount()
 	 */
-	@GET
-	@Path(SERVICE_PATH_GET_ACCOUNT)
-	@Produces(MediaType.TEXT_XML)
+	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	public Account getAccount() {
 		/*

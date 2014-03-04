@@ -3,6 +3,9 @@ package com.justdavis.karl.rpstourney.webservice.auth;
 import java.util.List;
 import java.util.UUID;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+
 /**
  * A DAO for {@link Account} and {@link AuthToken} JPA entities.
  */

@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice.auth.game;
+package com.justdavis.karl.rpstourney.service.api.auth.game;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -6,7 +6,8 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 
 /**
  * Unit tests for {@link GameLoginIdentity}.

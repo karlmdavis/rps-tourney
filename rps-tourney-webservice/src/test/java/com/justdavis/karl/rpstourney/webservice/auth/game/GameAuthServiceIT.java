@@ -15,11 +15,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
-import com.justdavis.karl.rpstourney.webservice.auth.AccountService;
 
 /**
  * Integration tests for {@link GameAuthService}.
@@ -48,8 +50,8 @@ public final class GameAuthServiceIT {
 
 		// Create the login and account.
 		Response createResponse = client
-				.path(GameAuthService.SERVICE_PATH)
-				.path(GameAuthService.SERVICE_PATH_CREATE_LOGIN)
+				.path(IGameAuthResource.SERVICE_PATH)
+				.path(IGameAuthResource.SERVICE_PATH_CREATE_LOGIN)
 				.form(new Form().param("emailAddress", "foo@example.com")
 						.param("password", "secret"));
 
@@ -65,8 +67,8 @@ public final class GameAuthServiceIT {
 
 		// Validate the login.
 		Response validateResponse = client.replacePath(null)
-				.path(AccountService.SERVICE_PATH)
-				.path(AccountService.SERVICE_PATH_VALIDATE).get();
+				.path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_VALIDATE).get();
 
 		// Verify the validate results.
 		Assert.assertEquals(Status.OK.getStatusCode(),

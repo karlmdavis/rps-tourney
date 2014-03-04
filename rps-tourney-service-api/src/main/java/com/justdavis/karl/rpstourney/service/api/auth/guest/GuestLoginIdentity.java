@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice.auth.guest;
+package com.justdavis.karl.rpstourney.service.api.auth.guest;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,9 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
-import com.justdavis.karl.rpstourney.webservice.auth.ILoginIdentity;
-import com.justdavis.karl.rpstourney.webservice.auth.LoginProvider;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 
 /**
  * <p>

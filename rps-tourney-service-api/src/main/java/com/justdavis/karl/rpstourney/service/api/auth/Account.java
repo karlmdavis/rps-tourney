@@ -1,4 +1,4 @@
-package com.justdavis.karl.rpstourney.webservice.auth;
+package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.security.Principal;
 import java.util.HashSet;

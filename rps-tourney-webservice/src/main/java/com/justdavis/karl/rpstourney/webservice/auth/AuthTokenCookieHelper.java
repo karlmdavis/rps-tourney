@@ -5,6 +5,9 @@ import java.net.URI;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+
 /**
  * <p>
  * Contains utility methods for working with this application's authentication

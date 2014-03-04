@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import org.threeten.bp.Clock;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+
 /**
  * A mock {@link IAccountsDao} implementation for use in tests. Stores
  * {@link Account} instances in-memory.
@@ -14,7 +17,7 @@ public final class MockAccountsDao implements IAccountsDao {
 	public final List<Account> accounts = new ArrayList<>();
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.webservice.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
 	public void save(Account account) {
@@ -44,7 +47,7 @@ public final class MockAccountsDao implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#selectOrCreateAuthToken(com.justdavis.karl.rpstourney.webservice.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao#selectOrCreateAuthToken(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
 	public AuthToken selectOrCreateAuthToken(Account account) {

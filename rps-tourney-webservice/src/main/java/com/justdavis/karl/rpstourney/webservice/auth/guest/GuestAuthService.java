@@ -1,17 +1,10 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
-import java.util.UUID;
-
 import javax.inject.Inject;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -19,28 +12,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
-import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
+import com.justdavis.karl.rpstourney.webservice.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao;
-import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
 
 /**
- * This JAX-RS web service allows users to login as a guest. See
- * {@link #loginAsGuest(UriInfo, UUID)} for details.
  */
-@Path(GuestAuthService.SERVICE_PATH)
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class GuestAuthService {
-	/**
-	 * The {@link Path} that this service will be hosted at.
-	 */
-	public static final String SERVICE_PATH = "/auth/guest/";
-
+public class GuestAuthService implements IGuestAuthResource {
+	private HttpServletRequest httpRequest;
 	private AccountSecurityContext securityContext;
-	private UriInfo uriInfo;
 	private IAccountsDao accountsDao;
 	private IGuestLoginIndentitiesDao loginsDao;
 
@@ -52,9 +38,23 @@ public class GuestAuthService {
 	}
 
 	/**
+	 * @param httpRequest
+	 *            the {@link HttpServletRequest} that the
+	 *            {@link GuestAuthService} was instantiated to handle
+	 */
+	@Context
+	public void setHttpServletRequest(HttpServletRequest httpRequest) {
+		// Sanity check: null HttpServletRequest?
+		if (httpRequest == null)
+			throw new IllegalArgumentException();
+
+		this.httpRequest = httpRequest;
+	}
+
+	/**
 	 * @param securityContext
 	 *            the {@link AccountSecurityContext} for the request that the
-	 *            {@link GameAuthService} was instantiated to handle
+	 *            {@link GuestAuthService} was instantiated to handle
 	 */
 	@Context
 	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
@@ -66,25 +66,11 @@ public class GuestAuthService {
 	}
 
 	/**
-	 * @param uriInfo
-	 *            the {@link UriInfo} for the request that the
-	 *            {@link GameAuthService} was instantiated to handle
-	 */
-	@Context
-	public void setUriInfo(UriInfo uriInfo) {
-		// Sanity check: null UriInfo?
-		if (uriInfo == null)
-			throw new IllegalArgumentException();
-
-		this.uriInfo = uriInfo;
-	}
-
-	/**
 	 * @param accountsDao
 	 *            the injected {@link IAccountsDao} to use
 	 */
 	@Inject
-	public void setAccountDao(IAccountsDao accountsDao) {
+	public void setAccountsDao(IAccountsDao accountsDao) {
 		// Sanity check: null IAccountsDao?
 		if (accountsDao == null)
 			throw new IllegalArgumentException();
@@ -106,43 +92,36 @@ public class GuestAuthService {
 	}
 
 	/**
-	 * Allows clients to login as a guest. This guest login will be persistent
-	 * and will have a "blank" {@link Account} created for it. If the
-	 * user/client calling this method is already logged in, this method will
-	 * return an error, rather than overwriting the existing login (users must
-	 * manually log out, first).
-	 * 
-	 * @return a {@link Response} containing the new {@link Account} instance,
-	 *         along with a {@link #COOKIE_NAME_AUTH_TOKEN} cookie containing
-	 *         {@link Account#getAuthToken()}
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource#loginAsGuest()
 	 */
-	@POST
-	@Produces(MediaType.TEXT_XML)
+	@Override
 	@Transactional
-	public Response loginAsGuest() {
+	public Account loginAsGuest() {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
 		 * users/clients want to log out, they must do so explicitly.
 		 */
 		if (securityContext.getUserPrincipal() != null)
-			return Response.status(Status.CONFLICT).build();
+			throw new WebApplicationException("User already logged in.",
+					Status.CONFLICT);
 
-		// Create the new login.
+		// Create the new login and auth token.
 		GuestLoginIdentity login = createLogin();
-
-		// Create an authentication cookie for the new login.
-		AuthToken authToken = accountsDao.selectOrCreateAuthToken(login
+		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login
 				.getAccount());
-		NewCookie authCookie = AuthTokenCookieHelper.createAuthTokenCookie(
-				authToken, uriInfo.getRequestUri());
+
+		/*
+		 * Store the new login's auth token in the HTTP request, so the response
+		 * AuthenticationFilter can record it in a cookie.
+		 */
+		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY,
+				authTokenForLogin);
 
 		/*
 		 * Return a response with the new account that's associated with the
-		 * login, and the auth token (as a cookie, so the login is persisted
-		 * between requests).
+		 * login.
 		 */
-		return Response.ok().cookie(authCookie).entity(login.getAccount())
-				.build();
+		return login.getAccount();
 	}
 
 	/**

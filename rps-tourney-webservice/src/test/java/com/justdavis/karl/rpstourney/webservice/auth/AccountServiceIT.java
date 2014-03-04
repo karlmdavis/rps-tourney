@@ -13,6 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
@@ -47,8 +50,8 @@ public final class AccountServiceIT {
 		Response validateResponse = client
 				.replacePath(null)
 				.accept(MediaType.TEXT_XML)
-				.path(AccountService.SERVICE_PATH
-						+ AccountService.SERVICE_PATH_VALIDATE).get();
+				.path(IAccountsResource.SERVICE_PATH
+						+ IAccountsResource.SERVICE_PATH_VALIDATE).get();
 
 		// Verify the results
 		Assert.assertEquals(Status.UNAUTHORIZED.getStatusCode(),
@@ -67,7 +70,7 @@ public final class AccountServiceIT {
 
 		// Login as guest.
 		Response loginResponse = client.accept(MediaType.TEXT_XML)
-				.path(GuestAuthService.SERVICE_PATH).post(null);
+				.path(IGuestAuthResource.SERVICE_PATH).post(null);
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				loginResponse.getStatus());
 
@@ -75,8 +78,8 @@ public final class AccountServiceIT {
 		Response validateResponse = client
 				.replacePath(null)
 				.accept(MediaType.TEXT_XML)
-				.path(AccountService.SERVICE_PATH
-						+ AccountService.SERVICE_PATH_VALIDATE).get();
+				.path(IAccountsResource.SERVICE_PATH
+						+ IAccountsResource.SERVICE_PATH_VALIDATE).get();
 		Assert.assertEquals(Status.OK.getStatusCode(),
 				validateResponse.getStatus());
 

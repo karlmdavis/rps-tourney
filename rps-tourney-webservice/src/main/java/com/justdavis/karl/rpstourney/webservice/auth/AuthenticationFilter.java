@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -21,6 +22,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**
@@ -47,6 +50,17 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * @see SecurityContext#getAuthenticationScheme()
 	 */
 	public static String AUTH_SCHEME = "GameAuth";
+
+	/**
+	 * The {@link HttpServletRequest#getAttribute(String)} key that should be
+	 * used to signal/record successful logon events. If the value of this
+	 * attribute is a valid {@link AuthToken} instance, the
+	 * {@link AuthenticationFilter} will set a cookie on outgoing responses
+	 * that, if returned, will be used to authenticate that user/account on
+	 * future requests.
+	 */
+	public static final String LOGIN_PROPERTY = AuthenticationFilter.class
+			.getName() + ".login";
 
 	private IAccountsDao accountsDao;
 
@@ -125,56 +139,136 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	@Override
 	public void filter(ContainerRequestContext requestContext,
 			ContainerResponseContext responseContext) throws IOException {
-		// Pull the AccountSecurityContext for the request that's wrapping up.
+		/*
+		 * This filter method will be run towards the end of each request's
+		 * response chain.
+		 */
+
+		// Pull the login the request came in with (if any).
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
 				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
+
+		/*
+		 * Pull the auth token for the login that was set during the response
+		 * (if any).
+		 */
+		AuthToken authTokenForLogin = (AuthToken) requestContext
+				.getProperty(LOGIN_PROPERTY);
+
+		// Set or refresh the login cookie, if needed.
+		if (authTokenForLogin != null) {
+			setLoginCookie(authTokenForLogin, requestContext, responseContext);
+		} else if (securityContext != null
+				&& securityContext.getUserPrincipal() != null) {
+			refreshLoginCookie(securityContext, requestContext, responseContext);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Includes the specified {@link AuthToken} as a new cookie in the response.
+	 * </p>
+	 * <p>
+	 * Should be used instead of
+	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)}
+	 * when the request didn't already come in with a valid login/cookie.
+	 * </p>
+	 * 
+	 * @param authTokenForLogin
+	 *            the {@link AuthToken} to be included as a cookie in the
+	 *            response
+	 * @param requestContext
+	 *            the request being processed
+	 * @param responseContext
+	 *            the response being generated
+	 */
+	private static void setLoginCookie(AuthToken authTokenForLogin,
+			ContainerRequestContext requestContext,
+			ContainerResponseContext responseContext) {
+		// Create the login/auth Cookie we'll drop in to the response.
+		NewCookie authTokenCookie = AuthTokenCookieHelper
+				.createAuthTokenCookie(authTokenForLogin, requestContext
+						.getUriInfo().getRequestUri());
+
+		addCookieToResponse(responseContext, authTokenCookie);
+	}
+
+	/**
+	 * <p>
+	 * Refreshes the current login {@link AuthToken} cookie on the outgoing
+	 * response being generated.
+	 * </p>
+	 * <p>
+	 * Should be used instead of
+	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)}
+	 * when the request didn't already come in with a valid login/cookie.
+	 * </p>
+	 * 
+	 * @param securityContext
+	 *            the {@link AccountSecurityContext} containing the active login
+	 *            to be refreshed
+	 * @param requestContext
+	 *            the request being processed
+	 * @param responseContext
+	 *            the response being generated
+	 */
+	private void refreshLoginCookie(AccountSecurityContext securityContext,
+			ContainerRequestContext requestContext,
+			ContainerResponseContext responseContext) {
+		// Pull the Account that's logged in.
 		Account userAccount = securityContext.getUserPrincipal();
 
-		// Pull the auth cookie for the response that's wrapping up.
-		Cookie currentAuthCookie = responseContext.getCookies().get(
+		// Find the AuthToken to use, reusing the current one where possible.
+		Cookie currentAuthCookie = requestContext.getCookies().get(
 				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
 		UUID currentAuthTokenValue = currentAuthCookie != null ? UUID
 				.fromString(currentAuthCookie.getValue()) : null;
+		AuthToken authToken;
+		if (userAccount.isValidAuthToken(currentAuthTokenValue))
+			authToken = userAccount.getAuthToken(currentAuthTokenValue);
+		else
+			authToken = accountsDao.selectOrCreateAuthToken(userAccount);
 
-		// If there wasn't an auth cookie in the response, check the request.
-		if (currentAuthCookie == null) {
-			currentAuthCookie = requestContext.getCookies().get(
-					AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
-			currentAuthTokenValue = currentAuthCookie != null ? UUID
-					.fromString(currentAuthCookie.getValue()) : null;
-		}
+		// Add a new login Cookie to the response.
+		NewCookie newAuthCookie = AuthTokenCookieHelper.createAuthTokenCookie(
+				authToken, requestContext.getUriInfo().getRequestUri());
+		addCookieToResponse(responseContext, newAuthCookie);
+	}
 
-		// Is there a valid SecurityContext and matching auth cookie?
-		if (userAccount != null
-				&& userAccount.isValidAuthToken(currentAuthTokenValue)) {
-			AuthToken currentAuthToken = userAccount
-					.getAuthToken(currentAuthTokenValue);
-
-			// Create the Cookie we'll drop in to the response.
-			NewCookie authTokenCookie = AuthTokenCookieHelper
-					.createAuthTokenCookie(currentAuthToken, requestContext
-							.getUriInfo().getRequestUri());
-
-			// Are there any cookies already in the response?
-			if (responseContext.getHeaders()
-					.containsKey(HttpHeaders.SET_COOKIE)) {
-				ListIterator<Object> cookies = responseContext.getHeaders()
-						.get(HttpHeaders.SET_COOKIE).listIterator();
-				while (cookies.hasNext()) {
-					String cookieBody = cookies.next().toString();
-					if (cookieBody.startsWith(authTokenCookie.getName()))
-						cookies.set(authTokenCookie);
+	/**
+	 * Adds the specified {@link NewCookie} instance to the specified
+	 * {@link ContainerResponseContext} response instance. Will replace any
+	 * existing cookie that matches the specified cookie's
+	 * {@link NewCookie#getName()}.
+	 * 
+	 * @param responseContext
+	 *            the {@link ContainerResponseContext} instance that represents
+	 *            the response being generated
+	 * @param authTokenCookie
+	 *            the {@link NewCookie} to include in the response
+	 */
+	private static void addCookieToResponse(
+			ContainerResponseContext responseContext, NewCookie authTokenCookie) {
+		/*
+		 * Loop through the Cookies, checking to see if any match the one being
+		 * set.
+		 */
+		boolean matchingCookieFound = false;
+		if (responseContext.getHeaders().containsKey(HttpHeaders.SET_COOKIE)) {
+			ListIterator<Object> cookies = responseContext.getHeaders()
+					.get(HttpHeaders.SET_COOKIE).listIterator();
+			while (cookies.hasNext()) {
+				String cookieBody = cookies.next().toString();
+				if (cookieBody.startsWith(authTokenCookie.getName())) {
+					matchingCookieFound = true;
+					cookies.set(authTokenCookie);
 				}
-			} else {
-				responseContext.getHeaders().add(HttpHeaders.SET_COOKIE,
-						authTokenCookie);
 			}
 		}
 
-		/*
-		 * Note that we're not explicitly clearing the cookie. If the request
-		 * provided an invalid one, we'll leave it be. It'll probably keep on
-		 * providing it in future requests, too. Perhaps we should? Not sure.
-		 */
+		// If not, add this cookie.
+		if (!matchingCookieFound)
+			responseContext.getHeaders().add(HttpHeaders.SET_COOKIE,
+					authTokenCookie);
 	}
 }

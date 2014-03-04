@@ -1,23 +1,20 @@
 package com.justdavis.karl.rpstourney.webservice.auth.game;
 
-import java.net.URI;
 import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.threeten.bp.Clock;
 
-import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AuthToken;
-import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
@@ -34,42 +31,26 @@ public final class GameAuthServiceTest {
 	@Test
 	public void createLogin() throws AddressException {
 		// Create the mock params to pass to the service.
+		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
-		UriInfo uriInfo = new MockUriInfo() {
-			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
-			 */
-			@Override
-			public URI getRequestUri() {
-				return URI.create("http://localhost/");
-			}
-		};
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
 				accountsDao);
 
 		// Create the service.
 		GameAuthService authService = new GameAuthService();
+		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
-		authService.setUriInfo(uriInfo);
-		authService.setAccountDao(accountsDao);
+		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Call the service.
-		Response loginResponse = authService.createGameLogin(
+		Account loggedInAccount = authService.createGameLogin(
 				new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results
-		Assert.assertNotNull(loginResponse);
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				loginResponse.getStatus());
-		Account account = (Account) loginResponse.getEntity();
-		Assert.assertNotNull(account);
-		UUID authToken = UUID.fromString(loginResponse.getCookies()
-				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
+		Assert.assertNotNull(loggedInAccount);
 		Assert.assertEquals(1, loginsDao.logins.size());
-		Assert.assertEquals(accountsDao.accounts.get(0).getAuthTokens()
-				.iterator().next().getToken(), authToken);
 	}
 
 	/**
@@ -83,6 +64,7 @@ public final class GameAuthServiceTest {
 	@Test
 	public void createLoginWithAuthToken() throws AddressException {
 		// Create a guest login (manually).
+		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
 				accountsDao);
@@ -96,34 +78,22 @@ public final class GameAuthServiceTest {
 		// Create the mock params to pass to the service .
 		AccountSecurityContext securityContext = new AccountSecurityContext(
 				account);
-		UriInfo uriInfo = new MockUriInfo() {
-			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
-			 */
-			@Override
-			public URI getRequestUri() {
-				return URI.create("http://localhost/");
-			}
-		};
 
 		// Create the service.
 		GameAuthService authService = new GameAuthService();
+		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
-		authService.setUriInfo(uriInfo);
-		authService.setAccountDao(accountsDao);
+		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Create a new game login.
-		Response createResponse = authService.createGameLogin(
+		Account loggedInAccount = authService.createGameLogin(
 				new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results.
-		Assert.assertNotNull(createResponse);
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				createResponse.getStatus());
-		UUID authTokenValue = UUID.fromString(createResponse.getCookies()
-				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(randomAuthToken, authTokenValue);
+		Assert.assertNotNull(loggedInAccount);
+		Assert.assertSame(account, loggedInAccount);
+		Assert.assertEquals(1, loginsDao.logins.size());
 	}
 
 	/**
@@ -137,25 +107,17 @@ public final class GameAuthServiceTest {
 	@Test
 	public void login() throws AddressException {
 		// Create the mock params to pass to the service .
+		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
-		UriInfo uriInfo = new MockUriInfo() {
-			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
-			 */
-			@Override
-			public URI getRequestUri() {
-				return URI.create("http://localhost/");
-			}
-		};
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
 				accountsDao);
 
 		// Create the service.
 		GameAuthService authService = new GameAuthService();
+		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
-		authService.setUriInfo(uriInfo);
-		authService.setAccountDao(accountsDao);
+		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Create the login (manually).
@@ -171,15 +133,11 @@ public final class GameAuthServiceTest {
 		loginsDao.logins.add(login);
 
 		// Login.
-		Response loginResponse = authService.loginWithGameAccount(
+		Account loggedInAccount = authService.loginWithGameAccount(
 				login.getEmailAddress(), "secret");
 
 		// Verify the results.
-		Assert.assertNotNull(loginResponse);
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				loginResponse.getStatus());
-		UUID authTokenValue = UUID.fromString(loginResponse.getCookies()
-				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
-		Assert.assertEquals(randomAuthToken, authTokenValue);
+		Assert.assertNotNull(loggedInAccount);
+		Assert.assertSame(account, loggedInAccount);
 	}
 }

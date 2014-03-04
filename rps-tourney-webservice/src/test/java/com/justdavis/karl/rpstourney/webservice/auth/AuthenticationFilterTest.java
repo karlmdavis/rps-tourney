@@ -29,6 +29,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.threeten.bp.Clock;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**

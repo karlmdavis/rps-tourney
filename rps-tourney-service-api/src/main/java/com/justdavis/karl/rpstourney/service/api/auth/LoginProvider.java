@@ -1,9 +1,7 @@
-package com.justdavis.karl.rpstourney.webservice.auth;
+package com.justdavis.karl.rpstourney.service.api.auth;
 
-import com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService;
-import com.justdavis.karl.rpstourney.webservice.auth.game.GameLoginIdentity;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 
 /**
  * <p>

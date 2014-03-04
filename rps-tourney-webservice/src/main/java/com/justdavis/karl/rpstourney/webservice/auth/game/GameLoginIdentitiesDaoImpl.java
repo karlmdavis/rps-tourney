@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity_;
 
 /**
  * The default {@link IGameLoginIndentitiesDao} implementation.
@@ -42,7 +44,7 @@ public final class GameLoginIdentitiesDaoImpl implements
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.game.IGameLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.webservice.auth.game.GameLoginIdentity)
+	 * @see com.justdavis.karl.rpstourney.webservice.auth.game.IGameLoginIndentitiesDao#save(com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity)
 	 */
 	@Override
 	public void save(GameLoginIdentity login) {

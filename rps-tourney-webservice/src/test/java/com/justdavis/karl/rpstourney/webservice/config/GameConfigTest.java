@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext.NamespaceBinding;
-import com.justdavis.karl.rpstourney.webservice.XmlNamespace;
+import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
 
 /**
  * Unit tests for {@link GameConfig}.

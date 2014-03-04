@@ -1,25 +1,26 @@
 package com.justdavis.karl.rpstourney.webservice.auth.guest;
 
-import java.net.URI;
-import java.util.UUID;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.WebApplicationException;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.justdavis.karl.rpstourney.webservice.MockUriInfo;
-import com.justdavis.karl.rpstourney.webservice.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.webservice.auth.AuthTokenCookieHelper;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
  * Unit tests for {@link GuestAuthService}.
  */
 public final class GuestAuthServiceTest {
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+
 	/**
 	 * Ensures that {@link GuestAuthService} creates new
 	 * {@link GuestLoginIdentity}s as expected.
@@ -27,41 +28,25 @@ public final class GuestAuthServiceTest {
 	@Test
 	public void createLogin() {
 		// Create the mock params to pass to the service.
+		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
-		UriInfo uriInfo = new MockUriInfo() {
-			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
-			 */
-			@Override
-			public URI getRequestUri() {
-				return URI.create("http://localhost/");
-			}
-		};
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
 				accountsDao);
 
 		// Create the service.
 		GuestAuthService authService = new GuestAuthService();
+		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
-		authService.setUriInfo(uriInfo);
-		authService.setAccountDao(accountsDao);
+		authService.setAccountsDao(accountsDao);
 		authService.setGuestLoginIdentitiesDao(loginsDao);
 
 		// Call the service.
-		Response loginResponse = authService.loginAsGuest();
+		Account loggedInAccount = authService.loginAsGuest();
 
 		// Verify the results
-		Assert.assertNotNull(loginResponse);
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				loginResponse.getStatus());
-		Account account = (Account) loginResponse.getEntity();
-		Assert.assertNotNull(account);
-		UUID authToken = UUID.fromString(loginResponse.getCookies()
-				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN).getValue());
+		Assert.assertNotNull(loggedInAccount);
 		Assert.assertEquals(1, loginsDao.logins.size());
-		Assert.assertEquals(accountsDao.accounts.get(0).getAuthTokens()
-				.iterator().next().getToken(), authToken);
 	}
 
 	/**
@@ -71,25 +56,17 @@ public final class GuestAuthServiceTest {
 	@Test
 	public void existingLogin() {
 		// Create the mock params to pass to the service.
+		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
-		UriInfo uriInfo = new MockUriInfo() {
-			/**
-			 * @see com.justdavis.karl.rpstourney.webservice.MockUriInfo#getRequestUri()
-			 */
-			@Override
-			public URI getRequestUri() {
-				return URI.create("http://localhost/");
-			}
-		};
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
 				accountsDao);
 
 		// Create the service.
 		GuestAuthService authService = new GuestAuthService();
+		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
-		authService.setUriInfo(uriInfo);
-		authService.setAccountDao(accountsDao);
+		authService.setAccountsDao(accountsDao);
 		authService.setGuestLoginIdentitiesDao(loginsDao);
 
 		// Call the service once to login and create an Account.
@@ -99,10 +76,8 @@ public final class GuestAuthServiceTest {
 		securityContext = new AccountSecurityContext(
 				accountsDao.accounts.get(0));
 		authService.setAccountSecurityContext(securityContext);
-		Response secondLoginResponse = authService.loginAsGuest();
-
-		// Verify the results
-		Assert.assertEquals(Status.CONFLICT.getStatusCode(),
-				secondLoginResponse.getStatus());
+		expectedException.expect(WebApplicationException.class);
+		expectedException.expectMessage("User already logged in.");
+		authService.loginAsGuest();
 	}
 }

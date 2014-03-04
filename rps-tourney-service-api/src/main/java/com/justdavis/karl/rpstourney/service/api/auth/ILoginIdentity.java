@@ -1,4 +1,5 @@
-package com.justdavis.karl.rpstourney.webservice.auth;
+package com.justdavis.karl.rpstourney.service.api.auth;
+
 
 /**
  * <p>

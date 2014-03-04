@@ -89,11 +89,26 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<!-- This repo is used to grab Hibernate and related artifacts. While 
+				Maven Central has many older releases, for some reason the latest artifacts 
+				don't appear to be syncing there. -->
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<modules>
 		<module>rps-tourney-api</module>
 		<module>rps-tourney-console</module>
+		<module>rps-tourney-service-api</module>
 		<module>rps-tourney-webservice</module>
 	</modules>
 
@@ -102,6 +117,14 @@
 			does not currently support anything later than Java 6, so that's used as 
 			the default. -->
 		<javaSourceVersion>1.6</javaSourceVersion>
+
+		<!-- The version of the Spring Framework artifacts to use. This property 
+			isn't used directly here, but is rather intended for use in child projects. -->
+		<spring.version>4.0.0.RELEASE</spring.version>
+
+		<!-- The version of Hibernate to use. This property 
+			isn't used directly here, but is rather intended for use in child projects. -->
+		<hibernate.version>4.3.0.CR1</hibernate.version>
 	</properties>
 
 	<dependencyManagement>
@@ -109,6 +132,11 @@
 			<dependency>
 				<groupId>com.justdavis.karl.rpstourney</groupId>
 				<artifactId>rps-tourney-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.justdavis.karl.rpstourney</groupId>
+				<artifactId>rps-tourney-service-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -160,6 +188,13 @@
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<!-- Need to lock down a version to make the enforcer happy (used in 
+						child projects). -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
