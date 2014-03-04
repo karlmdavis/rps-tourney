@@ -9,13 +9,13 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>rps-tourney-webservice</artifactId>
+	<artifactId>rps-tourney-service-app</artifactId>
 	<packaging>war</packaging>
 
-	<name>rps-tourney-webservice</name>
+	<name>rps-tourney-service-app</name>
 	<description>
-		A web service for playing the "Rock-Paper-Scissors Tourney" game over 
-		the Internet. Allows for centralized scorekeeping and multiplayer.
+		The server-side implementation of the web service layer of the 
+		"Rock-Paper-Scissors Tourney" game, which allow for play over the Internet.
 	</description>
 
 	<properties>

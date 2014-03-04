@@ -109,7 +109,7 @@
 		<module>rps-tourney-api</module>
 		<module>rps-tourney-console</module>
 		<module>rps-tourney-service-api</module>
-		<module>rps-tourney-webservice</module>
+		<module>rps-tourney-service-app</module>
 	</modules>
 
 	<properties>
