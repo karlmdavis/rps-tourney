@@ -207,11 +207,11 @@ public final class GameApplicationInitializer implements
 			resourceProviders.add(new RequestScopeResourceFactory(
 					"helloWorldResource"));
 			resourceProviders.add(new RequestScopeResourceFactory(
-					"accountService"));
+					"accountsResourceImpl"));
 			resourceProviders.add(new RequestScopeResourceFactory(
-					"guestAuthService"));
+					"guestAuthResourceImpl"));
 			resourceProviders.add(new RequestScopeResourceFactory(
-					"gameAuthService"));
+					"gameAuthResourceImpl"));
 
 			/*
 			 * Initialize all of the SpringResourceFactory instances. This

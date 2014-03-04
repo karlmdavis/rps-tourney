@@ -15,14 +15,14 @@ import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
- * Unit tests for {@link GuestAuthService}.
+ * Unit tests for {@link GuestAuthResourceImpl}.
  */
-public final class GuestAuthServiceTest {
+public final class GuestAuthResourceImplTest {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
 	/**
-	 * Ensures that {@link GuestAuthService} creates new
+	 * Ensures that {@link GuestAuthResourceImpl} creates new
 	 * {@link GuestLoginIdentity}s as expected.
 	 */
 	@Test
@@ -35,7 +35,7 @@ public final class GuestAuthServiceTest {
 				accountsDao);
 
 		// Create the service.
-		GuestAuthService authService = new GuestAuthService();
+		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
@@ -50,7 +50,7 @@ public final class GuestAuthServiceTest {
 	}
 
 	/**
-	 * Ensures that {@link GuestAuthService#loginAsGuest()} behaves as expected
+	 * Ensures that {@link GuestAuthResourceImpl#loginAsGuest()} behaves as expected
 	 * when the user/client already has an active login.
 	 */
 	@Test
@@ -63,7 +63,7 @@ public final class GuestAuthServiceTest {
 				accountsDao);
 
 		// Create the service.
-		GuestAuthService authService = new GuestAuthService();
+		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);

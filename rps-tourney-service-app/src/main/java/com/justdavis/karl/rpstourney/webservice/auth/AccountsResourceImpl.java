@@ -21,7 +21,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class AccountService implements IAccountsResource {
+public class AccountsResourceImpl implements IAccountsResource {
 	/**
 	 * The {@link SecurityContext} of the current request.
 	 */
@@ -31,13 +31,13 @@ public class AccountService implements IAccountsResource {
 	 * This public, default, no-arg constructor is required by Spring (for
 	 * request-scoped beans).
 	 */
-	public AccountService() {
+	public AccountsResourceImpl() {
 	}
 
 	/**
 	 * @param securityContext
 	 *            the {@link AccountSecurityContext} for the request that the
-	 *            {@link AccountService} was instantiated to handle
+	 *            {@link AccountsResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setAccountSecurityContext(AccountSecurityContext securityContext) {

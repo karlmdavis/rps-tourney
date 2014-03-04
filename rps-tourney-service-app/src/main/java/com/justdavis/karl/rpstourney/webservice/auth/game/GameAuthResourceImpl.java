@@ -27,7 +27,7 @@ import com.lambdaworks.crypto.SCryptUtil;
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class GameAuthService implements IGameAuthResource {
+public class GameAuthResourceImpl implements IGameAuthResource {
 	/**
 	 * The CPU cost factor (<code>"N"</code>) that will be passed to
 	 * {@link SCryptUtil#scrypt(String, int, int, int)} when new passwords are
@@ -64,13 +64,13 @@ public class GameAuthService implements IGameAuthResource {
 	 * This public, default, no-arg constructor is required by Spring (for
 	 * request-scoped beans).
 	 */
-	public GameAuthService() {
+	public GameAuthResourceImpl() {
 	}
 
 	/**
 	 * @param httpRequest
 	 *            the {@link HttpServletRequest} that the
-	 *            {@link GameAuthService} was instantiated to handle
+	 *            {@link GameAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setHttpServletRequest(HttpServletRequest httpRequest) {
@@ -84,7 +84,7 @@ public class GameAuthService implements IGameAuthResource {
 	/**
 	 * @param securityContext
 	 *            the {@link AccountSecurityContext} for the request that the
-	 *            {@link GameAuthService} was instantiated to handle
+	 *            {@link GameAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setAccountSecurityContext(AccountSecurityContext securityContext) {

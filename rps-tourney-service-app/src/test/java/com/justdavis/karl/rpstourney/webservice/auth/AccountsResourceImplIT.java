@@ -19,27 +19,27 @@ import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
-import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService;
+import com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthResourceImpl;
 
 /**
- * Integration tests for {@link AccountService}.
+ * Integration tests for {@link AccountsResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SpringITConfigWithJetty.class })
 @WebAppConfiguration
-public final class AccountServiceIT {
+public final class AccountsResourceImplIT {
 	@Inject
 	private EmbeddedServer server;
 
 	/**
-	 * Ensures that {@link AccountService#validateAuth()} returns
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} returns
 	 * {@link Status#UNAUTHORIZED} as expected when called without
 	 * authentication.
 	 */
 	@Test
 	public void validateGuestLoginDenied() {
 		/*
-		 * Just a note: the AccountService will never even be run if everything
+		 * Just a note: the AccountsResourceImpl will never even be run if everything
 		 * is working correctly. Instead, the AuthorizationFilter will handle
 		 * this.
 		 */
@@ -59,9 +59,9 @@ public final class AccountServiceIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountService#validateAuth()} works as expected when
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as expected when
 	 * used with an {@link Account} created via
-	 * {@link GuestAuthService#loginAsGuest()}.
+	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
 	 */
 	@Test
 	public void createAndValidateGuestLogin() {

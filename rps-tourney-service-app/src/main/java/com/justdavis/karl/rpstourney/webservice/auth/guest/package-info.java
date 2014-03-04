@@ -1,6 +1,6 @@
 /**
  * Contains 
- * {@link com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthService}, 
+ * {@link com.justdavis.karl.rpstourney.webservice.auth.guest.GuestAuthResourceImpl}, 
  * which allows users to login via persisted guest accounts.
  */
 @XmlSchema(namespace = XmlNamespace.RPSTOURNEY, xmlns = { @XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY) }, elementFormDefault = XmlNsForm.QUALIFIED)

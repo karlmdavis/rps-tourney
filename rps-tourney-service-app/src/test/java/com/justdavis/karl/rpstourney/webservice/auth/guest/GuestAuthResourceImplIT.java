@@ -20,12 +20,12 @@ import com.justdavis.karl.rpstourney.webservice.EmbeddedServer;
 import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 
 /**
- * Integration tests for {@link GuestAuthService}.
+ * Integration tests for {@link GuestAuthResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SpringITConfigWithJetty.class })
 @WebAppConfiguration
-public final class GuestAuthServiceIT {
+public final class GuestAuthResourceImplIT {
 	@Inject
 	private EmbeddedServer server;
 
@@ -33,7 +33,7 @@ public final class GuestAuthServiceIT {
 	private IGuestLoginIndentitiesDao loginsDao;
 
 	/**
-	 * Ensures that {@link GuestAuthService} creates new
+	 * Ensures that {@link GuestAuthResourceImpl} creates new
 	 * {@link GuestLoginIdentity}s as expected.
 	 */
 	@Test

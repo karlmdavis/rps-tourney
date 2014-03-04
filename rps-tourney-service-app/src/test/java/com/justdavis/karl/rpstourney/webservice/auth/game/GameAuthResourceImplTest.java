@@ -18,11 +18,11 @@ import com.justdavis.karl.rpstourney.webservice.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.webservice.auth.MockAccountsDao;
 
 /**
- * Unit tests for {@link GameAuthService}.
+ * Unit tests for {@link GameAuthResourceImpl}.
  */
-public final class GameAuthServiceTest {
+public final class GameAuthResourceImplTest {
 	/**
-	 * Ensures that {@link GameAuthService} creates new
+	 * Ensures that {@link GameAuthResourceImpl} creates new
 	 * {@link GameLoginIdentity}s as expected.
 	 * 
 	 * @throws AddressException
@@ -38,7 +38,7 @@ public final class GameAuthServiceTest {
 				accountsDao);
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService();
+		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
@@ -55,7 +55,7 @@ public final class GameAuthServiceTest {
 
 	/**
 	 * Ensures that
-	 * {@link GameAuthService#createGameLogin(InternetAddress, String)} behaves
+	 * {@link GameAuthResourceImpl#createGameLogin(InternetAddress, String)} behaves
 	 * as expected when the user/client already has an active login.
 	 * 
 	 * @throws AddressException
@@ -80,7 +80,7 @@ public final class GameAuthServiceTest {
 				account);
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService();
+		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
@@ -98,7 +98,7 @@ public final class GameAuthServiceTest {
 
 	/**
 	 * Ensures that
-	 * {@link GameAuthService#loginWithGameAccount(InternetAddress, String)}
+	 * {@link GameAuthResourceImpl#loginWithGameAccount(InternetAddress, String)}
 	 * behaves as expected when the user/client is not already logged in.
 	 * 
 	 * @throws AddressException
@@ -114,7 +114,7 @@ public final class GameAuthServiceTest {
 				accountsDao);
 
 		// Create the service.
-		GameAuthService authService = new GameAuthService();
+		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
 		authService.setAccountSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
@@ -129,7 +129,7 @@ public final class GameAuthServiceTest {
 		accountsDao.accounts.add(account);
 		GameLoginIdentity login = new GameLoginIdentity(account,
 				new InternetAddress("foo@example.com"),
-				GameAuthService.hashPassword("secret"));
+				GameAuthResourceImpl.hashPassword("secret"));
 		loginsDao.logins.add(login);
 
 		// Login.

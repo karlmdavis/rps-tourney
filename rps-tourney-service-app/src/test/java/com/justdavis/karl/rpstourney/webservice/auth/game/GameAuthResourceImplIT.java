@@ -24,12 +24,12 @@ import com.justdavis.karl.rpstourney.webservice.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.webservice.WebClientHelper;
 
 /**
- * Integration tests for {@link GameAuthService}.
+ * Integration tests for {@link GameAuthResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SpringITConfigWithJetty.class })
 @WebAppConfiguration
-public final class GameAuthServiceIT {
+public final class GameAuthResourceImplIT {
 	@Inject
 	private EmbeddedServer server;
 
@@ -37,7 +37,7 @@ public final class GameAuthServiceIT {
 	private IGameLoginIndentitiesDao loginsDao;
 
 	/**
-	 * Ensures that {@link GameAuthService} creates new
+	 * Ensures that {@link GameAuthResourceImpl} creates new
 	 * {@link GameLoginIdentity}s as expected.
 	 * 
 	 * @throws AddressException

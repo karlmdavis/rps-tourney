@@ -24,7 +24,7 @@ import com.justdavis.karl.rpstourney.webservice.auth.IAccountsDao;
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class GuestAuthService implements IGuestAuthResource {
+public class GuestAuthResourceImpl implements IGuestAuthResource {
 	private HttpServletRequest httpRequest;
 	private AccountSecurityContext securityContext;
 	private IAccountsDao accountsDao;
@@ -34,13 +34,13 @@ public class GuestAuthService implements IGuestAuthResource {
 	 * This public, default, no-arg constructor is required by Spring (for
 	 * request-scoped beans).
 	 */
-	public GuestAuthService() {
+	public GuestAuthResourceImpl() {
 	}
 
 	/**
 	 * @param httpRequest
 	 *            the {@link HttpServletRequest} that the
-	 *            {@link GuestAuthService} was instantiated to handle
+	 *            {@link GuestAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setHttpServletRequest(HttpServletRequest httpRequest) {
@@ -54,7 +54,7 @@ public class GuestAuthService implements IGuestAuthResource {
 	/**
 	 * @param securityContext
 	 *            the {@link AccountSecurityContext} for the request that the
-	 *            {@link GuestAuthService} was instantiated to handle
+	 *            {@link GuestAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setAccountSecurityContext(AccountSecurityContext securityContext) {

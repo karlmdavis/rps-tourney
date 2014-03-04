@@ -6,11 +6,11 @@ import org.junit.Test;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 
 /**
- * Unit tests for {@link AccountService}.
+ * Unit tests for {@link AccountsResourceImpl}.
  */
-public final class AccountServiceTest {
+public final class AccountsResourceImplTest {
 	/**
-	 * Ensures that {@link AccountService#validateAuth()} works as expected.
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as expected.
 	 */
 	@Test
 	public void validateAuth() {
@@ -18,7 +18,7 @@ public final class AccountServiceTest {
 		Account account = new Account();
 
 		// Build the service
-		AccountService accountService = new AccountService();
+		AccountsResourceImpl accountService = new AccountsResourceImpl();
 		accountService.setAccountSecurityContext(new AccountSecurityContext(
 				account));
 

@@ -1,6 +1,6 @@
 /**
  * Contains 
- * {@link com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthService}, 
+ * {@link com.justdavis.karl.rpstourney.webservice.auth.game.GameAuthResourceImpl}, 
  * which allows users to login via game-specific accounts associated with an 
  * email address.
  */
