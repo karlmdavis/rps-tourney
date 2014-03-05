@@ -603,3 +603,7 @@ This file should never be committed along with other files; it should always be 
 * Note: Did not work on project for last month, due to very busy work schedule.
 * 0.25h: Reviewed commit and work logs to refresh my memory, and then added missing Javadoc comments to `AuthenticationFilter`.
 * 0.5h: Comitted the changes and then refactored the project, class, and package names for consistency.
+
+### 2014-03-04, Tuesday
+
+* 0.1h: Created the `GameWebApplicationInitializer` class and started filling it in. Need to go through the MVC docs again, until I've at least got a "Hello World" in place.
