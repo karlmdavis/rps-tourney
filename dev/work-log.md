@@ -607,3 +607,9 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-04, Tuesday
 
 * 0.1h: Created the `GameWebApplicationInitializer` class and started filling it in. Need to go through the MVC docs again, until I've at least got a "Hello World" in place.
+* Still need to:
+    * Fix whatever the Jenkins build failure is.
+
+### 2014-03-04, Tuesday
+
+* 0.25h: Got the Jenkins build working again. The local Git repo was corrupted, and it had a problem with Sonar timing out (it's running really slowly). Haven't fixed the Sonar problem, as it worked the second time through.
