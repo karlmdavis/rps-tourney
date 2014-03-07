@@ -610,6 +610,10 @@ This file should never be committed along with other files; it should always be 
 * Still need to:
     * Fix whatever the Jenkins build failure is.
 
-### 2014-03-04, Tuesday
+### 2014-03-05, Wednesday
 
 * 0.25h: Got the Jenkins build working again. The local Git repo was corrupted, and it had a problem with Sonar timing out (it's running really slowly). Haven't fixed the Sonar problem, as it worked the second time through.
+
+### 2014-03-06, Thursday
+
+* 0.5h: Worked towards a "Hello World" MVC app a bit more. Got the Spring config and controller in place, I think. Need to get a view wired up, and then hook up Jetty or whatever.
