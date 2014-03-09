@@ -627,3 +627,8 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: Skimmed through the Spring MVC documentation on choices for view technologies.
 * 0.25h: Created the JSP view for my Hello World sample.
 * Still need to wire up Jetty, then test and debug things.
+
+### 2014-03-09, Sunday
+
+* 1.25h: Moved `EmbeddedServer` into `jessentials-misc`.
+* 0.5h: Trying to get the "Hello World" sample to work.
