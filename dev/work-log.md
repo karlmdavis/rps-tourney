@@ -617,3 +617,13 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-06, Thursday
 
 * 0.5h: Worked towards a "Hello World" MVC app a bit more. Got the Spring config and controller in place, I think. Need to get a view wired up, and then hook up Jetty or whatever.
+
+### 2014-03-07, Friday
+
+(Didn't work on anything: got too stuck in a book.)
+
+### 2014-03-08, Saturday
+
+* 0.25h: Skimmed through the Spring MVC documentation on choices for view technologies.
+* 0.25h: Created the JSP view for my Hello World sample.
+* Still need to wire up Jetty, then test and debug things.
