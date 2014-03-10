@@ -634,3 +634,8 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: Trying to get the "Hello World" sample to work.
 * 2.0h: Got the "Hello World" sample to work: had to explicitly add a JSP servlet to the application.
     * This only seems to work if the JSP servlet is also configured as the default/fallback servlet for the MVC servlet. Would like to figure out how to avoid that, as I'd also like to be able to serve CSS, etc. using the real `DefaultServlet`.
+
+### 2014-03-10, Monday
+
+* 1.25h: Fixed the servlet mappings such that Spring MVC, JSPs, and static files should now all be handled correctly.
+    * Still need to go through and commit things, but I think [Issue #18](https://github.com/karlmdavis/rps-tourney/issues/18) is now complete.
