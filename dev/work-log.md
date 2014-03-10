@@ -632,3 +632,5 @@ This file should never be committed along with other files; it should always be 
 
 * 1.25h: Moved `EmbeddedServer` into `jessentials-misc`.
 * 0.5h: Trying to get the "Hello World" sample to work.
+* 2.0h: Got the "Hello World" sample to work: had to explicitly add a JSP servlet to the application.
+    * This only seems to work if the JSP servlet is also configured as the default/fallback servlet for the MVC servlet. Would like to figure out how to avoid that, as I'd also like to be able to serve CSS, etc. using the real `DefaultServlet`.
