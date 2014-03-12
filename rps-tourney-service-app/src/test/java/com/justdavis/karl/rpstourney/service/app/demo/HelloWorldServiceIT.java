@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.justdavis.karl.rpstourney.service.app.EmbeddedServer;
+import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
 

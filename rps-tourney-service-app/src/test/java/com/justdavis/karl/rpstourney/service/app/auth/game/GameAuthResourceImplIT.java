@@ -15,11 +15,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
-import com.justdavis.karl.rpstourney.service.app.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty;
 import com.justdavis.karl.rpstourney.service.app.WebClientHelper;
 import com.justdavis.karl.rpstourney.service.app.auth.game.GameAuthResourceImpl;

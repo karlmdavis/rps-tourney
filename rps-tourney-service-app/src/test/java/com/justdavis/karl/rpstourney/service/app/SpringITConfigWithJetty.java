@@ -1,9 +1,14 @@
 package com.justdavis.karl.rpstourney.service.app;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import com.justdavis.karl.misc.jetty.EmbeddedServer;
 
 /**
  * This Spring {@link Configuration} should be used for integration tests that
@@ -25,8 +30,12 @@ public class SpringITConfigWithJetty {
 	 */
 	@Bean(initMethod = "startServer", destroyMethod = "stopServer")
 	public EmbeddedServer embeddedServer(ApplicationContext springContext) {
+		Map<String, Object> webAppAttributes = new HashMap<>();
+		webAppAttributes.put(GameApplicationInitializer.SPRING_PARENT_CONTEXT,
+				springContext);
+
 		EmbeddedServer embeddedServer = new EmbeddedServer(
-				EmbeddedServer.DEFAULT_PORT, false, springContext);
+				EmbeddedServer.DEFAULT_PORT, false, webAppAttributes);
 		return embeddedServer;
 	}
 }
