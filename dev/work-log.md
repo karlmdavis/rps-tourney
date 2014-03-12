@@ -643,3 +643,7 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-11, Tuesday
 
 * 2.0h: Re-did the servlet mappings: `GameWebApplicationInitializer` no longer registers the JSP and default servlets itself. That's now handled in `EmbeddedServer`, as really, it's the container's responsibility to provide those servlets. If I hadn't done this, I'd be trying to install Jetty's `DefaultServlet` class in, for example, Tomcat, which is silly.
+
+### 2014-03-12, Wednesday
+
+* 0.25h: Created a unit test for `EmbeddedServer`, and then commented it out, once I realized I wouldn't be able to run it (requires Java 7).
