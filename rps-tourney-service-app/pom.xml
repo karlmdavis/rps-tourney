@@ -58,6 +58,21 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<!-- We're using SLF4J to handle logging, so need to exclude this and 
+						then include org.slf4j:jcl-over-slf4j in its place. -->
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- Used to re-route commons-logging:commons-logging calls to SLF4J. 
+				Seems that spring-web needs this. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${dependency.slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- The Spring framework's JPA-related APIs, which make working with 
