@@ -637,5 +637,9 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-03-10, Monday
 
-* 1.25h: Fixed the servlet mappings such that Spring MVC, JSPs, and static files should now all be handled correctly.
+* 0.75h: Fixed the servlet mappings such that Spring MVC, JSPs, and static files should now all be handled correctly.
     * Still need to go through and commit things, but I think [Issue #18](https://github.com/karlmdavis/rps-tourney/issues/18) is now complete.
+
+### 2014-03-11, Tuesday
+
+* 2.0h: Re-did the servlet mappings: `GameWebApplicationInitializer` no longer registers the JSP and default servlets itself. That's now handled in `EmbeddedServer`, as really, it's the container's responsibility to provide those servlets. If I hadn't done this, I'd be trying to install Jetty's `DefaultServlet` class in, for example, Tomcat, which is silly.
