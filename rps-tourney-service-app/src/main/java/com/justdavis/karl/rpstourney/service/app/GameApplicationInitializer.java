@@ -73,6 +73,11 @@ import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
  */
 public final class GameApplicationInitializer implements
 		WebApplicationInitializer {
+	/*
+	 * TODO Rename this class so it doesn't sound the same as the
+	 * WebApplicationInitializer in rps-tourney-weapp.
+	 */
+
 	/**
 	 * The web application context-wide initialization parameter that specifies
 	 * the Spring parent {@link ApplicationContext} instance that should used
