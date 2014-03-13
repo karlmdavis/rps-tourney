@@ -4,7 +4,7 @@
  * {@link com.justdavis.karl.rpstourney.service.api.auth.LoginProvider} for a 
  * listing of the implementations.
  */
-@XmlSchema(namespace = XmlNamespace.RPSTOURNEY, xmlns = { @XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY) }, elementFormDefault = XmlNsForm.QUALIFIED)
+@XmlSchema(namespace = XmlNamespace.RPSTOURNEY_API, xmlns = { @XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY_API) }, elementFormDefault = XmlNsForm.QUALIFIED)
 package com.justdavis.karl.rpstourney.service.api.auth;
 import javax.xml.bind.annotation.XmlNs;
 import javax.xml.bind.annotation.XmlNsForm;

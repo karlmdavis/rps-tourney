@@ -53,7 +53,7 @@ public final class AccountTest {
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
 		xpath.setNamespaceContext(new SimpleNamespaceContext("rps",
-				XmlNamespace.RPSTOURNEY));
+				XmlNamespace.RPSTOURNEY_API));
 		Node accountNode = (Node) xpath.evaluate("/rps:account",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(accountNode);

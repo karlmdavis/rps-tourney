@@ -1,7 +1,7 @@
 package com.justdavis.karl.rpstourney.webapp;
 
 /**
- * Just contains the {@link #RPSTOURNEY} constant.
+ * Just contains the {@link #RPSTOURNEY_API} constant.
  */
 public final class XmlNamespace {
 	/**
@@ -12,10 +12,10 @@ public final class XmlNamespace {
 
 	/**
 	 * A convenience-only alias for
-	 * {@link com.justdavis.karl.rpstourney.service.api.XmlNamespace#RPSTOURNEY}
+	 * {@link com.justdavis.karl.rpstourney.service.api.XmlNamespace#RPSTOURNEY_API}
 	 * .
 	 */
-	public static final String RPSTOURNEY_API = com.justdavis.karl.rpstourney.service.api.XmlNamespace.RPSTOURNEY;
+	public static final String RPSTOURNEY_API = com.justdavis.karl.rpstourney.service.api.XmlNamespace.RPSTOURNEY_API;
 
 	/**
 	 * A convenience-only alias for

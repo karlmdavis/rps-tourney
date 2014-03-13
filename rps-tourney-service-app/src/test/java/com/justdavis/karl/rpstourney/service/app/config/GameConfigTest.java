@@ -54,7 +54,7 @@ public final class GameConfigTest {
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
 		xpath.setNamespaceContext(new SimpleNamespaceContext(
-				new NamespaceBinding("rps", XmlNamespace.RPSTOURNEY),
+				new NamespaceBinding("rps", XmlNamespace.RPSTOURNEY_API),
 				new NamespaceBinding("jed", XmlNamespace.JE_DATASOURCES)));
 		Node coordsUrlNode = (Node) xpath.evaluate(
 				"/rps:gameConfig/jed:hsqlCoordinates/jed:url",
