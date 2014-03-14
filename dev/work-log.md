@@ -648,6 +648,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h: Created a unit test for `EmbeddedServer`, and then commented it out, once I realized I wouldn't be able to run it (requires Java 7).
 * 0.15h: Committed a bunch of little things, but not the "Hello World" sample itself. Still need tests for it.
-* 2.0h: Replaced my "Hello World" sample with the more useful `InfoController` and view. Created ITs for the controller.
+* 3.5h: Replaced my "Hello World" sample with the more useful `InfoController` and view. Created ITs for the controller.
     * No ITs for the views itself (yet).
     * Committed this and closed [Issue #18](https://github.com/karlmdavis/rps-tourney/issues/18).
+
+### 2014-03-13, Thursday
+
+* 0.75h: Worked on getting JaCoCo and Sonar to play nicely for integration tests. Not yet done.
