@@ -55,7 +55,6 @@
 				Seems that spring-webmvc needs this. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${dependency.slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- TODO: Not entirely sure why this is needed, but every Spring MVC 
@@ -94,7 +93,6 @@
 				for details on how to activate this re-routing within an application. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>${dependency.slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
@@ -143,6 +141,34 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
+							agent (configured to track information on unit test coverage), such that 
+							it can be passed as a VM argument to the application under test. Surefire 
+							will pick up this property automatically, by default. Sonar can then pick 
+							up the output produced by JaCoCo. -->
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
+							agent (configured to track information on integration test coverage), such 
+							that it can be passed as a VM argument to the application under test. Failsafe 
+							will pick up this property automatically, by default. Sonar can then pick 
+							up the output produced by JaCoCo. -->
+						<id>default-prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<!-- Ensure that this project's integration tests are run as part of 
 					the build. -->
