@@ -35,7 +35,7 @@ public class SpringITConfigWithJetty {
 				springContext);
 
 		EmbeddedServer embeddedServer = new EmbeddedServer(
-				EmbeddedServer.DEFAULT_PORT, false, webAppAttributes);
+				EmbeddedServer.RANDOM_PORT, false, webAppAttributes);
 		return embeddedServer;
 	}
 }

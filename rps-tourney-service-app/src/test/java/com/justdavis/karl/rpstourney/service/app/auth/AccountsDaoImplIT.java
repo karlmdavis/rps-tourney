@@ -48,12 +48,12 @@ public final class AccountsDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = new HsqlProvisioningRequest(
-				"integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
+				.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
-		IProvisioningRequest postgreSqlRequest = new PostgreSqlProvisioningRequest(
-				"integrationtest");
+		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
+				.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { postgreSqlRequest });
 
 		return testParameters;

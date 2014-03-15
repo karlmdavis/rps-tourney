@@ -198,13 +198,17 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<!-- For some mysterious reason, I get SocketExceptions if I run the 
-						ITs on OpenJDK without forking for each test. I'd guess that there's a bug 
-						in OpenJDK's HttpClient, but I really haven't been able to diagnose the issue. -->
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<configuration>
+						<!-- For some mysterious reason, I get SocketExceptions if I run the 
+							ITs on OpenJDK without forking for each test. I'd guess that there's a bug 
+							in OpenJDK's HttpClient, but I really haven't been able to diagnose the issue. -->
 						<reuseForks>false</reuseForks>
+
+						<!-- Run the ITs in parallel, using a separate fork for each runner. -->
+						<forkCount>1.5C</forkCount>
+						<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					</configuration>
 				</plugin>
 			</plugins>

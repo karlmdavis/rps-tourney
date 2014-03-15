@@ -1,33 +1,49 @@
 package com.justdavis.karl.rpstourney.service.app.config;
 
-import java.io.InputStream;
-
 import javax.inject.Inject;
 
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
+import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
+import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioner;
+import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
+import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningTarget;
 
 /**
  * An {@link IConfigLoader} that is intended for use with the application's
  * integration tests.
  */
-public final class MockConfigLoader extends XmlConfigLoader {
+public final class MockConfigLoader implements IConfigLoader {
+	private final GameConfig config;
+
 	/**
-	 * Constructs a new {@link XmlConfigLoader} instance.
+	 * Constructs a new {@link MockConfigLoader} instance.
 	 * 
 	 * @param dsConnectorsManager
 	 *            the application's {@link DataSourceConnectorsManager}
 	 */
 	@Inject
 	public MockConfigLoader(DataSourceConnectorsManager dsConnectorsManager) {
-		super(dsConnectorsManager);
+		/*
+		 * Once GameConfig has more to it than just a set of DB coords, I'd
+		 * recommend loading the rest of the config from an XML file using a
+		 * separate (customized) XmlConfigLoader instance.
+		 */
+
+		HsqlProvisioningRequest hsqlProvisioningRequest = HsqlProvisioningRequest
+				.requestForRandomDatabase("integrationTests");
+		HsqlProvisioner hsqlProvisioner = new HsqlProvisioner();
+		HsqlCoordinates coords = hsqlProvisioner.provision(
+				new HsqlProvisioningTarget(), hsqlProvisioningRequest);
+		GameConfig actualConfig = new GameConfig(coords);
+
+		this.config = actualConfig;
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader#retrieveConfigFile()
+	 * @see com.justdavis.karl.rpstourney.service.app.config.IConfigLoader#getConfig()
 	 */
 	@Override
-	protected InputStream retrieveConfigFile() {
-		return Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream("game-config-its.xml");
+	public GameConfig getConfig() {
+		return config;
 	}
 }
