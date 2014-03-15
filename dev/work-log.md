@@ -655,3 +655,7 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-13, Thursday
 
 * 0.75h: Worked on getting JaCoCo and Sonar to play nicely for integration tests. Not yet done.
+
+### 2014-03-14, Friday
+
+* 1.0h: Got integration test coverage reporting in Sonar for `jessentials`.
