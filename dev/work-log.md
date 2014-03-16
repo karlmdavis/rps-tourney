@@ -659,3 +659,12 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-14, Friday
 
 * 1.0h: Got integration test coverage reporting in Sonar for `jessentials`.
+
+### 2014-03-15, Saturday
+
+* 0.2h: Got integration test coverage reporting in Sonar for `rps-tourney`. Closed [Issue #27](https://github.com/karlmdavis/rps-tourney/issues/27).
+* 1.0h: Got integration tests running in parallel for `rps-tourney-service-app`. Closed [Issue #26](https://github.com/karlmdavis/rps-tourney/issues/26).
+
+### 2014-03-16, Sunday
+
+* 0.5h: Re-opened [Issue #26](https://github.com/karlmdavis/rps-tourney/issues/26) to fix some problems, fixed them, and closed it again.
