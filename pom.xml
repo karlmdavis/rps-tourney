@@ -123,9 +123,13 @@
 			isn't used directly here, but is rather intended for use in child projects. -->
 		<spring.version>4.0.0.RELEASE</spring.version>
 
-		<!-- The version of Hibernate to use. This property 
-			isn't used directly here, but is rather intended for use in child projects. -->
+		<!-- The version of Hibernate to use. This property isn't used directly 
+			here, but is rather intended for use in child projects. -->
 		<hibernate.version>4.3.0.CR1</hibernate.version>
+
+		<!-- The default number of parallel forks to use for running the ITs. Note 
+			that "C" stands for "core", but also seems to include hyperthreaded cores. -->
+		<forkCount.its>0.25C</forkCount.its>
 	</properties>
 
 	<dependencyManagement>
@@ -168,6 +172,17 @@
 						<!-- Set the Java source version used by the compiler. -->
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<configuration>
+						<!-- Run the ITs in parallel by default, using a separate fork for 
+							each runner. To override this, specify a value of "1" for the 'forkCount.its' 
+							property on the command line. -->
+						<forkCount>${forkCount.its}</forkCount>
+						<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					</configuration>
 				</plugin>
 				<plugin>
