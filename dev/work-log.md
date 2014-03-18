@@ -668,3 +668,10 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-16, Sunday
 
 * 0.5h: Re-opened [Issue #26](https://github.com/karlmdavis/rps-tourney/issues/26) to fix some problems, fixed them, and closed it again.
+
+### 2014-03-17, Monday
+
+* 0.2h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Started research.
+    * Looks like Tomcat would perform better (according to some quick Google searches), but Jetty is already running on `eddings` to host Nexus. Probably makes more sense to stick with it for now.
+    * I think the best way to automate this is with a script that can pull the WARs to deploy from Nexus, and allows me to specify the version, password, and target (dev vs. prod).
+
