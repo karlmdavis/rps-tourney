@@ -675,3 +675,8 @@ This file should never be committed along with other files; it should always be 
     * Looks like Tomcat would perform better (according to some quick Google searches), but Jetty is already running on `eddings` to host Nexus. Probably makes more sense to stick with it for now.
     * I think the best way to automate this is with a script that can pull the WARs to deploy from Nexus, and allows me to specify the version, password, and target (dev vs. prod).
 
+### 2014-03-18, Tuesday
+
+* 1.25h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued research, and started implementing.
+    * Started creating a Maven project that will allow use of Cargo to deploy things.
+    * Started drafting the Jetty configuration docs. Will need to install the Cargo deployer WAR and configure Jetty auth.
