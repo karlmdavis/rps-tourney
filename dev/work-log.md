@@ -680,3 +680,10 @@ This file should never be committed along with other files; it should always be 
 * 1.25h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued research, and started implementing.
     * Started creating a Maven project that will allow use of Cargo to deploy things.
     * Started drafting the Jetty configuration docs. Will need to install the Cargo deployer WAR and configure Jetty auth.
+
+### 2014-03-19, Wednesday
+
+* 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Got Jetty configured with the Cargo Deployer, and secured it.
+    * Got the deployment script working (though it still has some TODOs).
+    * However, the WARs themselves aren't working on Jetty. My guess is that Jetty 6 may not support Servlet 3.0.
