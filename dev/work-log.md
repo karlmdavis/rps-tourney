@@ -687,3 +687,14 @@ This file should never be committed along with other files; it should always be 
     * Got Jetty configured with the Cargo Deployer, and secured it.
     * Got the deployment script working (though it still has some TODOs).
     * However, the WARs themselves aren't working on Jetty. My guess is that Jetty 6 may not support Servlet 3.0.
+* 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Yup, Jetty 6 doesn't support Servlet 3.0. Later versions of Jetty aren't available in the Ubuntu 12.04 repos.
+    * Tomcat 7 is, however, and does support Servlet 3.0 (though not 3.1, but I don't yet need that).
+    * Couldn't get Tomcat working with Kerberos.
+
+### 2014-03-20, Thursday
+
+* 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Spent a lot more time trying to get Kerberos working. Failed.
+    * Got LDAP working, instead.
+    * Got sidetracked trying to add some new LDAP groups, clean up old groups, and set LDAP security correctly.
