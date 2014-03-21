@@ -698,3 +698,9 @@ This file should never be committed along with other files; it should always be 
     * Spent a lot more time trying to get Kerberos working. Failed.
     * Got LDAP working, instead.
     * Got sidetracked trying to add some new LDAP groups, clean up old groups, and set LDAP security correctly.
+
+### 2014-03-21, Friday
+
+* 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Still trying to get LDAP security configured correctly.
+        * Doesn't look like `dynlist` can be used to convert a `posixGroup` into a `groupOfNames`. Need a Plan B.
