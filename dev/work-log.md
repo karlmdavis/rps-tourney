@@ -704,3 +704,11 @@ This file should never be committed along with other files; it should always be 
 * 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
     * Still trying to get LDAP security configured correctly.
         * Doesn't look like `dynlist` can be used to convert a `posixGroup` into a `groupOfNames`. Need a Plan B.
+
+### 2014-03-22, Saturday
+
+* 4.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Got LDAP's security configured in a much more sane way, if not quite the way I'd wanted.
+    * Got Nexus redeployed in Tomcat.
+    * Got the RPS web applications deployed in Tomcat.
+    * Still need to uninstall Jetty.
