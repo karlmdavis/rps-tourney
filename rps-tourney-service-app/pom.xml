@@ -44,7 +44,7 @@
 				be bundled with whatever application server this WAR is deployed to. -->
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -111,6 +111,12 @@
 		</dependency>
 
 		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
 			<!-- Needed to replace log4j, which is used by other dependencies here 
 				(and excluded). -->
 			<groupId>org.slf4j</groupId>
@@ -123,17 +129,6 @@
 			<groupId>com.lambdaworks</groupId>
 			<artifactId>scrypt</artifactId>
 			<version>1.4.0</version>
-		</dependency>
-
-		<dependency>
-			<!-- Provides the InternetAddress class used to represent email addresses 
-				in this project. -->
-			<!-- Scoped as 'provided' because it's the responsibility of the web application 
-				container to provide this artifact. -->
-			<groupId>org.eclipse.jetty.orbit</groupId>
-			<artifactId>javax.mail.glassfish</artifactId>
-			<version>1.4.1.v201005082020</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -174,13 +169,6 @@
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
 			<version>1.49</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
-				events will be sent to it. -->
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

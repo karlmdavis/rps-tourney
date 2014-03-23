@@ -47,12 +47,11 @@
 		<dependency>
 			<!-- Provides the InternetAddress class used to represent email addresses 
 				in this project. -->
-			<!-- Scoped as 'provided' because it's the responsibility of the web application 
-				container to provide this artifact. -->
+			<!-- This dependency will be shadowed/overridden if this is deployed to 
+				a Java EE container. -->
 			<groupId>org.eclipse.jetty.orbit</groupId>
 			<artifactId>javax.mail.glassfish</artifactId>
 			<version>1.4.1.v201005082020</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

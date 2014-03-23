@@ -35,6 +35,15 @@
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 		</dependency>
+
+		<dependency>
+			<!-- A version of this library is needed to compile, but will already 
+				be bundled with whatever application server this WAR is deployed to. -->
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<!-- The Spring MVC web framework (which includes many other Spring libraries, 
 				including their dependency injection framework). -->
@@ -66,43 +75,10 @@
 		</dependency>
 
 		<dependency>
-			<!-- Jetty is used to host the web service for ITs and to run the web 
-				application for manual development testing. -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-annotations</artifactId>
-			<version>9.0.6.v20130930</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<!-- Allows Jetty to also run the JSP views used in the application. -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<version>9.0.6.v20130930</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that jetty-jsp 
-				needs this. -->
-			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
-				for details on how to activate this re-routing within an application. -->
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk15on</artifactId>
-			<version>1.49</version>
-			<optional>true</optional>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 		</dependency>
 
 		<dependency>
@@ -118,10 +94,43 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
-			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
-				events will be sent to it. -->
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
+			<!-- Jetty is used to host the web service for ITs and to run the web 
+				application for manual development testing. -->
+			<!-- This dependency is marked optional (rather than being scoped 'test') 
+				to ensure that Jetty is also available during development on the main/runtime 
+				classpath (for launching inside of Eclipse). -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+			<version>9.0.6.v20130930</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Allows Jetty to also run the JSP views used in the application. -->
+			<!-- This dependency is marked optional (rather than being scoped 'test') 
+				to ensure that Jetty is also available during development on the main/runtime 
+				classpath (for launching inside of Eclipse). -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>9.0.6.v20130930</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that jetty-jsp 
+				needs this. -->
+			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+				for details on how to activate this re-routing within an application. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
+			<!-- This dependency is marked optional (rather than being scoped 'test') 
+				to ensure that Jetty is also available during development on the main/runtime 
+				classpath (for launching inside of Eclipse). -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.49</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
