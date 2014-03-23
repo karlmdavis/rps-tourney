@@ -111,6 +111,7 @@
 		<module>rps-tourney-service-api</module>
 		<module>rps-tourney-service-app</module>
 		<module>rps-tourney-webapp</module>
+		<module>rps-tourney-deployment</module>
 	</modules>
 
 	<properties>

@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.justdavis.karl.rpstourney</groupId>
+		<artifactId>rps-tourney-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>rps-tourney-deployer</artifactId>
+	<packaging>pom</packaging>
+
+	<name>rps-tourney-deployer</name>
+	<description>
+		A stub project used to provide the configuration needed
+		for the Maven Cargo plugin to deploy things. Note that 
+		nothing will be deployed automatically as part of a normal 
+		build; deployments must be run manually. See the 
+		deploy-to-justdavis.sh script.
+	</description>
+
+	<properties>
+		<!-- This property is used to allow the version to be specified/overridden 
+			on the command line via '-Drps.version=...'. -->
+		<rps.version>${project.version}</rps.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<!-- The web service WAR for the application. -->
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-service-app</artifactId>
+			<version>${rps.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<!-- The end-user web site WAR for the application. -->
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-webapp</artifactId>
+			<version>${rps.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<!-- The Cargo plugin can be run to deploy/undeploy the configured WARs 
+						to the justdavis.com Tomcat server. Note that it must be run manually; no 
+						automatic executions are configured here. See the deploy-to-justdavis.sh 
+						script. -->
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<version>1.4.7</version>
+					<configuration>
+						<container>
+							<containerId>tomcat7x</containerId>
+							<type>remote</type>
+						</container>
+						<configuration>
+							<type>runtime</type>
+							<properties>
+								<cargo.remote.uri>https://justdavis.com/manager/text</cargo.remote.uri>
+								<!-- The username and password for this server must be specified 
+									in the user's settings.xml file, as described at http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide. -->
+								<cargo.server.settings>justdavis.com-jetty</cargo.server.settings>
+							</properties>
+						</configuration>
+						<deployables>
+							<deployable>
+								<!-- The web service WAR for the application. -->
+								<groupId>com.justdavis.karl.rpstourney</groupId>
+								<artifactId>rps-tourney-service-app</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/rps-tourney-service-app</context>
+								</properties>
+							</deployable>
+							<deployable>
+								<!-- The end-user web site WAR for the application. -->
+								<groupId>com.justdavis.karl.rpstourney</groupId>
+								<artifactId>rps-tourney-webapp</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/rps-tourney-webapp</context>
+								</properties>
+							</deployable>
+						</deployables>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
