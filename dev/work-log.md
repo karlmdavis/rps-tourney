@@ -712,3 +712,17 @@ This file should never be committed along with other files; it should always be 
     * Got Nexus redeployed in Tomcat.
     * Got the RPS web applications deployed in Tomcat.
     * Still need to uninstall Jetty.
+* 1.75h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Researching logging in Tomcat.
+    * Configured logback correctly (I think) for `rps-rourney-service-app`.
+* 2.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16): Continued implementing.
+    * Renamed `GameConfig` and other classes in `rps-tourney-service-app` so that they aren't confused with similar classes in `rps-tourney-webapp`.
+    * Worked on the logging configuration of the deployed webapps.
+    * Tried to create an `rps` PostgreSQL DB for the deployed webapps to use. Didn't succeed.
+
+### 2014-03-23, Sunday
+
+* 3.0h: [Issue #16](https://github.com/karlmdavis/rps-tourney/issues/16) and [Issue #19](https://github.com/karlmdavis/rps-tourney/issues/19): Finished.
+    * Fixed Puppet on `eddings` so that the `rps` PostgreSQL DB could be created.
+    * Cleaned up the WARs' dependencies so that the deploy correctly and cleanly.
+    * Cleaned up and committed things.
