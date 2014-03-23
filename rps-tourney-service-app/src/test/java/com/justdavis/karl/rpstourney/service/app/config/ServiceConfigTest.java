@@ -20,14 +20,14 @@ import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext.NamespaceBinding;
 import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
-import com.justdavis.karl.rpstourney.service.app.config.GameConfig;
+import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 
 /**
- * Unit tests for {@link GameConfig}.
+ * Unit tests for {@link ServiceConfig}.
  */
-public final class GameConfigTest {
+public final class ServiceConfigTest {
 	/**
-	 * Ensures that {@link GameConfig} instances can be marshalled.
+	 * Ensures that {@link ServiceConfig} instances can be marshalled.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -38,13 +38,13 @@ public final class GameConfigTest {
 	public void jaxbMarshalling() throws JAXBException,
 			XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext.newInstance(GameConfig.class,
+		JAXBContext jaxbContext = JAXBContext.newInstance(ServiceConfig.class,
 				HsqlCoordinates.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
 		HsqlCoordinates coords = new HsqlCoordinates("jdbc:hsqldb:mem:foo");
-		GameConfig config = new GameConfig(coords);
+		ServiceConfig config = new ServiceConfig(coords);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -57,14 +57,14 @@ public final class GameConfigTest {
 				new NamespaceBinding("rps", XmlNamespace.RPSTOURNEY_API),
 				new NamespaceBinding("jed", XmlNamespace.JE_DATASOURCES)));
 		Node coordsUrlNode = (Node) xpath.evaluate(
-				"/rps:gameConfig/jed:hsqlCoordinates/jed:url",
+				"/rps:serviceConfig/jed:hsqlCoordinates/jed:url",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(coordsUrlNode);
 		Assert.assertEquals(coords.getUrl(), coordsUrlNode.getTextContent());
 	}
 
 	/**
-	 * Ensures that {@link GameConfig} instances can be unmarshalled.
+	 * Ensures that {@link ServiceConfig} instances can be unmarshalled.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -75,7 +75,7 @@ public final class GameConfigTest {
 	public void jaxbUnmarshalling() throws JAXBException,
 			XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext.newInstance(GameConfig.class,
+		JAXBContext jaxbContext = JAXBContext.newInstance(ServiceConfig.class,
 				HsqlCoordinates.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -84,7 +84,7 @@ public final class GameConfigTest {
 				.getResource("sample-xml/config-1.xml");
 
 		// Parse the XML to an object.
-		GameConfig parsedConfig = (GameConfig) unmarshaller
+		ServiceConfig parsedConfig = (ServiceConfig) unmarshaller
 				.unmarshal(sourceXmlUrl);
 
 		// Verify the results.

@@ -16,7 +16,7 @@ import org.junit.rules.TemporaryFolder;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.hsql.HsqlConnector;
 import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
-import com.justdavis.karl.rpstourney.service.app.config.GameConfig;
+import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 import com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader;
 
 /**
@@ -55,7 +55,7 @@ public final class XmlConfigLoaderTest {
 			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(
 					new DataSourceConnectorsManager(new HsqlConnector()));
-			GameConfig config = configLoader.getConfig();
+			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertTrue(config.getDataSourceCoordinates() instanceof HsqlCoordinates);
 			HsqlCoordinates coords = (HsqlCoordinates) config
@@ -100,7 +100,7 @@ public final class XmlConfigLoaderTest {
 			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(
 					new DataSourceConnectorsManager(new HsqlConnector()));
-			GameConfig config = configLoader.getConfig();
+			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertTrue(config.getDataSourceCoordinates() instanceof HsqlCoordinates);
 			HsqlCoordinates coords = (HsqlCoordinates) config
@@ -141,8 +141,8 @@ public final class XmlConfigLoaderTest {
 			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(
 					new DataSourceConnectorsManager(new HsqlConnector()));
-			GameConfig config1 = configLoader.getConfig();
-			GameConfig config2 = configLoader.getConfig();
+			ServiceConfig config1 = configLoader.getConfig();
+			ServiceConfig config2 = configLoader.getConfig();
 			Assert.assertNotNull(config1);
 			Assert.assertSame(config1, config2);
 		} finally {

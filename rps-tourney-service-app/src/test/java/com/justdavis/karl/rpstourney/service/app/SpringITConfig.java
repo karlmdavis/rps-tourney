@@ -10,7 +10,7 @@ import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.provisioners.DataSourceProvisionersManager;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningTargetsProvider;
 import com.justdavis.karl.misc.datasources.provisioners.XmlProvisioningTargetsProvider;
-import com.justdavis.karl.rpstourney.service.app.GameApplicationInitializer.AppSpringConfig;
+import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.config.MockConfigLoader;
 

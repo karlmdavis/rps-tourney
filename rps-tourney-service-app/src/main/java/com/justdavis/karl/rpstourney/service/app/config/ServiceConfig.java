@@ -11,8 +11,8 @@ import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
  * 
  * @see IConfigLoader
  */
-@XmlRootElement(name = "gameConfig")
-public final class GameConfig {
+@XmlRootElement
+public final class ServiceConfig {
 	@XmlElementRef
 	private final IDataSourceCoordinates dataSourceCoordinates;
 
@@ -20,17 +20,17 @@ public final class GameConfig {
 	 * This private no-arg constructor is required by JAX-B.
 	 */
 	@SuppressWarnings("unused")
-	private GameConfig() {
+	private ServiceConfig() {
 		this.dataSourceCoordinates = null;
 	}
 
 	/**
-	 * Constructs a new {@link GameConfig} instance.
+	 * Constructs a new {@link ServiceConfig} instance.
 	 * 
 	 * @param dataSourceCoordinates
 	 *            the value to use for {@link #getDataSourceCoordinates()}
 	 */
-	public GameConfig(IDataSourceCoordinates dataSourceCoordinates) {
+	public ServiceConfig(IDataSourceCoordinates dataSourceCoordinates) {
 		this.dataSourceCoordinates = dataSourceCoordinates;
 	}
 

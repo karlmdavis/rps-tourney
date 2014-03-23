@@ -28,7 +28,7 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningReq
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.app.GameApplicationInitializer.AppSpringConfig;
+import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountsDaoImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 

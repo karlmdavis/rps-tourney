@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
-import com.justdavis.karl.rpstourney.service.app.GameApplicationInitializer.AppSpringConfig;
-import com.justdavis.karl.rpstourney.service.app.config.GameConfig;
+import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
+import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 
 /**
  * <p>
@@ -31,7 +31,7 @@ import com.justdavis.karl.rpstourney.service.app.config.GameConfig;
 @Component
 public class DatabaseSchemaInitializer {
 	private final IDataSourceSchemaManager schemaManager;
-	private final GameConfig config;
+	private final ServiceConfig config;
 
 	/**
 	 * Constructs a new {@link DatabaseSchemaInitializer} instance.
@@ -39,11 +39,11 @@ public class DatabaseSchemaInitializer {
 	 * @param schemaManager
 	 *            the injected {@link IDataSourceSchemaManager} to use
 	 * @param config
-	 *            the injected {@link GameConfig} to use
+	 *            the injected {@link ServiceConfig} to use
 	 */
 	@Inject
 	public DatabaseSchemaInitializer(IDataSourceSchemaManager schemaManager,
-			GameConfig config) {
+			ServiceConfig config) {
 		this.schemaManager = schemaManager;
 		this.config = config;
 	}

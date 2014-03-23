@@ -31,7 +31,7 @@ public class SpringITConfigWithJetty {
 	@Bean(initMethod = "startServer", destroyMethod = "stopServer")
 	public EmbeddedServer embeddedServer(ApplicationContext springContext) {
 		Map<String, Object> webAppAttributes = new HashMap<>();
-		webAppAttributes.put(GameApplicationInitializer.SPRING_PARENT_CONTEXT,
+		webAppAttributes.put(GameServiceApplicationInitializer.SPRING_PARENT_CONTEXT,
 				springContext);
 
 		EmbeddedServer embeddedServer = new EmbeddedServer(

@@ -37,7 +37,7 @@ public class XmlConfigLoader implements IConfigLoader {
 	 * The default path that the application's configuration will be read from,
 	 * unless overridden via {@link #CONFIG_PROP}.
 	 */
-	public static final String CONFIG_DEFAULT = "./game-app-config.xml";
+	public static final String CONFIG_DEFAULT = "./rps-service-config.xml";
 
 	/**
 	 * The Java system property that specifies the path that the application's
@@ -46,13 +46,13 @@ public class XmlConfigLoader implements IConfigLoader {
 	 * 
 	 * @see System#getProperty(String)
 	 */
-	public static final String CONFIG_PROP = "rps.gameapp.config.path";
+	public static final String CONFIG_PROP = "rps.service.config.path";
 
 	/**
 	 * This static field is used as a cache for the application's
-	 * {@link GameConfig}.
+	 * {@link ServiceConfig}.
 	 */
-	private static GameConfig cachedConfig = null;
+	private static ServiceConfig cachedConfig = null;
 
 	private final DataSourceConnectorsManager dsConnectorsManager;
 
@@ -71,7 +71,7 @@ public class XmlConfigLoader implements IConfigLoader {
 	 * @see com.justdavis.karl.rpstourney.service.app.config.IConfigLoader#getConfig()
 	 */
 	@Override
-	public synchronized GameConfig getConfig() {
+	public synchronized ServiceConfig getConfig() {
 		/*
 		 * This method is marked as synchronized to prevent different parts of
 		 * the application from ending up with different config instances. If
@@ -91,7 +91,7 @@ public class XmlConfigLoader implements IConfigLoader {
 		try {
 			// Create the List of classes that might be unmarshalled.
 			List<Class<?>> jaxbClasses = new LinkedList<>();
-			jaxbClasses.add(GameConfig.class);
+			jaxbClasses.add(ServiceConfig.class);
 			jaxbClasses.addAll(dsConnectorsManager.getCoordinatesTypes());
 
 			// Create the Unmarshaller needed.
@@ -100,7 +100,7 @@ public class XmlConfigLoader implements IConfigLoader {
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 			// Try to unmarshall the config file.
-			GameConfig parsedConfig = (GameConfig) unmarshaller
+			ServiceConfig parsedConfig = (ServiceConfig) unmarshaller
 					.unmarshal(configFileStream);
 
 			// Cache the config for future calls.
@@ -108,7 +108,7 @@ public class XmlConfigLoader implements IConfigLoader {
 
 			return cachedConfig;
 		} catch (UnmarshalException e) {
-			throw new GameConfigException("Unable to parse configuration.", e);
+			throw new ServiceConfigException("Unable to parse configuration.", e);
 		} catch (JAXBException e) {
 			throw new UncheckedJaxbException(e);
 		}
@@ -127,7 +127,7 @@ public class XmlConfigLoader implements IConfigLoader {
 
 		// If no file was found, throw an explanatory error.
 		if (configFileStream == null)
-			throw new GameConfigException(String.format(
+			throw new ServiceConfigException(String.format(
 					"A configuration file must be available"
 							+ " either at the default path ('%s')"
 							+ " or at the path specified by the '%s'"
@@ -152,7 +152,7 @@ public class XmlConfigLoader implements IConfigLoader {
 			// No file exists at the default path.
 			return null;
 		} catch (IOException e) {
-			throw new GameConfigException(
+			throw new ServiceConfigException(
 					"Unable to open the configuration file.", e);
 		}
 	}
@@ -161,13 +161,13 @@ public class XmlConfigLoader implements IConfigLoader {
 	 * @return an {@link InputStream} for the file specified by
 	 *         {@link #CONFIG_PROP}, or <code>null</code> if that property
 	 *         wasn't set
-	 * @throws GameConfigException
+	 * @throws ServiceConfigException
 	 *             A {@link CodeGenerationException} will be thrown if the
 	 *             {@link #CONFIG_PROP} property has been set to a value that
 	 *             does not point to an actual file.
 	 */
 	private static InputStream retrieveConfigFile_overridden()
-			throws GameConfigException {
+			throws ServiceConfigException {
 		try {
 			// If the property isn't set, bail out.
 			String configFilePropValue = System.getProperty(CONFIG_PROP);
@@ -178,7 +178,7 @@ public class XmlConfigLoader implements IConfigLoader {
 			Path configPath = FileSystems.getDefault().getPath(
 					configFilePropValue);
 			if (!Files.exists(configPath) || !Files.isRegularFile(configPath))
-				throw new GameConfigException(String.format(
+				throw new ServiceConfigException(String.format(
 						"The path specified by the %s property does "
 								+ "not point to a valid file: '%s'.",
 						CONFIG_PROP, configFilePropValue));
@@ -186,7 +186,7 @@ public class XmlConfigLoader implements IConfigLoader {
 			// Return a stream for the file.
 			return new BufferedInputStream(Files.newInputStream(configPath));
 		} catch (IOException e) {
-			throw new GameConfigException(
+			throw new ServiceConfigException(
 					"Unable to open the configuration file.", e);
 		}
 	}

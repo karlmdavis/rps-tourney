@@ -13,7 +13,7 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningTar
  * integration tests.
  */
 public final class MockConfigLoader implements IConfigLoader {
-	private final GameConfig config;
+	private final ServiceConfig config;
 
 	/**
 	 * Constructs a new {@link MockConfigLoader} instance.
@@ -24,7 +24,7 @@ public final class MockConfigLoader implements IConfigLoader {
 	@Inject
 	public MockConfigLoader(DataSourceConnectorsManager dsConnectorsManager) {
 		/*
-		 * Once GameConfig has more to it than just a set of DB coords, I'd
+		 * Once ServiceConfig has more to it than just a set of DB coords, I'd
 		 * recommend loading the rest of the config from an XML file using a
 		 * separate (customized) XmlConfigLoader instance.
 		 */
@@ -34,7 +34,7 @@ public final class MockConfigLoader implements IConfigLoader {
 		HsqlProvisioner hsqlProvisioner = new HsqlProvisioner();
 		HsqlCoordinates coords = hsqlProvisioner.provision(
 				new HsqlProvisioningTarget(), hsqlProvisioningRequest);
-		GameConfig actualConfig = new GameConfig(coords);
+		ServiceConfig actualConfig = new ServiceConfig(coords);
 
 		this.config = actualConfig;
 	}
@@ -43,7 +43,7 @@ public final class MockConfigLoader implements IConfigLoader {
 	 * @see com.justdavis.karl.rpstourney.service.app.config.IConfigLoader#getConfig()
 	 */
 	@Override
-	public GameConfig getConfig() {
+	public ServiceConfig getConfig() {
 		return config;
 	}
 }

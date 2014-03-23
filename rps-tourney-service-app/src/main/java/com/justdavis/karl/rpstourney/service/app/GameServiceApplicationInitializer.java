@@ -43,7 +43,7 @@ import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
 import com.justdavis.karl.rpstourney.service.app.auth.game.InternetAddressReader;
-import com.justdavis.karl.rpstourney.service.app.config.GameConfig;
+import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
@@ -71,13 +71,8 @@ import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
  * 
  * @see AppSpringConfig
  */
-public final class GameApplicationInitializer implements
+public final class GameServiceApplicationInitializer implements
 		WebApplicationInitializer {
-	/*
-	 * TODO Rename this class so it doesn't sound the same as the
-	 * WebApplicationInitializer in rps-tourney-weapp.
-	 */
-
 	/**
 	 * The web application context-wide initialization parameter that specifies
 	 * the Spring parent {@link ApplicationContext} instance that should used
@@ -155,7 +150,7 @@ public final class GameApplicationInitializer implements
 	@Configuration
 	@EnableJpaRepositories
 	@EnableTransactionManagement
-	@ComponentScan(basePackageClasses = { GameApplication.class }, excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty") })
+	@ComponentScan(basePackageClasses = { ServiceApplication.class }, excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty") })
 	@Import({ SpringConfigForJEMisc.class, SpringJpaConfig.class })
 	public static class AppSpringConfig {
 		/**
@@ -175,8 +170,8 @@ public final class GameApplicationInitializer implements
 		 *         {@link Configuration}.
 		 */
 		@Bean
-		GameApplication jaxRsApiApplication() {
-			return new GameApplication();
+		ServiceApplication jaxRsApiApplication() {
+			return new ServiceApplication();
 		}
 
 		/**
@@ -290,10 +285,10 @@ public final class GameApplicationInitializer implements
 		 * @param configLoader
 		 *            the injected {@link IConfigLoader} for the application
 		 * @return the application's settings, as represented by a
-		 *         {@link GameConfig} instance
+		 *         {@link ServiceConfig} instance
 		 */
 		@Bean
-		GameConfig gameConfig(IConfigLoader configLoader) {
+		ServiceConfig serviceConfig(IConfigLoader configLoader) {
 			return configLoader.getConfig();
 		}
 
@@ -301,15 +296,15 @@ public final class GameApplicationInitializer implements
 		 * @param dsConnectorsManager
 		 *            the injected {@link DataSourceConnectorsManager} for the
 		 *            application
-		 * @param gameConfig
-		 *            the injected {@link GameConfig} for the application
+		 * @param serviceConfig
+		 *            the injected {@link ServiceConfig} for the application
 		 * @return the {@link DataSource} for the application's database
 		 */
 		@Bean
 		public DataSource dataSource(
 				DataSourceConnectorsManager dsConnectorsManager,
-				GameConfig gameConfig) {
-			return dsConnectorsManager.createDataSource(gameConfig
+				ServiceConfig serviceConfig) {
+			return dsConnectorsManager.createDataSource(serviceConfig
 					.getDataSourceCoordinates());
 		}
 
