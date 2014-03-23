@@ -66,12 +66,10 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<!-- TODO: Not entirely sure why this is needed, but every Spring MVC 
-				tutorial I've seen seems to have it. -->
+			<!-- Required because JSP views are used in Spring MVC. -->
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
