@@ -1,6 +1,8 @@
 package com.justdavis.karl.rpstourney.webapp.info;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.http.MediaType;
@@ -43,9 +45,13 @@ public class InfoController {
 		 * does.
 		 */
 
+		Map<String, String> modelProps = new HashMap<>();
+		modelProps.put("namespace", XmlNamespace.RPSTOURNEY_APP);
+		modelProps.put("app_version", getProjectVersion());
+
 		ModelAndView modelAndView = new ModelAndView("app-info");
-		modelAndView.addObject("namespace", XmlNamespace.RPSTOURNEY_APP);
-		modelAndView.addObject("app.version", getProjectVersion());
+		modelAndView.addObject("model", modelProps);
+
 		return modelAndView;
 	}
 
