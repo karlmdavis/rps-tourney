@@ -726,3 +726,11 @@ This file should never be committed along with other files; it should always be 
     * Fixed Puppet on `eddings` so that the `rps` PostgreSQL DB could be created.
     * Cleaned up the WARs' dependencies so that the deploy correctly and cleanly.
     * Cleaned up and committed things.
+* 0.5h: [Issue #28](https://github.com/karlmdavis/rps-tourney/issues/28): Found and fixed.
+* 1.0h: [Issue #29](https://github.com/karlmdavis/rps-tourney/issues/29): Found and fixed.
+    * Posted <http://stackoverflow.com/q/22596769/1851299> to try and resolve one minor complaint I have with my solution.
+
+### 2014-03-24, Monday
+
+* 0.1h: Registered `rpstourney.com` as a domain name.
+    * I checked, but none of the following were available: `rps.com`, `rpsbattle.com`, `rpsarena.com`.
