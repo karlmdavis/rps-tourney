@@ -734,3 +734,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: Registered `rpstourney.com` as a domain name.
     * I checked, but none of the following were available: `rps.com`, `rpsbattle.com`, `rpsarena.com`.
+
+### 2014-03-24, Monday
+
+* 0.1h: Configured DNS for `rpstourney.com`.
+
