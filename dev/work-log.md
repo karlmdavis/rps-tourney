@@ -742,4 +742,14 @@ This file should never be committed along with other files; it should always be 
 ### 2014-03-26, Wednesday
 
 * 0.1h: Deployed fix for [Issue #29](https://github.com/karlmdavis/rps-tourney/issues/29) (as I'd apparently forgotten to do so earlier).
+* 0.4h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Checked out and started configuring [HTML5 Boilerplate](http://html5boilerplate.com/).
+    * Started work on getting a homepage for the application in place.
 
+### 2014-03-27, Thursday
+
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Broke out the page's (currently very boring) template into a taglib.
+        * Useful reference: [Stack Overflow: What's the difference between including files with JSP include directive, JSP include action and using JSP Tag Files?](http://stackoverflow.com/questions/14580120/whats-the-difference-between-including-files-with-jsp-include-directive-jsp-in)
+        * Useful reference: [Stack Overflow: JSP tricks to make templating easier?](http://stackoverflow.com/questions/1296235/jsp-tricks-to-make-templating-easier/3257426#3257426)
+    * Got basic internationalization working.
