@@ -2,7 +2,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<!-- The application's web.xml configuration is provided via Servlet 3.0's 
-		javax.servlet.ServletContainerInitializer mechanism. See the com.justdavis.karl.rpstourney.webapp.GameWebApplicationInitializer 
-		class for more details. -->
+	<!-- The majority of the application's web.xml configuration is provided 
+		via Servlet 3.0's javax.servlet.ServletContainerInitializer mechanism. See 
+		the com.justdavis.karl.rpstourney.webapp.GameWebApplicationInitializer class 
+		for more details. -->
+
+	<welcome-file-list>
+		<!-- This is mapped to HomeController. -->
+		<welcome-file />
+	</welcome-file-list>
 </web-app>
