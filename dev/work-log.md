@@ -753,3 +753,9 @@ This file should never be committed along with other files; it should always be 
         * Useful reference: [Stack Overflow: What's the difference between including files with JSP include directive, JSP include action and using JSP Tag Files?](http://stackoverflow.com/questions/14580120/whats-the-difference-between-including-files-with-jsp-include-directive-jsp-in)
         * Useful reference: [Stack Overflow: JSP tricks to make templating easier?](http://stackoverflow.com/questions/1296235/jsp-tricks-to-make-templating-easier/3257426#3257426)
     * Got basic internationalization working.
+
+### 2014-03-28, Friday
+
+* 0.25hh: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created a basic `HomeControllerIT`.
+    * Committed things.
