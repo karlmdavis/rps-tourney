@@ -756,6 +756,11 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-03-28, Friday
 
-* 0.25hh: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created a basic `HomeControllerIT`.
     * Committed things.
+
+### 2014-03-29, Saturday
+
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started reading about Spring Security and trying to implement it. Didn't get very far.
