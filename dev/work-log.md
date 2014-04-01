@@ -769,3 +769,8 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Read some more about Spring Security. For now, I think it makes sense to just get "game login" authentication working. The anonymous authentication I've built will be quite a bit more complicated to make work with this framework.
+
+### 2014-03-31, Monday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Read about OAuth2 with Spring Security.
