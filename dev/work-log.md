@@ -774,3 +774,11 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Read about OAuth2 with Spring Security.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * OAuth2 was a random red herring: even if I wanted to implement it, I don't know that I want to add Spring Security to my CXF web service application to do so. Something to maybe consider later.
+    * I need to implement a custom `AuthenticationProvider`, and then provide a login form. I think that's all I'll need for right now, though I might end up having to futz with "Remember Me" services.
+
+### 2014-04-01, Tuesday
+
+* ?h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created a stub `AuthenticationProvider` implementation and tried to get it working.
