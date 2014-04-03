@@ -780,5 +780,10 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-04-01, Tuesday
 
-* ?h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
-    * Created a stub `AuthenticationProvider` implementation and tried to get it working.
+* 0.35h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created a stub `AuthenticationProvider` implementation and tried to get it working. Didn't quite succeed: nothing seems to be prompting for login.
+
+### 2014-04-02, Wednesday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Did a quick test and discovered that my `SecurityWebApplicationInitializer` is not being run.
