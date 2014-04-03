@@ -787,3 +787,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Did a quick test and discovered that my `SecurityWebApplicationInitializer` is not being run.
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed my `SecurityWebApplicationInitializer`.
+
+### 2014-04-03, Thursday
+
+* 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Tried to figure out how `@EnableGlobalMethodSecurity` would work with `@EnableWebMvcSecurity`. I'm not sure, but I think that perhaps it won't.
