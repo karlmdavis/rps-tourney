@@ -794,3 +794,16 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Tried to figure out how `@EnableGlobalMethodSecurity` would work with `@EnableWebMvcSecurity`. I'm not sure, but I think that perhaps it won't.
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Found this excellent tutorial on using `@EnableGlobalMethodSecurity` with Spring MVC: [Designing and Implementing a Web Application with Spring](http://spring.io/guides/tutorials/web/6/).
+    * Got things prompting for login when/where they should.
+    * Don't quite have the login/logout page working yet, though.
+* 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Got login and logout working.
+    * Next up: actually implement `GameLoginAuthenticationProvider` and add tests.
+
+### 2014-04-04, Friday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Cleaned up comments on the new classes.
+    * Started fleshing out `GameLoginAuthenticationProvider`.
