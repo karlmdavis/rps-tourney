@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "\"Accounts\"")
 public final class Account implements Principal {
+	@XmlElement
 	@Id
 	@Column(name = "\"id\"", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Accounts_id_seq")

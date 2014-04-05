@@ -128,8 +128,9 @@ public final class GameLoginIdentitiesDaoImplIT {
 			// Verify the result.
 			Assert.assertEquals(1, loginsDao.getLogins().size());
 			GameLoginIdentity loginFromDb = loginsDao.getLogins().get(0);
-			Assert.assertNotNull(loginFromDb.getAccount());
 			Assert.assertEquals(1, loginFromDb.getId());
+			Assert.assertNotNull(loginFromDb.getAccount());
+			Assert.assertEquals(1, loginFromDb.getAccount().getId());
 			Assert.assertEquals(login.getEmailAddress(),
 					loginFromDb.getEmailAddress());
 			Assert.assertEquals(login.getPasswordHash(),

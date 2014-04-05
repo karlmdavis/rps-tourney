@@ -57,6 +57,9 @@ public final class AccountTest {
 		Node accountNode = (Node) xpath.evaluate("/rps:account",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(accountNode);
+		Node idNode = (Node) xpath.evaluate("/rps:account/rps:id",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertEquals("-1", idNode.getTextContent());
 		Node rolesNode = (Node) xpath.evaluate("/rps:account/rps:roles",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(rolesNode);
@@ -92,6 +95,7 @@ public final class AccountTest {
 
 		// Verify the results.
 		Assert.assertNotNull(parsedAccount);
+		Assert.assertEquals(42, parsedAccount.getId());
 		Assert.assertEquals(new HashSet<>(Arrays.asList(SecurityRole.USERS)),
 				parsedAccount.getRoles());
 	}

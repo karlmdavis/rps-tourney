@@ -181,7 +181,8 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		// Search for a conflicting login.
 		GameLoginIdentity conflictingLogin = loginsDao.find(emailAddress);
 		if (conflictingLogin != null)
-			throw new WebApplicationException("User already logged in.",
+			throw new WebApplicationException(
+					"Login already exists for that email address.",
 					Status.CONFLICT);
 
 		// Create the new Account (if needed).

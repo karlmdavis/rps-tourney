@@ -57,7 +57,9 @@ public interface IGameAuthResource {
 	@POST
 	@Path(SERVICE_PATH_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	Account loginWithGameAccount(InternetAddress emailAddress, String password);
+	Account loginWithGameAccount(
+			@FormParam("emailAddress") InternetAddress emailAddress,
+			@FormParam("password") String password);
 
 	/**
 	 * <p>
