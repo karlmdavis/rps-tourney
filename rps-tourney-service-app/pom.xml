@@ -19,9 +19,6 @@
 	</description>
 
 	<properties>
-		<!-- Java 1.7 is required by the Eclipse JAX-RS plugin. -->
-		<javaSourceVersion>1.7</javaSourceVersion>
-
 		<!-- The version of the Apache CXF artifacts to use. -->
 		<cxf.version>3.0.0-milestone1</cxf.version>
 	</properties>

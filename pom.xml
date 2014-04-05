@@ -115,11 +115,6 @@
 	</modules>
 
 	<properties>
-		<!-- The version of Java that we'll set our game's projects to use. Android 
-			does not currently support anything later than Java 6, so that's used as 
-			the default. -->
-		<javaSourceVersion>1.6</javaSourceVersion>
-
 		<!-- The version of the Spring Framework artifacts to use. This property 
 			isn't used directly here, but is rather intended for use in child projects. -->
 		<spring.version>4.0.0.RELEASE</spring.version>

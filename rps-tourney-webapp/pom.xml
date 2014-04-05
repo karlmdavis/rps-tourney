@@ -19,11 +19,6 @@
 		other functions.)
 	</description>
 
-	<properties>
-		<!-- The version of Java to use. -->
-		<javaSourceVersion>1.7</javaSourceVersion>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.justdavis.karl.rpstourney</groupId>
