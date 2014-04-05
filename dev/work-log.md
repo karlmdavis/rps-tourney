@@ -807,3 +807,11 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Cleaned up comments on the new classes.
     * Started fleshing out `GameLoginAuthenticationProvider`.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Cleaned up comments on the new classes.
+    * Started fleshing out `GameLoginAuthenticationProvider`.
+
+### 2014-04-05, Saturday
+
+* 1.5h: [Issue #13](https://github.com/karlmdavis/rps-tourney/issues/13): Game logins service.
+    * Hadn't ever tested logins with game logins, and they were broken. Fixed this.
