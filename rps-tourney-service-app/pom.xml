@@ -142,6 +142,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- An in-memory embedded SQL DB. Used to speed up DB-related tests. -->
