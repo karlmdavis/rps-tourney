@@ -813,5 +813,25 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-04-05, Saturday
 
-* 1.5h: [Issue #13](https://github.com/karlmdavis/rps-tourney/issues/13): Game logins service.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started creating `GameAuthClient` in the new `rps-tourney-service-client` project.
+* 1.25h: [Issue #13](https://github.com/karlmdavis/rps-tourney/issues/13): Game logins service.
     * Hadn't ever tested logins with game logins, and they were broken. Fixed this.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * How do I want to handle testing the `-service-client` project?
+        * All that I could do with unit tests is verify its behavior when the service is down. Seems silly to bother.
+        * Integration tests require a running instance of `-service-app` to connect to.
+        * Do I want to have a `test-jar` dependency on `-service-app` and test things that way? Those dependencies are always such a giant PITA.
+        * The only alternative, though, is to move all of those ITs to a separate `-service-its` project. That project would need to have the ITs for both the client and server.
+        * Maybe that's not such a bad idea... Given that you can't really test the service without a client and vice-versa, maybe those just belong together.
+        * It'd be kind of nice if I design things such that the tests could also be run against an instance of the service in production.
+            * I'd have to be super careful to ensure that the tests don't leave test data laying around, though, and I wouldn't be able to wipe the DB in them ever.
+            * I'd also have to come up with a way to hide the test data: don't want to throw off stats or pollute things with a bunch of test game sessions, for instance.
+            * I think I'll leave that out for now. It's something to implement later if it turns out I really want it.
+        * I should probably create a separate branch for this effort.
+
+### 2014-04-06, Sunday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started creating the new `rps-tourney-service-its` project and moving the `-service-app` ITs into it.
+        * Will have to either use the Cargo plugin, or split the `-service-app` project into a separate WAR and JAR: WAR dependencies don't end up on the classpath or pull in transitive dependencies.
