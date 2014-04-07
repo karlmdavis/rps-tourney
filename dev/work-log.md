@@ -835,3 +835,9 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Started creating the new `rps-tourney-service-its` project and moving the `-service-app` ITs into it.
         * Will have to either use the Cargo plugin, or split the `-service-app` project into a separate WAR and JAR: WAR dependencies don't end up on the classpath or pull in transitive dependencies.
+        * I think it's best to go with Cargo, though I'll have to see if JaCoCo and Sonar work correctly with it.
+
+### 2014-04-07, Monday
+
+* 0.3h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started trying to wire up Cargo or the Tomcat plugin for ITs.
