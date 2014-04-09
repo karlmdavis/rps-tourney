@@ -841,3 +841,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Started trying to wire up Cargo or the Tomcat plugin for ITs.
+
+### 2014-04-08, Tuesday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Changed course: decided to try and leave the ITs in `-service-app`, and to use the `-service-client` classes there to test the server side and client side together. Not sure that JaCoCo and Sonar will "play nice" with this idea, but definitely seems to be worth a shot.
