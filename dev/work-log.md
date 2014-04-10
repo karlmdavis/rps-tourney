@@ -846,3 +846,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Changed course: decided to try and leave the ITs in `-service-app`, and to use the `-service-client` classes there to test the server side and client side together. Not sure that JaCoCo and Sonar will "play nice" with this idea, but definitely seems to be worth a shot.
+
+### 2014-04-09, Wednesday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
+        * Currently stuck on how to handle login cookies between requests with the client. They really represent session state (on the server side), so I feel like I ought to use some sort of AOP proxy to inject them on every call. It looks like Spring's `@Scope(...)` annotation makes this relatively painless to do.
