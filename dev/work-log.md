@@ -852,3 +852,9 @@ This file should never be committed along with other files; it should always be 
 * 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
         * Currently stuck on how to handle login cookies between requests with the client. They really represent session state (on the server side), so I feel like I ought to use some sort of AOP proxy to inject them on every call. It looks like Spring's `@Scope(...)` annotation makes this relatively painless to do.
+
+### 2014-04-10, Thursday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
+        * Implemented the `CookieStore` to preserve auth cookies between requests.
