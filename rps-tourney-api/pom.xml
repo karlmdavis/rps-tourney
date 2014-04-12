@@ -75,6 +75,10 @@
 						<goals>
 							<goal>prepare-agent-integration</goal>
 						</goals>
+						<configuration>
+							<destFile>${sonar.jacoco.itReportPath}</destFile>
+							<append>true</append>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

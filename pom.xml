@@ -127,6 +127,11 @@
 		<!-- The default number of parallel forks to use for running the ITs. Note 
 			that "C" stands for "core", but also seems to include hyperthreaded cores. -->
 		<forkCount.its>0.25C</forkCount.its>
+
+		<!-- Configure Sonar such that the coverage reports for all modules' integration 
+			tests are stored in a single file in the parent project. The JaCoCo configuration 
+			for integration tests also needs to point to this location. -->
+		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it-all-modules.exec</sonar.jacoco.itReportPath>
 	</properties>
 
 	<dependencyManagement>
