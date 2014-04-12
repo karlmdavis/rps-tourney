@@ -109,6 +109,7 @@
 		<module>rps-tourney-api</module>
 		<module>rps-tourney-console</module>
 		<module>rps-tourney-service-api</module>
+		<module>rps-tourney-service-client</module>
 		<module>rps-tourney-service-app</module>
 		<module>rps-tourney-webapp</module>
 		<module>rps-tourney-deployment</module>
@@ -138,6 +139,11 @@
 			<dependency>
 				<groupId>com.justdavis.karl.rpstourney</groupId>
 				<artifactId>rps-tourney-service-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.justdavis.karl.rpstourney</groupId>
+				<artifactId>rps-tourney-service-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

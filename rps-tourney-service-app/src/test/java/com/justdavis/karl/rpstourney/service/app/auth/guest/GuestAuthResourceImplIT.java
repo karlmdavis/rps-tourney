@@ -1,11 +1,7 @@
 package com.justdavis.karl.rpstourney.service.app.auth.guest;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +12,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
-import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty;
-import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
-import com.justdavis.karl.rpstourney.service.app.auth.guest.IGuestLoginIndentitiesDao;
+import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
+import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
+import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
  * Integration tests for {@link GuestAuthResourceImpl}.
@@ -40,18 +37,26 @@ public final class GuestAuthResourceImplIT {
 	 */
 	@Test
 	public void createLogin() {
-		WebClient client = WebClient.create(server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
 
-		client.accept(MediaType.TEXT_XML);
-		client.path(IGuestAuthResource.SERVICE_PATH);
-		client.post(null);
-		Response response = client.getResponse();
+		// Create the login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		Account createdAccount = guestAuthClient.loginAsGuest();
 
-		// Verify the results
-		Assert.assertNotNull(response);
-		Assert.assertEquals(Status.OK.getStatusCode(), response.getStatus());
-		Account account = (Account) response.readEntity(Account.class);
-		Assert.assertNotNull(account);
+		// Verify the create results.
+		Assert.assertNotNull(createdAccount);
 		Assert.assertEquals(1, loginsDao.getLogins().size());
+
+		// Validate the login.
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		Account validatedAccount = accountsClient.validateAuth();
+
+		// Verify the validate results.
+		Assert.assertNotNull(validatedAccount);
+		Assert.assertEquals(createdAccount.getId(), validatedAccount.getId());
 	}
 }

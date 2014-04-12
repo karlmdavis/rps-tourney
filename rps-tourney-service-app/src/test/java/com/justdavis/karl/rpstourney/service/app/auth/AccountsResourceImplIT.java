@@ -1,13 +1,13 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.cxf.jaxrs.client.WebClient;
+import org.hamcrest.core.StringContains;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -15,12 +15,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
-import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty;
-import com.justdavis.karl.rpstourney.service.app.WebClientHelper;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountsResourceImpl;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
+import com.justdavis.karl.rpstourney.service.app.auth.guest.IGuestLoginIndentitiesDao;
+import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.HttpClientException;
+import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
+import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
+import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
  * Integration tests for {@link AccountsResourceImpl}.
@@ -32,6 +34,12 @@ public final class AccountsResourceImplIT {
 	@Inject
 	private EmbeddedServer server;
 
+	@Inject
+	private IGuestLoginIndentitiesDao loginsDao;
+
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+
 	/**
 	 * Ensures that {@link AccountsResourceImpl#validateAuth()} returns
 	 * {@link Status#UNAUTHORIZED} as expected when called without
@@ -40,52 +48,53 @@ public final class AccountsResourceImplIT {
 	@Test
 	public void validateGuestLoginDenied() {
 		/*
-		 * Just a note: the AccountsResourceImpl will never even be run if everything
-		 * is working correctly. Instead, the AuthorizationFilter will handle
-		 * this.
+		 * Just a note: the AccountsResourceImpl will never even be run if
+		 * everything is working correctly. Instead, the AuthorizationFilter
+		 * will handle this.
 		 */
 
-		WebClient client = WebClient.create(server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
 
-		// Validate the login.
-		Response validateResponse = client
-				.replacePath(null)
-				.accept(MediaType.TEXT_XML)
-				.path(IAccountsResource.SERVICE_PATH
-						+ IAccountsResource.SERVICE_PATH_VALIDATE).get();
-
-		// Verify the results
-		Assert.assertEquals(Status.UNAUTHORIZED.getStatusCode(),
-				validateResponse.getStatus());
+		/*
+		 * Attempt to validate the login, which should fail with an HTTP 401
+		 * Unauthorized error.
+		 */
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		expectedException.expect(HttpClientException.class);
+		expectedException.expectMessage(StringContains.containsString("401"));
+		accountsClient.validateAuth();
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as expected when
-	 * used with an {@link Account} created via
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as
+	 * expected when used with an {@link Account} created via
 	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
 	 */
 	@Test
 	public void createAndValidateGuestLogin() {
-		WebClient client = WebClient.create(server.getServerBaseAddress());
-		WebClientHelper.enableSessionMaintenance(client, true);
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
 
-		// Login as guest.
-		Response loginResponse = client.accept(MediaType.TEXT_XML)
-				.path(IGuestAuthResource.SERVICE_PATH).post(null);
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				loginResponse.getStatus());
+		// Create the login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		Account createdAccount = guestAuthClient.loginAsGuest();
+
+		// Verify the create results.
+		Assert.assertNotNull(createdAccount);
+		Assert.assertEquals(1, loginsDao.getLogins().size());
 
 		// Validate the login.
-		Response validateResponse = client
-				.replacePath(null)
-				.accept(MediaType.TEXT_XML)
-				.path(IAccountsResource.SERVICE_PATH
-						+ IAccountsResource.SERVICE_PATH_VALIDATE).get();
-		Assert.assertEquals(Status.OK.getStatusCode(),
-				validateResponse.getStatus());
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		Account validatedAccount = accountsClient.validateAuth();
 
-		// Verify the results
-		Account account = (Account) validateResponse.readEntity(Account.class);
-		Assert.assertNotNull(account);
+		// Verify the validate results.
+		Assert.assertNotNull(validatedAccount);
+		Assert.assertEquals(createdAccount.getId(), validatedAccount.getId());
 	}
 }

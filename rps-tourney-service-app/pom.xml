@@ -135,6 +135,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- The rps-tourney-service-client project is used to integration test 
+				this project, and vice-versa. Sonar and JaCoCo are smart enough to pick up 
+				the code coverage for both, even though the integration tests are only run 
+				in this project. -->
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-service-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<!-- The project's dependency injection provider. -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
