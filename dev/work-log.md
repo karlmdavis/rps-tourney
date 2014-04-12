@@ -857,4 +857,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
-        * Implemented the `CookieStore` to preserve auth cookies between requests.
+        * Started implementing the `CookieStore` to preserve auth cookies between requests. Stopped before I had things working.
+
+### 2014-04-11, Friday
+
+* 0.35h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
+        * Got `GameAuthResourceImplIT` working.
