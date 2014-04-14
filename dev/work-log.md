@@ -879,3 +879,8 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Wasn't very motivated or productive: kept letting myself get distracted.
     * Worked on the JPA classes some more, and started designing web services.
+
+### 2014-04-13, Sunday
+
+* 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Refactored `GameSession` to make it mutable, in the ways it'll need to be to support the game's workflow.
