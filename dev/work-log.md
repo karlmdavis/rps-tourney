@@ -864,3 +864,18 @@ This file should never be committed along with other files; it should always be 
 * 0.35h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Working on refactoring the `-service-app` ITs to use the `-service-client` classes.
         * Got `GameAuthResourceImplIT` working.
+
+### 2014-04-12, Saturday
+
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Finished refactoring the `-service-app` ITs to use the `-service-client` classes.
+        * Got the rest of the client  API classes created. Added a couple of unit tests for them.
+        * Committed all of this: [rps-tourney:85e5d07d37](https://github.com/karlmdavis/rps-tourney/commit/85e5d07d377e617d30664364cc5a22e3beb4762d).
+* 0.75h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Started building out `GameSession`, etc. classes (with JPA support this time).
+
+### 2014-04-13, Sunday
+
+* 1.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Wasn't very motivated or productive: kept letting myself get distracted.
+    * Worked on the JPA classes some more, and started designing web services.
