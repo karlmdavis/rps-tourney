@@ -880,7 +880,16 @@ This file should never be committed along with other files; it should always be 
     * Wasn't very motivated or productive: kept letting myself get distracted.
     * Worked on the JPA classes some more, and started designing web services.
 
-### 2014-04-13, Sunday
+### 2014-04-14, Monday
 
 * 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
-    * Refactored `GameSession` to make it mutable, in the ways it'll need to be to support the game's workflow.
+    * Refactored `GameSession` to make it mutable, in the ways it'll need to be to support the game's workflow. Didn't finish.
+
+### 2014-04-15, Tuesday
+
+(Was busy with work and forgot to work on side project. Blew my 38 day streak.)
+
+### 2014-04-16, Wednesday
+
+* 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Completed the `GameSession` refactoring. Still need to check the schema and `GameRound`.
