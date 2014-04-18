@@ -896,5 +896,16 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-04-17, Thursday
 
-* 0.25h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+* 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Worked on fleshing out `Player`.
+    * Updated the schema to match the new classes.
+    * Next steps:
+        * XML attributes for the new model classes.
+        * Tests for the new model classes.
+        * DAO(s) for the new model classes.
+        * Flesh out `IGameSessionResource` and its implementations.
+
+### 2014-04-18, Friday
+
+* 0.2h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Fleshed out `IGameSessionResource`.
