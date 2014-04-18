@@ -893,3 +893,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Completed the `GameSession` refactoring. Still need to check the schema and `GameRound`.
+
+### 2014-04-17, Thursday
+
+* 0.25h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on fleshing out `Player`.
