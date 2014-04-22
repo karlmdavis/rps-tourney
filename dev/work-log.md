@@ -926,6 +926,14 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Finished (I think) adding in gameplay logic to model classes: determining winners, making sure players are distinct, etc.
     * Next steps:
-        * Updating the tests for the model classes to voer the new gameplay logic.
+        * Updating the tests for the model classes to cover the new gameplay logic.
+        * DAO(s) for the new model classes.
+        * Create the `IGameSessionResource` implementations.
+
+### 2014-04-21, Monday
+
+* 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Updated the tests for the model classes to cover the new gameplay logic.
+    * Next steps:
         * DAO(s) for the new model classes.
         * Create the `IGameSessionResource` implementations.
