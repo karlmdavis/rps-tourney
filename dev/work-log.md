@@ -945,3 +945,11 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * Complete the `IGameSessionResource` implementations.
         * DAO(s) for the new model classes.
+
+### 2014-04-23, Wednesday
+
+* 0.25h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on the `IGameSessionResource` server implementation.
+    * Next steps:
+        * Complete the `IGameSessionResource` implementations.
+        * DAO(s) for the new model classes.
