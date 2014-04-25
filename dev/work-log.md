@@ -948,8 +948,25 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-04-23, Wednesday
 
-* 0.25h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
-    * Worked on the `IGameSessionResource` server implementation.
+* 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Completed the `IGameSessionResource` server implementation, or at least a first pass on it.
     * Next steps:
-        * Complete the `IGameSessionResource` implementations.
+        * Create the `IGameSessionResource` client implementation.
         * DAO(s) for the new model classes.
+        * Write a lot of tests, being sure to thoroughly investigate thread safety.
+
+### 2014-04-24, Thursday
+
+* 0.35h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Thought about synchronization/locking for the `IGameSessionResource` server implementation.
+        * Added an extra parameter to `setMaxRounds(...)` to help prevent issues.
+        * If the objects are all retrieved as part of a pessimistic transaction, I think things will work out.
+        * All of the fields either require the correct "old" value to be passed in and verified, or only allow a one-time write.
+        * If `setMaxRounds(...)` is in a pessimistic transaction, it should now be fine.
+        * Does `submitThrow(...)` need a CHECK constraint in the DB to ensure it's safe? I think so. Alternatively, I could put it in a pessimistic transaction, but that would prevent users from simultaneously submitting throws, which would be not-great.
+* 0.3h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Created the `IGameSessionResource` client implementation.
+    * Started creating the ITs.
+    * Next steps:
+        * DAO(s) for the new model classes.
+        * Write a lot of tests, being sure to thoroughly investigate thread safety.
