@@ -970,3 +970,11 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * DAO(s) for the new model classes.
         * Write a lot of tests, being sure to thoroughly investigate thread safety.
+
+### 2014-04-25, Friday
+
+* ?h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on the ITs, and fixing bugs in the code that they exposed.
+    * Next steps:
+        * DAO(s) for the new model classes.
+        * Write a lot of tests, being sure to thoroughly investigate thread safety.
