@@ -973,8 +973,17 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-04-25, Friday
 
-* ?h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
-    * Worked on the ITs, and fixing bugs in the code that they exposed.
+* 0.75h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on the ITs, and fixed bugs that they exposed.
+    * Next steps:
+        * DAO(s) for the new model classes.
+        * Write a lot of tests, being sure to thoroughly investigate thread safety.
+
+### 2014-04-26, Saturday
+
+* 4.0h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on the ITs, and fixed bugs that they exposed.
+    * Spent a lot of time tracking down problems with concurrency. Was very confused about some problems until I learned about Hibernate's `@DynamicUpdate(...)` setting, which is `false` by default, which is the opposite of the way things worked with JDO/DataNucleus.
     * Next steps:
         * DAO(s) for the new model classes.
         * Write a lot of tests, being sure to thoroughly investigate thread safety.
