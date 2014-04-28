@@ -998,3 +998,17 @@ This file should never be committed along with other files; it should always be 
         * Write the trigger guard for Postgres.
         * Add a `CHECK` constraint to prevent calls to `setMaxRounds(...)` from succeeding once the game has started.
         * DAO(s) for the new model classes.
+    * Estimates:
+        * [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14)
+            * Remaining DB constraints: 3h
+            * Remaining tests: 2h
+            * Cleaning up and committing code: 2h
+            * Rework once the web application is in place: 4h
+
+### 2014-04-28, Monday
+
+* 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Wrote the trigger guard for Postgres.
+    * Next steps:
+        * Add a `CHECK` constraint to prevent calls to `setMaxRounds(...)` from succeeding once the game has started.
+        * DAO(s) for the new model classes.
