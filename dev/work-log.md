@@ -987,3 +987,14 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * DAO(s) for the new model classes.
         * Write a lot of tests, being sure to thoroughly investigate thread safety.
+
+### 2014-04-27, Sunday
+
+* 1.25h: Added support to the web service for logging requests/responses (with an attempt to exclude passwords).
+    * Opened [CXF-5714: org.apache.cxf.interceptor.LoggingMessage doesn't have getId() property](https://issues.apache.org/jira/browse/CXF-5714).
+* 4.0h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Worked on the ITs, and fixed bugs that they exposed.
+    * Next steps:
+        * Write the trigger guard for Postgres.
+        * Add a `CHECK` constraint to prevent calls to `setMaxRounds(...)` from succeeding once the game has started.
+        * DAO(s) for the new model classes.
