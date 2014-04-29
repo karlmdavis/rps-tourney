@@ -1009,6 +1009,20 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Wrote the trigger guard for Postgres.
+* 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Thought about adding a `CHECK` constraint to prevent calls to `setMaxRounds(...)` from succeeding once the game has started.
+        * Thing is, though, it wouldn't help. Unless there's a separate method to mark a game as STARTED, after the first throw is the earliest that this can be blocked off.
+        * Don't need to worry about clients with stale data, as the web service always gets a new copy of the `GameSession`.
+    * Started on the tests for the new model classes' DAOs.
     * Next steps:
-        * Add a `CHECK` constraint to prevent calls to `setMaxRounds(...)` from succeeding once the game has started.
-        * DAO(s) for the new model classes.
+        * Finish the tests for the new model classes' DAOs.
+
+### 2014-04-29, Tuesday
+
+* 0.75h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Trying to get `findByIdWithLock(...)` working.
+        * Pessimistic locking just deadlocks everything, even for reads.
+        * Optimistic locking seems to always be turned on, even when I wish it weren't.
+        * The `version` column also seems to be throwing some really odd errors.
+    * Next steps:
+        * Finish the tests for the new model classes' DAOs.
