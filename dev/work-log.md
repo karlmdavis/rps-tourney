@@ -1024,5 +1024,20 @@ This file should never be committed along with other files; it should always be 
         * Pessimistic locking just deadlocks everything, even for reads.
         * Optimistic locking seems to always be turned on, even when I wish it weren't.
         * The `version` column also seems to be throwing some really odd errors.
+* 2.0h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Trying to get `findByIdWithLock(...)` working.
+        * The `version` column also seems to be throwing some really odd errors.
+            * Lesson learned: never mark `@Version` columns as not-nullable.
+            * Also ended up opening this bug against Hibernate: [Hibernate ORM: HHH-9149: Error when using mixed-case column name on an @Version column](https://hibernate.atlassian.net/browse/HHH-9149).
     * Next steps:
+        * Finish the tests for the new model classes' DAOs.
+
+### 2014-04-30, Wednesday
+
+* 0.25h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Trying to get `findByIdWithLock(...)` working.
+        * The `version` column also seems to be throwing some really odd errors.
+            * Added a workaround for the [Hibernate ORM: HHH-9149: Error when using mixed-case column name on an @Version column](https://hibernate.atlassian.net/browse/HHH-9149) bug.
+    * Next steps:
+        * Decide if optimistic locking is a good design choice.
         * Finish the tests for the new model classes' DAOs.
