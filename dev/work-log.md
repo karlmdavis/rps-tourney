@@ -1041,3 +1041,13 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * Decide if optimistic locking is a good design choice.
         * Finish the tests for the new model classes' DAOs.
+
+### 2014-05-01, Thursday
+
+* ?h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Trying to get `findByIdWithLock(...)` working.
+        * The `version` column also seems to be throwing some really odd errors.
+            * Oh, FFS: even without the inner quotes on the column name, I still can't get the `@Version` column working in Postgres. Works fine in HSQL. Such BS.
+    * Next steps:
+        * Decide if optimistic locking is a good design choice.
+        * Finish the tests for the new model classes' DAOs.
