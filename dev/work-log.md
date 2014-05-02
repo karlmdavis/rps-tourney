@@ -1044,10 +1044,23 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-05-01, Thursday
 
-* ?h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+* 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
     * Trying to get `findByIdWithLock(...)` working.
         * The `version` column also seems to be throwing some really odd errors.
             * Oh, FFS: even without the inner quotes on the column name, I still can't get the `@Version` column working in Postgres. Works fine in HSQL. Such BS.
+            * Added a switch to the schema to workaround that stupid problem, too.
+        * Still not sure if I actually want to have locking. Need to think about it some more.
     * Next steps:
         * Decide if optimistic locking is a good design choice.
+        * Finish the tests for the new model classes' DAOs.
+
+### 2014-05-02, Friday
+
+* 0.5h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Trying to get `findByIdWithLock(...)` working.
+        * Consider the following scenario: three requests come in at once: `setMaxRounds(1)`, a first throw for player 1, and a first throw for player 2. Breaks the game.
+        * What would be the "right" thing to do in that scenario? Ideally, the `setMaxRounds` would fail, because the submit throws held some sort of shared lock. Unfortunately, no such "shared lock" construct exists.
+        * Instead, I think I really do need a "start game" flag for both players. Then, the worst thing that happens is that the number of rounds changes just before anyone can make a move.
+    * Next steps:
+        * Add in the model fields and service methods to support a required "please start the game" request from both players.
         * Finish the tests for the new model classes' DAOs.
