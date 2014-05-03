@@ -37,9 +37,9 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 public final class GameLoginIdentitiesDaoImplIT {
 	/**
 	 * @return the test run parameters to pass to
-	 *         {@link #AccountsDaoImplIT(IProvisioningRequest)}, where each
-	 *         top-level element in the returned {@link Collection} represents a
-	 *         test run
+	 *         {@link #GameLoginIdentitiesDaoImplIT(IProvisioningRequest)},
+	 *         where each top-level element in the returned {@link Collection}
+	 *         represents a test run
 	 */
 	@Parameterized.Parameters(name = "{index}: IProvisioningRequest={0}")
 	public static Collection<Object[]> createTestParameters() {
