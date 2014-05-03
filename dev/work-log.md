@@ -1064,3 +1064,16 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * Add in the model fields and service methods to support a required "please start the game" request from both players.
         * Finish the tests for the new model classes' DAOs.
+
+### 2014-05-03, Saturday
+
+* 1.75h: [Issue #14](https://github.com/karlmdavis/rps-tourney/issues/14): Adding methods to web service to enable game play.
+    * Tried adding in the model fields and service methods to support a required "please start the game" request from both players.
+        * Hold on... in my scenario from earlier, with the concurrent `setMaxRounds(...)` and both pla players' first moves... that actually **wouldn't** break the game. Neither of the two throws would see that the round is over, so their call to `prepareRound(...)` wouldn't do anything. When the clients next call it manually, everything would work out.
+        * These extra fields and methods aren't needed. Undid my work here.
+    * Got the existing tests passing.
+    * Added in the rest of the tests needed for the new model classes and their DAOs.
+    * Committed all of my changes on this issue and marked it closed.
+        * Wouldn't be surprised if I end up re-opening it later, but that's good enough for now.
+    * Next steps:
+        * Start on the web app gameplay.
