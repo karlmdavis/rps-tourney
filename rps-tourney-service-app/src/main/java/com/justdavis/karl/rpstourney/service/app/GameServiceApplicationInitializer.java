@@ -39,12 +39,12 @@ import com.justdavis.karl.misc.SpringConfigForJEMisc;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.datasources.schema.LiquibaseSchemaManager;
-import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
+import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
 import com.justdavis.karl.rpstourney.service.app.auth.game.InternetAddressReader;
-import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
+import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 import com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
@@ -160,7 +160,22 @@ public final class GameServiceApplicationInitializer implements
 		 */
 		@Bean(destroyMethod = "shutdown")
 		SpringBus cxf() {
-			return new SpringBus();
+			SpringBus springBus = new SpringBus();
+
+			/*
+			 * Enable request/response logging. These messages will use the
+			 * 'org.apache.cxf.interceptor.LoggingInInterceptor' and
+			 * 'org.apache.cxf.interceptor.LoggingOutInterceptor' logging
+			 * categories, at the 'INFO' level.
+			 */
+			LoggerForInbound inInterceptor = new LoggerForInbound();
+			LoggerForOutbound outInterceptor = new LoggerForOutbound();
+			springBus.getInInterceptors().add(inInterceptor);
+			springBus.getOutInterceptors().add(outInterceptor);
+			springBus.getInFaultInterceptors().add(inInterceptor);
+			springBus.getOutFaultInterceptors().add(outInterceptor);
+
+			return springBus;
 		}
 
 		/**
