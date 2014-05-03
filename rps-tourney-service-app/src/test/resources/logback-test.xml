@@ -15,8 +15,16 @@
 		name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl"
 		level="info" />
 
-	<!-- Disable all logging by default. The app's Options.debugEnabled flag 
-		can be used to enable logging, if desired. -->
+	<!-- These loggers will print all CXF requests/responses to the log, at 
+		the 'info' level (set to 'warn' or higher to disable them). Actually uses 
+		the application's custom LoggerForInbound and LoggerForOutbound classes, 
+		which attempt to exclude passwords from the log output. -->
+	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor"
+		level="info" />
+	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
+		level="info" />
+
+	<!-- Log at the INFO level and above by default, to the console. -->
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>

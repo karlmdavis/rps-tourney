@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rps:gameSession xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
+	<rps:id>abcdefghij</rps:id>
+	<rps:state>WAITING_FOR_PLAYER</rps:state>
+	<rps:maxRounds>3</rps:maxRounds>
+	<rps:player1>
+		<rps:humanAccount>
+			<rps:id>42</rps:id>
+			<rps:roles>
+				<rps:role>USERS</rps:role>
+			</rps:roles>
+		</rps:humanAccount>
+	</rps:player1>
+	<rps:rounds>
+		<rps:round>
+			<rps:roundIndex>0</rps:roundIndex>
+			<rps:throwForPlayer1>ROCK</rps:throwForPlayer1>
+		</rps:round>
+	</rps:rounds>
+</rps:gameSession>

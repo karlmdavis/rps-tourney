@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response.StatusType;
 public final class HttpClientException extends RuntimeException {
 	private static final long serialVersionUID = -7808416965381512945L;
 
+	private final StatusType status;
+
 	/**
 	 * Constructs a new {@link HttpClientException}.
 	 * 
@@ -18,5 +20,14 @@ public final class HttpClientException extends RuntimeException {
 	public HttpClientException(StatusType status) {
 		super(String.format("Unexpected HTTP %d status on response: %s",
 				status.getStatusCode(), status.getReasonPhrase()));
+		this.status = status;
+	}
+
+	/**
+	 * @return the unexpected HTTP {@link StatusType} response that was
+	 *         received, and caused this {@link HttpClientException}
+	 */
+	public StatusType getStatus() {
+		return status;
 	}
 }

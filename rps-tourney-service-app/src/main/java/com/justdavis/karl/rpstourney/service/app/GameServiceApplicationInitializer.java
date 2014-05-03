@@ -227,6 +227,8 @@ public final class GameServiceApplicationInitializer implements
 					"guestAuthResourceImpl"));
 			resourceProviders.add(new RequestScopeResourceFactory(
 					"gameAuthResourceImpl"));
+			resourceProviders.add(new RequestScopeResourceFactory(
+					"gameSessionResourceImpl"));
 
 			/*
 			 * Initialize all of the SpringResourceFactory instances. This

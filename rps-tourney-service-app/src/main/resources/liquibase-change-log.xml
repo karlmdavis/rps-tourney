@@ -7,6 +7,7 @@
 
 	<property name="type.binary" value="binary(255)" dbms="hsqldb" />
 	<property name="type.binary" value="bytea" dbms="postgresql" />
+	<property name="type.gameSessionId" value="varchar(10)" />
 
 	<changeSet id="1" author="karlmdavis">
 		<createTable tableName="Accounts">
@@ -73,6 +74,61 @@
 		<createSequence sequenceName="accounts_id_seq" />
 		<createSequence sequenceName="gameloginidentities_id_seq" />
 		<createSequence sequenceName="guestloginidentities_id_seq" />
+	</changeSet>
+
+	<changeSet id="3" author="karlmdavis">
+		<createTable tableName="GameSessions">
+			<column name="id" type="${type.gameSessionId}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="state" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="maxRounds" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="player1Id" type="bigint">
+				<constraints foreignKeyName="GameSessionsToPlayers1"
+					referencedTableName="Players" />
+			</column>
+			<column name="player2Id" type="bigint">
+				<constraints foreignKeyName="GameSessionsToPlayers2"
+					referencedTableName="Players" />
+			</column>
+		</createTable>
+		<createTable tableName="Players">
+			<column name="id" type="bigint" autoIncrement="true"
+				startWith="1">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="humanAccountId" type="bigint">
+				<constraints nullable="false" unique="true"
+					foreignKeyName="PlayersToAccounts" referencedTableName="Accounts" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="players_id_seq" />
+		<createTable tableName="GameRounds">
+			<column name="gameSessionId" type="${type.gameSessionId}">
+				<constraints primaryKey="true" nullable="false"
+					foreignKeyName="AccountRolesToAccounts" referencedTableName="Accounts" />
+			</column>
+			<column name="roundIndex" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="throwForPlayer1" type="varchar(50)">
+				<constraints nullable="true" />
+			</column>
+			<column name="throwForPlayer2" type="varchar(50)">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+		<!-- Create a TRIGGER-based constraint that ensures that GameRounds.throwForPlayerN 
+			can only ever be set once. This is required in the face of multiple conflicting 
+			concurrent requests, so that only one such request ever succeeds. -->
+		<sqlFile path="trigger-GameRounds_throwProtect-hsqldb.sql"
+			relativeToChangelogFile="true" splitStatements="false" dbms="hsqldb" />
+		<sqlFile path="trigger-GameRounds_throwProtect-postgresql.sql"
+			relativeToChangelogFile="true" splitStatements="false" dbms="postgresql" />
 	</changeSet>
 
 </databaseChangeLog>
