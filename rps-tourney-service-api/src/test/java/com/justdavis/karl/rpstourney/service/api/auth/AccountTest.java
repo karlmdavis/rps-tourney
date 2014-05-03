@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,8 +21,6 @@ import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
-import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 
 /**
  * Unit tests for {@link Account}.
@@ -98,5 +97,51 @@ public final class AccountTest {
 		Assert.assertEquals(42, parsedAccount.getId());
 		Assert.assertEquals(new HashSet<>(Arrays.asList(SecurityRole.USERS)),
 				parsedAccount.getRoles());
+	}
+
+	/**
+	 * Tests {@link Account#equals(Object)} and {@link Account#hashCode()}.
+	 * 
+	 * @throws SecurityException
+	 *             (won't happen)
+	 * @throws NoSuchFieldException
+	 *             (won't happen)
+	 * @throws IllegalAccessException
+	 *             (won't happen)
+	 * @throws IllegalArgumentException
+	 *             (won't happen)
+	 */
+	@Test
+	public void equalsAndHashCode() throws IllegalArgumentException,
+			IllegalAccessException, NoSuchFieldException, SecurityException {
+		Account accountA = new Account();
+
+		Assert.assertEquals(accountA, accountA);
+		Assert.assertEquals(accountA.hashCode(), accountA.hashCode());
+
+		Account accountB = new Account();
+
+		Assert.assertNotEquals(accountA, accountB);
+
+		/*
+		 * The logic for Account.equals(...) is different for persisted vs.
+		 * non-persisted objects, and we want to cover that logic with this
+		 * test. To avoid having to involve the DB here (and actually persist
+		 * things), we'll cheat and set the fields' values via reflection.
+		 */
+		Field accountIdField = Account.class.getDeclaredField("id");
+		accountIdField.setAccessible(true);
+
+		Account accountC = new Account();
+		accountIdField.set(accountC, 3);
+
+		Assert.assertEquals(accountC, accountC);
+		Assert.assertNotEquals(accountC, accountA);
+		Assert.assertNotEquals(accountA, accountC);
+
+		Account accountD = new Account();
+		accountIdField.set(accountD, 4);
+
+		Assert.assertNotEquals(accountD, accountC);
 	}
 }
