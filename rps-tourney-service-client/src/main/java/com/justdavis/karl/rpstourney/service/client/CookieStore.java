@@ -19,7 +19,7 @@ import javax.ws.rs.core.NewCookie;
  * accounts.
  * </p>
  */
-public final class CookieStore {
+public class CookieStore {
 	private final Map<String, NewCookie> cookies;
 
 	/**
