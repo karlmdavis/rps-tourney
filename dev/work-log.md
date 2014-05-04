@@ -1075,5 +1075,21 @@ This file should never be committed along with other files; it should always be 
     * Added in the rest of the tests needed for the new model classes and their DAOs.
     * Committed all of my changes on this issue and marked it closed.
         * Wouldn't be surprised if I end up re-opening it later, but that's good enough for now.
-    * Next steps:
-        * Start on the web app gameplay.
+* 3.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started working on `GameController` a bit. Didn't get too far, as I wanted to try things out manually and see how they looked.
+    * Copy-pasted-hacked in the config loading code for the web app.
+    * Trying to figure out how to start Jetty for manual testing, with a mock Spring configuration.
+
+### 2014-05-04, Sunday
+
+* 2.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Estimates:
+        * 4h: Figure out how to start Spring & Jetty for manual testing.
+        * 2h: Fix web app authentication (it's probably broken).
+        * 2h: Either switch to guest auth in the web app or add in "create account" form.
+        * 3h: Get the "create game" form and redirect working.
+        * 2h: Get the submit throw controls working.
+        * 3h: Add in the score-keeping and winner/loser logic.
+        * 3h: Add in jQuery and use it to refresh the page.
+    * Trying to figure out how to start Jetty for manual testing, with a mock Spring configuration.
+        * Think I've got this worked out. Ended up splitting the Spring bindings into separate profiles, rather than relying on overrides. Overrides were too non-deterministic, as you can't control the load order when using classpath scanning.
