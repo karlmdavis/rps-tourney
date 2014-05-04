@@ -76,7 +76,7 @@ public final class GameServiceApplicationInitializer implements
 	/**
 	 * The web application context-wide initialization parameter that specifies
 	 * the Spring parent {@link ApplicationContext} instance that should used
-	 * (if any). This is mostly intended for use by unit tests.
+	 * (if any). This is mostly intended for use by integration tests.
 	 * 
 	 * @see ServletContext#setAttribute(String, Object)
 	 */
