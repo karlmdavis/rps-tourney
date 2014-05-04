@@ -12,10 +12,11 @@ import com.justdavis.karl.misc.jetty.EmbeddedServer;
 
 /**
  * This Spring {@link Configuration} should be used for integration tests that
- * require . It imports this project's "standard" {@link Configuration} for
- * integration tests, {@link SpringITConfig}, but also includes a bean that will
- * start a Jetty instance along with the Spring {@link ApplicationContext}, and
- * stop it when the context is stopped.
+ * require the web service to actually be running and responding to requests. It
+ * imports this project's "standard" {@link Configuration} for integration
+ * tests, {@link SpringITConfig}, but also includes a bean that will start a
+ * Jetty instance along with the Spring {@link ApplicationContext}, and stop it
+ * when the context is stopped.
  */
 @Configuration
 @Import({ SpringITConfig.class })
@@ -31,7 +32,8 @@ public class SpringITConfigWithJetty {
 	@Bean(initMethod = "startServer", destroyMethod = "stopServer")
 	public EmbeddedServer embeddedServer(ApplicationContext springContext) {
 		Map<String, Object> webAppAttributes = new HashMap<>();
-		webAppAttributes.put(GameServiceApplicationInitializer.SPRING_PARENT_CONTEXT,
+		webAppAttributes.put(
+				GameServiceApplicationInitializer.SPRING_PARENT_CONTEXT,
 				springContext);
 
 		EmbeddedServer embeddedServer = new EmbeddedServer(
