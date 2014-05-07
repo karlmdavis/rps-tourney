@@ -114,6 +114,14 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
+			<!-- Used to re-route java.util.logging calls to SLF4J. No clue if anything's 
+				using JUL, but it seems likely, so we'll include this just in case. -->
+			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+				for details on how to activate this re-routing within an application. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
 			<!-- Needed to replace log4j, which is used by other dependencies here 
 				(and excluded). -->
 			<groupId>org.slf4j</groupId>

@@ -14,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 import org.threeten.bp.Clock;
@@ -25,8 +26,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
-import com.justdavis.karl.rpstourney.service.app.auth.game.GameAuthResourceImpl;
-import com.justdavis.karl.rpstourney.service.app.auth.game.GameLoginIdentitiesDaoImpl;
+import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
 /**
@@ -34,6 +34,7 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
  */
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = { AppSpringConfig.class })
+@ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class GameLoginIdentitiesDaoImplIT {
 	/**
 	 * @return the test run parameters to pass to

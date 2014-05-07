@@ -4,24 +4,24 @@ import java.net.URL;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.provisioners.DataSourceProvisionersManager;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningTargetsProvider;
 import com.justdavis.karl.misc.datasources.provisioners.XmlProvisioningTargetsProvider;
-import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.config.MockConfigLoader;
 
 /**
- * This Spring {@link Configuration} should be used for integration tests. It
- * imports the application's default {@link Configuration},
- * {@link AppSpringConfig}, and overrides any beans that need to be mocked out.
+ * The Spring {@link Configuration} for the Spring bindings to use in
+ * {@link SpringProfile#INTEGRATION_TESTS} (and also the
+ * {@link SpringProfile#INTEGRATION_TESTS_WITH_JETTY}).
  */
 @Configuration
-@Import(AppSpringConfig.class)
-public class SpringITConfig {
+@Profile({ SpringProfile.INTEGRATION_TESTS,
+		SpringProfile.INTEGRATION_TESTS_WITH_JETTY })
+public class SpringBindingsForITs {
 	/**
 	 * @param dsConnectorsManager
 	 *            the injected {@link DataSourceConnectorsManager} for the

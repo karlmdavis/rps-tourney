@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
@@ -23,6 +24,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
+import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
 /**
@@ -30,6 +32,7 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
  */
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = { AppSpringConfig.class })
+@ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class GameSessionsDaoImplIT {
 	/**
 	 * @return the test run parameters to pass to

@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -26,7 +27,8 @@ import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession.State;
 import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
-import com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty;
+import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
@@ -39,7 +41,8 @@ import com.justdavis.karl.rpstourney.service.client.game.GameSessionClient;
  * {@link GameSessionClient}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { SpringITConfigWithJetty.class })
+@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class GameSessionResourceImplIT {
 	@Inject

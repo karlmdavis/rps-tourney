@@ -7,20 +7,28 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
+import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
 
 /**
+ * <p>
  * This Spring {@link Configuration} should be used for integration tests that
  * require the web service to actually be running and responding to requests. It
- * imports this project's "standard" {@link Configuration} for integration
- * tests, {@link SpringITConfig}, but also includes a bean that will start a
- * Jetty instance along with the Spring {@link ApplicationContext}, and stop it
- * when the context is stopped.
+ * adds a bean that will start a Jetty instance along with the Spring
+ * {@link ApplicationContext}, and stop it when the context is stopped.
+ * </p>
+ * <p>
+ * It also {@link Import}s the following additional {@link Configuration}s:
+ * {@link AppConfigBindingsForITs} and {@link AppSpringConfig} (which itself
+ * imports others).
+ * </p>
  */
 @Configuration
-@Import({ SpringITConfig.class })
-public class SpringITConfigWithJetty {
+@Import({ SpringBindingsForITs.class, AppSpringConfig.class })
+@Profile(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
+public class JettyBindingsForITs {
 	/**
 	 * @param springContext
 	 *            the Spring {@link ApplicationContext} that this bean is being

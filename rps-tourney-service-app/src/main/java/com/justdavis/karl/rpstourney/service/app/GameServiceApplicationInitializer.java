@@ -19,13 +19,12 @@ import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.SpringServletContainerInitializer;
@@ -45,7 +44,6 @@ import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.Author
 import com.justdavis.karl.rpstourney.service.app.auth.game.InternetAddressReader;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
-import com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
 
@@ -96,7 +94,7 @@ public final class GameServiceApplicationInitializer implements
 		 * ourselves. It's expected that any integration tests that use Jetty as
 		 * the web application container will provide a parent
 		 * ApplicationContext. (See
-		 * com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty for
+		 * com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs for
 		 * more details.)
 		 */
 		ApplicationContext springParentContext = findSpringParentContext(container);
@@ -105,7 +103,15 @@ public final class GameServiceApplicationInitializer implements
 		} else {
 			rootContext.register(AppSpringConfig.class);
 		}
-		rootContext.refresh();
+
+		// Set the Spring PRODUCTION profile as the default.
+		ConfigurableEnvironment springEnv = rootContext.getEnvironment();
+		springEnv.setDefaultProfiles(SpringProfile.PRODUCTION);
+
+		// Refresh/process the Spring context.
+		// TODO this might be needed when there's a parent context?
+		// TODO definitely not needed when there isn't
+		// rootContext.refresh();
 
 		// Manage the lifecycle of the root application context.
 		container.addListener(new ContextLoaderListener(rootContext));
@@ -150,7 +156,7 @@ public final class GameServiceApplicationInitializer implements
 	@Configuration
 	@EnableJpaRepositories
 	@EnableTransactionManagement
-	@ComponentScan(basePackageClasses = { ServiceApplication.class }, excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "com.justdavis.karl.rpstourney.service.app.SpringITConfigWithJetty") })
+	@ComponentScan(basePackageClasses = { ServiceApplication.class })
 	@Import({ SpringConfigForJEMisc.class, SpringJpaConfig.class })
 	public static class AppSpringConfig {
 		/**
@@ -284,18 +290,6 @@ public final class GameServiceApplicationInitializer implements
 		@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 		HelloWorldServiceImpl helloWorldResource() {
 			return new HelloWorldServiceImpl();
-		}
-
-		/**
-		 * @param dsConnectorsManager
-		 *            the injected {@link DataSourceConnectorsManager} for the
-		 *            application
-		 * @return the {@link IConfigLoader} implementation for the application
-		 */
-		@Bean
-		IConfigLoader configLoader(
-				DataSourceConnectorsManager dsConnectorsManager) {
-			return new XmlConfigLoader(dsConnectorsManager);
 		}
 
 		/**
