@@ -1093,3 +1093,13 @@ This file should never be committed along with other files; it should always be 
         * 3h: Add in jQuery and use it to refresh the page.
     * Trying to figure out how to start Jetty for manual testing, with a mock Spring configuration.
         * Think I've got this worked out. Ended up splitting the Spring bindings into separate profiles, rather than relying on overrides. Overrides were too non-deterministic, as you can't control the load order when using classpath scanning.
+
+### 2014-05-05, Monday
+
+(Forgot to work on this stuff, as I got sidetracked upgrading my phone's OS.)
+
+### 2014-05-06, Tuesday
+
+* 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created `ServiceAppJettyLauncher` to launch the web service for manual testing.
+    * Did some miscellaneous refactoring.
