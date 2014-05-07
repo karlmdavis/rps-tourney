@@ -23,7 +23,7 @@ import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlPro
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
-import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
+import com.justdavis.karl.rpstourney.service.app.SpringConfig;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountsDaoImplIT;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
@@ -32,7 +32,7 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
  * Integration tests for {@link GuestLoginIdentitiesDaoImpl}.
  */
 @RunWith(Parameterized.class)
-@ContextConfiguration(classes = { AppSpringConfig.class })
+@ContextConfiguration(classes = { SpringConfig.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class GuestLoginIdentitiesDaoImplIT {
 	/**

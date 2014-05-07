@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
-import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializer.AppSpringConfig;
 
 /**
  * <p>
@@ -21,12 +20,12 @@ import com.justdavis.karl.rpstourney.service.app.GameServiceApplicationInitializ
  * </p>
  * <p>
  * It also {@link Import}s the following additional {@link Configuration}s:
- * {@link AppConfigBindingsForITs} and {@link AppSpringConfig} (which itself
+ * {@link AppConfigBindingsForITs} and {@link SpringConfig} (which itself
  * imports others).
  * </p>
  */
 @Configuration
-@Import({ SpringBindingsForITs.class, AppSpringConfig.class })
+@Import({ SpringBindingsForITs.class, SpringConfig.class })
 @Profile(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 public class JettyBindingsForITs {
 	/**
