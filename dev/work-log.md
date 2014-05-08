@@ -1103,3 +1103,9 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created `ServiceAppJettyLauncher` to launch the web service for manual testing.
     * Did some miscellaneous refactoring.
+
+### 2014-05-07, Wednesday
+
+* ?h: Working to resolve issues with build server CPU being pegged, which keeps killing CI builds for this project.
+* ?h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * 
