@@ -1106,6 +1106,19 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-05-07, Wednesday
 
-* ?h: Working to resolve issues with build server CPU being pegged, which keeps killing CI builds for this project.
-* ?h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
-    * 
+* 1.0h: Working to resolve issues with build server CPU being pegged, which keeps killing CI builds for this project.
+    * Not sure exactly what the issue was, but there were a couple of `java` processes or threads on `piers` (not sure which) that kept running even after stopping Zimbra, and didn't seem to have a command line. After `kill -9` for those, and restarting Zimbra, things seem saner, at least for now. Interestingly though, the Jenkins build wasn't any noticably faster than previous ones. Maybe that's because I'd just restarted Jenkins and Sonar so they were cold?
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed the "Start Game" link so that it points to the correct path.
+    * Can't test any further than without getting auth actually up and running. Recommend biting the bullet and enabling guest auth. Ugh.
+
+### 2014-05-08, Thursday
+
+(Forgot to work on this stuf, as I was busy getting ready for my trip to Tucson.)
+
+### 2014-05-09, Friday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Tried to find examples of guest auth strategies similar to mine for Spring Security. No luck.
+    * Think I need to explore "auto login" examples with Spring Security, instead.
+
