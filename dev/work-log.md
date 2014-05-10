@@ -1122,3 +1122,9 @@ This file should never be committed along with other files; it should always be 
     * Tried to find examples of guest auth strategies similar to mine for Spring Security. No luck.
     * Think I need to explore "auto login" examples with Spring Security, instead.
 
+### 2014-05-10, Saturday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Actually, I'm thinking that Spring's pre-auth mechanisms might do the trick:
+        * Just go ahead and start logging in folks as guest on every request.
+        * Or perhaps, I use pre-auth just to setup Spring Security when users have already logged in as guest. Instead of always logging folks in when they're un-authenticated, I could make this a manual fallback in my controllers' code when they perform some action that requires an account. This approach might scale a bit better. Means I won't be using `@Role` annotations for much, though.
