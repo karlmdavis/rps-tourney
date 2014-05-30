@@ -1114,7 +1114,7 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-05-08, Thursday
 
-(Forgot to work on this stuf, as I was busy getting ready for my trip to Tucson.)
+(Forgot to work on this stuff, as I was busy getting ready for my trip to Tucson.)
 
 ### 2014-05-09, Friday
 
@@ -1133,3 +1133,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Not feeling very productive, but started on the "auto guest login if user does something that requires an account" code.
+
+### 2014-05-29, Thursday
+
+* Haven't touched this in a while. Was too busy while in Tucson hanging out with folks, and was then too busy catching up on work.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Spent time reading through Spring Security's "Remember Me" code again. I think that guest logins need to be implemented as a custom `AbstractRememberMeServices` implementation.
