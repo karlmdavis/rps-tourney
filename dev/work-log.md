@@ -1139,3 +1139,8 @@ This file should never be committed along with other files; it should always be 
 * Haven't touched this in a while. Was too busy while in Tucson hanging out with folks, and was then too busy catching up on work.
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Spent time reading through Spring Security's "Remember Me" code again. I think that guest logins need to be implemented as a custom `AbstractRememberMeServices` implementation.
+
+### 2014-05-30, Friday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Can't use `AbstractRememberMeServices` or any subclass of it, as it requires a `UserDetailsService`. Think I need to write my own `RememberMeServices` implementation from scratch, instead.
