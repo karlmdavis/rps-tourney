@@ -1149,3 +1149,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Started (just barely) the creation of a `CustomRememberMeServices` implementation.
+
+### 2014-06-01, Sunday
+
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Implemented `CustomRememberMeServices.autoLogin(...)`.
