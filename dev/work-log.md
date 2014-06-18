@@ -1160,3 +1160,8 @@ This file should never be committed along with other files; it should always be 
 * Haven't touched this in a while. Was busy looking for a place to live in Baltimore and trying to get caught up at work.
 * 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Partially implemented `CustomRememberMeServices.loginSuccess(...)`.
+
+### 2014-06-17, Tuesday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
