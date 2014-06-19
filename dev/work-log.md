@@ -1163,5 +1163,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-06-17, Tuesday
 
-* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Added an `IAccountsResource.selectOrCreateAuthToken()` method for it to use.
+
+### 2014-06-18, Wednesday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * May have finished the first-pass implementation. Didn't test it at all, though.
