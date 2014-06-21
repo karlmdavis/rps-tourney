@@ -1187,3 +1187,9 @@ This file should never be committed along with other files; it should always be 
             1. Use the `maven-dependency-plugin` to copy the web service WAR needed for integration tests.
             2. Update the embedded Jetty code to support launching an extra WAR.
         * I may also have to poke at the web service some to allow for HSQL configuration, wiping, etc. Need to think about that some.
+
+### 2014-06-20, Saturday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Added code to `EmbeddedServer` for hosting additional WARs. Haven't tested it yet.
