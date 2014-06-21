@@ -1178,3 +1178,12 @@ This file should never be committed along with other files; it should always be 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Started to maybe implement an integration test. Need to think about how to host or mock the web service for these.
+
+### 2014-06-20, Friday
+
+* 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * After some research, I've concluded the best thing to do for ITs is the following:
+            1. Use the `maven-dependency-plugin` to copy the web service WAR needed for integration tests.
+            2. Update the embedded Jetty code to support launching an extra WAR.
+        * I may also have to poke at the web service some to allow for HSQL configuration, wiping, etc. Need to think about that some.
