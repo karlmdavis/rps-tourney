@@ -1193,3 +1193,11 @@ This file should never be committed along with other files; it should always be 
 * 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Added code to `EmbeddedServer` for hosting additional WARs. Haven't tested it yet.
+
+### 2014-06-21, Sunday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Having `EmbeddedServer` require a packed WAR makes running the tests in Eclipse a lot less convenient. Should I also try to support relative references to the sibling project?
+            * How would I know when to use a packed WAR vs. a sibling project? I suppose I could just try the project if the WAR file isn't present, or vice-versa.
+            * I think I should give this a shot. Likely won't even require changes to the `EmbeddedServer` code-- just its comments.
