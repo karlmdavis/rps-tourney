@@ -1201,3 +1201,9 @@ This file should never be committed along with other files; it should always be 
         * Having `EmbeddedServer` require a packed WAR makes running the tests in Eclipse a lot less convenient. Should I also try to support relative references to the sibling project?
             * How would I know when to use a packed WAR vs. a sibling project? I suppose I could just try the project if the WAR file isn't present, or vice-versa.
             * I think I should give this a shot. Likely won't even require changes to the `EmbeddedServer` code-- just its comments.
+
+### 2014-07-08, Tuesday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Banged on `CustomerRememberMeServicesIT` a bit. Need to setup Spring profiles, bindings, etc. for webapp ITs.
