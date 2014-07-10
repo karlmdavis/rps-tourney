@@ -1204,6 +1204,14 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-07-08, Tuesday
 
+* Hadn't touched this for a couple of weeks as we were busy moving.
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Banged on `CustomerRememberMeServicesIT` a bit. Need to setup Spring profiles, bindings, etc. for webapp ITs.
+
+
+### 2014-07-09, Wednesday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Moved my screwy 'EmbeddedServer` config into `JettyBindingsForITs` and started creating `EnvironmentIT`.
