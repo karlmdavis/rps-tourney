@@ -1209,9 +1209,14 @@ This file should never be committed along with other files; it should always be 
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Banged on `CustomerRememberMeServicesIT` a bit. Need to setup Spring profiles, bindings, etc. for webapp ITs.
 
-
 ### 2014-07-09, Wednesday
 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Moved my screwy 'EmbeddedServer` config into `JettyBindingsForITs` and started creating `EnvironmentIT`.
+
+### 2014-07-10, Thursday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Created the `/status/ping` service (and friends) that `EnvironmentIT` and other such use cases can use to verify that the web service is up & running. Need to commit it.
