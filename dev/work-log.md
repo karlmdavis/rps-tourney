@@ -1220,3 +1220,10 @@ This file should never be committed along with other files; it should always be 
 * 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Created the `/status/ping` service (and friends) that `EnvironmentIT` and other such use cases can use to verify that the web service is up & running. Need to commit it.
+
+### 2014-07-15, Tuesday
+
+* Was busy trying to get caught up on stuff at work-- worked the weekend.
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Committed a couple of things, including the new `IServiceStatusResource` and friends.
