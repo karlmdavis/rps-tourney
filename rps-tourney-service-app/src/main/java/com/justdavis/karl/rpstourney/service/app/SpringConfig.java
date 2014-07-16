@@ -114,6 +114,8 @@ public class SpringConfig {
 		 */
 		List<ResourceProvider> resourceProviders = new LinkedList<>();
 		resourceProviders.add(new RequestScopeResourceFactory(
+				"serviceStatusResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory(
 				"helloWorldResource"));
 		resourceProviders.add(new RequestScopeResourceFactory(
 				"accountsResourceImpl"));
