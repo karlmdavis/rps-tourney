@@ -1227,3 +1227,9 @@ This file should never be committed along with other files; it should always be 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Committed a couple of things, including the new `IServiceStatusResource` and friends.
+
+### 2014-07-16, Wednesday
+
+* 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Fleshed out `EnvironmentIT` and the bindings for it a bit. Now getting an interesting bean-creation `ClassNotFoundException`.
