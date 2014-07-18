@@ -1233,3 +1233,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Fleshed out `EnvironmentIT` and the bindings for it a bit. Now getting an interesting bean-creation `ClassNotFoundException`.
+
+### 2014-07-17, Thursday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Working through the test failures and compilation failures from `EnvironmentIT`.
