@@ -1236,6 +1236,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-07-17, Thursday
 
-* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
-        * Working through the test failures and compilation failures from `EnvironmentIT`.
+        * Working through the test failures and compilation failures from `EnvironmentIT`. Latest problem looks like my bean configs might just be incomplete.
+
+### 2014-07-18, Friday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Debugged some of the bean config issues exposed by `EnvironmentIT`. More to go.
