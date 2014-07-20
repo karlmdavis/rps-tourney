@@ -1242,6 +1242,13 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-07-18, Friday
 
-* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
-        * Debugged some of the bean config issues exposed by `EnvironmentIT`. More to go.
+        * Debugged many of the bean config issues exposed by `EnvironmentIT`. Now seem to be onto more fundamental issues with the Spring Security configuration itself.
+
+### 2014-07-19, Saturday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Determined that the `SecurityConfig` throws errors if I inject a `GameLoginAuthenticationProvider` into it. Not sure how to solve it yet.
+        * Looks like `JettyBindingsForITs` isn't configuring the web service WAR correctly. Thinking about it, it makes sense: I'm just pointing it at a folder-- there's no classpath or anything. Will need to point it to a WAR instead, sadly.
