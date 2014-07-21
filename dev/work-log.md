@@ -1252,3 +1252,13 @@ This file should never be committed along with other files; it should always be 
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Determined that the `SecurityConfig` throws errors if I inject a `GameLoginAuthenticationProvider` into it. Not sure how to solve it yet.
         * Looks like `JettyBindingsForITs` isn't configuring the web service WAR correctly. Thinking about it, it makes sense: I'm just pointing it at a folder-- there's no classpath or anything. Will need to point it to a WAR instead, sadly.
+
+### 2014-07-20, Sunday
+
+* 2.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Wow, what a mess...
+        * Switched `JettyBindingsForITs` to load the actual must-be-built WAR file from its sibling project. If m2eclipse is building an unexploded WAR, I might be able to avoid this, but for right now, this is conceptually simpler.
+        * Was horrified to discover that I had an old Git stash sitting there, with half of the changes I've been in the middle of (re-)implementing. Went through and popped that, cleaned things up as best I could. I'm sure it's still a bit of a mess, though.
+        * There's another, older stash still there that it looks like I probably don't need, but I didn't want to mess with it right now.
+        * Pushed some non-webapp commits to lower the amount of uncommitted stuff I've got floating around right now. Checked and ensured that everything committed builds cleanly. Haven't pushed it to GitHub yet, though.
