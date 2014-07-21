@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response.Status;
 
 import org.hamcrest.core.StringContains;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,12 +15,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.IGuestLoginIndentitiesDao;
+import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
@@ -40,8 +44,25 @@ public final class AccountsResourceImplIT {
 	@Inject
 	private IGuestLoginIndentitiesDao loginsDao;
 
+	@Inject
+	private IDataSourceSchemaManager schemaManager;
+
+	@Inject
+	private IConfigLoader configLoader;
+
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
+
+	/**
+	 * Wipes and repopulates the data source schema between tests.
+	 */
+	@After
+	public void wipeSchema() {
+		schemaManager.wipeSchema(configLoader.getConfig()
+				.getDataSourceCoordinates());
+		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
+				.getDataSourceCoordinates());
+	}
 
 	/**
 	 * Ensures that {@link AccountsResourceImpl#validateAuth()} returns
@@ -99,5 +120,30 @@ public final class AccountsResourceImplIT {
 		// Verify the validate results.
 		Assert.assertNotNull(validatedAccount);
 		Assert.assertEquals(createdAccount.getId(), validatedAccount.getId());
+	}
+
+	/**
+	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()()}
+	 * works as expected when used with an {@link Account} created via
+	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
+	 */
+	@Test
+	public void selectOrCreateAuthToken() {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
+
+		// Create the login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		guestAuthClient.loginAsGuest();
+
+		// Get an AuthToken.
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		AuthToken authToken = accountsClient.selectOrCreateAuthToken();
+
+		// Verify the validate results.
+		Assert.assertNotNull(authToken);
 	}
 }

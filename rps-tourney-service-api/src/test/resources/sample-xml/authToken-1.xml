@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rps:authToken xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
+	<rps:account>
+		<rps:id>42</rps:id>
+		<rps:roles>
+			<rps:role>USERS</rps:role>
+		</rps:roles>
+	</rps:account>
+	<rps:token>f211aae3-c46f-47da-ae6c-445f5281c4ee</rps:token>
+	<rps:creationTimestamp>2007-12-03T10:15:30Z</rps:creationTimestamp>
+</rps:authToken>

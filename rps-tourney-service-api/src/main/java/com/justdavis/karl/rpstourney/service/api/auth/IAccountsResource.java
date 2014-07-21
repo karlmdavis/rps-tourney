@@ -31,6 +31,11 @@ public interface IAccountsResource {
 	public static final String SERVICE_PATH_GET_ACCOUNT = "";
 
 	/**
+	 * The {@link Path} for {@link #selectOrCreateAuthToken(Account)}.
+	 */
+	public static final String SERVICE_PATH_AUTH_TOKEN = "selectOrCreateAuthToken";
+
+	/**
 	 * Allows users to validate that their existing logins (as represented by
 	 * the <code>{@value AuthTokenCookieHelper#COOKIE_NAME_AUTH_TOKEN}</code>
 	 * cookie) are valid.
@@ -51,4 +56,17 @@ public interface IAccountsResource {
 	@Path(SERVICE_PATH_GET_ACCOUNT)
 	@Produces(MediaType.TEXT_XML)
 	Account getAccount();
+
+	/**
+	 * Selects the most recent active {@link AuthToken} from the requesting
+	 * user/client's {@link Account} or, if no such {@link AuthToken} exists,
+	 * creates a new one, persists it, and returns that.
+	 * 
+	 * @return the most recent active {@link AuthToken} from the requesting
+	 *         user/client's {@link Account} (or a new one)
+	 */
+	@GET
+	@Path(SERVICE_PATH_AUTH_TOKEN)
+	@Produces(MediaType.TEXT_XML)
+	AuthToken selectOrCreateAuthToken();
 }

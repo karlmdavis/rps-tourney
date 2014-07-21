@@ -1,12 +1,9 @@
-package com.justdavis.karl.rpstourney.service.app.auth;
+package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.net.URI;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;
-
-import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 
 /**
  * <p>
@@ -39,11 +36,27 @@ public final class AuthTokenCookieHelper {
 	public static NewCookie createAuthTokenCookie(AuthToken authToken,
 			URI requestUri) {
 		String authTokenString = authToken.getToken().toString();
+		return createAuthTokenCookie(authTokenString, requestUri);
+	}
+
+	/**
+	 * @param authToken
+	 *            the {@link AuthToken#getToken()} value to create the
+	 *            {@link NewCookie} for
+	 * @param requestUri
+	 *            a {@link URI} representing the webservice request, which will
+	 *            be used to set the {@link NewCookie}'s domain
+	 * @return a {@link NewCookie} that contains the specified
+	 *         {@link AuthToken#getToken()} value, and which, when passed back
+	 *         in requests, will represent a login
+	 */
+	public static NewCookie createAuthTokenCookie(String authTokenValue,
+			URI requestUri) {
 		String path = "/";
 		String comment = "";
 		int maxAge = 60 * 60 * 24 * 365 * 1;
 		NewCookie authCookie = new NewCookie(
-				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN, authTokenString,
+				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN, authTokenValue,
 				path, requestUri.getHost(), comment, maxAge, true, true);
 
 		return authCookie;

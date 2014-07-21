@@ -9,8 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * <p>
@@ -27,18 +32,23 @@ import org.threeten.bp.Instant;
  * specified in the <code>META-INF/orm.xml</code> file.
  * </p>
  */
+@XmlRootElement
 @Entity
 @Table(name = "\"AuthTokens\"")
 public final class AuthToken {
+	@XmlElement
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "\"accountId\"")
 	private final Account account;
 
+	@XmlElement
 	@Id
 	@Column(name = "\"token\"", nullable = false, updatable = false)
 	private final UUID token;
 
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@Column(name = "\"creationTimestamp\"", nullable = false, updatable = false)
 	private final Instant creationTimestamp;
@@ -145,5 +155,34 @@ public final class AuthToken {
 		} else if (!token.equals(other.token))
 			return false;
 		return true;
+	}
+
+	/**
+	 * This JAXB {@link XmlAdapter} marshalls/unmarshalls {@link Instant}s as
+	 * {@link String}s.
+	 */
+	private static final class InstantJaxbAdapter extends
+			XmlAdapter<String, Instant> {
+		/**
+		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+		 */
+		@Override
+		public Instant unmarshal(String v) throws Exception {
+			if (v == null)
+				return null;
+
+			return DateTimeFormatter.ISO_INSTANT.parse(v, Instant.class);
+		}
+
+		/**
+		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+		 */
+		@Override
+		public String marshal(Instant v) throws Exception {
+			if (v == null)
+				return null;
+
+			return DateTimeFormatter.ISO_INSTANT.format(v);
+		}
 	}
 }
