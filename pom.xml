@@ -124,6 +124,9 @@
 			here, but is rather intended for use in child projects. -->
 		<hibernate.version>4.3.5.Final</hibernate.version>
 
+		<!-- The version of the Apache CXF artifacts to use across the modules. -->
+		<cxf.version>3.0.0-milestone1</cxf.version>
+
 		<!-- The default number of parallel forks to use for running the ITs. Note 
 			that "C" stands for "core", but also seems to include hyperthreaded cores. -->
 		<forkCount.its>0.25C</forkCount.its>
@@ -165,6 +168,16 @@
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>1.0.13</version>
+			</dependency>
+
+			<dependency>
+				<!-- Many/most of this project's modules currently use various Spring 
+					libraries. This BOM will help prevent version conflicts between them. -->
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

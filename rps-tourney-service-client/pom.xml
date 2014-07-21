@@ -34,16 +34,17 @@
 		</dependency>
 
 		<dependency>
+			<!-- Provides the JAX-RS 2.0 implementation for this project's classes 
+				to use. -->
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-client</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
 			<!-- JUnit is used for all unit and integration tests. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- A JAX-RS implementation is needed for the unit tests. -->
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-rs-client</artifactId>
-			<version>3.0.0-milestone1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
