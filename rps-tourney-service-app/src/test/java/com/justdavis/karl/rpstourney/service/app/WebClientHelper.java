@@ -18,7 +18,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 public final class WebClientHelper {
 	/*
 	 * These methods may or may not be being used at the moment, but they have
-	 * all used at one point or another while trying things out and/or debugging
+	 * all been used at one point or another while trying things out and/or debugging
 	 * issues, and they took forever to write. Deleting them would probably not
 	 * be a great idea.
 	 */
