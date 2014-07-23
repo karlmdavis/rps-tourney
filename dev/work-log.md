@@ -1265,6 +1265,13 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-07-21, Monday
 
-* 0.5hh: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Poked at the `EnvironmentIT` failure some. Didn't get very far, though it looks like Jetty may not be actually starting the context for the additional WAR. Need to test it manually.
+
+### 2014-07-22, Tuesday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Fixed `EmbeddedServer` to handle WARs correctly (I think), instead of only just Maven projects.
+        * Things still aren't working, but that was definitely a problem, so we're one step closer. I think I need to investigate getting injection going in my tests without using `spring-test`. Just a thought.
