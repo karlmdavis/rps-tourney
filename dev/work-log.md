@@ -1279,6 +1279,12 @@ This file should never be committed along with other files; it should always be 
 ### 2014-07-24, Thursday
 
 * Was busy with work yesterday and just forgot to work on this.
-* 0.25hh: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Spent some time researching. Looks like I'll have to roll my own mock-free Spring injection provider. Should probably be a JUnit `@Rule`.
+
+### 2014-07-25, Friday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Started implementing my new JUnit `@Rule`. Might need to re-jigger `EmbeddedServer` so that I can launch it with a specific set of Spring configs & profiles.
