@@ -1288,3 +1288,9 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Started implementing my new JUnit `@Rule`. Might need to re-jigger `EmbeddedServer` so that I can launch it with a specific set of Spring configs & profiles.
+
+### 2014-07-26, Saturday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Made good progress in implementing the new `@Rule`. Will need to adjust the web app's initializer to save its Spring context in a container attribute, so that the `@Rule` can pull it out and use it, too.
