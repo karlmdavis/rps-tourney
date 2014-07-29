@@ -1294,3 +1294,10 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Made good progress in implementing the new `@Rule`. Will need to adjust the web app's initializer to save its Spring context in a container attribute, so that the `@Rule` can pull it out and use it, too.
+
+### 2014-07-28, Monday
+
+* Was busy yesterday prepping for demo at work, and didn't have time to work on this Sunday.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Worked on exposing the root `ServletContext`'s Spring `ApplicationContext` for ITs to snag.
