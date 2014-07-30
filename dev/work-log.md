@@ -1301,3 +1301,9 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Worked on exposing the root `ServletContext`'s Spring `ApplicationContext` for ITs to snag.
+
+### 2014-07-29, Tuesday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Got things almost-working. Current problem is that the service app WAR is not starting up correctly: `"/service-app - No Spring WebApplicationInitializer types detected on classpath"`.
