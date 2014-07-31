@@ -1307,3 +1307,12 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Got things almost-working. Current problem is that the service app WAR is not starting up correctly: `"/service-app - No Spring WebApplicationInitializer types detected on classpath"`.
+
+### 2014-07-30, Wednesday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Worked through the classloader issue with `EmbeddedServer` and additional WARs.
+            * Found the following useful page: <http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading>.
+            * Calling `additionalWebApp.setParentLoaderPriority(true);` resolves the problem, but could lead to future library mismatch issues. Maybe good enough for now, though.
+        * Need to consider adding HSQL driver to regular distribution.
