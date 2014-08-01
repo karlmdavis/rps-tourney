@@ -1316,3 +1316,10 @@ This file should never be committed along with other files; it should always be 
             * Found the following useful page: <http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading>.
             * Calling `additionalWebApp.setParentLoaderPriority(true);` resolves the problem, but could lead to future library mismatch issues. Maybe good enough for now, though.
         * Need to consider adding HSQL driver to regular distribution.
+
+### 2014-07-31, Thursday
+
+* 0.4h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Hacked around a bug in Liquibase. (Not committed.)
+        * Back to classloader issues with the Jetty additional WAR.
