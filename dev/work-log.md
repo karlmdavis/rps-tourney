@@ -1323,3 +1323,17 @@ This file should never be committed along with other files; it should always be 
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Hacked around a bug in Liquibase. (Not committed.)
         * Back to classloader issues with the Jetty additional WAR.
+
+### 2014-08-01, Friday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Did some research and thought real hard about how to handle the Jetty two-WAR classloader issues.
+            * Jetty is being launched with the project classpath, so all of the libraries available in the project are available to each application context.
+            * This means that classes from the dependencies of any not-the-current-project WARs may be shadowed by the same classes in the current project.
+            * Possible solutions that still use `EmbeddedServer` (basically a classic whitelist vs. blacklist choice):
+                * Start up Jetty with its own very restricted classpath. This would be hard to get right, and fragile between different Jetty versions.
+                * Mark Spring, etc. as part of Jetty's "server" classes, that application contexts can't see. This would be even more fragile, as the list really ought to include all not-required-for-Jetty project classes.
+            * Alternatively, I could use the `jetty-maven-plugin` to run the ITs.
+                * I'd lose (or have to recreate) Spring injection for the test classes.
+                * Would that be so bad? Really all I'd need is the web service clients-- I think.
