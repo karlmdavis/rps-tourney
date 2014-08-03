@@ -1337,3 +1337,11 @@ This file should never be committed along with other files; it should always be 
             * Alternatively, I could use the `jetty-maven-plugin` to run the ITs.
                 * I'd lose (or have to recreate) Spring injection for the test classes.
                 * Would that be so bad? Really all I'd need is the web service clients-- I think.
+
+### 2014-08-02, Saturday
+
+* 3.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Wired up the Cargo plugin to launch Jetty and host the two WARs.
+            * Seems like I've got this all set up right, but I get a zip file error from Jetty when launching the `...-webapp` WAR. Further investigation/cursing needed there.
+        * The other integration tests that don't actually require Jetty are broken. They need a config loader.
