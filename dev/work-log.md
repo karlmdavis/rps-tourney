@@ -1345,3 +1345,17 @@ This file should never be committed along with other files; it should always be 
         * Wired up the Cargo plugin to launch Jetty and host the two WARs.
             * Seems like I've got this all set up right, but I get a zip file error from Jetty when launching the `...-webapp` WAR. Further investigation/cursing needed there.
         * The other integration tests that don't actually require Jetty are broken. They need a config loader.
+
+### 2014-08-03, Sunday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Fixed up a couple of the other broken integration tests. Ended up turning them into just unit tests.
+        * Still haven't fixed `CustomerRememberMeServicesIT`.
+
+### 2014-08-04, Monday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Bumped to the latest (final) Spring Security release, 3.2.4.
+        * Should probably try the 4.0.0 pre-release to see if it resolves the problem I've got in `SecurityConfig` right now (with the commented-out code).
