@@ -1359,3 +1359,9 @@ This file should never be committed along with other files; it should always be 
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Bumped to the latest (final) Spring Security release, 3.2.4.
         * Should probably try the 4.0.0 pre-release to see if it resolves the problem I've got in `SecurityConfig` right now (with the commented-out code).
+
+### 2014-08-05, Tuesday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Worked on implementing `CustomRememberMeServices` a bit more. Need to think about the "TODO" there and then fill in the test for it.
