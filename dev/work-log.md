@@ -1365,3 +1365,9 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Worked on implementing `CustomRememberMeServices` a bit more. Need to think about the "TODO" there and then fill in the test for it.
+
+### 2014-08-06, Wednesday
+
+* 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Started fleshing out `CustomRememberMeServicesTest`. Fun!
