@@ -1371,3 +1371,10 @@ This file should never be committed along with other files; it should always be 
 * 0.75h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Started fleshing out `CustomRememberMeServicesTest`. Fun!
+
+### 2014-08-07, Thursday
+
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
+        * Completed `CustomRememberMeServicesTest`.
+        * Now that it's implemented and tested... how does `CustomRememberMeServices` tie in with the rest of the system? How do I fire `loginSuccess(...)` events to it?
