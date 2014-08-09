@@ -1378,3 +1378,9 @@ This file should never be committed along with other files; it should always be 
     * Continued implementing `CustomRememberMeServices.loginSuccess(...)`.
         * Completed `CustomRememberMeServicesTest`.
         * Now that it's implemented and tested... how does `CustomRememberMeServices` tie in with the rest of the system? How do I fire `loginSuccess(...)` events to it?
+
+### 2014-08-08, Friday
+
+* 0.6h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Recreated `WebAppJettyLauncher` and got things running for dev purposes.
+    * Next, I need to figure out which parts of the security config are working and which aren't.
