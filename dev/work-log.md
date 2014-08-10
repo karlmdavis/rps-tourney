@@ -1384,3 +1384,8 @@ This file should never be committed along with other files; it should always be 
 * 0.6h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Recreated `WebAppJettyLauncher` and got things running for dev purposes.
     * Next, I need to figure out which parts of the security config are working and which aren't.
+
+### 2014-08-09, Saturday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Tried getting `ServiceAppJettyLauncher` to create a login for use in manual testing. Didn't work: need to figure out how to fix that.
