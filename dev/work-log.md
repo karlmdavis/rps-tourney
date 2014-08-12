@@ -1394,3 +1394,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Got `ServiceAppJettyLauncher` to create a dev login.
+
+### 2014-08-11, Monday
+
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Got the web application logging in again! (Game logins only-- haven't figured out how to wire up or try guest logins yet.)
+    * Definitely need to write some tests for `GameLoginAuthenticationProvider`, as it had a huge, obvious bug (was calling "create login" instead of "login").
