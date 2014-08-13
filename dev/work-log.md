@@ -1405,3 +1405,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created `GameLoginAuthenticationProviderTest`.
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Worked on wiring up `CustomRememberMeServices`.
+        * The bean is now being created as part of the configuration.
+        * However, the service isn't being called as part of the login process. Need to look up how to enable that, but don't have an internet connection on the plane I'm on right now.
+
