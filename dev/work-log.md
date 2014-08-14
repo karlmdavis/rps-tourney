@@ -1417,3 +1417,12 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Got the remember me services wired up in `SecurityConfig`.
     * Next, need to think through whether or not I should use a request parameter to enable/disable it, or if it should just always be enabled.
+
+### 2014-08-14, Thursday
+
+* 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Removed the "remember me" request parameter from `CustomRememberMeServices`.
+    * The remember me services should be enabled with every login.
+    * They should also be exposed so that other operations (e.g. starting a game) can get the user authenticated anonymously, so that game state can be persisted.
+    * I think it'd be best to create a separate `IGuestAuthenticator` bean that handles this, and uses the `CustomRememberMeServices`. Need to read that TODO in `CustomerRememberMeServices`, though, and think about it some.
+    * This page discusses programmatic auth and remember me: [Stack Overflow: Log user in with remember-me functionality in Spring 3.1](http://stackoverflow.com/questions/7806921/log-user-in-with-remember-me-functionality-in-spring-3-1).
