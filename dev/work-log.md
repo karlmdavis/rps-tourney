@@ -1410,3 +1410,7 @@ This file should never be committed along with other files; it should always be 
         * The bean is now being created as part of the configuration.
         * However, the service isn't being called as part of the login process. Need to look up how to enable that, but don't have an internet connection on the plane I'm on right now.
 
+### 2014-08-13, Wednesday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Went through all of my open tabs, looking for clues on how to enable the custom remember me services. No dice.
