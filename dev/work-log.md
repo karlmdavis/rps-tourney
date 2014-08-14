@@ -1414,3 +1414,6 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Went through all of my open tabs, looking for clues on how to enable the custom remember me services. No dice.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Got the remember me services wired up in `SecurityConfig`.
+    * Next, need to think through whether or not I should use a request parameter to enable/disable it, or if it should just always be enabled.
