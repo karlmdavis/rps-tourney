@@ -1427,7 +1427,12 @@ This file should never be committed along with other files; it should always be 
     * I think it'd be best to create a separate `IGuestAuthenticator` bean that handles this, and uses the `CustomRememberMeServices`. Need to read that TODO in `CustomerRememberMeServices`, though, and think about it some.
     * This page discusses programmatic auth and remember me: [Stack Overflow: Log user in with remember-me functionality in Spring 3.1](http://stackoverflow.com/questions/7806921/log-user-in-with-remember-me-functionality-in-spring-3-1).
 
-### 2014-08-14, Thursday
+### 2014-08-15, Friday
 
 * 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created the `IGuestLoginManager` interface. Next, need to implement it and then actually use it.
+
+### 2014-08-16, Saturday
+
+* 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created the `DefaultGuestLoginManager` implementation. Haven't tested it or tried it out at all yet.
