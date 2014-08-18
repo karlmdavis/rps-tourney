@@ -1436,3 +1436,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created the `DefaultGuestLoginManager` implementation. Haven't tested it or tried it out at all yet.
+
+### 2014-08-17, Sunday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started creating unit tests for `DefaultGuestLoginManager`. Realized I'm going to have trouble with my use of `SecurityContextHolder` and will need to refactor that somehow.
