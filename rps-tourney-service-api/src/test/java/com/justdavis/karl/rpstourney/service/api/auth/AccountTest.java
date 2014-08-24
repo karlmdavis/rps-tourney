@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,6 +18,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.threeten.bp.Instant;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
@@ -26,6 +28,55 @@ import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
  * Unit tests for {@link Account}.
  */
 public final class AccountTest {
+	/**
+	 * Ensures that {@link Account#getAuthToken(java.util.UUID)} works as
+	 * expected.
+	 */
+	@Test
+	public void getAuthTokenForUuid() {
+		Account accountWithNoTokens = new Account();
+		Assert.assertNull(null);
+		Assert.assertNull(accountWithNoTokens.getAuthToken(UUID.randomUUID()));
+
+		Account accountWith1Token = new Account();
+		AuthToken authToken = new AuthToken(accountWith1Token,
+				UUID.randomUUID(), Instant.now());
+		accountWith1Token.getAuthTokens().add(authToken);
+		Assert.assertNull(accountWith1Token.getAuthToken(UUID.randomUUID()));
+		Assert.assertEquals(authToken,
+				accountWith1Token.getAuthToken(authToken.getToken()));
+	}
+
+	/**
+	 * Ensures that {@link Account#getAuthToken()} works as expected.
+	 */
+	@Test
+	public void getAuthToken() {
+		Account accountWithNoTokens = new Account();
+		Assert.assertNull(accountWithNoTokens.getAuthToken());
+
+		Account accountWith1Token = new Account();
+		AuthToken authToken = new AuthToken(accountWith1Token,
+				UUID.randomUUID(), Instant.now());
+		accountWith1Token.getAuthTokens().add(authToken);
+		Assert.assertEquals(authToken, accountWith1Token.getAuthToken());
+	}
+
+	/**
+	 * Ensures that {@link Account#isValidAuthToken(UUID)} works as expected.
+	 */
+	@Test
+	public void isValidToken() {
+		Account accountWith1Token = new Account();
+		AuthToken authToken = new AuthToken(accountWith1Token,
+				UUID.randomUUID(), Instant.now());
+		accountWith1Token.getAuthTokens().add(authToken);
+		Assert.assertFalse(accountWith1Token.isValidAuthToken(null));
+		Assert.assertFalse(accountWith1Token.isValidAuthToken(UUID.randomUUID()));
+		Assert.assertTrue(accountWith1Token.isValidAuthToken(authToken
+				.getToken()));
+	}
+
 	/**
 	 * Ensures that {@link Account} instances can be marshalled.
 	 * 

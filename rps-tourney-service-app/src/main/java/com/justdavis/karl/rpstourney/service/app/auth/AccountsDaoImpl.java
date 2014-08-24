@@ -122,11 +122,16 @@ public final class AccountsDaoImpl implements IAccountsDao {
 		if (account.getAuthTokens().size() > 1)
 			throw new IllegalStateException("not yet supported");
 
-		if (!account.getAuthTokens().isEmpty())
-			return account.getAuthTokens().iterator().next();
+		AuthToken authToken = null;
 
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
-				.systemUTC().instant());
+		// Try to grab an existing AuthToken (if any).
+		authToken = account.getAuthToken();
+		if (authToken != null)
+			return authToken;
+
+		// No existing token was found, so create a new one.
+		authToken = new AuthToken(account, UUID.randomUUID(), Clock.systemUTC()
+				.instant());
 		account.getAuthTokens().add(authToken);
 		/*
 		 * Note: If this needs to support detached instances, things will have

@@ -155,12 +155,23 @@ public final class Account implements Principal {
 	 * @param authTokenValue
 	 *            the {@link AuthToken#getToken()} value to match against
 	 * @return the {@link #getAuthTokens()} entry that matches the specified
-	 *         value
+	 *         value, or <code>null</code> if no match is found
 	 */
 	public AuthToken getAuthToken(UUID authTokenValue) {
 		for (AuthToken authToken : authTokens)
 			if (authToken.getToken().equals(authTokenValue))
 				return authToken;
+
+		return null;
+	}
+
+	/**
+	 * @return the first valid {@link #getAuthTokens()} entry found, or
+	 *         <code>null</code> if no such entry is found
+	 */
+	public AuthToken getAuthToken() {
+		for (AuthToken authToken : authTokens)
+			return authToken;
 
 		return null;
 	}
