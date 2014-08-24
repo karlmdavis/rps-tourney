@@ -1447,3 +1447,11 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Finished the `DefaultGuestLoginManager` unit tests.
     * Next up: integrate it into the actual application.
+
+### 2014-08-23, Saturday
+
+* Haven't worked on this for several days: was first very busy with work, then started reading Cryptonomicon, and then was busy rebuilding server.
+* 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Banged on things for a while, working out some bugs.
+    * Looks like I'm now ready to proceed with fleshing out `GameController` and friends; the security stuff all seems to be working.
+    * Probably a good point to commit everything.
