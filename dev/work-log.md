@@ -1461,3 +1461,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Got the tests passing again.
+* 2.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Cleaned things up and committed any standalone bits & pieces I could find.
+    * Added some test coverage in a couple of places.
+    * Fixed an obnoxious logging problem in the `rps-tourney-webapp` ITs. Created the `loggin-cargo.xml` file.
+    * Committed everything else in a big commit against this issue.
