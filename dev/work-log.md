@@ -1455,3 +1455,9 @@ This file should never be committed along with other files; it should always be 
     * Banged on things for a while, working out some bugs.
     * Looks like I'm now ready to proceed with fleshing out `GameController` and friends; the security stuff all seems to be working.
     * Probably a good point to commit everything.
+    * Also need to fix any tests I broke in my banging tonight.
+
+### 2014-08-24, Sunday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Got the tests passing again.
