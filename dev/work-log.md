@@ -1466,3 +1466,4 @@ This file should never be committed along with other files; it should always be 
     * Added some test coverage in a couple of places.
     * Fixed an obnoxious logging problem in the `rps-tourney-webapp` ITs. Created the `loggin-cargo.xml` file.
     * Committed everything else in a big commit against this issue.
+* 0.75h: Fixed problems with the Apache config on `eddings` that was preventing GitHub's webhooks from working.
