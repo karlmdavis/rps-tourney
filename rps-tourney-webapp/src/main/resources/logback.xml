@@ -18,8 +18,7 @@
 		</encoder>
 	</appender>
 
-	<!-- Disable all logging by default. The app's Options.debugEnabled flag 
-		can be used to enable logging, if desired. -->
+	<!-- Log at the INFO level and above by default, to the 'FILE' appender. -->
 	<root level="info">
 		<appender-ref ref="FILE" />
 	</root>

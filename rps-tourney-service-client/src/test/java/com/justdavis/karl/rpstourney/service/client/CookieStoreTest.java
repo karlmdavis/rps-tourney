@@ -60,6 +60,29 @@ public final class CookieStoreTest {
 	}
 
 	/**
+	 * Tests {@link CookieStore#remember(NewCookie)} and
+	 * {@link CookieStore#get(String)}.
+	 */
+	@Test
+	public void rememberAndGet() {
+		// Create a mock cookie.
+		Calendar expiryDate = Calendar.getInstance();
+		expiryDate.set(3000, 1, 1);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
+				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
+				true, true);
+
+		// Put the cookie in the CookieStore.
+		CookieStore cookieStore = new CookieStore();
+		cookieStore.remember(cookie1);
+
+		// Verify that CookieStore.get(...) works as expected.
+		Assert.assertNull(cookieStore.get(null));
+		Assert.assertNull(cookieStore.get("fizz"));
+		Assert.assertEquals(cookie1, cookieStore.get(cookie1.getName()));
+	}
+
+	/**
 	 * Tests {@link CookieStore#clear()}.
 	 */
 	@Test

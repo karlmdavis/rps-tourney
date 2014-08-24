@@ -19,10 +19,30 @@
 		other functions.)
 	</description>
 
+	<properties>
+		<!-- The version of the Spring Security framework artifacts to use. Note 
+			that this library has a different release cycle (and version number) than 
+			the "core" Spring Framework project. -->
+		<spring.security.version>3.2.4.RELEASE</spring.security.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- This BOM is required to avoid problems caused by the different (but 
+					compatible) versions of Spring MVC and Spring Security being used here. -->
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.justdavis.karl.rpstourney</groupId>
-			<artifactId>rps-tourney-service-api</artifactId>
+			<artifactId>rps-tourney-service-client</artifactId>
 		</dependency>
 
 		<dependency>
@@ -44,7 +64,6 @@
 				including their dependency injection framework). -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
 			<exclusions>
 				<exclusion>
 					<!-- We're using SLF4J to handle logging, so need to exclude this and 
@@ -66,12 +85,46 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+			<!-- The Spring Security framework is used for authentication and authorization. -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<!-- The Spring Security framework is used for authentication and authorization. -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<!-- The Spring Security framework is used for authentication and authorization. -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
+				@PermitAll, etc. -->
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that at 
+				least jetty-jsp needs this, and we'll include it in the compile scope just 
+				to cover anything else that might be. -->
+			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+				for details on how to activate this re-routing within an application. -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
 		</dependency>
 
 		<dependency>
@@ -87,43 +140,43 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
-			<!-- Jetty is used to host the web service for ITs and to run the web 
-				application for manual development testing. -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
+			<!-- The web service WAR, which also needs to be deployed during integration 
+				testing. -->
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-service-app</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+				DB for unit/integration tests. -->
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- Jetty is used to host the web application for development testing, 
+				via WebAppJettyLauncher. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
 			<version>9.0.6.v20130930</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- Allows Jetty to also run the JSP views used in the application. -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<version>9.0.6.v20130930</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that jetty-jsp 
-				needs this. -->
-			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
-				for details on how to activate this re-routing within an application. -->
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
-			<!-- This dependency is marked optional (rather than being scoped 'test') 
-				to ensure that Jetty is also available during development on the main/runtime 
-				classpath (for launching inside of Eclipse). -->
+			<!-- Used to generate any SSL certs that might be used with Jetty. -->
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
 			<version>1.49</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Allows Jetty to also run the JSP views used in the application. -->
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>9.0.6.v20130930</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -138,6 +191,61 @@
 						<!-- Set the Java source version used by the compiler. -->
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<!-- Configure the Cargo plugin to start up an embedded Jetty server, 
+						running both this project's WAR and the WAR for the web service that it interacts 
+						with. -->
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<configuration>
+						<container>
+							<containerId>jetty9x</containerId>
+							<type>embedded</type>
+							<log>${project.build.directory}/failsafe-reports/cargo.log</log>
+							<output>${project.build.directory}/failsafe-reports/cargo-container.log</output>
+							<systemProperties>
+								<rps.service.config.path>${project.build.testOutputDirectory}/rps-service-config-its.xml</rps.service.config.path>
+								<rps.webapp.config.path>${project.build.testOutputDirectory}/rps-webapp-config-its.xml</rps.webapp.config.path>
+								<logback.configurationFile>${project.build.testOutputDirectory}/logback-cargo.xml</logback.configurationFile>
+							</systemProperties>
+							<dependencies>
+								<dependency>
+									<!-- Only used by the web service WAR, but no harm in adding it 
+										to the container's classpath. -->
+									<groupId>org.hsqldb</groupId>
+									<artifactId>hsqldb</artifactId>
+								</dependency>
+							</dependencies>
+						</container>
+						<configuration>
+							<properties>
+								<cargo.servlet.port>9093</cargo.servlet.port>
+							</properties>
+						</configuration>
+						<deployables>
+							<deployable>
+								<!-- The web service WAR for the application. -->
+								<groupId>com.justdavis.karl.rpstourney</groupId>
+								<artifactId>rps-tourney-service-app</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/rps-tourney-service-app</context>
+								</properties>
+							</deployable>
+							<deployable>
+								<!-- The end-user web site WAR for the application. As this is the 
+									current project, Cargo binds the artifact automatically. All that needs to 
+									be done here is to configure the context path. -->
+								<groupId>com.justdavis.karl.rpstourney</groupId>
+								<artifactId>rps-tourney-webapp</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/rps-tourney-webapp</context>
+								</properties>
+							</deployable>
+						</deployables>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -167,6 +275,35 @@
 						<id>default-prepare-agent-integration</id>
 						<goals>
 							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<destFile>${sonar.jacoco.itReportPath}</destFile>
+							<append>true</append>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Launch an embedded Jetty instance hosting this project's WAR (as 
+					well as the rps-tourney-service-app WAR it depends on) prior to running this 
+					project's integration tests, and stop it after the integration tests. Alternatively, 
+					for manual testing, manually run 'mvn cargo:run' to start the Jetty server, 
+					and have Cargo wait for a 'ctrl+c' command to stop it. -->
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>start-container</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>

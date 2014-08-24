@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.NewCookie;
 
 /**
@@ -40,8 +41,29 @@ public class CookieStore {
 	public void remember(Map<String, NewCookie> cookies) {
 		for (String cookieName : cookies.keySet()) {
 			NewCookie cookie = cookies.get(cookieName);
-			this.cookies.put(cookieName, cookie);
+			remember(cookie);
 		}
+	}
+
+	/**
+	 * Stores the specified cookie, so that it can be applied to future requests
+	 * (via {@link #applyCookies(Builder)}).
+	 * 
+	 * @param cookie
+	 *            the {@link NewCookie} to store
+	 */
+	public void remember(NewCookie cookie) {
+		this.cookies.put(cookie.getName(), cookie);
+	}
+
+	/**
+	 * @param cookieName
+	 *            the {@link Cookie#getName()} of the {@link Cookie} to return
+	 * @return the matching {@link Cookie}, or <code>null</code> if no such
+	 *         {@link Cookie} is found
+	 */
+	public Cookie get(String cookieName) {
+		return this.cookies.get(cookieName);
 	}
 
 	/**
