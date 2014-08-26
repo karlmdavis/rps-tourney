@@ -1467,3 +1467,8 @@ This file should never be committed along with other files; it should always be 
     * Fixed an obnoxious logging problem in the `rps-tourney-webapp` ITs. Created the `loggin-cargo.xml` file.
     * Committed everything else in a big commit against this issue.
 * 0.75h: Fixed problems with the Apache config on `eddings` that was preventing GitHub's webhooks from working.
+
+### 2014-08-25, Monday
+
+* 2.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Started filling in `game.jsp`. Got the JSP-generated portion of the "Round History" table done.
