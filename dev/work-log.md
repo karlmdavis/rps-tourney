@@ -1472,3 +1472,8 @@ This file should never be committed along with other files; it should always be 
 
 * 2.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Started filling in `game.jsp`. Got the JSP-generated portion of the "Round History" table done.
+
+### 2014-08-26, Tuesday
+
+* 0.4h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fleshed out a bit more of `game.jsp` and started adding in the controller code for submitting throws.
