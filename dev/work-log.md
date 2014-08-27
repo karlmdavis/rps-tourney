@@ -1482,3 +1482,9 @@ This file should never be committed along with other files; it should always be 
         * ![First Web Playthrough](rps-tourney-webapp/dev/screenshots/first-successful-playthrough-2014-08-26.png)
         * Looks like there's a bug where redirect URLs collect extra `/` characters appended to the end.
         * May be another bug that prevents launching more than one game per application run.
+
+### 2014-08-27, Wednesday
+
+* 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed the redirect URL problem.
+    * Traced the "can't start a new game" problem to an issue with `CustomerRememberMeServices`. For some reason, returning requests don't have the authentication token cookie.
