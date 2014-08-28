@@ -1488,3 +1488,9 @@ This file should never be committed along with other files; it should always be 
 * 0.1h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Fixed the redirect URL problem.
     * Traced the "can't start a new game" problem to an issue with `CustomerRememberMeServices`. For some reason, returning requests don't have the authentication token cookie.
+* 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed the "can't start a new game" problem that was caused by a bug with `CustomerRememberMeServices`: had to set the remember-me key in `SecurityConfig`.
+* Next steps:
+    * Add contorls to change the number of rounds in a game.
+    * Add a table or somesuch to the homepage that lists all of the games.
+    * Tests.
