@@ -1491,6 +1491,12 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Fixed the "can't start a new game" problem that was caused by a bug with `CustomerRememberMeServices`: had to set the remember-me key in `SecurityConfig`.
 * Next steps:
-    * Add contorls to change the number of rounds in a game.
+    * Add controls to change the number of rounds in a game.
     * Add a table or somesuch to the homepage that lists all of the games.
     * Tests.
+
+### 2014-08-28, Thursday
+
+* 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Worked on implementing the `setMaxRounds(...)` feature, which ended up being surprisingly tricky.
+        * Not quite done: the web service needs to return a "mid-air collision (CONFLICT)" status code when two attempts conflict, so that the web app knows what went wrong. Right now it just throws an `IllegalStateException`, which gets translated to a 500 code.
