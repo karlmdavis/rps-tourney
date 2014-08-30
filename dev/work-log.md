@@ -1500,3 +1500,9 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Worked on implementing the `setMaxRounds(...)` feature, which ended up being surprisingly tricky.
         * Not quite done: the web service needs to return a "mid-air collision (CONFLICT)" status code when two attempts conflict, so that the web app knows what went wrong. Right now it just throws an `IllegalStateException`, which gets translated to a 500 code.
+
+### 2014-08-29, Friday
+
+* 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Created `GameConflictException` and customized many of the game, server, and client exceptions.
+        * Not quite done: Need to update API, server, and client tests.
