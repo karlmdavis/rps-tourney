@@ -10,14 +10,14 @@
 			<h2><spring:message code="game.currentRound" /></h2>
 			<div id="playerControls">
 				<div id="player1Controls">
-					<h3><spring:message code="game.player1.label" />: ${player1Name}</h3>
+					<h3>${player1Label}</h3>
 					<p id="player1Status"></p>
 					<a id="player1ThrowRock" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
 					<a id="player1ThrowPaper" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
 					<a id="player1ThrowScissors" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
 				</div>
 				<div id="player2Controls">
-					<h3><spring:message code="game.player2.label" />: ${player2Name}</h3>
+					<h3>${player2Label}</h3>
 					<p id="player2Status"></p>
 					<a id="player2ThrowRock" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
 					<a id="player2ThrowPaper" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
@@ -62,8 +62,8 @@
 				<thead>
 					<tr>
 						<th><spring:message code="game.roundHistory.index" /></th>
-						<th><spring:message code="game.player1.label" />:<br/>${player1Name}</th>
-						<th><spring:message code="game.player2.label" />:<br/>${player2Name}</th>
+						<th>${player1Label}</th>
+						<th>${player2Label}</th>
 						<th><spring:message code="game.roundHistory.result" /></th>
 					</tr>
 				</thead>

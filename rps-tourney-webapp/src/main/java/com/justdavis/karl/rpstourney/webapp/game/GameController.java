@@ -274,16 +274,16 @@ public class GameController {
 		// Add some display-related data to the model.
 		boolean hasPlayer1 = game.getPlayer1() != null;
 		modelAndView.addObject("hasPlayer1", hasPlayer1);
-		modelAndView.addObject(
-				"player1Name",
-				hasPlayer1 ? game.getPlayer1().getName() : messageSource
-						.getMessage("game.player1.waiting", null, locale));
+		String player1LabelKey = hasPlayer1 ? "game.player1.label"
+				: "game.player1.label.waiting";
+		modelAndView.addObject("player1Label",
+				messageSource.getMessage(player1LabelKey, null, locale));
 		boolean hasPlayer2 = game.getPlayer2() != null;
 		modelAndView.addObject("hasPlayer2", hasPlayer2);
-		modelAndView.addObject(
-				"player2Name",
-				hasPlayer2 ? game.getPlayer2().getName() : messageSource
-						.getMessage("game.player2.waiting", null, locale));
+		String player2LabelKey = hasPlayer2 ? "game.player2.label"
+				: "game.player2.label.waiting";
+		modelAndView.addObject("player2Label",
+				messageSource.getMessage(player2LabelKey, null, locale));
 
 		// Calculate the current scores.
 		int player1Score = 0;
