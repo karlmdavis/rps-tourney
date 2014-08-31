@@ -1,5 +1,9 @@
 package com.justdavis.karl.rpstourney.webapp;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,9 +28,18 @@ public final class EnvironmentIT {
 
 	/**
 	 * Verify that the web application looks to be up & running.
+	 * 
+	 * @throws IOException
+	 *             An {@link IOException} will be thrown if an error occurs
+	 *             trying to access the web application. Indicates that things
+	 *             aren't running correctly.
 	 */
 	@Test
-	public void checkWebApp() {
-		// TODO
+	public void checkWebApp() throws IOException {
+		URL webAppHomePageUrl = new URL(ITUtils.buildWebAppUrl());
+		HttpURLConnection webAppHomePageConnection = (HttpURLConnection) webAppHomePageUrl
+				.openConnection();
+
+		Assert.assertEquals(200, webAppHomePageConnection.getResponseCode());
 	}
 }

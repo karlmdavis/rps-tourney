@@ -24,6 +24,9 @@
 			that this library has a different release cycle (and version number) than 
 			the "core" Spring Framework project. -->
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
+
+		<!-- The version of the Jetty webapp container to use. -->
+		<jetty.version>9.0.6.v20130930</jetty.version>
 	</properties>
 
 	<dependencyManagement>
@@ -137,7 +140,6 @@
 			<!-- The project's dependency injection provider. -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<!-- The web service WAR, which also needs to be deployed during integration 
@@ -156,13 +158,19 @@
 			<version>2.3.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.42.2</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<!-- Jetty is used to host the web application for development testing, 
 				via WebAppJettyLauncher. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
-			<version>9.0.6.v20130930</version>
+			<version>${jetty.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -176,7 +184,7 @@
 			<!-- Allows Jetty to also run the JSP views used in the application. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp</artifactId>
-			<version>9.0.6.v20130930</version>
+			<version>${jetty.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -202,7 +210,15 @@
 					<configuration>
 						<container>
 							<containerId>jetty9x</containerId>
-							<type>embedded</type>
+							<artifactInstaller>
+								<!-- Use a throwaway Jetty install (in the project's target/ directory) 
+									to run the ITs. Tried using an embedded Jetty instance via Cargo, but the 
+									web application fails to deploy that way for some reason: it throws "java.lang.IllegalStateException: 
+									zip file closed" errors. -->
+								<groupId>org.eclipse.jetty</groupId>
+								<artifactId>jetty-distribution</artifactId>
+								<version>${jetty.version}</version>
+							</artifactInstaller>
 							<log>${project.build.directory}/failsafe-reports/cargo.log</log>
 							<output>${project.build.directory}/failsafe-reports/cargo-container.log</output>
 							<systemProperties>

@@ -76,6 +76,13 @@ public final class Player {
 	}
 
 	/**
+	 * @return a user-displayable name for the {@link Player}
+	 */
+	public String getName() {
+		return humanAccount.getName();
+	}
+
+	/**
 	 * @return the {@link Account} for the human player, or <code>null</code> if
 	 *         this {@link Player} instance represents an AI player
 	 */

@@ -26,7 +26,7 @@ public final class ITUtils {
 	 * The context path that this project's WAR will be hosted at, for the
 	 * embedded Jetty instance used in this project's integration tests.
 	 */
-	private static final String CONTEXT_WEBAPP = "/rps-tourney-webapp";
+	private static final String CONTEXT_WEB_APP = "/rps-tourney-webapp";
 
 	/**
 	 * The context path that the <code>rps-tourney-service-app</code> project's
@@ -36,11 +36,31 @@ public final class ITUtils {
 	private static final String CONTEXT_WEB_SERVICE = "/rps-tourney-service-app";
 
 	/**
+	 * @param pathComponents
+	 *            (optional) the path components to add to the URL, e.g.
+	 *            <code>"game", "abc", "playThrow"</code>
+	 * @return a URL for the specified resource in the web application
+	 */
+	public static String buildWebAppUrl(String... pathComponents) {
+		String baseUrl = String.format("http://localhost:%d%s", JETTY_PORT,
+				CONTEXT_WEB_APP);
+
+		StringBuilder url = new StringBuilder(baseUrl);
+		for (String pathComponent : pathComponents) {
+			if (!url.toString().endsWith("/") && !pathComponent.startsWith("/"))
+				url.append('/');
+			url.append(pathComponent);
+		}
+
+		return url.toString();
+	}
+
+	/**
 	 * @return a {@link ClientConfig} instance that can be used to access the
 	 *         <code>rps-tourney-service-app</code> WAR's web services, for the
 	 *         embedded Jetty instance used in this project's integration tests
 	 */
-	public static final ClientConfig createClientConfig() {
+	public static ClientConfig createClientConfig() {
 		UriBuilder serviceRootUri = UriBuilder.fromPath(String.format(
 				"http://localhost:%d/%s", JETTY_PORT, CONTEXT_WEB_SERVICE));
 		ClientConfig clientConfig = new ClientConfig(serviceRootUri.build());
