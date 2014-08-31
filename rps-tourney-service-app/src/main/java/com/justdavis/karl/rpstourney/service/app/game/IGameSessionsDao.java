@@ -5,6 +5,7 @@ import java.util.List;
 import com.justdavis.karl.rpstourney.api.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * A DAO for {@link GameSession} JPA entities (and indirectly, its child
@@ -33,6 +34,15 @@ public interface IGameSessionsDao {
 	 * @return all of the {@link GameSession} instances in the database
 	 */
 	List<GameSession> getGameSessions();
+
+	/**
+	 * @param player
+	 *            the {@link GameSession#getPlayer1()} /
+	 *            {@link GameSession#getPlayer2()} value to match against
+	 * @return the {@link GameSession}s that match the specified parameters, or
+	 *         an empty {@link List} if none are found
+	 */
+	List<GameSession> getGameSessionsForPlayer(Player player);
 
 	/**
 	 * <p>

@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.app.game;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -266,6 +267,50 @@ public final class GameSessionsDaoImplIT {
 			// Try to query for a non-existent entity.
 			GameSession gameThatShouldntExist = gamesDao.findById("123");
 			Assert.assertNull(gameThatShouldntExist);
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
+	 * Tests {@link GameSessionsDaoImpl#getGameSessionsForPlayer(Player)}.
+	 */
+	@Test
+	public void getGamesForPlayer() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAO.
+			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			gamesDao.setEntityManager(entityManager);
+
+			// Create and save the entities to test against.
+			Player playerA = new Player(new Account());
+			Player playerB = new Player(new Account());
+			GameSession game1 = new GameSession(playerA);
+			game1.setPlayer2(playerB);
+			GameSession game2 = new GameSession(playerA);
+			EntityTransaction tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				gamesDao.save(game1);
+				gamesDao.save(game2);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Try to query for the entities.
+			List<GameSession> gamesForPlayerA = gamesDao
+					.getGameSessionsForPlayer(playerA);
+			Assert.assertNotNull(gamesForPlayerA);
+			Assert.assertEquals(2, gamesForPlayerA.size());
+			List<GameSession> gamesForPlayerB = gamesDao
+					.getGameSessionsForPlayer(playerB);
+			Assert.assertNotNull(gamesForPlayerB);
+			Assert.assertEquals(1, gamesForPlayerB.size());
 		} finally {
 			entityManager.close();
 		}

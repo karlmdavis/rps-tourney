@@ -1,5 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
+import java.util.List;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -28,6 +30,11 @@ public interface IGameSessionResource {
 	 * The {@link Path} for the {@link #createGame()} method.
 	 */
 	public static final String SERVICE_PATH_NEW = "/new";
+
+	/**
+	 * The {@link Path} for the {@link #getGamesForPlayer} method.
+	 */
+	public static final String SERVICE_PATH_GAMES_FOR_PLAYER = "/games";
 
 	/**
 	 * The {@link Path} variable for methods that take in
@@ -72,6 +79,23 @@ public interface IGameSessionResource {
 
 	/**
 	 * <p>
+	 * Returns all {@link GameSession}s that the the user who calls this method
+	 * is a {@link Player} in.
+	 * </p>
+	 * 
+	 * @return the {@link List} of {@link GameSession}s that the the user who
+	 *         calls this method is a {@link Player} in, or an empty
+	 *         {@link List} if there are no such {@link GameSession}s or if the
+	 *         user is not authenticated
+	 * @see GameSession#setPlayer2(Player)
+	 */
+	@GET
+	@Path(IGameSessionResource.SERVICE_PATH_GAMES_FOR_PLAYER)
+	@Produces(MediaType.TEXT_XML)
+	List<GameSession> getGamesForPlayer();
+
+	/**
+	 * <p>
 	 * Returns the specified {@link GameSession}.
 	 * </p>
 	 * 
@@ -86,7 +110,8 @@ public interface IGameSessionResource {
 	@GET
 	@Path(IGameSessionResource.SERVICE_PATH_GAME_ID)
 	@Produces(MediaType.TEXT_XML)
-	GameSession getGame(@PathParam("gameSessionId") String gameSessionId);
+	GameSession getGame(@PathParam("gameSessionId") String gameSessionId)
+			throws NotFoundException;
 
 	/**
 	 * <p>
@@ -125,7 +150,8 @@ public interface IGameSessionResource {
 	@Produces(MediaType.TEXT_XML)
 	GameSession setMaxRounds(@PathParam("gameSessionId") String gameSessionId,
 			@FormParam("oldMaxRoundsValue") int oldMaxRoundsValue,
-			@FormParam("newMaxRoundsValue") int newMaxRoundsValue);
+			@FormParam("newMaxRoundsValue") int newMaxRoundsValue)
+			throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -151,7 +177,8 @@ public interface IGameSessionResource {
 	@Path(IGameSessionResource.SERVICE_PATH_GAME_ID
 			+ IGameSessionResource.SERVICE_PATH_JOIN)
 	@Produces(MediaType.TEXT_XML)
-	GameSession joinGame(@PathParam("gameSessionId") String gameSessionId);
+	GameSession joinGame(@PathParam("gameSessionId") String gameSessionId)
+			throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -182,7 +209,8 @@ public interface IGameSessionResource {
 	@Path(IGameSessionResource.SERVICE_PATH_GAME_ID
 			+ IGameSessionResource.SERVICE_PATH_PREPARE)
 	@Produces(MediaType.TEXT_XML)
-	GameSession prepareRound(@PathParam("gameSessionId") String gameSessionId);
+	GameSession prepareRound(@PathParam("gameSessionId") String gameSessionId)
+			throws NotFoundException;
 
 	/**
 	 * <p>
@@ -226,5 +254,6 @@ public interface IGameSessionResource {
 	@Produces(MediaType.TEXT_XML)
 	GameSession submitThrow(@PathParam("gameSessionId") String gameSessionId,
 			@FormParam("roundIndex") int roundIndex,
-			@FormParam("throwToPlay") Throw throwToPlay);
+			@FormParam("throwToPlay") Throw throwToPlay)
+			throws NotFoundException, GameConflictException;
 }

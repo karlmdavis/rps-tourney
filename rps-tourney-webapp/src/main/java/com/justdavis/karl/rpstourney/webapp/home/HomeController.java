@@ -1,12 +1,13 @@
 package com.justdavis.karl.rpstourney.webapp.home;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
 
 /**
  * The {@link Controller} for the site's home page.
@@ -14,16 +15,29 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 public class HomeController {
+	private final IGameSessionResource gameClient;
+
+	/**
+	 * Constructs a new {@link HomeController} instance.
+	 * 
+	 * @param gameClient
+	 *            the {@link IGameSessionResource} client to use
+	 */
+	@Inject
+	public HomeController(IGameSessionResource gameClient) {
+		this.gameClient = gameClient;
+	}
+
 	/**
 	 * @return a {@link ModelAndView} that can be used to render some basic
 	 *         information about the application
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getHomePage() {
-		Map<String, String> modelProps = new HashMap<>();
-
 		ModelAndView modelAndView = new ModelAndView("home");
-		modelAndView.addObject("model", modelProps);
+
+		// Get the current player's games (if any).
+		modelAndView.addObject("games", gameClient.getGamesForPlayer());
 
 		return modelAndView;
 	}

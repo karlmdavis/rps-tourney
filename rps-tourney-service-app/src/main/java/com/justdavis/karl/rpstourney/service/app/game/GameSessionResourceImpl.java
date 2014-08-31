@@ -1,5 +1,8 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
@@ -95,6 +98,26 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 		gamesDao.save(game);
 
 		return game;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#getGamesForPlayer()
+	 */
+	@Override
+	public List<GameSession> getGamesForPlayer() {
+		// Return an empty Set for unauthenticated users.
+		if (securityContext.getUserPrincipal() == null) {
+			return Collections.emptyList();
+		}
+
+		// Determine the current user/player.
+		Account userAccount = getUserAccount();
+		Player userPlayer = playersDao
+				.findOrCreatePlayerForAccount(userAccount);
+
+		// Get the games for that Player.
+		List<GameSession> games = gamesDao.getGameSessionsForPlayer(userPlayer);
+		return games;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <spring:message code="home.subtitle" var="metaSubtitle" />
@@ -9,6 +10,27 @@
 		
 		<h2><spring:message code="home.games.h2" /></h2>
 		<a id="createGame" href="./game/"><spring:message code="home.games.create" /></a>
+		
+		<sec:authorize access="isAuthenticated()">
+		<c:if test="${not empty games}">
+		<table id="playerGames">
+			<thead>
+				<tr>
+					<th><spring:message code="home.games.id.label" /></th>
+					<th><spring:message code="home.games.state.label" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${games}" var="game">
+				<tr>
+					<td><a href="./game/${game.id}">${game.id}</a></td>
+					<td><spring:message code="home.games.game.state.${game.state}" /></td>
+				</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</c:if>
+		</sec:authorize>
 		
 		<%-- Disabling logout until username & password authentication is fully supported: registration and login are missing. --%>
 		<%-- <sec:authorize access="isAuthenticated()"> --%>

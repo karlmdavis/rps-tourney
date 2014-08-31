@@ -266,13 +266,6 @@ public class GameController {
 	 */
 	private ModelAndView buildGameModelAndView(Locale locale,
 			Principal authenticatedUser, GameSession game) {
-		/*
-		 * Design Note: This has been pulled out into a separate method, as
-		 * there are a lot of "fiddly little bits" of extra model data that we
-		 * want to expose to the view. This isn't strictly necessary, but does
-		 * cut down on the amount of logic needed in the JSP.
-		 */
-
 		ModelAndView modelAndView = new ModelAndView("game");
 
 		// Add the GameSession to the model.
@@ -306,7 +299,7 @@ public class GameController {
 
 		/*
 		 * The following model entries are ONLY used for display purposes. They
-		 * are not and should not be used for any sort of real actual access
+		 * are not and should not be used for any sort of real/actual access
 		 * control.
 		 */
 		boolean isPlayer1 = isUserThisPlayer(authenticatedUser,

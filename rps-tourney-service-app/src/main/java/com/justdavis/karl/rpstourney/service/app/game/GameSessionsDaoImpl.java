@@ -17,6 +17,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession_;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * The default {@link IGameSessionsDao} implementation.
@@ -97,6 +98,32 @@ public class GameSessionsDaoImpl implements IGameSessionsDao {
 
 		// Run the query.
 		TypedQuery<GameSession> query = entityManager.createQuery(criteria);
+		List<GameSession> results = query.getResultList();
+
+		return results;
+	}
+	
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IGameSessionsDao#getGameSessionsForPlayer(com.justdavis.karl.rpstourney.service.api.game.Player)
+	 */
+	@Override
+	public List<GameSession> getGameSessionsForPlayer(Player player) {
+		// Build a query.
+		CriteriaBuilder cb = entityManager.getEntityManagerFactory()
+				.getCriteriaBuilder();
+		CriteriaQuery<GameSession> cq = cb.createQuery(GameSession.class);
+		Root<GameSession> gameSession = cq.from(GameSession.class);
+		cq.where(
+			cb.or(
+				cb.and(
+					cb.isNotNull(gameSession.get(GameSession_.player1)),
+					cb.equal(gameSession.get(GameSession_.player1), player)),
+				cb.and(
+					cb.isNotNull(gameSession.get(GameSession_.player1)),
+					cb.equal(gameSession.get(GameSession_.player2), player))));
+
+		// Run the query.
+		TypedQuery<GameSession> query = entityManager.createQuery(cq);
 		List<GameSession> results = query.getResultList();
 
 		return results;
