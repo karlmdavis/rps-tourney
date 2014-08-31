@@ -159,6 +159,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- Selenium is a browser automation/test framework and is used to drive 
+				this project's integration tests. -->
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.42.2</version>
