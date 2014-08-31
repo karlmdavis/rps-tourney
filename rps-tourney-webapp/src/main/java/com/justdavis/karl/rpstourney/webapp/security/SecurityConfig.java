@@ -90,7 +90,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login").permitAll()
 			.and().logout().permitAll()
 			.and().httpBasic()
-			.and().rememberMe().rememberMeServices(rememberMeServices)
+			.and().rememberMe()
+				.rememberMeServices(rememberMeServices)
+				.key(CustomRememberMeServices.REMEMBER_ME_TOKEN_KEY)
 			.and().anonymous().disable();
 	}
 

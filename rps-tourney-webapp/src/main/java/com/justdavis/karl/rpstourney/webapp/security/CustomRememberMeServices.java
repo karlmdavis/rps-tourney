@@ -304,7 +304,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME,
 				serviceClientAuthTokenCookie.getValue());
 		servletResponseAuthTokenCookie.setVersion(0);
-		servletResponseAuthTokenCookie.setSecure(true);
+		servletResponseAuthTokenCookie.setSecure(request.isSecure());
 		servletResponseAuthTokenCookie.setHttpOnly(true);
 		servletResponseAuthTokenCookie.setDomain(request.getServerName());
 		servletResponseAuthTokenCookie.setPath("/");
