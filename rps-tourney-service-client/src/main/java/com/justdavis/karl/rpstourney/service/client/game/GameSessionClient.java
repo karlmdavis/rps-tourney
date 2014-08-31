@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.client.game;
 
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
@@ -75,7 +77,10 @@ public final class GameSessionClient implements IGameSessionResource {
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameSessionId,
+					response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
 		GameSession game = response.readEntity(GameSession.class);
@@ -103,7 +108,12 @@ public final class GameSessionClient implements IGameSessionResource {
 		params.param("newMaxRoundsValue", "" + newMaxRoundsValue);
 
 		Response response = requestBuilder.post(Entity.form(params));
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameSessionId,
+					response);
+		else if (response.getStatus() == Status.CONFLICT.getStatusCode())
+			throw new GameConflictException(response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
 		GameSession game = response.readEntity(GameSession.class);
@@ -127,7 +137,12 @@ public final class GameSessionClient implements IGameSessionResource {
 		Form params = new Form();
 
 		Response response = requestBuilder.post(Entity.form(params));
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameSessionId,
+					response);
+		else if (response.getStatus() == Status.CONFLICT.getStatusCode())
+			throw new GameConflictException(response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
 		GameSession game = response.readEntity(GameSession.class);
@@ -137,7 +152,7 @@ public final class GameSessionClient implements IGameSessionResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#joinGame(java.lang.String)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#prepareRound(String)
 	 */
 	@Override
 	public GameSession prepareRound(String gameSessionId) {
@@ -151,7 +166,10 @@ public final class GameSessionClient implements IGameSessionResource {
 		Form params = new Form();
 
 		Response response = requestBuilder.post(Entity.form(params));
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameSessionId,
+					response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
 		GameSession game = response.readEntity(GameSession.class);
@@ -179,7 +197,12 @@ public final class GameSessionClient implements IGameSessionResource {
 		params.param("throwToPlay", throwToPlay.name());
 
 		Response response = requestBuilder.post(Entity.form(params));
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameSessionId,
+					response);
+		else if (response.getStatus() == Status.CONFLICT.getStatusCode())
+			throw new GameConflictException(response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
 		GameSession game = response.readEntity(GameSession.class);

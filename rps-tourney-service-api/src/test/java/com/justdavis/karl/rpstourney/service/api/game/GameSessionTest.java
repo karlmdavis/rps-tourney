@@ -425,4 +425,35 @@ public final class GameSessionTest {
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(player2, game.getWinner());
 	}
+
+	/**
+	 * Tests that {@link GameSession#setMaxRounds(int)} throws a
+	 * {@link GameConflictException} when it should.
+	 */
+	@Test(expected = GameConflictException.class)
+	public void setMaxRounds_conflicts() {
+		Player player1 = new Player(new Account());
+		Player player2 = new Player(new Account());
+		GameSession game = new GameSession(player1);
+		game.setPlayer2(player2);
+		game.submitThrow(0, player1, Throw.ROCK);
+
+		// Should blow up:
+		game.setMaxRounds(1);
+	}
+
+	/**
+	 * Tests that {@link GameSession#submitThrow(int, Player, Throw)} throws a
+	 * {@link GameConflictException} when the wrong round is specified.
+	 */
+	@Test(expected = GameConflictException.class)
+	public void submitThrow_conflictingRound() {
+		Player player1 = new Player(new Account());
+		Player player2 = new Player(new Account());
+		GameSession game = new GameSession(player1);
+		game.setPlayer2(player2);
+
+		// Should blow up:
+		game.submitThrow(1, player1, Throw.ROCK);
+	}
 }

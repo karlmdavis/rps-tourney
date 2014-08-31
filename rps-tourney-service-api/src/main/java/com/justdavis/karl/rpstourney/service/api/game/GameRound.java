@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.service.api.game.GameRound.GameRoundPk;
 
 /**
  * <p>
@@ -37,7 +36,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameRound.GameRoundPk;
  * </p>
  */
 @Entity
-@IdClass(GameRoundPk.class)
+@IdClass(GameRound.GameRoundPk.class)
 @Table(name = "\"GameRounds\"")
 @DynamicUpdate(true)
 @XmlRootElement
@@ -126,13 +125,19 @@ public final class GameRound {
 	 * 
 	 * @param throwForPlayer1
 	 *            the value to use for {@link #getThrowForPlayer1()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if the
+	 *             {@link Player} has already submitted a {@link Throw} for this
+	 *             {@link GameRound}.
 	 * @see GameSession#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer1(Throw throwForPlayer1) {
 		if (throwForPlayer1 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer1 != null)
-			throw new IllegalStateException();
+			throw new GameConflictException(String.format(
+					"Throw already set to '%s'; can't set to '%s'.",
+					this.throwForPlayer1, throwForPlayer1));
 
 		this.throwForPlayer1 = throwForPlayer1;
 	}
@@ -152,13 +157,19 @@ public final class GameRound {
 	 * 
 	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if the
+	 *             {@link Player} has already submitted a {@link Throw} for this
+	 *             {@link GameRound}.
 	 * @see GameSession#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer2(Throw throwForPlayer2) {
 		if (throwForPlayer2 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer2 != null)
-			throw new IllegalStateException();
+			throw new GameConflictException(String.format(
+					"Throw already set to '%s'; can't set to '%s'.",
+					this.throwForPlayer2, throwForPlayer2));
 
 		this.throwForPlayer2 = throwForPlayer2;
 	}

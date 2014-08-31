@@ -2,11 +2,14 @@ package com.justdavis.karl.rpstourney.service.api.game;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.justdavis.karl.rpstourney.service.api.game.GameSession.State;
 
 /**
  * This service allows users to create, retrieve, and play games. Please note
@@ -76,6 +79,9 @@ public interface IGameSessionResource {
 	 *            the {@link GameSession#getId()} value of the
 	 *            {@link GameSession} to return
 	 * @return the matching {@link GameSession} instance
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link GameSession} can be found.
 	 */
 	@GET
 	@Path(IGameSessionResource.SERVICE_PATH_GAME_ID)
@@ -96,6 +102,21 @@ public interface IGameSessionResource {
 	 * @param newMaxRoundsValue
 	 *            the value to use for {@link GameSession#getMaxRounds()}
 	 * @return the modified {@link GameSession} instance
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link GameSession} can be found.
+	 * @throws GameConflictException
+	 *             <p>
+	 *             An {@link GameConflictException} will be thrown in the
+	 *             following cases:
+	 *             </p>
+	 *             <ul>
+	 *             <li>If {@link GameSession#getState()} is not
+	 *             {@link State#WAITING_FOR_PLAYER} or
+	 *             {@link State#WAITING_FOR_FIRST_THROW}.</li>
+	 *             <li>If the <code>oldMaxRoundsValue</code> does not match the
+	 *             actual, current value of {@link GameSession#getMaxRounds()}.</li>
+	 *             </ul>
 	 * @see GameSession#setMaxRounds(int)
 	 */
 	@POST
@@ -117,6 +138,13 @@ public interface IGameSessionResource {
 	 *            the {@link GameSession#getId()} value of the
 	 *            {@link GameSession} to modify
 	 * @return the modified {@link GameSession} instance
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link GameSession} can be found.
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if
+	 *             {@link GameSession#getState()} is not
+	 *             {@link State#WAITING_FOR_PLAYER}.
 	 * @see GameSession#setPlayer2(Player)
 	 */
 	@POST
@@ -145,6 +173,9 @@ public interface IGameSessionResource {
 	 *            the {@link GameSession#getId()} value of the
 	 *            {@link GameSession} to modify
 	 * @return the (possibly updated) {@link GameSession} instance
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link GameSession} can be found.
 	 * @see GameSession#prepareRound()
 	 */
 	@POST
@@ -164,7 +195,29 @@ public interface IGameSessionResource {
 	 * @param gameSessionId
 	 *            the {@link GameSession#getId()} value of the
 	 *            {@link GameSession} to modify
+	 * @param roundIndex
+	 *            the {@link GameRound#getRoundIndex()} of the current round
+	 *            (used to verify that gameplay is correctly synchronized)
+	 * @param throwToPlay
+	 *            the {@link Throw} to submit for the {@link Player}
 	 * @return the modified {@link GameSession} instance
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link GameSession} can be found.
+	 * @throws GameConflictException
+	 *             <p>
+	 *             An {@link GameConflictException} will be thrown in the
+	 *             following cases:
+	 *             </p>
+	 *             <ul>
+	 *             <li>If {@link GameSession#getState()} is not
+	 *             {@link State#STARTED}.</li>
+	 *             <li>If the specified <code>roundIndex</code> is not the same
+	 *             as {@link GameRound#getRoundIndex()} in the last/current
+	 *             round.</li>
+	 *             <li>If the {@link Player} has already submitted a
+	 *             {@link Throw} for the {@link GameRound}.</li>
+	 *             </ul>
 	 * @see GameSession#submitThrow(int, Player, Throw)
 	 */
 	@POST

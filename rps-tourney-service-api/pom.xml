@@ -123,6 +123,16 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<!-- Provides a JAX-RS 2.0 implementation for this project's tests to 
+				use. (Without one of these available, some of the tests will blow up with 
+				ClassNotFoundExceptions. For example: GameConflictException can't be used 
+				without this.) -->
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-client</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

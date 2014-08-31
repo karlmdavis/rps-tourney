@@ -20,14 +20,13 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.SpringConfigForJEMisc;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.datasources.schema.LiquibaseSchemaManager;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.GameConflictExceptionMapper;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
@@ -38,19 +37,16 @@ import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
 
 /**
- * Provides the primary Spring {@link Configuration} for the JAX-RS
- * application.
+ * Provides the primary Spring {@link Configuration} for the JAX-RS application.
  */
 @Configuration
-@EnableJpaRepositories
-@EnableTransactionManagement
 @ComponentScan(basePackageClasses = { ServiceApplication.class })
 @Import({ SpringConfigForJEMisc.class, SpringJpaConfig.class })
 public class SpringConfig {
 	/**
-	 * @return Returns the {@link SpringBus} that the CXF application uses.
-	 *         Such a {@link SpringBus} instance <strong>must</strong> be
-	 *         provided in the application's {@link Configuration}.
+	 * @return Returns the {@link SpringBus} that the CXF application uses. Such
+	 *         a {@link SpringBus} instance <strong>must</strong> be provided in
+	 *         the application's {@link Configuration}.
 	 */
 	@Bean(destroyMethod = "shutdown")
 	SpringBus cxf() {
@@ -85,17 +81,17 @@ public class SpringConfig {
 
 	/**
 	 * @param springApplicationContext
-	 *            the Spring {@link ApplicationContext} that the
-	 *            {@link Server} will be running in
+	 *            the Spring {@link ApplicationContext} that the {@link Server}
+	 *            will be running in
 	 * @param authenticationFilter
 	 *            the injected {@link AuthenticationFilter} bean for the
 	 *            application
 	 * @return Returns the {@link Server} instance that the CXF application
-	 *         uses. Such an {@link Server} instance <strong>must</strong>
-	 *         be provided in the application's {@link Configuration}. This
-	 *         largely replaces the resource/provider declarations that
-	 *         would be included in an {@link Application} instance for
-	 *         non-Spring JAX-RS applications.
+	 *         uses. Such an {@link Server} instance <strong>must</strong> be
+	 *         provided in the application's {@link Configuration}. This largely
+	 *         replaces the resource/provider declarations that would be
+	 *         included in an {@link Application} instance for non-Spring JAX-RS
+	 *         applications.
 	 */
 	@Bean
 	@DependsOn({ "cxf" })
@@ -137,9 +133,8 @@ public class SpringConfig {
 						.setApplicationContext(springApplicationContext);
 
 		/*
-		 * This is equivalent to <jaxrs:serviceFactories/> elements in a
-		 * Spring XML configuration, as can be seen in
-		 * org.apache.cxf.jaxrs.spring
+		 * This is equivalent to <jaxrs:serviceFactories/> elements in a Spring
+		 * XML configuration, as can be seen in org.apache.cxf.jaxrs.spring
 		 * .JAXRSServerFactoryBeanDefinitionParser.mapElement(...).
 		 */
 		factory.setResourceProviders(resourceProviders);
@@ -148,20 +143,20 @@ public class SpringConfig {
 	}
 
 	/**
-	 * @return The {@link List} of JAX-RS/CXF providers that Spring/CXF
-	 *         should register via
-	 *         {@link JAXRSServerFactoryBean#setProviders(List)}. Basically,
-	 *         this would be anything else that can be a singleton that
-	 *         might have been specified in {@link Application#getClasses()}
-	 *         or {@link Application#getSingletons()}.
+	 * @return The {@link List} of JAX-RS/CXF providers that Spring/CXF should
+	 *         register via {@link JAXRSServerFactoryBean#setProviders(List)}.
+	 *         Basically, this would be anything else that can be a singleton
+	 *         that might have been specified in
+	 *         {@link Application#getClasses()} or
+	 *         {@link Application#getSingletons()}.
 	 */
 	private static List<Object> getProviders() {
 		List<Object> providers = new LinkedList<>();
 
 		/*
-		 * Right now, these providers are all being created manually.
-		 * However, if any of them require injection, they'd need to be
-		 * injected into here via Spring.
+		 * Right now, these providers are all being created manually. However,
+		 * if any of them require injection, they'd need to be injected into
+		 * here via Spring.
 		 */
 
 		// Register the entity translators.
@@ -172,6 +167,9 @@ public class SpringConfig {
 
 		// Register any custom context providers.
 		providers.add(new AuthorizationFilterFeature());
+
+		// Register the exception mappers.
+		providers.add(new GameConflictExceptionMapper());
 
 		return providers;
 	}
@@ -210,15 +208,13 @@ public class SpringConfig {
 	}
 
 	/**
-	 * @return the {@link IDataSourceSchemaManager} for the application to
-	 *         use
+	 * @return the {@link IDataSourceSchemaManager} for the application to use
 	 */
 	@Bean
 	public IDataSourceSchemaManager schemaManager(
 			DataSourceConnectorsManager connectorsManager) {
 		/*
-		 * The
-		 * rps-tourney-webservice/src/main/resources/liquibase-change-log
+		 * The rps-tourney-webservice/src/main/resources/liquibase-change-log
 		 * .xml file contains the Liquibase schema changelog, which will be
 		 * applied at application startup via the DatabaseSchemaInitializer.
 		 */

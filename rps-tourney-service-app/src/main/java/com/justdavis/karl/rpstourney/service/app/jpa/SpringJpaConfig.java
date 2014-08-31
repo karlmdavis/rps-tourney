@@ -10,17 +10,22 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Provides the Spring {@link Configuration} for JPA.
  */
 @Configuration
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class SpringJpaConfig {
 	/**
 	 * @return the Spring {@link JpaVendorAdapter} for the application's
@@ -93,5 +98,23 @@ public class SpringJpaConfig {
 	@Bean
 	public PersistenceAnnotationBeanPostProcessor persistenceAnnotationProcessor() {
 		return new PersistenceAnnotationBeanPostProcessor();
+	}
+
+	/**
+	 * @return a Spring {@link BeanPostProcessor} that enables Spring's data/JPA
+	 *         exception translation for any beans marked with Spring's
+	 *         <code>@Repository</code> annotation
+	 */
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor() {
+		/*
+		 * FIXME This doesn't actually seem to be working, for some very
+		 * frustrating, unknown reason. My best guess is that it has something
+		 * to do with whatever's actually closing my transactions not being
+		 * involved. Note that even marking my JAX-RS resources (the ones with
+		 * @Transactional annotations) with @Repository doesn't seem to resolve
+		 * the problem.
+		 */
+		return new PersistenceExceptionTranslationPostProcessor();
 	}
 }

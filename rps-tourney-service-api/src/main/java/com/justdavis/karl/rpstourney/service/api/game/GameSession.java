@@ -196,20 +196,48 @@ public final class GameSession {
 	}
 
 	/**
+	 * <p>
+	 * Sets a new value for {@link #getMaxRounds()}.
+	 * </p>
+	 * <p>
+	 * Concurrency/JPA safety: This method is not safe for use when the
+	 * {@link GameSession} is being stored in a JPA database and being modified
+	 * by more than one thread/client/whatever.
+	 * </p>
+	 * 
 	 * @param maxRounds
 	 *            the value to use for {@link #getMaxRounds()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if
+	 *             {@link #getState()} is not {@link State#WAITING_FOR_PLAYER}
+	 *             or {@link State#WAITING_FOR_FIRST_THROW}.
 	 */
 	public void setMaxRounds(int maxRounds) {
+		validateMaxRoundsValue(maxRounds);
+		if (!(state == State.WAITING_FOR_PLAYER || state == State.WAITING_FOR_FIRST_THROW))
+			throw new GameConflictException("Game has already started.");
+
+		this.maxRounds = maxRounds;
+	}
+
+	/**
+	 * Validates the proposed {@link #setMaxRounds(int)} value.
+	 * 
+	 * @param maxRounds
+	 *            a value that might be passed to {@link #setMaxRounds(int)}
+	 * @throws IllegalArgumentException
+	 *             An {@link IllegalArgumentException} will be thrown if the
+	 *             specified number of rounds is not allowed.
+	 */
+	public static void validateMaxRoundsValue(int maxRounds) {
 		if (maxRounds < 1)
 			throw new IllegalArgumentException();
 		if (maxRounds % 2 == 0)
 			throw new IllegalArgumentException();
 		if (maxRounds > MAX_MAX_ROUNDS)
 			throw new IllegalArgumentException();
-		if (!(state == State.WAITING_FOR_PLAYER || state == State.WAITING_FOR_FIRST_THROW))
-			throw new IllegalStateException();
 
-		this.maxRounds = maxRounds;
+		// It passes muster. Just return.
 	}
 
 	/**
@@ -332,9 +360,9 @@ public final class GameSession {
 	 *            the {@link Player} to submit the {@link Throw} for
 	 * @param throwForPlayer
 	 *            the {@link Throw} to submit for the {@link Player}
-	 * @throws IllegalStateException
+	 * @throws GameConflictException
 	 *             <p>
-	 *             An {@link IllegalStateException} will be thrown in the
+	 *             An {@link GameConflictException} will be thrown in the
 	 *             following cases:
 	 *             </p>
 	 *             <ul>
@@ -342,13 +370,15 @@ public final class GameSession {
 	 *             <li>If the specified <code>roundIndex</code> is not the same
 	 *             as {@link GameRound#getRoundIndex()} in the last/current
 	 *             round.</li>
+	 *             <li>If the {@link Player} has already submitted a
+	 *             {@link Throw} for the {@link GameRound}.</li>
 	 *             </ul>
 	 */
 	public void submitThrow(int roundIndex, Player player, Throw throwForPlayer) {
 		if (state == State.WAITING_FOR_PLAYER)
-			throw new IllegalStateException();
+			throw new GameConflictException("Game has not started.");
 		if (state == State.FINISHED)
-			throw new IllegalStateException();
+			throw new GameConflictException("Game has ended.");
 		if (player == null)
 			throw new IllegalArgumentException();
 		if (throwForPlayer == null)
@@ -365,7 +395,7 @@ public final class GameSession {
 			 * Either the client is out-of-synch or it neglected to call
 			 * prepareRound() first.
 			 */
-			throw new IllegalStateException(
+			throw new GameConflictException(
 					String.format(
 							"Specified round '%d' is not current round '%d': %s",
 							roundIndex, currentRound.getRoundIndex(),
@@ -478,11 +508,14 @@ public final class GameSession {
 	 * 
 	 * @param player2
 	 *            the value to use for {@link #getPlayer2()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if
+	 *             {@link #getState()} is not {@link State#WAITING_FOR_PLAYER}.
 	 */
 	public void setPlayer2(Player player2) {
 		// Once set, the player can't be changed.
 		if (this.player2 != null)
-			throw new IllegalStateException();
+			throw new GameConflictException("Game already has both players.");
 
 		// Can't set a null player.
 		if (player2 == null)

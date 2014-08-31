@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.app.game;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
@@ -104,8 +105,7 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 		// Look up the specified game.
 		GameSession game = gamesDao.findById(gameSessionId);
 		if (game == null)
-			throw new WebApplicationException("Game not found.",
-					Status.NOT_FOUND);
+			throw new NotFoundException("Game not found: " + gameSessionId);
 
 		return game;
 	}
@@ -119,11 +119,7 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	@Override
 	public GameSession setMaxRounds(String gameSessionId,
 			int oldMaxRoundsValue, int newMaxRoundsValue) {
-		// Look up the specified game.
-		GameSession game = gamesDao.findById(gameSessionId);
-		if (game == null)
-			throw new WebApplicationException("Game not found.",
-					Status.NOT_FOUND);
+		GameSession game = getGame(gameSessionId);
 
 		/*
 		 * Check to make sure that the requesting user is one of the two
@@ -136,25 +132,14 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 				&& !userPlayer.equals(game.getPlayer2()))
 			throw new IllegalArgumentException();
 
-		/*
-		 * Ensure that the old maxRoundsValue matches the value from the
-		 * just-lookup-up game. This will prevent updates to the value from
-		 * users that haven't yet seen the latest value.
-		 */
-		if (oldMaxRoundsValue != game.getMaxRounds())
-			throw new IllegalStateException();
-
 		try {
-			game.setMaxRounds(newMaxRoundsValue);
+			game = gamesDao.setMaxRounds(gameSessionId, oldMaxRoundsValue,
+					newMaxRoundsValue);
 		} catch (IllegalArgumentException e) {
 			// Invalid rounds value.
 			throw new WebApplicationException(e, Status.BAD_REQUEST);
-		} catch (IllegalStateException e) {
-			// The game has already started.
-			throw new WebApplicationException(e, Status.CONFLICT);
 		}
 
-		gamesDao.save(game);
 		return game;
 	}
 
@@ -165,25 +150,18 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	@Transactional
 	@Override
 	public GameSession joinGame(String gameSessionId) {
+		GameSession game = getGame(gameSessionId);
+
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
 		Player userPlayer = playersDao
 				.findOrCreatePlayerForAccount(userAccount);
-
-		// Look up the specified game.
-		GameSession game = gamesDao.findById(gameSessionId);
-		if (game == null)
-			throw new WebApplicationException("Game not found.",
-					Status.NOT_FOUND);
 
 		try {
 			game.setPlayer2(userPlayer);
 		} catch (IllegalArgumentException e) {
 			// Trying to set the same user as both players.
 			throw new WebApplicationException(e, Status.BAD_REQUEST);
-		} catch (IllegalStateException e) {
-			// The game has already started.
-			throw new WebApplicationException(e, Status.CONFLICT);
 		}
 
 		gamesDao.save(game);
@@ -201,11 +179,7 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 		 * it doesn't really matter who calls it.
 		 */
 
-		// Look up the specified game.
-		GameSession game = gamesDao.findById(gameSessionId);
-		if (game == null)
-			throw new WebApplicationException("Game not found.",
-					Status.NOT_FOUND);
+		GameSession game = getGame(gameSessionId);
 
 		// Prepare the round, if needed.
 		if (!game.isRoundPrepared()) {
@@ -225,25 +199,18 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	@Override
 	public GameSession submitThrow(String gameSessionId, int roundIndex,
 			Throw throwToPlay) {
+		GameSession game = getGame(gameSessionId);
+
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
 		Player userPlayer = playersDao
 				.findOrCreatePlayerForAccount(userAccount);
-
-		// Look up the specified game.
-		GameSession game = gamesDao.findById(gameSessionId);
-		if (game == null)
-			throw new WebApplicationException("Game not found.",
-					Status.NOT_FOUND);
 
 		try {
 			game.submitThrow(roundIndex, userPlayer, throwToPlay);
 		} catch (IllegalArgumentException e) {
 			// Trying to set the same user as both players.
 			throw new WebApplicationException(e, Status.BAD_REQUEST);
-		} catch (IllegalStateException e) {
-			// The game has already started.
-			throw new WebApplicationException(e, Status.CONFLICT);
 		}
 
 		gamesDao.save(game);
