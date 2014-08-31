@@ -163,6 +163,15 @@
 			<artifactId>selenium-java</artifactId>
 			<version>2.42.2</version>
 			<scope>test</scope>
+			<exclusions>
+				<!-- Selenium depends on HtmlUnit, which depends on an old version of 
+					Jetty. We're excluding that dependency here so that it doesn't interfere 
+					with our direct inclusion of Jetty. -->
+				<exclusion>
+					<artifactId>jetty-websocket</artifactId>
+					<groupId>org.eclipse.jetty</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
