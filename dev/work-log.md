@@ -1517,3 +1517,12 @@ This file should never be committed along with other files; it should always be 
 * Next steps:
     * Add a table or somesuch to the homepage that lists all of the games, and add tests for that.
     * Hide the login/logout controls in the webpages (until game login registration is implemented).
+
+### 2014-08-31, Sunday
+
+* 3.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Added a table of the player's active games to the homepage.
+    * Hid the home page's logout control.
+* 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed the player labels on the game page.
+    
