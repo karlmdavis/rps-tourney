@@ -1523,6 +1523,6 @@ This file should never be committed along with other files; it should always be 
 * 3.5h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Added a table of the player's active games to the homepage.
     * Hid the home page's logout control.
+    * Opened the following CXF issue (left a FIXME in `GameSessionClient` for it): [CXF-5980](https://issues.apache.org/jira/browse/CXF-5980). 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Fixed the player labels on the game page.
-    
