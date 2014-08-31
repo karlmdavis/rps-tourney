@@ -1506,3 +1506,14 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Created `GameConflictException` and customized many of the game, server, and client exceptions.
         * Not quite done: Need to update API, server, and client tests.
+
+### 2014-08-30, Saturday
+
+* 5.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Fixed `GameSessionResourceImplIT.setMaxRoundsConcurrency()` to specifically watch for `GameConflictException`s (had to fix a bunch of bugs in the process).
+    * *Tried* and failed to do the same thing for `GameSessionResourceImplIT.submitThrowConcurrency()`. Finally just got frustrated and gave up. See the "FIXME" left in `SpringJpaConfig.persistenceExceptionTranslationPostProcessor()`.
+* 2.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
+    * Added tests for `GameController` and `game.jsp`.
+* Next steps:
+    * Add a table or somesuch to the homepage that lists all of the games, and add tests for that.
+    * Hide the login/logout controls in the webpages (until game login registration is implemented).
