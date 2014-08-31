@@ -11,4 +11,12 @@
 		<!-- This is mapped to HomeController. -->
 		<welcome-file />
 	</welcome-file-list>
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<!-- Prevent JSP directives from producing a bunch of unnecessary whitespace. -->
+			<!-- FIXME: This doesn't seem to be actually taking effect. -->
+			<trim-directive-whitespaces>true</trim-directive-whitespaces>
+		</jsp-property-group>
+	</jsp-config>
 </web-app>

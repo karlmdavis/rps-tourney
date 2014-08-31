@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<spring:message code="game.subtitle" var="subtitle" />
-<t:basepage subtitle="${subtitle}">
+<spring:message code="game.subtitle" var="metaSubtitle" />
+<t:basepage metaSubtitle="${metaSubtitle}">
 		<div id="currentRound">
 			<h2><spring:message code="game.currentRound" /></h2>
 			<div id="playerControls">

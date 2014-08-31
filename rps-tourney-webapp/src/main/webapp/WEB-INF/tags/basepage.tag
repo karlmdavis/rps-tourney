@@ -1,5 +1,7 @@
-<%@ attribute name="subtitle" required="true" %>
-<%@ attribute name="description" required="false" %>
+<%@ attribute name="metaSubtitle" required="false" %>
+<%@ attribute name="metaDescription" required="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -8,8 +10,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>RPS Tourney: ${subtitle}</title>
-		<meta name="description" content="${description}">
+		<title><spring:message code="template.title.prefix" /><c:if test="${not empty metaSubtitle}">: ${metaSubtitle}</c:if></title>
+		<c:if test="${empty metaDescription}">
+			<spring:message code="template.meta.description.default" var="metaDescription" />
+		</c:if>
+		<meta name="description" content="${metaDescription}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
