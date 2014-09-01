@@ -1526,3 +1526,12 @@ This file should never be committed along with other files; it should always be 
     * Opened the following CXF issue (left a FIXME in `GameSessionClient` for it): [CXF-5980](https://issues.apache.org/jira/browse/CXF-5980). 
 * 0.25h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Fixed the player labels on the game page.
+* Closed [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20)!
+* Deployed to https://justdavis.com/karl/rps!
+
+### 2014-09-01, Monday
+
+* 1.5h: [Issue #31](https://github.com/karlmdavis/rps-tourney/issues/31): Web application URLs get mangled by proxy
+    * Added `AppConfig.getBaseUrl()` and `BaseUrlInterceptor` and switched all of the JSPs to respect it.
+* 0.5h: Resolved an intermittent issue with Spring Security and JavaScript resource requests.
+* Deployed to https://justdavis.com/karl/rps again.
