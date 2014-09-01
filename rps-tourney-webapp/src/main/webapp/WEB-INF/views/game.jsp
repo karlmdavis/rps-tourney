@@ -80,8 +80,8 @@
 					<c:forEach items="${game.rounds}" var="round">
 					<tr>
 						<td>${round.roundIndex + 1}</td>
-						<td><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></td>
-						<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
+						<td><c:if test="${isPlayer1 || (round.roundIndex < (fn:length(game.rounds)) - 1)}"><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></c:if></td>
+						<td><c:if test="${isPlayer2 || (round.roundIndex < (fn:length(game.rounds)) - 1)}"><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></c:if></td>
 						<td><spring:message code="game.roundHistory.${round.result}" /></td>
 					</tr>
 					</c:forEach>
