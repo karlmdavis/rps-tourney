@@ -1541,3 +1541,6 @@ This file should never be committed along with other files; it should always be 
     * Snagged a couple of screenshots to commemorate the first actually playable deployment:
         * [First Playable Deployed Version: Home](rps-tourney-webapp/dev/screenshots/2014-09-01-first-playable-deployment-home.png)
         * [First Playable Deployed Version: Game](rps-tourney-webapp/dev/screenshots/2014-09-01-first-playable-deployment-game.png)
+* 0.25h: [Issue #33](https://github.com/karlmdavis/rps-tourney/issues/33): Opponent's move in current round is visible via web service.
+    * Found & partially fixed it.
+    * Deployed to https://justdavis.com/karl/rps again.
