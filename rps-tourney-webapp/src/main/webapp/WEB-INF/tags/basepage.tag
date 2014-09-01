@@ -19,9 +19,9 @@
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-		<link rel="stylesheet" href="css/normalize.css">
-		<link rel="stylesheet" href="css/main.css">
-		<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/normalize.css">
+		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/main.css">
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2.min.js"></script>
 	</head>
 	<body>
 		<!--[if lt IE 7]>
@@ -31,9 +31,9 @@
 		<jsp:doBody />
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-		<script src="js/plugins.js"></script>
-		<script src="js/main.js"></script>
+		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/plugins.js"></script>
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/main.js"></script>
 
 		<!-- Google Analytics: change UA-43685799-2 is the rpstourney.com Tracking ID. -->
 		<script>

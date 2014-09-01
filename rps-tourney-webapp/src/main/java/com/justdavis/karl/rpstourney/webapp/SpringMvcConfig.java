@@ -2,6 +2,8 @@ package com.justdavis.karl.rpstourney.webapp;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
+import com.justdavis.karl.rpstourney.webapp.config.BaseUrlInterceptor;
 import com.justdavis.karl.rpstourney.webapp.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
 
@@ -38,6 +41,9 @@ import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
 @EnableWebMvc
 @ComponentScan(basePackageClasses = { SpringMvcConfig.class })
 public class SpringMvcConfig extends WebMvcConfigurerAdapter {
+	@Inject
+	private BaseUrlInterceptor baseUrlInterceptor;
+
 	/**
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
 	 */
@@ -100,6 +106,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
+		registry.addInterceptor(baseUrlInterceptor);
 	}
 
 	/**

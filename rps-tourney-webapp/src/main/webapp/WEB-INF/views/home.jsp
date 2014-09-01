@@ -9,7 +9,7 @@
 		<p><spring:message code="home.intro.1" /></p>
 		
 		<h2><spring:message code="home.games.h2" /></h2>
-		<a id="createGame" href="./game/"><spring:message code="home.games.create" /></a>
+		<a id="createGame" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a>
 		
 		<sec:authorize access="isAuthenticated()">
 		<c:if test="${not empty games}">
@@ -23,7 +23,7 @@
 			<tbody>
 				<c:forEach items="${games}" var="game">
 				<tr>
-					<td><a href="./game/${game.id}">${game.id}</a></td>
+					<td><a href="${requestScope['rpstourney.config.baseurl']}/game/${game.id}">${game.id}</a></td>
 					<td><spring:message code="home.games.game.state.${game.state}" /></td>
 				</tr>
 				</c:forEach>

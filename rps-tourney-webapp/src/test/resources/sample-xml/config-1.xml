@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rps:appConfig xmlns:rps="http://justdavis.com/karl/rpstourney/app/schema/v1">
-	<rps:clientServiceRoot>https://example.com/</rps:clientServiceRoot>
+	<rps:baseUrl>https://example.com/</rps:baseUrl>
+	<rps:clientServiceRoot>https://example.com/service</rps:clientServiceRoot>
 </rps:appConfig>

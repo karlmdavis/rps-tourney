@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <spring:message code="game.subtitle" var="metaSubtitle" />
+<c:url value="${requestScope['rpstourney.config.baseurl']}/game/${game.id}" var="gameUrl" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 		<div id="currentRound">
 			<h2><spring:message code="game.currentRound" /></h2>
@@ -12,16 +13,16 @@
 				<div id="player1Controls">
 					<h3>${player1Label}</h3>
 					<p id="player1Status"></p>
-					<a id="player1ThrowRock" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
-					<a id="player1ThrowPaper" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
-					<a id="player1ThrowScissors" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					<a id="player1ThrowRock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
+					<a id="player1ThrowPaper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
+					<a id="player1ThrowScissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
 				</div>
 				<div id="player2Controls">
 					<h3>${player2Label}</h3>
 					<p id="player2Status"></p>
-					<a id="player2ThrowRock" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
-					<a id="player2ThrowPaper" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
-					<a id="player2ThrowScissors" href="${requestScope['javax.servlet.forward.request_uri']}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					<a id="player2ThrowRock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
+					<a id="player2ThrowPaper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
+					<a id="player2ThrowScissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
 				</div>
 			</div>
 			<div id="playerScores">
@@ -43,14 +44,14 @@
 			<c:if test="${isPlayer}">
 			<div id="maxRoundControls">
 				<h3>Max Rounds</h3>
-				<a id="maxRoundsDown" href="${requestScope['javax.servlet.forward.request_uri']}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a>
+				<a id="maxRoundsDown" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a>
 				<spring:message code="game.maxRounds.label" />
 				<input id="maxRoundsValue" type="text" value="${game.maxRounds}" />
-				<a id="maxRoundsUp" href="${requestScope['javax.servlet.forward.request_uri']}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a>
+				<a id="maxRoundsUp" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a>
 			</div>
 			</c:if>
 			<c:if test="${!isPlayer && !hasPlayer2}">
-			<a id="joinLink" href="${requestScope['javax.servlet.forward.request_uri']}/join"><spring:message code="game.join" /></a>
+			<a id="joinLink" href="${gameUrl}/join"><spring:message code="game.join" /></a>
 			</c:if>
 		</div>
 		</c:if>

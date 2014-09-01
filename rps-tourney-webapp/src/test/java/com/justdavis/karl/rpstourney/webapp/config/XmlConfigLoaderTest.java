@@ -49,8 +49,11 @@ public final class XmlConfigLoaderTest {
 			XmlConfigLoader configLoader = new XmlConfigLoader();
 			AppConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
+			Assert.assertNotNull(config.getBaseUrl());
+			Assert.assertEquals("https://example.com/", config.getBaseUrl()
+					.toString());
 			Assert.assertNotNull(config.getClientServiceRoot());
-			Assert.assertEquals("https://example.com/", config
+			Assert.assertEquals("https://example.com/service", config
 					.getClientServiceRoot().toString());
 		} finally {
 			// Need to ensure we delete the file we've created.
@@ -91,8 +94,11 @@ public final class XmlConfigLoaderTest {
 			XmlConfigLoader configLoader = new XmlConfigLoader();
 			AppConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
+			Assert.assertNotNull(config.getBaseUrl());
+			Assert.assertEquals("https://example.com/", config.getBaseUrl()
+					.toString());
 			Assert.assertNotNull(config.getClientServiceRoot());
-			Assert.assertEquals("https://example.com/", config
+			Assert.assertEquals("https://example.com/service", config
 					.getClientServiceRoot().toString());
 		} finally {
 			// Need to ensure we unset the config property.

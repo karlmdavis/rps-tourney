@@ -1,6 +1,6 @@
 package com.justdavis.karl.rpstourney.webapp.config;
 
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -33,19 +33,20 @@ public final class AppConfigTest {
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
 	 *             (shouldn't be thrown if things are working)
-	 * @throws URISyntaxException
-	 *             (using a static URI; shouldn't happen)
+	 * @throws MalformedURLException
+	 *             (using static URLs; shouldn't happen)
 	 */
 	@Test
 	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException, URISyntaxException {
+			XPathExpressionException, URISyntaxException, MalformedURLException {
 		// Create the Marshaller needed.
 		JAXBContext jaxbContext = JAXBContext.newInstance(AppConfig.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instance to be converted to XML.
-		URI clientServiceRoot = new URI("https://example.com/");
-		AppConfig config = new AppConfig(clientServiceRoot);
+		URL baseUrl = new URL("https://example.com/");
+		URL clientServiceRoot = new URL("https://example.com/service");
+		AppConfig config = new AppConfig(baseUrl, clientServiceRoot);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -89,8 +90,11 @@ public final class AppConfigTest {
 
 		// Verify the results.
 		Assert.assertNotNull(parsedConfig);
+		Assert.assertNotNull(parsedConfig.getBaseUrl());
+		Assert.assertEquals("https://example.com/", parsedConfig.getBaseUrl()
+				.toString());
 		Assert.assertNotNull(parsedConfig.getClientServiceRoot());
-		Assert.assertEquals("https://example.com/", parsedConfig
+		Assert.assertEquals("https://example.com/service", parsedConfig
 				.getClientServiceRoot().toString());
 	}
 }
