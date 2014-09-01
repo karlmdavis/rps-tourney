@@ -1479,7 +1479,7 @@ This file should never be committed along with other files; it should always be 
     * Fleshed out a bit more of `game.jsp` and started adding in the controller code for submitting throws.
 * 2.0h: [Issue #20](https://github.com/karlmdavis/rps-tourney/issues/20): Building out webapp to allow gameplay.
     * Got the game (mostly) playable! Played my first game with Erica! Yay!
-        * ![First Web Playthrough](rps-tourney-webapp/dev/screenshots/first-successful-playthrough-2014-08-26.png)
+        * ![First Web Playthrough](rps-tourney-webapp/dev/screenshots/2014-08-26-first-successful-playthrough.png)
         * Looks like there's a bug where redirect URLs collect extra `/` characters appended to the end.
         * May be another bug that prevents launching more than one game per application run.
 
@@ -1535,3 +1535,9 @@ This file should never be committed along with other files; it should always be 
     * Added `AppConfig.getBaseUrl()` and `BaseUrlInterceptor` and switched all of the JSPs to respect it.
 * 0.5h: Resolved an intermittent issue with Spring Security and JavaScript resource requests.
 * Deployed to https://justdavis.com/karl/rps again.
+* 0.75h: [Issue #32](https://github.com/karlmdavis/rps-tourney/issues/32): JAXB errors on eddings.
+    * Found & fixed it. No clue why it just started happening, though.
+    * Deployed to https://justdavis.com/karl/rps again.
+    * Snagged a couple of screenshots to commemorate the first actually playable deployment:
+        * [First Playable Deployed Version: Home](rps-tourney-webapp/dev/screenshots/2014-09-01-first-playable-deployment-home.png)
+        * [First Playable Deployed Version: Game](rps-tourney-webapp/dev/screenshots/2014-09-01-first-playable-deployment-game.png)
