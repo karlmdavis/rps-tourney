@@ -1544,3 +1544,10 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #33](https://github.com/karlmdavis/rps-tourney/issues/33): Opponent's move in current round is visible via web service.
     * Found & partially fixed it.
     * Deployed to https://justdavis.com/karl/rps again.
+
+### 2014-09-02, Tuesday
+
+* 0.25h: [Issue #21: Prettify the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Handle enabling/disabling player controls. 
+    * Implemented and deployed.
+* Probably want to add timestamps to GameSessions next.
