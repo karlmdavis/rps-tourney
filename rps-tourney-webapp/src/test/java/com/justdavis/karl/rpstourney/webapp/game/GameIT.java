@@ -79,7 +79,7 @@ public final class GameIT {
 			gameClient.submitThrow(game.getId(), 0, Throw.ROCK);
 
 			// Player 2 (webapp): Throw paper.
-			driver.findElement(By.id("player2ThrowPaper")).click();
+			driver.findElement(By.xpath("//div[@id='player2ThrowPaper']/a")).click();
 			Assert.assertEquals("0",
 					driver.findElement(By.id("player1ScoreValue")).getText());
 			Assert.assertEquals("1",

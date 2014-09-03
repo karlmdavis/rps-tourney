@@ -13,16 +13,40 @@
 				<div id="player1Controls">
 					<h3>${player1Label}</h3>
 					<p id="player1Status"></p>
-					<a id="player1ThrowRock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
-					<a id="player1ThrowPaper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
-					<a id="player1ThrowScissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					<div id="player1ThrowRock">
+						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=ROCK"></c:if>
+						<spring:message code="game.throw.rock" />
+						<c:if test="${isPlayer1}"></a></c:if>
+					</div>
+					<div id="player1ThrowPaper">
+						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=PAPER"></c:if>
+						<spring:message code="game.throw.paper" />
+						<c:if test="${isPlayer1}"></a></c:if>
+					</div>
+					<div id="player1ThrowScissors">
+						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=SCISSORS"></c:if>
+						<spring:message code="game.throw.scissors" />
+						<c:if test="${isPlayer1}"></a></c:if>
+					</div>
 				</div>
 				<div id="player2Controls">
 					<h3>${player2Label}</h3>
 					<p id="player2Status"></p>
-					<a id="player2ThrowRock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
-					<a id="player2ThrowPaper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
-					<a id="player2ThrowScissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					<div id="player2ThrowRock">
+						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=ROCK"></c:if>
+						<spring:message code="game.throw.rock" />
+						<c:if test="${isPlayer2}"></a></c:if>
+					</div>
+					<div id="player2ThrowPaper">
+						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=PAPER"></c:if>
+						<spring:message code="game.throw.paper" />
+						<c:if test="${isPlayer2}"></a></c:if>
+					</div>
+					<div id="player2ThrowScissors">
+						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=SCISSORS"></c:if>
+						<spring:message code="game.throw.scissors" />
+						<c:if test="${isPlayer2}"></a></c:if>
+					</div>
 				</div>
 			</div>
 			<div id="playerScores">
