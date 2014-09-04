@@ -1551,3 +1551,10 @@ This file should never be committed along with other files; it should always be 
   Handle enabling/disabling player controls. 
     * Implemented and deployed.
 * Probably want to add timestamps to GameSessions next.
+
+### 2014-09-03, Wednesday
+
+* 1.0h: [Issue #34: GameSessions should have creation and modification timestamps](https://github.com/karlmdavis/rps-tourney/issues/34):
+  Model changes
+    * Added the new timestamp fields, wrote a unit test, and updated the Liquibase changelog.
+    * Next, I need to figure out how to create a custom JSP tag to format the `Instant` instances.
