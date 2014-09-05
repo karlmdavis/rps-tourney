@@ -1558,3 +1558,10 @@ This file should never be committed along with other files; it should always be 
   Model changes
     * Added the new timestamp fields, wrote a unit test, and updated the Liquibase changelog.
     * Next, I need to figure out how to create a custom JSP tag to format the `Instant` instances.
+
+### 2014-09-04, Thursday
+
+* 2.0h: [Issue #34: GameSessions should have creation and modification timestamps](https://github.com/karlmdavis/rps-tourney/issues/34):
+  JSP changes
+    * Created `TemporalFormatTag` and tested it manually.
+    * Next, I need to consider how I might add unit tests for it.
