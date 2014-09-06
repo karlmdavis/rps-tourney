@@ -1565,3 +1565,9 @@ This file should never be committed along with other files; it should always be 
   JSP changes
     * Created `TemporalFormatTag` and tested it manually.
     * Next, I need to consider how I might add unit tests for it.
+
+### 2014-09-05, Friday
+
+* 0.5h: [Issue #34: GameSessions should have creation and modification timestamps](https://github.com/karlmdavis/rps-tourney/issues/34):
+  Unit tests for JSP changes
+    * Added the JSP unit tests, tested, and deployed things.
