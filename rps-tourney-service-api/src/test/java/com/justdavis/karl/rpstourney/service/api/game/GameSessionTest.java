@@ -456,4 +456,32 @@ public final class GameSessionTest {
 		// Should blow up:
 		game.submitThrow(1, player1, Throw.ROCK);
 	}
+
+	/**
+	 * Tests {@link GameSession#getLastThrowTimestamp()}.
+	 */
+	@Test
+	public void getLastThrowTime() {
+		// Create the game.
+		Player player1 = new Player(new Account());
+		Player player2 = new Player(new Account());
+		GameSession game = new GameSession(player1);
+		game.setMaxRounds(3);
+		game.setPlayer2(player2);
+
+		// Play the first round. Winner: Player 2.
+		game.submitThrow(0, player1, Throw.ROCK);
+		game.submitThrow(0, player2, Throw.PAPER);
+		if (!game.isRoundPrepared())
+			game.prepareRound();
+
+		// Play part of the second round.
+		game.submitThrow(1, player1, Throw.ROCK);
+		if (!game.isRoundPrepared())
+			game.prepareRound();
+
+		// Verify that the method works as expected.
+		Assert.assertEquals(game.getRounds().get(1)
+				.getThrowForPlayer1Timestamp(), game.getLastThrowTimestamp());
+	}
 }

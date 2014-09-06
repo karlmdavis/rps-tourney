@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="rps" uri="http://justdavis.com/karl/rpstourney/app/jsp-tags" %>
 <spring:message code="home.subtitle" var="metaSubtitle" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 		<h1><spring:message code="home.h1" /></h1>
@@ -17,6 +18,7 @@
 			<thead>
 				<tr>
 					<th><spring:message code="home.games.id.label" /></th>
+					<th><spring:message code="home.games.lastThrowTimestamp.label" /></th>
 					<th><spring:message code="home.games.state.label" /></th>
 				</tr>
 			</thead>
@@ -24,6 +26,7 @@
 				<c:forEach items="${games}" var="game">
 				<tr>
 					<td><a href="${requestScope['rpstourney.config.baseurl']}/game/${game.id}">${game.id}</a></td>
+					<td><rps:temporal value="${game.lastThrowTimestamp}" format="DEFAULT" /></td>
 					<td><spring:message code="home.games.game.state.${game.state}" /></td>
 				</tr>
 				</c:forEach>

@@ -23,11 +23,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
+import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -86,6 +89,12 @@ public final class GameSession {
 	@XmlElement
 	private final String id;
 
+	@Column(name = "\"createdTimestamp\"", nullable = false, updatable = false)
+	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
+	private final Instant createdTimestamp;
+
 	@Column(name = "\"state\"")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
@@ -121,6 +130,7 @@ public final class GameSession {
 	 */
 	public GameSession(Player player1) {
 		this.id = generateRandomId();
+		this.createdTimestamp = Instant.now();
 		this.state = State.WAITING_FOR_PLAYER;
 
 		if (player1 == null)
@@ -138,6 +148,7 @@ public final class GameSession {
 	 */
 	protected GameSession() {
 		this.id = null;
+		this.createdTimestamp = null;
 		this.state = null;
 		this.maxRounds = -1;
 		this.player1 = null;
@@ -176,6 +187,13 @@ public final class GameSession {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @return the date-time that this {@link GameSession} was created
+	 */
+	public Instant getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
 	/**
@@ -425,6 +443,32 @@ public final class GameSession {
 		 */
 		if (!isRoundPrepared())
 			prepareRound();
+	}
+
+	/**
+	 * @return the latest {@link GameRound#getThrowForPlayer1Timestamp()} /
+	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the
+	 *         {@link GameRound}s in this {@link GameSession}, or
+	 *         {@link GameSession#getCreatedTimestamp()} if no throws have yet
+	 *         been made
+	 */
+	public Instant getLastThrowTimestamp() {
+		Instant lastThrowTime = createdTimestamp;
+		for (GameRound round : rounds) {
+			Instant throwForPlayer1Timestamp = round
+					.getThrowForPlayer1Timestamp();
+			if (throwForPlayer1Timestamp != null
+					&& lastThrowTime.compareTo(throwForPlayer1Timestamp) < 1)
+				lastThrowTime = throwForPlayer1Timestamp;
+
+			Instant throwForPlayer2Timestamp = round
+					.getThrowForPlayer2Timestamp();
+			if (throwForPlayer2Timestamp != null
+					&& lastThrowTime.compareTo(throwForPlayer2Timestamp) < 1)
+				lastThrowTime = throwForPlayer2Timestamp;
+		}
+
+		return lastThrowTime;
 	}
 
 	/**

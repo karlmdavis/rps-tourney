@@ -17,10 +17,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -59,10 +62,22 @@ public final class GameRound {
 	@XmlElement
 	private Throw throwForPlayer1;
 
+	@Column(name = "\"throwForPlayer1Timestamp\"", nullable = true, updatable = true)
+	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
+	private Instant throwForPlayer1Timestamp;
+
 	@Column(name = "\"throwForPlayer2\"")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
 	private Throw throwForPlayer2;
+
+	@Column(name = "\"throwForPlayer2Timestamp\"", nullable = true, updatable = true)
+	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
+	private Instant throwForPlayer2Timestamp;
 
 	/**
 	 * Constructs a new {@link GameRound} instance.
@@ -81,7 +96,9 @@ public final class GameRound {
 		this.gameSession = gameSession;
 		this.roundIndex = roundIndex;
 		this.throwForPlayer1 = null;
+		this.throwForPlayer1Timestamp = null;
 		this.throwForPlayer2 = null;
+		this.throwForPlayer2Timestamp = null;
 	}
 
 	/**
@@ -92,7 +109,9 @@ public final class GameRound {
 		this.gameSession = null;
 		this.roundIndex = -1;
 		this.throwForPlayer1 = null;
+		this.throwForPlayer1Timestamp = null;
 		this.throwForPlayer2 = null;
+		this.throwForPlayer2Timestamp = null;
 	}
 
 	/**
@@ -120,6 +139,15 @@ public final class GameRound {
 	}
 
 	/**
+	 * @return the date-time that {@link #setThrowForPlayer1(Throw)} was called
+	 *         (with a valid value) for this {@link GameRound}, or
+	 *         <code>null</code> if it hasn't yet
+	 */
+	public Instant getThrowForPlayer1Timestamp() {
+		return throwForPlayer1Timestamp;
+	}
+
+	/**
 	 * Note: this method may only be called once, and should only be called by
 	 * {@link GameSession}.
 	 * 
@@ -140,6 +168,7 @@ public final class GameRound {
 					this.throwForPlayer1, throwForPlayer1));
 
 		this.throwForPlayer1 = throwForPlayer1;
+		this.throwForPlayer1Timestamp = Instant.now();
 	}
 
 	/**
@@ -149,6 +178,15 @@ public final class GameRound {
 	 */
 	public Throw getThrowForPlayer2() {
 		return throwForPlayer2;
+	}
+
+	/**
+	 * @return the date-time that {@link #setThrowForPlayer2(Throw)} was called
+	 *         (with a valid value) for this {@link GameRound}, or
+	 *         <code>null</code> if it hasn't yet
+	 */
+	public Instant getThrowForPlayer2Timestamp() {
+		return throwForPlayer2Timestamp;
 	}
 
 	/**
@@ -172,6 +210,7 @@ public final class GameRound {
 					this.throwForPlayer2, throwForPlayer2));
 
 		this.throwForPlayer2 = throwForPlayer2;
+		this.throwForPlayer2Timestamp = Instant.now();
 	}
 
 	/**

@@ -20,12 +20,16 @@ public final class GameRoundTest {
 
 		Assert.assertEquals(42, round.getRoundIndex());
 		Assert.assertNull(round.getThrowForPlayer1());
+		Assert.assertNull(round.getThrowForPlayer1Timestamp());
 		Assert.assertNull(round.getThrowForPlayer2());
+		Assert.assertNull(round.getThrowForPlayer2Timestamp());
 
 		round.setThrowForPlayer1(Throw.ROCK);
 		round.setThrowForPlayer2(Throw.PAPER);
 		Assert.assertEquals(Throw.ROCK, round.getThrowForPlayer1());
+		Assert.assertNotNull(round.getThrowForPlayer1Timestamp());
 		Assert.assertEquals(Throw.PAPER, round.getThrowForPlayer2());
+		Assert.assertNotNull(round.getThrowForPlayer2Timestamp());
 		Assert.assertEquals(Result.PLAYER_2_WON, round.getResult());
 	}
 }

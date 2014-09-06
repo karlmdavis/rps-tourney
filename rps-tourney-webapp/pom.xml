@@ -63,6 +63,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<!-- This API is needed to compile the custom JSP tags in this project. 
+				Marked provided so that it doesn't conflict with the deployment container's 
+				built-in JSP library. -->
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.servlet.jsp</artifactId>
+			<version>2.2.0.v201112011158</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<!-- The Spring MVC web framework (which includes many other Spring libraries, 
 				including their dependency injection framework). -->
 			<groupId>org.springframework</groupId>

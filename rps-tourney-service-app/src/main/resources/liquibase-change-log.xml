@@ -131,4 +131,17 @@
 			relativeToChangelogFile="true" splitStatements="false" dbms="postgresql" />
 	</changeSet>
 
+	<changeSet id="4" author="karlmdavis">
+		<addColumn tableName="GameSessions">
+			<column name="createdTimestamp" type="timestamp" />
+		</addColumn>
+		<addNotNullConstraint tableName="GameSessions"
+			columnName="createdTimestamp" defaultNullValue="2014-08-31 00:00" />
+
+		<addColumn tableName="GameRounds">
+			<column name="throwForPlayer1Timestamp" type="timestamp" />
+			<column name="throwForPlayer2Timestamp" type="timestamp" />
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>

@@ -11,11 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
-import org.threeten.bp.format.DateTimeFormatter;
+
+import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -155,34 +155,5 @@ public final class AuthToken {
 		} else if (!token.equals(other.token))
 			return false;
 		return true;
-	}
-
-	/**
-	 * This JAXB {@link XmlAdapter} marshalls/unmarshalls {@link Instant}s as
-	 * {@link String}s.
-	 */
-	private static final class InstantJaxbAdapter extends
-			XmlAdapter<String, Instant> {
-		/**
-		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-		 */
-		@Override
-		public Instant unmarshal(String v) throws Exception {
-			if (v == null)
-				return null;
-
-			return DateTimeFormatter.ISO_INSTANT.parse(v, Instant.class);
-		}
-
-		/**
-		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-		 */
-		@Override
-		public String marshal(Instant v) throws Exception {
-			if (v == null)
-				return null;
-
-			return DateTimeFormatter.ISO_INSTANT.format(v);
-		}
 	}
 }
