@@ -1571,3 +1571,15 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #34: GameSessions should have creation and modification timestamps](https://github.com/karlmdavis/rps-tourney/issues/34):
   Unit tests for JSP changes
     * Added the JSP unit tests, tested, and deployed things.
+
+### 2014-09-06, Saturday
+
+* 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Started putting in wro4j (for LESS).
+    * Got distracted by research on the correct template to start with: Boilerplate? Bootstrap?
+    * Decided on Bootstrap, mostly just because I'd like to have some experience with it.
+    * Started putting the new template in. Definitely didn't finish, though.
+    * Next steps:
+        * Switch from Bootstrap's compiled CSS to its raw LESS. This will enable semantic markup.
+        * Update the home and game pages to take advantage of the template.
