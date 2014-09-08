@@ -1583,3 +1583,10 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * Switch from Bootstrap's compiled CSS to its raw LESS. This will enable semantic markup.
         * Update the home and game pages to take advantage of the template.
+
+### 2014-09-07, Sunday
+
+* 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Spent a lot of time rigging up Bootstrap via the dependency plugin and rigging up wro4j to use that. Got that working.
+    * The problem now is that `EmbeddedServer` is only adding the *source* side of `src/main/webapp` to the resources path, not the output side.
