@@ -1590,3 +1590,16 @@ This file should never be committed along with other files; it should always be 
   Basic game template.
     * Spent a lot of time rigging up Bootstrap via the dependency plugin and rigging up wro4j to use that. Got that working.
     * The problem now is that `EmbeddedServer` is only adding the *source* side of `src/main/webapp` to the resources path, not the output side.
+    * Oh, just remembered another problem: how do I get Bootstrap's `fonts` folder to where it's supposed to be?
+
+### 2014-09-08, Monday
+
+* 0.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Spent some time researching the fonts issue. Learned the following:
+        * The wro4j plugin doesn't look like it has any facilities for copying around non-JS/non-CSS resources.
+        * However, the bootstrap LESS has a variable that allows for customization of the fonts path: `@icon-font-path`.
+    * Next steps:
+        1. Add in the LESS font path customization.
+        2. Rebuild devenv to use Eclipse JavaEE with m2e-wtp and m2e-wro4j.
+        3. Fix `EmbeddedServer`'s resource paths. Should be using wherever m2e-wtp drops things.
