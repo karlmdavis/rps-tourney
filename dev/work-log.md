@@ -1610,3 +1610,9 @@ This file should never be committed along with other files; it should always be 
   Basic game template.
     * Tried to get `theme.less` to build. Failed.
         * Opened the following Stack Overflow question: http://stackoverflow.com/questions/25756829/using-twitter-bootstraps-theme-less-with-wro4j-maven-plugin
+
+### 2014-09-09, Wednesday
+
+* 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Investigated some of the suggestions recevied on http://stackoverflow.com/questions/25756829/using-twitter-bootstraps-theme-less-with-wro4j-maven-plugin
