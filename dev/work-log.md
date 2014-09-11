@@ -1616,3 +1616,9 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Investigated some of the suggestions recevied on http://stackoverflow.com/questions/25756829/using-twitter-bootstraps-theme-less-with-wro4j-maven-plugin
+
+### 2014-09-10, Thursday
+
+* 0.2h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Tried the new `less4j:1.8.2` release, which fixed the problem I'd been having with `theme.less`.
