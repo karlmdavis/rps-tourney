@@ -1622,3 +1622,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Tried the new `less4j:1.8.2` release, which fixed the problem I'd been having with `theme.less`.
+
+### 2014-09-11, Friday
+
+* 0.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Fixed the webapp resources paths. May have also fixed the bootstrap fonts path, though I'll have to test that still.
