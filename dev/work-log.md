@@ -1628,3 +1628,9 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Fixed the webapp resources paths. May have also fixed the bootstrap fonts path, though I'll have to test that still.
+
+### 2014-09-12, Saturday
+
+* 1.75h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Fonts were definitely not working. Messed around with the paths a bunch more and finally fixed it.
