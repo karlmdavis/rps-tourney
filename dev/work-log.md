@@ -1604,33 +1604,43 @@ This file should never be committed along with other files; it should always be 
         2. Rebuild devenv to use Eclipse JavaEE with m2e-wtp and m2e-wro4j.
         3. Fix `EmbeddedServer`'s resource paths. Should be using wherever m2e-wtp drops things.
 
-### 2014-09-08, Tuesday
+### 2014-09-09, Tuesday
 
 * 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Tried to get `theme.less` to build. Failed.
         * Opened the following Stack Overflow question: http://stackoverflow.com/questions/25756829/using-twitter-bootstraps-theme-less-with-wro4j-maven-plugin
 
-### 2014-09-09, Wednesday
+### 2014-09-10, Wednesday
 
 * 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Investigated some of the suggestions recevied on http://stackoverflow.com/questions/25756829/using-twitter-bootstraps-theme-less-with-wro4j-maven-plugin
 
-### 2014-09-10, Thursday
+### 2014-09-11, Thursday
 
 * 0.2h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Tried the new `less4j:1.8.2` release, which fixed the problem I'd been having with `theme.less`.
 
-### 2014-09-11, Friday
+### 2014-09-12, Friday
 
 * 0.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Fixed the webapp resources paths. May have also fixed the bootstrap fonts path, though I'll have to test that still.
 
-### 2014-09-12, Saturday
+### 2014-09-13, Saturday
 
 * 1.75h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Fonts were definitely not working. Messed around with the paths a bunch more and finally fixed it.
+
+### 2014-09-14, Sunday
+
+* 0.2h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Spent some time thinking through how to use Bootstrap: do I start with their suggested template, or do I just start from scratch?
+        * I lean more towards building it up from scratch.
+        * Don't necessarily have any strong justification for that. Maybe it's good to avoid looking generic?
+        * On the other hand, it's also possible to reframe "generic" as "familiar"...
+        * Want to sleep on this.
