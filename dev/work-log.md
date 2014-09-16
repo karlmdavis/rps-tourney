@@ -1644,3 +1644,10 @@ This file should never be committed along with other files; it should always be 
         * Don't necessarily have any strong justification for that. Maybe it's good to avoid looking generic?
         * On the other hand, it's also possible to reframe "generic" as "familiar"...
         * Want to sleep on this.
+
+### 2014-09-15, Monday
+
+* 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Started creating a new Eclipse install script in Python (rather than Bash).
+        * Mostly just to see if it ends up being easier to maintain and use.
