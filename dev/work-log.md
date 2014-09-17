@@ -1651,3 +1651,9 @@ This file should never be committed along with other files; it should always be 
   Eclipse JavaEE devenv setup.
     * Started creating a new Eclipse install script in Python (rather than Bash).
         * Mostly just to see if it ends up being easier to maintain and use.
+
+### 2014-09-16, Tuesday
+
+* 1.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Mostly implemented the function to download Eclipse. Slow going, what with picking up a new language and all.
