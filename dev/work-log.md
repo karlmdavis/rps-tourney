@@ -1657,3 +1657,11 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Eclipse JavaEE devenv setup.
     * Mostly implemented the function to download Eclipse. Slow going, what with picking up a new language and all.
+
+### 2014-09-17, Wednesday
+
+* 1.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Fixed all the bugs in the download code, verified that it runs.
+    * Decided on Python 3.
+    * Next: implement Eclipse archive unzipping & shortcut.
