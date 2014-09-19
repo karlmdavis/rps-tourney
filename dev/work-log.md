@@ -1665,3 +1665,10 @@ This file should never be committed along with other files; it should always be 
     * Fixed all the bugs in the download code, verified that it runs.
     * Decided on Python 3.
     * Next: implement Eclipse archive unzipping & shortcut.
+
+### 2014-09-18, Thursday
+
+* 0.6h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Implemented extraction of Eclipse install.
+    * Next: Eclipse shortcut.
