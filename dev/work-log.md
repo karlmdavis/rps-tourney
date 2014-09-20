@@ -1672,3 +1672,11 @@ This file should never be committed along with other files; it should always be 
   Eclipse JavaEE devenv setup.
     * Implemented extraction of Eclipse install.
     * Next: Eclipse shortcut.
+
+### 2014-09-19, Friday
+
+* 0.4h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Ahoy!
+    * Implemented Eclipse shortcut.
+    * Next: Eclipse plugins.
