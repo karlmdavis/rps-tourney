@@ -1680,3 +1680,9 @@ This file should never be committed along with other files; it should always be 
     * Ahoy!
     * Implemented Eclipse shortcut.
     * Next: Eclipse plugins.
+
+### 2014-09-20, Saturday
+
+* 1.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Eclipse JavaEE devenv setup.
+    * Got the Eclipse plugins installing. Done with the script!
