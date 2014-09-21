@@ -1647,20 +1647,20 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-09-15, Monday
 
-* 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 0.5h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35):
   Eclipse JavaEE devenv setup.
     * Started creating a new Eclipse install script in Python (rather than Bash).
         * Mostly just to see if it ends up being easier to maintain and use.
 
 ### 2014-09-16, Tuesday
 
-* 1.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 1.0h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Mostly implemented the function to download Eclipse. Slow going, what with picking up a new language and all.
 
 ### 2014-09-17, Wednesday
 
-* 1.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 1.25h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Fixed all the bugs in the download code, verified that it runs.
     * Decided on Python 3.
@@ -1668,14 +1668,14 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-09-18, Thursday
 
-* 0.6h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 0.6h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Implemented extraction of Eclipse install.
     * Next: Eclipse shortcut.
 
 ### 2014-09-19, Friday
 
-* 0.4h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 0.4h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Ahoy!
     * Implemented Eclipse shortcut.
@@ -1683,6 +1683,6 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-09-20, Saturday
 
-* 1.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+* 1.25h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Got the Eclipse plugins installing. Done with the script!
