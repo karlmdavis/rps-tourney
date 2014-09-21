@@ -30,16 +30,16 @@ References:
 
 * [Davis IT: Install Eclipse](https://justdavis.com/karl/it/davis/misc/eclipse.html)
 
-While you can certainly use whatever editor/IDE you want to develop this project, Eclipse is the "default" choice here (per the lead developer, Karl M. Davis). Specifically, Eclipse Kepler (4.3) is required.
+While you can certainly use whatever editor/IDE you want to develop this project, Eclipse is the "default" choice here (per the lead developer, Karl M. Davis). Specifically, Eclipse JavaEE Luna is required.
 
 While Ubuntu does have a somewhat-recent version of Eclipse in its repositories, it's rarely the latest release. On Ubuntu 12.10, the Eclipse in the repositories is 3.8.
 
-The `eclipse-kepler-sr1-install.sh` script provided with this project will download and install Eclipse. Run it as follows:
+The `devenv-install-eclipse.py` script provided with this project will download and install Eclipse, and also install the plugins that are required for development of this project. Run that script as follows:
 
     $ cd rps-tourney.git/
-    $ sudo dev/eclipse-kepler-sr1-install.sh
+    $ sudo dev/devenv-install-eclipse.py
 
-That's it. There should now be an **Eclipse Kepler** application launcher available.
+That's it. There should now be an **Eclipse Luna** application launcher available.
 
 
 ### Eclipse Plugins/Features
@@ -64,17 +64,6 @@ References:
 If the JavaDoc displays in Eclipse are rendering everything as plain text with the HTML stripped out, rather than rendering the HTML properly, install the `libwebkitgtk-1.0-0` package as follows and then restart Eclipse:
 
     $ sudo apt-get install libwebkitgtk-1.0-0
-
-1. Download the "Eclipse IDE for Java Developers" distribution:
-
-        $ wget http://mirrors.ibiblio.org/pub/mirrors/eclipse/technology/epp/downloads/release/kepler/SR1/eclipse-java-kepler-SR1-linux-gtk-x86_64.tar.gz
-
-1. Unpack and "install" that to `/usr/local/`:
-
-        $ sudo mkdir -p /usr/local/eclipse
-        $ tar -xzf eclipse-java-kepler-SR1-linux-gtk-x86_64.tar.gz
-        $ sudo mv eclipse/ /usr/local/eclipse/eclipse-java-kepler-SR1-linux-gtk-x86_64/
-        $ sudo chmod a+W /usr/local/eclipse/eclipse-java-kepler-SR1-linux-gtk-x86_64/
 
 
 ### PostgreSQL
