@@ -1686,3 +1686,17 @@ This file should never be committed along with other files; it should always be 
 * 1.25h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
   Eclipse JavaEE devenv setup.
     * Got the Eclipse plugins installing. Done with the script!
+* 0.5h: [Issue #35: Move development environment to Eclipse JavaEE](https://github.com/karlmdavis/rps-tourney/issues/35)::
+  Eclipse JavaEE devenv setup.
+    * Took care of the issue tracking, commits, etc. to close out this task.
+    * Started actually using the new version of Eclipse.
+
+### 2014-09-21, Sunday
+
+* 0.25h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Fixed a JSP error that the new version of Eclipse pointed out (nested single quotes).
+    * Tried unsuccessfully to fix a wro4j error now appearing in Eclipse.
+    * Next:
+        * Try again to fix the wro4j error.
+        * Maybe fix all of the JPA errors in Eclipse, just to clean things up.
