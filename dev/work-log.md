@@ -1700,3 +1700,10 @@ This file should never be committed along with other files; it should always be 
     * Next:
         * Try again to fix the wro4j error.
         * Maybe fix all of the JPA errors in Eclipse, just to clean things up.
+
+### 2014-09-21, Monday
+
+* 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Poked at the wro4j problem some more (I'm stubborn).
+    * Noticed that artifacts aren't downloading at all in Eclipse. Maybe that's related? Need to figure out what's causing those certificate error.
