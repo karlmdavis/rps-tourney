@@ -1701,9 +1701,19 @@ This file should never be committed along with other files; it should always be 
         * Try again to fix the wro4j error.
         * Maybe fix all of the JPA errors in Eclipse, just to clean things up.
 
-### 2014-09-21, Monday
+### 2014-09-22, Monday
 
 * 0.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Poked at the wro4j problem some more (I'm stubborn).
-    * Noticed that artifacts aren't downloading at all in Eclipse. Maybe that's related? Need to figure out what's causing those certificate error.
+    * Noticed that Maven artifacts aren't downloading at all in Eclipse. Maybe that's related? Need to figure out what's causing those certificate errors.
+
+### 2014-09-23, Tuesday
+
+* 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Tried to resolve the m2e certificate errors.
+        * Cleaned up the old (and not-kept-up-to-date) Oracle JRE/JDK installs on `jordan-u`.
+        * Removed the disabled Oracle Java PPAs on `jordan-u`.
+        * Tried to add the StartSSL certificate bundle to the truststore on `jordan-u`.
+        * Next thing to try: Add Maven support to the devenv install script. I think perhaps that newer versions of Maven will throw the same errors, even on the command line. That'd make the problem a bit clearer and easier to troubleshoot.
