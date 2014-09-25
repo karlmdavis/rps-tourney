@@ -1723,3 +1723,10 @@ This file should never be committed along with other files; it should always be 
 * 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Basic game template.
     * Working on adding Maven support to the devenv install script.
+
+### 2014-09-25, Thursday
+
+* 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Got Maven support working in the devenv script.
+    * Running the `p1` build using the new Maven works fine, so that's a dead end.
