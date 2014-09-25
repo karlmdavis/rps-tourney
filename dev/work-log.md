@@ -1717,3 +1717,9 @@ This file should never be committed along with other files; it should always be 
         * Removed the disabled Oracle Java PPAs on `jordan-u`.
         * Tried to add the StartSSL certificate bundle to the truststore on `jordan-u`.
         * Next thing to try: Add Maven support to the devenv install script. I think perhaps that newer versions of Maven will throw the same errors, even on the command line. That'd make the problem a bit clearer and easier to troubleshoot.
+
+### 2014-09-24, Wednesday
+
+* 1.5h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Working on adding Maven support to the devenv install script.
