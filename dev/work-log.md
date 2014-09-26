@@ -1730,3 +1730,10 @@ This file should never be committed along with other files; it should always be 
   Basic game template.
     * Got Maven support working in the devenv script.
     * Running the `p1` build using the new Maven works fine, so that's a dead end.
+
+### 2014-09-26, Friday
+
+* 0.1h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Tried adding an external Maven installation in the m2e configuration, which shouldn't have fixed anything. Except that it did... At least, it looks like it did. I'm guessing something I'd done earlier fixed the problem, and I just hadn't rebuilt to notice it. I wish I knew for certain, though.
+    * Now what?
