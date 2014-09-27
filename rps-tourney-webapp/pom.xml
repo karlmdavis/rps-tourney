@@ -182,6 +182,13 @@
 					<artifactId>jetty-websocket</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
 				</exclusion>
+				<!-- Selenium depends on HtmlUnit, which depends on an old version of 
+					xerces. We're excluding that dependency here so that it doesn't screw up 
+					other things (like Jetty). -->
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -220,6 +227,67 @@
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.8</version>
+					<configuration>
+						<artifactItems>
+							<artifactItem>
+								<!-- Bootstrap is an HTML5 template, and is the basis of this web 
+									application's design. The soruce version of Bootstrap is used here (rather 
+									than the release distributable) so that the LESS mixins can be used. Rather 
+									than including it in our sources, we instead download and unpack it as part 
+									of every build. -->
+								<!-- This artifact was uploaded to Nexus with the following command: 
+									'mvn deploy:deploy-file -Durl=https://justdavis.com/nexus/content/repositories/thirdparty/ 
+									-DrepositoryId=justdavis.com-nexus -DupdateReleaseInfo=true -Dfile=bootstrap-3.2.0.zip 
+									-DgroupId=com.getbootstrap -DartifactId=bootstrap -Dversion=3.2.0 -Dclassifier=sources 
+									-Dpackaging=zip' -->
+								<groupId>com.getbootstrap</groupId>
+								<artifactId>bootstrap</artifactId>
+								<version>3.2.0</version>
+								<type>zip</type>
+								<classifier>sources</classifier>
+								<overWrite>false</overWrite>
+								<!-- Drop the bootstrap source and resources into the WAR's output 
+									resources directory, as the fonts from Bootstrap will need to be referenced 
+									by its compiled LESS. -->
+								<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/resources//</outputDirectory>
+							</artifactItem>
+						</artifactItems>
+					</configuration>
+				</plugin>
+				<plugin>
+					<!-- Configure the Web Resource Optimizer for Java (wro4j) as part of 
+						the build. This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
+						and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
+						for details. -->
+					<groupId>ro.isdc.wro4j</groupId>
+					<artifactId>wro4j-maven-plugin</artifactId>
+					<version>1.7.6</version>
+					<configuration>
+						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+						<!-- Run wro4j against both the unprocessed resource sources and their 
+							processed output. This is necessary because Bootstrap gets dropped into the 
+							output directory by the maven-dependency-plugin. Note that wro4j will not 
+							perform Maven resource filtering. -->
+						<!-- A large part of the inspiration for this particular configuration 
+							is taken from the m2e-wro4j documentation: https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project -->
+						<contextFolder>${basedir}/src/main/webapp,${project.build.directory}/${project.build.finalName}/WEB-INF/resources/</contextFolder>
+						<ignoreMissingResources>false</ignoreMissingResources>
+						<destinationFolder>${project.build.outputDirectory}/${project.build.finalName}</destinationFolder>
+						<cssDestinationFolder>${project.build.directory}/${project.build.finalName}/WEB-INF/resources/css</cssDestinationFolder>
+						<jsDestinationFolder>${project.build.directory}/${project.build.finalName}/WEB-INF/resources/js</jsDestinationFolder>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.github.sommeri</groupId>
+							<artifactId>less4j</artifactId>
+							<version>1.8.2</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<!-- Configure the Cargo plugin to start up an embedded Jetty server, 
@@ -320,6 +388,34 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Run the Web Resource Optimizer for Java (wro4j) as part of the build. 
+					This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
+					and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
+					for details. -->
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<!-- Launch an embedded Jetty instance hosting this project's WAR (as 
 					well as the rps-tourney-service-app WAR it depends on) prior to running this 
 					project's integration tests, and stop it after the integration tests. Alternatively, 
@@ -360,5 +456,53 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<!-- This profile will only be active when building inside of Eclipse, 
+				with the m2e plugin installed. -->
+			<id>m2e</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>1.0.0</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<!-- Run the dependency plugin even when building in Eclipse. -->
+											<pluginExecutionFilter>
+												<groupId>org.apache.maven.plugins</groupId>
+												<artifactId>maven-dependency-plugin</artifactId>
+												<versionRange>[2.8,)</versionRange>
+												<goals>
+													<goal>unpack</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<execute>
+													<runOnIncremental>false</runOnIncremental>
+												</execute>
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

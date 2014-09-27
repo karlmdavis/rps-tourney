@@ -1,0 +1,21 @@
+<groups xmlns="http://www.isdc.ro/wro">
+
+	<!-- This file configures the Web Resource Optimizer for Java (wro4j). This 
+		tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
+		and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
+		for details. -->
+
+	<group name="bootstrap-theme">
+		<!-- For some reason, trying to compile theme.less in the same group as 
+			bootstrap.less causes wro4j to get stuck in an endless loop. -->
+		<css>/bootstrap-3.2.0/less/theme.less</css>
+		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
+	</group>
+	<group name="rps">
+		<css>/WEB-INF/resources/css/rps.less</css>
+		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
+		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
+		<js>/bootstrap-3.2.0/js/*.js</js>
+	</group>
+
+</groups>

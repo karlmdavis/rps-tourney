@@ -103,6 +103,17 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<!-- This repo is used to grab Bootstrap (and perhaps other artifacts). -->
+			<id>justdavis.com-nexus-thirdparty</id>
+			<url>https://justdavis.com/nexus/content/repositories/thirdparty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<modules>

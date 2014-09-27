@@ -58,10 +58,24 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		/*
+		 * Each entry here will also need a corresponding entry in
+		 * SecurityConfig.configure(WebSecurity).
+		 */
+
 		registry.addResourceHandler("/css/**").addResourceLocations(
 				"/WEB-INF/resources/css/");
 		registry.addResourceHandler("/js/**").addResourceLocations(
 				"/WEB-INF/resources/js/");
+
+		/*
+		 * Though the entire Bootstrap source is available, only the fonts from
+		 * it are needed. (All of its LESS and JS have been copied by
+		 * wro4j-maven-plugin into the css and js folders.)
+		 */
+		registry.addResourceHandler("/bootstrap-3.2.0/fonts/**")
+				.addResourceLocations(
+						"/WEB-INF/resources/bootstrap-3.2.0/fonts/");
 	}
 
 	/**

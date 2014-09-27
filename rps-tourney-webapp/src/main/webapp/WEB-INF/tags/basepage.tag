@@ -9,7 +9,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title><spring:message code="template.title.prefix" /><c:if test="${not empty metaSubtitle}">: ${metaSubtitle}</c:if></title>
 		<c:if test="${empty metaDescription}">
 			<spring:message code="template.meta.description.default" var="metaDescription" />
@@ -17,25 +17,21 @@
 		<meta name="description" content="${metaDescription}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/normalize.css">
-		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/main.css">
-		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2.min.js"></script>
+		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/rps.css">
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	</head>
 	<body>
-		<!--[if lt IE 7]>
-			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-		<![endif]-->
 
 		<jsp:doBody />
 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/bootstrap.js"></script>
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/plugins.js"></script>
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/main.js"></script>
 
-		<!-- Google Analytics: change UA-43685799-2 is the rpstourney.com Tracking ID. -->
+		<!-- Google Analytics: UA-43685799-2 is the rpstourney.com Tracking ID. -->
 		<script>
 			(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
 			function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
