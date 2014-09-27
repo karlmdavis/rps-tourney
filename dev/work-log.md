@@ -1737,3 +1737,12 @@ This file should never be committed along with other files; it should always be 
   Basic game template.
     * Tried adding an external Maven installation in the m2e configuration, which shouldn't have fixed anything. Except that it did... At least, it looks like it did. I'm guessing something I'd done earlier fixed the problem, and I just hadn't rebuilt to notice it. I wish I knew for certain, though.
     * Now what?
+    * Looks like m2e-wtp doesn't copy over everything I was hoping it did: seems to be leaving out the `web.xml`, for instance.
+    * If that's actually the way it works, then I'm up a crick a bit: `EmbeddedServer` can **only** be used in ITs. If I want to run the application from Eclipse, I'll have to use an Eclipse plugin to do so.
+* 0.75h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Spent some time reading up on WTP. Out of the box, it really only supports Tomcat.
+    * It's hard to be sure without firing up a Tomcat instance, but I think it's not pulling a filtered version of `web.xml` and such because the WAR plugin doesn't actually filter those by default. Unless/until I enable such filtering, it can continue to pull them out of `src/main/webapp`.
+    * This makes me think that all I need to do is add the m2e-wtp output directory to `EmbeddedServer`, and I'll be back in business.
+        * Did that.
+        * Things started up, but didn't load the wro4j resources correctly. Further investigation is needed.
