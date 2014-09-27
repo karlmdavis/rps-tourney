@@ -19,6 +19,16 @@ TODO
 TODO
 
 
+### SSL Certificates: StartSSL
+
+If the https://justdavis.com/nexus repository is being used, the StartSSL CA certificates that it requires will need to be added to the Java/system truststore. The following commands should accomplish that:
+
+    $ sudo curl https://www.startssl.com/certs/ca-bundle.pem -o /usr/local/share/ca-certificates/StartCom_Certification_Authority_Bundle.crt
+    $ sudo update-ca-certificates
+
+(Note: I'm not actually sure this is required. Try compiling without doing it, and with an empty `.m2/repository` to test it.)
+
+
 ## Apache Maven
 
 TODO
