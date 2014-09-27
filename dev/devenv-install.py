@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
-# This script downloads and installs Eclipse from the internet, into the 
-# user's '~/workspaces/tools' folder.
+# This script downloads and installs Eclipse and other development from the 
+# internet, into the user's '~/workspaces/tools' folder.
 #
-# In addition, it will do the following:
+# It will do the following:
 # * Download and install various Eclipse plugins.
 # * Create a launcher shortcut for Eclipse.
+# * Download and install Apache Maven.
 #
 # Usage:
 # This script is intended only for standalone usage, e.g.:
-# $ ./devenv-install-eclipse.py
+# $ ./devenv-install.py
 
 from urllib.parse import urlsplit
 import urllib.request
@@ -20,19 +21,27 @@ import tarfile
 import re
 import collections
 import subprocess
+import tempfile
+import stat
 
 def main():
     """
     The main function for this script.
     """
     
-    print('Eclipse Installer')
-    print('=================')
+    print('Development Environment Installer')
+    print('=================================')
     
+    # Install Eclipse.
     eclipse_archive = eclipse_download_from_internet()
     eclipse_install_dir = eclipse_install_archive(eclipse_archive)
     eclipse_create_shortcut(eclipse_install_dir)
     eclipse_install_plugins(eclipse_install_dir)
+
+    # Install Maven.
+    maven_archive = maven_download()
+    maven_install_dir = maven_install(maven_archive)
+    maven_config_env(maven_install_dir)
 
 def eclipse_download_from_internet():
     """
@@ -195,6 +204,98 @@ def eclipse_install_plugins(eclipse_install_dir):
         
         print('done.')
 
+def maven_download():
+    """
+    Download the Maven archive/installer from maven.apache.org.
+
+    Returns:
+        The path to the downloaded file, which will be saved into the
+        `get_installers_dir()` directory.
+    """
+    
+    # The URL to download from: Maven 3.2.3.
+    maven_url = "http://www.us.apache.org/dist/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz"
+    
+    # The path to save the installer to.
+    file_name = urlsplit(maven_url).path.split('/')[-1]
+    file_path_local = os.path.join(get_installers_dir(), file_name)
+    
+    print('3) Install Maven')
+    
+    if not os.path.exists(file_path_local):
+        # Download the installer.
+        print('   - Downloading ' + file_name + '... ', end="", flush=True)
+        with urllib.request.urlopen(maven_url) as response, open(file_path_local, 'wb') as maven_archive:
+            shutil.copyfileobj(response, maven_archive)
+        print('downloaded.')
+    else:
+        print('   - Installer ' + file_name + ' already downloaded.')
+    
+    return file_path_local
+
+def maven_install(maven_archive_path):
+    """
+    Extract the specified Maven archive/installer into the `get_tools_dir()`
+    directory.
+    
+    Args:
+        maven_archive_path (str): The local path to the archive/installer to
+            extract Maven from.
+    
+    Returns:
+        The path to the downloaded file, which will be saved into the
+        `get_installers_dir()` directory.
+    """
+    
+    # The path to install to.
+    _, maven_name = os.path.split(maven_archive_path)
+    maven_name = re.sub('-bin\.tar\.gz$', '', maven_name)
+    maven_install_path = os.path.join(get_tools_dir(), maven_name)
+    maven_install_path_tmp = os.path.join(get_tools_dir(), maven_name + "-tmp")
+
+    if not os.path.exists(maven_install_path):
+        # Extract the Maven install.
+        print('   - Extracting ' + maven_name + '... ', end="", flush=True)
+
+        # Python's tarfile module can't process recent Maven releases, due to:
+        # https://jira.codehaus.org/browse/PLXCOMP-233
+        # with tarfile.open(maven_archive_path) as maven_archive:
+        #     maven_archive.extractall(maven_install_path_tmp)
+        
+        # Extract the TGZ with tar, instead.
+        os.mkdir(maven_install_path_tmp)
+        subprocess.check_call(['tar', '--extract', '--ungzip', '--directory', 
+                maven_install_path_tmp, '--file', maven_archive_path], 
+                stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+
+        # Make the extracted 'apache-maven...-tmp/apache-maven-3.2.3' directory the actual 
+        # install.
+        shutil.move(os.path.join(maven_install_path_tmp, maven_name), 
+                maven_install_path)
+        os.rmdir(maven_install_path_tmp)
+        print('extracted.')
+    else:
+        print('   - Archive ' + maven_name + ' already extracted.')
+    
+    return maven_install_path
+
+def maven_config_env(maven_install_dir):
+    """
+    Configures the environment variables, etc. for the specified Maven installation.
+    
+    Args:
+        maven_install_dir (str): The local path for the Maven install.
+    
+    Returns:
+        (nothing)
+    """
+    
+    # Set MAVEN_HOME and add Maven to the path.
+    print('   - Updating .bashrc... ', end="", flush=True)
+    bash_var_export('MAVEN_HOME', maven_install_dir)
+    bash_path_include(os.path.join(maven_install_dir, 'bin'))
+    print('done.')
+
 def get_installers_dir():
     """
     Return the path to the directory to save installers to.
@@ -222,6 +323,98 @@ def get_tools_dir():
     tools_dir = os.path.join(os.path.expanduser('~'), 'workspaces', 'tools')
     os.makedirs(tools_dir, exist_ok=True)
     return tools_dir
+
+def bash_var_export(name, value):
+    """
+    Sets the specified environment variable in the user's `.bashrc` file.
+    
+    This isn't the world's most intelligent function: it searches `.bashrc`
+    for a line that begins with "`export varname=`". If such a line is found,
+    it's replaced. Otherwise, such a line is added to the end of the file.
+    
+    Args:
+        name (str): The name of the environment variable to set.
+        value (str): The value to set the environment variable to.
+    
+    Returns:
+        (nothing)
+    """
+    
+    # The .bashrc path to read from (and eventually replace).
+    bashrc_path = os.path.join(os.path.expanduser('~'), '.bashrc')
+    
+    # The .bashrctmp path to write to.
+    bashrctmp_path = ''
+    with tempfile.NamedTemporaryFile(delete=False) as bashrc_tmp:
+        bashrctmp_path = bashrc_tmp.name
+    
+    # Open two files:
+    #  1. .bashrc, for reading
+    #  2. A temp file to write the modified contents of .bashrc out to.
+    var_found = False
+    with open(bashrc_path, 'r') as bashrc, \
+         open(bashrctmp_path, 'w') as bashrc_tmp:
+        for line in bashrc:
+            if line.startswith('export {}='.format(name)):
+                var_found = True
+                bashrc_tmp.write('export {}={}\n'.format(name, value))
+            else:
+                bashrc_tmp.write(line)
+        if not var_found:
+            bashrc_tmp.write('export {}={}\n'.format(name, value))
+    
+    # Replace the original .bashrc with the modified one.
+    bashrc_stat = os.stat(bashrc_path)
+    os.chmod(bashrctmp_path, stat.S_IMODE(bashrc_stat.st_mode))
+    os.chown(bashrctmp_path, bashrc_stat.st_uid, bashrc_stat.st_gid)
+    os.replace(bashrctmp_path, bashrc_path)
+
+def bash_path_include(directory):
+    """
+    Adds the specified directory to the path in the user's `.bashrc` file.
+    
+    This isn't the world's most intelligent function: it searches `.bashrc`
+    for an `export PATH=...` line matching the one being added. If such a line
+    is found, it's replaced. Otherwise, such a line is added to the end of the 
+    file.
+    
+    Args:
+        directory (str): The directory to add to the path.
+    
+    Returns:
+        (nothing)
+    """
+    
+    # The .bashrc path to read from (and eventually replace).
+    bashrc_path = os.path.join(os.path.expanduser('~'), '.bashrc')
+    
+    # The .bashrctmp path to write to.
+    bashrctmp_path = ''
+    with tempfile.NamedTemporaryFile(delete=False) as bashrc_tmp:
+        bashrctmp_path = bashrc_tmp.name
+    
+    # The line being added to the file.
+    path_entry = 'export PATH=${PATH}:' + directory + '\n'
+    
+    
+    # Open two files:
+    #  1. .bashrc, for reading
+    #  2. A temp file to write the modified contents of .bashrc out to.
+    path_entry_found = False
+    with open(bashrc_path, 'r') as bashrc, \
+            open(bashrctmp_path, 'w') as bashrc_tmp:
+        for line in bashrc:
+            if line == path_entry:
+                path_entry_found = True
+            bashrc_tmp.write(line)
+        if not path_entry_found:
+            bashrc_tmp.write(path_entry)
+    
+    # Replace the original .bashrc with the modified one.
+    bashrc_stat = os.stat(bashrc_path)
+    os.chmod(bashrctmp_path, stat.S_IMODE(bashrc_stat.st_mode))
+    os.chown(bashrctmp_path, bashrc_stat.st_uid, bashrc_stat.st_gid)
+    os.replace(bashrctmp_path, bashrc_path)
 
 # If this file is being run as a standalone script, call the main() function.
 # (Otherwise, do nothing.)
