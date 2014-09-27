@@ -1746,3 +1746,12 @@ This file should never be committed along with other files; it should always be 
     * This makes me think that all I need to do is add the m2e-wtp output directory to `EmbeddedServer`, and I'll be back in business.
         * Did that.
         * Things started up, but didn't load the wro4j resources correctly. Further investigation is needed.
+
+### 2014-09-27, Saturday
+
+* 3.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Basic game template.
+    * Got the resources loading correctly.
+        * Had to fix some stuff in `EmbeddedServer` related to path canonicalization.
+    * Cleaned up and committed things.
+    * Next up: Actually figure out what I want things to look like.
