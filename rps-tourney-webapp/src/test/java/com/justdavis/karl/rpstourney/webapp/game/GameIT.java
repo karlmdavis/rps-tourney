@@ -38,7 +38,7 @@ public final class GameIT {
 
 			// Spot-check one of the page's elements to ensure it's present.
 			Assert.assertNotNull(driver.getPageSource(),
-					driver.findElement(By.id("currentRound")));
+					driver.findElement(By.id("player-controls")));
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -70,20 +70,28 @@ public final class GameIT {
 
 			// Player 2 (webapp): Join and set max rounds to 1.
 			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
-			driver.findElement(By.id("joinLink")).click();
-			driver.findElement(By.id("maxRoundsDown")).click();
-			Assert.assertEquals("1", driver
-					.findElement(By.id("maxRoundsValue")).getAttribute("value"));
+			driver.findElement(By.id("join-game")).click();
+			driver.findElement(By.id("max-rounds-down")).click();
+			Assert.assertEquals("1",
+					driver.findElement(By.id("max-rounds-value")).getText());
 
 			// Player 1 (service): Throw rock.
 			gameClient.submitThrow(game.getId(), 0, Throw.ROCK);
 
 			// Player 2 (webapp): Throw paper.
-			driver.findElement(By.xpath("//div[@id='player2ThrowPaper']/a")).click();
-			Assert.assertEquals("0",
-					driver.findElement(By.id("player1ScoreValue")).getText());
-			Assert.assertEquals("1",
-					driver.findElement(By.id("player2ScoreValue")).getText());
+			driver.findElement(
+					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			Assert.assertEquals(
+					"0",
+					driver.findElement(
+							By.xpath("//div[@id='player-1-controls']//p[@class='player-score-value']"))
+							.getText());
+			Assert.assertEquals(
+					"1",
+					driver.findElement(
+							By.xpath("//div[@id='player-2-controls']//p[@class='player-score-value']"))
+							.getText());
 		} finally {
 			if (driver != null)
 				driver.quit();

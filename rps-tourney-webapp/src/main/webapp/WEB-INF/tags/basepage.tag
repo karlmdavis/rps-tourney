@@ -17,13 +17,20 @@
 		<meta name="description" content="${metaDescription}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/bootstrap-theme.css">
 		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/rps.css">
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	</head>
 	<body>
 
-		<jsp:doBody />
+		<div id="page-content">
+			<jsp:doBody />
+		</div>
+
+		<div id="page-footer" class="container">
+			<footer>
+				<p>&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, 2014</p>
+			</footer>
+		</div>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>

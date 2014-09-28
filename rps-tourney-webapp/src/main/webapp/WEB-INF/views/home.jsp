@@ -10,11 +10,11 @@
 		<p><spring:message code="home.intro.1" /></p>
 		
 		<h2><spring:message code="home.games.h2" /></h2>
-		<a id="createGame" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a>
+		<a id="create-game" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a>
 		
 		<sec:authorize access="isAuthenticated()">
 		<c:if test="${not empty games}">
-		<table id="playerGames">
+		<table id="player-games">
 			<thead>
 				<tr>
 					<th><spring:message code="home.games.id.label" /></th>
@@ -25,7 +25,7 @@
 			<tbody>
 				<c:forEach items="${games}" var="game">
 				<tr>
-					<td><a href="${requestScope['rpstourney.config.baseurl']}/game/${game.id}">${game.id}</a></td>
+					<td><a class="game-view" href="${requestScope['rpstourney.config.baseurl']}/game/${game.id}"><spring:message code="home.games.view" /></a></td>
 					<td><rps:temporal value="${game.lastThrowTimestamp}" format="DEFAULT" /></td>
 					<td><spring:message code="home.games.game.state.${game.state}" /></td>
 				</tr>

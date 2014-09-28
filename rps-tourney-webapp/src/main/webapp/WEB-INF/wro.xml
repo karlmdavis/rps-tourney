@@ -6,12 +6,13 @@
 		for details. -->
 
 	<group name="bootstrap-theme">
-		<!-- For some reason, trying to compile theme.less in the same group as 
-			bootstrap.less causes wro4j to get stuck in an endless loop. -->
 		<css>/bootstrap-3.2.0/less/theme.less</css>
 		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
 	</group>
 	<group name="rps">
+		<!-- For some reason, trying to include theme.less here in wro.xml, in 
+			the same group as bootstrap.less, causes wro4j to get stuck in an endless 
+			loop. However, rps.less can '@include' it without any trouble. -->
 		<css>/WEB-INF/resources/css/rps.less</css>
 		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
 		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>

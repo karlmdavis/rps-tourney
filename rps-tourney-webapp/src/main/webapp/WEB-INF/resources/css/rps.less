@@ -9,3 +9,162 @@
 // Load Bootstrap's variables and mixins
 @import "variables.less";
 @import "mixins.less";
+
+// Import Bootstrap's default 'theme.less'.
+// For some reason, trying to include theme.less in wro.xml, in the same group 
+// as bootstrap.less, causes wro4j to get stuck in an endless loop. However, 
+// it can be '@include'd here without any trouble.
+@import "theme.less";
+
+
+/*
+ * Template Styling (applies to all/most pages)
+ */
+
+// Make the page-specific content a Bootstrap .container.
+// (This might be too coarse-grained, but it's a start for now.)
+#page-content {
+	.container-fluid;
+}
+
+// Add some padding to the site.
+body > .container {
+	padding-left: 15px;
+	padding-left: 15px;
+}
+
+// Place a "sticky" footer at the bottom of every page.
+@footer-height: 3em;
+body{
+	// Leave space for the footer.
+	margin-bottom: @footer-height;
+	
+	#page-footer {
+		position: absolute;
+		bottom: 0;
+		
+		height: @footer-height;
+		width: 100%;
+		padding-top: 10px;
+		background-color: @gray-lighter;
+		color: @text-muted;
+		
+		a {
+			color: @text-muted;
+		}
+	}
+}
+
+// Not every table should be 100% wide.
+.table-nonfluid {
+	width: auto;
+}
+
+
+/*
+ * Home Page
+ */
+
+// Make the #create-game link a button.
+a#create-game {
+	.btn;
+	.btn-primary;
+}
+
+// Spruce up the #player-games table.
+table#player-games {
+	.table;
+	.table-striped;
+	.table-hover;
+	.table-nonfluid;
+	
+	a.game-view {
+		.btn;
+		.btn-primary;
+		.btn-xs;
+	}
+}
+
+
+/*
+ * Game Page
+ */
+
+// Layout and style the player controls.
+#player-controls {
+	.make-row();
+	
+	#player-1-controls, #player-2-controls {
+		.make-md-column(3);
+		
+		.player-throws {
+			
+			a.throw-rock, a.throw-paper, a.throw-scissors {
+				.btn;
+				.btn-success;
+				.btn-lg;
+				display: block;
+				width: 8em;
+				margin-bottom: 3px;
+			}
+				
+			span.throw-rock, span.throw-paper, span.throw-scissors {
+				.btn;
+				.btn-default;
+				.btn-lg;
+				.disabled;
+				display: block;
+				width: 8em;
+				margin-bottom: 3px;
+			}
+		}
+		
+		.player-score {
+		}
+	}
+}
+
+// Layout and style the game setup controls.
+// (These are only visible before the game starts.)
+#game-controls {
+
+	#join-game {
+		.btn;
+		.btn-primary;
+		.btn-sm;
+	}
+	
+	#max-round-controls {
+		width: auto;
+	
+		#max-rounds-label {
+			display: block;
+		}
+
+		#max-rounds-down, #max-rounds-up {
+			.btn;
+			.btn-primary;
+			.btn-sm;
+		}
+
+		#max-rounds-value {
+			// This isn't actually a button at all; we're just cheating 
+			// because styling it this way looks good.
+			.btn;
+			.btn-default;
+			.btn-sm;
+			.disabled;
+			width: 5em;
+		}
+	}
+}
+
+// Layout and style the game history controls.
+#round-history {
+	table#rounds {
+		.table;
+		.table-striped;
+		.table-hover;
+		.table-nonfluid;
+	}
+}

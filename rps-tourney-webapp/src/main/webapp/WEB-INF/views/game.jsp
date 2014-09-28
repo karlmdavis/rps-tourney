@@ -7,80 +7,70 @@
 <spring:message code="game.subtitle" var="metaSubtitle" />
 <c:url value="${requestScope['rpstourney.config.baseurl']}/game/${game.id}" var="gameUrl" />
 <t:basepage metaSubtitle="${metaSubtitle}">
-		<div id="currentRound">
-			<h2><spring:message code="game.currentRound" /></h2>
-			<div id="playerControls">
-				<div id="player1Controls">
-					<h3>${player1Label}</h3>
-					<p id="player1Status"></p>
-					<div id="player1ThrowRock">
-						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=ROCK"></c:if>
-						<spring:message code="game.throw.rock" />
-						<c:if test="${isPlayer1}"></a></c:if>
-					</div>
-					<div id="player1ThrowPaper">
-						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=PAPER"></c:if>
-						<spring:message code="game.throw.paper" />
-						<c:if test="${isPlayer1}"></a></c:if>
-					</div>
-					<div id="player1ThrowScissors">
-						<c:if test="${isPlayer1}"><a href="${gameUrl}/playThrow?throwToPlay=SCISSORS"></c:if>
-						<spring:message code="game.throw.scissors" />
-						<c:if test="${isPlayer1}"></a></c:if>
-					</div>
+		<h1><spring:message code="game.subtitle" /></h1>
+		<div id="player-controls">
+			<div id="player-1-controls">
+				<h3>${player1Label}</h3>
+				<div class="player-throws">
+					<c:choose>
+					<c:when test="${isPlayer1}">
+					<a class="throw-rock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
+					<a class="throw-paper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
+					<a class="throw-scissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					</c:when>
+					<c:otherwise>
+					<span class="throw-rock"><spring:message code="game.throw.rock" /></span>
+					<span class="throw-paper"><spring:message code="game.throw.paper" /></span>
+					<span class="throw-scissors"><spring:message code="game.throw.scissors" /></span>
+					</c:otherwise>
+					</c:choose>
 				</div>
-				<div id="player2Controls">
-					<h3>${player2Label}</h3>
-					<p id="player2Status"></p>
-					<div id="player2ThrowRock">
-						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=ROCK"></c:if>
-						<spring:message code="game.throw.rock" />
-						<c:if test="${isPlayer2}"></a></c:if>
-					</div>
-					<div id="player2ThrowPaper">
-						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=PAPER"></c:if>
-						<spring:message code="game.throw.paper" />
-						<c:if test="${isPlayer2}"></a></c:if>
-					</div>
-					<div id="player2ThrowScissors">
-						<c:if test="${isPlayer2}"><a href="${gameUrl}/playThrow?throwToPlay=SCISSORS"></c:if>
-						<spring:message code="game.throw.scissors" />
-						<c:if test="${isPlayer2}"></a></c:if>
-					</div>
+				<div class="player-score">
+					<h4><spring:message code="game.playerScore" /></h4>
+					<p class="player-score-value">${player1Score}</p>
 				</div>
 			</div>
-			<div id="playerScores">
-				<div id="player1Score">
-					<p><spring:message code="game.playerScore" /></p>
-					<p id="player1ScoreValue">${player1Score}</p>
+			<div id="player-2-controls">
+				<h3>${player2Label}</h3>
+				<div class="player-throws">
+					<c:choose>
+					<c:when test="${isPlayer2}">
+					<a class="throw-rock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a>
+					<a class="throw-paper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a>
+					<a class="throw-scissors" href="${gameUrl}/playThrow?throwToPlay=SCISSORS"><spring:message code="game.throw.scissors" /></a>
+					</c:when>
+					<c:otherwise>
+					<span class="throw-rock"><spring:message code="game.throw.rock" /></span>
+					<span class="throw-paper"><spring:message code="game.throw.paper" /></span>
+					<span class="throw-scissors"><spring:message code="game.throw.scissors" /></span>
+					</c:otherwise>
+					</c:choose>
 				</div>
-				<div id="player2Score">
-					<p><spring:message code="game.playerScore" /></p>
-					<p id="player2ScoreValue">${player2Score}</p>
+				<div class="player-score">
+					<h4><spring:message code="game.playerScore" /></h4>
+					<p class="player-score-value">${player2Score}</p>
 				</div>
 			</div>
 		</div>
 		
 		<c:if test="${(game.state == 'WAITING_FOR_PLAYER') || (game.state == 'WAITING_FOR_FIRST_THROW')}">
-		<div id="gameControls">
-			<h2>Game Controls</h2>
-			
-			<c:if test="${isPlayer}">
-			<div id="maxRoundControls">
-				<h3>Max Rounds</h3>
-				<a id="maxRoundsDown" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a>
-				<spring:message code="game.maxRounds.label" />
-				<input id="maxRoundsValue" type="text" value="${game.maxRounds}" />
-				<a id="maxRoundsUp" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a>
-			</div>
-			</c:if>
+		<div id="game-controls">
+			<h2><spring:message code="game.controls" /></h2>
 			<c:if test="${!isPlayer && !hasPlayer2}">
-			<a id="joinLink" href="${gameUrl}/join"><spring:message code="game.join" /></a>
+			<a id="join-game" href="${gameUrl}/join"><spring:message code="game.join" /></a>
+			</c:if>
+			<c:if test="${isPlayer}">
+			<div id="max-round-controls">
+				<span id="max-rounds-label"><spring:message code="game.maxRounds.label" /></span>
+				<a id="max-rounds-down" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a>
+				<span id="max-rounds-value">${game.maxRounds}</span>
+				<a id="max-rounds-up" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a>
+			</div>
 			</c:if>
 		</div>
 		</c:if>
 
-		<div id="roundHistory">
+		<div id="round-history">
 			<h2><spring:message code="game.roundHistory" /></h2>
 			<p>Round: <span id="currentRoundIndex">${fn:length(game.rounds)}</span> of ${game.maxRounds}</p>
 			<table id="rounds">
