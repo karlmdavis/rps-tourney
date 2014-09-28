@@ -1755,3 +1755,10 @@ This file should never be committed along with other files; it should always be 
         * Had to fix some stuff in `EmbeddedServer` related to path canonicalization.
     * Cleaned up and committed things.
     * Next up: Actually figure out what I want things to look like.
+
+### 2014-09-28, Sunday
+
+* 3.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Finished up the game's initial look & feel.
+    * Put together an intentionally very basic set of formatting for the application. It isn't fancy, but it's a solid starting point.
+    * Cleaned up & commited things, closed the issue.
