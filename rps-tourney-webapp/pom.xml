@@ -182,13 +182,6 @@
 					<artifactId>jetty-websocket</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
 				</exclusion>
-				<!-- Selenium depends on HtmlUnit, which depends on an old version of 
-					xerces. We're excluding that dependency here so that it doesn't screw up 
-					other things (like Jetty). -->
-				<exclusion>
-					<artifactId>xercesImpl</artifactId>
-					<groupId>xerces</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 
