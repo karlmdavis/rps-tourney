@@ -1761,4 +1761,10 @@ This file should never be committed along with other files; it should always be 
 * 3.0h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Finished up the game's initial look & feel.
     * Put together an intentionally very basic set of formatting for the application. It isn't fancy, but it's a solid starting point.
-    * Cleaned up & commited things, closed the issue.
+    * Cleaned up & committed things, closed the issue.
+
+### 2014-09-29, Monday
+
+* 0.35h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
+  Finished up the game's initial look & feel.
+    * Got the site deployed to https://justdavis.com/karl/rps/.
