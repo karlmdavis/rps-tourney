@@ -1768,3 +1768,13 @@ This file should never be committed along with other files; it should always be 
 * 0.35h: [Issue #21: "Prettify" the game web app](https://github.com/karlmdavis/rps-tourney/issues/21):
   Finished up the game's initial look & feel.
     * Got the site deployed to https://justdavis.com/karl/rps/.
+        * Had some trouble with the deployment script. Added a comment to it explaining how I solved it.
+
+### 2014-09-30, Tuesday
+
+* 0.5h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Opened the enhancement issue and added an estimate to it.
+* 1.25h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+    * Opened the bug report and added an estimate to it.
+    * Worked through all of the JPA validation errors, which led to some painful test failures. Still stuck on those.
+        * Hibernate doesn't seem interested in handling case-sensitive `@JoinColumn` names. Further investigation needed.
