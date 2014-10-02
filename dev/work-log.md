@@ -1778,3 +1778,10 @@ This file should never be committed along with other files; it should always be 
     * Opened the bug report and added an estimate to it.
     * Worked through all of the JPA validation errors, which led to some painful test failures. Still stuck on those.
         * Hibernate doesn't seem interested in handling case-sensitive `@JoinColumn` names. Further investigation needed.
+
+### 2014-10-01, Wednesday
+
+* 1.25h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+    * Troubleshooting the case-sensitive `@JoinColumn` issue.
+        * Traced it down to a bug in Hibernate at `CopyIdentifierComponentSecondPass.doSecondPass(Map):160`.
+        * Tried updating to Hibernate 4.3.6.Final, but Nexus is down after upgrading `eddings` to 14.04. Spent some time trying to resolve that. Stuck on an SSL error.
