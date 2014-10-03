@@ -1785,3 +1785,14 @@ This file should never be committed along with other files; it should always be 
     * Troubleshooting the case-sensitive `@JoinColumn` issue.
         * Traced it down to a bug in Hibernate at `CopyIdentifierComponentSecondPass.doSecondPass(Map):160`.
         * Tried updating to Hibernate 4.3.6.Final, but Nexus is down after upgrading `eddings` to 14.04. Spent some time trying to resolve that. Stuck on an SSL error.
+
+### 2014-10-02, Thursday
+
+* 0.5h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+  Trying to get Nexus back up & running.
+    * Fixed. Ended up being a stupid-simple problem: all `/etc/apache2/sites-enabled` files now must have a `.conf` extension; any other files are ignored.
+* 0.75h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+  Troubleshooting the case-sensitive `@JoinColumn` issue.
+    * Still doesn't work in Hibernate 4.3.6.Final. Not surprised, as it wasn't in the release notes, but it's always good to check.
+    * Added a workaround to the DB schema: change the column name via a `<property/>` switch.
+    * Filed a bug for it: [HHH-9427: Errors when using mixed-case column name in @JoinColumn](https://hibernate.atlassian.net/browse/HHH-9427).
