@@ -1796,3 +1796,13 @@ This file should never be committed along with other files; it should always be 
     * Still doesn't work in Hibernate 4.3.6.Final. Not surprised, as it wasn't in the release notes, but it's always good to check.
     * Added a workaround to the DB schema: change the column name via a `<property/>` switch.
     * Filed a bug for it: [HHH-9427: Errors when using mixed-case column name in @JoinColumn](https://hibernate.atlassian.net/browse/HHH-9427).
+
+### 2014-10-03, Friday
+
+* 0.5h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+  PostgreSQL sequences.
+    * Started looking through things, hoping to commit them, and noticed the all-lowercase PostgreSQL sequence names I was using.
+        * Tried to fix that.
+        * Running into errors.
+        * Looks like Liquibase is creating the sequences for me; the explicit create statements are redundant.
+        * Hibernate is having trouble with the quoted sequence names.
