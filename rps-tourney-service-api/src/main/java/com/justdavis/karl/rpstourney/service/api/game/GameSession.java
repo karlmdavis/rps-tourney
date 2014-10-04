@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -62,11 +64,12 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * </p>
  */
 @Entity
-@Table(name = "\"GameSessions\"")
+@IdClass(GameSession.GameSessionPk.class)
+@Table(name = "`GameSessions`")
 @DynamicUpdate(true)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class GameSession {
+public class GameSession {
 	/**
 	 * The maximum allowed value for {@link #getMaxRounds()}.
 	 */
@@ -85,26 +88,26 @@ public final class GameSession {
 	private static final SecureRandom RANDOM = new SecureRandom();
 
 	@Id
-	@Column(name = "\"id\"", nullable = false, updatable = false)
+	@Column(name = "`id`", nullable = false, updatable = false)
 	@XmlElement
-	private final String id;
+	private String id;
 
-	@Column(name = "\"createdTimestamp\"", nullable = false, updatable = false)
+	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
-	private final Instant createdTimestamp;
+	private Instant createdTimestamp;
 
-	@Column(name = "\"state\"")
+	@Column(name = "`state`")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
 	private State state;
 
-	@Column(name = "\"maxRounds\"")
+	@Column(name = "`maxRounds`")
 	@XmlElement
 	private int maxRounds;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "gameSession", orphanRemoval = true)
+	@OneToMany(mappedBy = "gameSession", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("roundIndex ASC")
 	@XmlElementWrapper(name = "rounds")
 	@XmlElement(name = "round")
@@ -112,13 +115,13 @@ public final class GameSession {
 
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
-	@JoinColumn(name = "\"player1Id\"")
+	@JoinColumn(name = "`player1Id`")
 	@XmlElement
-	private final Player player1;
+	private Player player1;
 
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
-	@JoinColumn(name = "\"player2Id\"")
+	@JoinColumn(name = "`player2Id`")
 	@XmlElement
 	private Player player2;
 
@@ -143,17 +146,11 @@ public final class GameSession {
 	}
 
 	/**
-	 * JAXB and JPA require a default/no-args constructor. JPA also requires it
-	 * to be non-private.
+	 * <strong>Not intended for use:</strong> This constructor is only provided
+	 * to comply with the JAXB and JPA specs.
 	 */
-	protected GameSession() {
-		this.id = null;
-		this.createdTimestamp = null;
-		this.state = null;
-		this.maxRounds = -1;
-		this.player1 = null;
-		this.player2 = null;
-		this.rounds = null;
+	@Deprecated
+	GameSession() {
 	}
 
 	/**
@@ -643,5 +640,83 @@ public final class GameSession {
 		 * and have completed.
 		 */
 		FINISHED;
+	}
+
+	/**
+	 * The JPA {@link IdClass} for {@link GameRound}.
+	 */
+	public static final class GameSessionPk implements Serializable {
+		/*
+		 * Design note: This IDClass is required because GameRound has a
+		 * compound PK-and-FK relationship to GameSession, and its IdClass must
+		 * reference this one.
+		 */
+
+		private static final long serialVersionUID = -2542571612762568669L;
+
+		private String id;
+
+		/**
+		 * This public, no-arg/default constructor is required by JPA.
+		 */
+		public GameSessionPk() {
+		}
+
+		/**
+		 * @return this {@link IdClass} field corresponds to
+		 *         {@link GameSession#getId()}
+		 */
+		public String getId() {
+			return id;
+		}
+
+		/**
+		 * @param id
+		 *            the value to use for {@link #getId()}
+		 */
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		/**
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			/*
+			 * This method was generated via Eclipse's 'Source > Generate
+			 * hashCode() and equals()...' function.
+			 */
+
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((id == null) ? 0 : id.hashCode());
+			return result;
+		}
+
+		/**
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			/*
+			 * This method was generated via Eclipse's 'Source > Generate
+			 * hashCode() and equals()...' function.
+			 */
+
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GameSessionPk other = (GameSessionPk) obj;
+			if (id == null) {
+				if (other.id != null)
+					return false;
+			} else if (!id.equals(other.id))
+				return false;
+			return true;
+		}
 	}
 }

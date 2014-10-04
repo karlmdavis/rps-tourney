@@ -9,13 +9,26 @@
 	<property name="type.binary" value="bytea" dbms="postgresql" />
 	<property name="type.gameSessionId" value="varchar(10)" />
 
+	<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9427. -->
+	<property name="name.GameRound.gameSessionId" value="GAMESESSIONID"
+		dbms="hsqldb" />
+	<property name="name.GameRound.gameSessionId" value="gamesessionid"
+		dbms="postgresql" />
+
+	<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9430 
+		and https://hibernate.atlassian.net/browse/HHH-9431. -->
+	<property name="option.autoIncrement" value="true" dbms="hsqldb" />
+	<property name="option.autoIncrement" value="false" dbms="postgresql" />
+
 	<changeSet id="1" author="karlmdavis">
+	
 		<createTable tableName="Accounts">
-			<column name="id" type="bigint" autoIncrement="true"
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 		</createTable>
+		
 		<createTable tableName="AccountRoles">
 			<column name="accountId" type="bigint">
 				<constraints primaryKey="true" nullable="false"
@@ -25,6 +38,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 		</createTable>
+		
 		<createTable tableName="AuthTokens">
 			<column name="token" type="${type.binary}">
 				<constraints primaryKey="true" nullable="false" />
@@ -37,8 +51,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		
 		<createTable tableName="GameLoginIdentities">
-			<column name="id" type="bigint" autoIncrement="true"
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -53,8 +68,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		
 		<createTable tableName="GuestLoginIdentities">
-			<column name="id" type="bigint" autoIncrement="true"
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -63,23 +79,13 @@
 					referencedTableName="Accounts" />
 			</column>
 		</createTable>
-	</changeSet>
 
-	<changeSet id="2" author="karlmdavis" dbms="postgresql">
-		<!-- PostgreSQL does have a SERIAL data type that would work in lieu of 
-			explicit sequences. However, Hibernate does not seem to fully support them. -->
-		<!-- For some ridiculous reason or other, the sequence names here and in 
-			the JPA annotations must be all lower-case, or things don't work. Seems to 
-			be a bug in Hibernate. -->
-		<createSequence sequenceName="accounts_id_seq" />
-		<createSequence sequenceName="gameloginidentities_id_seq" />
-		<createSequence sequenceName="guestloginidentities_id_seq" />
-	</changeSet>
-
-	<changeSet id="3" author="karlmdavis">
 		<createTable tableName="GameSessions">
 			<column name="id" type="${type.gameSessionId}">
 				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="createdTimestamp" type="timestamp">
+				<constraints nullable="false" />
 			</column>
 			<column name="state" type="varchar(50)">
 				<constraints nullable="false" />
@@ -96,8 +102,9 @@
 					referencedTableName="Players" />
 			</column>
 		</createTable>
+		
 		<createTable tableName="Players">
-			<column name="id" type="bigint" autoIncrement="true"
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -106,9 +113,9 @@
 					foreignKeyName="PlayersToAccounts" referencedTableName="Accounts" />
 			</column>
 		</createTable>
-		<createSequence sequenceName="players_id_seq" />
+		
 		<createTable tableName="GameRounds">
-			<column name="gameSessionId" type="${type.gameSessionId}">
+			<column name="${name.GameRound.gameSessionId}" type="${type.gameSessionId}">
 				<constraints primaryKey="true" nullable="false"
 					foreignKeyName="AccountRolesToAccounts" referencedTableName="Accounts" />
 			</column>
@@ -118,10 +125,13 @@
 			<column name="throwForPlayer1" type="varchar(50)">
 				<constraints nullable="true" />
 			</column>
+			<column name="throwForPlayer1Timestamp" type="timestamp" />
 			<column name="throwForPlayer2" type="varchar(50)">
 				<constraints nullable="true" />
 			</column>
+			<column name="throwForPlayer2Timestamp" type="timestamp" />
 		</createTable>
+
 		<!-- Create a TRIGGER-based constraint that ensures that GameRounds.throwForPlayerN 
 			can only ever be set once. This is required in the face of multiple conflicting 
 			concurrent requests, so that only one such request ever succeeds. -->
@@ -129,19 +139,18 @@
 			relativeToChangelogFile="true" splitStatements="false" dbms="hsqldb" />
 		<sqlFile path="trigger-GameRounds_throwProtect-postgresql.sql"
 			relativeToChangelogFile="true" splitStatements="false" dbms="postgresql" />
+		
 	</changeSet>
 
-	<changeSet id="4" author="karlmdavis">
-		<addColumn tableName="GameSessions">
-			<column name="createdTimestamp" type="timestamp" />
-		</addColumn>
-		<addNotNullConstraint tableName="GameSessions"
-			columnName="createdTimestamp" defaultNullValue="2014-08-31 00:00" />
+	<changeSet id="2" author="karlmdavis" dbms="postgresql">
 
-		<addColumn tableName="GameRounds">
-			<column name="throwForPlayer1Timestamp" type="timestamp" />
-			<column name="throwForPlayer2Timestamp" type="timestamp" />
-		</addColumn>
+		<!-- These are required to work around https://hibernate.atlassian.net/browse/HHH-9430 
+			and https://hibernate.atlassian.net/browse/HHH-9431. -->
+		<createSequence sequenceName="accounts_id_seq" />
+		<createSequence sequenceName="gameloginidentities_id_seq" />
+		<createSequence sequenceName="guestloginidentities_id_seq" />
+		<createSequence sequenceName="players_id_seq" />
+
 	</changeSet>
 
 </databaseChangeLog>

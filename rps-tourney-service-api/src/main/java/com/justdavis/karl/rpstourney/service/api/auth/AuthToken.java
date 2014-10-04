@@ -34,34 +34,24 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  */
 @XmlRootElement
 @Entity
-@Table(name = "\"AuthTokens\"")
-public final class AuthToken {
+@Table(name = "`AuthTokens`")
+public class AuthToken {
 	@XmlElement
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "\"accountId\"")
-	private final Account account;
+	@JoinColumn(name = "`accountId`")
+	private Account account;
 
 	@XmlElement
 	@Id
-	@Column(name = "\"token\"", nullable = false, updatable = false)
-	private final UUID token;
+	@Column(name = "`token`", nullable = false, updatable = false)
+	private UUID token;
 
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
-	@Column(name = "\"creationTimestamp\"", nullable = false, updatable = false)
-	private final Instant creationTimestamp;
-
-	/**
-	 * This no-arg/default constructor is required by JPA.
-	 */
-	@SuppressWarnings("unused")
-	private AuthToken() {
-		this.account = null;
-		this.token = null;
-		this.creationTimestamp = null;
-	}
+	@Column(name = "`creationTimestamp`", nullable = false, updatable = false)
+	private Instant creationTimestamp;
 
 	/**
 	 * Constructs a new {@link AuthToken} instance.
@@ -87,6 +77,14 @@ public final class AuthToken {
 		this.account = account;
 		this.token = token;
 		this.creationTimestamp = creationTimestamp;
+	}
+
+	/**
+	 * <strong>Not intended for use:</strong> This constructor is only provided
+	 * to comply with the JAXB and JPA specs.
+	 */
+	@Deprecated
+	AuthToken() {
 	}
 
 	/**

@@ -64,7 +64,7 @@ public final class AuthTokenTest {
 		Node idNode = (Node) xpath.evaluate(
 				"/rps:authToken/rps:account/rps:id", domResult.getNode(),
 				XPathConstants.NODE);
-		Assert.assertEquals("-1", idNode.getTextContent());
+		Assert.assertEquals("0", idNode.getTextContent());
 		Node tokenValueNode = (Node) xpath.evaluate("/rps:authToken/rps:token",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals(authToken.getToken().toString(),

@@ -109,7 +109,7 @@ public final class AccountTest {
 		Assert.assertNotNull(accountNode);
 		Node idNode = (Node) xpath.evaluate("/rps:account/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("-1", idNode.getTextContent());
+		Assert.assertEquals("0", idNode.getTextContent());
 		Node rolesNode = (Node) xpath.evaluate("/rps:account/rps:roles",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(rolesNode);

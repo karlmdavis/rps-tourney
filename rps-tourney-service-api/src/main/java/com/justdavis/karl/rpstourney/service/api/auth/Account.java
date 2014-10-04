@@ -40,11 +40,19 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement
 @Entity
-@Table(name = "\"Accounts\"")
-public final class Account implements Principal {
+@Table(name = "`Accounts`")
+public class Account implements Principal {
+	/*
+	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9430.
+	 */
+	/*
+	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9431.
+	 */
 	@XmlElement
 	@Id
-	@Column(name = "\"id\"", nullable = false, updatable = false)
+	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Accounts_id_seq")
 	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "accounts_id_seq")
 	private long id;
@@ -52,10 +60,10 @@ public final class Account implements Principal {
 	@XmlElementWrapper(name = "roles")
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "\"AccountRoles\"", joinColumns = @JoinColumn(name = "\"accountId\""))
-	@Column(name = "\"role\"")
+	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`"))
+	@Column(name = "`role`")
 	@Enumerated(EnumType.STRING)
-	private final Set<SecurityRole> roles;
+	private Set<SecurityRole> roles;
 
 	/**
 	 * This field is marked {@link XmlTransient} to help ensure it's never sent
@@ -64,17 +72,7 @@ public final class Account implements Principal {
 	 */
 	@XmlTransient
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
-	private final Set<AuthToken> authTokens;
-
-	/**
-	 * This no-arg/default constructor is required by JAX-B and JPA.
-	 */
-	@SuppressWarnings("unused")
-	private Account() {
-		this.id = -1;
-		this.roles = new HashSet<>();
-		this.authTokens = new HashSet<>();
-	}
+	private Set<AuthToken> authTokens;
 
 	/**
 	 * Constructs a new {@link Account} instance.
@@ -84,12 +82,18 @@ public final class Account implements Principal {
 	 *            {@link SecurityRole#USERS} will always be added to this)
 	 */
 	public Account(SecurityRole... roles) {
-		this.id = -1;
 		this.roles = new HashSet<>();
 		this.roles.add(SecurityRole.USERS);
 		for (SecurityRole role : roles)
 			this.roles.add(role);
 		this.authTokens = new HashSet<>();
+	}
+
+	/**
+	 * Constructs a new {@link Account} instance.
+	 */
+	public Account() {
+		this(new SecurityRole[] {});
 	}
 
 	/**
@@ -107,7 +111,7 @@ public final class Account implements Principal {
 	 *         it has not
 	 */
 	public boolean hasId() {
-		return id >= 0;
+		return id > 0;
 	}
 
 	/**
@@ -124,7 +128,7 @@ public final class Account implements Principal {
 	 *         {@link Account} instance
 	 */
 	public long getId() {
-		if (id == -1)
+		if (!hasId())
 			throw new IllegalStateException("Field value not yet available.");
 
 		return id;

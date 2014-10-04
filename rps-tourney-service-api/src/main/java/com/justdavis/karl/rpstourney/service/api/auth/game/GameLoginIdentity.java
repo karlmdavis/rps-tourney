@@ -35,36 +35,33 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
  * </p>
  */
 @Entity
-@Table(name = "\"GameLoginIdentities\"")
-public final class GameLoginIdentity implements ILoginIdentity {
+@Table(name = "`GameLoginIdentities`")
+public class GameLoginIdentity implements ILoginIdentity {
+	/*
+	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9430.
+	 */
+	/*
+	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9431.
+	 */
 	@Id
-	@Column(name = "\"id\"", nullable = false, updatable = false)
+	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "GameLoginIdentities_id_seq")
 	@SequenceGenerator(name = "GameLoginIdentities_id_seq", sequenceName = "gameloginidentities_id_seq")
 	private long id;
 
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "\"accountId\"")
-	private final Account account;
+	@JoinColumn(name = "`accountId`")
+	private Account account;
 
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
-	@Column(name = "\"emailAddress\"", unique = true, nullable = false)
-	private final InternetAddress emailAddress;
+	@Column(name = "`emailAddress`", unique = true, nullable = false)
+	private InternetAddress emailAddress;
 
-	@Column(name = "\"passwordHash\"", nullable = false)
-	private final String passwordHash;
-
-	/**
-	 * This no-arg/default constructor is required by JPA.
-	 */
-	@SuppressWarnings("unused")
-	private GameLoginIdentity() {
-		this.id = -1;
-		this.account = null;
-		this.emailAddress = null;
-		this.passwordHash = null;
-	}
+	@Column(name = "`passwordHash`", nullable = false)
+	private String passwordHash;
 
 	/**
 	 * Constructs a new {@link GameLoginIdentity} instance.
@@ -78,10 +75,17 @@ public final class GameLoginIdentity implements ILoginIdentity {
 	 */
 	public GameLoginIdentity(Account account, InternetAddress emailAddress,
 			String passwordHash) {
-		this.id = -1;
 		this.account = account;
 		this.emailAddress = emailAddress;
 		this.passwordHash = passwordHash;
+	}
+
+	/**
+	 * <strong>Not intended for use:</strong> This constructor is only provided
+	 * to comply with the JAXB and JPA specs.
+	 */
+	@Deprecated
+	GameLoginIdentity() {
 	}
 
 	/**
@@ -90,6 +94,15 @@ public final class GameLoginIdentity implements ILoginIdentity {
 	@Override
 	public LoginProvider getLoginProvider() {
 		return LoginProvider.GAME;
+	}
+
+	/**
+	 * @return <code>true</code> if this {@link GameLoginIdentity} has been
+	 *         assigned an ID (which it should if it's been persisted),
+	 *         <code>false</code> if it has not
+	 */
+	public boolean hasId() {
+		return id > 0;
 	}
 
 	/**
@@ -106,7 +119,7 @@ public final class GameLoginIdentity implements ILoginIdentity {
 	 *         {@link GameLoginIdentity} instance
 	 */
 	public long getId() {
-		if (id == -1)
+		if (!hasId())
 			throw new IllegalStateException("Field value not yet available.");
 
 		return id;

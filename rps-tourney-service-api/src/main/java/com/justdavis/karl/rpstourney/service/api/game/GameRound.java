@@ -23,6 +23,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.game.GameSession.GameSessionPk;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
@@ -40,40 +41,44 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  */
 @Entity
 @IdClass(GameRound.GameRoundPk.class)
-@Table(name = "\"GameRounds\"")
+@Table(name = "`GameRounds`")
 @DynamicUpdate(true)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class GameRound {
+public class GameRound {
+	/*
+	 * FIXME This column can't be quoted unless/until
+	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
+	 */
 	@Id
+	@JoinColumn(name = "gameSessionId")
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "\"gameSessionId\"")
 	@XmlTransient
-	private final GameSession gameSession;
+	private GameSession gameSession;
 
 	@Id
-	@Column(name = "\"roundIndex\"", nullable = false, updatable = false)
+	@Column(name = "`roundIndex`", nullable = false, updatable = false)
 	@XmlElement
-	private final int roundIndex;
+	private int roundIndex;
 
-	@Column(name = "\"throwForPlayer1\"")
+	@Column(name = "`throwForPlayer1`")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
 	private Throw throwForPlayer1;
 
-	@Column(name = "\"throwForPlayer1Timestamp\"", nullable = true, updatable = true)
+	@Column(name = "`throwForPlayer1Timestamp`", nullable = true, updatable = true)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	private Instant throwForPlayer1Timestamp;
 
-	@Column(name = "\"throwForPlayer2\"")
+	@Column(name = "`throwForPlayer2`")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
 	private Throw throwForPlayer2;
 
-	@Column(name = "\"throwForPlayer2Timestamp\"", nullable = true, updatable = true)
+	@Column(name = "`throwForPlayer2Timestamp`", nullable = true, updatable = true)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
@@ -102,16 +107,11 @@ public final class GameRound {
 	}
 
 	/**
-	 * JAXB and JPA require a default/no-args constructor. JPA also requires it
-	 * to be non-private.
+	 * <strong>Not intended for use:</strong> This constructor is only provided
+	 * to comply with the JAXB and JPA specs.
 	 */
-	protected GameRound() {
-		this.gameSession = null;
-		this.roundIndex = -1;
-		this.throwForPlayer1 = null;
-		this.throwForPlayer1Timestamp = null;
-		this.throwForPlayer2 = null;
-		this.throwForPlayer2Timestamp = null;
+	@Deprecated
+	GameRound() {
 	}
 
 	/**
@@ -272,27 +272,26 @@ public final class GameRound {
 	}
 
 	/**
-	 * The {@link IdClass} for the {@link GameRound} JPA {@link Entity} class.
+	 * The JPA {@link IdClass} for {@link GameRound}.
 	 */
 	public static final class GameRoundPk implements Serializable {
-		private static final long serialVersionUID = 7308207335090557784L;
+		private static final long serialVersionUID = 9072061865707404807L;
 
-		private GameSession gameSession;
+		private GameSessionPk gameSession;
 		private int roundIndex;
 
 		/**
 		 * This public, no-arg/default constructor is required by JPA.
 		 */
 		public GameRoundPk() {
-			this.gameSession = null;
-			this.roundIndex = -1;
 		}
 
 		/**
-		 * @return the {@link IdClass} field for
-		 *         {@link GameRound#getGameSession()}
+		 * @return this {@link IdClass} field corresponds to
+		 *         {@link GameRound#getGameSession()}, which is mapped as a
+		 *         foreign key to {@link GameSession#getId()}
 		 */
-		public GameSession getGameSession() {
+		public GameSessionPk getGameSession() {
 			return gameSession;
 		}
 
@@ -300,12 +299,12 @@ public final class GameRound {
 		 * @param gameSession
 		 *            the value to use for {@link #getGameSession()}
 		 */
-		public void setGameSession(GameSession gameSession) {
+		public void setGameSession(GameSessionPk gameSession) {
 			this.gameSession = gameSession;
 		}
 
 		/**
-		 * @return the {@link IdClass} field for
+		 * @return this {@link IdClass} field corresponds to
 		 *         {@link GameRound#getRoundIndex()}
 		 */
 		public int getRoundIndex() {
@@ -318,6 +317,51 @@ public final class GameRound {
 		 */
 		public void setRoundIndex(int roundIndex) {
 			this.roundIndex = roundIndex;
+		}
+
+		/**
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			/*
+			 * This method was generated via Eclipse's 'Source > Generate
+			 * hashCode() and equals()...' function.
+			 */
+
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((gameSession == null) ? 0 : gameSession.hashCode());
+			result = prime * result + roundIndex;
+			return result;
+		}
+
+		/**
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			/*
+			 * This method was generated via Eclipse's 'Source > Generate
+			 * hashCode() and equals()...' function.
+			 */
+
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GameRoundPk other = (GameRoundPk) obj;
+			if (gameSession == null) {
+				if (other.gameSession != null)
+					return false;
+			} else if (!gameSession.equals(other.gameSession))
+				return false;
+			if (roundIndex != other.roundIndex)
+				return false;
+			return true;
 		}
 	}
 }

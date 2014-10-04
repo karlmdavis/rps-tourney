@@ -77,7 +77,7 @@ public final class GameSessionTest {
 		Node player1AccountIdNode = (Node) xpath.evaluate(
 				"/rps:gameSession/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("-1", player1AccountIdNode.getTextContent());
+		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
 	}
 
 	/**
@@ -134,7 +134,7 @@ public final class GameSessionTest {
 		Node player1AccountIdNode = (Node) xpath.evaluate(
 				"/rps:gameSession/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("-1", player1AccountIdNode.getTextContent());
+		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
 		Node throwNode = (Node) xpath.evaluate(
 				"/rps:gameSession/rps:rounds/rps:round[1]/rps:throwForPlayer1",
 				domResult.getNode(), XPathConstants.NODE);

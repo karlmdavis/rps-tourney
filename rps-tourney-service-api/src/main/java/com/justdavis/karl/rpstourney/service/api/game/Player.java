@@ -24,11 +24,19 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
  * should be shared between {@link GameSession}s.
  */
 @Entity
-@Table(name = "\"Players\"")
+@Table(name = "`Players`")
 @XmlRootElement
-public final class Player {
+public class Player {
+	/*
+	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9430.
+	 */
+	/*
+	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
+	 * https://hibernate.atlassian.net/browse/HHH-9431.
+	 */
 	@Id
-	@Column(name = "\"id\"", nullable = false, updatable = false)
+	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Players_id_seq")
 	@SequenceGenerator(name = "Players_id_seq", sequenceName = "players_id_seq")
 	@XmlElement
@@ -36,9 +44,9 @@ public final class Player {
 
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "\"humanAccountId\"", nullable = true, unique = true)
+	@JoinColumn(name = "`humanAccountId`", nullable = true, unique = true)
 	@XmlElement
-	private final Account humanAccount;
+	private Account humanAccount;
 
 	/*
 	 * TODO This class also needs to have an optional field to identify who an
@@ -58,10 +66,11 @@ public final class Player {
 	}
 
 	/**
-	 * JAXB and JPA require a default/no-args constructor. JPA also requires it
-	 * to be non-private.
+	 * <strong>Not intended for use:</strong> This constructor is only provided
+	 * to comply with the JAXB and JPA specs.
 	 */
-	protected Player() {
+	@Deprecated
+	Player() {
 		this.id = -1;
 		this.humanAccount = null;
 	}
