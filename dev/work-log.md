@@ -1806,3 +1806,16 @@ This file should never be committed along with other files; it should always be 
         * Running into errors.
         * Looks like Liquibase is creating the sequences for me; the explicit create statements are redundant.
         * Hibernate is having trouble with the quoted sequence names.
+
+### 2014-10-04, Saturday
+
+* 2.5h: [Issue #39: Cleanup Eclipse JPA validation, etc. errors](https://github.com/karlmdavis/rps-tourney/issues/39):
+  PostgreSQL sequences.
+    * Confirmed: Postgres is generating automagic sequences. Removed the explicit ones from the schema.
+    * Tried switching the sequence `@Entity` fields to `GenerationType.IDENTITY`.
+        * Works for `Account`, fails for everything else.
+        * Filed a bug report with Hibernate: [HHH-9430: Errors when using GenerationType.IDENTITY on PostgreSQL, when entity has more than one column](https://hibernate.atlassian.net/browse/HHH-9430).
+        * Filed a bug report with Hibernate: [HHH-9431: Errors with mixed-case sequence name](https://hibernate.atlassian.net/browse/HHH-9431).
+    * Got everything working.
+    * Some of the DB schema changes would have been painful to model in Liquibase, so I didn't. I went ahead and broke backwards compatibility with the DB schema, and then took the opportunity to consolidate the Liquibase changelog.
+    * Committed everything, closed the issue, etc.
