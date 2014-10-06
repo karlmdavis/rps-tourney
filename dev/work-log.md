@@ -1819,3 +1819,10 @@ This file should never be committed along with other files; it should always be 
     * Got everything working.
     * Some of the DB schema changes would have been painful to model in Liquibase, so I didn't. I went ahead and broke backwards compatibility with the DB schema, and then took the opportunity to consolidate the Liquibase changelog.
     * Committed everything, closed the issue, etc.
+
+### 2014-10-05, Sunday
+
+* 0.50h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  JPA Modeling.
+    * Added the `Account.name` field, and updated `getName()` to use it.
+        * Had to fix some code to handle the possibly-`null` result from it.
