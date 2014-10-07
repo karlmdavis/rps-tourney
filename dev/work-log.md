@@ -1826,3 +1826,10 @@ This file should never be committed along with other files; it should always be 
   JPA Modeling.
     * Added the `Account.name` field, and updated `getName()` to use it.
         * Had to fix some code to handle the possibly-`null` result from it.
+
+### 2014-10-06, Monday
+
+* 1.0h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Web service support.
+    * Got a lot of the web service written, but left things incomplete and with compile errors.
+    * Need to rename `updateAccount(...)` to `saveAccount(...)`, as the method should allow admins to create new accounts, too.
