@@ -1833,3 +1833,10 @@ This file should never be committed along with other files; it should always be 
   Web service support.
     * Got a lot of the web service written, but left things incomplete and with compile errors.
     * Need to rename `updateAccount(...)` to `saveAccount(...)`, as the method should allow admins to create new accounts, too.
+
+### 2014-10-07, Tuesday
+
+* 0.5h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Web service support.
+    * Finished implementing the web service (changed my mind on renaming the method, and on allowing it to create new instances).
+        * Need to add some test coverage for the new DAO `merge(...)` method.
