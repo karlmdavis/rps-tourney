@@ -1840,3 +1840,9 @@ This file should never be committed along with other files; it should always be 
   Web service support.
     * Finished implementing the web service (changed my mind on renaming the method, and on allowing it to create new instances).
         * Need to add some test coverage for the new DAO `merge(...)` method.
+
+### 2014-10-08, Wednesday
+
+* 0.2h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Web service support.
+    * Added an IT for the new `merge(...)` DAO method.
