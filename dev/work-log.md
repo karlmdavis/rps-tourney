@@ -1846,3 +1846,13 @@ This file should never be committed along with other files; it should always be 
 * 0.2h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
   Web service support.
     * Added an IT for the new `merge(...)` DAO method.
+
+### 2014-10-09, Thursday
+
+* 0.1h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Web service support.
+    * Checked in model, DAO, and web service code.
+* 0.2h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Editable player name labels.
+    * Started researching edit-in-place options.
+    * What's a better UX: edit-in-place switcheroos, or popup editors?
