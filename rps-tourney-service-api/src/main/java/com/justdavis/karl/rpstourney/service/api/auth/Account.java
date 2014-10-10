@@ -50,14 +50,14 @@ public class Account implements Principal {
 	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
 	 * https://hibernate.atlassian.net/browse/HHH-9431.
 	 */
-	@XmlElement
+	@XmlElement(required = true)
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Accounts_id_seq")
 	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "accounts_id_seq")
 	private long id;
 
-	@XmlElementWrapper(name = "roles")
+	@XmlElementWrapper(name = "roles", required = true)
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`"))
@@ -73,6 +73,10 @@ public class Account implements Principal {
 	@XmlTransient
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
 	private Set<AuthToken> authTokens;
+
+	@XmlElement(required = true, nillable = true)
+	@Column(name = "`name`", nullable = true)
+	private String name;
 
 	/**
 	 * Constructs a new {@link Account} instance.
@@ -94,15 +98,6 @@ public class Account implements Principal {
 	 */
 	public Account() {
 		this(new SecurityRole[] {});
-	}
-
-	/**
-	 * @see java.security.Principal#getName()
-	 */
-	@Override
-	public String getName() {
-		// TODO Use a more suitable field (once one is available)
-		return "" + id;
 	}
 
 	/**
@@ -148,6 +143,19 @@ public class Account implements Principal {
 	}
 
 	/**
+	 * @param role
+	 *            the {@link SecurityRole} to check for
+	 * @return <code>true</code> if {@link Account#getRoles()} contains the
+	 *         specified {@link SecurityRole}, <code>false</code> if it does not
+	 */
+	public boolean hasRole(SecurityRole role) {
+		if (role == null)
+			throw new IllegalArgumentException();
+
+		return getRoles().contains(role);
+	}
+
+	/**
 	 * @return the modifiable {@link Set} of {@link AuthToken}s for this
 	 *         {@link Account}
 	 */
@@ -188,6 +196,27 @@ public class Account implements Principal {
 	 */
 	public boolean isValidAuthToken(UUID authTokenValue) {
 		return getAuthToken(authTokenValue) != null;
+	}
+
+	/**
+	 * @return the user-defined name for this {@link Account}, or
+	 *         <code>null</code> if the user has not (yet) specified a name for
+	 *         themselves
+	 * 
+	 * @see java.security.Principal#getName()
+	 */
+	@XmlTransient
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the new value to use for {@link #getName()}
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

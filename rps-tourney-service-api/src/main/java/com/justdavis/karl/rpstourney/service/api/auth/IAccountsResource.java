@@ -1,12 +1,12 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
-import java.util.UUID;
-
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 /**
  * Implementations of this service allow users to manage their {@link Account}.
@@ -21,17 +21,22 @@ public interface IAccountsResource {
 	public static final String SERVICE_PATH = "/account/";
 
 	/**
-	 * The {@link Path} for {@link #validateAuth(UriInfo, UUID)}.
+	 * The {@link Path} for {@link #validateAuth()}.
 	 */
 	public static final String SERVICE_PATH_VALIDATE = "/validate/";
 
 	/**
-	 * The {@link Path} for {@link #getAccount(UriInfo, UUID)}.
+	 * The {@link Path} for {@link #getAccount()}.
 	 */
 	public static final String SERVICE_PATH_GET_ACCOUNT = "";
 
 	/**
-	 * The {@link Path} for {@link #selectOrCreateAuthToken(Account)}.
+	 * The {@link Path} for {@link #updateAccount(Account)}.
+	 */
+	public static final String SERVICE_PATH_UPDATE_ACCOUNT = "";
+
+	/**
+	 * The {@link Path} for {@link #selectOrCreateAuthToken()}.
 	 */
 	public static final String SERVICE_PATH_AUTH_TOKEN = "selectOrCreateAuthToken";
 
@@ -56,6 +61,31 @@ public interface IAccountsResource {
 	@Path(SERVICE_PATH_GET_ACCOUNT)
 	@Produces(MediaType.TEXT_XML)
 	Account getAccount();
+
+	/**
+	 * Updates the specified {@link Account}. Users/clients may only update the
+	 * {@link Account} that they are authenticated as, unless they have the
+	 * {@link SecurityRole#ADMINS} privilege.
+	 * 
+	 * @param accountToUpdate
+	 *            the {@link Account} to be updated, with the updated state
+	 *            modified in it (e.g. if you want to change
+	 *            {@link Account#getName()}, get the {@link Account}, call
+	 *            {@link Account#setName(String)}, and then pass that modified
+	 *            instance to this method)
+	 * @return the updated user's/client's {@link Account}
+	 * @throws BadRequestException
+	 *             A {@link BadRequestException} will be thrown if the specified
+	 *             {@link Account} is invalid.
+	 * @throws ForbiddenException
+	 *             A {@link ForbiddenException} will be thrown if a non-admin
+	 *             attempts to modify another user's account or attempts to
+	 *             adjust their permissions.
+	 */
+	@POST
+	@Path(SERVICE_PATH_GET_ACCOUNT)
+	@Produces(MediaType.TEXT_XML)
+	Account updateAccount(Account accountToUpdate);
 
 	/**
 	 * Selects the most recent active {@link AuthToken} from the requesting

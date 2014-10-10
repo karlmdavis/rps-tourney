@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rps:account xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
-	<rps:id>42</rps:id>
+	<rps:id>1</rps:id>
 	<rps:name>foo</rps:name>
 	<rps:roles>
 		<rps:role>USERS</rps:role>

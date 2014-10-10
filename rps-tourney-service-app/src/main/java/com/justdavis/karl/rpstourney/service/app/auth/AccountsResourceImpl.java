@@ -4,6 +4,8 @@ import java.security.Principal;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
@@ -81,23 +83,56 @@ public class AccountsResourceImpl implements IAccountsResource {
 	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	public Account getAccount() {
-		/*
-		 * Grab the requestor's Account from the SecurityContext. This will have
-		 * been set by the AuthenticationFilter.
-		 */
-		Principal userPrincipal = securityContext.getUserPrincipal();
-		if (userPrincipal == null)
+		Account authenticatedAccount = getAuthenticatedAccount();
+		if (authenticatedAccount == null)
 			throw new BadCodeMonkeyException("RolesAllowed not working.");
-		if (!(userPrincipal instanceof Account))
-			throw new BadCodeMonkeyException(
-					"AuthenticationFilter not working.");
-		Account userAccount = (Account) userPrincipal;
 
 		/*
 		 * Return a response with the account and the auth token (as a cookie,
 		 * so the login is persisted between requests).
 		 */
-		return userAccount;
+		return authenticatedAccount;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#updateAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	@RolesAllowed({ SecurityRole.ID_USERS })
+	public Account updateAccount(Account accountToUpdate) {
+		Account authenticatedAccount = getAuthenticatedAccount();
+		if (authenticatedAccount == null)
+			throw new BadCodeMonkeyException("RolesAllowed not working.");
+
+		// Verify that the Account to be modified is legit.
+		if (!accountToUpdate.hasId())
+			throw new BadRequestException();
+
+		// Only admins may modify others' Accounts.
+		boolean userIsAdmin = authenticatedAccount.hasRole(SecurityRole.ADMINS);
+		boolean accountsAreSame = authenticatedAccount.getId() == accountToUpdate
+				.getId();
+		if (!userIsAdmin && !accountsAreSame)
+			throw new ForbiddenException();
+
+		// Only admins may modify security.
+		boolean rolesAreEqual = accountToUpdate.getRoles() != null
+				&& authenticatedAccount.getRoles().equals(
+						accountToUpdate.getRoles());
+		if (!userIsAdmin && !rolesAreEqual)
+			throw new ForbiddenException();
+
+		// Does the specified account already exist?
+		Account existingAccount = accountsDao.getAccountById(accountToUpdate
+				.getId());
+
+		// This method doesn't allow for creating new accounts.
+		if (existingAccount == null)
+			throw new ForbiddenException();
+
+		// Save the modified Account to the database, and echo it back.
+		Account mergedAccount = accountsDao.merge(accountToUpdate);
+		return mergedAccount;
 	}
 
 	/**
@@ -105,20 +140,35 @@ public class AccountsResourceImpl implements IAccountsResource {
 	 */
 	@Override
 	public AuthToken selectOrCreateAuthToken() {
+		Account authenticatedAccount = getAuthenticatedAccount();
+		if (authenticatedAccount == null)
+			throw new BadCodeMonkeyException("RolesAllowed not working.");
+
+		// Lookup/create the AuthToken, and return it.
+		AuthToken authToken = accountsDao
+				.selectOrCreateAuthToken(authenticatedAccount);
+		return authToken;
+	}
+
+	/**
+	 * @return the {@link Account} of the currently-authenticated user/client,
+	 *         or <code>null</code> if the user/client is not authenticated
+	 */
+	private Account getAuthenticatedAccount() {
 		/*
 		 * Grab the requestor's Account from the SecurityContext. This will have
 		 * been set by the AuthenticationFilter.
 		 */
 		Principal userPrincipal = securityContext.getUserPrincipal();
 		if (userPrincipal == null)
-			throw new BadCodeMonkeyException("RolesAllowed not working.");
+			return null;
+
+		// Sanity check: our security filter uses Accounts as Principals.
 		if (!(userPrincipal instanceof Account))
 			throw new BadCodeMonkeyException(
 					"AuthenticationFilter not working.");
-		Account userAccount = (Account) userPrincipal;
 
-		// Lookup/create the AuthToken, and return it.
-		AuthToken authToken = accountsDao.selectOrCreateAuthToken(userAccount);
-		return authToken;
+		Account authenticatedAccount = (Account) userPrincipal;
+		return authenticatedAccount;
 	}
 }

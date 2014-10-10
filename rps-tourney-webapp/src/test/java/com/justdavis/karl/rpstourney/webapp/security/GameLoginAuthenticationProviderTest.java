@@ -54,7 +54,6 @@ public final class GameLoginAuthenticationProviderTest {
 				gameAuthClient);
 		Authentication authResult = authProvider.authenticate(auth);
 		Assert.assertNotNull(authResult);
-		Assert.assertEquals(account.getName(), authResult.getName());
 	}
 
 	/**

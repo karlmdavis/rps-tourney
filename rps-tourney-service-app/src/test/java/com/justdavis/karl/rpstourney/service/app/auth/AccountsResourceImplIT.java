@@ -123,6 +123,33 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
+	 * Ensures that {@link AccountsResourceImpl#updateAccount(Account)} works as
+	 * expected to modify an already-existing {@link Account}.
+	 */
+	@Test
+	public void updateAccount() {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
+
+		// Create the login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		Account createdAccount = guestAuthClient.loginAsGuest();
+
+		// Modify the Account and attempt to save those changes.
+		createdAccount.setName("foo");
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		Account updatedAccount = accountsClient.updateAccount(createdAccount);
+
+		// Verify the update results.
+		Assert.assertNotNull(updatedAccount);
+		Assert.assertEquals(createdAccount.getId(), updatedAccount.getId());
+		Assert.assertEquals(createdAccount.getName(), updatedAccount.getName());
+	}
+
+	/**
 	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()()}
 	 * works as expected when used with an {@link Account} created via
 	 * {@link GuestAuthResourceImpl#loginAsGuest()}.

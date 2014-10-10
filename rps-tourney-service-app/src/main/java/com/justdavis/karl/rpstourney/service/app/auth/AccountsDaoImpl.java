@@ -16,6 +16,7 @@ import org.threeten.bp.Clock;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.Account_;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken_;
 
@@ -58,6 +59,17 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#merge(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public Account merge(Account account) {
+		// Don't (yet) want to allow implicit record creation this way.
+		if (!account.hasId())
+			throw new IllegalArgumentException();
+		return entityManager.merge(account);
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccounts()
 	 */
 	@Override
@@ -77,10 +89,40 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccount(java.util.UUID)
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountById(long)
 	 */
 	@Override
-	public Account getAccount(UUID authTokenValue) {
+	public Account getAccountById(long id) {
+		// Build a query for the matching ID.
+		CriteriaBuilder criteriaBuilder = entityManager
+				.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Account> criteria = criteriaBuilder
+				.createQuery(Account.class);
+		criteria.where(criteriaBuilder.equal(
+				criteria.from(Account.class).get(Account_.id), id));
+
+		// Run the query.
+		TypedQuery<Account> query = entityManager.createQuery(criteria);
+		List<Account> results = query.getResultList();
+
+		/*
+		 * The Account.id field should have a UNIQUE constraint.
+		 */
+		if (results.isEmpty())
+			return null;
+		else if (results.size() != 1)
+			throw new BadCodeMonkeyException();
+
+		// Return the result.
+		Account account = results.get(0);
+		return account;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountByAuthToken(java.util.UUID)
+	 */
+	@Override
+	public Account getAccountByAuthToken(UUID authTokenValue) {
 		// Build a query for the matching AuthToken.
 		CriteriaBuilder criteriaBuilder = entityManager
 				.getEntityManagerFactory().getCriteriaBuilder();

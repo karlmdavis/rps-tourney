@@ -11,12 +11,22 @@ public enum SecurityRole {
 	/**
 	 * All authenticated users are members of this role, even guest accounts.
 	 */
-	USERS(SecurityRole.ID_USERS);
+	USERS(SecurityRole.ID_USERS),
+
+	/**
+	 * Grants users administrative access to the application.
+	 */
+	ADMINS(SecurityRole.ID_ADMINS);
 
 	/**
 	 * The {@link #getId()} for {@link #USERS}.
 	 */
 	public static final String ID_USERS = "Users";
+
+	/**
+	 * The {@link #getId()} for {@link #ADMINS}.
+	 */
+	public static final String ID_ADMINS = "Admins";
 
 	private final String id;
 

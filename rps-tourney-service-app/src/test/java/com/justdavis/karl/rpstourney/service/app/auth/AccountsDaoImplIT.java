@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -11,6 +12,9 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.hibernate.Session;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -27,6 +31,7 @@ import org.threeten.bp.Clock;
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
+import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.app.SpringConfig;
@@ -139,7 +144,63 @@ public final class AccountsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link AccountsDaoImpl#getAccount(UUID)}.
+	 * Tests {@link AccountsDaoImpl#merge(Account)}.
+	 */
+	@Test
+	public void merge() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAO.
+			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
+			accountsDao.setEntityManager(entityManager);
+
+			// Create the entity to try merging.
+			Account account = new Account();
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
+					Clock.systemUTC().instant());
+			account.getAuthTokens().add(authToken);
+
+			// Save the entity.
+			EntityTransaction tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				accountsDao.save(account);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Unmarshall a detached copy of the entity.
+			Account detachedAccount = loadAccount("sample-xml/account-1.xml");
+			Assert.assertEquals(account.getId(), detachedAccount.getId());
+
+			// Modify and merge the detached copy.
+			detachedAccount.setName("bar");
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				accountsDao.merge(detachedAccount);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Refresh and verify the entity in the DB.
+			entityManager.refresh(account);
+			Assert.assertEquals(account.getId(), detachedAccount.getId());
+			Assert.assertEquals(detachedAccount.getName(), account.getName());
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
+	 * Tests {@link AccountsDaoImpl#getAccountByAuthToken(UUID)}.
 	 */
 	@Test
 	public void getAccountByUuuid() {
@@ -167,15 +228,15 @@ public final class AccountsDaoImplIT {
 			}
 
 			// Try to query for the entity.
-			Account accountFromDb = accountsDao
-					.getAccount(authToken.getToken());
+			Account accountFromDb = accountsDao.getAccountByAuthToken(authToken
+					.getToken());
 			Assert.assertNotNull(accountFromDb);
 			Assert.assertEquals(authToken.getToken(), accountFromDb
 					.getAuthTokens().iterator().next().getToken());
 
 			// Try to query for a non-existent entity.
-			Account accountThatShouldntExist = accountsDao.getAccount(UUID
-					.randomUUID());
+			Account accountThatShouldntExist = accountsDao
+					.getAccountByAuthToken(UUID.randomUUID());
 			Assert.assertNull(accountThatShouldntExist);
 		} finally {
 			entityManager.close();
@@ -264,6 +325,32 @@ public final class AccountsDaoImplIT {
 			}
 		} finally {
 			entityManager.close();
+		}
+	}
+
+	/**
+	 * @param resourcePath
+	 *            the path of the classpath resource file to unmarshall the
+	 *            {@link Account} from
+	 * @return an {@link Account} instance, as unmarshalled from the specified
+	 *         resource file
+	 */
+	private static Account loadAccount(String resourcePath) {
+		try {
+			// Create the Unmarshaller needed.
+			JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+			// Get the XML to be converted.
+			URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
+					.getResource(resourcePath);
+
+			// Parse the XML to an object.
+			Account parsedAccount = (Account) unmarshaller
+					.unmarshal(sourceXmlUrl);
+			return parsedAccount;
+		} catch (JAXBException e) {
+			throw new UncheckedJaxbException(e);
 		}
 	}
 }

@@ -103,7 +103,7 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 		Account userAccount = null;
 		if (authTokenCookie != null) {
 			UUID authTokenUuid = UUID.fromString(authTokenCookie.getValue());
-			userAccount = accountsDao.getAccount(authTokenUuid);
+			userAccount = accountsDao.getAccountByAuthToken(authTokenUuid);
 		}
 
 		// Was the request made over SSL?

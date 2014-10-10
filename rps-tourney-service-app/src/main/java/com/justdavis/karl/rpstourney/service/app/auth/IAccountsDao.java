@@ -18,12 +18,31 @@ public interface IAccountsDao {
 	void save(Account account);
 
 	/**
+	 * @param account
+	 *            the {@link Account} instance to get a re-attached copy of, and
+	 *            whose modified state should be applied to the persistence
+	 *            context
+	 * @return a new, attached copy of the specified {@link Account} (the
+	 *         version passed in will be left detached)
+	 */
+	Account merge(Account account);
+
+	/**
 	 * Note: This method is really only appropriate for use in testing; it's a
 	 * bad idea to use it in production code.
 	 * 
 	 * @return all of the {@link Account} instances in the database
 	 */
 	List<Account> getAccounts();
+
+	/**
+	 * @param id
+	 *            the {@link Account#getId()} value to match against
+	 * @return the {@link Account} instance with the specified
+	 *         {@link Account#getId()} value, or <code>null</code> if no match
+	 *         was found
+	 */
+	Account getAccountById(long id);
 
 	/**
 	 * @param authTokenValue
@@ -33,7 +52,7 @@ public interface IAccountsDao {
 	 *         {@link Account#getAuthTokens()} {@link AuthToken#getToken()}
 	 *         value, or <code>null</code> if no match was found
 	 */
-	Account getAccount(UUID authTokenValue);
+	Account getAccountByAuthToken(UUID authTokenValue);
 
 	/**
 	 * Selects the most recent active {@link AuthToken} for the specified

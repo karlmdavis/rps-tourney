@@ -1,8 +1,11 @@
 package com.justdavis.karl.rpstourney.service.client.auth;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -80,7 +83,33 @@ public class AccountsClient implements IAccountsResource {
 
 		return account;
 	}
-	
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#updateAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public Account updateAccount(Account accountToUpdate) {
+		Client client = ClientBuilder.newClient();
+		Builder requestBuilder = client.target(config.getServiceRoot())
+				.path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_UPDATE_ACCOUNT)
+				.request(MediaType.TEXT_XML_TYPE);
+		cookieStore.applyCookies(requestBuilder);
+
+		Response response = requestBuilder.post(Entity.xml(accountToUpdate));
+		if (response.getStatus() == Status.BAD_REQUEST.getStatusCode())
+			throw new BadRequestException(response);
+		else if (response.getStatus() == Status.FORBIDDEN.getStatusCode())
+			throw new ForbiddenException(response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+			throw new HttpClientException(response.getStatusInfo());
+
+		Account account = response.readEntity(Account.class);
+		cookieStore.remember(response.getCookies());
+
+		return account;
+	}
+
 	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#selectOrCreateAuthToken()
 	 */

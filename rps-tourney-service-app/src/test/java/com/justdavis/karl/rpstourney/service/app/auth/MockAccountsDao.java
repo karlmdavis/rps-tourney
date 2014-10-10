@@ -26,6 +26,20 @@ public final class MockAccountsDao implements IAccountsDao {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#merge(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public Account merge(Account account) {
+		if (!accounts.contains(account))
+			throw new IllegalArgumentException();
+
+		accounts.remove(account);
+		accounts.add(account);
+
+		return account;
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccounts()
 	 */
 	@Override
@@ -34,10 +48,22 @@ public final class MockAccountsDao implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccount(java.util.UUID)
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountById(long)
 	 */
 	@Override
-	public Account getAccount(UUID authTokenValue) {
+	public Account getAccountById(long id) {
+		for (Account account : accounts)
+			if (account.getId() == id)
+				return account;
+
+		return null;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountByAuthToken(java.util.UUID)
+	 */
+	@Override
+	public Account getAccountByAuthToken(UUID authTokenValue) {
 		for (Account account : accounts)
 			for (AuthToken authToken : account.getAuthTokens())
 				if (authToken.getToken().equals(authTokenValue))

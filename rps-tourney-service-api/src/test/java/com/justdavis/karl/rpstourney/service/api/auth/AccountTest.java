@@ -94,6 +94,7 @@ public final class AccountTest {
 
 		// Create the instance to be converted to XML.
 		Account account = new Account();
+		account.setName("foo");
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -110,6 +111,9 @@ public final class AccountTest {
 		Node idNode = (Node) xpath.evaluate("/rps:account/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("0", idNode.getTextContent());
+		Node nameNode = (Node) xpath.evaluate("/rps:account/rps:name",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertEquals("foo", nameNode.getTextContent());
 		Node rolesNode = (Node) xpath.evaluate("/rps:account/rps:roles",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(rolesNode);
@@ -146,6 +150,7 @@ public final class AccountTest {
 		// Verify the results.
 		Assert.assertNotNull(parsedAccount);
 		Assert.assertEquals(42, parsedAccount.getId());
+		Assert.assertEquals("foo", parsedAccount.getName());
 		Assert.assertEquals(new HashSet<>(Arrays.asList(SecurityRole.USERS)),
 				parsedAccount.getRoles());
 	}
