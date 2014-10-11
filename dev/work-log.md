@@ -1856,3 +1856,10 @@ This file should never be committed along with other files; it should always be 
   Editable player name labels.
     * Started researching edit-in-place options.
     * What's a better UX: edit-in-place switcheroos, or popup editors?
+
+### 2014-10-10, Friday
+
+* 0.75h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Editable player name labels.
+    * Still not sure if I want a popup or switcheroo, but I did decide that I want to ensure whatever I fallsback reasonably for non-Javascript users.
+    * Started building out the HTML and CSS for that.
