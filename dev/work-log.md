@@ -1870,3 +1870,13 @@ This file should never be committed along with other files; it should always be 
   Editable player name labels.
     * Wrote the JS to hide/show the player name form.
     * Need to figure out how to hint to the user that the label is clickable. Not sure on that...
+
+### 2014-10-12, Sunday
+
+* 2.0h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Editable player name labels.
+    * Wrote the controller method for the form.
+    * Got things (almost) working.
+    * Next:
+        * Fix the bug where the "onblur" JS prevents the form from being submitted if the user clicks the button (as opposed to just hitting enter).
+        * Add test coverage to catch the `@Transactional` bug in the service that I missed.
