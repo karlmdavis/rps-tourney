@@ -1880,3 +1880,14 @@ This file should never be committed along with other files; it should always be 
     * Next:
         * Fix the bug where the "onblur" JS prevents the form from being submitted if the user clicks the button (as opposed to just hitting enter).
         * Add test coverage to catch the `@Transactional` bug in the service that I missed.
+
+### 2014-10-13, Monday
+
+* 1.0h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Editable player name labels.
+    * Fixed the "onblur" bug that prevented form submissions.
+    * Fixed another bug where the `Account` merges were killing `AuthToken`s.
+    * Next:
+        * Add test coverage to catch the `@Transactional` bug in the service that I missed.
+        * Add test coverage to ensure that `AuthToken`s aren't killed on merges.
+        * Verify that Player 2 name changes work as expected.
