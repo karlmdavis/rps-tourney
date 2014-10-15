@@ -1891,3 +1891,14 @@ This file should never be committed along with other files; it should always be 
         * Add test coverage to catch the `@Transactional` bug in the service that I missed.
         * Add test coverage to ensure that `AuthToken`s aren't killed on merges.
         * Verify that Player 2 name changes work as expected.
+
+### 2014-10-14, Tuesday
+
+* 0.75h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Editable player name labels.
+    * Added test coverage to catch the `@Transactional` bug in the service that I missed.
+    * Added test coverage to ensure that `AuthToken`s aren't killed on merges.
+    * Next:
+        * Verify that Player 2 name changes work as expected.
+        * Add webapp ITs for the new functionality.
+    
