@@ -1901,4 +1901,10 @@ This file should never be committed along with other files; it should always be 
     * Next:
         * Verify that Player 2 name changes work as expected.
         * Add webapp ITs for the new functionality.
-    
+
+### 2014-10-15, Wednesday
+
+* 0.75h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Test coverage, cleaning up, etc.
+    * Fixed a test compile error introduced by some of the earlier changes.
+    * Added test coverage to `GameControllerTest`.
