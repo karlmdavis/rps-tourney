@@ -1906,5 +1906,22 @@ This file should never be committed along with other files; it should always be 
 
 * 0.75h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
   Test coverage, cleaning up, etc.
+    * Verified that multiplayer name changes work correctly.
     * Fixed a test compile error introduced by some of the earlier changes.
     * Added test coverage to `GameControllerTest`.
+    * Next:
+        * Add webapp ITs for the new functionality.
+        * Add some sort of link back to the homepage.
+        * Check all of the tables to see if there's anything that should be added to the schema now, e.g. more timestamps.
+        * Add opponents' names to home page game list.
+
+### 2014-10-16, Thursday
+
+* 1.25h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Test coverage, cleaning up, etc.
+    * Added webapp ITs for the new functionality.
+    * Next:
+        * Add opponents' names to home page game list.
+        * Add some sort of link back to the homepage.
+        * Check all of the tables to see if there's anything that should be added to the schema now, e.g. more timestamps.
+    
