@@ -1,27 +1,21 @@
 package com.justdavis.karl.rpstourney.webapp.security;
 
 import java.security.AuthProvider;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.ws.rs.core.Response.Status;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 import com.justdavis.karl.rpstourney.service.api.exceptions.UncheckedAddressException;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
@@ -33,9 +27,6 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 @Component
 public final class GameLoginAuthenticationProvider implements
 		AuthenticationProvider {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameLoginAuthenticationProvider.class);
-
 	private final IGameAuthResource gameAuthClient;
 
 	/**
@@ -89,28 +80,7 @@ public final class GameLoginAuthenticationProvider implements
 			throw new UncheckedAddressException(e);
 		}
 
-		/*
-		 * Account.getName() is an optional field, so we use Account.getId() as
-		 * the "username" here, instead. Also note the Account.hasId() check,
-		 * which is just here to keep things from blowing up in unit tests.
-		 */
-		String username;
-		if (authenticatedAccount.hasId()) {
-			username = "" + authenticatedAccount.getId();
-		} else {
-			LOGGER.warn("Incomplete account instance.");
-			username = authenticatedAccount.toString();
-		}
-
-		/*
-		 * Login was successful, so return a new token with the user's
-		 * permissions (GrantedAuthoritys) included.
-		 */
-		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
-		for (SecurityRole role : authenticatedAccount.getRoles())
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getId()));
-		return new UsernamePasswordAuthenticationToken(username, null,
-				grantedAuthorities);
+		return new WebServiceAccountAuthentication(authenticatedAccount);
 	}
 
 	/**

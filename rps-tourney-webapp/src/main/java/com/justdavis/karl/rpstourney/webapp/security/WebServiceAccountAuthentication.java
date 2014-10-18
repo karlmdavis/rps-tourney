@@ -69,6 +69,12 @@ public final class WebServiceAccountAuthentication extends
 	 */
 	@Override
 	public Object getCredentials() {
+		/*
+		 * We could maybe also collect an ILoginIdentity in this class'
+		 * constructor and return that here. However, there isn't really any
+		 * need for that now (many other Authentication implementations just
+		 * return null here), so we don't bother.
+		 */
 		return null;
 	}
 }
