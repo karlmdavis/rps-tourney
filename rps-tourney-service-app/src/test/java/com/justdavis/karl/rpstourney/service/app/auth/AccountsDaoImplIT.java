@@ -194,6 +194,8 @@ public final class AccountsDaoImplIT {
 			entityManager.refresh(account);
 			Assert.assertEquals(account.getId(), detachedAccount.getId());
 			Assert.assertEquals(detachedAccount.getName(), account.getName());
+			Assert.assertEquals(detachedAccount.getAuthTokens().size(), account
+					.getAuthTokens().size());
 		} finally {
 			entityManager.close();
 		}

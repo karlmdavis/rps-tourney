@@ -71,7 +71,8 @@ public class Account implements Principal {
 	 * response will have to do so explicitly.
 	 */
 	@XmlTransient
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
+			CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
 	private Set<AuthToken> authTokens;
 
 	@XmlElement(required = true, nillable = true)

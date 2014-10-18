@@ -37,8 +37,8 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @Table(name = "`AuthTokens`")
 public class AuthToken {
 	@XmlElement
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH })
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
+			CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
 	private Account account;
 

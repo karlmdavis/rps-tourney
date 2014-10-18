@@ -12,6 +12,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -99,6 +100,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 	 */
 	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
+	@Transactional
 	public Account updateAccount(Account accountToUpdate) {
 		Account authenticatedAccount = getAuthenticatedAccount();
 		if (authenticatedAccount == null)
@@ -129,6 +131,9 @@ public class AccountsResourceImpl implements IAccountsResource {
 		// This method doesn't allow for creating new accounts.
 		if (existingAccount == null)
 			throw new ForbiddenException();
+		
+		// Needed to prevent AuthTokens from being wiped out by the merge.
+		accountToUpdate.getAuthTokens().addAll(existingAccount.getAuthTokens());
 
 		// Save the modified Account to the database, and echo it back.
 		Account mergedAccount = accountsDao.merge(accountToUpdate);

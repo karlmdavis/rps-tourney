@@ -131,22 +131,39 @@ public final class AccountsResourceImplIT {
 		ClientConfig clientConfig = new ClientConfig(
 				server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
 
 		// Create the login and account.
 		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
 				cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
+		// Create the AuthToken and grab a copy of it.
+		AuthToken originalAuthToken = accountsClient.selectOrCreateAuthToken();
+
 		// Modify the Account and attempt to save those changes.
 		createdAccount.setName("foo");
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
 		Account updatedAccount = accountsClient.updateAccount(createdAccount);
 
 		// Verify the update results.
 		Assert.assertNotNull(updatedAccount);
 		Assert.assertEquals(createdAccount.getId(), updatedAccount.getId());
 		Assert.assertEquals(createdAccount.getName(), updatedAccount.getName());
+
+		// Make sure that the AuthToken is the same.
+		AuthToken copyOfAuthToken = accountsClient.selectOrCreateAuthToken();
+		Assert.assertEquals(originalAuthToken.getToken(),
+				copyOfAuthToken.getToken());
+
+		/*
+		 * Pull the Account again and verify that the changes are still there.
+		 * (Basically making sure that the TX was committed, which I had screwed
+		 * up at one point.)
+		 */
+		Account copyOfAccount = accountsClient.getAccount();
+		Assert.assertEquals(createdAccount.getId(), copyOfAccount.getId());
+		Assert.assertEquals(createdAccount.getName(), copyOfAccount.getName());
 	}
 
 	/**
