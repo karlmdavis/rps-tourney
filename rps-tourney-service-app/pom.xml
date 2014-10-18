@@ -209,6 +209,12 @@
 							ITs on OpenJDK without forking for each test. I'd guess that there's a bug 
 							in OpenJDK's HttpClient, but I really haven't been able to diagnose the issue. -->
 						<reuseForks>false</reuseForks>
+
+						<!-- This is required to ensure that Jetty's classpath scanning works 
+							correctly. Without it, we'll get "No Spring WebApplicationInitializer types 
+							detected on classpath" errors in Jetty, and the webapp will fail to start 
+							correctly during our tests. Reported the bug to Eclipse: https://bugs.eclipse.org/bugs/show_bug.cgi?id=447790. -->
+						<useManifestOnlyJar>false</useManifestOnlyJar>
 					</configuration>
 				</plugin>
 			</plugins>
