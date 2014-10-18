@@ -21,6 +21,14 @@
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	</head>
 	<body>
+	
+		<div class="navbar navbar-default navbar-static-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="${requestScope['rpstourney.config.baseurl']}"><spring:message code="template.title.prefix" /></a>
+				</div>
+			</div>
+		</div>
 
 		<div id="page-content">
 			<jsp:doBody />
