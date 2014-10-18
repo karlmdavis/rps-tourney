@@ -1937,4 +1937,24 @@ This file should never be committed along with other files; it should always be 
         * Add some sort of link back to the homepage.
         * Check all of the tables to see if there's anything that should be added to the schema now, e.g. more timestamps.
         * Fix the timestamps on the homepage's game list to look less stupid.
-  
+
+### 2014-10-18, Saturday
+
+* 0.6h: [Issue #42: Check all of the tables to see if additional timestamps are needed](https://github.com/karlmdavis/rps-tourney/issues/42):
+  Investigation and implementation.
+    * Only ended up needing to add two timestamp fields. Happily, games already had sufficient timestamps.
+* 0.6h: [Issue #40: Add a link to the homepage in the template](https://github.com/karlmdavis/rps-tourney/issues/40):
+  Investigation and implementation.
+    * Used Bootstrap's navbar to implement it. Didn't even try to make it semantic.
+* 1.25h: [Issue #43: The template's footer doesn't layout correctly](https://github.com/karlmdavis/rps-tourney/issues/43):
+  Investigation and resolution.
+    * Made the footer non-sticky, as I decided I didn't like the stickiness (and it was a pain in the ass to get working correctly).
+    * Switched the site's template from fluid containers to non-fluid containers.
+* 0.75h: [Issue #41: The timestamps used in the homepage's games list look stupid](https://github.com/karlmdavis/rps-tourney/issues/41):
+  Investigation and resolution.
+    * Added the [PrettyTime](http://ocpsoft.org/prettytime/) library, updated the tag to support it, and updated the home page to use that as the formatter.
+* 3.25h: [Issue #44: The rps-tourney-service-app ITs are all failing due to issues with Jetty/Spring classpath scanning](https://github.com/karlmdavis/rps-tourney/issues/44):
+  Investigation and workaround.
+    * Ran into this bug while attempting to test my timestamp enhancement.
+    * Added a workaround to the POM: set `<useManifestOnlyJar>false</useManifestOnlyJar>`.
+    * Filed the following Jetty bug to address the root cause: [Eclipse Bug 447790: Embedded Jetty server's classpath parsing/scanning broken with Maven Surefire's useManifestOnlyJar feature](https://bugs.eclipse.org/bugs/show_bug.cgi?id=447790).
