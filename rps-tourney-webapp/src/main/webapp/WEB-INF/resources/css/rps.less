@@ -24,45 +24,27 @@
 // Make the page-specific content a Bootstrap .container.
 // (This might be too coarse-grained, but it's a start for now.)
 #page-content {
-	.container-fluid;
+	.container;
 }
 
-// Add some padding to the site.
-body > .container {
-	padding-left: 15px;
-	padding-left: 15px;
-}
-
-// Place a "sticky" footer at the bottom of every page.
-@footer-height: 3em;
-body {
-	// Leave space for the footer.
-	margin-bottom: @footer-height;
+// Style the page footer.
+footer#page-footer {
+	border-top: 1px solid @gray-lighter;
+	margin-top: 5.0em;
+	padding-top: 1.0em;
+	padding-bottom: 1.0em;
 	
-	#page-footer {
-		position: absolute;
-		bottom: 0;
-		
-		height: @footer-height;
-		width: 100%;
-		padding-top: 10px;
-		background-color: @gray-lighter;
+	font-size: 0.9em;
+	color: @text-muted;
+	
+	a {
 		color: @text-muted;
-		
-		a {
-			color: @text-muted;
-		}
 	}
 }
 
 // Not every table should be 100% wide.
 .table-nonfluid {
 	width: auto;
-}
-
-// Reduce the margins on 'h1's a bit.
-body h1 {
-	margin-top: 0px;
 }
 
 

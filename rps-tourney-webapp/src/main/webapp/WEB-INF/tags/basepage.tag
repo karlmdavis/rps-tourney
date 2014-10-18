@@ -23,7 +23,7 @@
 	<body>
 	
 		<div class="navbar navbar-default navbar-static-top" role="navigation">
-			<div class="container-fluid">
+			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="${requestScope['rpstourney.config.baseurl']}"><spring:message code="template.title.prefix" /></a>
 				</div>
@@ -34,11 +34,11 @@
 			<jsp:doBody />
 		</div>
 
-		<div id="page-footer" class="container">
-			<footer>
+		<footer id="page-footer">
+			<div class="container">
 				<p>&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, 2014</p>
-			</footer>
-		</div>
+			</div>
+		</footer>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
