@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
@@ -38,6 +40,7 @@ import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 public class GameController {
 	private final MessageSource messageSource;
 	private final IGameSessionResource gameClient;
+	private final IAccountsResource accountsClient;
 	private final IGuestLoginManager guestLoginManager;
 
 	/**
@@ -47,15 +50,18 @@ public class GameController {
 	 *            the {@link MessageSource} to use
 	 * @param gameClient
 	 *            the {@link IGameSessionResource} client to use
+	 * @param accountsClient
+	 *            the {@link IAccountsResource} client to use
 	 * @param guestLoginManager
 	 *            the {@link IGuestLoginManager} to use
 	 */
 	@Inject
 	public GameController(MessageSource messageSource,
-			IGameSessionResource gameClient,
+			IGameSessionResource gameClient, IAccountsResource accountsClient,
 			IGuestLoginManager guestLoginManager) {
 		this.messageSource = messageSource;
 		this.gameClient = gameClient;
+		this.accountsClient = accountsClient;
 		this.guestLoginManager = guestLoginManager;
 	}
 
@@ -114,6 +120,39 @@ public class GameController {
 				authenticatedUser, game);
 
 		return modelAndView;
+	}
+
+	/**
+	 * The controller facade for
+	 * {@link IGameSessionResource#submitThrow(String, int, Throw)}.
+	 * 
+	 * @param gameSessionId
+	 *            the {@link GameSession#getId()} of the game being updated
+	 * @param throwToPlay
+	 *            the {@link Throw} that the current user/player is submitting
+	 *            for the current {@link GameRound} in the specified
+	 *            {@link GameSession}
+	 * @return a <code>redirect:</code> view name for the
+	 *         {@link #getGameSession()} that's been created
+	 */
+	@RequestMapping(value = "/{gameSessionId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String updateName(@PathVariable String gameSessionId,
+			String currentPlayerName, Principal authenticatedUser) {
+		// Load the specified game.
+		GameSession gameBeforeThrow = loadGame(gameSessionId);
+
+		// There's nothing to change if they haven't logged in yet.
+		if (authenticatedUser == null)
+			// TODO better exception
+			throw new IllegalArgumentException();
+
+		// Update the user's name for themselves.
+		Account account = accountsClient.getAccount();
+		account.setName(currentPlayerName);
+		accountsClient.updateAccount(account);
+
+		// Redirect the user to the updated game.
+		return "redirect:/game/" + gameBeforeThrow.getId();
 	}
 
 	/**
@@ -272,18 +311,12 @@ public class GameController {
 		modelAndView.addObject("game", game);
 
 		// Add some display-related data to the model.
-		boolean hasPlayer1 = game.getPlayer1() != null;
-		modelAndView.addObject("hasPlayer1", hasPlayer1);
-		String player1LabelKey = hasPlayer1 ? "game.player1.label"
-				: "game.player1.label.waiting";
+		modelAndView.addObject("hasPlayer1", game.getPlayer1() != null);
 		modelAndView.addObject("player1Label",
-				messageSource.getMessage(player1LabelKey, null, locale));
-		boolean hasPlayer2 = game.getPlayer2() != null;
-		modelAndView.addObject("hasPlayer2", hasPlayer2);
-		String player2LabelKey = hasPlayer2 ? "game.player2.label"
-				: "game.player2.label.waiting";
+				getPlayer1Label(game, messageSource, locale));
+		modelAndView.addObject("hasPlayer2", game.getPlayer2() != null);
 		modelAndView.addObject("player2Label",
-				messageSource.getMessage(player2LabelKey, null, locale));
+				getPlayer2Label(game, messageSource, locale));
 
 		// Calculate the current scores.
 		int player1Score = 0;
@@ -311,7 +344,77 @@ public class GameController {
 		modelAndView.addObject("isPlayer1", isPlayer1);
 		modelAndView.addObject("isPlayer2", isPlayer2);
 
+		// This is used for the name-editing widget.
+		if (isPlayer1)
+			modelAndView.addObject("currentPlayerName",
+					getPlayerName(game.getPlayer1()));
+		else if (isPlayer2)
+			modelAndView.addObject("currentPlayerName",
+					getPlayerName(game.getPlayer2()));
+
 		return modelAndView;
+	}
+
+	/**
+	 * @param player
+	 *            the {@link Player} to get the {@link Player#getName()} value
+	 *            of
+	 * @return the specified {@link Player}'s {@link Player#getName()} value, or
+	 *         <code>null</code> if either the {@link Player} or name is
+	 *         <code>null</code>
+	 */
+	private static String getPlayerName(Player player) {
+		if (player == null)
+			return null;
+		return player.getName();
+	}
+
+	/**
+	 * @param game
+	 *            the {@link GameSession} to get the label for
+	 * @param messageSource
+	 *            the {@link MessageSource} to look up text from
+	 * @param locale
+	 *            the {@link Locale} to display text for
+	 * @return the display text/label to use to represent
+	 *         {@link GameSession#getPlayer1()}
+	 */
+	private static String getPlayer1Label(GameSession game,
+			MessageSource messageSource, Locale locale) {
+		// If the Player has an actual name, use that.
+		if (game.getPlayer1() != null && game.getPlayer1().getName() != null)
+			return game.getPlayer1().getName();
+
+		// Has the Player joined the game yet?
+		if (game.getPlayer1() != null)
+			return messageSource.getMessage("game.player1.label", null, locale);
+		else
+			return messageSource.getMessage("game.player1.label.waiting", null,
+					locale);
+	}
+
+	/**
+	 * @param game
+	 *            the {@link GameSession} to get the label for
+	 * @param messageSource
+	 *            the {@link MessageSource} to look up text from
+	 * @param locale
+	 *            the {@link Locale} to display text for
+	 * @return the display text/label to use to represent
+	 *         {@link GameSession#getPlayer2()}
+	 */
+	private static String getPlayer2Label(GameSession game,
+			MessageSource messageSource, Locale locale) {
+		// If the Player has an actual name, use that.
+		if (game.getPlayer2() != null && game.getPlayer2().getName() != null)
+			return game.getPlayer2().getName();
+
+		// Has the Player joined the game yet?
+		if (game.getPlayer2() != null)
+			return messageSource.getMessage("game.player2.label", null, locale);
+		else
+			return messageSource.getMessage("game.player2.label.waiting", null,
+					locale);
 	}
 
 	/**

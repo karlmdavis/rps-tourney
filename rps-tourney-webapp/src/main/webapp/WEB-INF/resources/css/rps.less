@@ -97,8 +97,21 @@ table#player-games {
 	#player-1-controls, #player-2-controls {
 		.make-md-column(3);
 		
+		h3 {
+			margin-top: 0.2em;
+			margin-bottom: 3px;
+		}
+		
+		h3.player-name {
+			cursor: pointer;
+		}
+		
+		form.player-name {
+			margin-top: 0.2em;
+			margin-bottom: 3px;
+		}
+		
 		.player-throws {
-			
 			a.throw-rock, a.throw-paper, a.throw-scissors {
 				.btn;
 				.btn-success;

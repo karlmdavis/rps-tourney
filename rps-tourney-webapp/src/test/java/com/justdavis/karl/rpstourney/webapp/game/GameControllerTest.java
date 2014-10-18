@@ -1,8 +1,11 @@
 package com.justdavis.karl.rpstourney.webapp.game;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -13,11 +16,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
+import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentication;
 
 /**
  * Unit tests for {@link GameController}.
@@ -37,11 +43,12 @@ public final class GameControllerTest {
 		MessageSource messageSource = new ResourceBundleMessageSource();
 		GameSession game = new GameSession(new Player(new Account()));
 		IGameSessionResource gameClient = new MockGameClient(game);
+		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController gameController = new GameController(messageSource,
-				gameClient, guestLoginManager);
+				gameClient, accountsClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 
@@ -70,11 +77,12 @@ public final class GameControllerTest {
 		messageSource.setFallbackToSystemLocale(false);
 		GameSession game = new GameSession(new Player(new Account()));
 		IGameSessionResource gameClient = new MockGameClient(game);
+		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController gameController = new GameController(messageSource,
-				gameClient, guestLoginManager);
+				gameClient, accountsClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 
@@ -89,6 +97,91 @@ public final class GameControllerTest {
 				.andExpect(
 						MockMvcResultMatchers.model().attribute("hasPlayer2",
 								false));
+	}
+
+	/**
+	 * Tests
+	 * {@link GameController#updateName(String, String, java.security.Principal)}
+	 * .
+	 * 
+	 * @throws Exception
+	 *             (all of the MVC test methods declare this exception)
+	 */
+	@Test
+	public void updateName() throws Exception {
+		// Build the mocks that will be needed by the controller.
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource
+				.setBasename("file:./src/main/webapp/WEB-INF/i18n/messages");
+		messageSource.setFallbackToSystemLocale(false);
+		Account player1 = new Account();
+		GameSession game = new GameSession(new Player(player1));
+		IGameSessionResource gameClient = new MockGameClient(game);
+		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
+				player1);
+		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
+
+		// Build the controller and prepare it for mock testing.
+		GameController gameController = new GameController(messageSource,
+				gameClient, accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
+				.build();
+
+		/*
+		 * Run the mock tests against the controller, and verify that nothing
+		 * goes boom.
+		 */
+		String gamePath = "/game/" + game.getId();
+		String updateNamePath = gamePath + "/updateName";
+		Principal principal = new WebServiceAccountAuthentication(player1);
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(updateNamePath)
+						.principal(principal).param("currentPlayerName", "foo"))
+				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath));
+		Assert.assertEquals("foo", accountsClient.getAccount().getName());
+
+		// Now make sure the model contains the updated name.
+		mockMvc.perform(MockMvcRequestBuilders.get(gamePath))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(
+						MockMvcResultMatchers.model().attribute("player1Label",
+								"foo"));
+	}
+
+	/**
+	 * A mock {@link IAccountsResource} client implementation for use in
+	 * {@link GameControllerTest#updateName()}, and other tests.
+	 */
+	private static final class MockUpdatableAccountsClient extends
+			MockAccountsClient {
+		private Account account;
+
+		/**
+		 * Constructs a new {@link MockUpdatableAccountsClient} instance.
+		 * 
+		 * @param account
+		 *            the value to use for {@link #getAccount()}
+		 */
+		private MockUpdatableAccountsClient(Account account) {
+			this.account = account;
+		}
+
+		/**
+		 * @see com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient#getAccount()
+		 */
+		@Override
+		public Account getAccount() {
+			return account;
+		}
+
+		/**
+		 * @see com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient#updateAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+		 */
+		@Override
+		public Account updateAccount(Account accountToUpdate) {
+			this.account = accountToUpdate;
+			return accountToUpdate;
+		}
 	}
 
 	/**

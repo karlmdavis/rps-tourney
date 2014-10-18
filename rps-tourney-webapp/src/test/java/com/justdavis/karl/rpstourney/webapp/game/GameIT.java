@@ -6,9 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameSession;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameSessionClient;
@@ -91,6 +93,85 @@ public final class GameIT {
 					"1",
 					driver.findElement(
 							By.xpath("//div[@id='player-2-controls']//p[@class='player-score-value']"))
+							.getText());
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
+	 * Uses {@link GameController} and {@link GameSessionClient} to ensure that
+	 * players can change their names.
+	 */
+	@Test
+	public void updateName() {
+		WebDriver driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 2.
+			driver = new HtmlUnitDriver(true);
+
+			// Create the web service clients that will be used for Player 1.
+			ClientConfig clientConfig = ITUtils.createClientConfig();
+			CookieStore cookieStore = new CookieStore();
+			GuestAuthClient authClient = new GuestAuthClient(clientConfig,
+					cookieStore);
+			AccountsClient accountsClient = new AccountsClient(clientConfig,
+					cookieStore);
+			GameSessionClient gameClient = new GameSessionClient(clientConfig,
+					cookieStore);
+
+			// Player 1 (service): Login, set name, and create a game.
+			Account player1 = authClient.loginAsGuest();
+			player1.setName("foo");
+			accountsClient.updateAccount(player1);
+			GameSession game = gameClient.createGame();
+
+			// Player 2 (webapp): Join game.
+			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
+			driver.findElement(By.id("join-game")).click();
+
+			// Player 2 (webapp): Check Player 1's name.
+			Assert.assertEquals(
+					"foo",
+					driver.findElement(
+							By.xpath("//div[@id='player-1-controls']//h3"))
+							.getText());
+
+			// Player 2 (webapp): Check player name controls' state.
+			Assert.assertTrue(driver.findElement(
+					By.xpath("//div[@id='player-2-controls']//h3"))
+					.isDisplayed());
+			Assert.assertFalse(driver.findElement(
+					By.xpath("//form[contains(@class, 'player-name')]"))
+					.isDisplayed());
+
+			/*
+			 * Player 2 (webapp): Activate the name editor, check the controls'
+			 * state.
+			 */
+			driver.findElement(By.xpath("//div[@id='player-2-controls']//h3"))
+					.click();
+			Assert.assertTrue(driver.findElement(
+					By.xpath("//form[contains(@class, 'player-name')]"))
+					.isDisplayed());
+			Assert.assertFalse(driver.findElement(
+					By.xpath("//div[@id='player-2-controls']//h3"))
+					.isDisplayed());
+			Assert.assertTrue(driver.findElement(
+					By.xpath("//form[contains(@class, 'player-name')]"))
+					.isDisplayed());
+
+			// Player 2 (webapp): Update name.
+			driver.findElement(By.xpath("//input[@name='currentPlayerName']"))
+					.sendKeys("bar");
+			driver.findElement(By.id("player-2-name-submit")).click();
+
+			// Player 2 (webapp): Check Player 2's name.
+			Assert.assertEquals(
+					"bar",
+					driver.findElement(
+							By.xpath("//div[@id='player-2-controls']//h3"))
 							.getText());
 		} finally {
 			if (driver != null)

@@ -4,13 +4,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <spring:message code="game.subtitle" var="metaSubtitle" />
 <c:url value="${requestScope['rpstourney.config.baseurl']}/game/${game.id}" var="gameUrl" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 		<h1><spring:message code="game.subtitle" /></h1>
 		<div id="player-controls">
+			<spring:message code="game.player.name.placeholder" var="playerNamePlaceholder" />
 			<div id="player-1-controls">
-				<h3>${player1Label}</h3>
+				<c:if test="${isPlayer1}"><c:set var="player1LabelClass" value="player-name" /></c:if>
+				<h3 class="${player1LabelClass}">${player1Label}</h3>
+				<c:if test="${isPlayer1}">
+				<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">
+					<!-- Note: Bootstrap doesn't support semantic input groups. -->
+					<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${currentPlayerName}" class="form-control" />
+					<span class="input-group-btn">
+						<button type="submit" id="player-1-name-submit" class="btn btn-default">Save</button>
+					</span>
+				</form:form>
+				</c:if>
 				<div class="player-throws">
 					<c:choose>
 					<c:when test="${isPlayer1}">
@@ -31,7 +43,17 @@
 				</div>
 			</div>
 			<div id="player-2-controls">
-				<h3>${player2Label}</h3>
+				<c:if test="${isPlayer2}"><c:set var="player2LabelClass" value="player-name" /></c:if>
+				<h3 class="${player2LabelClass}">${player2Label}</h3>
+				<c:if test="${isPlayer2}">
+				<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">
+					<!-- Note: Bootstrap doesn't support semantic input groups. -->
+					<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${currentPlayerName}" class="form-control" />
+					<span class="input-group-btn">
+						<button type="submit" id="player-2-name-submit" class="btn btn-default">Save</button>
+					</span>
+				</form:form>
+				</c:if>
 				<div class="player-throws">
 					<c:choose>
 					<c:when test="${isPlayer2}">
