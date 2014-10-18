@@ -16,7 +16,23 @@
 		<css>/WEB-INF/resources/css/rps.less</css>
 		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
 		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
-		<js>/bootstrap-3.2.0/js/*.js</js>
+		<js>/WEB-INF/resources/js/main.js</js>
+		<js>/WEB-INF/resources/js/plugins.js</js>
+		<!-- The order of the BS JavaScript files matters; errors will be thrown 
+			if it's wrong. The order used here is copied from BS' Gruntfile.js. -->
+		<js>/bootstrap-3.2.0/js/transition.js</js>
+		<js>/bootstrap-3.2.0/js/alert.js</js>
+		<js>/bootstrap-3.2.0/js/button.js</js>
+		<js>/bootstrap-3.2.0/js/carousel.js</js>
+		<js>/bootstrap-3.2.0/js/collapse.js</js>
+		<js>/bootstrap-3.2.0/js/dropdown.js</js>
+		<js>/bootstrap-3.2.0/js/modal.js</js>
+		<js>/bootstrap-3.2.0/js/tooltip.js</js>
+		<js>/bootstrap-3.2.0/js/popover.js</js>
+		<js>/bootstrap-3.2.0/js/scrollspy.js</js>
+		<js>/bootstrap-3.2.0/js/tab.js</js>
+		<js>/bootstrap-3.2.0/js/affix.js</js>
+		<js>/bootstrap-3.2.0/js/transition.js</js>
 	</group>
 
 </groups>

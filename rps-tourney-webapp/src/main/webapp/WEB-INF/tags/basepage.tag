@@ -34,9 +34,7 @@
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-		<script src="${requestScope['rpstourney.config.baseurl']}/js/bootstrap.js"></script>
-		<script src="${requestScope['rpstourney.config.baseurl']}/js/plugins.js"></script>
-		<script src="${requestScope['rpstourney.config.baseurl']}/js/main.js"></script>
+		<script src="${requestScope['rpstourney.config.baseurl']}/js/rps.js"></script>
 
 		<!-- Google Analytics: UA-43685799-2 is the rpstourney.com Tracking ID. -->
 		<script>
