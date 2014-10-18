@@ -15,7 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
-import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
 
 /**
  * Integration tests for {@link HelloWorldServiceImpl}.
