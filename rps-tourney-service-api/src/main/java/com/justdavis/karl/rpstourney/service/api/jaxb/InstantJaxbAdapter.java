@@ -18,7 +18,7 @@ public final class InstantJaxbAdapter extends XmlAdapter<String, Instant> {
 		if (v == null)
 			return null;
 
-		return DateTimeFormatter.ISO_INSTANT.parse(v, Instant.class);
+		return Instant.from(DateTimeFormatter.ISO_INSTANT.parse(v));
 	}
 
 	/**

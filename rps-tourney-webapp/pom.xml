@@ -124,6 +124,14 @@
 		</dependency>
 
 		<dependency>
+			<!-- Used to format date-times into "pretty" strings, e.g. "5 minutes 
+				ago". -->
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+			<version>3.2.5.Final</version>
+		</dependency>
+
+		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>

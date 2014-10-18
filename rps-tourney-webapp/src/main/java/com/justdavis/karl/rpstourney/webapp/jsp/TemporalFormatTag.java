@@ -1,10 +1,13 @@
 package com.justdavis.karl.rpstourney.webapp.jsp;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.ocpsoft.prettytime.PrettyTime;
+import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.Instant;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.TemporalAccessor;
@@ -57,9 +60,14 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		/**
 		 * Represents {@link DateTimeFormatter#ISO_INSTANT}.
 		 */
-		ISO_INSTANT(DateTimeFormatter.ISO_INSTANT);
+		ISO_INSTANT(new ThreeTenFormatter(DateTimeFormatter.ISO_INSTANT)),
 
-		private final DateTimeFormatter formatter;
+		/**
+		 * Represents {@link PrettyTime#format(Date)}.
+		 */
+		PRETTY_TIME(new PrettyTimeFormatter());
+
+		private final TemporalFormatter formatter;
 
 		/**
 		 * Constructs a new {@link Format} constant.
@@ -68,8 +76,64 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		 *            the {@link DateTimeFormatter} that this {@link Format}
 		 *            constant will represent
 		 */
-		private Format(DateTimeFormatter formatter) {
+		private Format(TemporalFormatter formatter) {
 			this.formatter = formatter;
+		}
+	}
+
+	/**
+	 * Abstracts the functionality of the various formatters used in
+	 * {@link Format}.
+	 */
+	private static interface TemporalFormatter {
+		/**
+		 * @param temporalValue
+		 *            the {@link TemporalAccessor} to be formatted
+		 * @return the formatted-for-humans representation of the specified
+		 *         {@link TemporalAccessor}
+		 */
+		String format(TemporalAccessor temporalValue);
+	}
+
+	/**
+	 * A {@link TemporalFormatter} implementation for the
+	 * <code>threetenbp</code> library's {@link DateTimeFormatter}.
+	 */
+	private static final class ThreeTenFormatter implements TemporalFormatter {
+		private final DateTimeFormatter formatter;
+
+		/**
+		 * Constructs a new {@link ThreeTenFormatter} instance.
+		 * 
+		 * @param formatter
+		 *            the {@link DateTimeFormatter} to use
+		 */
+		public ThreeTenFormatter(DateTimeFormatter formatter) {
+			this.formatter = formatter;
+		}
+
+		/**
+		 * @see com.justdavis.karl.rpstourney.webapp.jsp.TemporalFormatTag.TemporalFormatter#format(org.threeten.bp.temporal.TemporalAccessor)
+		 */
+		@Override
+		public String format(TemporalAccessor temporalValue) {
+			return formatter.format(temporalValue);
+		}
+	}
+
+	/**
+	 * A {@link TemporalFormatter} implementation that uses the
+	 * {@link PrettyTime} library.
+	 */
+	private static final class PrettyTimeFormatter implements TemporalFormatter {
+		/**
+		 * @see com.justdavis.karl.rpstourney.webapp.jsp.TemporalFormatTag.TemporalFormatter#format(org.threeten.bp.temporal.TemporalAccessor)
+		 */
+		@Override
+		public String format(TemporalAccessor temporalValue) {
+			Date date = DateTimeUtils.toDate(Instant.from(temporalValue));
+			PrettyTime prettyTime = new PrettyTime();
+			return prettyTime.format(date);
 		}
 	}
 }

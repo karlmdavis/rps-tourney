@@ -34,6 +34,6 @@ public class TemporalFormatTagTest {
 		Instant now = Instant.EPOCH;
 		timeTag.setValue(now);
 		timeTag.doTag();
-		Assert.assertEquals("1970-01-01T00:00Z", jspWriter.output.toString());
+		Assert.assertEquals("1970-01-01T00:00:00Z", jspWriter.output.toString());
 	}
 }

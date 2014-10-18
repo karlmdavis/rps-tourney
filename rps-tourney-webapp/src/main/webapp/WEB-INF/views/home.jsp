@@ -28,7 +28,7 @@
 				<tr>
 					<td><a class="game-view" href="${requestScope['rpstourney.config.baseurl']}/game/${game.id}"><spring:message code="home.games.view" /></a></td>
 					<td><rps:gameOpponent game="${game}" /></td>
-					<td><rps:temporal value="${game.lastThrowTimestamp}" format="DEFAULT" /></td>
+					<td><rps:temporal value="${game.lastThrowTimestamp}" format="PRETTY_TIME" /></td>
 					<td><spring:message code="home.games.game.state.${game.state}" /></td>
 				</tr>
 				</c:forEach>
