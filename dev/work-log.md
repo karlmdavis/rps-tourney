@@ -1924,4 +1924,17 @@ This file should never be committed along with other files; it should always be 
         * Add opponents' names to home page game list.
         * Add some sort of link back to the homepage.
         * Check all of the tables to see if there's anything that should be added to the schema now, e.g. more timestamps.
-    
+
+### 2014-10-17, Friday
+
+* 1.5h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Home page opponents' name display.
+    * Created a tag for displaying the current user's opponent in a given game.
+    * Added that tag to the home page's game list.
+* 0.25h: [Issue #38: Allow web application users to provide a name or handle for themselves](https://github.com/karlmdavis/rps-tourney/issues/38):
+  Cleaned up and committed things.
+    * Next:
+        * Add some sort of link back to the homepage.
+        * Check all of the tables to see if there's anything that should be added to the schema now, e.g. more timestamps.
+        * Fix the timestamps on the homepage's game list to look less stupid.
+  
