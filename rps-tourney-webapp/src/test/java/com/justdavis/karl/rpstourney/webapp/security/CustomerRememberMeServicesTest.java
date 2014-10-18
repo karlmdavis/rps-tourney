@@ -15,7 +15,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedUriSyntaxException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
@@ -153,8 +152,7 @@ public final class CustomerRememberMeServicesTest {
 		mockRequest.setRequestURI("http://example.com/foo");
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 		final Account mockAccount = new Account(SecurityRole.USERS);
-		AuthToken mockToken = new AuthToken(mockAccount, UUID.randomUUID(),
-				Instant.now());
+		AuthToken mockToken = new AuthToken(mockAccount, UUID.randomUUID());
 		mockAccount.getAuthTokens().add(mockToken);
 		RememberMeAuthenticationToken mockAuth = new RememberMeAuthenticationToken(
 				CustomRememberMeServices.REMEMBER_ME_TOKEN_KEY, mockAccount,

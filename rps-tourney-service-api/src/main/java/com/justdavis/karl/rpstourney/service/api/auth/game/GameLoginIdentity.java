@@ -11,11 +11,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.threeten.bp.Instant;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserType;
+import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -56,6 +61,12 @@ public class GameLoginIdentity implements ILoginIdentity {
 	@JoinColumn(name = "`accountId`")
 	private Account account;
 
+	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
+	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
+	private Instant createdTimestamp;
+
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
 	@Column(name = "`emailAddress`", unique = true, nullable = false)
 	private InternetAddress emailAddress;
@@ -76,6 +87,7 @@ public class GameLoginIdentity implements ILoginIdentity {
 	public GameLoginIdentity(Account account, InternetAddress emailAddress,
 			String passwordHash) {
 		this.account = account;
+		this.createdTimestamp = Instant.now();
 		this.emailAddress = emailAddress;
 		this.passwordHash = passwordHash;
 	}
@@ -131,6 +143,13 @@ public class GameLoginIdentity implements ILoginIdentity {
 	@Override
 	public Account getAccount() {
 		return account;
+	}
+
+	/**
+	 * @return the date-time that this {@link GameLoginIdentity} was created
+	 */
+	public Instant getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
 	/**

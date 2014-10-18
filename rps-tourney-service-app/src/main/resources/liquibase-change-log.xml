@@ -27,6 +27,9 @@
 				startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="createdTimestamp" type="timestamp">
+				<constraints nullable="false" />
+			</column>
 			<column name="name" type="varchar(40)" />
 		</createTable>
 		
@@ -48,7 +51,7 @@
 				<constraints nullable="false" foreignKeyName="AuthTokensToAccounts"
 					referencedTableName="Accounts" />
 			</column>
-			<column name="creationTimestamp" type="timestamp">
+			<column name="createdTimestamp" type="timestamp">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -61,6 +64,9 @@
 			<column name="accountId" type="bigint">
 				<constraints nullable="false" foreignKeyName="GameLoginIdentitiesToAccounts"
 					referencedTableName="Accounts" />
+			</column>
+			<column name="createdTimestamp" type="timestamp">
+				<constraints nullable="false" />
 			</column>
 			<column name="emailAddress" type="varchar(255)">
 				<constraints nullable="false" unique="true" />

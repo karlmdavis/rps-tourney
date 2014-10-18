@@ -6,7 +6,6 @@ import javax.mail.internet.AddressException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
@@ -47,8 +46,7 @@ public final class AccountsResourceImplTest {
 		// Create and "persist" the entities to test against.
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-				Instant.now());
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		accountsDao.save(account);
 

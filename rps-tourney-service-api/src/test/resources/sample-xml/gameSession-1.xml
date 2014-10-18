@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rps:gameSession xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
 	<rps:id>abcdefghij</rps:id>
+	<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 	<rps:state>WAITING_FOR_PLAYER</rps:state>
 	<rps:maxRounds>3</rps:maxRounds>
 	<rps:player1>

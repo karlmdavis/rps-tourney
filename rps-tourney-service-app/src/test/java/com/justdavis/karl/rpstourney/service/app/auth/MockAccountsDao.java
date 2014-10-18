@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.threeten.bp.Clock;
-
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 
@@ -83,8 +81,7 @@ public final class MockAccountsDao implements IAccountsDao {
 		if (!account.getAuthTokens().isEmpty())
 			return account.getAuthTokens().iterator().next();
 
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
-				.systemUTC().instant());
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 
 		return authToken;

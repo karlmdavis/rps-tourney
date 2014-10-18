@@ -14,6 +14,8 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.threeten.bp.Instant;
+import org.threeten.bp.format.DateTimeFormatter;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
@@ -62,7 +64,12 @@ public final class GameSessionTest {
 		Assert.assertNotNull(gameSessionNode);
 		Node idNode = (Node) xpath.evaluate("/rps:gameSession/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertTrue(idNode.getTextContent().length() == 10);
+		Assert.assertEquals(gameSession.getId(), idNode.getTextContent());
+		Node timestampNode = (Node) xpath.evaluate(
+				"/rps:gameSession/rps:createdTimestamp", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(gameSession
+				.getCreatedTimestamp()), timestampNode.getTextContent());
 		Node stateNode = (Node) xpath.evaluate("/rps:gameSession/rps:state",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("WAITING_FOR_PLAYER", stateNode.getTextContent());
@@ -119,7 +126,12 @@ public final class GameSessionTest {
 		Assert.assertNotNull(gameSessionNode);
 		Node idNode = (Node) xpath.evaluate("/rps:gameSession/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertTrue(idNode.getTextContent().length() == 10);
+		Assert.assertEquals(gameSession.getId(), idNode.getTextContent());
+		Node timestampNode = (Node) xpath.evaluate(
+				"/rps:gameSession/rps:createdTimestamp", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(gameSession
+				.getCreatedTimestamp()), timestampNode.getTextContent());
 		Node stateNode = (Node) xpath.evaluate("/rps:gameSession/rps:state",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("STARTED", stateNode.getTextContent());
@@ -167,6 +179,8 @@ public final class GameSessionTest {
 		// Verify the results.
 		Assert.assertNotNull(parsedGameSession);
 		Assert.assertEquals("abcdefghij", parsedGameSession.getId());
+		Assert.assertEquals(Instant.parse("2007-12-03T10:15:30Z"),
+				parsedGameSession.getCreatedTimestamp());
 		Assert.assertEquals(State.WAITING_FOR_PLAYER,
 				parsedGameSession.getState());
 		Assert.assertEquals(3, parsedGameSession.getMaxRounds());

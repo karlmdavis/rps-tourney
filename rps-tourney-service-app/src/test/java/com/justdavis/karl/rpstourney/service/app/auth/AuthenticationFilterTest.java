@@ -27,13 +27,10 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Clock;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**
@@ -54,8 +51,7 @@ public class AuthenticationFilterTest {
 		ContainerRequestContext requestContext = new MockContainerRequestContext();
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
-				.systemUTC().instant());
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		accountsDao.save(account);
 		requestContext.getCookies().put(
@@ -124,8 +120,7 @@ public class AuthenticationFilterTest {
 
 		// Create the mock request to use (run the filter on the request).
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(), Clock
-				.systemUTC().instant());
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		accountsDao.save(account);
 		ContainerRequestContext requestContext = new MockContainerRequestContext();

@@ -43,8 +43,7 @@ public final class AuthTokenTest {
 
 		// Create the instance to be converted to XML.
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-				Instant.parse("2007-12-03T10:15:30Z"));
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -70,10 +69,10 @@ public final class AuthTokenTest {
 		Assert.assertEquals(authToken.getToken().toString(),
 				tokenValueNode.getTextContent());
 		Node timestampNode = (Node) xpath.evaluate(
-				"/rps:authToken/rps:creationTimestamp", domResult.getNode(),
+				"/rps:authToken/rps:createdTimestamp", domResult.getNode(),
 				XPathConstants.NODE);
 		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(authToken
-				.getCreationTimestamp()), timestampNode.getTextContent());
+				.getCreatedTimestamp()), timestampNode.getTextContent());
 	}
 
 	/**
@@ -105,6 +104,6 @@ public final class AuthTokenTest {
 		Assert.assertEquals("f211aae3-c46f-47da-ae6c-445f5281c4ee", parsedToken
 				.getToken().toString());
 		Assert.assertEquals(Instant.parse("2007-12-03T10:15:30Z"),
-				parsedToken.getCreationTimestamp());
+				parsedToken.getCreatedTimestamp());
 	}
 }

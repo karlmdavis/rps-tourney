@@ -17,7 +17,6 @@ import org.junit.runners.Parameterized;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
-import org.threeten.bp.Clock;
 
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
@@ -108,8 +107,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 
 			// Create the entity to try saving.
 			Account account = new Account();
-			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
 			GameLoginIdentity login = new GameLoginIdentity(account,
 					new InternetAddress("foo@example.com"),
@@ -159,8 +157,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 
 			// Create and save the entity to test against.
 			Account account = new Account();
-			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
 			GameLoginIdentity login = new GameLoginIdentity(account,
 					new InternetAddress("foo@example.com"),

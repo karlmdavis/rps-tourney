@@ -7,5 +7,5 @@
 		</rps:roles>
 	</rps:account>
 	<rps:token>f211aae3-c46f-47da-ae6c-445f5281c4ee</rps:token>
-	<rps:creationTimestamp>2007-12-03T10:15:30Z</rps:creationTimestamp>
+	<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 </rps:authToken>

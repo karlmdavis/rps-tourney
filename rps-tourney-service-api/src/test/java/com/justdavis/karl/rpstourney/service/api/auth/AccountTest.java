@@ -18,7 +18,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
@@ -40,7 +39,7 @@ public final class AccountTest {
 
 		Account accountWith1Token = new Account();
 		AuthToken authToken = new AuthToken(accountWith1Token,
-				UUID.randomUUID(), Instant.now());
+				UUID.randomUUID());
 		accountWith1Token.getAuthTokens().add(authToken);
 		Assert.assertNull(accountWith1Token.getAuthToken(UUID.randomUUID()));
 		Assert.assertEquals(authToken,
@@ -57,7 +56,7 @@ public final class AccountTest {
 
 		Account accountWith1Token = new Account();
 		AuthToken authToken = new AuthToken(accountWith1Token,
-				UUID.randomUUID(), Instant.now());
+				UUID.randomUUID());
 		accountWith1Token.getAuthTokens().add(authToken);
 		Assert.assertEquals(authToken, accountWith1Token.getAuthToken());
 	}
@@ -69,7 +68,7 @@ public final class AccountTest {
 	public void isValidToken() {
 		Account accountWith1Token = new Account();
 		AuthToken authToken = new AuthToken(accountWith1Token,
-				UUID.randomUUID(), Instant.now());
+				UUID.randomUUID());
 		accountWith1Token.getAuthTokens().add(authToken);
 		Assert.assertFalse(accountWith1Token.isValidAuthToken(null));
 		Assert.assertFalse(accountWith1Token.isValidAuthToken(UUID.randomUUID()));

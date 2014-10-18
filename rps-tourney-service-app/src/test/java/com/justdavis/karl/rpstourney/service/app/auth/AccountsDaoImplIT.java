@@ -26,7 +26,6 @@ import org.junit.runners.Parameterized;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
-import org.threeten.bp.Clock;
 
 import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
@@ -114,8 +113,7 @@ public final class AccountsDaoImplIT {
 
 			// Create the entity to try saving.
 			Account account = new Account();
-			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
 
 			// Try to save the entity.
@@ -158,8 +156,7 @@ public final class AccountsDaoImplIT {
 
 			// Create the entity to try merging.
 			Account account = new Account();
-			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
 
 			// Save the entity.
@@ -216,8 +213,7 @@ public final class AccountsDaoImplIT {
 
 			// Create and save the entity to test against.
 			Account account = new Account();
-			AuthToken authToken = new AuthToken(account, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
@@ -260,8 +256,7 @@ public final class AccountsDaoImplIT {
 
 			// Create and save the entities to test against.
 			Account account1 = new Account();
-			AuthToken authToken1 = new AuthToken(account1, UUID.randomUUID(),
-					Clock.systemUTC().instant());
+			AuthToken authToken1 = new AuthToken(account1, UUID.randomUUID());
 			account1.getAuthTokens().add(authToken1);
 			Account account2 = new Account();
 			EntityTransaction tx = entityManager.getTransaction();
@@ -293,7 +288,7 @@ public final class AccountsDaoImplIT {
 
 	/**
 	 * Tests {@link AccountsDaoImpl} to ensure that
-	 * {@link AuthToken#getCreationTimestamp()} is persisted as a legitimate SQL
+	 * {@link AuthToken#getCreatedTimestamp()} is persisted as a legitimate SQL
 	 * type (and not just a binary or character field).
 	 * 
 	 * @throws SQLException
@@ -313,7 +308,7 @@ public final class AccountsDaoImplIT {
 			try {
 				DatabaseMetaData metaData = connection.getMetaData();
 				ResultSet columns = metaData.getColumns(null, null,
-						"AuthTokens", "creationTimestamp");
+						"AuthTokens", "createdTimestamp");
 				boolean hasAtLeastOneColumn = columns.next();
 				Assert.assertTrue(hasAtLeastOneColumn);
 				int firstColumnSqlType = columns.getInt("DATA_TYPE");

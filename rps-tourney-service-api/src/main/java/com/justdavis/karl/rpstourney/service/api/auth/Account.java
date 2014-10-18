@@ -24,6 +24,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.threeten.bp.Instant;
+
+import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -57,6 +62,12 @@ public class Account implements Principal {
 	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "accounts_id_seq")
 	private long id;
 
+	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
+	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
+	@XmlElement
+	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
+	private Instant createdTimestamp;
+
 	@XmlElementWrapper(name = "roles", required = true)
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -87,6 +98,7 @@ public class Account implements Principal {
 	 *            {@link SecurityRole#USERS} will always be added to this)
 	 */
 	public Account(SecurityRole... roles) {
+		this.createdTimestamp = Instant.now();
 		this.roles = new HashSet<>();
 		this.roles.add(SecurityRole.USERS);
 		for (SecurityRole role : roles)
@@ -128,6 +140,13 @@ public class Account implements Principal {
 			throw new IllegalStateException("Field value not yet available.");
 
 		return id;
+	}
+
+	/**
+	 * @return the date-time that this {@link Account} was created
+	 */
+	public Instant getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
 	/**

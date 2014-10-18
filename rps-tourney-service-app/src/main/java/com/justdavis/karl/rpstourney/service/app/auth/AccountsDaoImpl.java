@@ -12,7 +12,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.threeten.bp.Clock;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
@@ -172,8 +171,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 			return authToken;
 
 		// No existing token was found, so create a new one.
-		authToken = new AuthToken(account, UUID.randomUUID(), Clock.systemUTC()
-				.instant());
+		authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		/*
 		 * Note: If this needs to support detached instances, things will have

@@ -9,14 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.threeten.bp.Clock;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.MockAccountsDao;
-import com.justdavis.karl.rpstourney.service.app.auth.game.GameAuthResourceImpl;
 
 /**
  * Unit tests for {@link GameAuthResourceImpl}.
@@ -56,8 +54,8 @@ public final class GameAuthResourceImplTest {
 
 	/**
 	 * Ensures that
-	 * {@link GameAuthResourceImpl#createGameLogin(InternetAddress, String)} behaves
-	 * as expected when the user/client already has an active login.
+	 * {@link GameAuthResourceImpl#createGameLogin(InternetAddress, String)}
+	 * behaves as expected when the user/client already has an active login.
 	 * 
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
@@ -71,8 +69,7 @@ public final class GameAuthResourceImplTest {
 				accountsDao);
 		UUID randomAuthToken = UUID.randomUUID();
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, randomAuthToken, Clock
-				.systemUTC().instant());
+		AuthToken authToken = new AuthToken(account, randomAuthToken);
 		account.getAuthTokens().add(authToken);
 		accountsDao.accounts.add(account);
 
@@ -124,8 +121,7 @@ public final class GameAuthResourceImplTest {
 		// Create the login (manually).
 		UUID randomAuthToken = UUID.randomUUID();
 		Account account = new Account();
-		AuthToken authToken = new AuthToken(account, randomAuthToken, Clock
-				.systemUTC().instant());
+		AuthToken authToken = new AuthToken(account, randomAuthToken);
 		account.getAuthTokens().add(authToken);
 		accountsDao.accounts.add(account);
 		GameLoginIdentity login = new GameLoginIdentity(account,

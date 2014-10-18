@@ -50,8 +50,8 @@ public class AuthToken {
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
-	@Column(name = "`creationTimestamp`", nullable = false, updatable = false)
-	private Instant creationTimestamp;
+	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
+	private Instant createdTimestamp;
 
 	/**
 	 * Constructs a new {@link AuthToken} instance.
@@ -60,23 +60,18 @@ public class AuthToken {
 	 *            the value to use for {@link #getAccount()}
 	 * @param token
 	 *            the value to use for {@link #getToken()}
-	 * @param creationTimestamp
-	 *            the value to use for {@link #getCreationTimestamp()}
 	 */
-	public AuthToken(Account account, UUID token, Instant creationTimestamp) {
+	public AuthToken(Account account, UUID token) {
 		// Sanity check: null Account?
 		if (account == null)
 			throw new IllegalArgumentException();
 		// Sanity check: null UUID?
 		if (token == null)
 			throw new IllegalArgumentException();
-		// Sanity check: null Instant?
-		if (creationTimestamp == null)
-			throw new IllegalArgumentException();
 
 		this.account = account;
 		this.token = token;
-		this.creationTimestamp = creationTimestamp;
+		this.createdTimestamp = Instant.now();
 	}
 
 	/**
@@ -110,8 +105,8 @@ public class AuthToken {
 	 * @return the timestamp for (approximately) when this {@link AuthToken} was
 	 *         created
 	 */
-	public Instant getCreationTimestamp() {
-		return creationTimestamp;
+	public Instant getCreatedTimestamp() {
+		return createdTimestamp;
 	}
 
 	/**
