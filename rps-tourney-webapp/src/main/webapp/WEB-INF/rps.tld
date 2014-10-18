@@ -24,4 +24,15 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+
+	<tag>
+		<name>gameOpponent</name>
+		<tag-class>com.justdavis.karl.rpstourney.webapp.jsp.GameOpponentTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>game</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>
