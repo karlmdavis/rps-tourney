@@ -1958,3 +1958,10 @@ This file should never be committed along with other files; it should always be 
     * Ran into this bug while attempting to test my timestamp enhancement.
     * Added a workaround to the POM: set `<useManifestOnlyJar>false</useManifestOnlyJar>`.
     * Filed the following Jetty bug to address the root cause: [Eclipse Bug 447790: Embedded Jetty server's classpath parsing/scanning broken with Maven Surefire's useManifestOnlyJar feature](https://bugs.eclipse.org/bugs/show_bug.cgi?id=447790).
+
+### 2014-10-19, Sunday
+
+* 3.0h: [Issue #46: 403 "CSRF token not found" errors when trying to update player name](https://github.com/karlmdavis/rps-tourney/issues/46):
+  Investigation and resolution.
+    * Took forever to diagnose this problem.
+    * Created `SessionCookieConigurator`. Took **forever** to get it working correctly.
