@@ -4,6 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -19,6 +21,9 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Order(2)
 public final class GameWebApplicationInitializer implements
 		WebApplicationInitializer {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GameWebApplicationInitializer.class);
+
 	/*
 	 * A bunch of Spring documentation mentions that it's important that the
 	 * filters from {@link SecurityWebApplicationInitializer} be configured
@@ -50,6 +55,8 @@ public final class GameWebApplicationInitializer implements
 	@Override
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
+		LOGGER.trace("Running onStartup(ServletContext)...");
+
 		// Create the Spring context for the application.
 		AnnotationConfigWebApplicationContext springContext = new AnnotationConfigWebApplicationContext();
 
@@ -73,16 +80,14 @@ public final class GameWebApplicationInitializer implements
 		ConfigurableEnvironment springEnv = springContext.getEnvironment();
 		springEnv.setDefaultProfiles(SpringProfile.PRODUCTION);
 
-		// Refresh/process the Spring context.
-		// TODO this might be needed when there's a parent context?
-		// TODO definitely not needed when there isn't
-		// rootContext.refresh();
-
 		// Manage the lifecycle of the root application context
 		servletContext.addListener(new ContextLoaderListener(springContext));
 
 		// Ensure that request-scoped resource beans work correctly.
 		servletContext.addListener(RequestContextListener.class);
+
+		// Ensure that session cookies have the correct domain & path.
+		new SessionCookieConfigurator().applyConfiguration(servletContext);
 
 		/*
 		 * Save the Spring context as a ServletContext attribute. It's expected
@@ -91,6 +96,9 @@ public final class GameWebApplicationInitializer implements
 		 * See EmbeddedJettySpringContextRule for details.
 		 */
 		servletContext.setAttribute(SPRING_CONTEXT_ATTRIBUTE, springContext);
+
+		// configureSessionCookies(servletContext.getSessionCookieConfig(),
+		// springContext);
 
 		/*
 		 * Note: Getting the servlet mappings here correct took forever. The
@@ -107,6 +115,8 @@ public final class GameWebApplicationInitializer implements
 				.addServlet("gameapp", new DispatcherServlet(springContext));
 		mvcGameAppServlet.setLoadOnStartup(1);
 		mvcGameAppServlet.addMapping("/");
+
+		LOGGER.trace("Completed GameWebApplicationInitializer.onStartup(ServletContext).");
 	}
 
 	/**
