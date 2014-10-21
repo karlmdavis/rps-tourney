@@ -1965,3 +1965,18 @@ This file should never be committed along with other files; it should always be 
   Investigation and resolution.
     * Took forever to diagnose this problem.
     * Created `SessionCookieConigurator`. Took **forever** to get it working correctly.
+
+### 2014-10-20, Monday
+
+* 0.25h: [Issue #45: Players unable to see opponents' last move when game ends](https://github.com/karlmdavis/rps-tourney/issues/45):
+  Investigation.
+    * At its root, I think this problem is caused by [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33).
+        * My workaround/partial fix for that has a glitch that causes this new problem.
+        * Rather than fixing the workaround, I'd rather fix the root cause, which will make the webapp's logic simpler: just display whatever the webservice returns.
+* 0.25h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Investigation.
+    * Created `GameSessionResourceImplIT.opponentsMoveNotRevealed()` to capture the problem.
+    * How to solve this?
+        * Why does the webservice return the full JPA `GameSession` entity? Seems like a bad idea: it's mutable, but the web service won't accept updates made to it, and it contains some information that ought to remain hidden.
+        * Instead, I should pull a read-only interface out of `GameSession` and have the web service return that.
+        * While I'm at it, I should rename `GameSession`. In football, what do you call the individual encounters between teams in a tournament? Either "matches" or just "games". Just going with `Game` would be simpler, I think.
