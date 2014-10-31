@@ -1980,3 +1980,12 @@ This file should never be committed along with other files; it should always be 
         * Why does the webservice return the full JPA `GameSession` entity? Seems like a bad idea: it's mutable, but the web service won't accept updates made to it, and it contains some information that ought to remain hidden.
         * Instead, I should pull a read-only interface out of `GameSession` and have the web service return that.
         * While I'm at it, I should rename `GameSession`. In football, what do you call the individual encounters between teams in a tournament? Either "matches" or just "games". Just going with `Game` would be simpler, I think.
+        * Need to add estimates to the issue before I really start in on it.
+
+### 2014-10-30, Thursday
+
+* Missed a number of days: was busy at work with trying to get a release out, and had a business trip to Tucson in there, too.
+* 1.0h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Implementation.
+    * Put together a plan and estimate, listed in the bug comments.
+    * Renamed `GameSession` to `Game` (and renamed related types, fields, etc. to match).
