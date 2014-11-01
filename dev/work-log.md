@@ -1989,3 +1989,10 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Put together a plan and estimate, listed in the bug comments.
     * Renamed `GameSession` to `Game` (and renamed related types, fields, etc. to match).
+
+### 2014-10-31, Friday
+
+* 0.2h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Implementation.
+    * Committed yesterday's changes.
+    * Started creating `GameView`.
