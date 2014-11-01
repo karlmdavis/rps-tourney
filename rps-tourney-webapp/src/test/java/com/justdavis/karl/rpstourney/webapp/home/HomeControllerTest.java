@@ -11,8 +11,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 
@@ -42,7 +42,7 @@ public final class HomeControllerTest {
 
 	/**
 	 * Tests {@link HomeController#getHomePage()} to ensure its model properly
-	 * includes the results of {@link IGameSessionResource#getGamesForPlayer()}.
+	 * includes the results of {@link IGameResource#getGamesForPlayer()}.
 	 * 
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
@@ -51,7 +51,7 @@ public final class HomeControllerTest {
 	public void getGamesForPlayer() throws Exception {
 		// Build the mocks needed for the test.
 		Player player1 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		MockGameClient gameClient = new MockGameClient(game);
 
 		// Build the controller and prepare it for mock testing.

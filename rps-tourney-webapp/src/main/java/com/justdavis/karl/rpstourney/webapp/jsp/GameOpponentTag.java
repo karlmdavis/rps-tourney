@@ -13,14 +13,14 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * <p>
  * A JSP tag handler that provides the
  * <code>&lt;rps:gameOpponent game="${someGame}" /&gt;</code> tag, for printing
- * out a user's opponent in a {@link GameSession}.
+ * out a user's opponent in a {@link Game}.
  * </p>
  * <p>
  * Please note that this class and its properties must be correctly listed in
@@ -30,15 +30,15 @@ import com.justdavis.karl.rpstourney.service.api.game.Player;
 public final class GameOpponentTag extends RequestContextAwareTag {
 	private static final long serialVersionUID = -2870916586936080691L;
 
-	private GameSession game;
+	private Game game;
 	private SecurityContext mockSecurityContext;
 	private JspContext mockJspContext;
 
 	/**
 	 * @param game
-	 *            the {@link GameSession} to be rendered
+	 *            the {@link Game} to be rendered
 	 */
-	public void setGame(GameSession value) {
+	public void setGame(Game value) {
 		this.game = value;
 	}
 
@@ -116,7 +116,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	 *             page will be bubbled up.
 	 */
 	private void printOutOpponent() throws IOException {
-		// If no GameSession was provided, just print out nothing.
+		// If no Game was provided, just print out nothing.
 		if (game == null)
 			return;
 
@@ -172,15 +172,15 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 
 	/**
 	 * @param game
-	 *            the {@link GameSession} to find the user's opponent in
+	 *            the {@link Game} to find the user's opponent in
 	 * @param authenticatedAccount
 	 *            the {@link Account} of the user/{@link Player} to find the
 	 *            opponent for
 	 * @return the {@link Account} of the specified user's opponent in the
-	 *         specified {@link GameSession}, or <code>null</code> if no
+	 *         specified {@link Game}, or <code>null</code> if no
 	 *         opponent could be determined
 	 */
-	private static Account determineOpponent(GameSession game,
+	private static Account determineOpponent(Game game,
 			Account authenticatedAccount) {
 		// If the user isn't logged in, we can't determine an opponent.
 		if (authenticatedAccount == null)

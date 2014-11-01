@@ -23,13 +23,12 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession.GameSessionPk;
+import com.justdavis.karl.rpstourney.service.api.game.Game.GamePk;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
- * Represents a round of a {@link GameSession}, tracking the moves made by the
- * players.
+ * Represents a round of a {@link Game}, tracking the moves made by the players.
  * </p>
  * <p>
  * Please note that instances of this class are <strong>not</strong> immutable:
@@ -51,11 +50,11 @@ public class GameRound {
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
 	 */
 	@Id
-	@JoinColumn(name = "gameSessionId")
+	@JoinColumn(name = "gameId")
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })
 	@XmlTransient
-	private GameSession gameSession;
+	private Game game;
 
 	@Id
 	@Column(name = "`roundIndex`", nullable = false, updatable = false)
@@ -87,18 +86,18 @@ public class GameRound {
 	/**
 	 * Constructs a new {@link GameRound} instance.
 	 * 
-	 * @param gameSession
-	 *            the value to use for {@link #getGameSession()}
+	 * @param game
+	 *            the value to use for {@link #getGame()}
 	 * @param roundIndex
 	 *            the value to use for {@link #getRoundIndex()}
 	 */
-	public GameRound(GameSession gameSession, int roundIndex) {
-		if (gameSession == null)
+	public GameRound(Game game, int roundIndex) {
+		if (game == null)
 			throw new IllegalArgumentException();
 		if (roundIndex < 0)
 			throw new IllegalArgumentException();
 
-		this.gameSession = gameSession;
+		this.game = game;
 		this.roundIndex = roundIndex;
 		this.throwForPlayer1 = null;
 		this.throwForPlayer1Timestamp = null;
@@ -115,15 +114,15 @@ public class GameRound {
 	}
 
 	/**
-	 * @return the {@link GameSession} that this {@link GameRound} is a part of
+	 * @return the {@link Game} that this {@link GameRound} is a part of
 	 */
-	public GameSession getGameSession() {
-		return gameSession;
+	public Game getGame() {
+		return game;
 	}
 
 	/**
-	 * @return the index of this {@link GameRound} in the {@link GameSession} 
-	 *         it's part of
+	 * @return the index of this {@link GameRound} in the {@link Game} it's part
+	 *         of
 	 */
 	public int getRoundIndex() {
 		return roundIndex;
@@ -149,7 +148,7 @@ public class GameRound {
 
 	/**
 	 * Note: this method may only be called once, and should only be called by
-	 * {@link GameSession}.
+	 * {@link Game}.
 	 * 
 	 * @param throwForPlayer1
 	 *            the value to use for {@link #getThrowForPlayer1()}
@@ -157,7 +156,7 @@ public class GameRound {
 	 *             A {@link GameConflictException} will be thrown if the
 	 *             {@link Player} has already submitted a {@link Throw} for this
 	 *             {@link GameRound}.
-	 * @see GameSession#submitThrow(int, Player, Throw)
+	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer1(Throw throwForPlayer1) {
 		if (throwForPlayer1 == null)
@@ -191,7 +190,7 @@ public class GameRound {
 
 	/**
 	 * Note: this method may only be called once, and should only be called by
-	 * {@link GameSession}.
+	 * {@link Game}.
 	 * 
 	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
@@ -199,7 +198,7 @@ public class GameRound {
 	 *             A {@link GameConflictException} will be thrown if the
 	 *             {@link Player} has already submitted a {@link Throw} for this
 	 *             {@link GameRound}.
-	 * @see GameSession#submitThrow(int, Player, Throw)
+	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer2(Throw throwForPlayer2) {
 		if (throwForPlayer2 == null)
@@ -277,7 +276,7 @@ public class GameRound {
 	public static final class GameRoundPk implements Serializable {
 		private static final long serialVersionUID = 9072061865707404807L;
 
-		private GameSessionPk gameSession;
+		private GamePk game;
 		private int roundIndex;
 
 		/**
@@ -288,19 +287,19 @@ public class GameRound {
 
 		/**
 		 * @return this {@link IdClass} field corresponds to
-		 *         {@link GameRound#getGameSession()}, which is mapped as a
-		 *         foreign key to {@link GameSession#getId()}
+		 *         {@link GameRound#getGame()}, which is mapped as a foreign key
+		 *         to {@link Game#getId()}
 		 */
-		public GameSessionPk getGameSession() {
-			return gameSession;
+		public GamePk getGame() {
+			return game;
 		}
 
 		/**
-		 * @param gameSession
-		 *            the value to use for {@link #getGameSession()}
+		 * @param game
+		 *            the value to use for {@link #getGame()}
 		 */
-		public void setGameSession(GameSessionPk gameSession) {
-			this.gameSession = gameSession;
+		public void setGame(GamePk game) {
+			this.game = game;
 		}
 
 		/**
@@ -331,8 +330,7 @@ public class GameRound {
 
 			final int prime = 31;
 			int result = 1;
-			result = prime * result
-					+ ((gameSession == null) ? 0 : gameSession.hashCode());
+			result = prime * result + ((game == null) ? 0 : game.hashCode());
 			result = prime * result + roundIndex;
 			return result;
 		}
@@ -354,10 +352,10 @@ public class GameRound {
 			if (getClass() != obj.getClass())
 				return false;
 			GameRoundPk other = (GameRoundPk) obj;
-			if (gameSession == null) {
-				if (other.gameSession != null)
+			if (game == null) {
+				if (other.game != null)
 					return false;
-			} else if (!gameSession.equals(other.gameSession))
+			} else if (!game.equals(other.game))
 				return false;
 			if (roundIndex != other.roundIndex)
 				return false;

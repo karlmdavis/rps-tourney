@@ -10,14 +10,14 @@ import com.justdavis.karl.rpstourney.service.api.IServiceStatusResource;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.ServiceStatusClient;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
-import com.justdavis.karl.rpstourney.service.client.game.GameSessionClient;
+import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
 
 /**
@@ -115,13 +115,13 @@ public class GameClientBindings {
 	 * @param cookieStore
 	 *            the {@link CookieStore} being used (likely session scoped and
 	 *            proxied)
-	 * @return the {@link IGameSessionResource} client for the application to
+	 * @return the {@link IGameResource} client for the application to
 	 *         use
 	 */
 	@Bean
-	public IGameSessionResource gameClient(ClientConfig config,
+	public IGameResource gameClient(ClientConfig config,
 			CookieStore cookieStore) {
-		IGameSessionResource gameClient = new GameSessionClient(config,
+		IGameResource gameClient = new GameClient(config,
 				cookieStore);
 		return gameClient;
 	}

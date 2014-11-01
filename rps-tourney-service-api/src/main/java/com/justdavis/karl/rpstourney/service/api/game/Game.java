@@ -58,18 +58,18 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * <strong>Warning:</strong> This class is not at all immutable or thread-safe.
  * It's the responsibility of the application using the class to ensure that
  * conflicting modifications aren't made. In the common case, where the
- * {@link GameSession} is being used with a database, it's recommended that each
- * single operation on the {@link GameSession} be a pessimistic transaction.
- * This allows the database to act as the mediator/enforcer of thread safety.
+ * {@link Game} is being used with a database, it's recommended that each single
+ * operation on the {@link Game} be a pessimistic transaction. This allows the
+ * database to act as the mediator/enforcer of thread safety.
  * </p>
  */
 @Entity
-@IdClass(GameSession.GameSessionPk.class)
-@Table(name = "`GameSessions`")
+@IdClass(Game.GamePk.class)
+@Table(name = "`Games`")
 @DynamicUpdate(true)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GameSession {
+public class Game {
 	/**
 	 * The maximum allowed value for {@link #getMaxRounds()}.
 	 */
@@ -107,7 +107,7 @@ public class GameSession {
 	@XmlElement
 	private int maxRounds;
 
-	@OneToMany(mappedBy = "gameSession", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("roundIndex ASC")
 	@XmlElementWrapper(name = "rounds")
 	@XmlElement(name = "round")
@@ -126,12 +126,12 @@ public class GameSession {
 	private Player player2;
 
 	/**
-	 * Constructs a new {@link GameSession} instance. The
+	 * Constructs a new {@link Game} instance. The
 	 * 
 	 * @param player1
 	 *            the value to use for {@link #getPlayer1()}
 	 */
-	public GameSession(Player player1) {
+	public Game(Player player1) {
 		this.id = generateRandomId();
 		this.createdTimestamp = Instant.now();
 		this.state = State.WAITING_FOR_PLAYER;
@@ -150,7 +150,7 @@ public class GameSession {
 	 * to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
-	GameSession() {
+	Game() {
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class GameSession {
 	}
 
 	/**
-	 * @return the unique ID for this {@link GameSession}, which will match the
+	 * @return the unique ID for this {@link Game}, which will match the
 	 *         following regular expression: <code>[a-zA-Z]{1,10}</code>
 	 */
 	public String getId() {
@@ -187,14 +187,14 @@ public class GameSession {
 	}
 
 	/**
-	 * @return the date-time that this {@link GameSession} was created
+	 * @return the date-time that this {@link Game} was created
 	 */
 	public Instant getCreatedTimestamp() {
 		return createdTimestamp;
 	}
 
 	/**
-	 * @return the {@link State} that this {@link GameSession} is currently in
+	 * @return the {@link State} that this {@link Game} is currently in
 	 */
 	public State getState() {
 		return state;
@@ -216,8 +216,8 @@ public class GameSession {
 	 * </p>
 	 * <p>
 	 * Concurrency/JPA safety: This method is not safe for use when the
-	 * {@link GameSession} is being stored in a JPA database and being modified
-	 * by more than one thread/client/whatever.
+	 * {@link Game} is being stored in a JPA database and being modified by more
+	 * than one thread/client/whatever.
 	 * </p>
 	 * 
 	 * @param maxRounds
@@ -257,13 +257,13 @@ public class GameSession {
 
 	/**
 	 * Returns an immutable copy of the {@link List} of {@link GameRound}s that
-	 * are part of this {@link GameSession}, where the last {@link GameRound} in
-	 * the {@link List} will be the current or final round of play. Will return
-	 * an empty {@link List} if {@link #getState()} is
+	 * are part of this {@link Game}, where the last {@link GameRound} in the
+	 * {@link List} will be the current or final round of play. Will return an
+	 * empty {@link List} if {@link #getState()} is
 	 * {@value State#WAITING_FOR_PLAYER}.
 	 * 
 	 * @return an immutable copy of the {@link List} of {@link GameRound}s that
-	 *         are part of this {@link GameSession}, or an empty {@link List} if
+	 *         are part of this {@link Game}, or an empty {@link List} if
 	 *         {@link #getState()} is {@value State#WAITING_FOR_PLAYER}
 	 */
 	public List<GameRound> getRounds() {
@@ -304,7 +304,7 @@ public class GameSession {
 	 * </p>
 	 * 
 	 * <pre>
-	 * GameSession game = ...;
+	 * Game game = ...;
 	 * 
 	 * if (!game.isRoundPrepared()) {
 	 *   game.prepareRound();
@@ -319,21 +319,21 @@ public class GameSession {
 	 * same actual round will not do anything.
 	 * </p>
 	 * <p>
-	 * <strong>Caution:</strong> If the {@link GameSession} being used is
-	 * persistent (to a DB via JPA), then any call to this method must be be
-	 * made by itself in a single transaction. Please note that multiple
-	 * concurrent calls to {@link #prepareRound()} by clients with different
-	 * copies of the {@link GameSession} (from the DB) may lead to DB constraint
-	 * violations for some of the calls. Such errors can be safely ignored, as
-	 * they simply indicate that another client's call was successful.
+	 * <strong>Caution:</strong> If the {@link Game} being used is persistent
+	 * (to a DB via JPA), then any call to this method must be be made by itself
+	 * in a single transaction. Please note that multiple concurrent calls to
+	 * {@link #prepareRound()} by clients with different copies of the
+	 * {@link Game} (from the DB) may lead to DB constraint violations for some
+	 * of the calls. Such errors can be safely ignored, as they simply indicate
+	 * that another client's call was successful.
 	 * </p>
 	 * <p>
 	 * Design note: Originally, this method's logic was part of
 	 * {@link #submitThrow(int, Player, Throw)}. However, in the face of
 	 * concurrent clients/players, it's quite likely that both players will make
-	 * their move at the same time, and thus each copy of the
-	 * {@link GameSession} will not realize that the round is complete. By
-	 * splitting this logic into a separate method, we also ensure that
+	 * their move at the same time, and thus each copy of the {@link Game} will
+	 * not realize that the round is complete. By splitting this logic into a
+	 * separate method, we also ensure that
 	 * {@link #submitThrow(int, Player, Throw)} won't generate DB constraint
 	 * errors; isolating the logic that might cause such errors in a separate
 	 * method seems prudent.
@@ -445,9 +445,9 @@ public class GameSession {
 	/**
 	 * @return the latest {@link GameRound#getThrowForPlayer1Timestamp()} /
 	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the
-	 *         {@link GameRound}s in this {@link GameSession}, or
-	 *         {@link GameSession#getCreatedTimestamp()} if no throws have yet
-	 *         been made
+	 *         {@link GameRound}s in this {@link Game}, or
+	 *         {@link Game#getCreatedTimestamp()} if no throws have yet been
+	 *         made
 	 */
 	public Instant getLastThrowTimestamp() {
 		Instant lastThrowTime = createdTimestamp;
@@ -469,11 +469,11 @@ public class GameSession {
 	}
 
 	/**
-	 * Determines the {@link Player} that won this {@link GameSession}, or
-	 * <code>null</code> if {@link GameSession#getState()} is not yet
+	 * Determines the {@link Player} that won this {@link Game}, or
+	 * <code>null</code> if {@link Game#getState()} is not yet
 	 * {@link State#FINISHED}.
 	 * 
-	 * @return the {@link Player} that won this {@link GameSession}.
+	 * @return the {@link Player} that won this {@link Game}.
 	 */
 	@XmlElement
 	public Player getWinner() {
@@ -482,7 +482,7 @@ public class GameSession {
 	}
 
 	/**
-	 * @return the {@link Player} that won this {@link GameSession}, or
+	 * @return the {@link Player} that won this {@link Game}, or
 	 *         <code>null</code> if the game is still in-progress
 	 */
 	private Player checkForWinner() {
@@ -587,7 +587,7 @@ public class GameSession {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("GameSession [id=");
+		builder.append("Game [id=");
 		builder.append(id);
 		builder.append(", state=");
 		builder.append(state);
@@ -604,40 +604,39 @@ public class GameSession {
 	}
 
 	/**
-	 * These values for the {@link GameSession#getState()} field represent a
-	 * very simple state machine for the state of each game.
+	 * These values for the {@link Game#getState()} field represent a very
+	 * simple state machine for the state of each game.
 	 */
 	public static enum State {
 		/**
-		 * {@link GameSession}s in this state are waiting for
-		 * {@link GameSession#getPlayer2()} to be identified. In this
-		 * {@link State}, the {@link GameSession#setMaxRounds(int)} and
-		 * {@link GameSession#setPlayer2(Player)} methods may be used, and
-		 * {@link GameSession#getRounds()} will return an empty {@link List}.
+		 * {@link Game}s in this state are waiting for {@link Game#getPlayer2()}
+		 * to be identified. In this {@link State}, the
+		 * {@link Game#setMaxRounds(int)} and {@link Game#setPlayer2(Player)}
+		 * methods may be used, and {@link Game#getRounds()} will return an
+		 * empty {@link List}.
 		 */
 		WAITING_FOR_PLAYER,
 
 		/**
-		 * {@link GameSession}s in this state are ready to be played, but have
-		 * not yet had a call to
-		 * {@link GameSession#submitThrow(int, Player, Throw)} complete yet. In
-		 * this {@link State}, the {@link GameSession#setMaxRounds(int)} method
-		 * may be used, and {@link GameSession#getRounds()} will return a
-		 * {@link List} with just the first {@link GameRound} in it.
+		 * {@link Game}s in this state are ready to be played, but have not yet
+		 * had a call to {@link Game#submitThrow(int, Player, Throw)} complete
+		 * yet. In this {@link State}, the {@link Game#setMaxRounds(int)} method
+		 * may be used, and {@link Game#getRounds()} will return a {@link List}
+		 * with just the first {@link GameRound} in it.
 		 */
 		WAITING_FOR_FIRST_THROW,
 
 		/**
-		 * {@link GameSession}s in this state represent games that are
-		 * in-progress. None of the {@link GameSession} setters may be used, and
-		 * {@link GameSession#getRounds()} will return a non-<code>null</code>,
+		 * {@link Game}s in this state represent games that are in-progress.
+		 * None of the {@link Game} setters may be used, and
+		 * {@link Game#getRounds()} will return a non-<code>null</code>,
 		 * non-empty {@link List}.
 		 */
 		STARTED,
 
 		/**
-		 * {@link GameSession}s in this state represent games that were played
-		 * and have completed.
+		 * {@link Game}s in this state represent games that were played and have
+		 * completed.
 		 */
 		FINISHED;
 	}
@@ -645,10 +644,10 @@ public class GameSession {
 	/**
 	 * The JPA {@link IdClass} for {@link GameRound}.
 	 */
-	public static final class GameSessionPk implements Serializable {
+	public static final class GamePk implements Serializable {
 		/*
 		 * Design note: This IDClass is required because GameRound has a
-		 * compound PK-and-FK relationship to GameSession, and its IdClass must
+		 * compound PK-and-FK relationship to Game, and its IdClass must
 		 * reference this one.
 		 */
 
@@ -659,12 +658,12 @@ public class GameSession {
 		/**
 		 * This public, no-arg/default constructor is required by JPA.
 		 */
-		public GameSessionPk() {
+		public GamePk() {
 		}
 
 		/**
 		 * @return this {@link IdClass} field corresponds to
-		 *         {@link GameSession#getId()}
+		 *         {@link Game#getId()}
 		 */
 		public String getId() {
 			return id;
@@ -710,7 +709,7 @@ public class GameSession {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			GameSessionPk other = (GameSessionPk) obj;
+			GamePk other = (GamePk) obj;
 			if (id == null) {
 				if (other.id != null)
 					return false;

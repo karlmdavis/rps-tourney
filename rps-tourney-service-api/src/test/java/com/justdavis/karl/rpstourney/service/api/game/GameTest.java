@@ -21,17 +21,17 @@ import org.w3c.dom.Node;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession.State;
 
 /**
- * Unit tests for {@link GameSession}. The JAXB tests here also cover
- * {@link Player} and {@link GameRound}.
+ * Unit tests for {@link Game}. The JAXB tests here also cover {@link Player}
+ * and {@link GameRound}.
  */
-public final class GameSessionTest {
+public final class GameTest {
 	/**
-	 * Ensures that {@link GameSession} instances can be marshalled when
-	 * {@link GameSession#getState()} is {@link State#WAITING_FOR_PLAYER}.
+	 * Ensures that {@link Game} instances can be marshalled when
+	 * {@link Game#getState()} is {@link State#WAITING_FOR_PLAYER}.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -42,54 +42,53 @@ public final class GameSessionTest {
 	public void jaxbMarshallingWaiting() throws JAXBException,
 			XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext.newInstance(GameSession.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Game.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instances to be converted to XML.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
-		GameSession gameSession = new GameSession(player1);
+		Game game = new Game(player1);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
-		marshaller.marshal(gameSession, domResult);
+		marshaller.marshal(game, domResult);
 
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
 		xpath.setNamespaceContext(new SimpleNamespaceContext("rps",
 				XmlNamespace.RPSTOURNEY_API));
-		Node gameSessionNode = (Node) xpath.evaluate("/rps:gameSession",
-				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertNotNull(gameSessionNode);
-		Node idNode = (Node) xpath.evaluate("/rps:gameSession/rps:id",
-				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals(gameSession.getId(), idNode.getTextContent());
-		Node timestampNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:createdTimestamp", domResult.getNode(),
+		Node gameNode = (Node) xpath.evaluate("/rps:game", domResult.getNode(),
 				XPathConstants.NODE);
-		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(gameSession
+		Assert.assertNotNull(gameNode);
+		Node idNode = (Node) xpath.evaluate("/rps:game/rps:id",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertEquals(game.getId(), idNode.getTextContent());
+		Node timestampNode = (Node) xpath.evaluate(
+				"/rps:game/rps:createdTimestamp", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(game
 				.getCreatedTimestamp()), timestampNode.getTextContent());
-		Node stateNode = (Node) xpath.evaluate("/rps:gameSession/rps:state",
+		Node stateNode = (Node) xpath.evaluate("/rps:game/rps:state",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("WAITING_FOR_PLAYER", stateNode.getTextContent());
-		Node roundsNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:maxRounds", domResult.getNode(),
-				XPathConstants.NODE);
+		Node roundsNode = (Node) xpath.evaluate("/rps:game/rps:maxRounds",
+				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("3", roundsNode.getTextContent());
 		Node player1AccountNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:player1/rps:humanAccount",
-				domResult.getNode(), XPathConstants.NODE);
+				"/rps:game/rps:player1/rps:humanAccount", domResult.getNode(),
+				XPathConstants.NODE);
 		Assert.assertNotNull(player1AccountNode);
 		Node player1AccountIdNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:player1/rps:humanAccount/rps:id",
+				"/rps:game/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
 	}
 
 	/**
-	 * Ensures that {@link GameSession} instances can be marshalled when
-	 * {@link GameSession#getState()} is {@link State#STARTED}.
+	 * Ensures that {@link Game} instances can be marshalled when
+	 * {@link Game#getState()} is {@link State#STARTED}.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -100,61 +99,60 @@ public final class GameSessionTest {
 	public void jaxbMarshallingStarted() throws JAXBException,
 			XPathExpressionException {
 		// Create the Marshaller needed.
-		JAXBContext jaxbContext = JAXBContext.newInstance(GameSession.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Game.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		// Create the instances to be converted to XML.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
-		GameSession gameSession = new GameSession(player1);
+		Game game = new Game(player1);
 		Account player2Account = new Account();
 		Player player2 = new Player(player2Account);
-		gameSession.setPlayer2(player2);
-		gameSession.submitThrow(0, player1, Throw.ROCK);
+		game.setPlayer2(player2);
+		game.submitThrow(0, player1, Throw.ROCK);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
-		marshaller.marshal(gameSession, domResult);
+		marshaller.marshal(game, domResult);
 
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
 		xpath.setNamespaceContext(new SimpleNamespaceContext("rps",
 				XmlNamespace.RPSTOURNEY_API));
-		Node gameSessionNode = (Node) xpath.evaluate("/rps:gameSession",
-				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertNotNull(gameSessionNode);
-		Node idNode = (Node) xpath.evaluate("/rps:gameSession/rps:id",
-				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals(gameSession.getId(), idNode.getTextContent());
-		Node timestampNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:createdTimestamp", domResult.getNode(),
+		Node gameNode = (Node) xpath.evaluate("/rps:game", domResult.getNode(),
 				XPathConstants.NODE);
-		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(gameSession
+		Assert.assertNotNull(gameNode);
+		Node idNode = (Node) xpath.evaluate("/rps:game/rps:id",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertEquals(game.getId(), idNode.getTextContent());
+		Node timestampNode = (Node) xpath.evaluate(
+				"/rps:game/rps:createdTimestamp", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertEquals(DateTimeFormatter.ISO_INSTANT.format(game
 				.getCreatedTimestamp()), timestampNode.getTextContent());
-		Node stateNode = (Node) xpath.evaluate("/rps:gameSession/rps:state",
+		Node stateNode = (Node) xpath.evaluate("/rps:game/rps:state",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("STARTED", stateNode.getTextContent());
-		Node roundsNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:maxRounds", domResult.getNode(),
-				XPathConstants.NODE);
+		Node roundsNode = (Node) xpath.evaluate("/rps:game/rps:maxRounds",
+				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("3", roundsNode.getTextContent());
 		Node player1AccountNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:player1/rps:humanAccount",
-				domResult.getNode(), XPathConstants.NODE);
+				"/rps:game/rps:player1/rps:humanAccount", domResult.getNode(),
+				XPathConstants.NODE);
 		Assert.assertNotNull(player1AccountNode);
 		Node player1AccountIdNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:player1/rps:humanAccount/rps:id",
+				"/rps:game/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
 		Node throwNode = (Node) xpath.evaluate(
-				"/rps:gameSession/rps:rounds/rps:round[1]/rps:throwForPlayer1",
+				"/rps:game/rps:rounds/rps:round[1]/rps:throwForPlayer1",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("ROCK", throwNode.getTextContent());
 	}
 
 	/**
-	 * Ensures that {@link GameSession} instances can be unmarshalled.
+	 * Ensures that {@link Game} instances can be unmarshalled.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -165,42 +163,38 @@ public final class GameSessionTest {
 	public void jaxbUnmarshalling() throws JAXBException,
 			XPathExpressionException {
 		// Create the Unmarshaller needed.
-		JAXBContext jaxbContext = JAXBContext.newInstance(GameSession.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Game.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
 		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
-				.getResource("sample-xml/gameSession-1.xml");
+				.getResource("sample-xml/game-1.xml");
 
 		// Parse the XML to an object.
-		GameSession parsedGameSession = (GameSession) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		Game parsedGame = (Game) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
-		Assert.assertNotNull(parsedGameSession);
-		Assert.assertEquals("abcdefghij", parsedGameSession.getId());
+		Assert.assertNotNull(parsedGame);
+		Assert.assertEquals("abcdefghij", parsedGame.getId());
 		Assert.assertEquals(Instant.parse("2007-12-03T10:15:30Z"),
-				parsedGameSession.getCreatedTimestamp());
-		Assert.assertEquals(State.WAITING_FOR_PLAYER,
-				parsedGameSession.getState());
-		Assert.assertEquals(3, parsedGameSession.getMaxRounds());
-		Assert.assertNotNull(parsedGameSession.getPlayer1());
-		Assert.assertNotNull(parsedGameSession.getPlayer1().getHumanAccount());
-		Assert.assertEquals(42, parsedGameSession.getPlayer1()
-				.getHumanAccount().getId());
-		Assert.assertNotNull(parsedGameSession.getRounds());
-		Assert.assertEquals(1, parsedGameSession.getRounds().size());
-		Assert.assertEquals(0, parsedGameSession.getRounds().get(0)
-				.getRoundIndex());
-		Assert.assertEquals(Throw.ROCK, parsedGameSession.getRounds().get(0)
+				parsedGame.getCreatedTimestamp());
+		Assert.assertEquals(State.WAITING_FOR_PLAYER, parsedGame.getState());
+		Assert.assertEquals(3, parsedGame.getMaxRounds());
+		Assert.assertNotNull(parsedGame.getPlayer1());
+		Assert.assertNotNull(parsedGame.getPlayer1().getHumanAccount());
+		Assert.assertEquals(42, parsedGame.getPlayer1().getHumanAccount()
+				.getId());
+		Assert.assertNotNull(parsedGame.getRounds());
+		Assert.assertEquals(1, parsedGame.getRounds().size());
+		Assert.assertEquals(0, parsedGame.getRounds().get(0).getRoundIndex());
+		Assert.assertEquals(Throw.ROCK, parsedGame.getRounds().get(0)
 				.getThrowForPlayer1());
-		Assert.assertNull(parsedGameSession.getRounds().get(0)
-				.getThrowForPlayer2());
+		Assert.assertNull(parsedGame.getRounds().get(0).getThrowForPlayer2());
 	}
 
 	/**
-	 * Ensures that {@link GameSession} instances' state transitions correctly
-	 * at the start of a game.
+	 * Ensures that {@link Game} instances' state transitions correctly at the
+	 * start of a game.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -213,37 +207,36 @@ public final class GameSessionTest {
 		// Create the initial instances.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
-		GameSession gameSession = new GameSession(player1);
-		gameSession.setMaxRounds(41);
+		Game game = new Game(player1);
+		game.setMaxRounds(41);
 
 		// Verify the initial state.
-		Assert.assertEquals(State.WAITING_FOR_PLAYER, gameSession.getState());
-		Assert.assertEquals(41, gameSession.getMaxRounds());
-		Assert.assertNotNull(gameSession.getPlayer1());
-		Assert.assertNull(gameSession.getPlayer2());
-		Assert.assertNotNull(gameSession.getRounds());
-		Assert.assertEquals(0, gameSession.getRounds().size());
+		Assert.assertEquals(State.WAITING_FOR_PLAYER, game.getState());
+		Assert.assertEquals(41, game.getMaxRounds());
+		Assert.assertNotNull(game.getPlayer1());
+		Assert.assertNull(game.getPlayer2());
+		Assert.assertNotNull(game.getRounds());
+		Assert.assertEquals(0, game.getRounds().size());
 
 		// Set the second player.
 		Account player2Account = new Account();
 		Player player2 = new Player(player2Account);
-		gameSession.setPlayer2(player2);
-		Assert.assertEquals(State.WAITING_FOR_FIRST_THROW,
-				gameSession.getState());
-		Assert.assertEquals(41, gameSession.getMaxRounds());
-		Assert.assertNotNull(gameSession.getPlayer1());
-		Assert.assertNotNull(gameSession.getPlayer2());
-		Assert.assertNotNull(gameSession.getRounds());
-		Assert.assertEquals(1, gameSession.getRounds().size());
+		game.setPlayer2(player2);
+		Assert.assertEquals(State.WAITING_FOR_FIRST_THROW, game.getState());
+		Assert.assertEquals(41, game.getMaxRounds());
+		Assert.assertNotNull(game.getPlayer1());
+		Assert.assertNotNull(game.getPlayer2());
+		Assert.assertNotNull(game.getRounds());
+		Assert.assertEquals(1, game.getRounds().size());
 
 		// Submit the first throw.
-		gameSession.submitThrow(0, player1, Throw.ROCK);
-		Assert.assertEquals(State.STARTED, gameSession.getState());
+		game.submitThrow(0, player1, Throw.ROCK);
+		Assert.assertEquals(State.STARTED, game.getState());
 	}
 
 	/**
-	 * Ensures that {@link GameSession} instances' state transitions correctly
-	 * as rounds are completed.
+	 * Ensures that {@link Game} instances' state transitions correctly as
+	 * rounds are completed.
 	 * 
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
@@ -256,7 +249,7 @@ public final class GameSessionTest {
 		// Create the initial instances.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(41);
 
 		// Set the second player, which should start the game automatically.
@@ -285,7 +278,7 @@ public final class GameSessionTest {
 		// Create the game.
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(1);
 		game.setPlayer2(player2);
 
@@ -309,7 +302,7 @@ public final class GameSessionTest {
 		// Create the game.
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(3);
 		game.setPlayer2(player2);
 
@@ -355,7 +348,7 @@ public final class GameSessionTest {
 		// Create the game.
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(3);
 		game.setPlayer2(player2);
 
@@ -413,7 +406,7 @@ public final class GameSessionTest {
 		// Create the game.
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(3);
 		game.setPlayer2(player2);
 
@@ -441,14 +434,14 @@ public final class GameSessionTest {
 	}
 
 	/**
-	 * Tests that {@link GameSession#setMaxRounds(int)} throws a
+	 * Tests that {@link Game#setMaxRounds(int)} throws a
 	 * {@link GameConflictException} when it should.
 	 */
 	@Test(expected = GameConflictException.class)
 	public void setMaxRounds_conflicts() {
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setPlayer2(player2);
 		game.submitThrow(0, player1, Throw.ROCK);
 
@@ -457,14 +450,14 @@ public final class GameSessionTest {
 	}
 
 	/**
-	 * Tests that {@link GameSession#submitThrow(int, Player, Throw)} throws a
+	 * Tests that {@link Game#submitThrow(int, Player, Throw)} throws a
 	 * {@link GameConflictException} when the wrong round is specified.
 	 */
 	@Test(expected = GameConflictException.class)
 	public void submitThrow_conflictingRound() {
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setPlayer2(player2);
 
 		// Should blow up:
@@ -472,14 +465,14 @@ public final class GameSessionTest {
 	}
 
 	/**
-	 * Tests {@link GameSession#getLastThrowTimestamp()}.
+	 * Tests {@link Game#getLastThrowTimestamp()}.
 	 */
 	@Test
 	public void getLastThrowTime() {
 		// Create the game.
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
-		GameSession game = new GameSession(player1);
+		Game game = new Game(player1);
 		game.setMaxRounds(3);
 		game.setPlayer2(player2);
 

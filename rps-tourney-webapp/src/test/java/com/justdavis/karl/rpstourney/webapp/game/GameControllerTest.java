@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
@@ -38,19 +38,18 @@ public final class GameControllerTest {
 	 *             (all of the MVC test methods declare this exception)
 	 */
 	@Test
-	public void createNewGame() throws Exception {
+	public void createNewController() throws Exception {
 		// Build the mocks that will be needed by the controller.
 		MessageSource messageSource = new ResourceBundleMessageSource();
-		GameSession game = new GameSession(new Player(new Account()));
-		IGameSessionResource gameClient = new MockGameClient(game);
+		Game game = new Game(new Player(new Account()));
+		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
-				.build();
+		GameController GameController = new GameController(messageSource, gameClient,
+				accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		// Run the mock tests against the controller.
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/"))
@@ -62,29 +61,28 @@ public final class GameControllerTest {
 
 	/**
 	 * Tests
-	 * {@link GameController#getGameSession(String, java.security.Principal, java.util.Locale)}
+	 * {@link GameController#getGame(String, java.security.Principal, java.util.Locale)}
 	 * .
 	 * 
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
 	@Test
-	public void getGameSession() throws Exception {
+	public void GameController() throws Exception {
 		// Build the mocks that will be needed by the controller.
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource
 				.setBasename("file:./src/main/webapp/WEB-INF/i18n/messages");
 		messageSource.setFallbackToSystemLocale(false);
-		GameSession game = new GameSession(new Player(new Account()));
-		IGameSessionResource gameClient = new MockGameClient(game);
+		Game game = new Game(new Player(new Account()));
+		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
-				.build();
+		GameController GameController = new GameController(messageSource, gameClient,
+				accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		/*
 		 * Run the mock tests against the controller. We'll check the status and
@@ -100,8 +98,7 @@ public final class GameControllerTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link GameController#updateName(String, String, java.security.Principal)}
+	 * Tests {@link GameController#updateName(String, String, java.security.Principal)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -115,17 +112,16 @@ public final class GameControllerTest {
 				.setBasename("file:./src/main/webapp/WEB-INF/i18n/messages");
 		messageSource.setFallbackToSystemLocale(false);
 		Account player1 = new Account();
-		GameSession game = new GameSession(new Player(player1));
-		IGameSessionResource gameClient = new MockGameClient(game);
+		Game game = new Game(new Player(player1));
+		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
 				player1);
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
-				.build();
+		GameController GameController = new GameController(messageSource, gameClient,
+				accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		/*
 		 * Run the mock tests against the controller, and verify that nothing

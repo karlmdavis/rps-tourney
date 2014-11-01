@@ -21,7 +21,7 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningReq
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.SpringConfig;
@@ -29,15 +29,15 @@ import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
 /**
- * Integration tests for {@link GameSessionsDaoImpl}.
+ * Integration tests for {@link GamesDaoImpl}.
  */
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = { SpringConfig.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
-public final class GameSessionsDaoImplIT {
+public final class GamesDaoImplIT {
 	/**
 	 * @return the test run parameters to pass to
-	 *         {@link #GameSessionsDaoImplIT(IProvisioningRequest)}, where each
+	 *         {@link #GamesDaoImplIT(IProvisioningRequest)}, where each
 	 *         top-level element in the returned {@link Collection} represents a
 	 *         test run
 	 */
@@ -60,7 +60,7 @@ public final class GameSessionsDaoImplIT {
 	public DaoTestHelper daoTestHelper;
 
 	/**
-	 * Constructs a new {@link GameSessionsDaoImplIT} instance. The test runner
+	 * Constructs a new {@link GamesDaoImplIT} instance. The test runner
 	 * will generate the parameters to pass to this from the
 	 * {@link #createTestParameters()} method.
 	 * 
@@ -69,7 +69,7 @@ public final class GameSessionsDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public GameSessionsDaoImplIT(IProvisioningRequest provisioningRequest)
+	public GamesDaoImplIT(IProvisioningRequest provisioningRequest)
 			throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
@@ -90,8 +90,8 @@ public final class GameSessionsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GameSessionsDaoImpl#save(GameSession)} with a new/empty
-	 * {@link GameSession}.
+	 * Tests {@link GamesDaoImpl#save(Game)} with a new/empty
+	 * {@link Game}.
 	 */
 	@Test
 	public void saveNewGame() {
@@ -100,12 +100,12 @@ public final class GameSessionsDaoImplIT {
 
 		try {
 			// Create the DAO.
-			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
 			gamesDao.setEntityManager(entityManager);
 
 			// Create the entity to try saving.
 			Player player1 = new Player(new Account());
-			GameSession game = new GameSession(player1);
+			Game game = new Game(player1);
 
 			// Try to save the entity.
 			EntityTransaction tx = entityManager.getTransaction();
@@ -119,8 +119,8 @@ public final class GameSessionsDaoImplIT {
 			}
 
 			// Verify the result.
-			Assert.assertEquals(1, gamesDao.getGameSessions().size());
-			GameSession gameFromDb = gamesDao.getGameSessions().get(0);
+			Assert.assertEquals(1, gamesDao.getGames().size());
+			Game gameFromDb = gamesDao.getGames().get(0);
 			Assert.assertNotNull(gameFromDb.getPlayer1());
 			Assert.assertEquals(game.getState(), gameFromDb.getState());
 			Assert.assertEquals(game.getMaxRounds(), gameFromDb.getMaxRounds());
@@ -130,8 +130,8 @@ public final class GameSessionsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GameSessionsDaoImpl#save(GameSession)} with an updated
-	 * {@link GameSession}.
+	 * Tests {@link GamesDaoImpl#save(Game)} with an updated
+	 * {@link Game}.
 	 */
 	@Test
 	public void saveUpdatedGame() {
@@ -140,12 +140,12 @@ public final class GameSessionsDaoImplIT {
 
 		try {
 			// Create the DAO.
-			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
 			gamesDao.setEntityManager(entityManager);
 
 			// Create the entity to try saving.
 			Player player1 = new Player(new Account());
-			GameSession game = new GameSession(player1);
+			Game game = new Game(player1);
 
 			// Try to save the entity.
 			EntityTransaction tx = entityManager.getTransaction();
@@ -174,8 +174,8 @@ public final class GameSessionsDaoImplIT {
 			}
 
 			// Verify the result.
-			Assert.assertEquals(1, gamesDao.getGameSessions().size());
-			GameSession gameFromDb = gamesDao.getGameSessions().get(0);
+			Assert.assertEquals(1, gamesDao.getGames().size());
+			Game gameFromDb = gamesDao.getGames().get(0);
 			Assert.assertNotNull(gameFromDb.getPlayer1());
 			Assert.assertEquals(game.getState(), gameFromDb.getState());
 			Assert.assertEquals(game.getMaxRounds(), gameFromDb.getMaxRounds());
@@ -185,8 +185,8 @@ public final class GameSessionsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GameSessionsDaoImpl#save(GameSession)} with a
-	 * {@link GameSession} that has some {@link GameRound}s.
+	 * Tests {@link GamesDaoImpl#save(Game)} with a
+	 * {@link Game} that has some {@link GameRound}s.
 	 */
 	@Test
 	public void saveWithRounds() {
@@ -195,12 +195,12 @@ public final class GameSessionsDaoImplIT {
 
 		try {
 			// Create the DAO.
-			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
 			gamesDao.setEntityManager(entityManager);
 
 			// Create the entity to try saving.
 			Player player1 = new Player(new Account());
-			GameSession game = new GameSession(player1);
+			Game game = new Game(player1);
 			Player player2 = new Player(new Account());
 			game.setPlayer2(player2);
 			game.submitThrow(0, player1, Throw.ROCK);
@@ -220,8 +220,8 @@ public final class GameSessionsDaoImplIT {
 			}
 
 			// Verify the result.
-			Assert.assertEquals(1, gamesDao.getGameSessions().size());
-			GameSession gameFromDb = gamesDao.getGameSessions().get(0);
+			Assert.assertEquals(1, gamesDao.getGames().size());
+			Game gameFromDb = gamesDao.getGames().get(0);
 			Assert.assertNotNull(gameFromDb.getPlayer1());
 			Assert.assertNotNull(gameFromDb.getPlayer2());
 			Assert.assertEquals(game.getState(), gameFromDb.getState());
@@ -234,7 +234,7 @@ public final class GameSessionsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GameSessionsDaoImpl#findById(String)}.
+	 * Tests {@link GamesDaoImpl#findById(String)}.
 	 */
 	@Test
 	public void findById() {
@@ -243,12 +243,12 @@ public final class GameSessionsDaoImplIT {
 
 		try {
 			// Create the DAO.
-			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
 			gamesDao.setEntityManager(entityManager);
 
 			// Create and save the entity to test against.
 			Player player1 = new Player(new Account());
-			GameSession game = new GameSession(player1);
+			Game game = new Game(player1);
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
 				tx.begin();
@@ -260,12 +260,12 @@ public final class GameSessionsDaoImplIT {
 			}
 
 			// Try to query for the entity.
-			GameSession gameThatShouldExist = gamesDao.findById(game.getId());
+			Game gameThatShouldExist = gamesDao.findById(game.getId());
 			Assert.assertNotNull(gameThatShouldExist);
 			Assert.assertEquals(game.getId(), gameThatShouldExist.getId());
 
 			// Try to query for a non-existent entity.
-			GameSession gameThatShouldntExist = gamesDao.findById("123");
+			Game gameThatShouldntExist = gamesDao.findById("123");
 			Assert.assertNull(gameThatShouldntExist);
 		} finally {
 			entityManager.close();
@@ -273,7 +273,7 @@ public final class GameSessionsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GameSessionsDaoImpl#getGameSessionsForPlayer(Player)}.
+	 * Tests {@link GamesDaoImpl#getGamesForPlayer(Player)}.
 	 */
 	@Test
 	public void getGamesForPlayer() {
@@ -282,15 +282,15 @@ public final class GameSessionsDaoImplIT {
 
 		try {
 			// Create the DAO.
-			GameSessionsDaoImpl gamesDao = new GameSessionsDaoImpl();
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
 			gamesDao.setEntityManager(entityManager);
 
 			// Create and save the entities to test against.
 			Player playerA = new Player(new Account());
 			Player playerB = new Player(new Account());
-			GameSession game1 = new GameSession(playerA);
+			Game game1 = new Game(playerA);
 			game1.setPlayer2(playerB);
-			GameSession game2 = new GameSession(playerA);
+			Game game2 = new Game(playerA);
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
 				tx.begin();
@@ -303,12 +303,12 @@ public final class GameSessionsDaoImplIT {
 			}
 
 			// Try to query for the entities.
-			List<GameSession> gamesForPlayerA = gamesDao
-					.getGameSessionsForPlayer(playerA);
+			List<Game> gamesForPlayerA = gamesDao
+					.getGamesForPlayer(playerA);
 			Assert.assertNotNull(gamesForPlayerA);
 			Assert.assertEquals(2, gamesForPlayerA.size());
-			List<GameSession> gamesForPlayerB = gamesDao
-					.getGameSessionsForPlayer(playerB);
+			List<Game> gamesForPlayerB = gamesDao
+					.getGamesForPlayer(playerB);
 			Assert.assertNotNull(gamesForPlayerB);
 			Assert.assertEquals(1, gamesForPlayerB.size());
 		} finally {

@@ -22,11 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
@@ -39,7 +39,7 @@ import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 @RequestMapping("/game")
 public class GameController {
 	private final MessageSource messageSource;
-	private final IGameSessionResource gameClient;
+	private final IGameResource gameClient;
 	private final IAccountsResource accountsClient;
 	private final IGuestLoginManager guestLoginManager;
 
@@ -49,7 +49,7 @@ public class GameController {
 	 * @param messageSource
 	 *            the {@link MessageSource} to use
 	 * @param gameClient
-	 *            the {@link IGameSessionResource} client to use
+	 *            the {@link IGameResource} client to use
 	 * @param accountsClient
 	 *            the {@link IAccountsResource} client to use
 	 * @param guestLoginManager
@@ -57,7 +57,7 @@ public class GameController {
 	 */
 	@Inject
 	public GameController(MessageSource messageSource,
-			IGameSessionResource gameClient, IAccountsResource accountsClient,
+			IGameResource gameClient, IAccountsResource accountsClient,
 			IGuestLoginManager guestLoginManager) {
 		this.messageSource = messageSource;
 		this.gameClient = gameClient;
@@ -67,8 +67,8 @@ public class GameController {
 
 	/**
 	 * <p>
-	 * Creates a new persistent {@link GameSession} and redirects to
-	 * {@link #getGameSession(String, Principal)} to display it.
+	 * Creates a new persistent {@link Game} and redirects to
+	 * {@link #getGame(String, Principal)} to display it.
 	 * </p>
 	 * <p>
 	 * Note: If the requesting client is not logged in/authenticated when making
@@ -83,8 +83,8 @@ public class GameController {
 	 *            the {@link HttpServletRequest} being processed
 	 * @param response
 	 *            the {@link HttpServletResponse} being generated
-	 * @return a <code>redirect:</code> view name for the
-	 *         {@link #getGameSession()} that's been created
+	 * @return a <code>redirect:</code> view name for the {@link Game} that's
+	 *         been created
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String createNewGame(Principal authenticatedUser,
@@ -95,15 +95,15 @@ public class GameController {
 		}
 
 		// Create the new game.
-		GameSession game = gameClient.createGame();
+		Game game = gameClient.createGame();
 
 		// Redirect the user to that new game.
 		return "redirect:/game/" + game.getId();
 	}
 
 	/**
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} of the game being requested
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being requested
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param locale
@@ -111,10 +111,10 @@ public class GameController {
 	 * @return a {@link ModelAndView} that can be used to render an existing
 	 *         gameplay session
 	 */
-	@RequestMapping(value = "/{gameSessionId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView getGameSession(@PathVariable String gameSessionId,
+	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+	public ModelAndView getGame(@PathVariable String gameId,
 			Principal authenticatedUser, Locale locale) {
-		GameSession game = loadGame(gameSessionId);
+		Game game = loadGame(gameId);
 
 		ModelAndView modelAndView = buildGameModelAndView(locale,
 				authenticatedUser, game);
@@ -124,22 +124,21 @@ public class GameController {
 
 	/**
 	 * The controller facade for
-	 * {@link IGameSessionResource#submitThrow(String, int, Throw)}.
+	 * {@link IGameResource#submitThrow(String, int, Throw)}.
 	 * 
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} of the game being updated
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being updated
 	 * @param throwToPlay
 	 *            the {@link Throw} that the current user/player is submitting
 	 *            for the current {@link GameRound} in the specified
-	 *            {@link GameSession}
-	 * @return a <code>redirect:</code> view name for the
-	 *         {@link #getGameSession()} that's been created
+	 *            {@link Game}
+	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameSessionId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String updateName(@PathVariable String gameSessionId,
+	@RequestMapping(value = "/{gameId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String updateName(@PathVariable String gameId,
 			String currentPlayerName, Principal authenticatedUser) {
 		// Load the specified game.
-		GameSession gameBeforeThrow = loadGame(gameSessionId);
+		Game gameBeforeThrow = loadGame(gameId);
 
 		// There's nothing to change if they haven't logged in yet.
 		if (authenticatedUser == null)
@@ -157,23 +156,22 @@ public class GameController {
 
 	/**
 	 * The controller facade for
-	 * {@link IGameSessionResource#submitThrow(String, int, Throw)}.
+	 * {@link IGameResource#submitThrow(String, int, Throw)}.
 	 * 
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} of the game being updated
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being updated
 	 * @param throwToPlay
 	 *            the {@link Throw} that the current user/player is submitting
 	 *            for the current {@link GameRound} in the specified
-	 *            {@link GameSession}
-	 * @return a <code>redirect:</code> view name for the
-	 *         {@link #getGameSession()} that's been created
+	 *            {@link Game}
+	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameSessionId}/playThrow", method = {
+	@RequestMapping(value = "/{gameId}/playThrow", method = {
 			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String submitThrow(@PathVariable String gameSessionId,
+	public String submitThrow(@PathVariable String gameId,
 			@RequestParam Throw throwToPlay) {
 		// Load the specified game.
-		GameSession gameBeforeThrow = loadGame(gameSessionId);
+		Game gameBeforeThrow = loadGame(gameId);
 
 		// Submit the throw.
 		GameRound currentRound = gameBeforeThrow.getRounds().get(
@@ -182,26 +180,25 @@ public class GameController {
 				currentRound.getRoundIndex(), throwToPlay);
 
 		// Redirect the user to the updated game.
-		return "redirect:/game/" + gameSessionId;
+		return "redirect:/game/" + gameId;
 	}
 
 	/**
-	 * The controller facade for {@link IGameSessionResource#joinGame(String)}.
+	 * The controller facade for {@link IGameResource#joinGame(String)}.
 	 * 
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} of the game being updated
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being updated
 	 * @param request
 	 *            the {@link HttpServletRequest} being processed
 	 * @param response
 	 *            the {@link HttpServletResponse} being generated
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
-	 * @return a <code>redirect:</code> view name for the
-	 *         {@link #getGameSession()} that's been created
+	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameSessionId}/join", method = {
-			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String joinGame(@PathVariable String gameSessionId,
+	@RequestMapping(value = "/{gameId}/join", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String joinGame(@PathVariable String gameId,
 			HttpServletRequest request, HttpServletResponse response,
 			Principal authenticatedUser) {
 		// If the user isn't already logged in, log them in as a guest.
@@ -211,38 +208,37 @@ public class GameController {
 		}
 
 		// Load the specified game.
-		GameSession gameBeforeJoin = loadGame(gameSessionId);
+		Game gameBeforeJoin = loadGame(gameId);
 
 		// Try to join the game.
 		gameClient.joinGame(gameBeforeJoin.getId());
 
 		// Redirect the user to the updated game.
-		return "redirect:/game/" + gameSessionId;
+		return "redirect:/game/" + gameId;
 	}
 
 	/**
 	 * The controller facade for
-	 * {@link IGameSessionResource#setMaxRounds(String, int, int)}.
+	 * {@link IGameResource#setMaxRounds(String, int, int)}.
 	 * 
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} of the game being updated
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being updated
 	 * @param oldMaxRoundsValue
-	 *            the current/old value of {@link GameSession#getMaxRounds()}
-	 *            (used to help prevent synchronization issues)
+	 *            the current/old value of {@link Game#getMaxRounds()} (used to
+	 *            help prevent synchronization issues)
 	 * @param newMaxRoundsValue
-	 *            the new value for {@link GameSession#getMaxRounds()}
+	 *            the new value for {@link Game#getMaxRounds()}
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
-	 * @return a <code>redirect:</code> view name for the
-	 *         {@link #getGameSession()} that's been created
+	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameSessionId}/setMaxRounds", method = {
+	@RequestMapping(value = "/{gameId}/setMaxRounds", method = {
 			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String setMaxRounds(@PathVariable String gameSessionId,
+	public String setMaxRounds(@PathVariable String gameId,
 			@RequestParam int oldMaxRoundsValue,
 			@RequestParam int newMaxRoundsValue, Principal authenticatedUser) {
 		// Load the specified game.
-		GameSession game = loadGame(gameSessionId);
+		Game game = loadGame(gameId);
 
 		// In the webapp, we'll only allow actual players to adjust this.
 		if (!isUserThisPlayer(authenticatedUser, game.getPlayer1())
@@ -253,7 +249,7 @@ public class GameController {
 
 		// Try to set the number of rounds.
 		try {
-			gameClient.setMaxRounds(gameSessionId, oldMaxRoundsValue,
+			gameClient.setMaxRounds(gameId, oldMaxRoundsValue,
 					newMaxRoundsValue);
 		} catch (GameConflictException e) {
 			/*
@@ -269,19 +265,18 @@ public class GameController {
 		}
 
 		// Redirect the user to the updated game.
-		return "redirect:/game/" + gameSessionId;
+		return "redirect:/game/" + gameId;
 	}
 
 	/**
-	 * @param gameSessionId
-	 *            the {@link GameSession#getId()} to match against
-	 * @return the specified {@link GameSession}, as returned by
-	 *         {@link #gameClient}
+	 * @param gameId
+	 *            the {@link Game#getId()} to match against
+	 * @return the specified {@link Game}, as returned by {@link #gameClient}
 	 */
-	private GameSession loadGame(String gameSessionId) {
-		GameSession game = null;
+	private Game loadGame(String gameId) {
+		Game game = null;
 		try {
-			game = gameClient.getGame(gameSessionId);
+			game = gameClient.getGame(gameId);
 		} catch (HttpClientException e) {
 			if (e.getStatus().getStatusCode() == Status.NOT_FOUND
 					.getStatusCode())
@@ -300,14 +295,14 @@ public class GameController {
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param game
-	 *            the {@link GameSession} to render
+	 *            the {@link Game} to render
 	 * @return the {@link ModelAndView} for <code>game.jsp</code> to render
 	 */
 	private ModelAndView buildGameModelAndView(Locale locale,
-			Principal authenticatedUser, GameSession game) {
+			Principal authenticatedUser, Game game) {
 		ModelAndView modelAndView = new ModelAndView("game");
 
-		// Add the GameSession to the model.
+		// Add the Game to the model.
 		modelAndView.addObject("game", game);
 
 		// Add some display-related data to the model.
@@ -371,15 +366,15 @@ public class GameController {
 
 	/**
 	 * @param game
-	 *            the {@link GameSession} to get the label for
+	 *            the {@link Game} to get the label for
 	 * @param messageSource
 	 *            the {@link MessageSource} to look up text from
 	 * @param locale
 	 *            the {@link Locale} to display text for
 	 * @return the display text/label to use to represent
-	 *         {@link GameSession#getPlayer1()}
+	 *         {@link Game#getPlayer1()}
 	 */
-	private static String getPlayer1Label(GameSession game,
+	private static String getPlayer1Label(Game game,
 			MessageSource messageSource, Locale locale) {
 		// If the Player has an actual name, use that.
 		if (game.getPlayer1() != null && game.getPlayer1().getName() != null)
@@ -395,15 +390,15 @@ public class GameController {
 
 	/**
 	 * @param game
-	 *            the {@link GameSession} to get the label for
+	 *            the {@link Game} to get the label for
 	 * @param messageSource
 	 *            the {@link MessageSource} to look up text from
 	 * @param locale
 	 *            the {@link Locale} to display text for
 	 * @return the display text/label to use to represent
-	 *         {@link GameSession#getPlayer2()}
+	 *         {@link Game#getPlayer2()}
 	 */
-	private static String getPlayer2Label(GameSession game,
+	private static String getPlayer2Label(Game game,
 			MessageSource messageSource, Locale locale) {
 		// If the Player has an actual name, use that.
 		if (game.getPlayer2() != null && game.getPlayer2().getName() != null)

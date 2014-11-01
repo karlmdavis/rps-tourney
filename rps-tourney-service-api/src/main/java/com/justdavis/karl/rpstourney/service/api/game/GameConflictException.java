@@ -8,9 +8,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 /**
  * <p>
  * A runtime exception indicating that an attempt was made to modify a
- * {@link GameSession}'s state in an incorrect way. These are typically caused
+ * {@link Game}'s state in an incorrect way. These are typically caused
  * by "mid-air collision" issues, when two users/clients try to update a
- * {@link GameSession} at the same time.
+ * {@link Game} at the same time.
  * </p>
  * <p>
  * Gets translated to a {@link javax.ws.rs.core.Response.Status#CONFLICT

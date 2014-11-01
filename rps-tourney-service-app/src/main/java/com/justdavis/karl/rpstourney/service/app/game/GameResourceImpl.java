@@ -19,35 +19,35 @@ import org.springframework.web.context.WebApplicationContext;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 
 /**
- * The web service implementation of {@link IGameSessionResource}, which is the
- * primary service for gameplay interactions.
+ * The web service implementation of {@link IGameResource}, which is the primary
+ * service for gameplay interactions.
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class GameSessionResourceImpl implements IGameSessionResource {
+public class GameResourceImpl implements IGameResource {
 	private AccountSecurityContext securityContext;
 	private IPlayersDao playersDao;
-	private IGameSessionsDao gamesDao;
+	private IGamesDao gamesDao;
 
 	/**
 	 * This public, default/no-arg constructor is required by Spring (for
 	 * request-scoped beans).
 	 */
-	public GameSessionResourceImpl() {
+	public GameResourceImpl() {
 	}
 
 	/**
 	 * @param securityContext
 	 *            the {@link AccountSecurityContext} for the request that the
-	 *            {@link GameSessionResourceImpl} was instantiated to handle
+	 *            {@link GameResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
@@ -71,10 +71,10 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 
 	/**
 	 * @param gamesDao
-	 *            the injected {@link IGameSessionsDao} to use
+	 *            the injected {@link IGamesDao} to use
 	 */
 	@Inject
-	public void setGamesDao(IGameSessionsDao gamesDao) {
+	public void setGamesDao(IGamesDao gamesDao) {
 		if (gamesDao == null)
 			throw new IllegalArgumentException();
 
@@ -82,29 +82,29 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#createGame()
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#createGame()
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public GameSession createGame() {
+	public Game createGame() {
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
 		Player userPlayer = playersDao
 				.findOrCreatePlayerForAccount(userAccount);
 
 		// Create the new game.
-		GameSession game = new GameSession(userPlayer);
+		Game game = new Game(userPlayer);
 		gamesDao.save(game);
 
 		return game;
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#getGamesForPlayer()
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#getGamesForPlayer()
 	 */
 	@Override
-	public List<GameSession> getGamesForPlayer() {
+	public List<Game> getGamesForPlayer() {
 		// Return an empty Set for unauthenticated users.
 		if (securityContext.getUserPrincipal() == null) {
 			return Collections.emptyList();
@@ -116,33 +116,33 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 				.findOrCreatePlayerForAccount(userAccount);
 
 		// Get the games for that Player.
-		List<GameSession> games = gamesDao.getGameSessionsForPlayer(userPlayer);
+		List<Game> games = gamesDao.getGamesForPlayer(userPlayer);
 		return games;
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#getGame(java.lang.String)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#getGame(java.lang.String)
 	 */
 	@Override
-	public GameSession getGame(String gameSessionId) {
+	public Game getGame(String gameId) {
 		// Look up the specified game.
-		GameSession game = gamesDao.findById(gameSessionId);
+		Game game = gamesDao.findById(gameId);
 		if (game == null)
-			throw new NotFoundException("Game not found: " + gameSessionId);
+			throw new NotFoundException("Game not found: " + gameId);
 
 		return game;
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#setMaxRounds(java.lang.String,
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String,
 	 *      int, int)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public GameSession setMaxRounds(String gameSessionId,
-			int oldMaxRoundsValue, int newMaxRoundsValue) {
-		GameSession game = getGame(gameSessionId);
+	public Game setMaxRounds(String gameId, int oldMaxRoundsValue,
+			int newMaxRoundsValue) {
+		Game game = getGame(gameId);
 
 		/*
 		 * Check to make sure that the requesting user is one of the two
@@ -156,7 +156,7 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 			throw new IllegalArgumentException();
 
 		try {
-			game = gamesDao.setMaxRounds(gameSessionId, oldMaxRoundsValue,
+			game = gamesDao.setMaxRounds(gameId, oldMaxRoundsValue,
 					newMaxRoundsValue);
 		} catch (IllegalArgumentException e) {
 			// Invalid rounds value.
@@ -167,13 +167,13 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#joinGame(java.lang.String)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#joinGame(java.lang.String)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public GameSession joinGame(String gameSessionId) {
-		GameSession game = getGame(gameSessionId);
+	public Game joinGame(String gameId) {
+		Game game = getGame(gameId);
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
@@ -192,17 +192,17 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#prepareRound(java.lang.String)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#prepareRound(java.lang.String)
 	 */
 	@Transactional
 	@Override
-	public GameSession prepareRound(String gameSessionId) {
+	public Game prepareRound(String gameId) {
 		/*
 		 * Note: This method is intentionally not marked with @RolesAllowed, as
 		 * it doesn't really matter who calls it.
 		 */
 
-		GameSession game = getGame(gameSessionId);
+		Game game = getGame(gameId);
 
 		// Prepare the round, if needed.
 		if (!game.isRoundPrepared()) {
@@ -214,15 +214,14 @@ public class GameSessionResourceImpl implements IGameSessionResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource#submitThrow(java.lang.String,
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String,
 	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public GameSession submitThrow(String gameSessionId, int roundIndex,
-			Throw throwToPlay) {
-		GameSession game = getGame(gameSessionId);
+	public Game submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
+		Game game = getGame(gameId);
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();

@@ -120,7 +120,7 @@ public class SpringConfig {
 		resourceProviders.add(new RequestScopeResourceFactory(
 				"gameAuthResourceImpl"));
 		resourceProviders.add(new RequestScopeResourceFactory(
-				"gameSessionResourceImpl"));
+				"gameResourceImpl"));
 
 		/*
 		 * Initialize all of the SpringResourceFactory instances. This

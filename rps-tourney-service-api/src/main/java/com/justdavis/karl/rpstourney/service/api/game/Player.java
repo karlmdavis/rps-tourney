@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 
 /**
- * Models a player in a {@link GameSession}. This class allows other code to
+ * Models a player in a {@link Game}. This class allows other code to
  * abstract away the difference between human and AI players. While it's not
  * enforced by database constraints, whatever logic is used to create
  * {@link Player} instances should ensure that no more than one {@link Player}
  * instance exists for a given human or AI player; {@link Player} instances
- * should be shared between {@link GameSession}s.
+ * should be shared between {@link Game}s.
  */
 @Entity
 @Table(name = "`Players`")

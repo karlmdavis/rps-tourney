@@ -3,10 +3,10 @@ package com.justdavis.karl.rpstourney.webapp.game;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
 
 /**
- * This exception can be thrown to indicate that a {@link GameSession} was
+ * This exception can be thrown to indicate that a {@link Game} was
  * requested that doesn't actually exist.
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)

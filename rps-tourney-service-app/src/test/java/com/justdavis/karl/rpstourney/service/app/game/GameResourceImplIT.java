@@ -23,10 +23,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession.State;
-import com.justdavis.karl.rpstourney.service.api.game.IGameSessionResource;
+import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
@@ -35,17 +35,16 @@ import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
-import com.justdavis.karl.rpstourney.service.client.game.GameSessionClient;
+import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 
 /**
- * Integration tests for {@link GameSessionResourceImpl} and
- * {@link GameSessionClient}.
+ * Integration tests for {@link GameResourceImpl} and {@link GameClient}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { JettyBindingsForITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
-public final class GameSessionResourceImplIT {
+public final class GameResourceImplIT {
 	@Inject
 	private EmbeddedServer server;
 
@@ -67,10 +66,8 @@ public final class GameSessionResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server
-	 * {@link IGameSessionResource#createGame()} and
-	 * {@link IGameSessionResource#getGame(String)} implementations work
-	 * correctly.
+	 * Ensures that the client and server {@link IGameResource#createGame()} and
+	 * {@link IGameResource#getGame(String)} implementations work correctly.
 	 */
 	@Test
 	public void createAndGet() {
@@ -84,9 +81,9 @@ public final class GameSessionResourceImplIT {
 		Account accountForPlayer1 = authClientForPlayer1.loginAsGuest();
 
 		// Create the game.
-		GameSessionClient gameClientForPlayer1 = new GameSessionClient(
-				clientConfig, cookiesForPlayer1);
-		GameSession gameFromCreate = gameClientForPlayer1.createGame();
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		Game gameFromCreate = gameClientForPlayer1.createGame();
 		Assert.assertNotNull(gameFromCreate);
 		Assert.assertNotNull(gameFromCreate.getId());
 		Assert.assertNotNull(gameFromCreate.getPlayer1());
@@ -94,8 +91,7 @@ public final class GameSessionResourceImplIT {
 				.getHumanAccount());
 
 		// Retrieve the game.
-		GameSession gameFromGet = gameClientForPlayer1.getGame(gameFromCreate
-				.getId());
+		Game gameFromGet = gameClientForPlayer1.getGame(gameFromCreate.getId());
 		Assert.assertNotNull(gameFromGet);
 		Assert.assertNotNull(gameFromGet.getId());
 		Assert.assertEquals(gameFromCreate.getId(), gameFromGet.getId());
@@ -104,8 +100,8 @@ public final class GameSessionResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server {@link IGameSessionResource}
-	 * implementations work correctly for a simple 1-round game.
+	 * Ensures that the client and server {@link IGameResource} implementations
+	 * work correctly for a simple 1-round game.
 	 * 
 	 * @throws AddressException
 	 *             (won't be thrown; address is correct and static)
@@ -127,11 +123,11 @@ public final class GameSessionResourceImplIT {
 		Account accountForPlayer2 = authClientForPlayer2.loginAsGuest();
 
 		// Create and configure the game.
-		GameSessionClient gameClientForPlayer1 = new GameSessionClient(
-				clientConfig, cookiesForPlayer1);
-		GameSessionClient gameClientForPlayer2 = new GameSessionClient(
-				clientConfig, cookiesForPlayer2);
-		GameSession game = gameClientForPlayer1.createGame();
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		GameClient gameClientForPlayer2 = new GameClient(clientConfig,
+				cookiesForPlayer2);
+		Game game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.setMaxRounds(game.getId(), game.getMaxRounds(), 1);
 		gameClientForPlayer2.joinGame(game.getId());
 
@@ -157,8 +153,8 @@ public final class GameSessionResourceImplIT {
 
 	/**
 	 * Ensures that the server
-	 * {@link IGameSessionResource#setMaxRounds(String, int, int)}
-	 * implementation works correctly in the face of concurrent calls.
+	 * {@link IGameResource#setMaxRounds(String, int, int)} implementation works
+	 * correctly in the face of concurrent calls.
 	 * 
 	 * @throws ExecutionException
 	 *             (should never happen, as we never cancel tasks)
@@ -189,11 +185,11 @@ public final class GameSessionResourceImplIT {
 		authClientForPlayer2.loginAsGuest();
 
 		// Create the game.
-		final GameSessionClient gameClientForPlayer1 = new GameSessionClient(
-				clientConfig, cookiesForPlayer1);
-		final GameSession game = gameClientForPlayer1.createGame();
-		final GameSessionClient gameClientForPlayer2 = new GameSessionClient(
-				clientConfig, cookiesForPlayer2);
+		final GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		final Game game = gameClientForPlayer1.createGame();
+		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
+				cookiesForPlayer2);
 		gameClientForPlayer2.joinGame(game.getId());
 
 		/*
@@ -207,11 +203,11 @@ public final class GameSessionResourceImplIT {
 		 */
 
 		// Request 'A' will always try to set the rounds from 3 to 5.
-		Callable<GameSession> requestA = new Callable<GameSession>() {
+		Callable<Game> requestA = new Callable<Game>() {
 			@Override
-			public GameSession call() throws Exception {
+			public Game call() throws Exception {
 				try {
-					GameSession gameAfterModification = gameClientForPlayer1
+					Game gameAfterModification = gameClientForPlayer1
 							.setMaxRounds(game.getId(), 3, 5);
 
 					/*
@@ -230,11 +226,11 @@ public final class GameSessionResourceImplIT {
 		};
 
 		// Request 'B' will always try to set the rounds from 3 to 7.
-		Callable<GameSession> requestB = new Callable<GameSession>() {
+		Callable<Game> requestB = new Callable<Game>() {
 			@Override
-			public GameSession call() throws Exception {
+			public Game call() throws Exception {
 				try {
-					GameSession gameAfterModification = gameClientForPlayer2
+					Game gameAfterModification = gameClientForPlayer2
 							.setMaxRounds(game.getId(), 3, 7);
 
 					/*
@@ -263,10 +259,10 @@ public final class GameSessionResourceImplIT {
 
 		// Try to break this over and over.
 		for (int i = 0; i < 100; i++) {
-			Future<GameSession> futureA = executorService.submit(requestA);
-			Future<GameSession> futureB = executorService.submit(requestB);
-			GameSession resultA = futureA.get();
-			GameSession resultB = futureB.get();
+			Future<Game> futureA = executorService.submit(requestA);
+			Future<Game> futureB = executorService.submit(requestB);
+			Game resultA = futureA.get();
+			Game resultB = futureB.get();
 
 			// Check the results: exactly one should have succeeded.
 			Assert.assertFalse("Both failed on attempt " + (i + 1),
@@ -275,7 +271,7 @@ public final class GameSessionResourceImplIT {
 					resultA != null && resultB != null);
 
 			// Reset the number of rounds back to 3.
-			GameSession currentGame = resultA != null ? resultA : resultB;
+			Game currentGame = resultA != null ? resultA : resultB;
 			gameClientForPlayer1.setMaxRounds(game.getId(),
 					currentGame.getMaxRounds(), 3);
 		}
@@ -285,8 +281,8 @@ public final class GameSessionResourceImplIT {
 
 	/**
 	 * Ensures that the server
-	 * {@link IGameSessionResource#submitThrow(String, int, Throw)}
-	 * implementation works correctly in the face of concurrent calls.
+	 * {@link IGameResource#submitThrow(String, int, Throw)} implementation
+	 * works correctly in the face of concurrent calls.
 	 * 
 	 * @throws ExecutionException
 	 *             (should never happen, as we never cancel tasks)
@@ -314,15 +310,14 @@ public final class GameSessionResourceImplIT {
 		authClientForPlayer2.loginAsGuest();
 
 		// Create the game.
-		final GameSessionClient gameClientForPlayer1a = new GameSessionClient(
-				clientConfig, cookiesForPlayer1a);
-		GameSession game = gameClientForPlayer1a.createGame();
-		final String gameSessionId = game.getId();
-		final GameSessionClient gameClientForPlayer2 = new GameSessionClient(
-				clientConfig, cookiesForPlayer2);
-		gameClientForPlayer2.joinGame(gameSessionId);
-		gameClientForPlayer2.setMaxRounds(gameSessionId, game.getMaxRounds(),
-				999999);
+		final GameClient gameClientForPlayer1a = new GameClient(clientConfig,
+				cookiesForPlayer1a);
+		Game game = gameClientForPlayer1a.createGame();
+		final String gameId = game.getId();
+		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
+				cookiesForPlayer2);
+		gameClientForPlayer2.joinGame(gameId);
+		gameClientForPlayer2.setMaxRounds(gameId, game.getMaxRounds(), 999999);
 
 		/*
 		 * What we want to ensure here is that the following scenario works
@@ -337,19 +332,18 @@ public final class GameSessionResourceImplIT {
 				cookiesForPlayer1b);
 		authClientForPlayer1b.loginWithGameAccount(new InternetAddress(
 				"player1@example.com"), "secret");
-		final GameSessionClient gameClientForPlayer1b = new GameSessionClient(
-				clientConfig, cookiesForPlayer1b);
+		final GameClient gameClientForPlayer1b = new GameClient(clientConfig,
+				cookiesForPlayer1b);
 
 		final AtomicInteger currentRound = new AtomicInteger(0);
 
 		// Request 'A' will always be player 1 throwing ROCK.
-		Callable<GameSession> requestA = new Callable<GameSession>() {
+		Callable<Game> requestA = new Callable<Game>() {
 			@Override
-			public GameSession call() throws Exception {
+			public Game call() throws Exception {
 				try {
-					GameSession gameAfterModification = gameClientForPlayer1a
-							.submitThrow(gameSessionId, currentRound.get(),
-									Throw.ROCK);
+					Game gameAfterModification = gameClientForPlayer1a
+							.submitThrow(gameId, currentRound.get(), Throw.ROCK);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -367,12 +361,12 @@ public final class GameSessionResourceImplIT {
 		};
 
 		// Request 'B' will always be player 1 throwing PAPER.
-		Callable<GameSession> requestB = new Callable<GameSession>() {
+		Callable<Game> requestB = new Callable<Game>() {
 			@Override
-			public GameSession call() throws Exception {
+			public Game call() throws Exception {
 				try {
-					GameSession gameAfterModification = gameClientForPlayer1b
-							.submitThrow(gameSessionId, currentRound.get(),
+					Game gameAfterModification = gameClientForPlayer1b
+							.submitThrow(gameId, currentRound.get(),
 									Throw.PAPER);
 
 					/*
@@ -391,12 +385,12 @@ public final class GameSessionResourceImplIT {
 		};
 
 		// Request 'C' will always be player 2 throwing SCISSORS.
-		Callable<GameSession> requestC = new Callable<GameSession>() {
+		Callable<Game> requestC = new Callable<Game>() {
 			@Override
-			public GameSession call() throws Exception {
+			public Game call() throws Exception {
 				try {
-					GameSession gameAfterModification = gameClientForPlayer2
-							.submitThrow(gameSessionId, currentRound.get(),
+					Game gameAfterModification = gameClientForPlayer2
+							.submitThrow(gameId, currentRound.get(),
 									Throw.SCISSORS);
 
 					/*
@@ -417,12 +411,12 @@ public final class GameSessionResourceImplIT {
 		// Try to break this over and over.
 		ExecutorService executorService = Executors.newFixedThreadPool(3);
 		for (int i = 0; i < 100; i++) {
-			Future<GameSession> futureA = executorService.submit(requestA);
-			Future<GameSession> futureB = executorService.submit(requestB);
-			Future<GameSession> futureC = executorService.submit(requestC);
-			GameSession resultA = futureA.get();
-			GameSession resultB = futureB.get();
-			GameSession resultC = futureC.get();
+			Future<Game> futureA = executorService.submit(requestA);
+			Future<Game> futureB = executorService.submit(requestB);
+			Future<Game> futureC = executorService.submit(requestC);
+			Game resultA = futureA.get();
+			Game resultB = futureB.get();
+			Game resultC = futureC.get();
 
 			// Check the results: exactly one of A and B should have succeeded.
 			Assert.assertFalse("Both failed on attempt " + (i + 1),
@@ -434,8 +428,7 @@ public final class GameSessionResourceImplIT {
 			Assert.assertTrue("Failed on attempt " + (i + 1), resultC != null);
 
 			// Prepare for the next round.
-			GameSession gameThusFar = gameClientForPlayer2
-					.prepareRound(gameSessionId);
+			Game gameThusFar = gameClientForPlayer2.prepareRound(gameId);
 
 			/*
 			 * Sanity check: ensure that the round's result is correct. (While

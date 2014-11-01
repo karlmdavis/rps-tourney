@@ -7,13 +7,11 @@
 
 	<property name="type.binary" value="binary(255)" dbms="hsqldb" />
 	<property name="type.binary" value="bytea" dbms="postgresql" />
-	<property name="type.gameSessionId" value="varchar(10)" />
+	<property name="type.gameId" value="varchar(10)" />
 
 	<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9427. -->
-	<property name="name.GameRound.gameSessionId" value="GAMESESSIONID"
-		dbms="hsqldb" />
-	<property name="name.GameRound.gameSessionId" value="gamesessionid"
-		dbms="postgresql" />
+	<property name="name.GameRound.gameId" value="GAMEID" dbms="hsqldb" />
+	<property name="name.GameRound.gameId" value="gameid" dbms="postgresql" />
 
 	<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9430 
 		and https://hibernate.atlassian.net/browse/HHH-9431. -->
@@ -21,7 +19,7 @@
 	<property name="option.autoIncrement" value="false" dbms="postgresql" />
 
 	<changeSet id="1" author="karlmdavis">
-	
+
 		<createTable tableName="Accounts">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
@@ -32,7 +30,7 @@
 			</column>
 			<column name="name" type="varchar(40)" />
 		</createTable>
-		
+
 		<createTable tableName="AccountRoles">
 			<column name="accountId" type="bigint">
 				<constraints primaryKey="true" nullable="false"
@@ -42,7 +40,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 		</createTable>
-		
+
 		<createTable tableName="AuthTokens">
 			<column name="token" type="${type.binary}">
 				<constraints primaryKey="true" nullable="false" />
@@ -55,7 +53,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		
+
 		<createTable tableName="GameLoginIdentities">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
@@ -75,7 +73,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		
+
 		<createTable tableName="GuestLoginIdentities">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
@@ -87,8 +85,8 @@
 			</column>
 		</createTable>
 
-		<createTable tableName="GameSessions">
-			<column name="id" type="${type.gameSessionId}">
+		<createTable tableName="Games">
+			<column name="id" type="${type.gameId}">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="createdTimestamp" type="timestamp">
@@ -101,15 +99,15 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="player1Id" type="bigint">
-				<constraints foreignKeyName="GameSessionsToPlayers1"
+				<constraints foreignKeyName="GamesToPlayers1"
 					referencedTableName="Players" />
 			</column>
 			<column name="player2Id" type="bigint">
-				<constraints foreignKeyName="GameSessionsToPlayers2"
+				<constraints foreignKeyName="GamesToPlayers2"
 					referencedTableName="Players" />
 			</column>
 		</createTable>
-		
+
 		<createTable tableName="Players">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
 				startWith="1">
@@ -120,9 +118,9 @@
 					foreignKeyName="PlayersToAccounts" referencedTableName="Accounts" />
 			</column>
 		</createTable>
-		
+
 		<createTable tableName="GameRounds">
-			<column name="${name.GameRound.gameSessionId}" type="${type.gameSessionId}">
+			<column name="${name.GameRound.gameId}" type="${type.gameId}">
 				<constraints primaryKey="true" nullable="false"
 					foreignKeyName="AccountRolesToAccounts" referencedTableName="Accounts" />
 			</column>
@@ -146,7 +144,7 @@
 			relativeToChangelogFile="true" splitStatements="false" dbms="hsqldb" />
 		<sqlFile path="trigger-GameRounds_throwProtect-postgresql.sql"
 			relativeToChangelogFile="true" splitStatements="false" dbms="postgresql" />
-		
+
 	</changeSet>
 
 	<changeSet id="2" author="karlmdavis" dbms="postgresql">

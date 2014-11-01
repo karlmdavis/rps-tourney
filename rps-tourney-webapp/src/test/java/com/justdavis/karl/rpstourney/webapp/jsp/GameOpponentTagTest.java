@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.GameSession;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentication;
 
@@ -44,7 +44,7 @@ public class GameOpponentTagTest {
 				player1Account));
 		Account player2Account = new Account();
 		player2Account.setName("foo");
-		GameSession game = new GameSession(new Player(player1Account));
+		Game game = new Game(new Player(player1Account));
 		game.setPlayer2(new Player(player2Account));
 		gameOpponentTag.setGame(game);
 		gameOpponentTag.doEndTag();

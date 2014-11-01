@@ -15,7 +15,7 @@ public final class GameRoundTest {
 	 */
 	@Test
 	public void basicUsage() {
-		GameSession game = new GameSession(new Player(new Account()));
+		Game game = new Game(new Player(new Account()));
 		GameRound round = new GameRound(game, 42);
 
 		Assert.assertEquals(42, round.getRoundIndex());
