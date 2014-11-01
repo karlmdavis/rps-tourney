@@ -1996,3 +1996,9 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Committed yesterday's changes.
     * Started creating `GameView`.
+
+### 2014-11-01, Saturday
+
+* 1.25h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Implementation.
+    * Refactored an `AbstractGame` superclass out of `Game`. This will be used to reduce code deuplication between `Game` and `GameView`.
