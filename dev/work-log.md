@@ -2008,3 +2008,10 @@ This file should never be committed along with other files; it should always be 
 * 0.35h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
   Implementation.
     * Implemented `GameView`. Still need to add unit tests for it.
+
+### 2014-11-03, Monday
+
+* 0.25h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Implementation.
+    * Created `GameViewTest` to unit test the new `GameView`.
+    * Updated `IGameResource` to only return `GameView`s, not `Game`s. Haven't updated its implementations yet.
