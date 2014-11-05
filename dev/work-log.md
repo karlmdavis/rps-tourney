@@ -2015,3 +2015,10 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Created `GameViewTest` to unit test the new `GameView`.
     * Updated `IGameResource` to only return `GameView`s, not `Game`s. Haven't updated its implementations yet.
+
+### 2014-11-04, Tuesday
+
+* 0.5h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Implementation.
+    * Fixed all of the compile errors from the `IGameResource` refactor, and got all of the tests passing.
+    * Need to remove my earlier workaround from the webapp.
