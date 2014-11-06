@@ -2022,3 +2022,10 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Fixed all of the compile errors from the `IGameResource` refactor, and got all of the tests passing.
     * Need to remove my earlier workaround from the webapp.
+
+### 2014-11-05, Wednesday
+
+* 0.5h: [Issue #33: Web service (and app) allow players to see their opponent's move in the current round](https://github.com/karlmdavis/rps-tourney/issues/33):
+  Resolved.
+    * Removed the earlier "partial fix" from the webapp's JSP.
+    * Cleaned up and committed things.
