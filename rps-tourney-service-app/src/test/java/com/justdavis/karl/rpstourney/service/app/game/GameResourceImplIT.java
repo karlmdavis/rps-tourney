@@ -23,9 +23,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
@@ -83,7 +83,7 @@ public final class GameResourceImplIT {
 		// Create the game.
 		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
 				cookiesForPlayer1);
-		Game gameFromCreate = gameClientForPlayer1.createGame();
+		GameView gameFromCreate = gameClientForPlayer1.createGame();
 		Assert.assertNotNull(gameFromCreate);
 		Assert.assertNotNull(gameFromCreate.getId());
 		Assert.assertNotNull(gameFromCreate.getPlayer1());
@@ -91,7 +91,8 @@ public final class GameResourceImplIT {
 				.getHumanAccount());
 
 		// Retrieve the game.
-		Game gameFromGet = gameClientForPlayer1.getGame(gameFromCreate.getId());
+		GameView gameFromGet = gameClientForPlayer1.getGame(gameFromCreate
+				.getId());
 		Assert.assertNotNull(gameFromGet);
 		Assert.assertNotNull(gameFromGet.getId());
 		Assert.assertEquals(gameFromCreate.getId(), gameFromGet.getId());
@@ -127,7 +128,7 @@ public final class GameResourceImplIT {
 				cookiesForPlayer1);
 		GameClient gameClientForPlayer2 = new GameClient(clientConfig,
 				cookiesForPlayer2);
-		Game game = gameClientForPlayer1.createGame();
+		GameView game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.setMaxRounds(game.getId(), game.getMaxRounds(), 1);
 		gameClientForPlayer2.joinGame(game.getId());
 
@@ -149,6 +150,56 @@ public final class GameResourceImplIT {
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(accountForPlayer2, game.getWinner()
 				.getHumanAccount());
+	}
+
+	/**
+	 * Ensures that {@link GameResourceImpl} doesn't reveal moves made in the
+	 * current round, except to the player that made them. If this were to
+	 * happen, it would allow players to cheat, as they would be able to see
+	 * their opponent's move before making their own.
+	 */
+	@Test
+	public void opponentsMoveNotRevealed() throws AddressException {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookiesForPlayer1 = new CookieStore();
+		CookieStore cookiesForPlayer2 = new CookieStore();
+
+		// Login the players.
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
+				clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.loginAsGuest();
+		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(
+				clientConfig, cookiesForPlayer2);
+		authClientForPlayer2.loginAsGuest();
+
+		// Create and configure the game.
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		GameClient gameClientForPlayer2 = new GameClient(clientConfig,
+				cookiesForPlayer2);
+		GameView game = gameClientForPlayer1.createGame();
+		gameClientForPlayer1.setMaxRounds(game.getId(), game.getMaxRounds(), 1);
+		gameClientForPlayer2.joinGame(game.getId());
+
+		// Player 1: Make a move.
+		gameClientForPlayer1.submitThrow(game.getId(), 0, Throw.ROCK);
+
+		// Verify that the move is visible to Player 1.
+		game = gameClientForPlayer1.getGame(game.getId());
+		Assert.assertEquals(Throw.ROCK, game.getRounds().get(0)
+				.getThrowForPlayer1());
+
+		// Verify that the move isn't visible to Player 2.
+		game = gameClientForPlayer2.getGame(game.getId());
+		Assert.assertNull(game.getRounds().get(0).getThrowForPlayer1());
+
+		// Verify that the move isn't visible to a non-player.
+		CookieStore cookiesForNonPlayer = new CookieStore();
+		GameClient gameClientForNonPlayer = new GameClient(clientConfig,
+				cookiesForNonPlayer);
+		game = gameClientForNonPlayer.getGame(game.getId());
+		Assert.assertNull(game.getRounds().get(0).getThrowForPlayer1());
 	}
 
 	/**
@@ -187,7 +238,7 @@ public final class GameResourceImplIT {
 		// Create the game.
 		final GameClient gameClientForPlayer1 = new GameClient(clientConfig,
 				cookiesForPlayer1);
-		final Game game = gameClientForPlayer1.createGame();
+		final GameView game = gameClientForPlayer1.createGame();
 		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
 				cookiesForPlayer2);
 		gameClientForPlayer2.joinGame(game.getId());
@@ -203,11 +254,11 @@ public final class GameResourceImplIT {
 		 */
 
 		// Request 'A' will always try to set the rounds from 3 to 5.
-		Callable<Game> requestA = new Callable<Game>() {
+		Callable<GameView> requestA = new Callable<GameView>() {
 			@Override
-			public Game call() throws Exception {
+			public GameView call() throws Exception {
 				try {
-					Game gameAfterModification = gameClientForPlayer1
+					GameView gameAfterModification = gameClientForPlayer1
 							.setMaxRounds(game.getId(), 3, 5);
 
 					/*
@@ -226,11 +277,11 @@ public final class GameResourceImplIT {
 		};
 
 		// Request 'B' will always try to set the rounds from 3 to 7.
-		Callable<Game> requestB = new Callable<Game>() {
+		Callable<GameView> requestB = new Callable<GameView>() {
 			@Override
-			public Game call() throws Exception {
+			public GameView call() throws Exception {
 				try {
-					Game gameAfterModification = gameClientForPlayer2
+					GameView gameAfterModification = gameClientForPlayer2
 							.setMaxRounds(game.getId(), 3, 7);
 
 					/*
@@ -259,10 +310,10 @@ public final class GameResourceImplIT {
 
 		// Try to break this over and over.
 		for (int i = 0; i < 100; i++) {
-			Future<Game> futureA = executorService.submit(requestA);
-			Future<Game> futureB = executorService.submit(requestB);
-			Game resultA = futureA.get();
-			Game resultB = futureB.get();
+			Future<GameView> futureA = executorService.submit(requestA);
+			Future<GameView> futureB = executorService.submit(requestB);
+			GameView resultA = futureA.get();
+			GameView resultB = futureB.get();
 
 			// Check the results: exactly one should have succeeded.
 			Assert.assertFalse("Both failed on attempt " + (i + 1),
@@ -271,7 +322,7 @@ public final class GameResourceImplIT {
 					resultA != null && resultB != null);
 
 			// Reset the number of rounds back to 3.
-			Game currentGame = resultA != null ? resultA : resultB;
+			GameView currentGame = resultA != null ? resultA : resultB;
 			gameClientForPlayer1.setMaxRounds(game.getId(),
 					currentGame.getMaxRounds(), 3);
 		}
@@ -312,7 +363,7 @@ public final class GameResourceImplIT {
 		// Create the game.
 		final GameClient gameClientForPlayer1a = new GameClient(clientConfig,
 				cookiesForPlayer1a);
-		Game game = gameClientForPlayer1a.createGame();
+		GameView game = gameClientForPlayer1a.createGame();
 		final String gameId = game.getId();
 		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
 				cookiesForPlayer2);
@@ -338,11 +389,11 @@ public final class GameResourceImplIT {
 		final AtomicInteger currentRound = new AtomicInteger(0);
 
 		// Request 'A' will always be player 1 throwing ROCK.
-		Callable<Game> requestA = new Callable<Game>() {
+		Callable<GameView> requestA = new Callable<GameView>() {
 			@Override
-			public Game call() throws Exception {
+			public GameView call() throws Exception {
 				try {
-					Game gameAfterModification = gameClientForPlayer1a
+					GameView gameAfterModification = gameClientForPlayer1a
 							.submitThrow(gameId, currentRound.get(), Throw.ROCK);
 
 					/*
@@ -361,11 +412,11 @@ public final class GameResourceImplIT {
 		};
 
 		// Request 'B' will always be player 1 throwing PAPER.
-		Callable<Game> requestB = new Callable<Game>() {
+		Callable<GameView> requestB = new Callable<GameView>() {
 			@Override
-			public Game call() throws Exception {
+			public GameView call() throws Exception {
 				try {
-					Game gameAfterModification = gameClientForPlayer1b
+					GameView gameAfterModification = gameClientForPlayer1b
 							.submitThrow(gameId, currentRound.get(),
 									Throw.PAPER);
 
@@ -385,11 +436,11 @@ public final class GameResourceImplIT {
 		};
 
 		// Request 'C' will always be player 2 throwing SCISSORS.
-		Callable<Game> requestC = new Callable<Game>() {
+		Callable<GameView> requestC = new Callable<GameView>() {
 			@Override
-			public Game call() throws Exception {
+			public GameView call() throws Exception {
 				try {
-					Game gameAfterModification = gameClientForPlayer2
+					GameView gameAfterModification = gameClientForPlayer2
 							.submitThrow(gameId, currentRound.get(),
 									Throw.SCISSORS);
 
@@ -411,12 +462,12 @@ public final class GameResourceImplIT {
 		// Try to break this over and over.
 		ExecutorService executorService = Executors.newFixedThreadPool(3);
 		for (int i = 0; i < 100; i++) {
-			Future<Game> futureA = executorService.submit(requestA);
-			Future<Game> futureB = executorService.submit(requestB);
-			Future<Game> futureC = executorService.submit(requestC);
-			Game resultA = futureA.get();
-			Game resultB = futureB.get();
-			Game resultC = futureC.get();
+			Future<GameView> futureA = executorService.submit(requestA);
+			Future<GameView> futureB = executorService.submit(requestB);
+			Future<GameView> futureC = executorService.submit(requestC);
+			GameView resultA = futureA.get();
+			GameView resultB = futureB.get();
+			GameView resultC = futureC.get();
 
 			// Check the results: exactly one of A and B should have succeeded.
 			Assert.assertFalse("Both failed on attempt " + (i + 1),
@@ -428,7 +479,7 @@ public final class GameResourceImplIT {
 			Assert.assertTrue("Failed on attempt " + (i + 1), resultC != null);
 
 			// Prepare for the next round.
-			Game gameThusFar = gameClientForPlayer2.prepareRound(gameId);
+			GameView gameThusFar = gameClientForPlayer2.prepareRound(gameId);
 
 			/*
 			 * Sanity check: ensure that the round's result is correct. (While

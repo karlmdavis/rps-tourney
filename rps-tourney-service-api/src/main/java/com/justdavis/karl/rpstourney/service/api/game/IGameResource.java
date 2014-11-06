@@ -64,44 +64,43 @@ public interface IGameResource {
 
 	/**
 	 * <p>
-	 * Creates a new {@link Game}, with the first player set as the user calling
-	 * this method, and leaving the identity of the second player to be set
-	 * later.
+	 * Creates a new game, with the first player set as the user calling this
+	 * method, and leaving the identity of the second player to be set later.
 	 * </p>
 	 * 
-	 * @return the new {@link Game} instance
+	 * @return a {@link GameView} of the new {@link Game} instance
 	 * @see Game#Game(Player)
 	 */
 	@POST
 	@Path(IGameResource.SERVICE_PATH_NEW)
 	@Produces(MediaType.TEXT_XML)
-	Game createGame();
+	GameView createGame();
 
 	/**
 	 * <p>
-	 * Returns all {@link Game}s that the the user who calls this method is a
+	 * Returns all games that the the user who calls this method is a
 	 * {@link Player} in.
 	 * </p>
 	 * 
-	 * @return the {@link List} of {@link Game}s that the the user who calls
-	 *         this method is a {@link Player} in, or an empty {@link List} if
-	 *         there are no such {@link Game}s or if the user is not
-	 *         authenticated
+	 * @return a {@link List} of {@link GameView}s for the {@link Game}s that
+	 *         the the user who calls this method is a {@link Player} in, or an
+	 *         empty {@link List} if there are no such {@link Game}s or if the
+	 *         user is not authenticated
 	 * @see Game#setPlayer2(Player)
 	 */
 	@GET
 	@Path(IGameResource.SERVICE_PATH_GAMES_FOR_PLAYER)
 	@Produces(MediaType.TEXT_XML)
-	List<Game> getGamesForPlayer();
+	List<GameView> getGamesForPlayer();
 
 	/**
 	 * <p>
-	 * Returns the specified {@link Game}.
+	 * Returns a {@link GameView} of the specified {@link Game}.
 	 * </p>
 	 * 
 	 * @param gameId
 	 *            the {@link Game#getId()} value of the {@link Game} to return
-	 * @return the matching {@link Game} instance
+	 * @return a {@link GameView} of the matching {@link Game} instance
 	 * @throws NotFoundException
 	 *             A {@link NotFoundException} will be thrown if no matching
 	 *             {@link Game} can be found.
@@ -109,7 +108,8 @@ public interface IGameResource {
 	@GET
 	@Path(IGameResource.SERVICE_PATH_GAME_ID)
 	@Produces(MediaType.TEXT_XML)
-	Game getGame(@PathParam("gameId") String gameId) throws NotFoundException;
+	GameView getGame(@PathParam("gameId") String gameId)
+			throws NotFoundException;
 
 	/**
 	 * <p>
@@ -123,7 +123,7 @@ public interface IGameResource {
 	 *            help prevent synchronization issues)
 	 * @param newMaxRoundsValue
 	 *            the value to use for {@link Game#getMaxRounds()}
-	 * @return the modified {@link Game} instance
+	 * @return a {@link GameView} of the modified {@link Game} instance
 	 * @throws NotFoundException
 	 *             A {@link NotFoundException} will be thrown if no matching
 	 *             {@link Game} can be found.
@@ -145,7 +145,7 @@ public interface IGameResource {
 	@Path(IGameResource.SERVICE_PATH_GAME_ID
 			+ IGameResource.SERVICE_PATH_MAX_ROUNDS)
 	@Produces(MediaType.TEXT_XML)
-	Game setMaxRounds(@PathParam("gameId") String gameId,
+	GameView setMaxRounds(@PathParam("gameId") String gameId,
 			@FormParam("oldMaxRoundsValue") int oldMaxRoundsValue,
 			@FormParam("newMaxRoundsValue") int newMaxRoundsValue)
 			throws NotFoundException, GameConflictException;
@@ -158,7 +158,7 @@ public interface IGameResource {
 	 * 
 	 * @param gameId
 	 *            the {@link Game#getId()} value of the {@link Game} to modify
-	 * @return the modified {@link Game} instance
+	 * @return a {@link GameView} of the modified {@link Game} instance
 	 * @throws NotFoundException
 	 *             A {@link NotFoundException} will be thrown if no matching
 	 *             {@link Game} can be found.
@@ -171,8 +171,8 @@ public interface IGameResource {
 	@POST
 	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_JOIN)
 	@Produces(MediaType.TEXT_XML)
-	Game joinGame(@PathParam("gameId") String gameId) throws NotFoundException,
-			GameConflictException;
+	GameView joinGame(@PathParam("gameId") String gameId)
+			throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -192,7 +192,8 @@ public interface IGameResource {
 	 * 
 	 * @param gameId
 	 *            the {@link Game#getId()} value of the {@link Game} to modify
-	 * @return the (possibly updated) {@link Game} instance
+	 * @return a {@link GameView} of the (possibly updated) {@link Game}
+	 *         instance
 	 * @throws NotFoundException
 	 *             A {@link NotFoundException} will be thrown if no matching
 	 *             {@link Game} can be found.
@@ -202,7 +203,7 @@ public interface IGameResource {
 	@Path(IGameResource.SERVICE_PATH_GAME_ID
 			+ IGameResource.SERVICE_PATH_PREPARE)
 	@Produces(MediaType.TEXT_XML)
-	Game prepareRound(@PathParam("gameId") String gameId)
+	GameView prepareRound(@PathParam("gameId") String gameId)
 			throws NotFoundException;
 
 	/**
@@ -219,7 +220,7 @@ public interface IGameResource {
 	 *            (used to verify that gameplay is correctly synchronized)
 	 * @param throwToPlay
 	 *            the {@link Throw} to submit for the {@link Player}
-	 * @return the modified {@link Game} instance
+	 * @return a {@link GameView} of the modified {@link Game} instance
 	 * @throws NotFoundException
 	 *             A {@link NotFoundException} will be thrown if no matching
 	 *             {@link Game} can be found.
@@ -241,7 +242,7 @@ public interface IGameResource {
 	@POST
 	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_THROW)
 	@Produces(MediaType.TEXT_XML)
-	Game submitThrow(@PathParam("gameId") String gameId,
+	GameView submitThrow(@PathParam("gameId") String gameId,
 			@FormParam("roundIndex") int roundIndex,
 			@FormParam("throwToPlay") Throw throwToPlay)
 			throws NotFoundException, GameConflictException;

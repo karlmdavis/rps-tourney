@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
@@ -48,8 +48,8 @@ public final class GameIT {
 	}
 
 	/**
-	 * Uses {@link GameController} and {@link GameClient} to ensure that
-	 * a game can be played via the web application.
+	 * Uses {@link GameController} and {@link GameClient} to ensure that a game
+	 * can be played via the web application.
 	 */
 	@Test
 	public void playShortController() {
@@ -63,12 +63,11 @@ public final class GameIT {
 			CookieStore cookieStore = new CookieStore();
 			GuestAuthClient authClient = new GuestAuthClient(clientConfig,
 					cookieStore);
-			GameClient gameClient = new GameClient(clientConfig,
-					cookieStore);
+			GameClient gameClient = new GameClient(clientConfig, cookieStore);
 
 			// Player 1 (service): Create the game.
 			authClient.loginAsGuest();
-			Game game = gameClient.createGame();
+			GameView game = gameClient.createGame();
 
 			// Player 2 (webapp): Join and set max rounds to 1.
 			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
@@ -101,8 +100,8 @@ public final class GameIT {
 	}
 
 	/**
-	 * Uses {@link GameController} and {@link GameClient} to ensure that
-	 * players can change their names.
+	 * Uses {@link GameController} and {@link GameClient} to ensure that players
+	 * can change their names.
 	 */
 	@Test
 	public void updateName() {
@@ -118,14 +117,13 @@ public final class GameIT {
 					cookieStore);
 			AccountsClient accountsClient = new AccountsClient(clientConfig,
 					cookieStore);
-			GameClient gameClient = new GameClient(clientConfig,
-					cookieStore);
+			GameClient gameClient = new GameClient(clientConfig, cookieStore);
 
 			// Player 1 (service): Login, set name, and create a game.
 			Account player1 = authClient.loginAsGuest();
 			player1.setName("foo");
 			accountsClient.updateAccount(player1);
-			Game game = gameClient.createGame();
+			GameView game = gameClient.createGame();
 
 			// Player 2 (webapp): Join game.
 			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));

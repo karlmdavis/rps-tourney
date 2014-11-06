@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
@@ -30,7 +31,7 @@ public final class HomeControllerTest {
 	public void getHomePage() throws Exception {
 		// Build the controller and prepare it for mock testing.
 		HomeController homeController = new HomeController(new MockGameClient(
-				null));
+				(GameView) null));
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(homeController)
 				.build();
 

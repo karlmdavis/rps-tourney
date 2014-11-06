@@ -23,7 +23,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.service.api.game.Game.GamePk;
+import com.justdavis.karl.rpstourney.service.api.game.AbstractGame.GamePk;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
@@ -114,7 +114,9 @@ public class GameRound {
 	}
 
 	/**
-	 * @return the {@link Game} that this {@link GameRound} is a part of
+	 * @return the {@link Game} that this {@link GameRound} is a part of, or
+	 *         <code>null</code> if this {@link GameRound} was accessed via an
+	 *         unmarshalled {@link GameView}
 	 */
 	public Game getGame() {
 		return game;
@@ -159,6 +161,25 @@ public class GameRound {
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer1(Throw throwForPlayer1) {
+		setThrowForPlayer1(throwForPlayer1, Instant.now());
+	}
+
+	/**
+	 * Note: this method may only be called once, and should only be called by
+	 * {@link GameView}.
+	 * 
+	 * @param throwForPlayer1
+	 *            the value to use for {@link #getThrowForPlayer1()}
+	 * @param throwForPlayer1Timestamp
+	 *            the value to use for {@link #getThrowForPlayer1Timestamp()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if the
+	 *             {@link Player} has already submitted a {@link Throw} for this
+	 *             {@link GameRound}.
+	 * @see Game#submitThrow(int, Player, Throw)
+	 */
+	void setThrowForPlayer1(Throw throwForPlayer1,
+			Instant throwForPlayer1Timestamp) {
 		if (throwForPlayer1 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer1 != null)
@@ -167,7 +188,7 @@ public class GameRound {
 					this.throwForPlayer1, throwForPlayer1));
 
 		this.throwForPlayer1 = throwForPlayer1;
-		this.throwForPlayer1Timestamp = Instant.now();
+		this.throwForPlayer1Timestamp = throwForPlayer1Timestamp;
 	}
 
 	/**
@@ -201,6 +222,25 @@ public class GameRound {
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer2(Throw throwForPlayer2) {
+		setThrowForPlayer2(throwForPlayer2, Instant.now());
+	}
+
+	/**
+	 * Note: this method may only be called once, and should only be called by
+	 * {@link GameView}.
+	 * 
+	 * @param throwForPlayer2
+	 *            the value to use for {@link #getThrowForPlayer2()}
+	 * @param throwForPlayer2Timestamp
+	 *            the value to use for {@link #getThrowForPlayer2Timestamp()}
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if the
+	 *             {@link Player} has already submitted a {@link Throw} for this
+	 *             {@link GameRound}.
+	 * @see Game#submitThrow(int, Player, Throw)
+	 */
+	void setThrowForPlayer2(Throw throwForPlayer2,
+			Instant throwForPlayer2Timestamp) {
 		if (throwForPlayer2 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer2 != null)
@@ -209,7 +249,7 @@ public class GameRound {
 					this.throwForPlayer2, throwForPlayer2));
 
 		this.throwForPlayer2 = throwForPlayer2;
-		this.throwForPlayer2Timestamp = Instant.now();
+		this.throwForPlayer2Timestamp = throwForPlayer2Timestamp;
 	}
 
 	/**

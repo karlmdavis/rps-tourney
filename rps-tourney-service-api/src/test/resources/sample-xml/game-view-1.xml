@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<rps:game xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
+<rps:gameView xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
 	<rps:id>abcdefghij</rps:id>
 	<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 	<rps:state>WAITING_FOR_PLAYER</rps:state>
@@ -18,4 +18,4 @@
 			<rps:throwForPlayer1>ROCK</rps:throwForPlayer1>
 		</rps:round>
 	</rps:rounds>
-</rps:game>
+</rps:gameView>

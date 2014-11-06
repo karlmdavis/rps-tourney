@@ -23,8 +23,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
-import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
@@ -57,7 +57,7 @@ public final class GameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#createGame()
 	 */
 	@Override
-	public Game createGame() {
+	public GameView createGame() {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH)
@@ -71,7 +71,7 @@ public final class GameClient implements IGameResource {
 		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;
@@ -82,7 +82,7 @@ public final class GameClient implements IGameResource {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Game> getGamesForPlayer() {
+	public List<GameView> getGamesForPlayer() {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH)
@@ -102,10 +102,10 @@ public final class GameClient implements IGameResource {
 		 * List<Game> games = response .readEntity(new GenericType<List<Game>>(
 		 * Game.class) { });
 		 */
-		List<Game> games = null;
+		List<GameView> games = null;
 		InputStream responseEntityStream = (InputStream) response.getEntity();
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(Game.class,
+			JAXBContext jaxbContext = JAXBContext.newInstance(GameView.class,
 					JaxbListWrapper.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			Source responseEntitySource = new StreamSource(responseEntityStream);
@@ -126,7 +126,7 @@ public final class GameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#getGame(java.lang.String)
 	 */
 	@Override
-	public Game getGame(String gameId) {
+	public GameView getGame(String gameId) {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH).path(gameId)
@@ -139,7 +139,7 @@ public final class GameClient implements IGameResource {
 		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;
@@ -150,7 +150,7 @@ public final class GameClient implements IGameResource {
 	 *      int, int)
 	 */
 	@Override
-	public Game setMaxRounds(String gameId, int oldMaxRoundsValue,
+	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
 			int newMaxRoundsValue) {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
@@ -171,7 +171,7 @@ public final class GameClient implements IGameResource {
 		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;
@@ -181,7 +181,7 @@ public final class GameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#joinGame(java.lang.String)
 	 */
 	@Override
-	public Game joinGame(String gameId) {
+	public GameView joinGame(String gameId) {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH).path(gameId)
@@ -199,7 +199,7 @@ public final class GameClient implements IGameResource {
 		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;
@@ -209,7 +209,7 @@ public final class GameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#prepareRound(String)
 	 */
 	@Override
-	public Game prepareRound(String gameId) {
+	public GameView prepareRound(String gameId) {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH).path(gameId)
@@ -225,7 +225,7 @@ public final class GameClient implements IGameResource {
 		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;
@@ -236,7 +236,7 @@ public final class GameClient implements IGameResource {
 	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@Override
-	public Game submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
+	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
 		Client client = ClientBuilder.newClient();
 		Builder requestBuilder = client.target(config.getServiceRoot())
 				.path(IGameResource.SERVICE_PATH).path(gameId)
@@ -256,7 +256,7 @@ public final class GameClient implements IGameResource {
 		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		Game game = response.readEntity(Game.class);
+		GameView game = response.readEntity(GameView.class);
 		cookieStore.remember(response.getCookies());
 
 		return game;

@@ -26,6 +26,7 @@ import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
@@ -95,7 +96,7 @@ public class GameController {
 		}
 
 		// Create the new game.
-		Game game = gameClient.createGame();
+		GameView game = gameClient.createGame();
 
 		// Redirect the user to that new game.
 		return "redirect:/game/" + game.getId();
@@ -114,7 +115,7 @@ public class GameController {
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView getGame(@PathVariable String gameId,
 			Principal authenticatedUser, Locale locale) {
-		Game game = loadGame(gameId);
+		GameView game = loadGame(gameId);
 
 		ModelAndView modelAndView = buildGameModelAndView(locale,
 				authenticatedUser, game);
@@ -138,7 +139,7 @@ public class GameController {
 	public String updateName(@PathVariable String gameId,
 			String currentPlayerName, Principal authenticatedUser) {
 		// Load the specified game.
-		Game gameBeforeThrow = loadGame(gameId);
+		GameView gameBeforeThrow = loadGame(gameId);
 
 		// There's nothing to change if they haven't logged in yet.
 		if (authenticatedUser == null)
@@ -171,7 +172,7 @@ public class GameController {
 	public String submitThrow(@PathVariable String gameId,
 			@RequestParam Throw throwToPlay) {
 		// Load the specified game.
-		Game gameBeforeThrow = loadGame(gameId);
+		GameView gameBeforeThrow = loadGame(gameId);
 
 		// Submit the throw.
 		GameRound currentRound = gameBeforeThrow.getRounds().get(
@@ -208,7 +209,7 @@ public class GameController {
 		}
 
 		// Load the specified game.
-		Game gameBeforeJoin = loadGame(gameId);
+		GameView gameBeforeJoin = loadGame(gameId);
 
 		// Try to join the game.
 		gameClient.joinGame(gameBeforeJoin.getId());
@@ -238,7 +239,7 @@ public class GameController {
 			@RequestParam int oldMaxRoundsValue,
 			@RequestParam int newMaxRoundsValue, Principal authenticatedUser) {
 		// Load the specified game.
-		Game game = loadGame(gameId);
+		GameView game = loadGame(gameId);
 
 		// In the webapp, we'll only allow actual players to adjust this.
 		if (!isUserThisPlayer(authenticatedUser, game.getPlayer1())
@@ -271,10 +272,11 @@ public class GameController {
 	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} to match against
-	 * @return the specified {@link Game}, as returned by {@link #gameClient}
+	 * @return the specified {@link GameView}, as returned by
+	 *         {@link #gameClient}
 	 */
-	private Game loadGame(String gameId) {
-		Game game = null;
+	private GameView loadGame(String gameId) {
+		GameView game = null;
 		try {
 			game = gameClient.getGame(gameId);
 		} catch (HttpClientException e) {
@@ -295,11 +297,11 @@ public class GameController {
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param game
-	 *            the {@link Game} to render
+	 *            the {@link GameView} to render
 	 * @return the {@link ModelAndView} for <code>game.jsp</code> to render
 	 */
 	private ModelAndView buildGameModelAndView(Locale locale,
-			Principal authenticatedUser, Game game) {
+			Principal authenticatedUser, GameView game) {
 		ModelAndView modelAndView = new ModelAndView("game");
 
 		// Add the Game to the model.
@@ -366,7 +368,7 @@ public class GameController {
 
 	/**
 	 * @param game
-	 *            the {@link Game} to get the label for
+	 *            the {@link GameView} to get the label for
 	 * @param messageSource
 	 *            the {@link MessageSource} to look up text from
 	 * @param locale
@@ -374,7 +376,7 @@ public class GameController {
 	 * @return the display text/label to use to represent
 	 *         {@link Game#getPlayer1()}
 	 */
-	private static String getPlayer1Label(Game game,
+	private static String getPlayer1Label(GameView game,
 			MessageSource messageSource, Locale locale) {
 		// If the Player has an actual name, use that.
 		if (game.getPlayer1() != null && game.getPlayer1().getName() != null)
@@ -390,7 +392,7 @@ public class GameController {
 
 	/**
 	 * @param game
-	 *            the {@link Game} to get the label for
+	 *            the {@link GameView} to get the label for
 	 * @param messageSource
 	 *            the {@link MessageSource} to look up text from
 	 * @param locale
@@ -398,7 +400,7 @@ public class GameController {
 	 * @return the display text/label to use to represent
 	 *         {@link Game#getPlayer2()}
 	 */
-	private static String getPlayer2Label(Game game,
+	private static String getPlayer2Label(GameView game,
 			MessageSource messageSource, Locale locale) {
 		// If the Player has an actual name, use that.
 		if (game.getPlayer2() != null && game.getPlayer2().getName() != null)
