@@ -26,7 +26,7 @@ public final class GameIT {
 	 * .
 	 */
 	@Test
-	public void createNewController() {
+	public void createNewGame() {
 		WebDriver driver = null;
 		try {
 			driver = new HtmlUnitDriver(true);
@@ -52,7 +52,7 @@ public final class GameIT {
 	 * can be played via the web application.
 	 */
 	@Test
-	public void playShortController() {
+	public void playShortGame() {
 		WebDriver driver = null;
 		try {
 			// Create the Selenium driver that will be used for Player 2.

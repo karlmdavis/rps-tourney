@@ -38,7 +38,7 @@ public final class GameControllerTest {
 	 *             (all of the MVC test methods declare this exception)
 	 */
 	@Test
-	public void createNewController() throws Exception {
+	public void createNewGame() throws Exception {
 		// Build the mocks that will be needed by the controller.
 		MessageSource messageSource = new ResourceBundleMessageSource();
 		Game game = new Game(new Player(new Account()));
@@ -47,9 +47,10 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource, gameClient,
-				accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
+		GameController GameController = new GameController(messageSource,
+				gameClient, accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
+				.build();
 
 		// Run the mock tests against the controller.
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/"))
@@ -68,7 +69,7 @@ public final class GameControllerTest {
 	 *             (all of the MVC test methods declare this exception)
 	 */
 	@Test
-	public void GameController() throws Exception {
+	public void getGame() throws Exception {
 		// Build the mocks that will be needed by the controller.
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource
@@ -80,9 +81,10 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource, gameClient,
-				accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
+		GameController GameController = new GameController(messageSource,
+				gameClient, accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
+				.build();
 
 		/*
 		 * Run the mock tests against the controller. We'll check the status and
@@ -98,7 +100,8 @@ public final class GameControllerTest {
 	}
 
 	/**
-	 * Tests {@link GameController#updateName(String, String, java.security.Principal)}
+	 * Tests
+	 * {@link GameController#updateName(String, String, java.security.Principal)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -119,9 +122,10 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource, gameClient,
-				accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
+		GameController GameController = new GameController(messageSource,
+				gameClient, accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
+				.build();
 
 		/*
 		 * Run the mock tests against the controller, and verify that nothing
