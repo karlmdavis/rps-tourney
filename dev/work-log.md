@@ -2029,3 +2029,7 @@ This file should never be committed along with other files; it should always be 
   Resolved.
     * Removed the earlier "partial fix" from the webapp's JSP.
     * Cleaned up and committed things.
+
+### 2014-11-06, Thursday
+
+* 0.4h: Sat down and filed issues for the bugs/enhancements that are still blocking any sort of "go-live".
