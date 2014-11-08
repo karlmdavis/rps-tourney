@@ -2033,3 +2033,11 @@ This file should never be committed along with other files; it should always be 
 ### 2014-11-06, Thursday
 
 * 0.4h: Sat down and filed issues for the bugs/enhancements that are still blocking any sort of "go-live".
+
+### 2014-11-07, Friday
+
+* 0.25h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+  Design and implementation.
+    * Wrote up a design in the issue's comments.
+    * Started implementation.
+* Side note: Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
