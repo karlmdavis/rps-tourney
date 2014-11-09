@@ -2041,3 +2041,14 @@ This file should never be committed along with other files; it should always be 
     * Wrote up a design in the issue's comments.
     * Started implementation.
 * Side note: Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
+
+### 2014-11-08, Saturday
+
+* ?h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+  Implementation.
+    * Got everything pretty much implemented.
+    * Still needs some formatting help, e.g. maybe make the scores the same size as the throws?
+    * Still needs some tests.
+* Other things to fix:
+    * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
+    * The homepage throws an exception when loading if there's a game.
