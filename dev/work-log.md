@@ -2044,11 +2044,21 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-11-08, Saturday
 
-* ?h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+* 1.0h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
   Implementation.
     * Got everything pretty much implemented.
     * Still needs some formatting help, e.g. maybe make the scores the same size as the throws?
     * Still needs some tests.
+* Other things to fix:
+    * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
+    * The homepage throws an exception when loading if there's a game.
+
+### 2014-11-09, Sunday
+
+* 0.25h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+  Implementation.
+    * Played with the formatting some more. Still not 100% sure I like it...
+    * Still need tests.
 * Other things to fix:
     * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
     * The homepage throws an exception when loading if there's a game.
