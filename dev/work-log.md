@@ -2062,3 +2062,13 @@ This file should never be committed along with other files; it should always be 
 * Other things to fix:
     * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
     * The homepage throws an exception when loading if there's a game.
+
+### 2014-11-10, Monday
+
+* 0.3h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+  Implementation.
+    * Added some test coverage, got the tests passing.
+    * Still need to clean things up and commit.
+* Other things to fix:
+    * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
+    * The homepage throws an exception when loading if there's a game.
