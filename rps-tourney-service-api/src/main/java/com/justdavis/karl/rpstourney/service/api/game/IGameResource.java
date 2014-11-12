@@ -11,8 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.justdavis.karl.rpstourney.service.api.game.Game.State;
-
 /**
  * This service allows users to create, retrieve, and play games. Please note
  * that all {@link Game} instances returned by this service should be treated as

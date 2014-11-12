@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
-import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.Game_;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.State;
 
 /**
  * The default {@link IGamesDao} implementation.

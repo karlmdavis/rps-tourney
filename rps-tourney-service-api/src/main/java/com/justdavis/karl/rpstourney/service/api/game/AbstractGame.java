@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 

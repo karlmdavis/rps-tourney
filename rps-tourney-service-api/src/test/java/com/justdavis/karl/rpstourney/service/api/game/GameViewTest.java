@@ -21,7 +21,6 @@ import org.w3c.dom.Node;
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.game.Game.State;
 
 /**
  * Unit tests for {@link GameView}.
