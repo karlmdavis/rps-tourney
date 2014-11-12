@@ -120,6 +120,14 @@ table#player-games {
 		}
 		
 		.player-score {
+			.won {
+				.text-success;
+				font-weight: bold;
+			}
+			.lost {
+				.text-danger;
+				font-weight: bold;
+			}
 		}
 	}
 }
@@ -166,5 +174,16 @@ table#player-games {
 		.table-striped;
 		.table-hover;
 		.table-nonfluid;
+		
+		tr.result-row {
+			font-weight: bold;
+
+			.won {
+				.text-success;
+			}
+			.lost {
+				.text-danger;
+			}
+		}
 	}
 }

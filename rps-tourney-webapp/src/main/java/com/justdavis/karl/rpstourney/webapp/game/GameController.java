@@ -349,6 +349,21 @@ public class GameController {
 			modelAndView.addObject("currentPlayerName",
 					getPlayerName(game.getPlayer2()));
 
+		// Setup some winner/loser properties.
+		boolean hasWinner = game.getWinner() != null;
+		modelAndView.addObject("isUserTheWinner", hasWinner && isPlayer
+				&& isUserThisPlayer(authenticatedUser, game.getWinner()));
+		modelAndView.addObject("isUserTheLoser", hasWinner && isPlayer
+				&& !isUserThisPlayer(authenticatedUser, game.getWinner()));
+		modelAndView.addObject("isPlayer1TheWinner", hasWinner
+				&& game.getWinner().equals(game.getPlayer1()));
+		modelAndView.addObject("isPlayer1TheLoser", hasWinner
+				&& !game.getWinner().equals(game.getPlayer1()));
+		modelAndView.addObject("isPlayer2TheWinner", hasWinner
+				&& game.getWinner().equals(game.getPlayer2()));
+		modelAndView.addObject("isPlayer2TheLoser", hasWinner
+				&& !game.getWinner().equals(game.getPlayer2()));
+
 		return modelAndView;
 	}
 

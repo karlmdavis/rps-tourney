@@ -37,9 +37,17 @@
 					</c:otherwise>
 					</c:choose>
 				</div>
+				<c:choose>
+				<c:when test="${isPlayer1TheWinner}">
+				<c:set var="player1ScoreClass" value="won" />
+				</c:when>
+				<c:when test="${isPlayer1TheLoser}">
+				<c:set var="player1ScoreClass" value="lost" />
+				</c:when>
+				</c:choose>
 				<div class="player-score">
 					<h4><spring:message code="game.playerScore" /></h4>
-					<p class="player-score-value">${player1Score}</p>
+					<p class="player-score-value ${player1ScoreClass}">${player1Score}</p>
 				</div>
 			</div>
 			<div id="player-2-controls">
@@ -68,9 +76,17 @@
 					</c:otherwise>
 					</c:choose>
 				</div>
+				<c:choose>
+				<c:when test="${isPlayer2TheWinner}">
+				<c:set var="player2ScoreClass" value="won" />
+				</c:when>
+				<c:when test="${isPlayer2TheLoser}">
+				<c:set var="player2ScoreClass" value="lost" />
+				</c:when>
+				</c:choose>
 				<div class="player-score">
 					<h4><spring:message code="game.playerScore" /></h4>
-					<p class="player-score-value">${player2Score}</p>
+					<p class="player-score-value ${player2ScoreClass}">${player2Score}</p>
 				</div>
 			</div>
 		</div>
@@ -121,6 +137,24 @@
 						<td><spring:message code="game.roundHistory.${round.result}" /></td>
 					</tr>
 					</c:forEach>
+					<c:if test="${not empty game.winner}">
+					<tr class="result-row">
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<c:choose>
+						<c:when test="${isUserTheWinner}">
+						<td class="won"><spring:message code="game.roundHistory.userWon" /></td>
+						</c:when>
+						<c:when test="${isUserTheLoser}">
+						<td class="lost"><spring:message code="game.roundHistory.userLost" /></td>
+						</c:when>
+						<c:otherwise>
+						<td>${game.winner.name}<spring:message code="game.roundHistory.someoneWonSuffix" /></td>
+						</c:otherwise>
+						</c:choose>
+					</tr>
+					</c:if>
 				</tbody>
 			</table>
 		</div>

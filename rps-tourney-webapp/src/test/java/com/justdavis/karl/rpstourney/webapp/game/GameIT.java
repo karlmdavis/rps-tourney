@@ -86,12 +86,17 @@ public final class GameIT {
 			Assert.assertEquals(
 					"0",
 					driver.findElement(
-							By.xpath("//div[@id='player-1-controls']//p[@class='player-score-value']"))
+							By.cssSelector("div#player-1-controls p.player-score-value"))
 							.getText());
 			Assert.assertEquals(
 					"1",
 					driver.findElement(
-							By.xpath("//div[@id='player-2-controls']//p[@class='player-score-value']"))
+							By.cssSelector("div#player-2-controls p.player-score-value"))
+							.getText());
+			Assert.assertEquals(
+					"You Won!",
+					driver.findElement(
+							By.xpath("//tr[@class='result-row']/td[4]"))
 							.getText());
 		} finally {
 			if (driver != null)
