@@ -2072,3 +2072,14 @@ This file should never be committed along with other files; it should always be 
 * Other things to fix:
     * Just noticed that the `Game.State` enum needs to be moved up into `AbstractGame`.
     * The homepage throws an exception when loading if there's a game.
+
+### 2014-11-11, Tuesday
+
+* 0.25h: [Issue #49: Games do not have any sort of "Game Over: You Won/Lost" indication](https://github.com/karlmdavis/rps-tourney/issues/49):
+  Resolved.
+    * Tweaked a little bit more.
+    * Committed.
+* Spent 0.25h on some miscellaneous stuff:
+    * Moved the `Game.State` enum up into its own top-level type.
+    * Tweaked the round history display a bit: display players' names in each row, rather than just "Player 1" or "Player 2".
+    * Filed [Issue #52](https://github.com/karlmdavis/rps-tourney/issues/52).
