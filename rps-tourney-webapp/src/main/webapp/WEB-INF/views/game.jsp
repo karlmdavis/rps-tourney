@@ -134,7 +134,21 @@
 						<td>${round.roundIndex + 1}</td>
 						<td><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></td>
 						<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
-						<td><spring:message code="game.roundHistory.${round.result}" /></td>
+						<c:choose>
+						<c:when test="${round.result == 'PLAYER_1_WON'}">
+						<c:set var="roundResultText" value="${player1Label}" />
+						</c:when>
+						<c:when test="${round.result == 'PLAYER_2_WON'}">
+						<c:set var="roundResultText" value="${player2Label}" />
+						</c:when>
+						<c:when test="${round.result == 'TIED'}">
+						<spring:message code="game.roundHistory.result.tied" var="roundResultText" />
+						</c:when>
+						<c:otherwise>
+						<spring:message code="game.roundHistory.result.none" var="roundResultText" />
+						</c:otherwise>
+						</c:choose>
+						<td>${roundResultText}</td>
 					</tr>
 					</c:forEach>
 					<c:if test="${not empty game.winner}">
