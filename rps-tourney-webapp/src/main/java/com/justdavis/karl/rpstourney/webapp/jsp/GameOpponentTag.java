@@ -14,13 +14,14 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * <p>
  * A JSP tag handler that provides the
  * <code>&lt;rps:gameOpponent game="${someGame}" /&gt;</code> tag, for printing
- * out a user's opponent in a {@link Game}.
+ * out a user's opponent in a {@link GameView}.
  * </p>
  * <p>
  * Please note that this class and its properties must be correctly listed in
@@ -30,15 +31,15 @@ import com.justdavis.karl.rpstourney.service.api.game.Player;
 public final class GameOpponentTag extends RequestContextAwareTag {
 	private static final long serialVersionUID = -2870916586936080691L;
 
-	private Game game;
+	private GameView game;
 	private SecurityContext mockSecurityContext;
 	private JspContext mockJspContext;
 
 	/**
 	 * @param game
-	 *            the {@link Game} to be rendered
+	 *            the {@link GameView} to be rendered
 	 */
-	public void setGame(Game value) {
+	public void setGame(GameView value) {
 		this.game = value;
 	}
 
@@ -172,15 +173,15 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 
 	/**
 	 * @param game
-	 *            the {@link Game} to find the user's opponent in
+	 *            the {@link GameView} to find the user's opponent in
 	 * @param authenticatedAccount
 	 *            the {@link Account} of the user/{@link Player} to find the
 	 *            opponent for
 	 * @return the {@link Account} of the specified user's opponent in the
-	 *         specified {@link Game}, or <code>null</code> if no
-	 *         opponent could be determined
+	 *         specified {@link Game}, or <code>null</code> if no opponent could
+	 *         be determined
 	 */
-	private static Account determineOpponent(Game game,
+	private static Account determineOpponent(GameView game,
 			Account authenticatedAccount) {
 		// If the user isn't logged in, we can't determine an opponent.
 		if (authenticatedAccount == null)
