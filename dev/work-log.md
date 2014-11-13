@@ -2083,3 +2083,9 @@ This file should never be committed along with other files; it should always be 
     * Moved the `Game.State` enum up into its own top-level type.
     * Tweaked the round history display a bit: display players' names in each row, rather than just "Player 1" or "Player 2".
     * Filed [Issue #52](https://github.com/karlmdavis/rps-tourney/issues/52).
+
+### 2014-11-12, Wednesday
+
+* 0.4h: [Issue #52: Error on home page: "javax.ws.rs.ProcessingException: java.net.ConnectException: ConnectException invoking http://localhost:8088/games/: Connection refused"](https://github.com/karlmdavis/rps-tourney/issues/52):
+  Resolved.
+    * Wrote a couple of ITs for `home.jsp` and then fixed the problem, which was with `GameOpponentTag`.
