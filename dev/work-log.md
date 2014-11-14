@@ -2089,3 +2089,9 @@ This file should never be committed along with other files; it should always be 
 * 0.4h: [Issue #52: Error on home page: "javax.ws.rs.ProcessingException: java.net.ConnectException: ConnectException invoking http://localhost:8088/games/: Connection refused"](https://github.com/karlmdavis/rps-tourney/issues/52):
   Resolved.
     * Wrote a couple of ITs for `home.jsp` and then fixed the problem, which was with `GameOpponentTag`.
+
+### 2014-11-13, Thursday
+
+* 0.1h: [Issue #48: Round counts in game history don't account for ties](https://github.com/karlmdavis/rps-tourney/issues/48):
+  Investigation.
+    * Came up with a plan of attack and estimates.
