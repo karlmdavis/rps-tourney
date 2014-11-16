@@ -2110,3 +2110,10 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Tried working around the "`GameRound` has a null `Game` reference" issue via JAXB's `@XmlID` and `@XmlIDRef` attributes.
     * Kinda' stymied by JPA issues. Need to think on it a bit.
+
+### 2014-11-16, Sunday
+
+* 0.5h: [Issue #48: Round counts in game history don't account for ties](https://github.com/karlmdavis/rps-tourney/issues/48):
+  Resolved.
+    * Reworked my implementation: `Game` now manages the calculations needed for `GameRound.getAdjustedRoundIndex()`.
+    * Committed.
