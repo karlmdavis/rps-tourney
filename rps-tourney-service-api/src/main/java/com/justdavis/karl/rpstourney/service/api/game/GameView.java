@@ -81,7 +81,7 @@ public final class GameView extends AbstractGame {
 			} else {
 				// Otherwise, build a copy of the round and hide others' moves.
 				GameRound filteredRound = new GameRound(round.getGame(),
-						round.getRoundIndex());
+						round.getRoundIndex(), round.getAdjustedRoundIndex());
 
 				Throw player1Throw = round.getThrowForPlayer1();
 				if (player1Throw != null && isPlayer1)

@@ -16,9 +16,10 @@ public final class GameRoundTest {
 	@Test
 	public void basicUsage() {
 		Game game = new Game(new Player(new Account()));
-		GameRound round = new GameRound(game, 42);
+		GameRound round = new GameRound(game, 42, 41);
 
 		Assert.assertEquals(42, round.getRoundIndex());
+		Assert.assertEquals(41, round.getAdjustedRoundIndex());
 		Assert.assertNull(round.getThrowForPlayer1());
 		Assert.assertNull(round.getThrowForPlayer1Timestamp());
 		Assert.assertNull(round.getThrowForPlayer2());

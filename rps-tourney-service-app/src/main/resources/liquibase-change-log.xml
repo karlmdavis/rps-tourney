@@ -127,6 +127,9 @@
 			<column name="roundIndex" type="int">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="adjustedRoundIndex" type="int">
+				<constraints nullable="false" />
+			</column>
 			<column name="throwForPlayer1" type="varchar(50)">
 				<constraints nullable="true" />
 			</column>

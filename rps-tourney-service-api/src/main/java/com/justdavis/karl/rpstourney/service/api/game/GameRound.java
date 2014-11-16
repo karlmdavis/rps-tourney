@@ -61,6 +61,10 @@ public class GameRound {
 	@XmlElement
 	private int roundIndex;
 
+	@Column(name = "`adjustedRoundIndex`", nullable = false, updatable = false)
+	@XmlElement
+	private int adjustedRoundIndex;
+
 	@Column(name = "`throwForPlayer1`")
 	@Enumerated(EnumType.STRING)
 	@XmlElement
@@ -90,15 +94,22 @@ public class GameRound {
 	 *            the value to use for {@link #getGame()}
 	 * @param roundIndex
 	 *            the value to use for {@link #getRoundIndex()}
+	 * @param adjustedRoundIndex
+	 *            the value to use for {@link #getAdjustedRoundIndex()}
 	 */
-	public GameRound(Game game, int roundIndex) {
+	public GameRound(Game game, int roundIndex, int adjustedRoundIndex) {
 		if (game == null)
 			throw new IllegalArgumentException();
 		if (roundIndex < 0)
 			throw new IllegalArgumentException();
+		if (adjustedRoundIndex < 0)
+			throw new IllegalArgumentException();
+		if (adjustedRoundIndex > roundIndex)
+			throw new IllegalArgumentException();
 
 		this.game = game;
 		this.roundIndex = roundIndex;
+		this.adjustedRoundIndex = adjustedRoundIndex;
 		this.throwForPlayer1 = null;
 		this.throwForPlayer1Timestamp = null;
 		this.throwForPlayer2 = null;
@@ -128,6 +139,14 @@ public class GameRound {
 	 */
 	public int getRoundIndex() {
 		return roundIndex;
+	}
+
+	/**
+	 * @return the index of this {@link GameRound} as if the {@link Game} it's
+	 *         part of had not had any ties
+	 */
+	public int getAdjustedRoundIndex() {
+		return adjustedRoundIndex;
 	}
 
 	/**

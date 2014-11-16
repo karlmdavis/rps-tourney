@@ -15,6 +15,7 @@
 	<rps:rounds>
 		<rps:round>
 			<rps:roundIndex>0</rps:roundIndex>
+			<rps:ajustedRoundIndex>0</rps:ajustedRoundIndex>
 			<rps:throwForPlayer1>ROCK</rps:throwForPlayer1>
 		</rps:round>
 	</rps:rounds>

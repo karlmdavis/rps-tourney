@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 
 /**
  * <p>
@@ -236,7 +237,16 @@ public class Game extends AbstractGame {
 			// Is the game still going?
 			if (winner == null) {
 				// Add a new round.
-				GameRound nextRound = new GameRound(this, roundIndex + 1);
+				int newRoundIndex = roundIndex + 1;
+				int newAdjustedRoundIndex;
+				if (currentRound.getResult() != Result.TIED)
+					newAdjustedRoundIndex = currentRound
+							.getAdjustedRoundIndex() + 1;
+				else
+					newAdjustedRoundIndex = currentRound
+							.getAdjustedRoundIndex();
+				GameRound nextRound = new GameRound(this, newRoundIndex,
+						newAdjustedRoundIndex);
 				rounds.add(nextRound);
 			} else {
 				// Mark the game as finished.
@@ -362,7 +372,7 @@ public class Game extends AbstractGame {
 	 * {@link #getState()} to {@link State#STARTED}.
 	 */
 	private void player2Joined() {
-		GameRound firstRound = new GameRound(this, 0);
+		GameRound firstRound = new GameRound(this, 0, 0);
 		this.rounds.add(firstRound);
 
 		this.state = State.WAITING_FOR_FIRST_THROW;

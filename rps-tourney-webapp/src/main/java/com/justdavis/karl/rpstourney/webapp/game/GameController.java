@@ -314,6 +314,11 @@ public class GameController {
 		modelAndView.addObject("hasPlayer2", game.getPlayer2() != null);
 		modelAndView.addObject("player2Label",
 				getPlayer2Label(game, messageSource, locale));
+		modelAndView.addObject(
+				"currentAdjustedRoundIndex",
+				game.getRounds().isEmpty() ? 1 : game.getRounds()
+						.get(game.getRounds().size() - 1)
+						.getAdjustedRoundIndex());
 
 		// Calculate the current scores.
 		int player1Score = 0;

@@ -313,4 +313,28 @@ public final class GameTest {
 		Assert.assertEquals(game.getRounds().get(1)
 				.getThrowForPlayer1Timestamp(), game.getLastThrowTimestamp());
 	}
+
+	/**
+	 * Tests {@link GameRound#getAdjustedRoundIndex()}.
+	 */
+	@Test
+	public void getAdjustedRoundIndex() {
+		Player player1 = new Player(new Account());
+		Player player2 = new Player(new Account());
+		Game game = new Game(player1);
+		game.setPlayer2(player2);
+		Assert.assertEquals(0, game.getRounds().get(0).getAdjustedRoundIndex());
+
+		game.submitThrow(0, player1, Throw.ROCK);
+		game.submitThrow(0, player2, Throw.PAPER);
+		Assert.assertEquals(1, game.getRounds().get(1).getAdjustedRoundIndex());
+
+		game.submitThrow(1, player1, Throw.ROCK);
+		game.submitThrow(1, player2, Throw.ROCK);
+		Assert.assertEquals(1, game.getRounds().get(2).getAdjustedRoundIndex());
+
+		game.submitThrow(2, player1, Throw.PAPER);
+		game.submitThrow(2, player2, Throw.ROCK);
+		Assert.assertEquals(2, game.getRounds().get(3).getAdjustedRoundIndex());
+	}
 }

@@ -110,7 +110,7 @@
 
 		<div id="round-history">
 			<h2><spring:message code="game.roundHistory" /></h2>
-			<p>Round: <span id="currentRoundIndex">${fn:length(game.rounds)}</span> of ${game.maxRounds}</p>
+			<p>Round: <span id="currentRoundIndex">${currentAdjustedRoundIndex + 1}</span> of ${game.maxRounds}</p>
 			<table id="rounds">
 				<thead>
 					<tr>
@@ -131,7 +131,7 @@
 					</c:if>
 					<c:forEach items="${game.rounds}" var="round">
 					<tr>
-						<td>${round.roundIndex + 1}</td>
+						<td>${round.adjustedRoundIndex + 1}</td>
 						<td><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></td>
 						<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
 						<c:choose>

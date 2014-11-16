@@ -188,6 +188,8 @@ public final class GameViewTest {
 		Assert.assertEquals(1, parsedGameView.getRounds().size());
 		Assert.assertEquals(0, parsedGameView.getRounds().get(0)
 				.getRoundIndex());
+		Assert.assertEquals(0, parsedGameView.getRounds().get(0)
+				.getAdjustedRoundIndex());
 		Assert.assertEquals(Throw.ROCK, parsedGameView.getRounds().get(0)
 				.getThrowForPlayer1());
 		Assert.assertNull(parsedGameView.getRounds().get(0)
