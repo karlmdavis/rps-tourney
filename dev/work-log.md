@@ -2098,8 +2098,15 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-11-14, Friday
 
-* ?h: [Issue #48: Round counts in game history don't account for ties](https://github.com/karlmdavis/rps-tourney/issues/48):
+* 0.25h: [Issue #48: Round counts in game history don't account for ties](https://github.com/karlmdavis/rps-tourney/issues/48):
   Implementation.
     * Implemented the new `GameRound.getAdjustedRoundIndex()` method, added unit tests for it, and updated `game.jsp` to use it.
     * Except: getting errors when loading the game page after player 2 joins. My guess: `GameView` doesn't pass the `Game` to the rounds. Need to deal with that.
         * Also need to add tests to catch it and make sure that the `game.jsp` logic is working correctly. 
+
+### 2014-11-15, Saturday
+
+* 0.1h: [Issue #48: Round counts in game history don't account for ties](https://github.com/karlmdavis/rps-tourney/issues/48):
+  Implementation.
+    * Tried working around the "`GameRound` has a null `Game` reference" issue via JAXB's `@XmlID` and `@XmlIDRef` attributes.
+    * Kinda' stymied by JPA issues. Need to think on it a bit.
