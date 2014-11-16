@@ -27,7 +27,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
- * TODO
+ * The base class for {@link Game} and {@link GameView}.
  */
 @MappedSuperclass
 @IdClass(Game.GamePk.class)
