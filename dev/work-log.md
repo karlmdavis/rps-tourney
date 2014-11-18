@@ -2117,3 +2117,13 @@ This file should never be committed along with other files; it should always be 
   Resolved.
     * Reworked my implementation: `Game` now manages the calculations needed for `GameRound.getAdjustedRoundIndex()`.
     * Committed.
+
+### 2014-11-17, Monday
+
+* 0.35h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Design and estimation.
+* 1.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Added a `GameController` method that might be able to return JSON (it probably isn't working yet).
+    * Restructured the page template and JavaScript so that per-page JavaScript is possible.
+    * Started stubbing out the JavaScript that will poll for game state.
