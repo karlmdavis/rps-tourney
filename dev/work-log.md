@@ -2127,3 +2127,11 @@ This file should never be committed along with other files; it should always be 
     * Added a `GameController` method that might be able to return JSON (it probably isn't working yet).
     * Restructured the page template and JavaScript so that per-page JavaScript is possible.
     * Started stubbing out the JavaScript that will poll for game state.
+
+### 2014-11-18, Tuesday
+
+* 0.75h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Got JSON responses working.
+    * Got the polling working.
+    * Next, I need to start actually doing something with the result I get back.
