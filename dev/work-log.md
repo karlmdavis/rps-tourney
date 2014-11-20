@@ -2135,3 +2135,9 @@ This file should never be committed along with other files; it should always be 
     * Got JSON responses working.
     * Got the polling working.
     * Next, I need to start actually doing something with the result I get back.
+
+### 2014-11-19, Wednesday
+
+* 1.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Got player name and max rounds controls updating as expected.
