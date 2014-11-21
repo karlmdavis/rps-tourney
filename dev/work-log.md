@@ -2147,3 +2147,11 @@ This file should never be committed along with other files; it should always be 
 * 0.4h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
   Implementation.
     * Got player score controls updating as expected.
+
+### 2014-11-21, Friday
+
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Added support for updating Player 1's name.
+    * Added support for updating the round counter.
+    * Started adding support for updating the round history.
