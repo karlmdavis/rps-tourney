@@ -2155,3 +2155,11 @@ This file should never be committed along with other files; it should always be 
     * Added support for updating Player 1's name.
     * Added support for updating the round counter.
     * Started adding support for updating the round history.
+
+### 2014-11-22, Sturday
+
+* 0.35h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Continued working on updating the round history.
+    * Ran into the need for client-side translations again: how do I get translated strings in JavaScript?
+        * Looks like the best option: [jquery-i18n-properties](https://github.com/jquery-i18n-properties/jquery-i18n-properties)
