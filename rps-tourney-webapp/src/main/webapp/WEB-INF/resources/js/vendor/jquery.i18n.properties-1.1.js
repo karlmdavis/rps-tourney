@@ -242,6 +242,7 @@ function loadAndParseFile(filename, settings) {
         async:      false,
         cache:		settings.cache,
         contentType:'text/plain;charset='+ settings.encoding,
+        mimeType:   'text/plain',
         dataType:   'text',
         success:    function(data, status) {
         				parseData(data, settings.mode); 
