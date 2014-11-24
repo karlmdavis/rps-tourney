@@ -2167,3 +2167,11 @@ This file should never be committed along with other files; it should always be 
   Implementation.
     * Finished support for updating the round history.
     * Next: need to add support for the game won/lost logic.
+
+### 2014-11-23, Sunday
+
+* 0.4h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Started adding support for updating the win/loss displays.
+        * Need to figure out how to expose the current user to JavaScipt: must be able to determine if the current user won or lost a given game.
+    * Found bug: Round counter is "2" before Player 2 joins.
