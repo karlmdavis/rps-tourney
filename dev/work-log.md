@@ -2194,4 +2194,11 @@ This file should never be committed along with other files; it should always be 
     * Next up:
         * Add ITs for all of the new functionality.
         * File bug: Round counter is "2" before Player 2 joins.
-    
+
+### 2014-11-26, Wednesday
+
+* 0.1h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Tried to start implementing tests, but couldn't find any Selenium methods that explicitly cope with AJAX.
+        * It looks like the "`findBy...`" methods have implicit waits, but I'm not sure how to write tests that wait for a value to appear. Maybe XPath?
+        * Travelling and didn't have an Internet connection to look it up.
