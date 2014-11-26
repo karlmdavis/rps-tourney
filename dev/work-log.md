@@ -2185,3 +2185,13 @@ This file should never be committed along with other files; it should always be 
         * Write the refresh timing logic.
         * Add ITs for all of the new functionality.
         * File bug: Round counter is "2" before Player 2 joins.
+
+### 2014-11-25, Tuesday
+
+* 0.75h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Implementation.
+    * Implenented the exponential backoff for the refresh interval.
+    * Next up:
+        * Add ITs for all of the new functionality.
+        * File bug: Round counter is "2" before Player 2 joins.
+    
