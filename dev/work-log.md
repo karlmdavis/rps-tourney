@@ -2198,7 +2198,24 @@ This file should never be committed along with other files; it should always be 
 ### 2014-11-26, Wednesday
 
 * 0.1h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
-  Implementation.
+  Testing.
     * Tried to start implementing tests, but couldn't find any Selenium methods that explicitly cope with AJAX.
         * It looks like the "`findBy...`" methods have implicit waits, but I'm not sure how to write tests that wait for a value to appear. Maybe XPath?
         * Travelling and didn't have an Internet connection to look it up.
+
+### 2014-11-27, Thursday
+
+* 2.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Found some Selenium examples for AJAX tests.
+    * Started implementing an IT for the new AJAX update functionality.
+    * Ran into some content type negotiation isues in my Selenium tests (and, it turns out, also in `GameControllerTest`).
+        * Selenium's `HtmlUnitDriver`, by default, emulates IE8's behavior and (effectively) sends "*/*" in its "Accept" header.
+        * Spent a lot of time trying to figure out how Spring MVC handles content type negotiation.
+        * After a lot of debugging, discovered it comes down to the following chunks of code:
+            * `org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(String, HttpServletRequest)`
+            * `org.springframework.web.servlet.mvc.condition.ProducesRequestCondition.compareTo(ProducesRequestCondition, HttpServletRequest)`
+            * `org.springframework.util.MimeType.compareTo(MimeType)`
+            * Basically, given two methods that otherwise match, but produce different media types, the media types are sorted alphabetically and the winner selected that way. Ugh.
+        * Need to file an enhancement request: Spring MVC should allow for media type priority to be set in an application.
+        * In the meantime, need to customize Selenium and `GameControllerTest` to send a different "Accept" header.
