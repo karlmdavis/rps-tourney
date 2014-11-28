@@ -2219,3 +2219,9 @@ This file should never be committed along with other files; it should always be 
             * Basically, given two methods that otherwise match, but produce different media types, the media types are sorted alphabetically and the winner selected that way. Ugh.
         * Need to file an enhancement request: Spring MVC should allow for media type priority to be set in an application.
         * In the meantime, need to customize Selenium and `GameControllerTest` to send a different "Accept" header.
+
+### 2014-11-28, Friday
+
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Filed [SPR-12481: Mechanism needed to set default content type for application and/or classes, for content type overloading](https://jira.spring.io/browse/SPR-12481).
