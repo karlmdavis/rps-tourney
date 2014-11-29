@@ -2225,3 +2225,8 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
   Testing.
     * Filed [SPR-12481: Mechanism needed to set default content type for application and/or classes, for content type overloading](https://jira.spring.io/browse/SPR-12481).
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Tested out the sample project that got posted for SPR-12481.
+        * Looks like it works there: both when the two content types are specified on a single method, or on separate ones.
+        * Started trying out the new Spring version with my code, to see if that is the cause of the fix, but didn't quite have a chance to finish that.
