@@ -2230,3 +2230,9 @@ This file should never be committed along with other files; it should always be 
     * Tested out the sample project that got posted for SPR-12481.
         * Looks like it works there: both when the two content types are specified on a single method, or on separate ones.
         * Started trying out the new Spring version with my code, to see if that is the cause of the fix, but didn't quite have a chance to finish that.
+
+### 2014-11-29, Saturday
+
+* 2.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Spent some more time trying to reproduce my problem in the sample project that was posted to SPR-12481.
