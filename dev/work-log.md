@@ -2236,3 +2236,11 @@ This file should never be committed along with other files; it should always be 
 * 2.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
   Testing.
     * Spent some more time trying to reproduce my problem in the sample project that was posted to SPR-12481.
+
+### 2014-12-16, Tuesday
+
+* Forgot to work on the project on November 30th, and then just took the opportunity for a break. Good times in Skyrim.
+* 1.75h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Spent some more time trying to reproduce my problem in the sample project that was posted to SPR-12481.
+    * Finally figured out what was going on and added a comment to the issue explaining it.
