@@ -2244,3 +2244,11 @@ This file should never be committed along with other files; it should always be 
   Testing.
     * Spent some more time trying to reproduce my problem in the sample project that was posted to SPR-12481.
     * Finally figured out what was going on and added a comment to the issue explaining it.
+
+### 2014-12-17, Wednesday
+
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Cleaned up the test cases in `GameIT` a bit to fail when the webapp isn't loading, rather than error.
+    * Added a workaround for SPR-12481 in `GameIT`.
+    * Stuck trying to get my AJAX test to work with `HtmlUnitDriver`. Either the page has a bunch of CSS and JS errors, or HTMLUnit just isn't complete enough. Not sure which yet.
