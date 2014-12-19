@@ -2252,3 +2252,14 @@ This file should never be committed along with other files; it should always be 
     * Cleaned up the test cases in `GameIT` a bit to fail when the webapp isn't loading, rather than error.
     * Added a workaround for SPR-12481 in `GameIT`.
     * Stuck trying to get my AJAX test to work with `HtmlUnitDriver`. Either the page has a bunch of CSS and JS errors, or HTMLUnit just isn't complete enough. Not sure which yet.
+
+### 2014-12-18, Thursday
+
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Spent some more time trying to get AJAX tests to work with HtmlUnit.
+        * Don't think this will happen: the tests end up using the parts of HtmlUnit that require its Jetty 8 libraries.
+        * Those libraries conflict with the Jetty 9 dependencies on my classpath.
+        * This leaves two options:
+            1. Remove the embedded Jetty libraries from my classpath (e.g. download and run Jetty as a separate process).
+            2. Stop using HtmlUnit. Use Firefox or somesuch, instead.
