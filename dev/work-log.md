@@ -2263,3 +2263,17 @@ This file should never be committed along with other files; it should always be 
         * This leaves two options:
             1. Remove the embedded Jetty libraries from my classpath (e.g. download and run Jetty as a separate process).
             2. Stop using HtmlUnit. Use Firefox or somesuch, instead.
+        * Actually, thought of another possibility: create `rps-tourney-dev-launchers` or somesuch, that isolates the Jetty dependencies.
+
+### 2014-12-19, Friday
+
+* 0.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Oh man... I fell into this same trap again:
+        * Unpackaged Eclipse projects can't be shoved into Jetty correctly. Not really.
+        * I mean, you can kind of fake it, but only kind of.
+        * Well, how do actual embedded Jetty projects work? Are they shipping a JAR with a WAR in it and running the WAR? Hmmm...
+    * Even if I *could* fake it well enough, maybe I should look into an Eclipse Tomcat plugin (again)?
+        * It looks like running my WAR projects on Tomcat is already supported by the Eclipse WTP plugin. I just need a Tomcat instance to use with it.
+        * I think the best next step here is to add Tomcat to my development environment setup script.
+        * If that works out, I'll need to remove my old launchers, and the new module I was creating.
