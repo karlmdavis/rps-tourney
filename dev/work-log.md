@@ -2277,3 +2277,14 @@ This file should never be committed along with other files; it should always be 
         * It looks like running my WAR projects on Tomcat is already supported by the Eclipse WTP plugin. I just need a Tomcat instance to use with it.
         * I think the best next step here is to add Tomcat to my development environment setup script.
         * If that works out, I'll need to remove my old launchers, and the new module I was creating.
+
+### 2014-12-20, Saturday
+
+* 0.25h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Added Tomcat installation to `devenv-install.py`.
+* 0.1h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Testing.
+    * Tried launching Tomcat, and it of course blew up.
+        * Need to specify config file locations.
+        * Will need to add HSQL to the WARs, if it isn't already there.
