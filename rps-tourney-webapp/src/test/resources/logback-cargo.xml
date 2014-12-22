@@ -29,6 +29,16 @@
 	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
 		level="info" />
 
+	<!-- This logger will print all Spring MVC requests/responses to the log, 
+		at the 'trace' level (set to 'debug' or higher to disable it). Does not attempt 
+		to escape passwords or other sensitive data; MUST NOT be enabled in production. -->
+	<logger
+		name="com.justdavis.karl.rpstourney.webapp.RequestResponseLoggingInterceptor"
+		level="trace" />
+
+	<!-- Set to the 'all' level when debugging issues with Spring MVC. -->
+	<logger name="org.springframework.web" level="info" />
+
 	<!-- Log at the INFO level and above by default, to the 'FILE' appender. -->
 	<root level="info">
 		<appender-ref ref="FILE" />

@@ -4,6 +4,8 @@
 	<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 	<rps:state>WAITING_FOR_PLAYER</rps:state>
 	<rps:maxRounds>3</rps:maxRounds>
+	<rps:scoreForPlayer1>0</rps:scoreForPlayer1>
+	<rps:scoreForPlayer2>0</rps:scoreForPlayer2>
 	<rps:player1>
 		<rps:humanAccount>
 			<rps:id>42</rps:id>
@@ -19,4 +21,10 @@
 			<rps:throwForPlayer1>ROCK</rps:throwForPlayer1>
 		</rps:round>
 	</rps:rounds>
+	<rps:viewUser>
+		<rps:id>42</rps:id>
+		<rps:roles>
+			<rps:role>USERS</rps:role>
+		</rps:roles>
+	</rps:viewUser>
 </rps:gameView>

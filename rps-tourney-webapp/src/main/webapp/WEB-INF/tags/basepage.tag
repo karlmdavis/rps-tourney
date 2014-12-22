@@ -1,5 +1,7 @@
 <%@ attribute name="metaSubtitle" required="false" %>
 <%@ attribute name="metaDescription" required="false" %>
+<%@ attribute name="header" fragment="true" required="false" %>
+<%@ attribute name="bodyscripts" fragment="true" required="false" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -19,6 +21,12 @@
 
 		<link rel="stylesheet" href="${requestScope['rpstourney.config.baseurl']}/css/rps.css">
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		
+		<script>
+			var baseUrl = "${requestScope['rpstourney.config.baseurl']}";
+		</script>
+		
+		<jsp:invoke fragment="header" />
 	</head>
 	<body>
 	
@@ -43,6 +51,8 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/rps.js"></script>
+		
+		<jsp:invoke fragment="bodyscripts" />
 
 		<!-- Google Analytics: UA-43685799-2 is the rpstourney.com Tracking ID. -->
 		<script>

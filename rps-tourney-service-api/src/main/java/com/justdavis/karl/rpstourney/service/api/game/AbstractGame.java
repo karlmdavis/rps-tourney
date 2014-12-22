@@ -194,6 +194,51 @@ class AbstractGame {
 	}
 
 	/**
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} that
+	 *         {@link #getPlayer1()} has won
+	 */
+	@XmlElement
+	public int getScoreForPlayer1() {
+		Result playerWonResult = Result.PLAYER_1_WON;
+		int playerWins = countRoundsWithResult(playerWonResult);
+		return playerWins;
+	}
+
+	/**
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} that
+	 *         {@link #getPlayer2()} has won
+	 */
+	@XmlElement
+	public int getScoreForPlayer2() {
+		Result playerWonResult = Result.PLAYER_2_WON;
+		int playerWins = countRoundsWithResult(playerWonResult);
+		return playerWins;
+	}
+
+	/**
+	 * @param result
+	 *            the {@link GameRound#getResult()} value to match
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} with the
+	 *         specified {@link GameRound#getResult()} value
+	 */
+	private int countRoundsWithResult(Result result) {
+		int playerWins = 0;
+		for (GameRound round : rounds) {
+			/*
+			 * If this round isn't complete, the game is still in-progress and
+			 * we can stop counting early.
+			 */
+			if (round.getResult() == null)
+				break;
+
+			if (round.getResult() == result)
+				playerWins++;
+		}
+
+		return playerWins;
+	}
+
+	/**
 	 * Determines the {@link Player} that won this {@link Game}, or
 	 * <code>null</code> if {@link Game#getState()} is not yet
 	 * {@link State#FINISHED}.
@@ -215,18 +260,8 @@ class AbstractGame {
 			return null;
 
 		// Count the number of rounds won by each player.
-		int player1Wins = 0;
-		int player2Wins = 0;
-		for (GameRound round : rounds) {
-			// If this round isn't complete, the game is still in-progress.
-			if (round.getResult() == null)
-				return null;
-
-			if (round.getResult() == Result.PLAYER_1_WON)
-				player1Wins++;
-			if (round.getResult() == Result.PLAYER_2_WON)
-				player2Wins++;
-		}
+		int player1Wins = getScoreForPlayer1();
+		int player2Wins = getScoreForPlayer2();
 
 		// Is the game still in progress?
 		int numWinsNeeded = (maxRounds / 2) + 1;

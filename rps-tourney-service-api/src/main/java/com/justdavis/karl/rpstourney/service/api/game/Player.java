@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 
 /**
- * Models a player in a {@link Game}. This class allows other code to
- * abstract away the difference between human and AI players. While it's not
- * enforced by database constraints, whatever logic is used to create
- * {@link Player} instances should ensure that no more than one {@link Player}
- * instance exists for a given human or AI player; {@link Player} instances
- * should be shared between {@link Game}s.
+ * Models a player in a {@link Game}. This class allows other code to abstract
+ * away the difference between human and AI players. While it's not enforced by
+ * database constraints, whatever logic is used to create {@link Player}
+ * instances should ensure that no more than one {@link Player} instance exists
+ * for a given human or AI player; {@link Player} instances should be shared
+ * between {@link Game}s.
  */
 @Entity
 @Table(name = "`Players`")
@@ -82,6 +82,26 @@ public class Player {
 	 */
 	public boolean hasId() {
 		return id >= 0;
+	}
+
+	/**
+	 * <p>
+	 * Returns the unique integer that identifies and represents this
+	 * {@link Player} instance.
+	 * </p>
+	 * <p>
+	 * This value will be assigned by JPA when the {@link Entity} is persisted.
+	 * Until then, this value should not be accessed.
+	 * </p>
+	 * 
+	 * @return the unique integer that identifies and represents this
+	 *         {@link Player} instance
+	 */
+	public long getId() {
+		if (!hasId())
+			throw new IllegalStateException("Field value not yet available.");
+
+		return id;
 	}
 
 	/**

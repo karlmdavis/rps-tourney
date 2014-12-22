@@ -10,9 +10,14 @@
 		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
 	</group>
 	<group name="rps">
-		<!-- For some reason, trying to include theme.less here in wro.xml, in 
-			the same group as bootstrap.less, causes wro4j to get stuck in an endless 
-			loop. However, rps.less can '@include' it without any trouble. -->
+		<!-- Allows for use of Java '.properties' resource bundles for client-side 
+			JavaScript internationalization. As downloaded from https://github.com/jquery-i18n-properties/jquery-i18n-properties 
+			on 2014-11-22. -->
+		<js>/WEB-INF/resources/js/vendor/jquery.i18n.properties-1.1.js</js>
+
+		<!-- For some reason, trying to include Bootstrap's theme.less here in 
+			wro.xml, in the same group as bootstrap.less, causes wro4j to get stuck in 
+			an endless loop. However, rps.less can '@include' it without any trouble. -->
 		<css>/WEB-INF/resources/css/rps.less</css>
 		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
 		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
@@ -33,6 +38,9 @@
 		<js>/bootstrap-3.2.0/js/tab.js</js>
 		<js>/bootstrap-3.2.0/js/affix.js</js>
 		<js>/bootstrap-3.2.0/js/transition.js</js>
+	</group>
+	<group name="game.min">
+		<js>/WEB-INF/resources/js/game.js</js>
 	</group>
 
 </groups>

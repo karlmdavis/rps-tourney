@@ -180,6 +180,8 @@ public final class GameViewTest {
 				parsedGameView.getCreatedTimestamp());
 		Assert.assertEquals(State.WAITING_FOR_PLAYER, parsedGameView.getState());
 		Assert.assertEquals(3, parsedGameView.getMaxRounds());
+		Assert.assertEquals(0, parsedGameView.getScoreForPlayer1());
+		Assert.assertEquals(0, parsedGameView.getScoreForPlayer2());
 		Assert.assertNotNull(parsedGameView.getPlayer1());
 		Assert.assertNotNull(parsedGameView.getPlayer1().getHumanAccount());
 		Assert.assertEquals(42, parsedGameView.getPlayer1().getHumanAccount()
@@ -194,6 +196,7 @@ public final class GameViewTest {
 				.getThrowForPlayer1());
 		Assert.assertNull(parsedGameView.getRounds().get(0)
 				.getThrowForPlayer2());
+		Assert.assertEquals(42, parsedGameView.getViewUser().getId());
 	}
 
 	/**

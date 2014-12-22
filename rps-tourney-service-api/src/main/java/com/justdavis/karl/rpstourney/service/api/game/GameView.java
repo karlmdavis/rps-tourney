@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
@@ -27,23 +28,25 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class GameView extends AbstractGame {
+	@XmlElement
+	private final Account viewUser;
+
 	/**
 	 * Constructs a new {@link GameView} instance.
 	 * 
 	 * @param gameToWrap
 	 *            the {@link Game} instance that the new {@link GameView} will
 	 *            be a view of
-	 * @param user
-	 *            the user who requested or will be shown the resulting
-	 *            {@link GameView}, which will be used to determine how to
-	 *            filter {@link GameView#getRounds()}, or <code>null</code> if
-	 *            the user is anonymous
+	 * @param viewUser
+	 *            the value to use for {@link #getViewUser()}
 	 */
-	public GameView(Game gameToWrap, Account user) {
+	public GameView(Game gameToWrap, Account viewUser) {
 		super(gameToWrap.getId(), gameToWrap.getCreatedTimestamp(), gameToWrap
 				.getState(), gameToWrap.getMaxRounds(), filterRoundsForUser(
-				gameToWrap, user), gameToWrap.getPlayer1(), gameToWrap
+				gameToWrap, viewUser), gameToWrap.getPlayer1(), gameToWrap
 				.getPlayer2());
+
+		this.viewUser = viewUser;
 	}
 
 	/**
@@ -52,6 +55,7 @@ public final class GameView extends AbstractGame {
 	 */
 	@Deprecated
 	GameView() {
+		this.viewUser = null;
 	}
 
 	/**
@@ -98,5 +102,15 @@ public final class GameView extends AbstractGame {
 		}
 
 		return Collections.unmodifiableList(filteredRounds);
+	}
+
+	/**
+	 * @return the user who requested or will be shown the resulting
+	 *         {@link GameView}, which will be used to determine how to filter
+	 *         {@link GameView#getRounds()}, or <code>null</code> if the user is
+	 *         anonymous
+	 */
+	public Account getViewUser() {
+		return viewUser;
 	}
 }

@@ -3,8 +3,14 @@ package com.justdavis.karl.rpstourney.webapp.game;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
@@ -20,6 +26,8 @@ import com.justdavis.karl.rpstourney.webapp.ITUtils;
  * Integration tests for both {@link GameController} and <code>game.jsp</code>.
  */
 public final class GameIT {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameIT.class);
+
 	/**
 	 * Tests
 	 * {@link GameController#createNewGame(java.security.Principal, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)}
@@ -39,8 +47,10 @@ public final class GameIT {
 					.endsWith("game/"));
 
 			// Spot-check one of the page's elements to ensure it's present.
-			Assert.assertNotNull(driver.getPageSource(),
-					driver.findElement(By.id("player-controls")));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -69,12 +79,23 @@ public final class GameIT {
 			authClient.loginAsGuest();
 			GameView game = gameClient.createGame();
 
-			// Player 2 (webapp): Join and set max rounds to 1.
+			// Player 2 (webapp): Spot-check the page to ensure it's working.
 			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 2 (webapp): Join and set max rounds to 1.
 			driver.findElement(By.id("join-game")).click();
 			driver.findElement(By.id("max-rounds-down")).click();
 			Assert.assertEquals("1",
 					driver.findElement(By.id("max-rounds-value")).getText());
+			Assert.assertEquals("1",
+					driver.findElement(By.id("round-counter-max")).getText());
+			Assert.assertEquals("1",
+					driver.findElement(By.id("round-counter-current"))
+							.getText());
 
 			// Player 1 (service): Throw rock.
 			gameClient.submitThrow(game.getId(), 0, Throw.ROCK);
@@ -95,8 +116,7 @@ public final class GameIT {
 							.getText());
 			Assert.assertEquals(
 					"You Won!",
-					driver.findElement(
-							By.xpath("//tr[@class='result-row']/td[4]"))
+					driver.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
 							.getText());
 		} finally {
 			if (driver != null)
@@ -130,8 +150,14 @@ public final class GameIT {
 			accountsClient.updateAccount(player1);
 			GameView game = gameClient.createGame();
 
-			// Player 2 (webapp): Join game.
+			// Player 2: Spot-check the page to ensure it's working.
 			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 2 (webapp): Join game.
 			driver.findElement(By.id("join-game")).click();
 
 			// Player 2 (webapp): Check Player 1's name.
@@ -176,6 +202,93 @@ public final class GameIT {
 					driver.findElement(
 							By.xpath("//div[@id='player-2-controls']//h3"))
 							.getText());
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
+	 * Verifies that the web application updates the display of in-progress
+	 * games via background AJAX refreshes.
+	 */
+	@Test
+	public void ajaxRefresh() {
+		WebDriver driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 1.
+			driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> wait = new WebDriverWait(driver, 20);
+
+			// Create the web service clients that will be used for Player 2.
+			ClientConfig clientConfig = ITUtils.createClientConfig();
+			CookieStore cookieStore = new CookieStore();
+			GuestAuthClient authClient = new GuestAuthClient(clientConfig,
+					cookieStore);
+			GameClient gameClient = new GameClient(clientConfig, cookieStore);
+
+			// Player 1 (webapp): Create the game.
+			driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = driver.getCurrentUrl().substring(
+					driver.getCurrentUrl().lastIndexOf('/') + 1);
+
+			// Player 1 (webapp): Spot-check the page to ensure it's working.
+			driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 2 (service): Join and set max rounds.
+			authClient.loginAsGuest();
+			gameClient.joinGame(gameId);
+			gameClient.setMaxRounds(gameId, 3, 1);
+			wait.until(ExpectedConditions.not(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.className("player-2-name"), "Not Joined")));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.id("max-rounds-value"), "1"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.id("round-counter-max"), "1"));
+
+			// Player 1 (webapp): Throw ROCK.
+			driver.findElement(
+					By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+
+			// Player 2 (service): Throw ROCK.
+			gameClient.submitThrow(gameId, 0, Throw.ROCK);
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.xpath("//tr[@id='round-data-0']/td[1]"), "1"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.xpath("//tr[@id='round-data-0']/td[2]"), "Rock"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.xpath("//tr[@id='round-data-0']/td[3]"), "Rock"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.xpath("//tr[@id='round-data-0']/td[4]"), "(tied)"));
+
+			// Player 1 (webapp): Throw ROCK.
+			driver.findElement(
+					By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+
+			// Player 2 (service): Throw PAPER.
+			gameClient.submitThrow(gameId, 1, Throw.PAPER);
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.id("player-1-score-value"), "0"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.id("player-2-score-value"), "1"));
+			wait.until(ExpectedConditions.textToBePresentInElementLocated(
+					By.xpath("//tr[@id='result-row']/td[4]"), "You Lost"));
+		} catch (TimeoutException e) {
+			/*
+			 * If one of these are throw, the page has the wrong state. We need
+			 * to log the page state to help debug the problem.
+			 */
+			LOGGER.error(
+					"Test case failed. Current page source:\n"
+							+ driver.getPageSource(), e);
+			throw new TimeoutException(e);
 		} finally {
 			if (driver != null)
 				driver.quit();

@@ -89,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// Instruct Spring Security to completely ignore these requests.
 				.antMatchers("/css/**")
 				.antMatchers("/js/**")
+				.antMatchers("/i18n/**")
 				.antMatchers("/bootstrap-3.2.0/fonts/**");
 	}
 

@@ -110,6 +110,8 @@ public final class GameTest {
 		if (!game.isRoundPrepared())
 			game.prepareRound();
 		Assert.assertEquals(1, game.getRounds().size());
+		Assert.assertEquals(0, game.getScoreForPlayer1());
+		Assert.assertEquals(1, game.getScoreForPlayer2());
 		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
 				.getResult());
 		Assert.assertEquals(State.FINISHED, game.getState());

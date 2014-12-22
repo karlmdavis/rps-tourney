@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -54,6 +56,22 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	}
 
 	/**
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
+	 */
+	@Override
+	public void configureContentNegotiation(
+			ContentNegotiationConfigurer configurer) {
+		/*
+		 * Older browsers, like IE8, send less-than-great "Accept" headers.
+		 * We'll assume that any client that cares will request a specific
+		 * content type, and anything requesting "*" is a dumb browser. (See
+		 * https://jira.spring.io/browse/SPR-12481 for details on how this
+		 * doesn't work quite as expected.)
+		 */
+		configurer.defaultContentType(MediaType.TEXT_HTML);
+	}
+
+	/**
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
 	 */
 	@Override
@@ -67,6 +85,8 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 				"/WEB-INF/resources/css/");
 		registry.addResourceHandler("/js/**").addResourceLocations(
 				"/WEB-INF/resources/js/");
+		registry.addResourceHandler("/i18n/**").addResourceLocations(
+				"/WEB-INF/i18n/");
 
 		/*
 		 * Though the entire Bootstrap source is available, only the fonts from
@@ -119,6 +139,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new RequestResponseLoggingInterceptor());
 		registry.addInterceptor(localeChangeInterceptor());
 		registry.addInterceptor(baseUrlInterceptor);
 	}

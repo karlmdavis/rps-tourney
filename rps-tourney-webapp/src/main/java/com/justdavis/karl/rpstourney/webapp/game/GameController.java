@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -25,7 +26,6 @@ import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
-import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
@@ -87,7 +87,7 @@ public class GameController {
 	 * @return a <code>redirect:</code> view name for the {@link Game} that's
 	 *         been created
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public String createNewGame(Principal authenticatedUser,
 			HttpServletRequest request, HttpServletResponse response) {
 		// If the user isn't already logged in, log them in as a guest.
@@ -112,15 +112,38 @@ public class GameController {
 	 * @return a {@link ModelAndView} that can be used to render an existing
 	 *         gameplay session
 	 */
-	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET)
 	public ModelAndView getGame(@PathVariable String gameId,
 			Principal authenticatedUser, Locale locale) {
+		/*
+		 * FIXME Per the suggestion in
+		 * https://jira.spring.io/browse/SPR-12481?focusedCommentId
+		 * =110879&page=com
+		 * .atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel
+		 * #comment-110879, this method's @RequestMapping is not marked as
+		 * "produces = MediaType.TEXT_HTML_VALUE". It does return HTML, though.
+		 * This workaround should be removed if that JIRA issue is resolved.
+		 */
+
 		GameView game = loadGame(gameId);
 
 		ModelAndView modelAndView = buildGameModelAndView(locale,
 				authenticatedUser, game);
 
 		return modelAndView;
+	}
+
+	/**
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being requested
+	 * @return a {@link GameView} instance with the current game state for the
+	 *         requesting user
+	 */
+	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public GameView getGameView(@PathVariable String gameId) {
+		GameView game = loadGame(gameId);
+		return game;
 	}
 
 	/**
@@ -319,18 +342,6 @@ public class GameController {
 				game.getRounds().isEmpty() ? 1 : game.getRounds()
 						.get(game.getRounds().size() - 1)
 						.getAdjustedRoundIndex());
-
-		// Calculate the current scores.
-		int player1Score = 0;
-		int player2Score = 0;
-		for (GameRound round : game.getRounds()) {
-			if (round.getResult() == Result.PLAYER_1_WON)
-				player1Score++;
-			else if (round.getResult() == Result.PLAYER_2_WON)
-				player2Score++;
-		}
-		modelAndView.addObject("player1Score", player1Score);
-		modelAndView.addObject("player2Score", player2Score);
 
 		/*
 		 * The following model entries are ONLY used for display purposes. They
