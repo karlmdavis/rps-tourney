@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
@@ -93,9 +94,7 @@ public final class GameIT {
 					driver.findElement(By.id("max-rounds-value")).getText());
 			Assert.assertEquals("1",
 					driver.findElement(By.id("round-counter-max")).getText());
-			Assert.assertEquals("1",
-					driver.findElement(By.id("round-counter-current"))
-							.getText());
+			Assert.assertEquals("1", getRoundCounterCurrent(driver));
 
 			// Player 1 (service): Throw rock.
 			gameClient.submitThrow(game.getId(), 0, Throw.ROCK);
@@ -293,5 +292,128 @@ public final class GameIT {
 			if (driver != null)
 				driver.quit();
 		}
+	}
+
+	/**
+	 * <p>
+	 * Ensures that games display the correct round count, with and without
+	 * JavaScript.
+	 * </p>
+	 * <p>
+	 * This is a regression test case for <a
+	 * href="https://github.com/karlmdavis/rps-tourney/issues/53">Issue #53:
+	 * Current round counter is very goofy.</a>.
+	 * </p>
+	 */
+	@Test
+	public void currentRoundCounterCorrectness() {
+		WebDriver player1Driver = null;
+		WebDriver player2Driver = null;
+		try {
+
+			// Player 1: Create a driver with JS.
+			player1Driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> player1Wait = new WebDriverWait(player1Driver, 20);
+
+			// Player 2: Create a driver without JS.
+			player2Driver = new HtmlUnitDriver(false);
+
+			// Player 1: Create the game.
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = player1Driver.getCurrentUrl().substring(
+					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
+
+			// Player 1: Spot-check the page to ensure it's working.
+			player1Driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(String.format("Invalid response: %s: %s",
+					player1Driver.getCurrentUrl(),
+					player1Driver.getPageSource()), 1, player1Driver
+					.findElements(By.id("player-controls")).size());
+
+			// Player 2: Open the game.
+			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
+
+			/*
+			 * Play through a three-round game, checking the round counts for
+			 * both players at every step.
+			 */
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "1"));
+			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
+
+			player2Driver.findElement(By.id("join-game")).click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "1"));
+			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
+
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "2"));
+			Assert.assertEquals("2", getRoundCounterCurrent(player2Driver));
+
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-rock']"))
+					.click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "2"));
+			Assert.assertEquals("2", getRoundCounterCurrent(player2Driver));
+
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-scissors']"))
+					.click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "3"));
+			Assert.assertEquals("3", getRoundCounterCurrent(player2Driver));
+
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "3"));
+			Assert.assertEquals("3", getRoundCounterCurrent(player2Driver));
+		} finally {
+			if (player1Driver != null)
+				player1Driver.quit();
+			if (player2Driver != null)
+				player2Driver.quit();
+		}
+	}
+
+	/**
+	 * @param driver
+	 *            the {@link WebDriver} to use
+	 * @return the value of the <code>#round-counter-current</code> element on
+	 *         the specified {@link WebDriver}'s current page
+	 */
+	private String getRoundCounterCurrent(WebDriver driver) {
+		return driver.findElement(By.id("round-counter-current")).getText();
 	}
 }

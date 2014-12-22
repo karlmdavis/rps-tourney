@@ -339,7 +339,7 @@ public class GameController {
 				getPlayer2Label(game, messageSource, locale));
 		modelAndView.addObject(
 				"currentAdjustedRoundIndex",
-				game.getRounds().isEmpty() ? 1 : game.getRounds()
+				game.getRounds().isEmpty() ? 0 : game.getRounds()
 						.get(game.getRounds().size() - 1)
 						.getAdjustedRoundIndex());
 

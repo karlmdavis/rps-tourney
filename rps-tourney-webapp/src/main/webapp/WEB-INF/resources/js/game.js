@@ -194,7 +194,7 @@ function refreshGameState() {
 		$("#round-counter-max").text(gameData.maxRounds);
 		if (gameData.state !== "WAITING_FOR_PLAYER" && gameData.state !== "WAITING_FOR_FIRST_THROW") {
 			var currentRound = gameData.rounds[gameData.rounds.length - 1];
-			$("#round-counter-current").text(currentRound.adjustedRoundIndex);
+			$("#round-counter-current").text(currentRound.adjustedRoundIndex + 1);
 		}
 
 		// Update the round history table.
