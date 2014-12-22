@@ -107,6 +107,15 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.3-1100-jdbc41</version>
 		</dependency>
+		<dependency>
+			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+				DB for manual development testing, as well as unit/integration tests. -->
+			<!-- Not marked as 'test' scope or optional, to allow its use with the 
+				Eclipse Tomcat plugin. -->
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 
 		<dependency>
 			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
@@ -156,14 +165,6 @@
 			<!-- The project's dependency injection provider. -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
-				DB for unit/integration tests. -->
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.3.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

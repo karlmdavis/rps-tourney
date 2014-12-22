@@ -43,6 +43,10 @@ def main():
     maven_install_dir = maven_install(maven_archive)
     maven_config_env(maven_install_dir)
 
+    # Install Tomcat.
+    tomcat_archive = tomcat_download()
+    tomcat_install(tomcat_archive)
+
 def eclipse_download_from_internet():
     """
     Download the Eclipse archive/installer from eclipse.org.
@@ -295,6 +299,73 @@ def maven_config_env(maven_install_dir):
     bash_var_export('MAVEN_HOME', maven_install_dir)
     bash_path_include(os.path.join(maven_install_dir, 'bin'))
     print('done.')
+
+def tomcat_download():
+    """
+    Download the Tomcat archive/installer from tomcat.apache.org.
+
+    Returns:
+        The path to the downloaded file, which will be saved into the
+        `get_installers_dir()` directory.
+    """
+    
+    # The URL to download from: Tomcat 7.0.57.
+    tomcat_url = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz"
+    
+    # The path to save the installer to.
+    file_name = urlsplit(tomcat_url).path.split('/')[-1]
+    file_path_local = os.path.join(get_installers_dir(), file_name)
+    
+    print('4) Install Tomcat')
+    
+    if not os.path.exists(file_path_local):
+        # Download the installer.
+        print('   - Downloading ' + file_name + '... ', end="", flush=True)
+        with urllib.request.urlopen(tomcat_url) as response, open(file_path_local, 'wb') as tomcat_archive:
+            shutil.copyfileobj(response, tomcat_archive)
+        print('downloaded.')
+    else:
+        print('   - Installer ' + file_name + ' already downloaded.')
+    
+    return file_path_local
+
+def tomcat_install(tomcat_archive_path):
+    """
+    Extract the specified Tomcat archive/installer into the `get_tools_dir()`
+    directory.
+    
+    Args:
+        tomcat_archive_path (str): The local path to the archive/installer to
+            extract Tomcat from.
+    
+    Returns:
+        The path to the downloaded file, which will be saved into the
+        `get_installers_dir()` directory.
+    """
+    
+    # The path to install to.
+    _, tomcat_name = os.path.split(tomcat_archive_path)
+    tomcat_name = re.sub('\.tar\.gz$', '', tomcat_name)
+    tomcat_install_path = os.path.join(get_tools_dir(), tomcat_name)
+    tomcat_install_path_tmp = os.path.join(get_tools_dir(), tomcat_name + "-tmp")
+
+    if not os.path.exists(tomcat_install_path):
+        # Extract the Tomcat install.
+        print('   - Extracting ' + tomcat_name + '... ', end="", flush=True)
+
+        with tarfile.open(tomcat_archive_path) as tomcat_archive:
+            tomcat_archive.extractall(tomcat_install_path_tmp)
+
+        # Make the extracted 'apache-tomcat...-tmp/apache-tomcat-7.0.57' directory the 
+        # actual install.
+        shutil.move(os.path.join(tomcat_install_path_tmp, tomcat_name), 
+                tomcat_install_path)
+        os.rmdir(tomcat_install_path_tmp)
+        print('extracted.')
+    else:
+        print('   - Archive ' + tomcat_name + ' already extracted.')
+    
+    return tomcat_install_path
 
 def get_installers_dir():
     """
