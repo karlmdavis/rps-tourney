@@ -129,7 +129,7 @@
 	<properties>
 		<!-- The version of the Spring Framework artifacts to use. This property 
 			isn't used directly here, but is rather intended for use in child projects. -->
-		<spring.version>4.0.0.RELEASE</spring.version>
+		<spring.version>4.1.2.RELEASE</spring.version>
 
 		<!-- The version of Hibernate to use. This property isn't used directly 
 			here, but is rather intended for use in child projects. -->
