@@ -122,9 +122,9 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource,
+		GameController gameController = new GameController(messageSource,
 				gameClient, accountsClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 
 		/*
