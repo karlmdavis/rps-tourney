@@ -2308,3 +2308,9 @@ This file should never be committed along with other files; it should always be 
   Cleaning up and committing.
     * Responded to a new comment on SPR-12481.
     * Cleaned up everything and committed it. Marked the issue as resolved.
+* 0.9h: Deployed the new version to https://justdavis.com/karl/rps and played around with it some.
+    * Had to blow away and recreate the DB in there again.
+    * Also had an odd problem where the Tomcat instance was trying to load a Pulse Audio library and failing. I'd guess a JDK update came along, and Tomcat didn't get restarted.
+* 1.0h: [Issue #53: Current round counter is very goofy](https://github.com/karlmdavis/rps-tourney/issues/53):
+  Documented, diagnosed, and resolved.
+    * Fixed it and added a regression test case.
