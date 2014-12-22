@@ -2289,17 +2289,6 @@ This file should never be committed along with other files; it should always be 
         * Need to specify config file locations.
         * Will need to add HSQL to the WARs, if it isn't already there.
 
-### 2014-12-20, Saturday
-
-* 0.25h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
-  Testing.
-    * Added Tomcat installation to `devenv-install.py`.
-* 0.1h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
-  Testing.
-    * Tried launching Tomcat, and it of course blew up.
-        * Need to specify config file locations.
-        * Will need to add HSQL to the WARs, if it isn't already there.
-
 ### 2014-12-21, Sunday
 
 * 1.5h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
