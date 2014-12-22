@@ -2309,3 +2309,13 @@ This file should never be committed along with other files; it should always be 
 * 1.25h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
   Testing.
     * Got the `GameIT` test cases all passing. Found and fixed a number of JS bugs in the process.
+    * Next steps:
+        * Need to clean up the changes (e.g. logging configuration) and commit them.
+        * Need to look at SPR-12481 and see if I can clean it up and/or update it.
+
+### 2014-12-22, Monday
+
+* 2.0h: [Issue #51: Game state does not automatically refresh to display other player's actions](https://github.com/karlmdavis/rps-tourney/issues/51):
+  Cleaning up and committing.
+    * Responded to a new comment on SPR-12481.
+    * Cleaned up everything and committed it. Marked the issue as resolved.
