@@ -2314,3 +2314,15 @@ This file should never be committed along with other files; it should always be 
 * 1.0h: [Issue #53: Current round counter is very goofy](https://github.com/karlmdavis/rps-tourney/issues/53):
   Documented, diagnosed, and resolved.
     * Fixed it and added a regression test case.
+
+### 2014-12-23, Tuesday
+
+* 2.25h: [Issue #50: Scary error when trying to make more than one throw in a round: "GameConflictException: Throw already set ..."](https://github.com/karlmdavis/rps-tourney/issues/50):
+  Design, implementation, tests, commit.
+    * Do I need to add in "nice" error handling for illegal moves in the game, e.g. throwing before start, throwing twice, etc.?
+        * I like leaving the user's player controls active, because it's a simple visual cue to indicate which player they are.
+        * I also do want to provide a reasonable experience for non-JavaScript browsers.
+        * So: yes, I need to add in "nicer" error handling.
+* 0.2h: [Issue #47: ArrayIndexOutOfBoundsException: Attempting to make a move in the webapp before the other player has joined](https://github.com/karlmdavis/rps-tourney/issues/47):
+  Design, implementation, tests, commit.
+    * Fixed it.
