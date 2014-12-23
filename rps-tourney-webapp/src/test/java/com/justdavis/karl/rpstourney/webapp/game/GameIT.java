@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
@@ -208,6 +207,91 @@ public final class GameIT {
 	}
 
 	/**
+	 * Ensures that the game behaves correctly if the user attempts to set the
+	 * number of rounds to an invalid value.
+	 */
+	@Test
+	public void setMaxRoundsToInvalidValue() {
+		WebDriver driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 1.
+			driver = new HtmlUnitDriver(true);
+
+			// Player 1 (webapp): Create the game.
+			driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = driver.getCurrentUrl().substring(
+					driver.getCurrentUrl().lastIndexOf('/') + 1);
+
+			// Player 1 (webapp): Spot-check the page to ensure it's working.
+			driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 1 (webapp): Try to set max rounds to invalid value.
+			driver.findElement(By.id("max-rounds-down")).click();
+			driver.findElement(By.id("max-rounds-down")).click();
+			Assert.assertEquals(1, driver.findElements(By.id("game-warning"))
+					.size());
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
+	 * Ensures that the game behaves correctly if the user attempts to submit
+	 * more than one throw for the same round.
+	 */
+	@Test
+	public void submitThrowTwiceInSameRound() {
+		WebDriver driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 2.
+			driver = new HtmlUnitDriver(true);
+
+			// Create the web service clients that will be used for Player 1.
+			ClientConfig clientConfig = ITUtils.createClientConfig();
+			CookieStore cookieStore = new CookieStore();
+			GuestAuthClient authClient = new GuestAuthClient(clientConfig,
+					cookieStore);
+			AccountsClient accountsClient = new AccountsClient(clientConfig,
+					cookieStore);
+			GameClient gameClient = new GameClient(clientConfig, cookieStore);
+
+			// Player 1 (service): Login, set name, and create a game.
+			Account player1 = authClient.loginAsGuest();
+			player1.setName("foo");
+			accountsClient.updateAccount(player1);
+			GameView game = gameClient.createGame();
+
+			// Player 2: Spot-check the page to ensure it's working.
+			driver.get(ITUtils.buildWebAppUrl("game", game.getId()));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 2 (webapp): Join game.
+			driver.findElement(By.id("join-game")).click();
+
+			// Player 2 (webapp): Try to submit throw twice.
+			driver.findElement(
+					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			driver.findElement(
+					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			Assert.assertEquals(1, driver.findElements(By.id("game-warning"))
+					.size());
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
 	 * Verifies that the web application updates the display of in-progress
 	 * games via background AJAX refreshes.
 	 */
@@ -281,7 +365,7 @@ public final class GameIT {
 					By.xpath("//tr[@id='result-row']/td[4]"), "You Lost"));
 		} catch (TimeoutException e) {
 			/*
-			 * If one of these are throw, the page has the wrong state. We need
+			 * If one of these are thrown, the page has the wrong state. We need
 			 * to log the page state to help debug the problem.
 			 */
 			LOGGER.error(

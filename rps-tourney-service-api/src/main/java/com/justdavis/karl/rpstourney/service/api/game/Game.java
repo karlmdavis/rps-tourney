@@ -8,9 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 
 /**
@@ -46,6 +49,8 @@ import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 @Table(name = "`Games`")
 @DynamicUpdate(true)
 public class Game extends AbstractGame {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
+
 	/**
 	 * The maximum allowed value for {@link #getMaxRounds()}.
 	 */
@@ -126,8 +131,9 @@ public class Game extends AbstractGame {
 	 */
 	public void setMaxRounds(int maxRounds) {
 		validateMaxRoundsValue(maxRounds);
-		if (!(state == State.WAITING_FOR_PLAYER || state == State.WAITING_FOR_FIRST_THROW))
-			throw new GameConflictException("Game has already started.");
+		if (!(state == State.WAITING_FOR_PLAYER || state == State.WAITING_FOR_FIRST_THROW)) {
+			throw new GameConflictException(ConflictType.ROUNDS_FINALIZED);
+		}
 
 		this.maxRounds = maxRounds;
 	}
@@ -143,11 +149,11 @@ public class Game extends AbstractGame {
 	 */
 	public static void validateMaxRoundsValue(int maxRounds) {
 		if (maxRounds < 1)
-			throw new IllegalArgumentException();
+			throw new GameConflictException(ConflictType.ROUNDS_INVALID);
 		if (maxRounds % 2 == 0)
-			throw new IllegalArgumentException();
+			throw new GameConflictException(ConflictType.ROUNDS_INVALID);
 		if (maxRounds > MAX_MAX_ROUNDS)
-			throw new IllegalArgumentException();
+			throw new GameConflictException(ConflictType.ROUNDS_INVALID);
 
 		// It passes muster. Just return.
 	}
@@ -282,13 +288,13 @@ public class Game extends AbstractGame {
 	 */
 	public void submitThrow(int roundIndex, Player player, Throw throwForPlayer) {
 		if (state == State.WAITING_FOR_PLAYER)
-			throw new GameConflictException("Game has not started.");
+			throw new GameConflictException(ConflictType.THROW_BEFORE_START);
 		if (state == State.FINISHED)
-			throw new GameConflictException("Game has ended.");
+			throw new GameConflictException(ConflictType.THROW_AFTER_FINISH);
 		if (player == null)
 			throw new IllegalArgumentException();
 		if (throwForPlayer == null)
-			throw new IllegalArgumentException();
+			throw new GameConflictException(ConflictType.THROW_INVALID);
 
 		/*
 		 * We need to ensure that the move clients think they're making is for
@@ -301,11 +307,10 @@ public class Game extends AbstractGame {
 			 * Either the client is out-of-synch or it neglected to call
 			 * prepareRound() first.
 			 */
-			throw new GameConflictException(
-					String.format(
-							"Specified round '%d' is not current round '%d': %s",
-							roundIndex, currentRound.getRoundIndex(),
-							rounds.toString()));
+			LOGGER.warn("Specified round '{}' is not current round '{}': {}",
+					new Object[] { roundIndex, currentRound.getRoundIndex(),
+							rounds.toString() });
+			throw new GameConflictException(ConflictType.THROW_WRONG_ROUND);
 		}
 
 		// Add the Throw to the round.
@@ -353,7 +358,7 @@ public class Game extends AbstractGame {
 	public void setPlayer2(Player player2) {
 		// Once set, the player can't be changed.
 		if (this.player2 != null)
-			throw new GameConflictException("Game already has both players.");
+			throw new GameConflictException(ConflictType.PLAYER_2_FINALIZED);
 
 		// Can't set a null player.
 		if (player2 == null)

@@ -20,10 +20,13 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.game.AbstractGame.GamePk;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
@@ -45,6 +48,9 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameRound {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GameRound.class);
+
 	/*
 	 * FIXME This column can't be quoted unless/until
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
@@ -201,10 +207,11 @@ public class GameRound {
 			Instant throwForPlayer1Timestamp) {
 		if (throwForPlayer1 == null)
 			throw new IllegalArgumentException();
-		if (this.throwForPlayer1 != null)
-			throw new GameConflictException(String.format(
-					"Throw already set to '%s'; can't set to '%s'.",
-					this.throwForPlayer1, throwForPlayer1));
+		if (this.throwForPlayer1 != null) {
+			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.",
+					this.throwForPlayer1, throwForPlayer1);
+			throw new GameConflictException(ConflictType.THROW_ALREADY_SET);
+		}
 
 		this.throwForPlayer1 = throwForPlayer1;
 		this.throwForPlayer1Timestamp = throwForPlayer1Timestamp;
@@ -262,10 +269,11 @@ public class GameRound {
 			Instant throwForPlayer2Timestamp) {
 		if (throwForPlayer2 == null)
 			throw new IllegalArgumentException();
-		if (this.throwForPlayer2 != null)
-			throw new GameConflictException(String.format(
-					"Throw already set to '%s'; can't set to '%s'.",
-					this.throwForPlayer2, throwForPlayer2));
+		if (this.throwForPlayer2 != null) {
+			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.",
+					this.throwForPlayer2, throwForPlayer2);
+			throw new GameConflictException(ConflictType.THROW_ALREADY_SET);
+		}
 
 		this.throwForPlayer2 = throwForPlayer2;
 		this.throwForPlayer2Timestamp = throwForPlayer2Timestamp;

@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
@@ -39,6 +41,13 @@ import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 @Controller
 @RequestMapping("/game")
 public class GameController {
+	/**
+	 * The {@link RedirectAttributes#getFlashAttributes()} key used to store
+	 * {@link ConflictType}s when {@link GameConflictException}s are
+	 * encountered.
+	 */
+	private static final String FLASH_ATTRIB_WARNING_TYPE = "warningType";
+
 	private final MessageSource messageSource;
 	private final IGameResource gameClient;
 	private final IAccountsResource accountsClient;
@@ -188,20 +197,30 @@ public class GameController {
 	 *            the {@link Throw} that the current user/player is submitting
 	 *            for the current {@link GameRound} in the specified
 	 *            {@link Game}
+	 * @param redirectAttributes
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to
+	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/playThrow", method = {
 			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public String submitThrow(@PathVariable String gameId,
-			@RequestParam Throw throwToPlay) {
+			@RequestParam Throw throwToPlay,
+			RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
 
 		// Submit the throw.
 		GameRound currentRound = gameBeforeThrow.getRounds().get(
 				gameBeforeThrow.getRounds().size() - 1);
-		gameClient.submitThrow(gameBeforeThrow.getId(),
-				currentRound.getRoundIndex(), throwToPlay);
+		try {
+			gameClient.submitThrow(gameBeforeThrow.getId(),
+					currentRound.getRoundIndex(), throwToPlay);
+		} catch (GameConflictException e) {
+			// Catch these errors and display them in a friendlier fashion.
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
+					.getType().name());
+		}
 
 		// Redirect the user to the updated game.
 		return "redirect:/game/" + gameId;
@@ -218,13 +237,16 @@ public class GameController {
 	 *            the {@link HttpServletResponse} being generated
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
+	 * @param redirectAttributes
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to
+	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/join", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public String joinGame(@PathVariable String gameId,
 			HttpServletRequest request, HttpServletResponse response,
-			Principal authenticatedUser) {
+			Principal authenticatedUser, RedirectAttributes redirectAttributes) {
 		// If the user isn't already logged in, log them in as a guest.
 		if (authenticatedUser == null) {
 			this.guestLoginManager.loginClientAsGuest(request, response);
@@ -235,7 +257,13 @@ public class GameController {
 		GameView gameBeforeJoin = loadGame(gameId);
 
 		// Try to join the game.
-		gameClient.joinGame(gameBeforeJoin.getId());
+		try {
+			gameClient.joinGame(gameBeforeJoin.getId());
+		} catch (GameConflictException e) {
+			// Catch these errors and display them in a friendlier fashion.
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
+					.getType().name());
+		}
 
 		// Redirect the user to the updated game.
 		return "redirect:/game/" + gameId;
@@ -254,13 +282,17 @@ public class GameController {
 	 *            the new value for {@link Game#getMaxRounds()}
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
+	 * @param redirectAttributes
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to
+	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/setMaxRounds", method = {
 			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public String setMaxRounds(@PathVariable String gameId,
 			@RequestParam int oldMaxRoundsValue,
-			@RequestParam int newMaxRoundsValue, Principal authenticatedUser) {
+			@RequestParam int newMaxRoundsValue, Principal authenticatedUser,
+			RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView game = loadGame(gameId);
 
@@ -276,16 +308,9 @@ public class GameController {
 			gameClient.setMaxRounds(gameId, oldMaxRoundsValue,
 					newMaxRoundsValue);
 		} catch (GameConflictException e) {
-			/*
-			 * This will occur if the current user/client tried to set a new
-			 * value, but had an incorrect/stale current value. We'll just
-			 * ignore those errors, let the user see in the reloaded GUI that
-			 * nothing changed, and try again if they'd like.
-			 */
-			/*
-			 * TODO Consider adding a warning message somewhere explaining what
-			 * happened.
-			 */
+			// Catch these errors and display them in a friendlier fashion.
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
+					.getType().name());
 		}
 
 		// Redirect the user to the updated game.

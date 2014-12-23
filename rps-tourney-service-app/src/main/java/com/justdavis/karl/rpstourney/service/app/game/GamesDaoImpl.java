@@ -18,6 +18,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.Game_;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.State;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 
 /**
  * The default {@link IGamesDao} implementation.
@@ -154,9 +155,7 @@ public class GamesDaoImpl implements IGamesDao {
 		// Run the update query.
 		int numEntitiesUpdated = entityManager.createQuery(cu).executeUpdate();
 		if (numEntitiesUpdated == 0)
-			throw new GameConflictException(String.format(
-					"Stale maxRounds '%d' for game '%s'.", oldMaxRoundsValue,
-					gameId));
+			throw new GameConflictException(ConflictType.ROUNDS_STALE);
 		else if (numEntitiesUpdated > 1)
 			throw new BadCodeMonkeyException();
 

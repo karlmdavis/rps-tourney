@@ -167,13 +167,8 @@ public class GameResourceImpl implements IGameResource {
 				&& !userPlayer.equals(game.getPlayer2()))
 			throw new IllegalArgumentException();
 
-		try {
-			game = gamesDao.setMaxRounds(gameId, oldMaxRoundsValue,
-					newMaxRoundsValue);
-		} catch (IllegalArgumentException e) {
-			// Invalid rounds value.
-			throw new WebApplicationException(e, Status.BAD_REQUEST);
-		}
+		game = gamesDao.setMaxRounds(gameId, oldMaxRoundsValue,
+				newMaxRoundsValue);
 
 		// Create and return a GameView for the game.
 		GameView gameView = new GameView(game, userAccount);
@@ -249,13 +244,7 @@ public class GameResourceImpl implements IGameResource {
 		Player userPlayer = playersDao
 				.findOrCreatePlayerForAccount(userAccount);
 
-		try {
-			game.submitThrow(roundIndex, userPlayer, throwToPlay);
-		} catch (IllegalArgumentException e) {
-			// Trying to set the same user as both players.
-			throw new WebApplicationException(e, Status.BAD_REQUEST);
-		}
-
+		game.submitThrow(roundIndex, userPlayer, throwToPlay);
 		gamesDao.save(game);
 
 		// Create and return a GameView for the game.

@@ -13,6 +13,11 @@
 	</jsp:attribute>
 	<jsp:body>
 			<h1><spring:message code="game.subtitle" /></h1>
+			<c:if test="${not empty warningType}">
+			<div id="game-warning" class="alert alert-warning" role="alert">
+				<spring:message code="game.warning.${warningType}" />
+			</div>
+			</c:if>
 			<div id="player-controls">
 				<spring:message code="game.player.name.placeholder" var="playerNamePlaceholder" />
 				<div id="player-1-controls">
