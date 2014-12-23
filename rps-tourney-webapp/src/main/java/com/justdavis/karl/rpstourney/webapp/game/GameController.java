@@ -211,11 +211,10 @@ public class GameController {
 		GameView gameBeforeThrow = loadGame(gameId);
 
 		// Submit the throw.
-		GameRound currentRound = gameBeforeThrow.getRounds().get(
-				gameBeforeThrow.getRounds().size() - 1);
+		int currentRoundIndex = gameBeforeThrow.getRounds().size() - 1;
 		try {
-			gameClient.submitThrow(gameBeforeThrow.getId(),
-					currentRound.getRoundIndex(), throwToPlay);
+			gameClient.submitThrow(gameBeforeThrow.getId(), currentRoundIndex,
+					throwToPlay);
 		} catch (GameConflictException e) {
 			// Catch these errors and display them in a friendlier fashion.
 			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e

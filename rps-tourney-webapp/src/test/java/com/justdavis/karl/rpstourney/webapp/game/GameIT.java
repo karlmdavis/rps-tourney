@@ -241,6 +241,41 @@ public final class GameIT {
 	}
 
 	/**
+	 * Ensures that the game behaves correctly if the user attempts to submit a
+	 * throw before the game starts.
+	 */
+	@Test
+	public void submitThrowBeforeStart() {
+		WebDriver driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 1.
+			driver = new HtmlUnitDriver(true);
+
+			// Player 1 (webapp): Create the game.
+			driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = driver.getCurrentUrl().substring(
+					driver.getCurrentUrl().lastIndexOf('/') + 1);
+
+			// Player 1 (webapp): Spot-check the page to ensure it's working.
+			driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("player-controls")).size());
+
+			// Player 1 (webapp): Try to submit a throw before game has started.
+			driver.findElement(
+					By.xpath("//div[@id='player-1-controls']//a[@class='throw-paper']"))
+					.click();
+			Assert.assertEquals(1, driver.findElements(By.id("game-warning"))
+					.size());
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
 	 * Ensures that the game behaves correctly if the user attempts to submit
 	 * more than one throw for the same round.
 	 */
