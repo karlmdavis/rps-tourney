@@ -2341,3 +2341,12 @@ This file should never be committed along with other files; it should always be 
     * Are AI opponents required for the first milestone release?
         * Not necessarily, no. It might be a good idea, though.
     * Filed a ton of new issues in GitHub. Also filed the [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/milestones/2.0.0-milestone.1) release there.
+
+### 2014-12-25, Thursday
+
+* 1.0h: [Issue #56: Games on home page should be sorted by creation or last update timestamp](https://github.com/karlmdavis/rps-tourney/issues/56):
+    * Implemented, added test case, committed.
+* 0.4h: [Issue #61: New games should include some instructions](https://github.com/karlmdavis/rps-tourney/issues/61):
+    * Implemented, committed. Test case doesn't seem necessary.
+* 0.3h: [Issue #66: Error on home page after new game has been joined: "No message found under code 'home.games.game.state.WAITING_FOR_FIRST_THROW'..."](https://github.com/karlmdavis/rps-tourney/issues/66):
+    * Implemented, added test case, committed.
