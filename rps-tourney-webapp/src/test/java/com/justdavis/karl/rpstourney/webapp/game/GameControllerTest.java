@@ -19,6 +19,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
@@ -41,8 +42,16 @@ public final class GameControllerTest {
 	public void createNewGame() throws Exception {
 		// Build the mocks that will be needed by the controller.
 		MessageSource messageSource = new ResourceBundleMessageSource();
-		Game game = new Game(new Player(new Account()));
-		IGameResource gameClient = new MockGameClient(game);
+		final Game game = new Game(new Player(new Account()));
+		IGameResource gameClient = new MockGameClient(game) {
+			/**
+			 * @see com.justdavis.karl.rpstourney.service.api.game.MockGameClient#createGame()
+			 */
+			@Override
+			public GameView createGame() {
+				return new GameView(game, null);
+			}
+		};
 		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 

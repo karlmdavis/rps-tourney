@@ -1,34 +1,57 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.ws.rs.NotFoundException;
 
 /**
  * A mock {@link IGameResource} implementation for use in tests.
  */
-public final class MockGameClient implements IGameResource {
-	private final GameView game;
+public class MockGameClient implements IGameResource {
+	private final GameView[] games;
 
 	/**
 	 * Constructs a new {@link MockGameClient} instance.
 	 * 
-	 * @param game
-	 *            the {@link GameView} instance that will be returned by every
-	 *            single method here
+	 * @param games
+	 *            the {@link GameView} instances that will be returned by this
+	 *            {@link IGameResource}
 	 */
-	public MockGameClient(GameView game) {
-		this.game = game;
+	public MockGameClient(GameView... games) {
+		this.games = games;
 	}
 
 	/**
 	 * Constructs a new {@link MockGameClient} instance.
 	 * 
-	 * @param game
-	 *            the {@link Game} instance that will be wrapped in a GameView
-	 *            and returned by every single method here
+	 * @param games
+	 *            the {@link Game} instances that will be wrapped in
+	 *            {@link GameView}s and returned by this {@link IGameResource}
 	 */
-	public MockGameClient(Game game) {
-		this(new GameView(game, null));
+	public MockGameClient(Game... games) {
+		this(wrapInGameViews(games));
+	}
+
+	/**
+	 * @param games
+	 *            the {@link Game}s to wrap
+	 * @return an array of {@link GameView}s wrapping each of the specified
+	 *         {@link Game}s
+	 */
+	private static GameView[] wrapInGameViews(Game[] games) {
+		if (games == null)
+			return new GameView[] {};
+
+		GameView[] wrappedGames = new GameView[games.length];
+		for (int i = 0; i < games.length; i++) {
+			if (games[i] == null)
+				throw new IllegalArgumentException();
+
+			wrappedGames[i] = new GameView(games[i], null);
+		}
+
+		return wrappedGames;
 	}
 
 	/**
@@ -36,7 +59,7 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView createGame() {
-		return game;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -44,9 +67,7 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public List<GameView> getGamesForPlayer() {
-		List<GameView> games = new ArrayList<>();
-		games.add(game);
-		return games;
+		return Arrays.asList(games);
 	}
 
 	/**
@@ -54,7 +75,11 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView getGame(String gameId) {
-		return game;
+		for (GameView game : games)
+			if (game.getId().equals(gameId))
+				return game;
+
+		throw new NotFoundException();
 	}
 
 	/**
@@ -64,7 +89,7 @@ public final class MockGameClient implements IGameResource {
 	@Override
 	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
 			int newMaxRoundsValue) {
-		return game;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -72,7 +97,7 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView joinGame(String gameId) {
-		return game;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -80,7 +105,7 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView prepareRound(String gameId) {
-		return game;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -89,6 +114,6 @@ public final class MockGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
-		return game;
+		throw new UnsupportedOperationException();
 	}
 }

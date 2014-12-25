@@ -1,6 +1,8 @@
 package com.justdavis.karl.rpstourney.webapp.home;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.CustomMatcher;
 import org.hamcrest.Matcher;
@@ -16,6 +18,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
  * Unit tests for {@link HomeController}.
@@ -50,10 +53,21 @@ public final class HomeControllerTest {
 	 */
 	@Test
 	public void getGamesForPlayer() throws Exception {
-		// Build the mocks needed for the test.
+		/*
+		 * Build the mocks needed for the test. Add an artificail delay between
+		 * creating the two games, to ensure they end up with different
+		 * timestamps.
+		 */
 		Player player1 = new Player(new Account());
-		Game game = new Game(player1);
-		MockGameClient gameClient = new MockGameClient(game);
+		Player player2 = new Player(new Account());
+		Game gameA = new Game(player1);
+		final GameView gameViewA = new GameView(gameA, null);
+		new CountDownLatch(1).await(100, TimeUnit.MILLISECONDS);
+		Game gameB = new Game(player1);
+		gameB.setPlayer2(player2);
+		gameB.submitThrow(0, player1, Throw.ROCK);
+		final GameView gameViewB = new GameView(gameB, null);
+		MockGameClient gameClient = new MockGameClient(gameViewA, gameViewB);
 
 		// Build the controller and prepare it for mock testing.
 		HomeController homeController = new HomeController(gameClient);
@@ -61,13 +75,14 @@ public final class HomeControllerTest {
 				.build();
 
 		// Run the mock tests against the controller.
-		Matcher<Object> matcher = new CustomMatcher<Object>("games size") {
+		Matcher<Object> matcher = new CustomMatcher<Object>("games") {
 			@Override
 			public boolean matches(Object item) {
-				if (!(item instanceof List))
-					return false;
-
-				return ((List<?>) item).size() == 1;
+				/*
+				 * Note the order of the games here: games updated last should
+				 * now be first in the model's list.
+				 */
+				return Arrays.asList(gameViewB, gameViewA).equals(item);
 			}
 		};
 		mockMvc.perform(MockMvcRequestBuilders.get("/"))
