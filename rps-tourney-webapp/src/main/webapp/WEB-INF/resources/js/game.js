@@ -139,6 +139,9 @@ function refreshGameState() {
 			else {
 				player2NameLabel.text($.i18n.prop('game.player2.label'));
 			}
+			
+			// Remove the "ask someone to join" message.
+			$("#join-message").remove();
 		}
 		
 		// Update the max round controls.

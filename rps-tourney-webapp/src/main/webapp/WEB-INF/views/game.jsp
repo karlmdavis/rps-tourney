@@ -103,7 +103,11 @@
 			<c:if test="${(game.state == 'WAITING_FOR_PLAYER') || (game.state == 'WAITING_FOR_FIRST_THROW')}">
 			<div id="game-controls">
 				<h2><spring:message code="game.controls" /></h2>
+				<c:if test="${isPlayer && !hasPlayer2}">
+				<div id="join-message" class="alert alert-success" role="alert"><spring:message code="game.join.message.player1" /></div>
+				</c:if>
 				<c:if test="${!isPlayer && !hasPlayer2}">
+				<div class="alert alert-info" role="alert"><spring:message code="game.join.message.other" /></div>
 				<a id="join-game" href="${gameUrl}/join"><spring:message code="game.join" /></a>
 				</c:if>
 				<c:if test="${isPlayer}">
