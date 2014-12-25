@@ -2326,3 +2326,18 @@ This file should never be committed along with other files; it should always be 
 * 0.2h: [Issue #47: ArrayIndexOutOfBoundsException: Attempting to make a move in the webapp before the other player has joined](https://github.com/karlmdavis/rps-tourney/issues/47):
   Design, implementation, tests, commit.
     * Fixed it.
+
+### 2014-12-24, Wednesday
+
+* 0.9h: Release planning.
+    * Is "create an actual account" functionality required for the first milestone release?
+        * I'm imagining folks that want to play on their phone and computer, or their work computers and home computers.
+        * Thinking about it, though... that use case is still somewhat supported without named accounts. Games are just "pinned" to a device without named logins.
+        * Later, once this feature is added, it should be easy enough for folks to merge their device logins.
+    * Is "invite someone to join your game" functionality required for the first milestone release?
+        * No, but instructions on how to start a game are needed.
+    * Is moving this to a separate domain name required for the first milestone release?
+        * Not necessarily, no. It is a really good idea, though.
+    * Are AI opponents required for the first milestone release?
+        * Not necessarily, no. It might be a good idea, though.
+    * Filed a ton of new issues in GitHub. Also filed the [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/milestones/2.0.0-milestone.1) release there.
