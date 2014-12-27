@@ -2364,3 +2364,9 @@ This file should never be committed along with other files; it should always be 
             * Haven't found a way to disable that yet. I'd be surprised if there even is, as remember me services aren't mandated. How else, if not sessions, would it keep track of who's logged in already and who hasn't?
         * Still not sure why switching the `CookieStore` to request scope is breaking things. Haven't looked at that too much yet.
         * Will probably need to get Tomcat and SLF4J logging playing nice together for that.
+
+### 2014-12-27, Saturday
+
+* 1.0h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+    * Figured out how to configure Tomcat in Eclipse WTP. Documented it in `README-DEVENV.md`.
+        * Not sure if my application logging is working as expected with that or not, yet.
