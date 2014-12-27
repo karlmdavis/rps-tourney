@@ -2350,3 +2350,17 @@ This file should never be committed along with other files; it should always be 
     * Implemented, committed. Test case doesn't seem necessary.
 * 0.3h: [Issue #66: Error on home page after new game has been joined: "No message found under code 'home.games.game.state.WAITING_FOR_FIRST_THROW'..."](https://github.com/karlmdavis/rps-tourney/issues/66):
     * Implemented, added test case, committed.
+* 0.5h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+    * Found the `-Dsun.io.serialization.extendedDebugInfo=true` switch, which adds extra serialization debugging output to some of these errors.
+    * Looks like the problem is the webapp's `GameClientBindings.cookieStore()` bean, which was marked as session-scoped.
+        * Setting that to be request scoped instead broke 9 of the webapp's test cases.
+        * Haven't investigated that yet. Need to.
+
+### 2014-12-26, Friday
+
+* 1.0h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+    * Spent a lot of time poking through the code and researching.
+        * Spring Security will place all Authentication objects into the session.
+            * Haven't found a way to disable that yet. I'd be surprised if there even is, as remember me services aren't mandated. How else, if not sessions, would it keep track of who's logged in already and who hasn't?
+        * Still not sure why switching the `CookieStore` to request scope is breaking things. Haven't looked at that too much yet.
+        * Will probably need to get Tomcat and SLF4J logging playing nice together for that.
