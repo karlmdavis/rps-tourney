@@ -2367,6 +2367,19 @@ This file should never be committed along with other files; it should always be 
 
 ### 2014-12-27, Saturday
 
-* 1.0h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+* 1.75h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
     * Figured out how to configure Tomcat in Eclipse WTP. Documented it in `README-DEVENV.md`.
-        * Not sure if my application logging is working as expected with that or not, yet.
+        * Got the application's logging configured correctly for Tomcat, as well.
+* 0.75h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+    * If I want to not save the `CookieStore` in session state, I'll need to do one of the following instead:
+        1. Redesign the web service clients to not use a `CookieStore` at all, and to instead save the auth credentials directly.
+        2. Rebuild the `CookieStore` on each request, starting from the saved auth credentials.
+            * I'm not sure this one would actually be possible, since the ordering of `CookieStore` construction and authentication is backwards.
+    * Seems easier for now to just make the `CookieStore` serializable.
+        * Started on this, but it's complicated by the fact that the JAX-RS `Cookie` class itself isn't serializable.
+
+### 2014-12-28, Sunday
+
+* 2.25h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
+    * Made both `CookieStore` and `Account` serializable.
+    * Added tests, committed, and resolved.
