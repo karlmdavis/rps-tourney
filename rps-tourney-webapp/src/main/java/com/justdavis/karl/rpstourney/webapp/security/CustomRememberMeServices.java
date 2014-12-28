@@ -101,6 +101,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 	@Override
 	public Authentication autoLogin(HttpServletRequest request,
 			HttpServletResponse response) {
+		LOGGER.trace("Authenticating request...");
+
 		/*
 		 * This method will be called during every unauthenticated request,
 		 * giving this class a chance to check for a valid "remember me" login
@@ -109,8 +111,11 @@ public class CustomRememberMeServices implements RememberMeServices {
 
 		// Grab the cookie (if any).
 		Cookie rememberMeCookie = extractCookie(request);
-		if (rememberMeCookie == null)
+		if (rememberMeCookie == null) {
+			LOGGER.trace("Request had no auth token.");
 			return null;
+		}
+		LOGGER.trace("Request had auth token.");
 
 		// Extract the authentication token from the cookie.
 		String rememberMeValue = rememberMeCookie.getValue();
@@ -121,9 +126,10 @@ public class CustomRememberMeServices implements RememberMeServices {
 
 		/*
 		 * Snag the auth token from this web app cookie, and use it to create a
-		 * cookie in the web service client. This is a bit hokey, but it saves
-		 * us from needing to create our our token store in this layer of the
-		 * application.
+		 * cookie in the web service client. This cookie will saved in our
+		 * CookieStore, and used in turn by any web service clients in the same
+		 * session. (This is a bit hokey, but it saves us from needing to create
+		 * our token store in this layer of the application.)
 		 */
 		String requestUrlString = request.getRequestURL().toString();
 		URI requestUri;
@@ -166,7 +172,12 @@ public class CustomRememberMeServices implements RememberMeServices {
 					"Unable to validate login with service.", e);
 		}
 
-		// Create a Spring Security 'Authentication' token for the login.
+		/*
+		 * Create a Spring Security 'Authentication' token for the login. This
+		 * token will end up being saved in the session. The principal saved in
+		 * the token will be passed to anything else that asks for the request's
+		 * security/authorization principal.
+		 */
 		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
 		for (SecurityRole role : validatedAccount.getRoles())
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getId()));
