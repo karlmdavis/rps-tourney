@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -31,11 +32,17 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
  * specified in the <code>META-INF/orm.xml</code> file.
  * </p>
+ * <p>
+ * This class is marked as {@link Serializable}, as it is contained in
+ * {@link Account} instances, which are also {@link Serializable}.
+ * </p>
  */
 @XmlRootElement
 @Entity
 @Table(name = "`AuthTokens`")
-public class AuthToken {
+public class AuthToken implements Serializable {
+	private static final long serialVersionUID = -3645697446338430584L;
+
 	@XmlElement
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
 			CascadeType.DETACH })

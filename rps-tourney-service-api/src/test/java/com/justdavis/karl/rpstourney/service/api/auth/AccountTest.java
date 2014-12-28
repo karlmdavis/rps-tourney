@@ -1,5 +1,10 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
@@ -198,5 +203,42 @@ public final class AccountTest {
 		accountIdField.set(accountD, 4);
 
 		Assert.assertNotEquals(accountD, accountC);
+	}
+
+	/**
+	 * Verifies that {@link Account}s can be properly serialized and
+	 * deserialized.
+	 * 
+	 * @throws IOException
+	 *             Might be thrown if serialization or deserialization fails.
+	 * @throws ClassNotFoundException
+	 *             Might be thrown if serialization or deserialization fails.
+	 */
+	@Test
+	public void serialization() throws IOException, ClassNotFoundException {
+		// Create a mock Account.
+		Account account = new Account(SecurityRole.USERS);
+		account.setName("foo");
+		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
+		account.getAuthTokens().add(authToken);
+
+		// Run the Account through serialization and deserialization.
+		ByteArrayOutputStream bytesOutStream = new ByteArrayOutputStream();
+		ObjectOutputStream objectOutStream = new ObjectOutputStream(
+				bytesOutStream);
+		objectOutStream.writeObject(account);
+		objectOutStream.close();
+		ByteArrayInputStream bytesInStream = new ByteArrayInputStream(
+				bytesOutStream.toByteArray());
+		ObjectInputStream objectInStream = new ObjectInputStream(bytesInStream);
+		Account accountCopy = (Account) objectInStream.readObject();
+		objectInStream.close();
+
+		// Verify the deserialized CookieStore.
+		Assert.assertEquals(account.hasId(), accountCopy.hasId());
+		Assert.assertEquals(account.getName(), accountCopy.getName());
+		Assert.assertEquals(account.getRoles(), accountCopy.getRoles());
+		Assert.assertEquals(account.getAuthTokens(),
+				accountCopy.getAuthTokens());
 	}
 }

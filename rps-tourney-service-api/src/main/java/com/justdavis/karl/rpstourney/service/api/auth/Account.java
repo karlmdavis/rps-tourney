@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,13 +41,19 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * specified in the <code>META-INF/orm.xml</code> file.
  * </p>
  * <p>
- * This class support JAX-B.
+ * This class supports JAX-B.
+ * </p>
+ * <p>
+ * This class is marked as {@link Serializable}, as Spring Security will store
+ * authenticated {@link Principal}s in user sessions.
  * </p>
  */
 @XmlRootElement
 @Entity
 @Table(name = "`Accounts`")
-public class Account implements Principal {
+public class Account implements Principal, Serializable {
+	private static final long serialVersionUID = 3016213188245722817L;
+
 	/*
 	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
 	 * https://hibernate.atlassian.net/browse/HHH-9430.
