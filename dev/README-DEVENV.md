@@ -115,3 +115,30 @@ Each developer must edit their `~/.m2/settings.xml` file to contain the necessar
         <activeProfile>justdavis-integration-tests</activeProfile>
       </activeProfiles>
     </settings>
+
+
+### Tomcat (via Eclipse WTP)
+
+References:
+
+* [Eclipse WTP Tomcat FAQ](https://wiki.eclipse.org/WTP_Tomcat_FAQ)
+* [Stack Overflow: Where can I view Tomcat log files in Eclipse?](http://stackoverflow.com/a/7354545/1851299)
+
+During development, it's recommended that the web applications be run in Apache Tomcat via Eclipse's WTP plugin. This is recommended as it's both easy to use and also similar to the production deployment (which also uses Tomcat). The `devenv-install.py` script will create a standalone Tomcat installation for this purpose.
+
+Within Eclipse, the Tomcat instance can be setup as follows:
+
+1. TODO
+
+Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
+
+1. Copy the sample logging properties file from `/rps-tourney-parent/dev/devenv-tomcat-logging.properties` to `/Servers/apache-tomcat-7.0.57 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
+2. Open the Tomcat server's run configuration in Eclipse, and configure it as follows:
+    1. Add the following VM arguments, each on a separate line:
+        * `-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager`
+        * `-Djava.util.logging.config.file=${resource_loc:/rps-tourney-parent/dev/tomcat-logging.properties}`
+        * `-Dlogback.configurationFile=${resource_loc:/rps-tourney-parent/dev/tomcat-logback.xml}`
+        * `-Dsun.io.serialization.extendedDebugInfo=true`
+        * `-Drps.service.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml}`
+        * `-Drps.webapp.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-webapp-config-dev.xml}`
+    2. Set the working directory to: `${workspace_loc}/.metadata/.plugins/org.eclipse.wst.server.core/tmp0`
