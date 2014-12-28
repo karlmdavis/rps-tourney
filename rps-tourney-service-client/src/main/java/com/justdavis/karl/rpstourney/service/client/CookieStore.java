@@ -1,5 +1,12 @@
 package com.justdavis.karl.rpstourney.service.client;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +26,18 @@ import javax.ws.rs.core.NewCookie;
  * for each user session. Otherwise, users might end up accessing other users
  * accounts.
  * </p>
+ * <p>
+ * This class implements the {@link Externalizable} interface (which extends
+ * {@link Serializable}) so that it may be saved in user's sessions.
+ * </p>
  */
-public class CookieStore {
+public class CookieStore implements Externalizable {
+	/**
+	 * A guard value to catch errors when reading in unsupported serialized
+	 * data.
+	 */
+	private static final int SERIALIZATION_VERSION = 1;
+
 	private final Map<String, NewCookie> cookies;
 
 	/**
@@ -86,5 +103,86 @@ public class CookieStore {
 	 */
 	public void clear() {
 		this.cookies.clear();
+	}
+
+	/**
+	 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
+	 */
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(SERIALIZATION_VERSION);
+
+		/*
+		 * We can't directly serialize NewCookie instances, because they're not
+		 * Serializable. Additionally, it seems as if NewCookie.toString() and
+		 * NewCookie.valueOf(...) omit all of the extra fields added by
+		 * NewCookie. Instead, we have to serialize each NewCookie manually.
+		 */
+		Collection<NewCookie> cookiesCollection = cookies.values();
+		out.writeInt(cookiesCollection.size());
+		for (NewCookie cookie : cookiesCollection) {
+			/*
+			 * Here's the list of fields from NewCookie's constructor that
+			 * includes every field: [String name, String value, String path,
+			 * String domain, int version, String comment, int maxAge, Date
+			 * expiry, boolean secure, boolean httpOnly].
+			 */
+			out.writeObject(cookie.getName());
+			out.writeObject(cookie.getValue());
+			out.writeObject(cookie.getPath());
+			out.writeObject(cookie.getDomain());
+			out.writeInt(cookie.getVersion());
+			out.writeObject(cookie.getComment());
+			out.writeInt(cookie.getMaxAge());
+			out.writeObject(cookie.getExpiry());
+			out.writeBoolean(cookie.isSecure());
+			out.writeBoolean(cookie.isHttpOnly());
+		}
+	}
+
+	/**
+	 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
+	 */
+	@Override
+	public void readExternal(ObjectInput in) throws IOException,
+			ClassNotFoundException {
+		/*
+		 * First, read in the version field and verify it's correct, so we don't
+		 * attempt to read in an unsupported version of this class' data.
+		 */
+		int serializationVersion = in.readInt();
+		if (serializationVersion != SERIALIZATION_VERSION)
+			throw new IOException(String.format(
+					"Version mismatch for %s: '%d' instead of '%d'.",
+					this.getClass(), serializationVersion,
+					SERIALIZATION_VERSION));
+
+		/*
+		 * Read in the list of directly-serialized NewCookies. Populate this
+		 * CookieStore with each.
+		 */
+		int numCookies = in.readInt();
+		for (int i = 0; i < numCookies; i++) {
+			/*
+			 * Here's the list of fields from NewCookie's constructor that
+			 * includes every field: [String name, String value, String path,
+			 * String domain, int version, String comment, int maxAge, Date
+			 * expiry, boolean secure, boolean httpOnly].
+			 */
+			String name = (String) in.readObject();
+			String value = (String) in.readObject();
+			String path = (String) in.readObject();
+			String domain = (String) in.readObject();
+			int version = in.readInt();
+			String comment = (String) in.readObject();
+			int maxAge = in.readInt();
+			Date expiry = (Date) in.readObject();
+			boolean secure = in.readBoolean();
+			boolean httpOnly = in.readBoolean();
+
+			NewCookie cookie = new NewCookie(name, value, path, domain,
+					version, comment, maxAge, expiry, secure, httpOnly);
+			this.remember(cookie);
+		}
 	}
 }

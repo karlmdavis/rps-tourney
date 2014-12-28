@@ -45,6 +45,17 @@ public class GameClientBindings {
 	@Bean
 	@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 	public CookieStore cookieStore() {
+		/*
+		 * The CookieStore will be used to store the authentication
+		 * tokens/cookies used by the web service clients (and possibly other
+		 * stuff, later). Keeping the CookieStore, and those auth cookies,
+		 * around in the sessions prevents us from having to recreate it on each
+		 * request. (As an alternative, if this turns out to be a bad idea, the
+		 * auth cookies could be rebuilt from the Authentication instances or
+		 * Account principals in them that Spring Security is already saving in
+		 * the session.)
+		 */
+
 		CookieStore cookieStore = new CookieStore();
 		return cookieStore;
 	}
@@ -115,14 +126,11 @@ public class GameClientBindings {
 	 * @param cookieStore
 	 *            the {@link CookieStore} being used (likely session scoped and
 	 *            proxied)
-	 * @return the {@link IGameResource} client for the application to
-	 *         use
+	 * @return the {@link IGameResource} client for the application to use
 	 */
 	@Bean
-	public IGameResource gameClient(ClientConfig config,
-			CookieStore cookieStore) {
-		IGameResource gameClient = new GameClient(config,
-				cookieStore);
+	public IGameResource gameClient(ClientConfig config, CookieStore cookieStore) {
+		IGameResource gameClient = new GameClient(config, cookieStore);
 		return gameClient;
 	}
 }

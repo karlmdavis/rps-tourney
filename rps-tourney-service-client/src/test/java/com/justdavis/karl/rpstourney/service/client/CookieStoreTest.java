@@ -1,5 +1,10 @@
 package com.justdavis.karl.rpstourney.service.client;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -111,6 +116,47 @@ public final class CookieStoreTest {
 
 		// Verify that no cookies were applied.
 		Assert.assertEquals(0, requestBuilder.cookies.size());
+	}
+
+	/**
+	 * Verifies that {@link CookieStore}s can be properly serialized and
+	 * deserialized.
+	 * 
+	 * @throws IOException
+	 *             Might be thrown if serialization or deserialization fails.
+	 * @throws ClassNotFoundException
+	 *             Might be thrown if serialization or deserialization fails.
+	 */
+	@Test
+	public void serialization() throws IOException, ClassNotFoundException {
+		// Create two mock cookies and place them into a CookieStore.
+		CookieStore cookieStore = new CookieStore();
+		Calendar expiryDate = Calendar.getInstance();
+		expiryDate.set(3000, 1, 1);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
+				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
+				true, true);
+		cookieStore.remember(cookie1);
+		NewCookie cookie2 = new NewCookie("fizz", "buzz", "/", "example.com",
+				NewCookie.DEFAULT_VERSION, "fizz", 300, expiryDate.getTime(),
+				true, true);
+		cookieStore.remember(cookie2);
+
+		// Run the CookieStore through serialization and deserialization.
+		ByteArrayOutputStream bytesOutStream = new ByteArrayOutputStream();
+		ObjectOutputStream objectOutStream = new ObjectOutputStream(
+				bytesOutStream);
+		objectOutStream.writeObject(cookieStore);
+		objectOutStream.close();
+		ByteArrayInputStream bytesInStream = new ByteArrayInputStream(
+				bytesOutStream.toByteArray());
+		ObjectInputStream objectInStream = new ObjectInputStream(bytesInStream);
+		CookieStore cookieStoreCopy = (CookieStore) objectInStream.readObject();
+		objectInStream.close();
+
+		// Verify the deserialized CookieStore.
+		Assert.assertEquals(cookie1, cookieStoreCopy.get(cookie1.getName()));
+		Assert.assertEquals(cookie2, cookieStoreCopy.get(cookie2.getName()));
 	}
 
 	/**
