@@ -2383,3 +2383,9 @@ This file should never be committed along with other files; it should always be 
 * 2.25h: [Issue #67: Tomcat error: "java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.client.CookieStore"](https://github.com/karlmdavis/rps-tourney/issues/67):
     * Made both `CookieStore` and `Account` serializable.
     * Added tests, committed, and resolved.
+
+### 2014-12-29, Monday
+
+* 0.2h: [Issue #63: Move the webapp to its own domain name](https://github.com/karlmdavis/rps-tourney/issues/63):
+    * Decided to get a 3-year basic cert from gandi.net.
+    * Started documenting the production setup in the `README-PRODUCTION.md` file.
