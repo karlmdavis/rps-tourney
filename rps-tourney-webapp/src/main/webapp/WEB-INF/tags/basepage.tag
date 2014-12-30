@@ -44,7 +44,7 @@
 
 		<footer id="page-footer">
 			<div class="container">
-				<p>&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, 2014</p>
+				<p>&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, 2014. Check out this project at <a href="https://github.com/karlmdavis/rps-tourney">github.com/karlmdavis/rps-tourney</a>.</p>
 			</div>
 		</footer>
 
