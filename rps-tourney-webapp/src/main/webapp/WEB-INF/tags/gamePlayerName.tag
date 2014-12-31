@@ -8,7 +8,7 @@
 					<c:choose>
 					<c:when test="${isCurrentPlayer}">
 					<h3 class="player-name player-name-current">
-						${playerName}
+						<span class="player-name-display">${playerName}</span>
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</h3>
 					<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">

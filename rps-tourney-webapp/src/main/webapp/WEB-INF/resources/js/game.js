@@ -123,14 +123,17 @@ function refreshGameState() {
 		//console.log("Refresh request succeeded: %s", JSON.stringify(gameData));
 		
 		// Update Player 1's name.
-		var player1NameLabel = $("div#player-1-controls h3.player-name");
+		var player1NameLabel = $("div#player-1-controls span.player-name-display");
 		if (gameData.player1.name !== null) {
 			player1NameLabel.text(gameData.player1.name);
+		}
+		else {
+			player1NameLabel.text($.i18n.prop('game.player1.label'));
 		}
 		
 		// Update Player 2's name.
 		if (gameData.state != "WAITING_FOR_PLAYER") {
-			var player2NameLabel = $("div#player-2-controls h3.player-name");
+			var player2NameLabel = $("div#player-2-controls span.player-name-display");
 			
 			// Does Player 2 have a name?
 			if (gameData.player2.name !== null) {
