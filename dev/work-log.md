@@ -2423,3 +2423,5 @@ This file should never be committed along with other files; it should always be 
 * 0.6h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
     * Found and resolved a problem where JS updates were removing the edit icon.
     * Then fixed the bug and test case failure that change caused.
+* 0.5h: [Issue #73: Webapp 404s when setting max rounds](https://github.com/karlmdavis/rps-tourney/issues/73):
+    * Added a test case, resolved, commited, and closed.
