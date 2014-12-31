@@ -114,8 +114,8 @@ function isPlayer2TheWinner(gameData) {
 
 // When called, this function will automatically refresh the game state.
 function refreshGameState() {
-	// The URL for the game state is the same as the page's URL (just a different content type).
-	gameStateUrl = window.location.href;
+	// Build the URL for the game state, based on the URL for the game page.
+	gameStateUrl = window.location.href + "/data";
 	
 	// Issue an AJAX request for the current game state.
 	$.getJSON(gameStateUrl, function(gameData) {
@@ -131,7 +131,7 @@ function refreshGameState() {
 		// Update Player 2's name.
 		if (gameData.state != "WAITING_FOR_PLAYER") {
 			var player2NameLabel = $("h3.player-2-name");
-
+			
 			// Does Player 2 have a name?
 			if (gameData.player2.name !== null) {
 				player2NameLabel.text(gameData.player2.name);

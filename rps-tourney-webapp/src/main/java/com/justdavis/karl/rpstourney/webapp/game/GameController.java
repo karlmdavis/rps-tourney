@@ -122,7 +122,7 @@ public class GameController {
 	 *         gameplay session
 	 */
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET)
-	public ModelAndView getGame(@PathVariable String gameId,
+	public ModelAndView getGameAsHtml(@PathVariable String gameId,
 			Principal authenticatedUser, Locale locale) {
 		/*
 		 * FIXME Per the suggestion in
@@ -148,9 +148,9 @@ public class GameController {
 	 * @return a {@link GameView} instance with the current game state for the
 	 *         requesting user
 	 */
-	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{gameId}/data", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public GameView getGameView(@PathVariable String gameId) {
+	public GameView getGameAsJson(@PathVariable String gameId) {
 		GameView game = loadGame(gameId);
 		return game;
 	}

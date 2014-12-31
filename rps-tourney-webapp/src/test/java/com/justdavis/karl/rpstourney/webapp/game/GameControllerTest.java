@@ -71,7 +71,7 @@ public final class GameControllerTest {
 
 	/**
 	 * Tests
-	 * {@link GameController#getGame(String, java.security.Principal, java.util.Locale)}
+	 * {@link GameController#getGameAsHtml(String, java.security.Principal, java.util.Locale)}
 	 * .
 	 * 
 	 * @throws Exception
