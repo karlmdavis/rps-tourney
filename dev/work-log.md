@@ -2414,3 +2414,6 @@ This file should never be committed along with other files; it should always be 
 * 1.6h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
     * Found and resolved a problem with the POM's handling of Bootstrap fonts in Eclipse WTP.
     * Added the new edit icon, committed, and resolved.
+* 0.5h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
+    * Reopened due to test failures: https://justdavis.com/jenkins/job/rps-tourney/com.justdavis.karl.rpstourney$rps-tourney-webapp/137/testReport/
+    * Found and fixed the problems. Committed and closed.
