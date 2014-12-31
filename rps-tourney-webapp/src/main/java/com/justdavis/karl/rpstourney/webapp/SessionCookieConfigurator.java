@@ -79,7 +79,7 @@ public final class SessionCookieConfigurator {
 			// Grab the app's base URL and split it into domain and path.
 			URL baseUrl = appConfig.getBaseUrl();
 			String domain = baseUrl.getHost();
-			String path = baseUrl.getPath();
+			String path = baseUrl.getPath().isEmpty() ? "/" : baseUrl.getPath();
 
 			// Configure the SessionCookieConfig.
 			SessionCookieConfig sessionCookieConfig = servletContext
@@ -93,7 +93,7 @@ public final class SessionCookieConfigurator {
 			if (springContext != null)
 				springContext.close();
 		}
-		LOGGER.info("Adjusted SessionCookieConfig...");
+		LOGGER.info("Adjusted SessionCookieConfig.");
 	}
 
 	/**
