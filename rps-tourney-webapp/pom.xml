@@ -238,9 +238,26 @@
 								<!-- Drop the bootstrap source and resources into the WAR's output 
 									resources directory, as the fonts from Bootstrap will need to be referenced 
 									by its compiled LESS. -->
-								<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/resources//</outputDirectory>
+								<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
 							</artifactItem>
 						</artifactItems>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<webResources>
+							<resource>
+								<!-- This entry here is needed as WRO4J leaves out the fonts from 
+									Bootstrap. -->
+								<directory>${project.build.directory}/generated-war-resources/</directory>
+								<targetPath>WEB-INF/resources</targetPath>
+								<includes>
+									<include>bootstrap-3.2.0/fonts/**</include>
+								</includes>
+							</resource>
+						</webResources>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -253,13 +270,12 @@
 					<version>1.7.6</version>
 					<configuration>
 						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-						<!-- Run wro4j against both the unprocessed resource sources and their 
-							processed output. This is necessary because Bootstrap gets dropped into the 
-							output directory by the maven-dependency-plugin. Note that wro4j will not 
-							perform Maven resource filtering. -->
+						<!-- Run wro4j against both the unprocessed resource sources and the 
+							generated WAR resources (e.g. Bootstrap). Note that wro4j will not perform 
+							Maven resource filtering. -->
 						<!-- A large part of the inspiration for this particular configuration 
 							is taken from the m2e-wro4j documentation: https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project -->
-						<contextFolder>${basedir}/src/main/webapp,${project.build.directory}/${project.build.finalName}/WEB-INF/resources/</contextFolder>
+						<contextFolder>${basedir}/src/main/webapp,${project.build.directory}/generated-war-resources/</contextFolder>
 						<ignoreMissingResources>false</ignoreMissingResources>
 						<destinationFolder>${project.build.outputDirectory}/${project.build.finalName}</destinationFolder>
 						<cssDestinationFolder>${project.build.directory}/${project.build.finalName}/WEB-INF/resources/css</cssDestinationFolder>
