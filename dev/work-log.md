@@ -2411,3 +2411,6 @@ This file should never be committed along with other files; it should always be 
 
 * 2.25h: [Issue #71: Games not displaying warning messages in production](https://github.com/karlmdavis/rps-tourney/issues/71):
     * Tracked down and resolved the bug. Committed and resolved.
+* 1.6h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
+    * Found and resolved a problem with the POM's handling of Bootstrap fonts in Eclipse WTP.
+    * Added the new edit icon, committed, and resolved.
