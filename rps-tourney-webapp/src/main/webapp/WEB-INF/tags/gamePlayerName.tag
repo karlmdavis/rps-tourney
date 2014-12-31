@@ -21,6 +21,8 @@
 					</form:form>
 					</c:when>
 					<c:otherwise>
-					<h3 class="player-name">${playerName}</h3>
+					<h3 class="player-name">
+						<span class="player-name-display">${playerName}</span>
+					</h3>
 					</c:otherwise>
 					</c:choose>
