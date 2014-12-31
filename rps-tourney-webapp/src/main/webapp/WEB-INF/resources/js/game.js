@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 // Swap out the player name label for the editor, when it's clicked.
-$(document).on("click", "h3.player-name", function () {
+$(document).on("click", "h3.player-name-current", function () {
 	$(this).hide();
 	
 	$("form.player-name").show();
@@ -26,7 +26,7 @@ $(document).on("blur", "form.player-name", function (event) {
 		return false;
 	
 	$(this).hide();
-	$("h3.player-name").show();
+	$("h3.player-name-current").show();
 });
 
 // This function returns the text to display as the result of the specified round in the specified game.

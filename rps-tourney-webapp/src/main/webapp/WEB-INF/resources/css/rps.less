@@ -89,8 +89,17 @@ table#player-games {
 			margin-bottom: 3px;
 		}
 		
-		h3.player-name {
+		h3.player-name-current {
 			cursor: pointer;
+		}
+		
+		h3.player-name .glyphicon-edit {
+			font-size: 0.65em;
+			color: @text-muted;
+		}
+		
+		h3.player-name:hover .glyphicon-edit {
+			color: @text-color;
 		}
 		
 		form.player-name {

@@ -19,19 +19,8 @@
 			</div>
 			</c:if>
 			<div id="player-controls">
-				<spring:message code="game.player.name.placeholder" var="playerNamePlaceholder" />
 				<div id="player-1-controls">
-					<c:if test="${isPlayer1}"><c:set var="player1LabelClass" value="player-name" /></c:if>
-					<h3 class="player-1-name ${player1LabelClass}">${player1Label}</h3>
-					<c:if test="${isPlayer1}">
-					<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">
-						<!-- Note: Bootstrap doesn't support semantic input groups. -->
-						<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${currentPlayerName}" class="form-control" />
-						<span class="input-group-btn">
-							<button type="submit" id="player-1-name-submit" class="btn btn-default">Save</button>
-						</span>
-					</form:form>
-					</c:if>
+					<t:gamePlayerName gameUrl="${gameUrl}" playerName="${player1Label}" isCurrentPlayer="${isPlayer1}" />
 					<div class="player-throws">
 						<c:choose>
 						<c:when test="${isPlayer1}">
@@ -60,17 +49,7 @@
 					</div>
 				</div>
 				<div id="player-2-controls">
-					<c:if test="${isPlayer2}"><c:set var="player2LabelClass" value="player-name" /></c:if>
-					<h3 class="player-2-name ${player2LabelClass}">${player2Label}</h3>
-					<c:if test="${isPlayer2}">
-					<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">
-						<!-- Note: Bootstrap doesn't support semantic input groups. -->
-						<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${currentPlayerName}" class="form-control" />
-						<span class="input-group-btn">
-							<button type="submit" id="player-2-name-submit" class="btn btn-default">Save</button>
-						</span>
-					</form:form>
-					</c:if>
+					<t:gamePlayerName gameUrl="${gameUrl}" playerName="${player2Label}" isCurrentPlayer="${isPlayer2}" />
 					<div class="player-throws">
 						<c:choose>
 						<c:when test="${isPlayer2}">
