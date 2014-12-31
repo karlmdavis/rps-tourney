@@ -2404,3 +2404,10 @@ This file should never be committed along with other files; it should always be 
         * Not seeing error messages when I try to throw before game start, so something may still be off there.
 * 0.25h: [Issue #70: "View Page Source" in Firefox displays JSON](https://github.com/karlmdavis/rps-tourney/issues/70):
     * Fixed, committed, resolved.
+* 1.75h: [Issue #71: Games not displaying warning messages in production](https://github.com/karlmdavis/rps-tourney/issues/71):
+    * Working on the problem.
+
+### 2014-12-31, Wednesday
+
+* 2.25h: [Issue #71: Games not displaying warning messages in production](https://github.com/karlmdavis/rps-tourney/issues/71):
+    * Tracked down and resolved the bug. Committed and resolved.
