@@ -8,10 +8,10 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>rps-tourney-deployer</artifactId>
+	<artifactId>rps-tourney-deployment</artifactId>
 	<packaging>pom</packaging>
 
-	<name>rps-tourney-deployer</name>
+	<name>rps-tourney-deployment</name>
 	<description>
 		A stub project used to provide the configuration needed
 		for the Maven Cargo plugin to deploy things. Note that 
