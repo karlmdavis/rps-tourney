@@ -2417,3 +2417,8 @@ This file should never be committed along with other files; it should always be 
 * 0.5h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
     * Reopened due to test failures: https://justdavis.com/jenkins/job/rps-tourney/com.justdavis.karl.rpstourney$rps-tourney-webapp/137/testReport/
     * Found and fixed the problems. Committed and closed.
+* 2.0h: [Issue #69: Update README prior to the 2.0.0-milestone.1 release](https://github.com/karlmdavis/rps-tourney/issues/69):
+    * Updated the main `README.md` file.
+    * Added a `README-ARCHITECTURE.md` file.
+* 0.25h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
+    * Found and resolved a problem where JS updates were removing the edit icon.
