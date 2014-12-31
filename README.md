@@ -8,22 +8,41 @@ RPS Tourney
 
 ![Console Game Playthrough](rps-tourney-console/dev/game-gifs/playthrough-win-in-two-rounds.gif)
 
-This is a collection of Rock-Paper-Scissors games. The 1.0 release just completed is quite modest: it just provides a simple console application that allows for against a computer opponent. This was more  to build momentum and get a proof of concept in place than anything else.
+This is a collection of Rock-Paper-Scissors games. It includes a single-player console version of the game, as well as a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com). In later releases the console version will also be multiplayer, and an Android version of the game will also be available.
 
-In later releases, I'm planning to build both web and Android versions of the game. These will be built on top of a central web service, to allow for networked play. The web service and web game are planned for inclusion in the next major release, 2.0.
+I will also likely explore AI-only tournaments, similar to [RPSContest.com](http://www.rpscontest.com/).
 
-In addition, it would also be interesting to explore AI-only tournaments, similar to [RPSContest.com](http://www.rpscontest.com/).
+
+## Development Documentation
+
+The following documents document the architecture and development of the game:
+
+* [RPS Tourney Architecture Overview](./dev/README-ARCHITECTURE.md)
+* [Development Environment Setup](./dev/README-DEVENV.md)
+* [Production Environment Setup](./dev/README-PRODUCTION.md)
+* [Work Log](./dev/work-log.md)
 
 
 ## Releases
 
-### 1.0.0
+### [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0) (2013-11-03)
 
 This release just provides a simple console application that allows for against a computer opponent.
 
 Artifacts:
 
 * [rps-tourney-console-1.0.0-dist.tar.gz](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/1.0.0/rps-tourney-console-1.0.0-dist.tar.gz): the console game
+
+### [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1) (2014-12-31)
+
+This pre-release adds a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com).
+
+The console version of the game is (as of yet) unchanged, and does not support multiplayer.
+
+Artifacts:
+
+* [rps-tourney-webapp-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/2.0.0-milestone.1/rps-tourney-webapp-2.0.0-milestone.1.war): the WAR for the game's web application
+* [rps-tourney-service-app-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/2.0.0-milestone.1/rps-tourney-service-app-2.0.0-milestone.1.war): the WAR for the game's web service (required by the web application)
 
 
 ## Inspiration

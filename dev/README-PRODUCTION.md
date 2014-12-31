@@ -4,7 +4,7 @@ Production Environment Setup
 
 ## Introduction
 
-This document provides instructions on how to setup the production environment for the RPS Tourney projects. As of 2014-12-29, the applications production deployments are on [eddings.justdavis.com](https://justdavis.com/karl/it/davis/servers/eddings.html).
+This document provides instructions on how to setup the production environment for the RPS Tourney projects. As of 2014-12-29, the applications production deployments are on [eddings.justdavis.com](https://justdavis.com/karl/it/davis/servers/eddings.html) and the web application is available at [rpstourney.com](https://rpstourney.com).
 
 Each of the following sections covers the installation of a set of dependencies required for development.
 
@@ -27,7 +27,7 @@ TODO: detail setup (this was done before I started this guide)
 
 ## Apache HTTPD Deployment
 
-As mentioned above, the Java applications on `eddings` are only directly accessible via `localhost`. The Apache HTTPD server running on `eddings` is used to proxy in traffic to these applications.
+As mentioned above, the Java applications on `eddings` are only directly accessible via `localhost`. The Apache HTTPD server running on `eddings` is used to proxy in traffic to these applications from [rpstourney.com](https://rpstourney.com).
 
 The following `/etc/apache2/sites-available/rpstourney-com.conf` virtual host configuration file is used for the application:
 
