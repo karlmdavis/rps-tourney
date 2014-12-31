@@ -2389,3 +2389,16 @@ This file should never be committed along with other files; it should always be 
 * 0.2h: [Issue #63: Move the webapp to its own domain name](https://github.com/karlmdavis/rps-tourney/issues/63):
     * Decided to get a 3-year basic cert from gandi.net.
     * Started documenting the production setup in the `README-PRODUCTION.md` file.
+
+### 2014-12-30, Tuesday
+
+* 0.5h: [Issue #63: Move the webapp to its own domain name](https://github.com/karlmdavis/rps-tourney/issues/63):
+    * Purchased an SSL certificate.
+        * Waiting for validation (via DNS record) to complete.
+* 0.2h: [Issue #68: Add GitHub link to webapp](https://github.com/karlmdavis/rps-tourney/issues/68):
+    * Implemented, committed, and resolved.
+* 2.0h: [Issue #63: Move the webapp to its own domain name](https://github.com/karlmdavis/rps-tourney/issues/63):
+    * Got the SSL certificate installed.
+    * Got Apache configured.
+        * Documented this in the `README-PRODUCTION.md` file.
+        * Not seeing error messages when I try to throw before game start, so something may still be off there.
