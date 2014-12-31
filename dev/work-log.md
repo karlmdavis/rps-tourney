@@ -2420,5 +2420,6 @@ This file should never be committed along with other files; it should always be 
 * 2.0h: [Issue #69: Update README prior to the 2.0.0-milestone.1 release](https://github.com/karlmdavis/rps-tourney/issues/69):
     * Updated the main `README.md` file.
     * Added a `README-ARCHITECTURE.md` file.
-* 0.25h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
+* 0.6h: [Issue #72: Add an edit icon/button to the current player's name](https://github.com/karlmdavis/rps-tourney/issues/72):
     * Found and resolved a problem where JS updates were removing the edit icon.
+    * Then fixed the bug and test case failure that change caused.
