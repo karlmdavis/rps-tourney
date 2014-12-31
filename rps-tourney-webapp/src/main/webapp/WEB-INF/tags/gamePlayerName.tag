@@ -16,7 +16,7 @@
 						<spring:message code="game.player.name.placeholder" var="playerNamePlaceholder" />
 						<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${playerName}" class="form-control" />
 						<span class="input-group-btn">
-							<button type="submit" id="player-1-name-submit" class="btn btn-default">Save</button>
+							<button type="submit" class="player-name-submit btn btn-default">Save</button>
 						</span>
 					</form:form>
 					</c:when>

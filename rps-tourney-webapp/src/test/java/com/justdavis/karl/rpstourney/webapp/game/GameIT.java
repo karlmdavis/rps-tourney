@@ -9,8 +9,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
@@ -26,8 +24,6 @@ import com.justdavis.karl.rpstourney.webapp.ITUtils;
  * Integration tests for both {@link GameController} and <code>game.jsp</code>.
  */
 public final class GameIT {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameIT.class);
-
 	/**
 	 * Tests
 	 * {@link GameController#createNewGame(java.security.Principal, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)}
@@ -192,7 +188,9 @@ public final class GameIT {
 			// Player 2 (webapp): Update name.
 			driver.findElement(By.xpath("//input[@name='currentPlayerName']"))
 					.sendKeys("bar");
-			driver.findElement(By.id("player-2-name-submit")).click();
+			driver.findElement(
+					By.cssSelector("div#player-2-controls button.player-name-submit"))
+					.click();
 
 			// Player 2 (webapp): Check Player 2's name.
 			Assert.assertEquals(
@@ -361,9 +359,9 @@ public final class GameIT {
 			authClient.loginAsGuest();
 			gameClient.joinGame(gameId);
 			gameClient.setMaxRounds(gameId, 3, 1);
-			wait.until(ExpectedConditions.not(ExpectedConditions
-					.textToBePresentInElementLocated(
-							By.className("player-2-name"), "Not Joined")));
+			wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
+					By.cssSelector("div#player-2-controls h3.player-name"),
+					"Not Joined")));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
 					By.id("max-rounds-value"), "1"));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
@@ -403,10 +401,9 @@ public final class GameIT {
 			 * If one of these are thrown, the page has the wrong state. We need
 			 * to log the page state to help debug the problem.
 			 */
-			LOGGER.error(
+			throw new TimeoutException(
 					"Test case failed. Current page source:\n"
 							+ driver.getPageSource(), e);
-			throw new TimeoutException(e);
 		} finally {
 			if (driver != null)
 				driver.quit();
