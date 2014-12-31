@@ -2402,3 +2402,5 @@ This file should never be committed along with other files; it should always be 
     * Got Apache configured.
         * Documented this in the `README-PRODUCTION.md` file.
         * Not seeing error messages when I try to throw before game start, so something may still be off there.
+* 0.25h: [Issue #70: "View Page Source" in Firefox displays JSON](https://github.com/karlmdavis/rps-tourney/issues/70):
+    * Fixed, committed, resolved.
