@@ -115,7 +115,8 @@ function isPlayer2TheWinner(gameData) {
 // When called, this function will automatically refresh the game state.
 function refreshGameState() {
 	// Build the URL for the game state, based on the URL for the game page.
-	gameStateUrl = window.location.href + "/data";
+	gameUrl = window.location.href;
+	gameStateUrl = gameUrl + "/data";
 	
 	// Issue an AJAX request for the current game state.
 	$.getJSON(gameStateUrl, function(gameData) {
@@ -155,8 +156,8 @@ function refreshGameState() {
 		else {
 			// If game hasn't started, update the max round controls.
 			$("#max-rounds-value").text(gameData.maxRounds);
-			var roundsDecreaseUrl = gameStateUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds - 2);;
-			var roundsIncreaseUrl = gameStateUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds + 2);
+			var roundsDecreaseUrl = gameUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds - 2);;
+			var roundsIncreaseUrl = gameUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds + 2);
 			$("#max-rounds-down").attr("href", roundsDecreaseUrl);
 			$("#max-rounds-up").attr("href", roundsIncreaseUrl);
 		}

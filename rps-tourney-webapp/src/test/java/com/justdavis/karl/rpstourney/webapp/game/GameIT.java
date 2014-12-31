@@ -524,6 +524,87 @@ public final class GameIT {
 	}
 
 	/**
+	 * <p>
+	 * Ensures that the JavaScript correctly creates the max round controls.
+	 * </p>
+	 * <p>
+	 * This is a regression test case for <a
+	 * href="https://github.com/karlmdavis/rps-tourney/issues/73">Issue #73:
+	 * Webapp 404s when setting max rounds</a>.
+	 * </p>
+	 */
+	@Test
+	public void joinGameAndAlterRounds() {
+		WebDriver player1Driver = null;
+		WebDriver player2Driver = null;
+		try {
+
+			// Player 1: Create driver with JS.
+			player1Driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> player1Wait = new WebDriverWait(player1Driver, 20);
+
+			// Player 2: Create a driver without JS.
+			player2Driver = new HtmlUnitDriver(false);
+
+			// Player 1: Create the game.
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = player1Driver.getCurrentUrl().substring(
+					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
+
+			// Player 1: Spot-check the page to ensure it's working.
+			player1Driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(String.format("Invalid response: %s: %s",
+					player1Driver.getCurrentUrl(),
+					player1Driver.getPageSource()), 1, player1Driver
+					.findElements(By.id("player-controls")).size());
+
+			// Player 2: Join the game.
+			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
+			player2Driver.findElement(By.id("join-game")).click();
+
+			/*
+			 * Player 1: Wait for player 2's status to refresh. All this wait is
+			 * really needed for is to delay adjusting the rounds until at least
+			 * one JS update cycle has completed.
+			 */
+			player1Wait
+					.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
+							By.cssSelector("div#player-2-controls h3.player-name"),
+							"Not Joined")));
+
+			// Player 1: Increase the max rounds to 7.
+			player1Driver.findElement(By.id("max-rounds-up")).click();
+			player1Driver.findElement(By.id("max-rounds-up")).click();
+			Assert.assertEquals("7",
+					player1Driver.findElement(By.id("max-rounds-value"))
+							.getText());
+
+			// Player 1: Increase the max rounds to 7.
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "1"));
+			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
+
+			// Player 2: Refresh and decrease the max rounds to 5.
+			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
+			player2Driver.findElement(By.id("max-rounds-down")).click();
+			Assert.assertEquals("5",
+					player2Driver.findElement(By.id("max-rounds-value"))
+							.getText());
+
+			// Player 1: Verify that the max rounds refreshes dynamically.
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(By.id("max-rounds-value"),
+							"5"));
+		} finally {
+			if (player1Driver != null)
+				player1Driver.quit();
+			if (player2Driver != null)
+				player2Driver.quit();
+		}
+	}
+
+	/**
 	 * @param driver
 	 *            the {@link WebDriver} to use
 	 * @return the value of the <code>#round-counter-current</code> element on
