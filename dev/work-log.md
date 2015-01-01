@@ -2425,3 +2425,5 @@ This file should never be committed along with other files; it should always be 
     * Then fixed the bug and test case failure that change caused.
 * 0.5h: [Issue #73: Webapp 404s when setting max rounds](https://github.com/karlmdavis/rps-tourney/issues/73):
     * Added a test case, resolved, commited, and closed.
+* 1.25h: Released [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1)!
+    * This time included the work to resolve [Issue #74: Unable to run release:prepare](https://github.com/karlmdavis/rps-tourney/issues/74).
