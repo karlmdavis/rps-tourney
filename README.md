@@ -41,8 +41,8 @@ The console version of the game is (as of yet) unchanged, and does not support m
 
 Artifacts:
 
-* [rps-tourney-webapp-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/2.0.0-milestone.1/rps-tourney-webapp-2.0.0-milestone.1.war): the WAR for the game's web application
-* [rps-tourney-service-app-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/2.0.0-milestone.1/rps-tourney-service-app-2.0.0-milestone.1.war): the WAR for the game's web service (required by the web application)
+* [rps-tourney-webapp-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.1/rps-tourney-webapp-2.0.0-milestone.1.war): the WAR for the game's web application
+* [rps-tourney-service-app-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.1/rps-tourney-service-app-2.0.0-milestone.1.war): the WAR for the game's web service (required by the web application)
 
 
 ## Inspiration
