@@ -2427,3 +2427,8 @@ This file should never be committed along with other files; it should always be 
     * Added a test case, resolved, commited, and closed.
 * 1.25h: Released [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1)!
     * This time included the work to resolve [Issue #74: Unable to run release:prepare](https://github.com/karlmdavis/rps-tourney/issues/74).
+
+### 2015-01-01, Thursday
+
+* 0.75h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Started fleshing out the "Your Account" page.
