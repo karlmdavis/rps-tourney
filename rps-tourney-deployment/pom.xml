@@ -23,7 +23,9 @@
 	<properties>
 		<!-- This property is used to allow the version to be specified/overridden 
 			on the command line via '-Drps.version=...'. -->
-		<rps.version>${project.version}</rps.version>
+		<!-- The maven-release-plugin should update this version (as necessary) 
+			during releases. -->
+		<rps.version>2.0.0-SNAPSHOT</rps.version>
 	</properties>
 
 	<dependencies>
