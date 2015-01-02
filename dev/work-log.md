@@ -2432,3 +2432,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.75h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Started fleshing out the "Your Account" page.
+
+### 2015-01-02, Friday
+
+* 0.75h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Finished the "Your Account" page's implementation. No tests yet.
