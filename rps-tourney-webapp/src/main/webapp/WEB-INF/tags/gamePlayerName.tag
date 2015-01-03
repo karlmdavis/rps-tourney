@@ -14,7 +14,7 @@
 					<form:form method="POST" action="${gameUrl}/updateName" class="player-name input-group">
 						<%-- Note: Bootstrap doesn't support semantic input groups. --%>
 						<spring:message code="game.player.name.placeholder" var="playerNamePlaceholder" />
-						<input type="text" name="currentPlayerName" placeholder="${playerNamePlaceholder}" value="${playerName}" class="form-control" />
+						<input type="text" name="inputPlayerName" placeholder="${playerNamePlaceholder}" value="${playerName}" class="form-control" />
 						<span class="input-group-btn">
 							<button type="submit" class="player-name-submit btn btn-default">Save</button>
 						</span>

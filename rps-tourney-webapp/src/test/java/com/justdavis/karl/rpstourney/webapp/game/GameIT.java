@@ -186,7 +186,7 @@ public final class GameIT {
 					.isDisplayed());
 
 			// Player 2 (webapp): Update name.
-			driver.findElement(By.xpath("//input[@name='currentPlayerName']"))
+			driver.findElement(By.xpath("//input[@name='inputPlayerName']"))
 					.sendKeys("bar");
 			driver.findElement(
 					By.cssSelector("div#player-2-controls button.player-name-submit"))

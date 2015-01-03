@@ -156,20 +156,20 @@ public class GameController {
 	}
 
 	/**
-	 * The controller facade for
-	 * {@link IGameResource#submitThrow(String, int, Throw)}.
+	 * The controller for accepting {@link Account#getName()} updates.
 	 * 
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
-	 * @param throwToPlay
-	 *            the {@link Throw} that the current user/player is submitting
-	 *            for the current {@link GameRound} in the specified
-	 *            {@link Game}
+	 * @param inputPlayerName
+	 *            the new value for {@link Account#getName()}
+	 * @param authenticatedUser
+	 *            the currently logged in user {@link Principal} (whose
+	 *            {@link Account#getName()} is to be updated)
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public String updateName(@PathVariable String gameId,
-			String currentPlayerName, Principal authenticatedUser) {
+			String inputPlayerName, Principal authenticatedUser) {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
 
@@ -180,7 +180,7 @@ public class GameController {
 
 		// Update the user's name for themselves.
 		Account account = accountsClient.getAccount();
-		account.setName(currentPlayerName);
+		account.setName(inputPlayerName);
 		accountsClient.updateAccount(account);
 
 		// Redirect the user to the updated game.

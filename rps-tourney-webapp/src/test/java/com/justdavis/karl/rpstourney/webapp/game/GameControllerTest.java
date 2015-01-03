@@ -145,7 +145,7 @@ public final class GameControllerTest {
 		Principal principal = new WebServiceAccountAuthentication(player1);
 		mockMvc.perform(
 				MockMvcRequestBuilders.post(updateNamePath)
-						.principal(principal).param("currentPlayerName", "foo"))
+						.principal(principal).param("inputPlayerName", "foo"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath));
 		Assert.assertEquals("foo", accountsClient.getAccount().getName());
 
