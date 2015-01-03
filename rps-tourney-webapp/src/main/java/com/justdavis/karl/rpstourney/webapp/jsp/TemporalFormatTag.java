@@ -9,6 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.TemporalAccessor;
 
@@ -61,6 +62,11 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		 * Represents {@link DateTimeFormatter#ISO_INSTANT}.
 		 */
 		ISO_INSTANT(new ThreeTenFormatter(DateTimeFormatter.ISO_INSTANT)),
+
+		/**
+		 * Represents {@link DateTimeFormatter#ISO_DATE}.
+		 */
+		ISO_DATE(new ThreeTenFormatter(DateTimeFormatter.ISO_DATE)),
 
 		/**
 		 * Represents {@link PrettyTime#format(Date)}.
@@ -117,7 +123,15 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		 */
 		@Override
 		public String format(TemporalAccessor temporalValue) {
-			return formatter.format(temporalValue);
+			/*
+			 * If the value to be formatted is an Instant, it can only be
+			 * converted to a date-time in the context of a timezone.
+			 */
+			DateTimeFormatter formatterToUse = formatter;
+			if (temporalValue instanceof Instant)
+				formatterToUse = formatter.withZone(ZoneId.systemDefault());
+
+			return formatterToUse.format(temporalValue);
 		}
 	}
 
