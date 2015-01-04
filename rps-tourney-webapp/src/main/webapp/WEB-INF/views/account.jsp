@@ -8,18 +8,19 @@
 <c:url value="${requestScope['rpstourney.config.baseurl']}" var="baseUrl" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 		<h1><spring:message code="account.h1" /></h1>
-		<form:form method="POST" action="${baseUrl}/account/update">
+		<form:form method="POST" action="${baseUrl}/account/update" id="account-properties">
 			<div class="form-group">
-				<label for="inputCreationTimestamp">Created</label>
-				<p id="inputCreationTimestamp" class="form-control-static">
+				<label for="inputCreationTimestamp"><spring:message code="account.created.label" /></label>
+				<p id="inputCreationTimestamp">
 					<span id="account-created-pretty"><rps:temporal value="${account.createdTimestamp}" format="PRETTY_TIME" /></span>
 					<span id="account-created-date">(<rps:temporal value="${account.createdTimestamp}" format="ISO_DATE" />)</span>
 				</p>
 			</div>
 			<div class="form-group">
-				<label for="inputName">Name</label>
-				<input type="text" id="inputName" name="inputName" class="form-control" value="${account.name}" placeholder="Anonymous">
+				<label for="inputName"><spring:message code="account.name.label" /></label>
+				<spring:message code="account.name.placeholder" var="namePlaceholder" />
+				<input type="text" id="inputName" name="inputName" value="${account.name}" placeholder="${namePlaceholder}">
 			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
+			<button type="submit"><spring:message code="account.submit" /></button>
 		</form:form>
 </t:basepage>

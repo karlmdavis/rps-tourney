@@ -202,7 +202,22 @@ table#player-games {
  * Account Page
  */
 
-#account-created-date {
-	font-size: 0.75em;
-	color: @text-muted;
+form#account-properties {
+	p#inputCreationTimestamp {
+		.form-control-static;
+	}
+	
+	input[type=text] {
+		.form-control;
+	}
+	
+	button[type=submit] {
+		.btn;
+		.btn-success;
+	}
+	
+	#account-created-date {
+		font-size: 0.75em;
+		color: @text-muted;
+	}
 }
