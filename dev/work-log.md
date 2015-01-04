@@ -2443,3 +2443,14 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on committing things.
     * Fixed a minor bug in the old `login.jsp`. No idea if it actually works now, though.
+
+### 2015-01-04, Sunday
+
+* 2.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Fixed a problem with `SecurityConfig`: login and logout pages **required** users to already be authenticated.
+        * Reformatted the config there to read easier.
+        * Added a couple of lengthy comments explaining how things are configured and why.
+    * Tweaked `login.jsp` and `account.jsp` some.
+    * Started creating the "Register an Account" page.
+        * Got it mostly laid out.
+        * Doesn't do anything yet.
