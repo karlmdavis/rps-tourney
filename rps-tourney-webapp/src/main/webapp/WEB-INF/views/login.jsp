@@ -12,7 +12,7 @@
 <spring:message code="login.subtitle" var="subtitle" />
 <spring:message code="login.submit" var="submit" />
 <c:url value="${requestScope['rpstourney.config.baseurl']}/login" var="loginFormUrl" />
-<t:basepage subtitle="${subtitle}">
+<t:basepage metaSubtitle="${subtitle}">
 		<h1><spring:message code="login.header" /></h1>
 		<form method="post" action="${loginFormUrl}">
 			<fieldset>
