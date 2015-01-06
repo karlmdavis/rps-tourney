@@ -2454,3 +2454,11 @@ This file should never be committed along with other files; it should always be 
     * Started creating the "Register an Account" page.
         * Got it mostly laid out.
         * Doesn't do anything yet.
+
+### 2015-01-05, Monday
+
+* 1.0h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got registration working.
+    * Fixed a bug where redirecting to the home page with a new `Account` would throw an exception.
+        * Was caused by `getGamesForPlayer(...)` calling `findOrCreateAPlayer(...)` without a transaction.
+        * Need to create a test case for that, and also for the new DAO method added.
