@@ -26,6 +26,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.State;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
@@ -63,6 +64,34 @@ public final class GameResourceImplIT {
 				.getDataSourceCoordinates());
 		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
 				.getDataSourceCoordinates());
+	}
+
+	/**
+	 * <p>
+	 * Ensures that {@link GameResourceImpl#getGamesForPlayer()} works correctly
+	 * when the requesting client has an {@link Account}, but no associated
+	 * {@link Player}.
+	 * </p>
+	 * <p>
+	 * This is a regression test case for an issue encountered during
+	 * development.
+	 * </p>
+	 */
+	@Test
+	public void getGamesForPlayerWithNewAccount() {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookiesForPlayer1 = new CookieStore();
+
+		// Login the player.
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
+				clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.loginAsGuest();
+
+		// Try to get the list of games, which should be empty.
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		Assert.assertEquals(0, gameClientForPlayer1.getGamesForPlayer().size());
 	}
 
 	/**

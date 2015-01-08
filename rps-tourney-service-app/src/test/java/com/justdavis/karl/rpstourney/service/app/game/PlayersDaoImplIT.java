@@ -86,6 +86,66 @@ public final class PlayersDaoImplIT {
 	}
 
 	/**
+	 * Tests {@link PlayersDaoImpl#findPlayerForAccount(Account)}.
+	 */
+	@Test
+	public void findPlayerForAccount() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAOs.
+			PlayersDaoImpl playersDao = new PlayersDaoImpl();
+			playersDao.setEntityManager(entityManager);
+
+			// Create an Account, try to find a Player for it.
+			Account account = new Account();
+			Player newPlayer = playersDao.findPlayerForAccount(account);
+			Assert.assertNull(newPlayer);
+
+			/*
+			 * Save the Account and create a Player for it.
+			 */
+			EntityTransaction tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				newPlayer = playersDao.findOrCreatePlayerForAccount(account);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			/*
+			 * Pull the persisted Account out of the new Player and call
+			 * findPlayerForAccount(...) again. This time, it should return the
+			 * already-created Player instance.
+			 */
+			Account savedAccount = newPlayer.getHumanAccount();
+			Assert.assertNotNull(savedAccount);
+			Player loadedPlayer = null;
+			tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				loadedPlayer = playersDao.findPlayerForAccount(savedAccount);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the results.
+			Assert.assertEquals(1, playersDao.getPlayers().size());
+			Assert.assertNotNull(loadedPlayer);
+			Assert.assertNotNull(loadedPlayer.getHumanAccount());
+			Assert.assertEquals(newPlayer, loadedPlayer);
+			Assert.assertEquals(savedAccount, loadedPlayer.getHumanAccount());
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
 	 * Tests {@link PlayersDaoImpl#findOrCreatePlayerForAccount(Account)}.
 	 */
 	@Test

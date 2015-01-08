@@ -43,6 +43,15 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#findPlayerForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public Player findPlayerForAccount(Account account) {
+		// Look up the pre-existing Player record, if any.
+		return find(account);
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#findOrCreatePlayerForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
@@ -71,7 +80,7 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	 *            the {@link Player#getHumanAccount()} value to find a matching
 	 *            {@link Player} for
 	 * @return the existing {@link Player} record that matches the specified
-	 *         criteria
+	 *         criteria, or <code>null</code> if no such record is found
 	 */
 	private Player find(Account account) {
 		// If the Account hasn't been saved, there won't be a Player for it.

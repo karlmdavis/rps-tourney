@@ -116,11 +116,14 @@ public class GameResourceImpl implements IGameResource {
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
+		Player userPlayer = playersDao.findPlayerForAccount(userAccount);
 
 		// Get the games for that Player.
-		List<Game> games = gamesDao.getGamesForPlayer(userPlayer);
+		List<Game> games;
+		if (userPlayer != null)
+			games = gamesDao.getGamesForPlayer(userPlayer);
+		else
+			games = Collections.emptyList();
 
 		// Create and return the GameViews for the Games.
 		List<GameView> gameViews = new ArrayList<GameView>(games.size());

@@ -11,6 +11,15 @@ import com.justdavis.karl.rpstourney.service.api.game.Player;
 public interface IPlayersDao {
 	/**
 	 * @param account
+	 *            the {@link Account} record to find a matching {@link Player}
+	 *            for
+	 * @return the existing {@link Player} record that matches the specified
+	 *         criteria, or <code>null</code> if no existing record was found
+	 */
+	Player findPlayerForAccount(Account account);
+
+	/**
+	 * @param account
 	 *            the {@link Account} record to find/create a matching
 	 *            {@link Player} for
 	 * @return the existing {@link Player} record that matches the specified
