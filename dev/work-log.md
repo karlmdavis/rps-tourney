@@ -2462,3 +2462,9 @@ This file should never be committed along with other files; it should always be 
     * Fixed a bug where redirecting to the home page with a new `Account` would throw an exception.
         * Was caused by `getGamesForPlayer(...)` calling `findOrCreateAPlayer(...)` without a transaction.
         * Need to create a test case for that, and also for the new DAO method added.
+
+### 2015-01-07, Wednesday
+
+* Just completely forgot to touch the side project yesterday.
+* 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Added test cases, cleaned up, and committed the fix for the bug in `getGamesForPlayer(...)`.
