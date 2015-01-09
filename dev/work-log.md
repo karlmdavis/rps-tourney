@@ -2478,3 +2478,8 @@ This file should never be committed along with other files; it should always be 
         * Didn't implement any of this yet; just thinking through it.
     * Created `AuthenticationIT` and started filling in tests for it.
         * Found and fixed a few bugs that it exposed, at various layers.
+
+### 2015-01-09, Friday
+
+* 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Cleaned up and committed a few things.
