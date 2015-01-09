@@ -98,15 +98,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.and().formLogin()
-				.loginPage("/login").permitAll()
-			.and().logout().permitAll()
-			.and().httpBasic()
-			.and().rememberMe()
+		/*
+		 * This is fairly unusual for a Spring Security config (note the lack of
+		 * a '.authorizeRequests()' call), but meets this application's need
+		 * quite well. All or almost all of the application's authorization is
+		 * done programmatically, and the MVC Controllers are all responsible
+		 * for redirecting to '/login' as necessary.
+		 */
+		
+		/*
+		 * Spring Security's "remember me" services are used as a form of
+		 * automatic anonymous-ish login. If users, for example, start a game,
+		 * they will be logged in automatically with a new anonymous account
+		 * that gets created for them. If the user at some point decides they
+		 * want a normal username+password account (perhaps to play the same
+		 * games across multiple devices), the anonymous accounts can be
+		 * "merged" into the new username+password accounts.
+		 */
+
+		http
+			.formLogin()
+				.loginPage("/login")
+				.and()
+			.logout()
+				.and()
+			.httpBasic()
+				.and()
+			.rememberMe()
 				.rememberMeServices(rememberMeServices)
 				.key(CustomRememberMeServices.REMEMBER_ME_TOKEN_KEY)
-			.and().anonymous().disable();
+				.and()
+			.anonymous().disable();
 	}
 
 	/**
