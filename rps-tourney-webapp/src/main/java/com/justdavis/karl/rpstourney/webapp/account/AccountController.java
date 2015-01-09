@@ -46,8 +46,7 @@ public class AccountController {
 		 * to redirect them to the login page.
 		 */
 		if (authenticatedUser == null)
-			// FIXME change this to the login page once that exists
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/login");
 
 		// Grab the Account via the web service.
 		Account authenticatedAccount = accountsClient.getAccount();
@@ -80,8 +79,7 @@ public class AccountController {
 		 * to redirect them to the login page.
 		 */
 		if (authenticatedUser == null)
-			// FIXME change this to the login page once that exists
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/login");
 
 		// Update the user's Account.
 		Account account = accountsClient.getAccount();
