@@ -185,6 +185,11 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 					"Login already exists for that email address.",
 					Status.CONFLICT);
 
+		// If there's an existing Account, reload it (so it's not detached).
+		if (account != null && account.hasId()) {
+			account = accountsDao.getAccountById(account.getId());
+		}
+
 		// Create the new Account (if needed).
 		if (account == null) {
 			account = new Account();

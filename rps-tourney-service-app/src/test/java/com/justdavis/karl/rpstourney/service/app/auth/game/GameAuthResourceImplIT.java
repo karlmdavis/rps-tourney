@@ -23,6 +23,7 @@ import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
+import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
@@ -89,6 +90,36 @@ public final class GameAuthResourceImplIT {
 		// Verify the validate results.
 		Assert.assertNotNull(validatedAccount);
 		Assert.assertEquals(createdAccount.getId(), validatedAccount.getId());
+	}
+
+	/**
+	 * Ensures that {@link GameAuthResourceImpl} creates new
+	 * {@link GameLoginIdentity}s as expected when they're being added to an
+	 * existing account.
+	 * 
+	 * @throws AddressException
+	 *             (should not occur if test is successful)
+	 */
+	@Test
+	public void createLoginForExistingAccount() throws AddressException {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
+
+		// Create a guest login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		Account createdAccount = guestAuthClient.loginAsGuest();
+		Assert.assertNotNull(createdAccount);
+
+		// Create a game login for the same account.
+		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
+				cookieStore);
+		Account updatedAccount = gameAuthClient.createGameLogin(
+				new InternetAddress("foo@example.com"), "secret");
+		Assert.assertNotNull(updatedAccount);
+		Assert.assertEquals(1, loginsDao.getLogins().size());
+		Assert.assertEquals(createdAccount.getId(), updatedAccount.getId());
 	}
 
 	/**
