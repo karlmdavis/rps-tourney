@@ -26,6 +26,12 @@
 	</tag>
 
 	<tag>
+		<name>accountName</name>
+		<tag-class>com.justdavis.karl.rpstourney.webapp.jsp.AccountNameTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+
+	<tag>
 		<name>gameOpponent</name>
 		<tag-class>com.justdavis.karl.rpstourney.webapp.jsp.GameOpponentTag</tag-class>
 		<body-content>empty</body-content>

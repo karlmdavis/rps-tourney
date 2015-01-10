@@ -147,6 +147,52 @@ public final class AuthenticationIT {
 	}
 
 	/**
+	 * Ensures that the sign in/account control that's part of the pages'
+	 * template works correctly.
+	 */
+	@Test
+	public void signInAndAccountControl() {
+		WebDriver driver = null;
+		try {
+			driver = new HtmlUnitDriver(true);
+
+			// Go to the homepage and check for the Sign In control.
+			driver.get(ITUtils.buildWebAppUrl("/"));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("sign-in")).size());
+
+			// Create a game (and login as guest).
+			driver.get(ITUtils.buildWebAppUrl("game/"));
+
+			// Check for the account control.
+			driver.get(ITUtils.buildWebAppUrl("/"));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("signed-in")).size());
+
+			// Set the current user's name.
+			driver.get(ITUtils.buildWebAppUrl("/account"));
+			driver.findElement(By.id("inputName")).sendKeys("Foo");
+			driver.findElement(
+					By.cssSelector("form#account-properties button[type=submit]"))
+					.click();
+
+			// Verify that the account control has the name in it.
+			Assert.assertTrue(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()),
+					driver.findElement(By.id("signed-in")).getText()
+							.contains("Foo"));
+		} finally {
+			if (driver != null)
+				driver.quit();
+		}
+	}
+
+	/**
 	 * @return a random valid-looking email address for use as a fake account
 	 */
 	private String buildRandomEmail() {
