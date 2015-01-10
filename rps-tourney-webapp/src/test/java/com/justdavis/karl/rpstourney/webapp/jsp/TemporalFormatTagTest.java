@@ -24,11 +24,11 @@ public class TemporalFormatTagTest {
 	public void normalUsage() throws JspException, IOException {
 		// Create the mock objects to use.
 		MockJspWriter jspWriter = new MockJspWriter();
-		MockJspContext jspContext = new MockJspContext(jspWriter);
+		MockPageContext pageContext = new MockPageContext(jspWriter);
 
 		// Create the tag to test.
 		TemporalFormatTag timeTag = new TemporalFormatTag();
-		timeTag.setJspContext(jspContext);
+		timeTag.setJspContext(pageContext);
 
 		// Test the tag.
 		Instant now = Instant.EPOCH;

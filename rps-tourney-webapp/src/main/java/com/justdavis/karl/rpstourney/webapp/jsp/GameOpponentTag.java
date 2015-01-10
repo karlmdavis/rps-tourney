@@ -2,7 +2,6 @@ package com.justdavis.karl.rpstourney.webapp.jsp;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 
@@ -33,7 +32,6 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 
 	private GameView game;
 	private SecurityContext mockSecurityContext;
-	private JspContext mockJspContext;
 
 	/**
 	 * @param game
@@ -55,35 +53,15 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * This method is only intended for use in testing: it allows developers to
-	 * provide a mock {@link SecurityContext} to use.
-	 * 
-	 * @param securityContext
-	 *            the {@link SecurityContext} to use
+	 * @param mockSecurityContext
+	 *            the mock {@link SecurityContext} to use
 	 */
-	void setSecurityContext(SecurityContext securityContext) {
+	void setMockSecurityContext(SecurityContext securityContext) {
+		/*
+		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
+		 * or inject SecurityContext instances.
+		 */
 		this.mockSecurityContext = securityContext;
-	}
-
-	/**
-	 * @return the {@link JspContext} that should be used, to write out to
-	 */
-	private JspContext getJspContext() {
-		if (mockJspContext != null)
-			return mockJspContext;
-		else
-			return pageContext;
-	}
-
-	/**
-	 * This method is only intended for use in testing: it allows developers to
-	 * provide a mock {@link JspContext} to use.
-	 * 
-	 * @param jspContext
-	 *            the {@link JspContext} to use
-	 */
-	void setJspContext(JspContext jspContext) {
-		this.mockJspContext = jspContext;
 	}
 
 	/**
@@ -139,7 +117,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 			result = getRequestContext().getMessage("game.opponent.anonymous");
 
 		// Write out things to the page.
-		getJspContext().getOut().write(result);
+		pageContext.getOut().write(result);
 	}
 
 	/**

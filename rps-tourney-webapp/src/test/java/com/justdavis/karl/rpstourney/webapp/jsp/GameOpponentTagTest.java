@@ -32,12 +32,12 @@ public class GameOpponentTagTest {
 		// Create the mock objects to use.
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		MockJspWriter jspWriter = new MockJspWriter();
-		MockJspContext jspContext = new MockJspContext(jspWriter);
+		MockPageContext pageContext = new MockPageContext(jspWriter);
 
 		// Create the tag to test.
 		GameOpponentTag gameOpponentTag = new GameOpponentTag();
-		gameOpponentTag.setSecurityContext(securityContext);
-		gameOpponentTag.setJspContext(jspContext);
+		gameOpponentTag.setMockSecurityContext(securityContext);
+		gameOpponentTag.setPageContext(pageContext);
 
 		// Test the tag.
 		Account player1Account = new Account();
