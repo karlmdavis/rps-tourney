@@ -2494,3 +2494,9 @@ This file should never be committed along with other files; it should always be 
         * Add tests for those two items.
         * Start implementing account merges on log in & registration.
         * Add a log out link to the account page.
+
+### 2015-01-10, Saturday
+
+* 2.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Wrote the tests for the sign-in/account control and such.
+        * Spent a lot of time figuring out how to handle mock Spring injection in `AccountNameTag`.
