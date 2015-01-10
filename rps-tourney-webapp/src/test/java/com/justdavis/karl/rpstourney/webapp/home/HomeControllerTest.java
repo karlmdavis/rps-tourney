@@ -54,7 +54,7 @@ public final class HomeControllerTest {
 	@Test
 	public void getGamesForPlayer() throws Exception {
 		/*
-		 * Build the mocks needed for the test. Add an artificail delay between
+		 * Build the mocks needed for the test. Add an artificial delay between
 		 * creating the two games, to ensure they end up with different
 		 * timestamps.
 		 */
