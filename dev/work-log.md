@@ -2472,7 +2472,7 @@ This file should never be committed along with other files; it should always be 
 ### 2015-01-08, Thursday
 
 * 1.35h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-    * Started thinking about how a login/logout contorl in the template should look.
+    * Started thinking about how a login/logout control in the template should look.
         * I think a top-right chunk of text that switched between "Signed in as Foo" and "Login here" is a decent start.
         * Maybe only put a logout control on the account details page. Not something I want folks using that often.
         * Didn't implement any of this yet; just thinking through it.
@@ -2483,3 +2483,14 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Cleaned up and committed a few things.
+* 1.0h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Ran the build, fixed all the failures it had, cleaned things up, and got everything thus far committed.
+* 1.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Created `AccountNameTag`.
+        * No tests yet, and adding them will probably require some refactoring.
+    * Added a sign in/account control to the template.
+        * No tests yet.
+    * Next steps:
+        * Add tests for those two items.
+        * Start implementing account merges on log in & registration.
+        * Add a log out link to the account page.
