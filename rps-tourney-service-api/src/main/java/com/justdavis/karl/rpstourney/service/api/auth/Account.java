@@ -301,4 +301,30 @@ public class Account implements Principal, Serializable {
 			return this == obj;
 		}
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Account [id=");
+		builder.append(id);
+		builder.append(", createdTimestamp=");
+		builder.append(createdTimestamp);
+		builder.append(", roles=");
+		builder.append(roles);
+		/*
+		 * Warning: printing out the actual authTokens here would be a very bad
+		 * idea, as it might enable security leaks in logs, error messages, and
+		 * such.
+		 */
+		builder.append(", authTokens.size()=");
+		builder.append(authTokens.size());
+		builder.append(", name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
