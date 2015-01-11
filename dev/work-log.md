@@ -2500,3 +2500,26 @@ This file should never be committed along with other files; it should always be 
 * 2.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Wrote the tests for the sign-in/account control and such.
         * Spent a lot of time figuring out how to handle mock Spring injection in `AccountNameTag`.
+
+### 2015-01-11, Sunday
+
+* 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Just thinking through the merging design...
+    * How to handle merging during login and registration?
+        * The page should know whether or not the user is currently logged in and whether that account has a guest login but no game login.
+        * Idea 1: If that's the case, it should have an enabled-by-default checkbox to "Merge this device's XX games into new login."
+        * Idea 2: Keep track of all past guest accounts in a client-side cookie.
+            * List those logins in a panel on the `/account` page, with a "Merge" button for each.
+        * I like that, with Idea 2, the clients are tracking something more than just their session ID.
+            * This would make it easier for me to migrate things smoothly if the game ever transitions to a JavaScript-only application.
+    * How to handle the merges themselves?
+        * Idea 1: Replace the `Player` on all of the old `Account`'s games, point the old guest login to the new `Account`. Delete the old `Account`, etc.
+            * Pros: Least amount of impact on other things, due to not creating duplicate `Player`s.
+            * Cons: If I want to audit those operations, I have to track them in a separate table.
+        * Idea 2: Leave the old `Account`'s `Player` instances, but point them and the old guest login at the new `Account`.  Delete the old `Account`, etc.
+            * Pros: The splicate `Player`s become a sort of audit log themselves.
+            * Cons: Seems like a bad idea to have duplicate `Player`s.
+        * I think I'll go with Idea 1, and ensure I add in the tables, etc. to audit those operations.
+        * Note: The game logic almost certainly will break once I allow for player 1 and 2 to be represented by the same `Account`. However, this seems like the kind of thing I want to support anyways (e.g. to allow AIs to play against themselves).
+            * That could really complicate statistics, though, as it'd affect win/loss percentages.
+            * Let's say a given AI has only ever played three games, all against itself. What's it's win/loss percentage? I think I'd have to exclude such games from those calculations, and the percentage would be "N/A", same as for any new account.
