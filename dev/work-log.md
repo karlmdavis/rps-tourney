@@ -2523,3 +2523,9 @@ This file should never be committed along with other files; it should always be 
         * Note: The game logic almost certainly will break once I allow for player 1 and 2 to be represented by the same `Account`. However, this seems like the kind of thing I want to support anyways (e.g. to allow AIs to play against themselves).
             * That could really complicate statistics, though, as it'd affect win/loss percentages.
             * Let's say a given AI has only ever played three games, all against itself. What's it's win/loss percentage? I think I'd have to exclude such games from those calculations, and the percentage would be "N/A", same as for any new account.
+
+### 2015-01-12, Monday
+
+* 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Added the `IAccountsResource.getLogins()` method, but did not implement it.
+    * Something to fix: `GuestLoginIdentity` has no timestamps.
