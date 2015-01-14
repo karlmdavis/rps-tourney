@@ -2529,3 +2529,9 @@ This file should never be committed along with other files; it should always be 
 * 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Added the `IAccountsResource.getLogins()` method, but did not implement it.
     * Something to fix: `GuestLoginIdentity` has no timestamps.
+
+### 2015-01-13, Tuesday
+
+* 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Started implementing `AccountsClient.getLogins()`.
+        * Likely going to have trouble with JAX-B and the logins interface.
