@@ -2535,3 +2535,11 @@ This file should never be committed along with other files; it should always be 
 * 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Started implementing `AccountsClient.getLogins()`.
         * Likely going to have trouble with JAX-B and the logins interface.
+
+### 2015-01-14, Wednesday
+
+* 0.35h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * In order to query for logins via JPA, I need to decide on one of the following options:
+        * Manually query each separate implementation and glue the results back together.
+        * Give all of the logins a common abstract base class.
+    * Leaning towards the second option, but need to investigate the mapping options (e.g. `@MappedSuperclass`) and how well Hibernate supports queries with them.
