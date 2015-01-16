@@ -2543,3 +2543,11 @@ This file should never be committed along with other files; it should always be 
         * Manually query each separate implementation and glue the results back together.
         * Give all of the logins a common abstract base class.
     * Leaning towards the second option, but need to investigate the mapping options (e.g. `@MappedSuperclass`) and how well Hibernate supports queries with them.
+
+### 2015-01-15, Thursday
+
+* 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Did some research: can't use `@MappedSuperclass`, as it won't allow for the kinds of queries I'd like to do.
+        * Thinking of using `@Inheritance(strategy=InheritanceType.JOINED)`, instead.
+        * The really tricky part will be the DB upgrade.
+        * I'm really annoyed that guest logins don't have creation timestamps. Guess I'll have to default those to the upgrade date-time.
