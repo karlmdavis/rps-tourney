@@ -2556,3 +2556,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Created `AbstractLoginIdentity`. Haven't yet set it as the superclass for anything.
+
+### 2015-01-17, Saturday
+
+* 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Just realized: guest logins don't actually contain the auth tokens they're supposedly associated with. That might be very bad?
+        * As things stand, guest logins have absolutely 0 extra fields associated with them: they're the same as the base class.
+    * Set the game and guest logins to extend `AbstractLoginIdentity`.
