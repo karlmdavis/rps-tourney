@@ -2551,3 +2551,8 @@ This file should never be committed along with other files; it should always be 
         * Thinking of using `@Inheritance(strategy=InheritanceType.JOINED)`, instead.
         * The really tricky part will be the DB upgrade.
         * I'm really annoyed that guest logins don't have creation timestamps. Guess I'll have to default those to the upgrade date-time.
+
+### 2015-01-16, Friday
+
+* 0.2h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Created `AbstractLoginIdentity`. Haven't yet set it as the superclass for anything.
