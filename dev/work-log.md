@@ -2563,3 +2563,9 @@ This file should never be committed along with other files; it should always be 
     * Just realized: guest logins don't actually contain the auth tokens they're supposedly associated with. That might be very bad?
         * As things stand, guest logins have absolutely 0 extra fields associated with them: they're the same as the base class.
     * Set the game and guest logins to extend `AbstractLoginIdentity`.
+
+### 2015-01-18, Sunday
+
+* 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Tried to write the Liquibase update script.
+        * Stuck figuring out how to merge guest and game login IDs.
