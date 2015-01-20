@@ -2569,3 +2569,9 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Tried to write the Liquibase update script.
         * Stuck figuring out how to merge guest and game login IDs.
+
+### 2015-01-19, Monday
+
+* 0.35h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Realized that game & guest logins don't have to be merged: there won't be any game logins at all (yet).
+    * Got the Liquibase update working for HSQL DB (I think), but still have PostgreSQL issues to resolve.
