@@ -2581,3 +2581,10 @@ This file should never be committed along with other files; it should always be 
 * 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * The PostgreSQL issues look like a Liquibase bug.
     * Tried updating to the latest Liquibase version, but that causes compilation issues. Need to resolve those and see what happens.
+
+### 2015-01-21, Wednesday
+
+* 0.25h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Fixed the problem that was causing PostgreSQL failures.
+    * Ran a build, turned up all kinds of problems.
+    * Still need to add comments to the Liquibase changes.
