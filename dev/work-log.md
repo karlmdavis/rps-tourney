@@ -2588,3 +2588,10 @@ This file should never be committed along with other files; it should always be 
     * Fixed the problem that was causing PostgreSQL failures.
     * Ran a build, turned up all kinds of problems.
     * Still need to add comments to the Liquibase changes.
+
+### 2015-01-24, Saturday
+
+* Got slammed with work and traveling to San Antonio on Thursday, and forgot to work on this.
+* Was too busy and tired from PAX South yesterday to even think about it.
+* 0.2h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Cleaned up the Liquibase change log a bit.
