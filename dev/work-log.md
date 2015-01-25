@@ -2595,3 +2595,8 @@ This file should never be committed along with other files; it should always be 
 * Was too busy and tired from PAX South yesterday to even think about it.
 * 0.2h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Cleaned up the Liquibase change log a bit.
+
+### 2015-01-25, Sunday
+
+* 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got the build passing again. Was just more problems with the Liquibase change sets.
