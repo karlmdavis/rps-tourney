@@ -1,26 +1,16 @@
 package com.justdavis.karl.rpstourney.service.api.auth.game;
 
 import javax.mail.internet.InternetAddress;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.threeten.bp.Instant;
-
+import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserType;
-import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
@@ -35,38 +25,14 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * required.
  * </p>
  * <p>
- * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
- * specified in the <code>META-INF/orm.xml</code> file.
+ * This class supports JPA.
  * </p>
  */
 @Entity
 @Table(name = "`GameLoginIdentities`")
-public class GameLoginIdentity implements ILoginIdentity {
-	/*
-	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
-	 * https://hibernate.atlassian.net/browse/HHH-9430.
-	 */
-	/*
-	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
-	 * https://hibernate.atlassian.net/browse/HHH-9431.
-	 */
-	@Id
-	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "GameLoginIdentities_id_seq")
-	@SequenceGenerator(name = "GameLoginIdentities_id_seq", sequenceName = "gameloginidentities_id_seq")
-	private long id;
-
-	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "`accountId`")
-	private Account account;
-
-	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
-	@XmlElement
-	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
-	private Instant createdTimestamp;
-
+@PrimaryKeyJoinColumn(name="`id`", referencedColumnName="`id`")
+public class GameLoginIdentity extends AbstractLoginIdentity implements
+		ILoginIdentity {
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
 	@Column(name = "`emailAddress`", unique = true, nullable = false)
 	private InternetAddress emailAddress;
@@ -86,8 +52,8 @@ public class GameLoginIdentity implements ILoginIdentity {
 	 */
 	public GameLoginIdentity(Account account, InternetAddress emailAddress,
 			String passwordHash) {
-		this.account = account;
-		this.createdTimestamp = Instant.now();
+		super(account);
+
 		this.emailAddress = emailAddress;
 		this.passwordHash = passwordHash;
 	}
@@ -106,50 +72,6 @@ public class GameLoginIdentity implements ILoginIdentity {
 	@Override
 	public LoginProvider getLoginProvider() {
 		return LoginProvider.GAME;
-	}
-
-	/**
-	 * @return <code>true</code> if this {@link GameLoginIdentity} has been
-	 *         assigned an ID (which it should if it's been persisted),
-	 *         <code>false</code> if it has not
-	 */
-	public boolean hasId() {
-		return id > 0;
-	}
-
-	/**
-	 * <p>
-	 * Returns the unique integer that identifies and represents this
-	 * {@link GameLoginIdentity} instance.
-	 * </p>
-	 * <p>
-	 * This value will be assigned by JPA when the {@link Entity} is persisted.
-	 * Until then, this value should not be accessed.
-	 * </p>
-	 * 
-	 * @return the unique integer that identifies and represents this
-	 *         {@link GameLoginIdentity} instance
-	 */
-	public long getId() {
-		if (!hasId())
-			throw new IllegalStateException("Field value not yet available.");
-
-		return id;
-	}
-
-	/**
-	 * @see com.justdavis.karl.rpstourney.webservice.auth.ILoginIdentity#getAccount()
-	 */
-	@Override
-	public Account getAccount() {
-		return account;
-	}
-
-	/**
-	 * @return the date-time that this {@link GameLoginIdentity} was created
-	 */
-	public Instant getCreatedTimestamp() {
-		return createdTimestamp;
 	}
 
 	/**

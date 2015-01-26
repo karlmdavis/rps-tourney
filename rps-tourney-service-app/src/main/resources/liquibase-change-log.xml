@@ -161,4 +161,61 @@
 
 	</changeSet>
 
+	<changeSet id="3" author="karlmdavis">
+
+		<!-- A new AbstractLoginIdentity base class was created for GameLoginIdentity 
+			and GuestLoginIdentity. As the webapp didn't yet support creating game logins, 
+			we truncate that table, and copy all guest login IDs into the new "base" 
+			table. -->
+
+		<!-- Note, though, that this is right around where I realized that guest 
+			logins don't actually have any non-base data associated with them. I need 
+			to think about it some still, but they probably ought to have the AuthTokens, 
+			rather than those being associated directly with Accounts. -->
+
+		<!-- Create the new base table. -->
+		<createTable tableName="LoginIdentities">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
+				startWith="1">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="accountId" type="bigint">
+				<constraints nullable="false" foreignKeyName="LoginIdentitiesToAccounts"
+					referencedTableName="Accounts" />
+			</column>
+			<column name="createdTimestamp" type="timestamp">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<!-- Create base logins for each pre-existing guest login. -->
+		<sql dbms="hsqldb, postgresql">
+			INSERT INTO "LoginIdentities" ("id", "accountId", "createdTimestamp")
+				SELECT "id", "accountId", '2015-01-19 12:00:00 America/New_York'
+				FROM "GuestLoginIdentities";
+		</sql>
+		
+		<!-- Update the guest logins table to work with the new base table. -->		
+		<addForeignKeyConstraint constraintName="GuestLoginIdentitiesIdToLoginIdentitiesId" referencedTableName="LoginIdentities" baseColumnNames="id" baseTableName="GuestLoginIdentities" referencedColumnNames="id" />
+		<dropAllForeignKeyConstraints baseTableName="GuestLoginIdentities" />
+		<dropColumn tableName="GuestLoginIdentities" columnName="accountId" />
+
+		<!-- Update the game logins table to work with the new base table. -->
+		<sql dbms="hsqldb, postgresql">
+			DELETE FROM "GameLoginIdentities";
+		</sql>
+		<addForeignKeyConstraint constraintName="GameLoginIdentitiesIdToLoginIdentitiesId" referencedTableName="LoginIdentities" baseColumnNames="id" baseTableName="GameLoginIdentities" referencedColumnNames="id" />
+		<dropColumn tableName="GameLoginIdentities" columnName="accountId" />
+		<dropColumn tableName="GameLoginIdentities" columnName="createdTimestamp" />
+		
+	</changeSet>
+
+	<changeSet id="4" author="karlmdavis" dbms="postgresql">
+
+		<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9430 
+			and https://hibernate.atlassian.net/browse/HHH-9431. -->
+		<createSequence sequenceName="loginidentities_id_seq" />
+
+	</changeSet>
+
 </databaseChangeLog>

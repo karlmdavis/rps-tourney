@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import org.threeten.bp.Instant;
 
 /**
  * <p>
@@ -30,6 +31,11 @@ public interface ILoginIdentity {
 	 *         {@link ILoginIdentity} instance
 	 */
 	Account getAccount();
+
+	/**
+	 * @return the date-time that this {@link ILoginIdentity} was created
+	 */
+	Instant getCreatedTimestamp();
 
 	/**
 	 * @return the {@link LoginProvider} associated with this
