@@ -2600,3 +2600,11 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Got the build passing again. Was just more problems with the Liquibase change sets.
+
+### 2015-01-26, Monday
+
+* 1.0h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Cleaned up and committed:
+        * The Liquibase version update in `jessentials-misc`.
+        * The creation, etc. of `AbstractLoginIdentity`.
+    * Implemented the DAO and web service method to return the logins. Web service method failing its IT, though.
