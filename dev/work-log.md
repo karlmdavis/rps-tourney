@@ -2608,3 +2608,9 @@ This file should never be committed along with other files; it should always be 
         * The Liquibase version update in `jessentials-misc`.
         * The creation, etc. of `AbstractLoginIdentity`.
     * Implemented the DAO and web service method to return the logins. Web service method failing its IT, though.
+
+### 2015-01-27, Tuesday
+
+* 1.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Created the `LoginIdentities` JAXB wrapper class.
+    * Need to update the web service to use it.
