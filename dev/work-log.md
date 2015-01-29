@@ -2614,3 +2614,8 @@ This file should never be committed along with other files; it should always be 
 * 1.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Created the `LoginIdentities` JAXB wrapper class.
     * Need to update the web service to use it.
+
+### 2015-01-28, Wednesday
+
+* 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got `IAccountsResource.getLogins()` implemented and working.
