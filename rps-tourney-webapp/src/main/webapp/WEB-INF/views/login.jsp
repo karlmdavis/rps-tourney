@@ -52,6 +52,6 @@
 			<button type="submit"><spring:message code="login.submit" /></button>
 		</form>
 		<p>
-			<spring:message code="login.register.prefix" /><a href="${baseUrl}/register"><spring:message code="login.register.link.text" /></a><spring:message code="login.register.suffix" />
+			<spring:message code="login.register.prefix" /><a href="${requestScope['rpstourney.config.baseurl']}/register"><spring:message code="login.register.link.text" /></a><spring:message code="login.register.suffix" />
 		</p>
 </t:basepage>
