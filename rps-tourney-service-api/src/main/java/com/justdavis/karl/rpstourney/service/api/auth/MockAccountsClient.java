@@ -35,4 +35,12 @@ public class MockAccountsClient implements IAccountsResource {
 	public AuthToken selectOrCreateAuthToken() {
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getLogins()
+	 */
+	@Override
+	public LoginIdentities getLogins() {
+		throw new UnsupportedOperationException();
+	}
 }

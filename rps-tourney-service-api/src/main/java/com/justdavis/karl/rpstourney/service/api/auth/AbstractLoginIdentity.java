@@ -52,6 +52,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity {
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
+	@XmlElement
 	protected Account account;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)

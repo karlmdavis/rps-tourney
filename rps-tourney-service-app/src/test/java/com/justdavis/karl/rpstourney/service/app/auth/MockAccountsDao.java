@@ -1,11 +1,13 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 
 /**
  * A mock {@link IAccountsDao} implementation for use in tests. Stores
@@ -85,5 +87,13 @@ public final class MockAccountsDao implements IAccountsDao {
 		account.getAuthTokens().add(authToken);
 
 		return authToken;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getLoginsForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public List<ILoginIdentity> getLoginsForAccount(Account account) {
+		return Collections.emptyList();
 	}
 }

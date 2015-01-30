@@ -29,7 +29,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
  */
 @Entity
 @Table(name = "`GuestLoginIdentities`")
-@PrimaryKeyJoinColumn(name="`id`", referencedColumnName="`id`")
+@PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
 public class GuestLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
 	/**

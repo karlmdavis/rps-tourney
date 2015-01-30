@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.LoginIdentities;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 
 /**
@@ -131,7 +134,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 		// This method doesn't allow for creating new accounts.
 		if (existingAccount == null)
 			throw new ForbiddenException();
-		
+
 		// Needed to prevent AuthTokens from being wiped out by the merge.
 		accountToUpdate.getAuthTokens().addAll(existingAccount.getAuthTokens());
 
@@ -144,6 +147,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#selectOrCreateAuthToken()
 	 */
 	@Override
+	@RolesAllowed({ SecurityRole.ID_USERS })
 	public AuthToken selectOrCreateAuthToken() {
 		Account authenticatedAccount = getAuthenticatedAccount();
 		if (authenticatedAccount == null)
@@ -153,6 +157,21 @@ public class AccountsResourceImpl implements IAccountsResource {
 		AuthToken authToken = accountsDao
 				.selectOrCreateAuthToken(authenticatedAccount);
 		return authToken;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getLogins()
+	 */
+	@Override
+	@RolesAllowed({ SecurityRole.ID_USERS })
+	public LoginIdentities getLogins() {
+		Account authenticatedAccount = getAuthenticatedAccount();
+		if (authenticatedAccount == null)
+			throw new BadCodeMonkeyException("RolesAllowed not working.");
+
+		List<ILoginIdentity> logins = accountsDao
+				.getLoginsForAccount(authenticatedAccount);
+		return new LoginIdentities(logins);
 	}
 
 	/**

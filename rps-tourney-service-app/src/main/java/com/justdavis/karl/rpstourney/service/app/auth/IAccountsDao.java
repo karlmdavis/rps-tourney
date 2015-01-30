@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 
 /**
  * A DAO for {@link Account} and {@link AuthToken} JPA entities.
@@ -65,4 +66,13 @@ public interface IAccountsDao {
 	 *         {@link Account} (or a new one)
 	 */
 	AuthToken selectOrCreateAuthToken(Account account);
+
+	/**
+	 * @param account
+	 *            the {@link Account} to get the {@link ILoginIdentity}s for
+	 * @return the {@link ILoginIdentity}s for the specified {@link Account},
+	 *         ordered by their creation date, ascending, or an empty list, if
+	 *         there are none
+	 */
+	List<ILoginIdentity> getLoginsForAccount(Account account);
 }

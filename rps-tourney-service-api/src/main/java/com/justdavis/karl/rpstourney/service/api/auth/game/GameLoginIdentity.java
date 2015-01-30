@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
@@ -30,14 +32,21 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
  */
 @Entity
 @Table(name = "`GameLoginIdentities`")
-@PrimaryKeyJoinColumn(name="`id`", referencedColumnName="`id`")
+@PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
 public class GameLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
 	@Column(name = "`emailAddress`", unique = true, nullable = false)
+	@XmlElement
 	private InternetAddress emailAddress;
 
+	/*
+	 * This field is marked {@link XmlTransient} to help ensure it's never sent
+	 * off of the server by mistake. Any web services wishing to use it in a
+	 * response will have to do so explicitly.
+	 */
 	@Column(name = "`passwordHash`", nullable = false)
+	@XmlTransient
 	private String passwordHash;
 
 	/**

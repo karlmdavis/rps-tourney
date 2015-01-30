@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.LoginIdentities;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
@@ -130,5 +131,27 @@ public class AccountsClient implements IAccountsResource {
 		cookieStore.remember(response.getCookies());
 
 		return authToken;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getLogins()
+	 */
+	@Override
+	public LoginIdentities getLogins() {
+		Client client = ClientBuilder.newClient();
+		Builder requestBuilder = client.target(config.getServiceRoot())
+				.path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_GET_LOGINS)
+				.request(MediaType.TEXT_XML_TYPE);
+		cookieStore.applyCookies(requestBuilder);
+
+		Response response = requestBuilder.get();
+		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+			throw new HttpClientException(response.getStatusInfo());
+
+		LoginIdentities logins = response.readEntity(LoginIdentities.class);
+		cookieStore.remember(response.getCookies());
+
+		return logins;
 	}
 }

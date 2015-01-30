@@ -1,6 +1,8 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import javax.inject.Inject;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.ws.rs.core.Response.Status;
 
 import org.hamcrest.core.StringContains;
@@ -19,6 +21,7 @@ import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.LoginIdentities;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
@@ -27,6 +30,7 @@ import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
+import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
@@ -167,8 +171,8 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()()}
-	 * works as expected when used with an {@link Account} created via
+	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()} works
+	 * as expected when used with an {@link Account} created via
 	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
 	 */
 	@Test
@@ -189,5 +193,34 @@ public final class AccountsResourceImplIT {
 
 		// Verify the validate results.
 		Assert.assertNotNull(authToken);
+	}
+
+	/**
+	 * Ensures that {@link AccountsResourceImpl#getLogins()} works as expected.
+	 * 
+	 * @throws AddressException
+	 *             (won't happen: email addresses are hardcoded)
+	 */
+	@Test
+	public void getLogins() throws AddressException {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
+
+		// Create the logins and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		guestAuthClient.loginAsGuest();
+		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
+				cookieStore);
+		gameAuthClient.createGameLogin(new InternetAddress("foo@example.com"),
+				"secret");
+
+		// Get the logins.
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+		LoginIdentities logins = accountsClient.getLogins();
+		Assert.assertNotNull(logins);
+		Assert.assertEquals(2, logins.getLogins().size());
 	}
 }

@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.xml.bind.JAXBContext;
@@ -33,8 +36,13 @@ import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlPro
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
+import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.app.SpringConfig;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
+import com.justdavis.karl.rpstourney.service.app.auth.game.GameLoginIdentitiesDaoImpl;
+import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestLoginIdentitiesDaoImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
 /**
@@ -320,6 +328,59 @@ public final class AccountsDaoImplIT {
 				sessionImplementor.getJdbcConnectionAccess().releaseConnection(
 						connection);
 			}
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
+	 * Tests {@link AccountsDaoImpl#getLoginsForAccount(Account)}.
+	 * 
+	 * @throws AddressException
+	 *             (won't happen, as the email addresses are hardcoded)
+	 */
+	@Test
+	public void getLoginsForAccount() throws AddressException {
+		// Create the DAO.
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
+			accountsDao.setEntityManager(entityManager);
+			GuestLoginIdentitiesDaoImpl guestLoginsDao = new GuestLoginIdentitiesDaoImpl();
+			guestLoginsDao.setEntityManager(entityManager);
+			GameLoginIdentitiesDaoImpl gameLoginsDao = new GameLoginIdentitiesDaoImpl();
+			gameLoginsDao.setEntityManager(entityManager);
+
+			// Create and save the entities to test against.
+			Account account1 = new Account();
+			GuestLoginIdentity login1 = new GuestLoginIdentity(account1);
+			GameLoginIdentity login2 = new GameLoginIdentity(account1,
+					new InternetAddress("foo@example.com"), "secret");
+			Account account2 = new Account();
+			GuestLoginIdentity login3 = new GuestLoginIdentity(account2);
+			EntityTransaction tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				accountsDao.save(account1);
+				guestLoginsDao.save(login1);
+				gameLoginsDao.save(login2);
+				accountsDao.save(account2);
+				guestLoginsDao.save(login3);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Try to query for the entities.
+			List<ILoginIdentity> loginsForAccount1 = accountsDao
+					.getLoginsForAccount(account1);
+			Assert.assertEquals(2, loginsForAccount1.size());
+			List<ILoginIdentity> loginsForAccount2 = accountsDao
+					.getLoginsForAccount(account2);
+			Assert.assertEquals(1, loginsForAccount2.size());
 		} finally {
 			entityManager.close();
 		}
