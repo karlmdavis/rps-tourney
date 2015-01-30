@@ -2619,3 +2619,14 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Got `IAccountsResource.getLogins()` implemented and working.
+
+### 2015-01-29, Thursday
+
+* 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Committed the changes put in place to add `IAccountsResource.getLogins()` to the web service.
+    * Spent some time figuring out next steps.
+    * Need to customize the login form to allow for merging accounts.
+        * Looks like I can either:
+            * Add a "login success handler" that processes extra form fields.
+            * Completely reimplement the Spring Security login interceptor.
+        * Not sure which of those two is the right move. Maybe the first one, for now?
