@@ -112,6 +112,9 @@ public final class RequestResponseLoggingInterceptor extends
 				responseRepresentation.append(request.getQueryString());
 			}
 
+			responseRepresentation.append(",status=");
+			responseRepresentation.append(response.getStatus());
+
 			responseRepresentation.append(",headers={");
 			Iterator<String> headerNames = response.getHeaderNames().iterator();
 			while (headerNames.hasNext()) {
