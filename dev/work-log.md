@@ -2630,3 +2630,10 @@ This file should never be committed along with other files; it should always be 
             * Add a "login success handler" that processes extra form fields.
             * Completely reimplement the Spring Security login interceptor.
         * Not sure which of those two is the right move. Maybe the first one, for now?
+
+### 2015-01-30, Friday
+
+* 0.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Tried adding a controller for the login page `GET`.
+        * Doesn't appear to be working. I'd guess it can't work.
+        * Need to look up examples of weird login schemes with Spring Security, to find one that requires a custom controller.
