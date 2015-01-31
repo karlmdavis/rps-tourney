@@ -2637,3 +2637,16 @@ This file should never be committed along with other files; it should always be 
     * Tried adding a controller for the login page `GET`.
         * Doesn't appear to be working. I'd guess it can't work.
         * Need to look up examples of weird login schemes with Spring Security, to find one that requires a custom controller.
+
+### 2015-01-31, Saturday
+
+* 1.5h: [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Something in Spring or Spring Security prevents me from providing a "/login" controller, even if form login is disabled.
+        * Think I finally found an article that discusses this: [Spring 3 and Spring Security: Setting your Own Custom /j_spring_security_check Filter Processes URL](http://mark.koli.ch/spring-3-and-spring-security-setting-your-own-custom-j-spring-security-check-filter-processes-url).
+        * And this article provides an example of Java-based customization of Spring Security filters: [Spring Security Custom FilterChainProxy using Java Configuration](http://shazsterblog.blogspot.com/2014/07/spring-security-custom-filterchainproxy.html).
+    * Here's another problem: the `AuthToken` cookies aren't being cleaned up when users login or register.
+        * Doesn't make much sense for the session to be authenticated for one account, while the requests are carrying around an `AuthToken` for a different account.
+        * And, unfortunately, those `AuthToken` cookies weren't ever being used: Spring Security ignores them if there's an active session.
+        * Just confirmed: they **are** used if the session cookie is removed.
+    * Really not sure which way to go with this...
+        * Need to sit down and first write out how the whole mess should work.
