@@ -2650,3 +2650,16 @@ This file should never be committed along with other files; it should always be 
         * Just confirmed: they **are** used if the session cookie is removed.
     * Really not sure which way to go with this...
         * Need to sit down and first write out how the whole mess should work.
+
+### 2015-01-31, Saturday
+
+* 0.25h (9:37-9:52): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Authentication design:
+        * Accounts are already automatically merged on registration.
+        * Users only need to be offerred the option to merge during sign in.
+            * And the merge option only makes sense if they've signed in to an account different from the guest one.
+        * Perhaps the right way to handle this is to redirect after a successful login when merging is an option.
+            * The login success handler should remove the `AuthToken` cookie if the user logged in with a different account, and if so, also redirect users to the interstitial merge page.
+            * The interstitial page should use request params, rather than form params, so that it plays nice with browser history.
+    * I really ought to rename the login types to "DeviceLogin" and "EmailLogin".
+        * Except that it isn't really a "device" login, as different browsers, different users, etc. don't share it. Hmm...
