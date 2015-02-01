@@ -2651,7 +2651,7 @@ This file should never be committed along with other files; it should always be 
     * Really not sure which way to go with this...
         * Need to sit down and first write out how the whole mess should work.
 
-### 2015-01-31, Saturday
+### 2015-02-01, Sunday
 
 * 0.25h (9:37-9:52): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Authentication design:
