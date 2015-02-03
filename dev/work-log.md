@@ -2663,3 +2663,9 @@ This file should never be committed along with other files; it should always be 
             * The interstitial page should use request params, rather than form params, so that it plays nice with browser history.
     * I really ought to rename the login types to "DeviceLogin" and "EmailLogin".
         * Except that it isn't really a "device" login, as different browsers, different users, etc. don't share it. Hmm...
+
+### 2015-02-01, Sunday
+
+* 0.35h (21:25-21:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Stubbed out `GameLoginSuccessHandler` and wrote a very detailed class JavaDoc comment for it.
+        * This comment tweaks the design I laid out yesterday some. Makes things a bit more robust.
