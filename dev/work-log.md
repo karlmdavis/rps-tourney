@@ -2664,7 +2664,7 @@ This file should never be committed along with other files; it should always be 
     * I really ought to rename the login types to "DeviceLogin" and "EmailLogin".
         * Except that it isn't really a "device" login, as different browsers, different users, etc. don't share it. Hmm...
 
-### 2015-02-01, Sunday
+### 2015-02-02, Monday
 
 * 0.35h (21:25-21:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Stubbed out `GameLoginSuccessHandler` and wrote a very detailed class JavaDoc comment for it.
