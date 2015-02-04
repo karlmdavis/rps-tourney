@@ -2669,3 +2669,8 @@ This file should never be committed along with other files; it should always be 
 * 0.35h (21:25-21:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Stubbed out `GameLoginSuccessHandler` and wrote a very detailed class JavaDoc comment for it.
         * This comment tweaks the design I laid out yesterday some. Makes things a bit more robust.
+
+### 2015-02-03, Tuesday
+
+* ?h (23:55-?): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Starting to flesh out `GameLoginSuccessHandler`...
