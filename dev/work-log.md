@@ -2680,3 +2680,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.4h (22:15-22:39): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Fleshed out `GameLoginSuccessHandler` some more. Stopped at an awkward spot. Oh well.
+
+### 2015-02-05, Thursday
+
+* 0.3h (22:12-22:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Fleshed out `GameLoginSuccessHandler` some more. Decent progress.
