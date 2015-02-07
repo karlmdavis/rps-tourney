@@ -2685,3 +2685,14 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h (22:12-22:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Fleshed out `GameLoginSuccessHandler` some more. Decent progress.
+
+### 2015-02-06, Friday
+
+* 0.4h (22:49-23:13): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Okay, I just figured out a reason for `AuthToken`s to be separate from guest logins:
+        * Authenticating with a game login sets an `AuthToken` cookie.
+        * That's how the web service clients actually *stay* authenticated.
+    * This will force me to rejigger my design a bit.
+        * The `GameLoginAuthenticationProvider` will have to grab the "old" `AuthToken` and save it in a cookie to allow for merging it later.
+        * In fact, I really don't even need `GameLoginSuccessHandler` at all: that functionality can all be handled in the auth provider.
+    * Stopped partway into fixing that.
