@@ -2696,3 +2696,8 @@ This file should never be committed along with other files; it should always be 
         * The `GameLoginAuthenticationProvider` will have to grab the "old" `AuthToken` and save it in a cookie to allow for merging it later.
         * In fact, I really don't even need `GameLoginSuccessHandler` at all: that functionality can all be handled in the auth provider.
     * Stopped partway into fixing that.
+
+### 2015-02-07, Saturday
+
+* 0.25h (23:15-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got things implemented a bit further.
