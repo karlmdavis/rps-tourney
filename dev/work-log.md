@@ -2708,5 +2708,10 @@ This file should never be committed along with other files; it should always be 
     * Oh, for crying out loud: there's no simple way to inject the `HttpServletResponse` in non-controller beans with Spring MVC.
         * Now I'm back to needing the auth success handler.
         * Except I'm not sure that I have any way to pass the previous login to it...
-    * Wandered across the randomcool article on stateless authentication with Spring Security: [Spring Security - Stateless Cookie Based Authentication with Java Config](http://sleeplessinslc.blogspot.com/2012/02/spring-security-stateless-cookie-based.html).
+    * Wandered across this random and cool article on stateless authentication with Spring Security: [Spring Security - Stateless Cookie Based Authentication with Java Config](http://sleeplessinslc.blogspot.com/2012/02/spring-security-stateless-cookie-based.html).
         * Might be useful in the future.
+
+### 2015-02-09, Monday
+
+* 0.75h (21:11-21:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got `GameLoginSuccessHandler` mostly implemented. I think. Provided I don't end up having to throw out the design. Again.
