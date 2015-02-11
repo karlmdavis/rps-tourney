@@ -2715,3 +2715,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.75h (21:11-21:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Got `GameLoginSuccessHandler` mostly implemented. I think. Provided I don't end up having to throw out the design. Again.
+
+### 2015-02-10, Tuesday
+
+* 0.15h (20:31-20:41): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Finished implementing `GameLoginSuccessHandler`. (Hopefully.)
+    * Next up: Need to redirect users to the account page, and add "merge device history" controls to it.
