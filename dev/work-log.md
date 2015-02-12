@@ -2728,6 +2728,14 @@ This file should never be committed along with other files; it should always be 
     * Got the redirection working, and wired up the `GameLoginSuccessHandler` to actually run.
     * Spent some time trying to test things, but the behavior seems to be way off.
         * Not seeing `AuthToken` cookies.
+            * In FF, I only checked this when registering (which wouldn't set them, right now). Should check anon logins, too.
         * Oddities in Chrome:
             * Can't set player name in games.
             * After starting an anonymous game, the "Sign In" button is still displayed. Auth isn't working in Chrome?
+
+### 2015-02-12, Thursday
+
+* 1.0h (6:13-7:14): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Spent a lot of time trying to figure out what the problem is.
+    * Chrome **definitely** was not handled the `JSESSIONID` cookies as expected. Spent some time fixing that.
+    * Still isn't working correctly after that, though.
