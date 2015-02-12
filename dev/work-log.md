@@ -2721,3 +2721,13 @@ This file should never be committed along with other files; it should always be 
 * 0.15h (20:31-20:41): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Finished implementing `GameLoginSuccessHandler`. (Hopefully.)
     * Next up: Need to redirect users to the account page, and add "merge device history" controls to it.
+
+### 2015-02-11, Wednesday
+
+* 0.5h (20:40-21:10): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got the redirection working, and wired up the `GameLoginSuccessHandler` to actually run.
+    * Spent some time trying to test things, but the behavior seems to be way off.
+        * Not seeing `AuthToken` cookies.
+        * Oddities in Chrome:
+            * Can't set player name in games.
+            * After starting an anonymous game, the "Sign In" button is still displayed. Auth isn't working in Chrome?
