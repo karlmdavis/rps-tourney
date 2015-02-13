@@ -2737,5 +2737,14 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h (6:13-7:14): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
     * Spent a lot of time trying to figure out what the problem is.
-    * Chrome **definitely** was not handled the `JSESSIONID` cookies as expected. Spent some time fixing that.
-    * Still isn't working correctly after that, though.
+    * Chrome **definitely** was not handling the `JSESSIONID` cookies as expected. Spent some time fixing that.
+    * The game still isn't working correctly after that, though.
+    * Just noticed: seems to work, at least better, in production.
+
+### 2015-02-13, Friday
+
+* 0.5h (15:53-15:23): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Still not sure what's going on, but have learned a bit more:
+        * Enabled Tomcat session logging, and it looks like the browser sessions are getting expired **very** quickly.
+        * The default `SessionCookieConfig` for Tomcat doesn't set a max age, so cookies are session-based rather than persistent.
+        * Things are working correctly in Firefox still. Perhaps the `AuthToken` cookie is saving the day for me there? (Since FF accepts cookies with a `localhost` domain.)
