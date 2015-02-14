@@ -2748,3 +2748,18 @@ This file should never be committed along with other files; it should always be 
         * Enabled Tomcat session logging, and it looks like the browser sessions are getting expired **very** quickly.
         * The default `SessionCookieConfig` for Tomcat doesn't set a max age, so cookies are session-based rather than persistent.
         * Things are working correctly in Firefox still. Perhaps the `AuthToken` cookie is saving the day for me there? (Since FF accepts cookies with a `localhost` domain.)
+
+### 2015-02-14, Saturday
+
+* 1.35h (8:28-9:49): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Tried disabling the `AuthToken` cookie, to see what happens in FF. I end up with the same behavior as in FF.
+    * Watching the Tomcat session log, it seems to be expiring sessions almost immediately.
+        * I was misreading that, actually. It's just *checking* for sessions to expire, but is not finding any.
+    * Found the bug! The guest login manager, `DefaultGuestLoginManager`, was creating Spring Security `Authentication` instances, but was never applying them to the user's session.
+        * The only reason this was ever working is that redirect requests were picking up the `AuthToken` cookie, and the `CustomRememberMeServices` *was* authenticating the session correctly.
+        * Added some unit test coverage. Should probably also add FF and Chrome to the ITs, but... that will just make them a whole lot more obnoxious to run.
+    * Next steps:
+        * File a separate issue for adding browsers to the ITs.
+        * Finish fixing the compile errors in the tests.
+        * Add tests for `CookiesUtils` that ensure the cookie security properties are correct.
+        * Add tests for `GameLoginSuccessHandler`... possibly.
