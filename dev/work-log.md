@@ -2763,3 +2763,10 @@ This file should never be committed along with other files; it should always be 
         * Finish fixing the compile errors in the tests.
         * Add tests for `CookiesUtils` that ensure the cookie security properties are correct.
         * Add tests for `GameLoginSuccessHandler`... possibly.
+
+### 2015-02-15, Sunday
+ 
+* 0.4h (15:13-15:36): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Got the compile errors fixed in Eclipse, ran a build, and fixed a couple of compile errors that turned up.
+        * Hadn't run a build on the command line since 2015-01-25. Interesting.
+        * Still have some test failures from there to fix: `SessionCookieConfiguratorTest`.
