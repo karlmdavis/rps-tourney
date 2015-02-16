@@ -2770,3 +2770,8 @@ This file should never be committed along with other files; it should always be 
     * Got the compile errors fixed in Eclipse, ran a build, and fixed a couple of compile errors that turned up.
         * Hadn't run a build on the command line since 2015-01-25. Interesting.
         * Still have some test failures from there to fix: `SessionCookieConfiguratorTest`.
+
+### 2015-02-16, Monday
+ 
+* 0.15h (11:16-11:26): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Got the build passing.
