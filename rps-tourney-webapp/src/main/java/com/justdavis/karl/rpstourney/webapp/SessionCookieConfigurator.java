@@ -1,9 +1,8 @@
 package com.justdavis.karl.rpstourney.webapp;
 
-import java.net.URL;
-
 import javax.servlet.ServletContext;
 import javax.servlet.SessionCookieConfig;
+import javax.servlet.http.Cookie;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
 import com.justdavis.karl.rpstourney.webapp.config.IConfigLoader;
+import com.justdavis.karl.rpstourney.webapp.util.CookiesUtils;
 
 /**
  * This class is responsible for configuring the application's
@@ -76,19 +76,23 @@ public final class SessionCookieConfigurator {
 					.getBean(IConfigLoader.class);
 			AppConfig appConfig = configLoader.getConfig();
 
-			// Grab the app's base URL and split it into domain and path.
-			URL baseUrl = appConfig.getBaseUrl();
-			String domain = baseUrl.getHost();
-			String path = baseUrl.getPath().isEmpty() ? "/" : baseUrl.getPath();
+			// Compute the security properties to use.
+			Cookie fakeCookie = new Cookie("fake", "");
+			CookiesUtils.applyCookieSecurityProperties(fakeCookie, appConfig);
 
 			// Configure the SessionCookieConfig.
 			SessionCookieConfig sessionCookieConfig = servletContext
 					.getSessionCookieConfig();
-			sessionCookieConfig.setDomain(domain);
-			sessionCookieConfig.setPath(path);
+			sessionCookieConfig.setHttpOnly(fakeCookie.isHttpOnly());
+			sessionCookieConfig.setDomain(fakeCookie.getDomain());
+			sessionCookieConfig.setPath(fakeCookie.getPath());
+			sessionCookieConfig.setSecure(fakeCookie.getSecure());
 
-			LOGGER.warn("Session cookies configured: domain='{}', path='{}'",
-					domain, path);
+			LOGGER.info(
+					"Session cookies configured: secure={}, domain='{}', path='{}'",
+					sessionCookieConfig.isSecure(),
+					sessionCookieConfig.getDomain(),
+					sessionCookieConfig.getPath());
 		} finally {
 			if (springContext != null)
 				springContext.close();

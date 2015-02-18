@@ -26,12 +26,15 @@ import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
+import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
+import com.justdavis.karl.rpstourney.webapp.util.CookiesUtils;
 
 /**
  * <p>
@@ -75,12 +78,15 @@ public class CustomRememberMeServices implements RememberMeServices {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CustomRememberMeServices.class);
 
+	private final AppConfig appConfig;
 	private final CookieStore serviceClientCookieStore;
 	private final IAccountsResource accountsClient;
 
 	/**
 	 * Constructs a new {@link CustomRememberMeServices} instance.
 	 * 
+	 * @param the
+	 *            {@link AppConfig} for the application
 	 * @param serviceClientCookieStore
 	 *            the injected {@link CookieStore} for all web service clients
 	 *            (session scoped)
@@ -88,8 +94,10 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *            the injected {@link AccountsClient} to use
 	 */
 	@Inject
-	public CustomRememberMeServices(CookieStore serviceClientCookieStore,
+	public CustomRememberMeServices(AppConfig appConfig,
+			CookieStore serviceClientCookieStore,
 			IAccountsResource accountsClient) {
+		this.appConfig = appConfig;
 		this.serviceClientCookieStore = serviceClientCookieStore;
 		this.accountsClient = accountsClient;
 	}
@@ -110,7 +118,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 		 */
 
 		// Grab the cookie (if any).
-		Cookie rememberMeCookie = extractCookie(request);
+		Cookie rememberMeCookie = CookiesUtils.extractCookie(COOKIE_NAME,
+				request);
 		if (rememberMeCookie == null) {
 			LOGGER.trace("Request had no auth token.");
 			return null;
@@ -163,7 +172,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 				LOGGER.warn(String.format(
 						"Invalid remember me token '%s' on request '%s'.",
 						rememberMeValue, request));
-				cancelCookie(request, response);
+				CookiesUtils.cancelCookie(COOKIE_NAME, response);
 				return null;
 			}
 
@@ -186,44 +195,6 @@ public class CustomRememberMeServices implements RememberMeServices {
 		auth.setDetails(AUTH_DETAILS_BUILDER.buildDetails(request));
 
 		return auth;
-	}
-
-	/**
-	 * @param request
-	 *            the {@link HttpServletRequest} to extract the "remember me"
-	 *            {@link Cookie} from
-	 * @return the "remember me" {@link Cookie} in the specified
-	 *         {@link HttpServletRequest}, or <code>null</code> if no such
-	 *         {@link Cookie} is present
-	 */
-	private Cookie extractCookie(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null || cookies.length <= 0)
-			return null;
-
-		for (Cookie cookie : cookies)
-			if (cookie.getName().equals(COOKIE_NAME))
-				return cookie;
-
-		return null;
-	}
-
-	/**
-	 * Cancels any "remember me" cookies for the client that made the request,
-	 * by including a new expired version of the cookie in the response.
-	 * 
-	 * @param request
-	 *            the {@link HttpServletRequest} to cancel the cookie for
-	 * @param response
-	 *            the {@link HttpServletResponse} to cancel the cookie in
-	 */
-	private void cancelCookie(HttpServletRequest request,
-			HttpServletResponse response) {
-		Cookie cancellationCookie = new Cookie(COOKIE_NAME, null);
-		cancellationCookie.setMaxAge(0);
-		cancellationCookie.setPath("/");
-
-		response.addCookie(cancellationCookie);
 	}
 
 	/**
@@ -312,17 +283,37 @@ public class CustomRememberMeServices implements RememberMeServices {
 		/*
 		 * Convert the CookieStore's JAX-RS cookie into a servlet API cookie.
 		 */
-		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME,
-				serviceClientAuthTokenCookie.getValue());
-		servletResponseAuthTokenCookie.setVersion(0);
-		servletResponseAuthTokenCookie.setSecure(request.isSecure());
-		servletResponseAuthTokenCookie.setHttpOnly(true);
-		servletResponseAuthTokenCookie.setDomain(request.getServerName());
-		servletResponseAuthTokenCookie.setPath("/");
-		int maxAge = 60 * 60 * 24 * 365 * 1;
-		servletResponseAuthTokenCookie.setMaxAge(maxAge);
+		Cookie servletResponseAuthTokenCookie = createRememberMeCookie(
+				appConfig, request, serviceClientAuthTokenCookie.getValue());
 
 		// Add the cookie to the response.
 		response.addCookie(servletResponseAuthTokenCookie);
+	}
+
+	/**
+	 * @param appConfig
+	 *            the {@link AppConfig} for the application
+	 * @param request
+	 *            the {@link HttpServletRequest} that the {@link Cookie} is
+	 *            being created in response to
+	 * @param authTokenCookieValue
+	 *            the {@link AuthToken#getToken()} value to be stored in the
+	 *            cookie, for the user it will help authenticate
+	 * @return the "remember me" cookie used by this application, which
+	 *         basically just contains the same {@link AuthToken} as is used by
+	 *         the web service clients
+	 */
+	static Cookie createRememberMeCookie(AppConfig appConfig,
+			HttpServletRequest request, String authTokenCookieValue) {
+		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME,
+				authTokenCookieValue);
+
+		servletResponseAuthTokenCookie.setVersion(0);
+		CookiesUtils.applyCookieSecurityProperties(
+				servletResponseAuthTokenCookie, appConfig);
+		int maxAge = 60 * 60 * 24 * 365 * 1;
+		servletResponseAuthTokenCookie.setMaxAge(maxAge);
+
+		return servletResponseAuthTokenCookie;
 	}
 }

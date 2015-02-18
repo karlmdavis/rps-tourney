@@ -40,7 +40,7 @@ public final class AuthTokenCookieHelper {
 	}
 
 	/**
-	 * @param authToken
+	 * @param authTokenValue
 	 *            the {@link AuthToken#getToken()} value to create the
 	 *            {@link NewCookie} for
 	 * @param requestUri

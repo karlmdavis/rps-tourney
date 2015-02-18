@@ -43,6 +43,9 @@ public final class DefaultGuestLoginManagerTest {
 		DefaultGuestLoginManager loginManager = new DefaultGuestLoginManager(
 				securityHolder, guestAuthClient, rememberMeServices);
 		loginManager.loginClientAsGuest(mockRequest, mockResponse);
+		Assert.assertNotNull(securityHolder.getContext().getAuthentication());
+		Assert.assertEquals(mockAccount, securityHolder.getContext()
+				.getAuthentication().getPrincipal());
 		Assert.assertNotNull(rememberMeServices.successfulAuthentication);
 		Assert.assertEquals(mockAccount,
 				rememberMeServices.successfulAuthentication.getPrincipal());

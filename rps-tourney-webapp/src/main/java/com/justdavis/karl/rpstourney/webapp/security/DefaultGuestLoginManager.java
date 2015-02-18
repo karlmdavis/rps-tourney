@@ -60,8 +60,11 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 
 		// Login via the web service using the client.
 		Account guestAccount = guestAuthClient.loginAsGuest();
+
+		// Create a webapp Authentication object and apply it.
 		Authentication guestAuth = new WebServiceAccountAuthentication(
 				guestAccount);
+		securityContextStrategy.getContext().setAuthentication(guestAuth);
 
 		/*
 		 * Take the login and use it to "turn on" the remember-me feature of

@@ -1,7 +1,9 @@
 package com.justdavis.karl.rpstourney.webapp.security;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -25,6 +27,7 @@ import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
+import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
 
 /**
  * Unit tests for {@link CustomRememberMeServices}.
@@ -34,10 +37,15 @@ public final class CustomerRememberMeServicesTest {
 	 * Tests
 	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
 	 * on requests with no authentication token.
+	 * 
+	 * @throws MalformedURLException
+	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
 	@Test
-	public void autoLogin_noToken() {
+	public void autoLogin_noToken() throws MalformedURLException {
 		// Create the mocks needed for the test.
+		AppConfig appConfig = new AppConfig(new URL("https://example.com/app"),
+				new URL("https://example.com/svc"));
 		CookieStore clientCookies = new CookieStore();
 		HttpServletRequest mockRequest = new MockHttpServletRequest();
 		HttpServletResponse mockResponse = new MockHttpServletResponse();
@@ -45,7 +53,7 @@ public final class CustomerRememberMeServicesTest {
 
 		// Try a login.
 		CustomRememberMeServices rememberMeServices = new CustomRememberMeServices(
-				clientCookies, accountsClient);
+				appConfig, clientCookies, accountsClient);
 		Assert.assertNull(rememberMeServices.autoLogin(mockRequest,
 				mockResponse));
 	}
@@ -54,10 +62,15 @@ public final class CustomerRememberMeServicesTest {
 	 * Tests
 	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
 	 * on requests with an empty authentication token.
+	 * 
+	 * @throws MalformedURLException
+	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
 	@Test
-	public void autoLogin_emptyToken() {
+	public void autoLogin_emptyToken() throws MalformedURLException {
 		// Create the mocks needed for the test.
+		AppConfig appConfig = new AppConfig(new URL("https://example.com/app"),
+				new URL("https://example.com/svc"));
 		CookieStore clientCookies = new CookieStore();
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		mockRequest.setCookies(new Cookie(CustomRememberMeServices.COOKIE_NAME,
@@ -67,7 +80,7 @@ public final class CustomerRememberMeServicesTest {
 
 		// Try a login.
 		CustomRememberMeServices rememberMeServices = new CustomRememberMeServices(
-				clientCookies, accountsClient);
+				appConfig, clientCookies, accountsClient);
 		Assert.assertNull(rememberMeServices.autoLogin(mockRequest,
 				mockResponse));
 	}
@@ -76,10 +89,15 @@ public final class CustomerRememberMeServicesTest {
 	 * Tests
 	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
 	 * on requests with an invalid authentication token.
+	 * 
+	 * @throws MalformedURLException
+	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
 	@Test
-	public void autoLogin_invalidToken() {
+	public void autoLogin_invalidToken() throws MalformedURLException {
 		// Create the mocks needed for the test.
+		AppConfig appConfig = new AppConfig(new URL("https://example.com/app"),
+				new URL("https://example.com/svc"));
 		CookieStore clientCookies = new CookieStore();
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		mockRequest.setCookies(new Cookie(CustomRememberMeServices.COOKIE_NAME,
@@ -98,7 +116,7 @@ public final class CustomerRememberMeServicesTest {
 
 		// Try a login.
 		CustomRememberMeServices rememberMeServices = new CustomRememberMeServices(
-				clientCookies, accountsClient);
+				appConfig, clientCookies, accountsClient);
 		Assert.assertNull(rememberMeServices.autoLogin(mockRequest,
 				mockResponse));
 	}
@@ -107,10 +125,15 @@ public final class CustomerRememberMeServicesTest {
 	 * Tests
 	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
 	 * on requests with a valid authentication token.
+	 * 
+	 * @throws MalformedURLException
+	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
 	@Test
-	public void autoLogin_validToken() {
+	public void autoLogin_validToken() throws MalformedURLException {
 		// Create the mocks needed for the test.
+		AppConfig appConfig = new AppConfig(new URL("https://example.com/app"),
+				new URL("https://example.com/svc"));
 		CookieStore clientCookies = new CookieStore();
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		mockRequest.setCookies(new Cookie(CustomRememberMeServices.COOKIE_NAME,
@@ -130,7 +153,7 @@ public final class CustomerRememberMeServicesTest {
 
 		// Try a login.
 		CustomRememberMeServices rememberMeServices = new CustomRememberMeServices(
-				clientCookies, accountsClient);
+				appConfig, clientCookies, accountsClient);
 		Authentication auth = rememberMeServices.autoLogin(mockRequest,
 				mockResponse);
 		Assert.assertNotNull(auth);
@@ -141,12 +164,16 @@ public final class CustomerRememberMeServicesTest {
 	 * {@link CustomRememberMeServices#loginSuccess(HttpServletRequest, HttpServletResponse, Authentication)}
 	 * saves an authentication cookie as expected.
 	 * 
+	 * @throws MalformedURLException
+	 *             (won't occur, as {@link URL}s are hardcoded)
 	 * @throws URISyntaxException
 	 *             (only hardcoded URIs are used here; won't happen)
 	 */
 	@Test
-	public void loginSuccess() throws URISyntaxException {
+	public void loginSuccess() throws MalformedURLException, URISyntaxException {
 		// Create the mocks needed for the first call.
+		AppConfig appConfig = new AppConfig(new URL("https://example.com/app"),
+				new URL("https://example.com/svc"));
 		CookieStore clientCookies = new CookieStore();
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		mockRequest.setRequestURI("http://example.com/foo");
@@ -163,7 +190,7 @@ public final class CustomerRememberMeServicesTest {
 
 		// Try calling loginSuccess.
 		CustomRememberMeServices rememberMeServices = new CustomRememberMeServices(
-				clientCookies, accountsClient);
+				appConfig, clientCookies, accountsClient);
 		rememberMeServices.loginSuccess(mockRequest, mockResponse, mockAuth);
 
 		// Make sure the response now has the expected cookie.
