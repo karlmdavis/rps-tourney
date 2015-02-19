@@ -2783,3 +2783,8 @@ This file should never be committed along with other files; it should always be 
     * Marked the issue as resolved. Probably a tad premature. Still need to:
         * Add unit tests for `CookiesUtils`.
         * Look through the commit and see if there was anything that should have been cleaned up.
+
+### 2015-02-18, Wednesday
+ 
+* 0.3h (22:30-22:48): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
+    * Started implementing `CookiesUtilsTest`.
