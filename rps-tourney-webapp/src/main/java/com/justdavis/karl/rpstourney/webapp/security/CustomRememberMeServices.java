@@ -85,8 +85,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 	/**
 	 * Constructs a new {@link CustomRememberMeServices} instance.
 	 * 
-	 * @param the
-	 *            {@link AppConfig} for the application
+	 * @param appConfig
+	 *            the {@link AppConfig} for the application
 	 * @param serviceClientCookieStore
 	 *            the injected {@link CookieStore} for all web service clients
 	 *            (session scoped)
