@@ -2794,3 +2794,16 @@ This file should never be committed along with other files; it should always be 
  
 * 0.25h (21:50-22:04): [Issue #76: Users are not signed in as guests when starting a new game in Chromium](https://github.com/karlmdavis/rps-tourney/issues/76):
     * Finished `CookiesUtilsTest`.
+
+### 2015-02-20, Friday
+ 
+* 0.2h (21:16-21:25,23:33-23:40): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Things left to do on this issue:
+        * Test the `GameLoginSuccessHandler` manually.
+        * Ensure that there are unit and integration tests for `GameLoginSuccessHandler`.
+        * Ensure that registration and login set `AuthToken` cookies.
+        * If it's okay for registration to auto-merge anonymous accounts, why isn't the same true for login?
+        * Add "merge device history" controls to the account page.
+    * Tried testing `GameLoginSuccessHandler`: logged in as anon in FF, registered via Chrome, tried to login to game account in FF.
+        * Didn't have a merge cookie, so it appears to not be working.
+        * I'm pretty tired, though, so maybe I'm just missing something.
