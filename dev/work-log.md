@@ -2807,3 +2807,12 @@ This file should never be committed along with other files; it should always be 
     * Tried testing `GameLoginSuccessHandler`: logged in as anon in FF, registered via Chrome, tried to login to game account in FF.
         * Didn't have a merge cookie, so it appears to not be working.
         * I'm pretty tired, though, so maybe I'm just missing something.
+
+### 2015-02-21, Saturday
+ 
+* 0.9h (8:48-9:43): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Starting an anon game and then registering works as expected.
+    * Confirmed yesterday's bug: `GameLoginSuccessHandler` doesn't seem to be running at all.
+        * Fixed this and got it working as expected via manual testing.
+    * Also need to add a logout link somewhere, probably the account page.
+    * Really need to thing about this: If it's okay for registration to auto-merge anonymous accounts, why isn't the same true for login?
