@@ -2815,4 +2815,18 @@ This file should never be committed along with other files; it should always be 
     * Confirmed yesterday's bug: `GameLoginSuccessHandler` doesn't seem to be running at all.
         * Fixed this and got it working as expected via manual testing.
     * Also need to add a logout link somewhere, probably the account page.
-    * Really need to thing about this: If it's okay for registration to auto-merge anonymous accounts, why isn't the same true for login?
+    * Really need to think about this: If it's okay for registration to auto-merge anonymous accounts, why isn't the same true for login?
+
+### 2015-02-22, Sunday
+ 
+* 0.4h (22:05-22:28): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Here's another thought: Ideally, it'd be possible for admins to merge user's accounts.
+        * In order for admins to be able to do this, the DB really ought to track associations between accounts.
+        * For example: "Device with anon account A logged into Account B".
+        * Yeah... I think that, perhaps, tracking this stuff only with a cookie is a poor choice.
+    * Would it be better to store these links in a single-purpose `AccountAssociations` table, or in a more general purpose `AccountEvents` table that can be used for general auditing? Or both?
+        * PostgreSQL 9.3 (the version on `eddings`) has a `json` type, but doesn't really support indexing it.
+        * PostgreSQL 9.4 is only available from the PostgreSQL project's APT repo, not from the default Trusty repos.
+        * I should probably also be tracking `Account` property changes, e.g. when users change thier name.
+    * Need to think about all of this some more...
+    * (No code written tonight. Just spent time thinking through all of the above.)
