@@ -2830,3 +2830,17 @@ This file should never be committed along with other files; it should always be 
         * I should probably also be tracking `Account` property changes, e.g. when users change thier name.
     * Need to think about all of this some more...
     * (No code written tonight. Just spent time thinking through all of the above.)
+
+### 2015-02-23, Monday
+ 
+* 0.5h (22:10-22:41): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Should auditing be done at the DB level or app level?
+        * What auditing events could I actually catch at the DB level? It's not like there's a DB "login" method.
+        * App level, it is.
+    * It's tempting to use JSON to store audit events, because it's just so much simpler right now.
+        * But it makes my IT situation worse, as I'll likely have to upgrade to PostgreSQL 9.4.
+        * And what if the auditing data or schema changes in the future? Migrating all of that will suck a lot more than an explicit SQL schema.
+    * Most of the discussions on the internet seem to revolve around tracking data changes.
+        * But for this application, most data that's changed captures it's own history. For example: game moves.
+    * I think the best option is to make separate `Audit*` tables for each operation I want to track.
+        * This is the only operation that's both performant and provides a realistic schema upgrade path.
