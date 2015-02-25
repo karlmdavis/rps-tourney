@@ -2844,3 +2844,14 @@ This file should never be committed along with other files; it should always be 
         * But for this application, most data that's changed captures it's own history. For example: game moves.
     * I think the best option is to make separate `Audit*` tables for each operation I want to track.
         * This is the only operation that's both performant and provides a realistic schema upgrade path.
+
+### 2015-02-24, Tuesday
+ 
+* 0.25h (21:59-22:15): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * I started creating an `AuditAccountAssociation` class. While writing the JavaDoc for it, I had a thought:
+        * I'm not 100% comfortable with automatically merging accounts on login, because:
+            * Users perhaps didn't intend that to happen.
+            * There's no way to undo it.
+        * But now I'm thinking that, as long as I track the info needed to undo it, I'm actually *mostly* comfortable with doing it automatically.
+        * I think I'll just create an `AuditAccountMerge` class, instead.
+     * Started creating `AuditAccountMerge`.
