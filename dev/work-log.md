@@ -2855,3 +2855,8 @@ This file should never be committed along with other files; it should always be 
         * But now I'm thinking that, as long as I track the info needed to undo it, I'm actually *mostly* comfortable with doing it automatically.
         * I think I'll just create an `AuditAccountMerge` class, instead.
      * Started creating `AuditAccountMerge`.
+
+### 2015-02-25, Wednesday
+ 
+* 0.2h (23:35-23:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on `AuditAccountMerge` a bit more.
