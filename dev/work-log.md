@@ -2860,3 +2860,8 @@ This file should never be committed along with other files; it should always be 
  
 * 0.2h (23:35-23:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on `AuditAccountMerge` a bit more.
+
+### 2015-02-26, Thursday
+ 
+* 0.3h (21:13-21:33): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on `AuditAccountMerge` a bit more. Created `AuditAccountGameMerge`.
