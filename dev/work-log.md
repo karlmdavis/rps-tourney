@@ -2865,3 +2865,10 @@ This file should never be committed along with other files; it should always be 
  
 * 0.3h (21:13-21:33): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on `AuditAccountMerge` a bit more. Created `AuditAccountGameMerge`.
+
+### 2015-02-27, Friday
+ 
+* 0.4h (21:47-22:09): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * During an `Account` merge, should `Player` instances be modified or replaced and then deleted?
+        * Replaced and then deleted. No reason to accumulate extra instances. They'd just end up confusing things.
+    * Think I got the fields for the two new entities worked out.
