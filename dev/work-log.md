@@ -2872,3 +2872,9 @@ This file should never be committed along with other files; it should always be 
     * During an `Account` merge, should `Player` instances be modified or replaced and then deleted?
         * Replaced and then deleted. No reason to accumulate extra instances. They'd just end up confusing things.
     * Think I got the fields for the two new entities worked out.
+
+### 2015-02-28, Saturday
+ 
+* 0.1h (01:40-01:46): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * (Ended up working on the project after midnight, as I got distracted by books earlier in the day. Will fudge the commit times, though.)
+    * Started on the Liquibase changelog updates for the new entities.
