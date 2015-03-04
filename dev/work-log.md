@@ -2889,3 +2889,8 @@ This file should never be committed along with other files; it should always be 
  
 * 0.15h (22:41-22:44,23:30-23:36): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Completed the Liquibase changelog updates for the new entities (didn't test them, though).
+
+### 2015-03-03, Tuesday
+ 
+* 0.35h (21:39-22:00): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Completed the `AuditAccountMerge` and `AuditAccountGameMerge` classes (I think).
