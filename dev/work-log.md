@@ -2894,3 +2894,9 @@ This file should never be committed along with other files; it should always be 
  
 * 0.35h (21:39-22:00): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Completed the `AuditAccountMerge` and `AuditAccountGameMerge` classes (I think).
+
+### 2015-03-04, Wednesday
+ 
+* 0.1h (20:38-20:44): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got the build passing again.
+    * Need to make a "work in progress" commit so that I don't lose my attempt to handle login account merges via cookies-- just in case I end up needing to revisit that idea later.
