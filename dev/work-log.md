@@ -2900,3 +2900,9 @@ This file should never be committed along with other files; it should always be 
 * 0.1h (20:38-20:44): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Got the build passing again.
     * Need to make a "work in progress" commit so that I don't lose my attempt to handle login account merges via cookies-- just in case I end up needing to revisit that idea later.
+
+### 2015-03-05, Thursday
+ 
+* 0.2h (22:10-22:24): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Committed my work-in-progress code that handles merges via a cookie and an account page button (never created the button).
+        * Just want to have it in the history, in case I end up deciding that's actually the right way to go.
