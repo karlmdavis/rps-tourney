@@ -2906,3 +2906,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (22:10-22:24): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Committed my work-in-progress code that handles merges via a cookie and an account page button (never created the button).
         * Just want to have it in the history, in case I end up deciding that's actually the right way to go.
+
+### 2015-03-06, Friday
+ 
+* 0.25h (18:00-18:16): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Stubbed out the `IAccountsResource.mergeFromDifferentAccount(Account)` method.
+    * Updated `GameLoginSuccessHandler` to use it, and updated its JavaDoc, etc. to reflect that new behavior.
