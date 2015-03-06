@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
+import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 
 /**
@@ -26,13 +27,14 @@ public final class GameLoginAuthenticationProviderTest {
 	@Test(expected = BadCredentialsException.class)
 	public void authenticate_failedLogin() {
 		// Create the mocks needed for the test.
+		CookieStore cookies = new CookieStore();
 		IGameAuthResource gameAuthClient = new MockGameAuthClient(null);
 		Authentication auth = new UsernamePasswordAuthenticationToken(
 				"foo@example.com", "secret");
 
 		// Verify the method works correctly (should throw an exception).
 		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				gameAuthClient);
+				cookies, gameAuthClient);
 		authProvider.authenticate(auth);
 	}
 
@@ -44,6 +46,7 @@ public final class GameLoginAuthenticationProviderTest {
 	@Test
 	public void authenticate_successfulLogin() {
 		// Create the mocks needed for the test.
+		CookieStore cookies = new CookieStore();
 		Account account = new Account();
 		IGameAuthResource gameAuthClient = new MockGameAuthClient(account);
 		Authentication auth = new UsernamePasswordAuthenticationToken(
@@ -51,7 +54,7 @@ public final class GameLoginAuthenticationProviderTest {
 
 		// Verify the method works correctly.
 		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				gameAuthClient);
+				cookies, gameAuthClient);
 		Authentication authResult = authProvider.authenticate(auth);
 		Assert.assertNotNull(authResult);
 		Assert.assertEquals(account, authResult.getPrincipal());
@@ -66,8 +69,9 @@ public final class GameLoginAuthenticationProviderTest {
 		IGameAuthResource gameAuthClient = new MockGameAuthClient(null);
 
 		// Verify the method works correctly.
+		CookieStore cookies = new CookieStore();
 		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				gameAuthClient);
+				cookies, gameAuthClient);
 		Assert.assertTrue(authProvider
 				.supports(UsernamePasswordAuthenticationToken.class));
 		Assert.assertFalse(authProvider

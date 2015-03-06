@@ -58,7 +58,15 @@ public class CookieStore implements Externalizable {
 	public void remember(Map<String, NewCookie> cookies) {
 		for (String cookieName : cookies.keySet()) {
 			NewCookie cookie = cookies.get(cookieName);
-			remember(cookie);
+
+			/*
+			 * Empty-valued cookies are used by servers as a
+			 * "please remove this cookie" message.
+			 */
+			if (cookie.getValue() != null && !cookie.getValue().isEmpty())
+				remember(cookie);
+			else
+				forget(cookie.getName());
 		}
 	}
 
@@ -96,6 +104,17 @@ public class CookieStore implements Externalizable {
 		for (NewCookie cookie : cookies.values()) {
 			requestBuilder.cookie(cookie.toCookie());
 		}
+	}
+
+	/**
+	 * Removes any cookies with the specified name from this {@link CookieStore}
+	 * 
+	 * @param cookieName
+	 *            the {@link Cookie#getName()} value for the cookies to be
+	 *            removed
+	 */
+	public void forget(String cookieName) {
+		this.cookies.remove(cookieName);
 	}
 
 	/**

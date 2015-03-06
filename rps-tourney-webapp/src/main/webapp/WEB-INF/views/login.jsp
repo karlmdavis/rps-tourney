@@ -34,6 +34,14 @@
 				<label for="password"><spring:message code="login.password.label" /></label>
 				<input type="password" id="password" name="password" />
 			</div>
+			<c:if test="${accountIsMergeable == true}">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" id="mergeAccount" name="mergeAccount" checked />
+					<spring:message code="login.merge.label" />
+				</label>
+			</div>
+			</c:if>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<c:if test="${param.error != null}">
 			<%--

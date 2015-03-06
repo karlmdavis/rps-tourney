@@ -56,7 +56,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 * The {@link Cookie#getName()} value for the "remember me" cookie used by
 	 * this class.
 	 */
-	static final String COOKIE_NAME = "AuthToken";
+	static final String COOKIE_NAME = AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN;
 
 	/**
 	 * <p>

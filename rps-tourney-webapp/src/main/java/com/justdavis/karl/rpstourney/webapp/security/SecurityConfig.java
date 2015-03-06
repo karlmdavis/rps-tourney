@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
@@ -51,6 +52,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Inject
 	private GameLoginAuthenticationProvider gameLoginAuthProvider;
+
+	/**
+	 * The {@link AuthenticationSuccessHandler} for {@link IGameAuthResource}
+	 * logins.
+	 */
+	@Inject
+	private GameLoginSuccessHandler gameLoginSuccessHandler;
 
 	/**
 	 * The {@link RememberMeServices} implementation to be used. (note that
@@ -115,10 +123,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * games across multiple devices), the anonymous accounts can be
 		 * "merged" into the new username+password accounts.
 		 */
-
+		gameLoginSuccessHandler.setDefaultTargetUrl("/account");
 		http
 			.formLogin()
 				.loginPage("/login")
+				.successHandler(gameLoginSuccessHandler)
 				.and()
 			.logout()
 				.and()
