@@ -2922,3 +2922,8 @@ This file should never be committed along with other files; it should always be 
  
 * 0.5h (21:53-22:21): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Whoops. Had to redesign the web service method's signature. It's now `IAccountsResource.mergeAccount(long, UUID)`. 
+
+### 2015-03-09, Monday
+ 
+* 0.3h (20:21-20:38): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * (Re-)Implemented the client method.
