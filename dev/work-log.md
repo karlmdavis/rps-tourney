@@ -2927,3 +2927,9 @@ This file should never be committed along with other files; it should always be 
  
 * 0.3h (20:21-20:38): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * (Re-)Implemented the client method.
+
+### 2015-03-10, Tuesday
+ 
+* 0.4h (20:18-20:40): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+    * Need to add an `IAccountsResource.isAccountAnonymous()` method.
