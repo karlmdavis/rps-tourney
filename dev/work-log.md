@@ -2951,3 +2951,11 @@ This file should never be committed along with other files; it should always be 
         * Need to review it, but I think the service implementation is complete, excepting all of the methods it needs that don't yet exist.
         * Should probably write an IT for it first, given how stupidly complex it is.
         * Also need to go through and add some detailed comments, and perhaps restructure things some.
+
+### 2015-03-14, Saturday
+
+* 0.15h (00:30-00:38): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * (Ended up working on the project after midnight, as I spent most of the day reading. Will fudge the commit times to earlier, though.)
+    * Worked on the server-side implementation.
+        * Reviewed the code, finding and fixing a security bug in the process.
+        * Tweaked some little stuff.
