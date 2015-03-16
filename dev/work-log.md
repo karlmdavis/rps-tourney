@@ -2959,3 +2959,9 @@ This file should never be committed along with other files; it should always be 
     * Worked on the server-side implementation.
         * Reviewed the code, finding and fixing a security bug in the process.
         * Tweaked some little stuff.
+
+### 2015-03-15, Sunday
+
+* 0.15h (20:35-20:44): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Reviewed the code again, found and fixed some more bugs.
