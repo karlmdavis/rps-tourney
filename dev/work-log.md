@@ -2971,3 +2971,8 @@ This file should never be committed along with other files; it should always be 
 * 0.1h (21:23-21:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on the server-side implementation.
         * Started implementing some of the missing JPA stuff.
+
+### 2015-03-17, Tuesday
+
+* 0.15h (21:18-21:21,21:51-21:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
