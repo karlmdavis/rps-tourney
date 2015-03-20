@@ -2976,3 +2976,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h (21:18-21:21,21:51-21:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on the server-side implementation.
+
+### 2015-03-19, Thursday
+
+* Forgot to work on this yesterday. No real reason... just got distracted.
+* 0.2h (22:10-22:22): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
