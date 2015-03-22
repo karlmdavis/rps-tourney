@@ -2983,7 +2983,15 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (22:10-22:22): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on the server-side implementation.
 
-### 2015-03-19, Friday
+### 2015-03-20, Friday
 
 * 0.1h (23:05-23:10): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on the server-side implementation.
+
+### 2015-03-21, Saturday
+
+* 0.2h (22:59-23:10): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Fixed the last of the compile errors.
+        * Verified that Tomcat still launches, and the webapp's home page works (didn't test further than that).
+        * Ran a build, and encountered some errors there that will need to be fixed.
