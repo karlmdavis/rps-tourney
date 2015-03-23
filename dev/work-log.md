@@ -2995,3 +2995,8 @@ This file should never be committed along with other files; it should always be 
         * Fixed the last of the compile errors.
         * Verified that Tomcat still launches, and the webapp's home page works (didn't test further than that).
         * Ran a build, and encountered some errors there that will need to be fixed.
+
+### 2015-03-21, Saturday
+
+* ?h (21:00-21:06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got buils passing ahain.
