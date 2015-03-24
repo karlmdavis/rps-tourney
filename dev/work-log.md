@@ -2996,7 +2996,15 @@ This file should never be committed along with other files; it should always be 
         * Verified that Tomcat still launches, and the webapp's home page works (didn't test further than that).
         * Ran a build, and encountered some errors there that will need to be fixed.
 
-### 2015-03-21, Saturday
+### 2015-03-22, Sunday
 
-* ?h (21:00-21:06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-    * Got buils passing ahain.
+* 0.1h (21:00-21:06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got builds passing again.
+
+### 2015-03-23, Monday
+
+* 0.7h (22:32-22:35,23:04-23:43): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Manually tested things and worked my way through a lot of bugs.
+            * Didn't finish: still have more bugs to find & fix.
+            * Really, really need automated tests here. Must have fixed over a dozen bugs that tests could have caught.
