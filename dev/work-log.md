@@ -3008,3 +3008,10 @@ This file should never be committed along with other files; it should always be 
         * Manually tested things and worked my way through a lot of bugs.
             * Didn't finish: still have more bugs to find & fix.
             * Really, really need automated tests here. Must have fixed over a dozen bugs that tests could have caught.
+
+### 2015-03-24, Tuesday
+
+* 0.1h (22:50-22:57): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Manually tested things and fixed the last bug preventing login account merges from working.
+    * Next step: Really, really need automated tests here.
