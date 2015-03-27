@@ -3021,3 +3021,10 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (22:22-22:42): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Worked on the server-side implementation.
         * Started adding test coverage. Didn't get very far.
+
+### 2015-03-26, Thursday
+
+* 0.3h (23:11-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * Continued working on the test coverage. Didn't get very far.
+        * Need to decide whether it's a security problem for the marshalled version of `AuditAccountMerge` to contain non-safe-view `Game` instances.
