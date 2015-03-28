@@ -3028,3 +3028,20 @@ This file should never be committed along with other files; it should always be 
    * Worked on the server-side implementation.
         * Continued working on the test coverage. Didn't get very far.
         * Need to decide whether it's a security problem for the marshalled version of `AuditAccountMerge` to contain non-safe-view `Game` instances.
+
+### 2015-03-26, Thursday
+
+* 0.3h (23:11-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * Continued working on the test coverage. Didn't get very far.
+        * Need to decide whether it's a security problem for the marshalled version of `AuditAccountMerge` to contain non-safe-view `Game` instances.
+
+### 2015-03-27, Friday
+
+* 0.55h (21:27-21:59): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * So `AuditAccountMerge` instances reference/contain `Game` instances.
+            * Those `Game` instances are security-sensitive.
+            * So far, the only use case for marshalling `AuditAccountMerge` is as part of the `merge(...)` response.
+            * I can't really customize the XML marshalling in any meaningful way, without preventing unmarshalling.
+            * Can I switch the fields to just contain `Game` IDs, rather than full references? I think this is probably the best option.
