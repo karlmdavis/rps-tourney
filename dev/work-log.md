@@ -3045,3 +3045,11 @@ This file should never be committed along with other files; it should always be 
             * So far, the only use case for marshalling `AuditAccountMerge` is as part of the `merge(...)` response.
             * I can't really customize the XML marshalling in any meaningful way, without preventing unmarshalling.
             * Can I switch the fields to just contain `Game` IDs, rather than full references? I think this is probably the best option.
+
+### 2015-03-28, Saturday
+
+* 0.2h (22:01-22:11,23:33-23:36): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * Thinking about the design question from yesterday... I still don't even know if these objects will ever be used in the UI.
+            * Until I have a use case for that, I don't think spending time on the JAXB representation is worthwhile.
+        * Finished the unit tests for `AuditAccountMerge`, but didn't yet update the web service to not return them, or remove the JAXB annotations.
