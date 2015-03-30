@@ -3053,3 +3053,9 @@ This file should never be committed along with other files; it should always be 
         * Thinking about the design question from yesterday... I still don't even know if these objects will ever be used in the UI.
             * Until I have a use case for that, I don't think spending time on the JAXB representation is worthwhile.
         * Finished the unit tests for `AuditAccountMerge`, but didn't yet update the web service to not return them, or remove the JAXB annotations.
+
+### 2015-03-29, Sunday
+
+* 0.1h (23:41-23:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * Updated the web service to no longer return `AuditAccountMerge` instances, and removed the JAXB annotations from those classes.
