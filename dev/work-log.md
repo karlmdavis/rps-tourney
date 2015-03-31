@@ -3059,3 +3059,9 @@ This file should never be committed along with other files; it should always be 
 * 0.1h (23:41-23:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
    * Worked on the server-side implementation.
         * Updated the web service to no longer return `AuditAccountMerge` instances, and removed the JAXB annotations from those classes.
+
+### 2015-03-30, Monday
+
+* 0.35h (21:13-21:33): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+   * Worked on the server-side implementation.
+        * Added some DAO tests.
