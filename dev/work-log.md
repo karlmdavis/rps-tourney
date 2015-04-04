@@ -3025,21 +3025,21 @@ This file should never be committed along with other files; it should always be 
 ### 2015-03-26, Thursday
 
 * 0.3h (23:11-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Continued working on the test coverage. Didn't get very far.
         * Need to decide whether it's a security problem for the marshalled version of `AuditAccountMerge` to contain non-safe-view `Game` instances.
 
 ### 2015-03-26, Thursday
 
 * 0.3h (23:11-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Continued working on the test coverage. Didn't get very far.
         * Need to decide whether it's a security problem for the marshalled version of `AuditAccountMerge` to contain non-safe-view `Game` instances.
 
 ### 2015-03-27, Friday
 
 * 0.55h (21:27-21:59): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * So `AuditAccountMerge` instances reference/contain `Game` instances.
             * Those `Game` instances are security-sensitive.
             * So far, the only use case for marshalling `AuditAccountMerge` is as part of the `merge(...)` response.
@@ -3049,7 +3049,7 @@ This file should never be committed along with other files; it should always be 
 ### 2015-03-28, Saturday
 
 * 0.2h (22:01-22:11,23:33-23:36): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Thinking about the design question from yesterday... I still don't even know if these objects will ever be used in the UI.
             * Until I have a use case for that, I don't think spending time on the JAXB representation is worthwhile.
         * Finished the unit tests for `AuditAccountMerge`, but didn't yet update the web service to not return them, or remove the JAXB annotations.
@@ -3057,29 +3057,36 @@ This file should never be committed along with other files; it should always be 
 ### 2015-03-29, Sunday
 
 * 0.1h (23:41-23:47): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Updated the web service to no longer return `AuditAccountMerge` instances, and removed the JAXB annotations from those classes.
 
 ### 2015-03-30, Monday
 
 * 0.35h (21:13-21:33): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Added some DAO tests.
 
 ### 2015-03-31, Tuesday
 
 * 0.35h (21:35-21:57): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Finished the DAO tests and started on the web service tests.
 
 ### 2015-04-01, Wednesday
 
 * 0.25h (21:58-22:12): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Finished the web service tests.
 
 ### 2015-04-02, Thursday
 
 * 0.4h (22:44-23:06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
-   * Worked on the server-side implementation.
+    * Worked on the server-side implementation.
         * Added a webapp test, to ensure merging accounts on login works as expected.
+
+### 2015-04-03, Friday
+
+* 0.25h (22:06-22:21): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Started creating `GameLoginSuccessHandlerTest`.
+        * Need to move `AuthenticationIT` to the `security` package.
