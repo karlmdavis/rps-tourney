@@ -3090,3 +3090,10 @@ This file should never be committed along with other files; it should always be 
     * Worked on the server-side implementation.
         * Started creating `GameLoginSuccessHandlerTest`.
         * Need to move `AuthenticationIT` to the `security` package.
+
+### 2015-04-04, Saturday
+
+* 0.35h (10:16-10:37): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Worked on `GameLoginSuccessHandlerTest`.
+        * Need to resolve the DI issue in `GameLoginSuccessHandler`.
