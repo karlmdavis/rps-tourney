@@ -3107,3 +3107,10 @@ This file should never be committed along with other files; it should always be 
             * Impersonation seems like a general concern that I might want to have a general mechanism for, especially once I start adding admin functions.
             * However, I won't be adding admin functions anytime soon and I think it's best to treat this as a once-off for now.
         * Stubbed out `IAccountsClientFactory`, but have not yet implemented it or refactored things to use it.
+
+### 2015-04-06, Monday
+
+* 1.25h (10:50-12:07): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * Finished `GameLoginSuccessHandlerTest`.
+        * Next up: anything else to test? If not, need to go clean up the accounts page, and deliver.
