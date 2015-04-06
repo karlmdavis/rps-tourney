@@ -3097,3 +3097,13 @@ This file should never be committed along with other files; it should always be 
     * Worked on the server-side implementation.
         * Worked on `GameLoginSuccessHandlerTest`.
         * Need to resolve the DI issue in `GameLoginSuccessHandler`.
+
+### 2015-04-05, Sunday
+
+* 0.25h (22:30-22:45): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Worked on the server-side implementation.
+        * On abstracting `AccountsClient` to have a factory...
+            * Why does it need a factory in the first place? Because sometimes, a user ought to be allowed to impersonate a different account.
+            * Impersonation seems like a general concern that I might want to have a general mechanism for, especially once I start adding admin functions.
+            * However, I won't be adding admin functions anytime soon and I think it's best to treat this as a once-off for now.
+        * Stubbed out `IAccountsClientFactory`, but have not yet implemented it or refactored things to use it.
