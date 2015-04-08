@@ -3114,3 +3114,11 @@ This file should never be committed along with other files; it should always be 
     * Worked on the server-side implementation.
         * Finished `GameLoginSuccessHandlerTest`.
         * Next up: anything else to test? If not, need to go clean up the accounts page, and deliver.
+
+### 2015-04-07, Tuesday
+
+* 0.25h (23:32-23:48): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Fixed a DI error and verified that the build now passes.
+    * Removed the "insert merge history here" note in the accounts page. Not sure that anyone would find that useful.
+    * Next up: Rework the login control to still allow for registration when users are authenticated anonymously.
+        * May need to add an `isAnon` method somewhere... hmmm.
