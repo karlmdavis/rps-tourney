@@ -3122,3 +3122,10 @@ This file should never be committed along with other files; it should always be 
     * Removed the "insert merge history here" note in the accounts page. Not sure that anyone would find that useful.
     * Next up: Rework the login control to still allow for registration when users are authenticated anonymously.
         * May need to add an `isAnon` method somewhere... hmmm.
+
+### 2015-04-08, Wednesday
+
+* 1.0h (20:29-21:28): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Updated the webapp template such that the account control only shows as logged in for non-anonymous accounts.
+        * This likely maps pretty well with how users would understand things.
+    * Started refactoring `Account` to also contain its logins. Will be tricky to get JAXB working with this, but should be possible.
