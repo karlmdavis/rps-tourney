@@ -3129,3 +3129,9 @@ This file should never be committed along with other files; it should always be 
     * Updated the webapp template such that the account control only shows as logged in for non-anonymous accounts.
         * This likely maps pretty well with how users would understand things.
     * Started refactoring `Account` to also contain its logins. Will be tricky to get JAXB working with this, but should be possible.
+
+### 2015-04-09, Thursday
+
+* 0.55h (22:01-22:39): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Continued refactoring `Account` to also contain its logins.
+        * Not sure if I'll be able to make JAXB handle the circular references in a sane & useful fashion.
