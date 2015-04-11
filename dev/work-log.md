@@ -3135,3 +3135,9 @@ This file should never be committed along with other files; it should always be 
 * 0.55h (22:01-22:39): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Continued refactoring `Account` to also contain its logins.
         * Not sure if I'll be able to make JAXB handle the circular references in a sane & useful fashion.
+
+### 2015-04-10, Friday
+
+* ?h (23:34-?): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Continued refactoring `Account` to also contain its logins.
+        * Fixed marshalling in `AccountTest`. Still need to update the unmarshalling test case.
