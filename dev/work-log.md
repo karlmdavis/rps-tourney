@@ -3141,3 +3141,10 @@ This file should never be committed along with other files; it should always be 
 * ?h (23:34-?): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Continued refactoring `Account` to also contain its logins.
         * Fixed marshalling in `AccountTest`. Still need to update the unmarshalling test case.
+
+### 2015-04-11, Saturday
+
+* 0.1h (13:00-13"06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Continued refactoring `Account` to also contain its logins.
+        * No luck with `@XmlTransient` preserving cyclic references during unmarshalling.
+        * Need to read the following and look for other possible solutions: http://forums.java.net/jive/thread.jspa?threadID=13670.
