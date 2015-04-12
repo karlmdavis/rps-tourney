@@ -3144,7 +3144,15 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-04-11, Saturday
 
-* 0.1h (13:00-13"06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+* 0.1h (13:00-13:06): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Continued refactoring `Account` to also contain its logins.
         * No luck with `@XmlTransient` preserving cyclic references during unmarshalling.
         * Need to read the following and look for other possible solutions: http://forums.java.net/jive/thread.jspa?threadID=13670.
+
+### 2015-04-12, Sunday
+
+* 0.4h (11:47-12:23): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Finished refactoring `Account` to also contain its logins.
+    * Got `AccountTest` passing.
+    * Removed all of the various `getLogins...` methods (DAO and service).
+    * Need to remove the "isMergeable" junk from `LoginController` (not sure if it ever worked, anyways).
