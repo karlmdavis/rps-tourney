@@ -3156,3 +3156,10 @@ This file should never be committed along with other files; it should always be 
     * Got `AccountTest` passing.
     * Removed all of the various `getLogins...` methods (DAO and service).
     * Need to remove the "isMergeable" junk from `LoginController` (not sure if it ever worked, anyways).
+
+### 2015-04-13, Monday
+
+* 0.4h (23:21-23:44): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Removed `LoginController` after verifying that it isn't actually being called/used.
+    * Fixed `accountControl.tag`.
+    * Ran a build, which found some problems in `GameIT` that I haven't yet fixed.
