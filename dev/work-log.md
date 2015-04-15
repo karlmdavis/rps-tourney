@@ -3163,3 +3163,11 @@ This file should never be committed along with other files; it should always be 
     * Removed `LoginController` after verifying that it isn't actually being called/used.
     * Fixed `accountControl.tag`.
     * Ran a build, which found some problems in `GameIT` that I haven't yet fixed.
+
+### 2015-04-14, Tuesday
+
+* 0.25h (23:23-23:39): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Spent time triaging the issue that's failing the builds.
+        * It's an unfortunate problem: the cycle-prevention workarouns I put in place for JAXB don't affect the JSON representations of the model objects.
+        * To solve this, I think I'll need to switch CXF to using Jackson instead, and possibly customize it some.
+        * Did not have time to actually do that.
