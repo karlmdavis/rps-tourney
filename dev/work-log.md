@@ -3171,3 +3171,10 @@ This file should never be committed along with other files; it should always be 
         * It's an unfortunate problem: the cycle-prevention workarouns I put in place for JAXB don't affect the JSON representations of the model objects.
         * To solve this, I think I'll need to switch CXF to using Jackson instead, and possibly customize it some.
         * Did not have time to actually do that.
+
+### 2015-04-14, Tuesday
+
+* 0.4h (22:40-23:15): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Updated POM to include Jackson's JAX-RS provider.
+        * Things are failing due to the Nexus certificate change.
+    * Started updating `SpringConfig` to use Jackson, but can't finish until I get the Nexus issues resolved.
