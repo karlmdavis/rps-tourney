@@ -3178,3 +3178,10 @@ This file should never be committed along with other files; it should always be 
     * Updated POM to include Jackson's JAX-RS provider.
         * Things are failing due to the Nexus certificate change.
     * Started updating `SpringConfig` to use Jackson, but can't finish until I get the Nexus issues resolved.
+
+### 2015-04-15, Wednesday
+
+* 0.9h (20:08-21:01): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got Nexus working (updated the devenv instructions).
+    * Got Jackson enabled.
+    * Need to figure out how to rebuild the cycle after deserialization with Jackson. Found a couple of promising links, but haven't given them a whirl yet.
