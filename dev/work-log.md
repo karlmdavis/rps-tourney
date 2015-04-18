@@ -3172,14 +3172,14 @@ This file should never be committed along with other files; it should always be 
         * To solve this, I think I'll need to switch CXF to using Jackson instead, and possibly customize it some.
         * Did not have time to actually do that.
 
-### 2015-04-14, Tuesday
+### 2015-04-15, Wednesday
 
 * 0.4h (22:40-23:15): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Updated POM to include Jackson's JAX-RS provider.
         * Things are failing due to the Nexus certificate change.
     * Started updating `SpringConfig` to use Jackson, but can't finish until I get the Nexus issues resolved.
 
-### 2015-04-15, Wednesday
+### 2015-04-16, Thursday
 
 * 0.9h (20:08-21:01): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Got Nexus working (updated the devenv instructions).
