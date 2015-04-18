@@ -3185,3 +3185,8 @@ This file should never be committed along with other files; it should always be 
     * Got Nexus working (updated the devenv instructions).
     * Got Jackson enabled.
     * Need to figure out how to rebuild the cycle after deserialization with Jackson. Found a couple of promising links, but haven't given them a whirl yet.
+
+### 2015-04-17, Friday
+
+* 0.25h (23:19-23:35): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Took a stab at getting things working with `@JsonIdentityInfo`. Failed, but too tired to really troubleshoot.
