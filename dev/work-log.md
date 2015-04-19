@@ -3168,7 +3168,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h (23:23-23:39): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Spent time triaging the issue that's failing the builds.
-        * It's an unfortunate problem: the cycle-prevention workarouns I put in place for JAXB don't affect the JSON representations of the model objects.
+        * It's an unfortunate problem: the cycle-prevention workarounds I put in place for JAXB don't affect the JSON representations of the model objects.
         * To solve this, I think I'll need to switch CXF to using Jackson instead, and possibly customize it some.
         * Did not have time to actually do that.
 
@@ -3190,3 +3190,16 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h (23:19-23:35): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Took a stab at getting things working with `@JsonIdentityInfo`. Failed, but too tired to really troubleshoot.
+
+### 2015-04-18, Saturday
+
+* 1.75h (18:04-19:05,19:49-20:31): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Still trying to get the build passing.
+    * Was way off on my earlier diagnosis: the problems had nothing to do with JSON.
+    * Turns out that CXF wasn't calling the JAXB 'afterUnmarshal(...)' hook.
+        * My best guess is that the version of JAXB I was forcing the web service to use, 2.1, is old and doesn't support that hook. That's just a guess, though.
+        * To test the theory, I decided to just go with the version of JAXB in whatever JRE I'm using.
+        * Except the OpenJDK JAXB version is somehow not compatible with CXF, due to `ClassNotFoundException`s. See my Issue #32 for details.
+        * I was curious if the latest CXF release, 3.0.4, had resolved this problem so I upgraded to it.
+        * It *looks* like that problem is fixed there, though I had to stop injecting `AccountSecurityContext` types for some reason.
+    * I left things with a failing test case in `AuthenticationIT` that I still need to diagnose.
