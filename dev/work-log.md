@@ -3203,3 +3203,10 @@ This file should never be committed along with other files; it should always be 
         * I was curious if the latest CXF release, 3.0.4, had resolved this problem so I upgraded to it.
         * It *looks* like that problem is fixed there, though I had to stop injecting `AccountSecurityContext` types for some reason.
     * I left things with a failing test case in `AuthenticationIT` that I still need to diagnose.
+
+### 2015-04-19, Sunday
+
+* 1.35h (13:08-13:50,15:00-15:38): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got the build passing.
+        * The web service's game login method was not updating the parent `Account.getLogins()` field, and so the web app couldn't see the new login from that direction.
+    * Added a list of email addresses to the account page.
