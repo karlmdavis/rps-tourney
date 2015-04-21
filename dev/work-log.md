@@ -3210,3 +3210,9 @@ This file should never be committed along with other files; it should always be 
     * Got the build passing.
         * The web service's game login method was not updating the parent `Account.getLogins()` field, and so the web app couldn't see the new login from that direction.
     * Added a list of email addresses to the account page.
+
+### 2015-04-20, Monday
+
+* 0.5h (22:27-22:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Did some manual testing, just to confirm that things are all working like they should.
+        * Found and fixed a bug: Trying to register when you already had an anonymous account failed. No idea why the build passed yesterday-- can't think of anything I changed that would have broken this. Oh well.
