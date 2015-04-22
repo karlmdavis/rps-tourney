@@ -3216,3 +3216,12 @@ This file should never be committed along with other files; it should always be 
 * 0.5h (22:27-22:56): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Did some manual testing, just to confirm that things are all working like they should.
         * Found and fixed a bug: Trying to register when you already had an anonymous account failed. No idea why the build passed yesterday-- can't think of anything I changed that would have broken this. Oh well.
+
+### 2015-04-21, Tuesday
+
+* 0.25h (23:17-23:31): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Did some more manual testing, and everything seems to work as expected.
+    * Only two issues I can find:
+        * Merging accounts discards one of the user's names.
+        * Games don't work correctly if the same account ends up being both players after a merge. No crashes, but it's not playable.
+    * I think I should fix the first problem and just file a defect for the second.
