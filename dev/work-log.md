@@ -3231,3 +3231,14 @@ This file should never be committed along with other files; it should always be 
 * 0.15h (23:42-23:50): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Decided not to audit merged names, as I'd have to collect those in another table, which seems excessive.
     * Did set the names to merge (target wins, if both are set).
+
+### 2015-04-23, Thursday
+
+* 1.9h (10:58-12:52): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Added test coverage to verify that names are merged.
+    * Tried to go through and pull out the half-baked Jackson stuff I'd put in earlier. Didn't go well.
+        * Turns out, the `-webapp` project has always used Jackson for JSON conversion, and I'd just forgotten.
+        * I think the real problem with that is the lack of test coverage. Need to add a test or three to the webapp.
+        * Should I also explicitly add Jackson tests to the `-api` project? I think not, as they're only valid if their Jackson config matches the one used by the webapp. Yuck.
+        * Probably need to add the Jackson annotations library to the `-api` project, though.
+    * Started writing a `-webapp` IT for JSON. Looks like it gets stuck in an endless loop, and produces infinite JSON.
