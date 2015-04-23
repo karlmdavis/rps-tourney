@@ -3225,3 +3225,9 @@ This file should never be committed along with other files; it should always be 
         * Merging accounts discards one of the user's names.
         * Games don't work correctly if the same account ends up being both players after a merge. No crashes, but it's not playable.
     * I think I should fix the first problem and just file a defect for the second.
+
+### 2015-04-22, Wednesday
+
+* 0.15h (23:42-23:50): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Decided not to audit merged names, as I'd have to collect those in another table, which seems excessive.
+    * Did set the names to merge (target wins, if both are set).
