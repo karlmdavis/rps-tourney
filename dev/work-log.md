@@ -3234,7 +3234,7 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-04-23, Thursday
 
-* 1.9h (10:58-12:52): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+* 2.4h (10:58-12:52,23:00-23:30): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
     * Added test coverage to verify that names are merged.
     * Tried to go through and pull out the half-baked Jackson stuff I'd put in earlier. Didn't go well.
         * Turns out, the `-webapp` project has always used Jackson for JSON conversion, and I'd just forgotten.
@@ -3242,3 +3242,14 @@ This file should never be committed along with other files; it should always be 
         * Should I also explicitly add Jackson tests to the `-api` project? I think not, as they're only valid if their Jackson config matches the one used by the webapp. Yuck.
         * Probably need to add the Jackson annotations library to the `-api` project, though.
     * Started writing a `-webapp` IT for JSON. Looks like it gets stuck in an endless loop, and produces infinite JSON.
+    * Went back later and started working to fix the JSON rendering. It looks like the JSON is now respecting the JAXB `@Ignore` annotations.
+        * Have to decide if I want to tweak that more, or if it's good enough.
+        * Also have to add a JSON parsing library to the webapp's test classpath, to flesh out that test case some.
+
+### 2015-04-24, Friday
+
+* 2.0h (9:05-11:07): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Realized in the shower this morning: Jackson isn't respecting the `@Ignore` annotations: it's just that the webapp received those fields from the web service as `null`, and they of course stayed `null`.
+        * Makes me want to go back and remove the cycle-related `@XmlTransient` annotations. But not worth it right now.
+    * After a chair nap to mull things over, got the tests finished, fixed, and the build is now passing.
+    * Committed all of my changes to date and pushed them, marking the issue as resolved.
