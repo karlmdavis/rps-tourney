@@ -2,14 +2,7 @@ package com.justdavis.karl.rpstourney.service.app.auth;
 
 import java.security.Principal;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
-
-import org.apache.cxf.jaxrs.ext.ContextProvider;
-import org.apache.cxf.jaxrs.impl.PropertyHolderFactory;
-import org.apache.cxf.jaxrs.impl.PropertyHolderFactory.PropertyHolder;
-import org.apache.cxf.message.Message;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
@@ -94,80 +87,5 @@ public final class AccountSecurityContext implements SecurityContext {
 	@Override
 	public String getAuthenticationScheme() {
 		return AuthenticationFilter.AUTH_SCHEME;
-	}
-
-	/**
-	 * <p>
-	 * Allows {@link AccountSecurityContext} instances to be injected into
-	 * resources via the {@link Context} annotation, as follows:
-	 * </p>
-	 * 
-	 * <blockquote>
-	 * 
-	 * <pre>
-	 * &#64;Path("some")
-	 * public class SomeResource {
-	 *   &#64;Context
-	 *   private AccountSecurityContext securityContext;
-	 *   
-	 *   &#64;GET
-	 *   public void foo() {
-	 *     ...
-	 *   }
-	 * }
-	 * </blockquote>
-	 * </pre>
-	 * <p>
-	 * FIXME While JAX-RS already allows for the (more general)
-	 * {@link SecurityContext} to be injected in this manner, there's a bug in
-	 * Apache CXF 2.7 that prevents this from respecting customized
-	 * {@link SecurityContext}s that have been set via
-	 * {@link ContainerRequestContext#setSecurityContext(SecurityContext)}. From
-	 * looking at the patches, it seems that it is fixed in 3.0 (whenever that's
-	 * released). Until then, this application will use this custom extension,
-	 * which relies on the behavior of
-	 * {@link AuthenticationFilter#filter(ContainerRequestContext)}.
-	 * </p>
-	 * <p>
-	 * This extension is specific to Apache CXF; it will not work with other
-	 * JAX-RS implementations.
-	 * </p>
-	 */
-	public static final class AccountSecurityContextProvider implements
-			ContextProvider<AccountSecurityContext> {
-		/**
-		 * The {@link ContainerRequestContext#getProperty(String)} key used to
-		 * store the {@link AccountSecurityContext} instance for each request.
-		 */
-		static final String PROP_SECURITY_CONTEXT = AccountSecurityContext.class
-				.getName();
-
-		/**
-		 * @see org.apache.cxf.jaxrs.ext.ContextProvider#createContext(org.apache.cxf.message.Message)
-		 */
-		@Override
-		public AccountSecurityContext createContext(Message message) {
-			/*
-			 * Pull (what should be) the the AccountSecurityContext from the
-			 * message property.
-			 */
-			PropertyHolder propHolder = PropertyHolderFactory
-					.getPropertyHolder(message);
-			Object securityContextObject = propHolder
-					.getProperty(PROP_SECURITY_CONTEXT);
-
-			// Sanity check: was the AccountSecurityContext injected?
-			if (securityContextObject == null)
-				throw new IllegalStateException(String.format(
-						"%s not injected by %s", AccountSecurityContext.class,
-						AuthenticationFilter.class));
-			// Sanity check: was the correct/expected object injected?
-			if (!(securityContextObject instanceof AccountSecurityContext))
-				throw new IllegalStateException(String.format(
-						"Injected security context is wrong type: %s",
-						AccountSecurityContext.class));
-
-			return (AccountSecurityContext) securityContextObject;
-		}
 	}
 }

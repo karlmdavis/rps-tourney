@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -83,16 +84,16 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link AccountSecurityContext} for the request that the
+	 *            the {@link SecurityContext} for the request that the
 	 *            {@link GameAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
-	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+	public void setSecurityContext(SecurityContext securityContext) {
 		// Sanity check: null AccountSecurityContext?
 		if (securityContext == null)
 			throw new IllegalArgumentException();
 
-		this.securityContext = securityContext;
+		this.securityContext = (AccountSecurityContext) securityContext;
 	}
 
 	/**
@@ -198,6 +199,7 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		// Create and persist the new login.
 		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress,
 				hashPassword(password));
+		login.getAccount().getLogins().add(login);
 		loginsDao.save(login);
 
 		// Pull (or create) an auth token for the login.

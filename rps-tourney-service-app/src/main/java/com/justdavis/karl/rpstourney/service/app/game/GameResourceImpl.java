@@ -10,6 +10,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -48,15 +49,15 @@ public class GameResourceImpl implements IGameResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link AccountSecurityContext} for the request that the
+	 *            the {@link SecurityContext} for the request that the
 	 *            {@link GameResourceImpl} was instantiated to handle
 	 */
 	@Context
-	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+	public void setSecurityContext(SecurityContext securityContext) {
 		if (securityContext == null)
 			throw new IllegalArgumentException();
 
-		this.securityContext = securityContext;
+		this.securityContext = (AccountSecurityContext) securityContext;
 	}
 
 	/**

@@ -12,11 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
 
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
@@ -33,6 +41,9 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "`LoginIdentities`")
+@XmlType
+@XmlSeeAlso({ GuestLoginIdentity.class, GameLoginIdentity.class })
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractLoginIdentity implements ILoginIdentity {
 	/*
 	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
@@ -52,7 +63,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity {
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
-	@XmlElement
+	@XmlTransient
 	protected Account account;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
@@ -132,10 +143,36 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity {
 	}
 
 	/**
+	 * @param account
+	 *            the new value to use for {@link #getAccount()}
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity#getCreatedTimestamp()
 	 */
 	@Override
 	public Instant getCreatedTimestamp() {
 		return createdTimestamp;
+	}
+
+	/**
+	 * This method will be called by JAXB during unmarshalling, and allows
+	 * instances of this class to rebuild their {@link #getAccount()} references
+	 * (which would otherwise be lost due to the {@link XmlTransient} annotation
+	 * on the field). This setup is necessary to avoid cycle problems, per <a
+	 * href="https://jaxb.java.net/guide/Mapping_cyclic_references_to_XML.html">
+	 * Mapping cyclic references to XML</a>.
+	 * 
+	 * @param u
+	 *            the JAXB {@link Unmarshaller} being used
+	 * @param parent
+	 *            the child element/object's containing/parent object (always an
+	 *            Account, in this case)
+	 */
+	public void afterUnmarshal(Unmarshaller u, Object parent) {
+		this.account = (Account) parent;
 	}
 }

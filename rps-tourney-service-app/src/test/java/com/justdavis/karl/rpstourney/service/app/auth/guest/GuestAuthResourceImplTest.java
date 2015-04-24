@@ -13,7 +13,6 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.MockAccountsDao;
-import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
 
 /**
  * Unit tests for {@link GuestAuthResourceImpl}.
@@ -38,7 +37,7 @@ public final class GuestAuthResourceImplTest {
 		// Create the service.
 		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
 		authService.setGuestLoginIdentitiesDao(loginsDao);
 
@@ -51,8 +50,8 @@ public final class GuestAuthResourceImplTest {
 	}
 
 	/**
-	 * Ensures that {@link GuestAuthResourceImpl#loginAsGuest()} behaves as expected
-	 * when the user/client already has an active login.
+	 * Ensures that {@link GuestAuthResourceImpl#loginAsGuest()} behaves as
+	 * expected when the user/client already has an active login.
 	 */
 	@Test
 	public void existingLogin() {
@@ -66,7 +65,7 @@ public final class GuestAuthResourceImplTest {
 		// Create the service.
 		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
 		authService.setGuestLoginIdentitiesDao(loginsDao);
 
@@ -76,7 +75,7 @@ public final class GuestAuthResourceImplTest {
 		// Call the service a second time logged in as the new Account.
 		securityContext = new AccountSecurityContext(
 				accountsDao.accounts.get(0));
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		expectedException.expect(WebApplicationException.class);
 		expectedException.expectMessage("User already logged in.");
 		authService.loginAsGuest();

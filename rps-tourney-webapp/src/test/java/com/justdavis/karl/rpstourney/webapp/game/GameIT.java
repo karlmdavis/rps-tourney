@@ -1,5 +1,14 @@
 package com.justdavis.karl.rpstourney.webapp.game;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -601,6 +610,92 @@ public final class GameIT {
 				player1Driver.quit();
 			if (player2Driver != null)
 				player2Driver.quit();
+		}
+	}
+
+	/**
+	 * Ensures that the web application correctly returns the game state as
+	 * JSON.
+	 * 
+	 * @throws IOException
+	 *             (will be passed through if it occurs, indicating a test
+	 *             error)
+	 * @throws JSONException
+	 *             (will be passed through if it occurs, indicating a test
+	 *             error)
+	 */
+	@Test
+	public void jsonGameData() throws IOException, JSONException {
+		/*
+		 * Use two Selenium players to play through the game a bit, so that the
+		 * game state is "interesting" enough to test.
+		 */
+		WebDriver player1Driver = null;
+		WebDriver player2Driver = null;
+		String gameId;
+		try {
+			player1Driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> player1Wait = new WebDriverWait(player1Driver, 20);
+			player2Driver = new HtmlUnitDriver(false);
+			player1Driver.get(ITUtils.buildWebAppUrl("register"));
+			player1Driver.findElement(By.id("inputEmail")).sendKeys(
+					"foo23@example.com");
+			player1Driver.findElement(By.id("inputPassword1")).sendKeys(
+					"secret");
+			player1Driver.findElement(By.id("inputPassword2")).sendKeys(
+					"secret");
+			player1Driver.findElement(
+					By.cssSelector("form#register button[type=submit]"))
+					.click();
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+			gameId = player1Driver.getCurrentUrl().substring(
+					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
+			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
+			player2Driver.findElement(By.id("join-game")).click();
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
+					.click();
+			player1Wait.until(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.id("round-counter-current"), "2"));
+		} finally {
+			if (player1Driver != null)
+				player1Driver.quit();
+			if (player2Driver != null)
+				player2Driver.quit();
+		}
+
+		/*
+		 * Now, pull the game state as JSON data and verify that it looks
+		 * correct.
+		 */
+		URL gameDataUrl = new URL(ITUtils.buildWebAppUrl("game/" + gameId
+				+ "/data"));
+		InputStream gameDataStream = null;
+		Scanner gameDataScanner = null;
+		try {
+			HttpURLConnection gameDataConnection = (HttpURLConnection) gameDataUrl
+					.openConnection();
+			gameDataStream = gameDataConnection.getInputStream();
+			gameDataScanner = new Scanner(gameDataStream,
+					StandardCharsets.UTF_8.name());
+			gameDataScanner.useDelimiter("\\A");
+			String gameDataString = gameDataScanner.hasNext() ? gameDataScanner
+					.next() : null;
+			Assert.assertNotNull(gameDataString);
+			JSONObject gameDataJson = new JSONObject(gameDataString);
+			Assert.assertEquals(gameId, gameDataJson.get("id"));
+			System.out.println(gameDataJson);
+		} finally {
+			if (gameDataScanner != null)
+				gameDataScanner.close();
+			if (gameDataStream != null)
+				gameDataStream.close();
 		}
 	}
 

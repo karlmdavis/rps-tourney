@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rps:account xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1">
 	<rps:id>42</rps:id>
+	<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 	<rps:name>foo</rps:name>
 	<rps:roles>
 		<rps:role>USERS</rps:role>
 	</rps:roles>
+	<rps:logins>
+		<rps:login xsi:type="rps:gameLoginIdentity"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<rps:id>3</rps:id>
+			<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
+		</rps:login>
+		<rps:login xsi:type="rps:gameLoginIdentity"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<rps:id>3</rps:id>
+			<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
+			<rps:emailAddress>foo@example.com</rps:emailAddress>
+		</rps:login>
+	</rps:logins>
 </rps:account>

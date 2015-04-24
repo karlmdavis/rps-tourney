@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 
 /**
  * A DAO for {@link Account} and {@link AuthToken} JPA entities.
@@ -17,6 +17,12 @@ public interface IAccountsDao {
 	 *            database
 	 */
 	void save(Account account);
+
+	/**
+	 * @param account
+	 *            the {@link Account} instance to be deleted from the database
+	 */
+	void delete(Account account);
 
 	/**
 	 * @param account
@@ -68,11 +74,19 @@ public interface IAccountsDao {
 	AuthToken selectOrCreateAuthToken(Account account);
 
 	/**
-	 * @param account
-	 *            the {@link Account} to get the {@link ILoginIdentity}s for
-	 * @return the {@link ILoginIdentity}s for the specified {@link Account},
-	 *         ordered by their creation date, ascending, or an empty list, if
-	 *         there are none
+	 * @param auditAccountEntries
+	 *            the {@link AuditAccountMerge} instances to be inserted/updated
+	 *            in the database
 	 */
-	List<ILoginIdentity> getLoginsForAccount(Account account);
+	void save(AuditAccountMerge... auditAccountEntries);
+
+	/**
+	 * @param targetAccount
+	 *            the {@link AuditAccountMerge#getTargetAccount()} value to
+	 *            match against
+	 * @return the {@link AuditAccountMerge} instances with the specified
+	 *         {@link AuditAccountMerge#getTargetAccount()} value, or an empty
+	 *         {@link List} if no matches were found
+	 */
+	List<AuditAccountMerge> getAccountAuditEntries(Account targetAccount);
 }

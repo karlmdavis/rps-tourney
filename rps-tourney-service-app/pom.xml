@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -29,13 +30,6 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<!-- This seems to be required by CXF (possibly only when running on OpenJDK). 
-				See https://github.com/karlmdavis/rps-tourney/issues/32 for more info. -->
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<!-- A version of this library is needed to compile, but will already 

@@ -27,7 +27,6 @@ import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.datasources.schema.LiquibaseSchemaManager;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.GameConflictExceptionMapper;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
 import com.justdavis.karl.rpstourney.service.app.auth.game.InternetAddressReader;
@@ -161,9 +160,6 @@ public class SpringConfig {
 
 		// Register the entity translators.
 		providers.add(new InternetAddressReader());
-
-		// Register any custom context providers.
-		providers.add(new AccountSecurityContextProvider());
 
 		// Register any custom context providers.
 		providers.add(new AuthorizationFilterFeature());

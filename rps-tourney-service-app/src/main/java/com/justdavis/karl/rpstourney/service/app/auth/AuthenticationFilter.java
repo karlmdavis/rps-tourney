@@ -25,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**
  * <p>
@@ -114,17 +113,6 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 		AccountSecurityContext securityContext = new AccountSecurityContext(
 				userAccount, secure);
 		requestContext.setSecurityContext(securityContext);
-
-		/*
-		 * FIXME The getSecurityContext() method is broken in CXF 2.7. From
-		 * looking at the patches, it seems that it is fixed in 3.0 (whenever
-		 * that'll be released). In the meantime, we'll also save the
-		 * AccountSecurityContext this way. See AccountSecurityContextProvider
-		 * for instructions on accessing this.
-		 */
-		requestContext.setProperty(
-				AccountSecurityContextProvider.PROP_SECURITY_CONTEXT,
-				securityContext);
 	}
 
 	/**
@@ -147,7 +135,7 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 
 		// Pull the login the request came in with (if any).
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
+				.getSecurityContext();
 
 		/*
 		 * Pull the auth token for the login that was set during the response

@@ -133,10 +133,10 @@
 		</dependency>
 
 		<dependency>
-			<!-- The Jackson library allows Spring MVC to support JSON REST resources. -->
+			<!-- The Jackson library allows Spring MVC to support JSON ReST resources. -->
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.4.3</version>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>
@@ -197,6 +197,13 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.42.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- Used in tests to parse and verify JSON data. -->
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

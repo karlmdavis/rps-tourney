@@ -135,7 +135,10 @@
 		<hibernate.version>4.3.5.Final</hibernate.version>
 
 		<!-- The version of the Apache CXF artifacts to use across the modules. -->
-		<cxf.version>3.0.1</cxf.version>
+		<cxf.version>3.0.4</cxf.version>
+
+		<!-- The version of the Jackson artifacts to use across the modules. -->
+		<jackson.version>2.5.2</jackson.version>
 
 		<!-- The default number of parallel forks to use for running the ITs. Note 
 			that "C" stands for "core", but also seems to include hyperthreaded cores. -->

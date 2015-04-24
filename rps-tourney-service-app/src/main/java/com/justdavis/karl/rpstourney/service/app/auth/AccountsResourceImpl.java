@@ -1,7 +1,9 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -17,12 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.api.PlayerRole;
+import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountGameMerge;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
-import com.justdavis.karl.rpstourney.service.api.auth.LoginIdentities;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.app.game.IGamesDao;
+import com.justdavis.karl.rpstourney.service.app.game.IPlayersDao;
 
 /**
  * The JAX-RS server-side implementation of {@link IAccountsResource}.
@@ -36,6 +45,8 @@ public class AccountsResourceImpl implements IAccountsResource {
 	private SecurityContext securityContext;
 
 	private IAccountsDao accountsDao;
+	private IPlayersDao playersDao;
+	private IGamesDao gamesDao;
 
 	/**
 	 * This public, default, no-arg constructor is required by Spring (for
@@ -46,11 +57,11 @@ public class AccountsResourceImpl implements IAccountsResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link AccountSecurityContext} for the request that the
+	 *            the {@link SecurityContext} for the request that the
 	 *            {@link AccountsResourceImpl} was instantiated to handle
 	 */
 	@Context
-	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+	public void setSecurityContext(SecurityContext securityContext) {
 		// Sanity check: null SecurityContext?
 		if (securityContext == null)
 			throw new IllegalArgumentException();
@@ -69,6 +80,32 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new IllegalArgumentException();
 
 		this.accountsDao = accountsDao;
+	}
+
+	/**
+	 * @param playersDao
+	 *            the injected {@link IPlayersDao} to use
+	 */
+	@Inject
+	public void setPlayersDao(IPlayersDao playersDao) {
+		// Sanity check: null IAccountsDao?
+		if (playersDao == null)
+			throw new IllegalArgumentException();
+
+		this.playersDao = playersDao;
+	}
+
+	/**
+	 * @param gamesDao
+	 *            the injected {@link IGamesDao} to use
+	 */
+	@Inject
+	public void setGamesDao(IGamesDao gamesDao) {
+		// Sanity check: null IAccountsDao?
+		if (gamesDao == null)
+			throw new IllegalArgumentException();
+
+		this.gamesDao = gamesDao;
 	}
 
 	/**
@@ -135,8 +172,17 @@ public class AccountsResourceImpl implements IAccountsResource {
 		if (existingAccount == null)
 			throw new ForbiddenException();
 
-		// Needed to prevent AuthTokens from being wiped out by the merge.
+		/*
+		 * Prevent AuthTokens and logins from being affected by the merge. All
+		 * or some of the fields in these objects are excluded from JAXB, so the
+		 * passed in Account will be incomplete for these fields.
+		 */
 		accountToUpdate.getAuthTokens().addAll(existingAccount.getAuthTokens());
+		accountToUpdate.getLogins().clear();
+		for (AbstractLoginIdentity login : existingAccount.getLogins()) {
+			login.setAccount(accountToUpdate);
+			accountToUpdate.getLogins().add(login);
+		}
 
 		// Save the modified Account to the database, and echo it back.
 		Account mergedAccount = accountsDao.merge(accountToUpdate);
@@ -160,18 +206,112 @@ public class AccountsResourceImpl implements IAccountsResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getLogins()
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long,
+	 *      java.util.UUID)
 	 */
 	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
-	public LoginIdentities getLogins() {
+	@Transactional
+	public void mergeAccount(long targetAccountId,
+			UUID sourceAccountAuthTokenValue) {
+		// Who's calling the method?
 		Account authenticatedAccount = getAuthenticatedAccount();
 		if (authenticatedAccount == null)
 			throw new BadCodeMonkeyException("RolesAllowed not working.");
+		boolean userIsAdmin = authenticatedAccount.hasRole(SecurityRole.ADMINS);
 
-		List<ILoginIdentity> logins = accountsDao
-				.getLoginsForAccount(authenticatedAccount);
-		return new LoginIdentities(logins);
+		// Find the target Account.
+		Account targetAccount = accountsDao.getAccountById(targetAccountId);
+		if (targetAccount == null)
+			throw new IllegalArgumentException(
+					"Unable to find target account with specified ID: "
+							+ targetAccountId);
+
+		// Find the source Account.
+		Account sourceAccount = accountsDao
+				.getAccountByAuthToken(sourceAccountAuthTokenValue);
+		if (sourceAccount == null)
+			throw new IllegalArgumentException(
+					"Unable to find source account with specified AuthToken");
+
+		/*
+		 * Verify that the target Account is the current user (unless the
+		 * current user is an admin).
+		 */
+		boolean userIsTarget = authenticatedAccount.getId() == targetAccountId;
+		if (!userIsTarget && !userIsAdmin)
+			throw new ForbiddenException();
+
+		/*
+		 * Verify that the source Account is anonymous (unless the current user
+		 * is an admin).
+		 */
+		boolean sourceIsAnon = sourceAccount.isAnonymous();
+		if (!sourceIsAnon && !userIsAdmin)
+			throw new ForbiddenException();
+
+		// Create the root audit entry that will track what's merged.
+		AuditAccountMerge auditAccountEntry = new AuditAccountMerge(
+				targetAccount, new HashSet<AbstractLoginIdentity>());
+
+		// Merge the names (target wins, if set).
+		if (targetAccount.getName() == null && sourceAccount.getName() != null)
+			targetAccount.setName(sourceAccount.getName());
+
+		// Merge the AuthTokens.
+		targetAccount.getAuthTokens().addAll(sourceAccount.getAuthTokens());
+
+		// Find and merge the logins.
+		for (ILoginIdentity loginToMerge : sourceAccount.getLogins()) {
+			// This cast should always be safe.
+			AbstractLoginIdentity loginToMergeEntity = (AbstractLoginIdentity) loginToMerge;
+
+			loginToMergeEntity.setAccount(targetAccount);
+			auditAccountEntry.getMergedLogins().add(loginToMergeEntity);
+		}
+
+		// Find the source Player (if one exists).
+		Player sourcePlayer = playersDao.findPlayerForAccount(sourceAccount);
+		if (sourcePlayer != null) {
+			// We'll need a target Player to replace the source with.
+			Player targetPlayer = playersDao
+					.findOrCreatePlayerForAccount(targetAccount);
+
+			// Find all of the games for the source Player.
+			List<Game> gamesToMerge = gamesDao.getGamesForPlayer(sourcePlayer);
+			for (Game gameToMerge : gamesToMerge) {
+				if (sourcePlayer.equals(gameToMerge.getPlayer1())) {
+					gameToMerge.replacePlayer1(targetPlayer);
+					auditAccountEntry.getMergedGames().add(
+							new AuditAccountGameMerge(auditAccountEntry,
+									gameToMerge, PlayerRole.PLAYER_1));
+				}
+				if (sourcePlayer.equals(gameToMerge.getPlayer2())) {
+					gameToMerge.replacePlayer2(targetPlayer);
+					auditAccountEntry.getMergedGames().add(
+							new AuditAccountGameMerge(auditAccountEntry,
+									gameToMerge, PlayerRole.PLAYER_2));
+				}
+			}
+		}
+
+		// Merge any previous merge audit entries targeting the source Account.
+		List<AuditAccountMerge> previousMergeEntries = accountsDao
+				.getAccountAuditEntries(sourceAccount);
+		for (AuditAccountMerge previousMergeEntry : previousMergeEntries) {
+			previousMergeEntry.setTargetAccount(targetAccount);
+		}
+
+		/*
+		 * Save the audit entries and the target Account, then delete the (now
+		 * empty) source Account.
+		 */
+		accountsDao.save(targetAccount);
+		accountsDao.save(auditAccountEntry);
+		accountsDao.save(previousMergeEntries
+				.toArray(new AuditAccountMerge[previousMergeEntries.size()]));
+		playersDao.delete(sourcePlayer);
+		accountsDao.delete(sourceAccount);
 	}
 
 	/**

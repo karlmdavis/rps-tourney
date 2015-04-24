@@ -56,93 +56,55 @@ public final class AuthenticationIT {
 	}
 
 	/**
-	 * Ensures that users can register and successfully view their account
-	 * details.
+	 * Ensures that users who login from an existing anonymous account have
+	 * their game history, etc. merged into the account that they are logging
+	 * into.
 	 */
 	@Test
-	public void registerAndViewAccount() {
-		WebDriver driver = null;
+	public void loginFromAnonymousAccount() {
+		WebDriver driverA = null;
+		WebDriver driverB = null;
 		try {
-			driver = new HtmlUnitDriver(true);
-
-			// Register for an account.
-			String username = buildRandomEmail();
-			driver.get(ITUtils.buildWebAppUrl("register"));
-			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("inputEmail")).size());
-			driver.findElement(By.id("inputEmail")).sendKeys(username);
-			driver.findElement(By.id("inputPassword1")).sendKeys("secret");
-			driver.findElement(By.id("inputPassword2")).sendKeys("secret");
-			driver.findElement(
+			// Register for an account and create a game.
+			driverA = new HtmlUnitDriver(true);
+			driverA.get(ITUtils.buildWebAppUrl("register"));
+			driverA.findElement(By.id("inputEmail"))
+					.sendKeys("foo@example.com");
+			driverA.findElement(By.id("inputPassword1")).sendKeys("secret");
+			driverA.findElement(By.id("inputPassword2")).sendKeys("secret");
+			driverA.findElement(
 					By.cssSelector("form#register button[type=submit]"))
 					.click();
-
-			// Ensure we were redirected to the homepage.
 			Assert.assertEquals(ITUtils.buildWebAppUrl(""),
-					driver.getCurrentUrl());
+					driverA.getCurrentUrl());
+			driverA.get(ITUtils.buildWebAppUrl("game/"));
 
-			// Attempt to access the account details page.
-			driver.get(ITUtils.buildWebAppUrl("account"));
+			// In a separate session, create an anonymous account and a game.
+			driverB = new HtmlUnitDriver(true);
+			driverB.get(ITUtils.buildWebAppUrl("game/"));
+
+			// Now have that separate session login to the first account.
+			driverB.get(ITUtils.buildWebAppUrl("login"));
+			driverB.findElement(By.id("username")).sendKeys("foo@example.com");
+			driverB.findElement(By.id("password")).sendKeys("secret");
+			driverB.findElement(
+					By.cssSelector("form#login button[type=submit]")).click();
 			Assert.assertEquals(ITUtils.buildWebAppUrl("account"),
-					driver.getCurrentUrl());
+					driverB.getCurrentUrl());
+
+			/*
+			 * Verify that the login worked and that the account is now
+			 * associated with both games.
+			 */
+			driverB.get(ITUtils.buildWebAppUrl(""));
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("account-properties")).size());
-		} finally {
-			if (driver != null)
-				driver.quit();
-		}
-	}
-
-	/**
-	 * Ensures that users can register a login for an existing anonymous
-	 * account, without losing their game history, etc.
-	 */
-	@Test
-	public void registerLoginForAnonymousAccount() {
-		WebDriver driver = null;
-		try {
-			driver = new HtmlUnitDriver(true);
-
-			// Create a game (and login as guest).
-			driver.get(ITUtils.buildWebAppUrl("game/"));
-			String gameUrl = driver.getCurrentUrl();
-
-			// Register for an account.
-			String username = buildRandomEmail();
-			driver.get(ITUtils.buildWebAppUrl("register"));
-			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("inputEmail")).size());
-			driver.findElement(By.id("inputEmail")).sendKeys(username);
-			driver.findElement(By.id("inputPassword1")).sendKeys("secret");
-			driver.findElement(By.id("inputPassword2")).sendKeys("secret");
-			driver.findElement(
-					By.cssSelector("form#register button[type=submit]"))
-					.click();
-
-			// Ensure we were redirected to the homepage.
-			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()),
-					ITUtils.buildWebAppUrl(""), driver.getCurrentUrl());
-
-			// Verify that the user's game is still there.
-			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()),
-					1,
-					driver.findElements(
-							By.cssSelector(String.format(
-									"table#player-games a[href='%s']", gameUrl)))
+					2,
+					driverB.findElements(
+							By.cssSelector("table#player-games tbody tr"))
 							.size());
 		} finally {
-			if (driver != null)
-				driver.quit();
+			if (driverA != null)
+				driverA.quit();
 		}
 	}
 
@@ -166,7 +128,27 @@ public final class AuthenticationIT {
 			// Create a game (and login as guest).
 			driver.get(ITUtils.buildWebAppUrl("game/"));
 
-			// Check for the account control.
+			// Ensure the Sign In control is still there.
+			driver.get(ITUtils.buildWebAppUrl("/"));
+			Assert.assertEquals(
+					String.format("Invalid response: %s: %s",
+							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.id("sign-in")).size());
+
+			// Register for an account.
+			String username = buildRandomEmail();
+			driver.get(ITUtils.buildWebAppUrl("register"));
+			driver.findElement(By.id("inputEmail")).sendKeys(username);
+			driver.findElement(By.id("inputPassword1")).sendKeys("secret");
+			driver.findElement(By.id("inputPassword2")).sendKeys("secret");
+			driver.findElement(
+					By.cssSelector("form#register button[type=submit]"))
+					.click();
+
+			/*
+			 * Ensure the Sign In control was replaced with the current account
+			 * control.
+			 */
 			driver.get(ITUtils.buildWebAppUrl("/"));
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",

@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -27,6 +29,7 @@ import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
 import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 
 /**
  * Unit tests for {@link Account}.
@@ -88,10 +91,12 @@ public final class AccountTest {
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
 	 *             (shouldn't be thrown if things are working)
+	 * @throws AddressException
+	 *             (won't be thrown: address is hardcoded)
 	 */
 	@Test
 	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException {
+			XPathExpressionException, AddressException {
 		// Create the Marshaller needed.
 		JAXBContext jaxbContext = JAXBContext.newInstance(Account.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
@@ -99,6 +104,10 @@ public final class AccountTest {
 		// Create the instance to be converted to XML.
 		Account account = new Account();
 		account.setName("foo");
+		account.getAuthTokens().add(new AuthToken(account, UUID.randomUUID()));
+		account.getLogins().add(
+				new GameLoginIdentity(account, new InternetAddress(
+						"foo@example.com"), "secret"));
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -127,6 +136,28 @@ public final class AccountTest {
 		Assert.assertNotNull(roleNode);
 		Assert.assertEquals(SecurityRole.USERS.toString(),
 				roleNode.getTextContent());
+		Node tokensNode = (Node) xpath.evaluate("/rps:account/rps:authTokens",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNull(tokensNode);
+		Node loginsNode = (Node) xpath.evaluate("/rps:account/rps:logins",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNotNull(loginsNode);
+		Node loginNode = (Node) xpath.evaluate(
+				"/rps:account/rps:logins/rps:login[1]", domResult.getNode(),
+				XPathConstants.NODE);
+		Assert.assertNotNull(loginNode);
+		Node loginAccountNode = (Node) xpath.evaluate(
+				"/rps:account/rps:logins/rps:login[1]/rps:account",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNull(loginAccountNode);
+		Node loginEmailNode = (Node) xpath.evaluate(
+				"/rps:account/rps:logins/rps:login[1]/rps:emailAddress",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNotNull(loginEmailNode);
+		Node loginPasswordNode = (Node) xpath.evaluate(
+				"/rps:account/rps:logins/rps:login[1]/rps:passwordHash",
+				domResult.getNode(), XPathConstants.NODE);
+		Assert.assertNull(loginPasswordNode);
 	}
 
 	/**
@@ -157,6 +188,9 @@ public final class AccountTest {
 		Assert.assertEquals("foo", parsedAccount.getName());
 		Assert.assertEquals(new HashSet<>(Arrays.asList(SecurityRole.USERS)),
 				parsedAccount.getRoles());
+		Assert.assertEquals(2, parsedAccount.getLogins().size());
+		Assert.assertSame(parsedAccount, parsedAccount.getLogins().get(0)
+				.getAccount());
 	}
 
 	/**

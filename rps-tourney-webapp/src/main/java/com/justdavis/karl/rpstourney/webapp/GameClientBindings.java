@@ -14,6 +14,8 @@ import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.ServiceStatusClient;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
+import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient.DefaultAccountsClientFactory;
+import com.justdavis.karl.rpstourney.service.client.auth.IAccountsClientFactory;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
@@ -86,6 +88,19 @@ public class GameClientBindings {
 		IAccountsResource accountsClient = new AccountsClient(config,
 				cookieStore);
 		return accountsClient;
+	}
+
+	/**
+	 * @param config
+	 *            the {@link ClientConfig} being used
+	 * @return the {@link IAccountsClientFactory} client for the application to
+	 *         use
+	 */
+	@Bean
+	public IAccountsClientFactory accountsClientFactory(ClientConfig config) {
+		IAccountsClientFactory accountsClientFactory = new DefaultAccountsClientFactory(
+				config);
+		return accountsClientFactory;
 	}
 
 	/**

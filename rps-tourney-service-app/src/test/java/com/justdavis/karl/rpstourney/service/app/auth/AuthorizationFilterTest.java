@@ -20,9 +20,6 @@ import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
-import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
 
 /**
@@ -127,9 +124,6 @@ public class AuthorizationFilterTest {
 		AccountSecurityContext securityContext = new AccountSecurityContext(
 				null);
 		requestContext.setSecurityContext(securityContext);
-		requestContext.setProperty(
-				AccountSecurityContextProvider.PROP_SECURITY_CONTEXT,
-				securityContext);
 
 		// Run the filter.
 		AuthorizationFilter authFilter = new AuthorizationFilter("foo");
@@ -155,9 +149,6 @@ public class AuthorizationFilterTest {
 		AccountSecurityContext securityContext = new AccountSecurityContext(
 				account);
 		requestContext.setSecurityContext(securityContext);
-		requestContext.setProperty(
-				AccountSecurityContextProvider.PROP_SECURITY_CONTEXT,
-				securityContext);
 
 		// Run the filter.
 		AuthorizationFilter authFilter = new AuthorizationFilter(

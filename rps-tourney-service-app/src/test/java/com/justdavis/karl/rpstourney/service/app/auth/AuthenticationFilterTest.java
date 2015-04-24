@@ -31,7 +31,6 @@ import org.junit.Test;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
-import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext.AccountSecurityContextProvider;
 
 /**
  * Unit tests for {@link AuthenticationFilter}.
@@ -70,7 +69,7 @@ public class AuthenticationFilterTest {
 
 		// Verify that the AccountSecurityContext is set correctly.
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
+				.getSecurityContext();
 		Assert.assertNotNull(securityContext);
 		Assert.assertSame(account, securityContext.getUserPrincipal());
 	}
@@ -99,7 +98,7 @@ public class AuthenticationFilterTest {
 
 		// Verify that the AccountSecurityContext is set correctly.
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getProperty(AccountSecurityContextProvider.PROP_SECURITY_CONTEXT);
+				.getSecurityContext();
 		Assert.assertNotNull(securityContext);
 		Assert.assertNull(securityContext.getUserPrincipal());
 	}

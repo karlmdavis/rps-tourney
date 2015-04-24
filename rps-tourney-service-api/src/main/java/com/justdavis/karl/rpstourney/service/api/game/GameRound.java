@@ -51,11 +51,11 @@ public class GameRound {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(GameRound.class);
 
+	@Id
 	/*
 	 * FIXME This column can't be quoted unless/until
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
 	 */
-	@Id
 	@JoinColumn(name = "gameId")
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.REFRESH, CascadeType.DETACH })

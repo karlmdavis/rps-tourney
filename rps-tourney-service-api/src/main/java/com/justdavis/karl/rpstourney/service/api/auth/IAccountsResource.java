@@ -1,19 +1,24 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.util.UUID;
+
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+
 /**
  * Implementations of this service allow users to manage their {@link Account}.
  */
 @Path(IAccountsResource.SERVICE_PATH)
 public interface IAccountsResource {
-
 	/**
 	 * The {@link Path} that this this resource class' methods will be hosted
 	 * at.
@@ -41,9 +46,21 @@ public interface IAccountsResource {
 	public static final String SERVICE_PATH_AUTH_TOKEN = "selectOrCreateAuthToken";
 
 	/**
-	 * The {@link Path} for {@link #getLogins()}.
+	 * The {@link Path} for {@link #mergeFromDifferentAccount(Account)}.
 	 */
-	public static final String SERVICE_PATH_GET_LOGINS = "logins";
+	public static final String SERVICE_PATH_MERGE = "merge";
+
+	/**
+	 * The {@link FormParam#value()} / name of the first
+	 * {@link #mergeFromDifferentAccount(Account)} param.
+	 */
+	public static final String SERVICE_PARAM_MERGE_TARGET = "targetAccountId";
+
+	/**
+	 * The {@link FormParam#value()} / name of the second
+	 * {@link #mergeFromDifferentAccount(Account)} param.
+	 */
+	public static final String SERVICE_PARAM_MERGE_SOURCE = "sourceAccountAuthTokenValue";
 
 	/**
 	 * Allows users to validate that their existing logins (as represented by
@@ -106,12 +123,41 @@ public interface IAccountsResource {
 	AuthToken selectOrCreateAuthToken();
 
 	/**
-	 * @return the {@ink ILoginIdentity}s associated with the requesting
-	 *         user/client's {@link Account}, ordered by their creation date,
-	 *         ascending
+	 * <p>
+	 * Merges all of the {@link Game}s and {@link ILoginIdentity}s associated
+	 * with the specified "source" {@link Account} into the specified "target"
+	 * {@link Account}, and then deletes the now-empty "source" {@link Account}.
+	 * In addition, an {@link AuditAccountMerge} record will be saved to the
+	 * database recording the operation.
+	 * </p>
+	 * <p>
+	 * Security Considerations: Unless this method is being called by an admin,
+	 * the following restrictions will be enforced for this method:
+	 * </p>
+	 * <ul>
+	 * <li>The current user, as returned by {@link #getAccount()}, must be the
+	 * "target" {@link Account}.</li>
+	 * <li>The "source" {@link Account} must be anonymous; it must only have
+	 * {@link GuestLoginIdentity}s associated with it.</li>
+	 * </ul>
+	 * <p>
+	 * These restrictions are intended to allow non-admins to merge anonymous
+	 * {@link Account}s that they have access to, while preventing users from
+	 * "poisoning" the history of {@link Account}s they don't control.
+	 * </p>
+	 * 
+	 * @param targetAccountId
+	 *            the {@link Account#getId()} of the {@link Account} to merge
+	 *            to, which will end up acquiring all of the game history, etc.
+	 *            from the other {@link Account}
+	 * @param sourceAccountId
+	 *            a valid {@link AuthToken#getToken()} associated with the
+	 *            {@link Account} to merge from, which will be deleted from the
+	 *            database as part of this operation
 	 */
-	@GET
-	@Path(SERVICE_PATH_GET_LOGINS)
-	@Produces(MediaType.TEXT_XML)
-	LoginIdentities getLogins();
+	@POST
+	@Path(SERVICE_PATH_MERGE)
+	void mergeAccount(
+			@FormParam(SERVICE_PARAM_MERGE_TARGET) long targetAccountId,
+			@FormParam(SERVICE_PARAM_MERGE_SOURCE) UUID sourceAccountAuthTokenValue);
 }

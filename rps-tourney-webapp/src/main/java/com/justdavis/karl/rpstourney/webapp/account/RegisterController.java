@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
@@ -80,9 +81,8 @@ public class RegisterController {
 			 * (non-anonymous) login? If so, perhaps the best thing to do is
 			 * redirect the user to their account details.
 			 */
-			// FIXME add this web service method
-			// if (gameAuthClient.getGameLogin() != null)
-			// return new ModelAndView("redirect:/account");
+			if (!authenticatedAccount.isAnonymous())
+				return new ModelAndView("redirect:/account");
 		}
 
 		/*
@@ -122,6 +122,20 @@ public class RegisterController {
 	public ModelAndView registerLogin(Principal authenticatedUser,
 			RedirectAttributes redirectAttributes, String inputEmail,
 			String inputPassword1, String inputPassword2) {
+		// Grab the Account (if any) via the web service.
+		Account authenticatedAccount = null;
+		if (authenticatedUser != null)
+			authenticatedAccount = accountsClient.getAccount();
+
+		/*
+		 * Does the user's account already have an associated (non-anonymous)
+		 * login? If so, they shouldn't have been able to view the form, much
+		 * less submit it.
+		 */
+		if (authenticatedAccount != null && !authenticatedAccount.isAnonymous())
+			throw new BadCodeMonkeyException(
+					"Unable to create second game login for user.");
+
 		/*
 		 * TODO This should be using data binding and JSR-303 validation, which
 		 * can collect multiple validation failures at once. See
@@ -150,21 +164,12 @@ public class RegisterController {
 		}
 
 		/*
-		 * Does the user's account already have an associated (non-anonymous)
-		 * login? If so, they shouldn't have been able to view the form, much
-		 * less submit it.
+		 * Create the new login (and an Account if they didn't already have
+		 * one).
 		 */
-		if (authenticatedUser != null) {
-			// FIXME add this web service method
-			// if (gameAuthClient.getGameLogin() != null)
-			// throw new
-			// BadCodeMonkeyException("Unable to create second login for user.");
-		}
-
-		// Create the new login.
-		Account account;
+		Account possiblyNewAccount;
 		try {
-			account = gameAuthClient.createGameLogin(emailAddress,
+			possiblyNewAccount = gameAuthClient.createGameLogin(emailAddress,
 					inputPassword1);
 		} catch (HttpClientException e) {
 			LOGGER.warn("Client error creating login.", e);
@@ -181,10 +186,10 @@ public class RegisterController {
 		 * security/authorization principal.
 		 */
 		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
-		for (SecurityRole role : account.getRoles())
+		for (SecurityRole role : possiblyNewAccount.getRoles())
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getId()));
-		Authentication auth = new UsernamePasswordAuthenticationToken(account,
-				null, grantedAuthorities);
+		Authentication auth = new UsernamePasswordAuthenticationToken(
+				possiblyNewAccount, null, grantedAuthorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		// Redirect the user to the home page.

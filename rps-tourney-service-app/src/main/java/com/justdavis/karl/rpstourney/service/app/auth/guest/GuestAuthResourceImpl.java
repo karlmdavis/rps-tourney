@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -53,16 +54,16 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link AccountSecurityContext} for the request that the
+	 *            the {@link SecurityContext} for the request that the
 	 *            {@link GuestAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
-	public void setAccountSecurityContext(AccountSecurityContext securityContext) {
+	public void setSecurityContext(SecurityContext securityContext) {
 		// Sanity check: null SecurityContext?
 		if (securityContext == null)
 			throw new IllegalArgumentException();
 
-		this.securityContext = securityContext;
+		this.securityContext = (AccountSecurityContext) securityContext;
 	}
 
 	/**

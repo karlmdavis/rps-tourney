@@ -1,8 +1,6 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import javax.inject.Inject;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.ws.rs.core.Response.Status;
 
 import org.hamcrest.core.StringContains;
@@ -21,7 +19,6 @@ import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.api.auth.LoginIdentities;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
@@ -30,9 +27,9 @@ import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
-import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
+import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 
 /**
  * Integration tests for {@link AccountsResourceImpl}.
@@ -196,31 +193,51 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#getLogins()} works as expected.
-	 * 
-	 * @throws AddressException
-	 *             (won't happen: email addresses are hardcoded)
+	 * Ensures that {@link AccountsResourceImpl#mergeAccount(Account)} works as
+	 * expected.
 	 */
 	@Test
-	public void getLogins() throws AddressException {
+	public void mergeAccount() {
 		ClientConfig clientConfig = new ClientConfig(
 				server.getServerBaseAddress());
-		CookieStore cookieStore = new CookieStore();
 
-		// Create the logins and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
-		guestAuthClient.loginAsGuest();
-		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
-				cookieStore);
-		gameAuthClient.createGameLogin(new InternetAddress("foo@example.com"),
-				"secret");
+		// Create the source account and associated entities to be merged.
+		CookieStore sourceCookies = new CookieStore();
+		AccountsClient sourceAccountsClient = new AccountsClient(clientConfig,
+				sourceCookies);
+		GuestAuthClient sourceGuestAuthClient = new GuestAuthClient(
+				clientConfig, sourceCookies);
+		GameClient sourceGameClient = new GameClient(clientConfig,
+				sourceCookies);
+		Account sourceAccount = sourceGuestAuthClient.loginAsGuest();
+		sourceAccount.setName("foo");
+		sourceAccountsClient.updateAccount(sourceAccount);
+		AuthToken sourceAuthToken = sourceAccountsClient
+				.selectOrCreateAuthToken();
+		sourceGameClient.createGame();
 
-		// Get the logins.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
-		LoginIdentities logins = accountsClient.getLogins();
-		Assert.assertNotNull(logins);
-		Assert.assertEquals(2, logins.getLogins().size());
+		// Create the target account to merge into.
+		CookieStore targetCookies = new CookieStore();
+		AccountsClient targetAccountsClient = new AccountsClient(clientConfig,
+				targetCookies);
+		GuestAuthClient targetGuestAuthClient = new GuestAuthClient(
+				clientConfig, targetCookies);
+		GameClient targetGameClient = new GameClient(clientConfig,
+				targetCookies);
+		Account targetAccount = targetGuestAuthClient.loginAsGuest();
+
+		/*
+		 * Merge the source Account and associated objects to the target
+		 * Account.
+		 */
+		targetAccountsClient.mergeAccount(targetAccount.getId(),
+				sourceAuthToken.getToken());
+
+		// Verify the results.
+		Assert.assertEquals(2, targetAccountsClient.getAccount().getLogins()
+				.size());
+		Assert.assertEquals(sourceAccount.getName(), targetAccountsClient
+				.getAccount().getName());
+		Assert.assertEquals(1, targetGameClient.getGamesForPlayer().size());
 	}
 }

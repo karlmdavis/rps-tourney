@@ -10,10 +10,23 @@
 		<h1><spring:message code="account.h1" /></h1>
 		<form:form method="POST" action="${baseUrl}/account/update" id="account-properties">
 			<div class="form-group">
-				<label for="inputCreationTimestamp"><spring:message code="account.created.label" /></label>
-				<p id="inputCreationTimestamp">
+				<label for="creationTimestamp"><spring:message code="account.created.label" /></label>
+				<p id="creationTimestamp">
 					<span id="account-created-pretty"><rps:temporal value="${account.createdTimestamp}" format="PRETTY_TIME" /></span>
 					<span id="account-created-date">(<rps:temporal value="${account.createdTimestamp}" format="ISO_DATE" />)</span>
+				</p>
+			</div>
+			<div class="form-group">
+				<label for="emails"><spring:message code="account.emails.label" /></label>
+				<p id="emails">
+					<c:choose>
+					<c:when test="${not empty emails}">
+					${emails}
+					</c:when>
+					<c:otherwise>
+					<spring:message code="account.emails.empty" />
+					</c:otherwise>
+					</c:choose>
 				</p>
 			</div>
 			<div class="form-group">

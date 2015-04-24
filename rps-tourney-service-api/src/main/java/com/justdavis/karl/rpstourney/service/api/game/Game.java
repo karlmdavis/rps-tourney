@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 
@@ -370,6 +371,50 @@ public class Game extends AbstractGame {
 
 		this.player2 = player2;
 		player2Joined();
+	}
+
+	/**
+	 * <p>
+	 * This method is intended for use in {@link Account} management operations,
+	 * such as when {@link Account}s are merged.
+	 * </p>
+	 * 
+	 * @param player1
+	 *            the new value to use for {@link #getPlayer1()}
+	 */
+	public void replacePlayer1(Player player1) {
+		if (this.player1 == null)
+			throw new IllegalStateException();
+
+		// Can't set a null player.
+		if (player1 == null)
+			throw new IllegalArgumentException();
+
+		this.player1 = player1;
+	}
+
+	/**
+	 * <p>
+	 * This method may only be called if {@link #getPlayer2()} is not
+	 * <code>null</code>. It is intended for use in {@link Account} management
+	 * operations, such as when {@link Account}s are merged.
+	 * </p>
+	 * 
+	 * @param player2
+	 *            the new value to use for {@link #getPlayer2()}
+	 * @throws IllegalStateException
+	 *             An {@link IllegalStateException} will be thrown if
+	 *             {@link #getPlayer2()} was not already non-<code>null</code>.
+	 */
+	public void replacePlayer2(Player player2) {
+		if (this.player2 == null)
+			throw new IllegalStateException();
+
+		// Can't set a null player.
+		if (player2 == null)
+			throw new IllegalArgumentException();
+
+		this.player2 = player2;
 	}
 
 	/**

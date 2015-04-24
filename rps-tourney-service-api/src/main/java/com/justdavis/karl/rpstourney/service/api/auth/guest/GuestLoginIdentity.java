@@ -3,6 +3,7 @@ package com.justdavis.karl.rpstourney.service.api.auth.guest;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.threeten.bp.Instant;
 
@@ -30,6 +31,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 @Entity
 @Table(name = "`GuestLoginIdentities`")
 @PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
+@XmlRootElement
 public class GuestLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
 	/**
@@ -69,4 +71,25 @@ public class GuestLoginIdentity extends AbstractLoginIdentity implements
 	public LoginProvider getLoginProvider() {
 		return LoginProvider.GUEST;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GuestLoginIdentity [id=");
+		builder.append(id);
+		/*
+		 * Can't just include account.toString(), as that would create a
+		 * recursive never-ending loop.
+		 */
+		builder.append(", account.getId()=");
+		builder.append(account.hasId() ? account.getId() : "N/A");
+		builder.append(", createdTimestamp=");
+		builder.append(createdTimestamp);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

@@ -1,6 +1,5 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,13 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
-import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity_;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.Account_;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge_;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken_;
-import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 
 /**
  * The default {@link IAccountsDao} implementation.
@@ -59,6 +57,14 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	@Override
 	public void save(Account account) {
 		entityManager.persist(account);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#delete(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public void delete(Account account) {
+		entityManager.remove(account);
 	}
 
 	/**
@@ -187,27 +193,32 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getLoginsForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge[])
 	 */
 	@Override
-	public List<ILoginIdentity> getLoginsForAccount(Account account) {
-		// Build a query for the matching logins.
+	public void save(AuditAccountMerge... auditAccountEntries) {
+		for (AuditAccountMerge auditAccountEntry : auditAccountEntries)
+			entityManager.persist(auditAccountEntry);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountAuditEntries(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public List<AuditAccountMerge> getAccountAuditEntries(Account targetAccount) {
+		// Build a query for the matching audit entries.
 		CriteriaBuilder criteriaBuilder = entityManager
 				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<AbstractLoginIdentity> criteria = criteriaBuilder
-				.createQuery(AbstractLoginIdentity.class);
+		CriteriaQuery<AuditAccountMerge> criteria = criteriaBuilder
+				.createQuery(AuditAccountMerge.class);
 		criteria.where(criteriaBuilder.equal(
-				criteria.from(AbstractLoginIdentity.class).get(
-						AbstractLoginIdentity_.account), account));
+				criteria.from(AuditAccountMerge.class).get(
+						AuditAccountMerge_.targetAccount), targetAccount));
 
 		// Run the query.
-		TypedQuery<AbstractLoginIdentity> query = entityManager
+		TypedQuery<AuditAccountMerge> query = entityManager
 				.createQuery(criteria);
-		List<AbstractLoginIdentity> results = query.getResultList();
-
-		// Convert and return the result.
-		List<ILoginIdentity> typedResults = new ArrayList<>(results.size());
-		typedResults.addAll(results);
-		return typedResults;
+		List<AuditAccountMerge> results = query.getResultList();
+		return results;
 	}
 }

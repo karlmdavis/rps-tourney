@@ -29,6 +29,12 @@ public interface IPlayersDao {
 	Player findOrCreatePlayerForAccount(Account account);
 
 	/**
+	 * @param player
+	 *            the {@link Player} to be deleted from the database
+	 */
+	void delete(Player player);
+
+	/**
 	 * Note: This method is really only appropriate for use in testing; it's a
 	 * bad idea to use it in production code.
 	 * 

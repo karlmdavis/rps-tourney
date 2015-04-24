@@ -203,4 +203,50 @@ public final class PlayersDaoImplIT {
 			entityManager.close();
 		}
 	}
+
+	/**
+	 * Tests {@link PlayersDaoImpl#delete(Player)}.
+	 */
+	@Test
+	public void deleteAccount() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAO.
+			PlayersDaoImpl playersDao = new PlayersDaoImpl();
+			playersDao.setEntityManager(entityManager);
+
+			// Create and save the entity to try deleting.
+			Account account = new Account();
+			Player player;
+			EntityTransaction tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				player = playersDao.findOrCreatePlayerForAccount(account);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Try to delete the entity.
+			tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				playersDao.delete(player);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the result.
+			Assert.assertEquals(0, playersDao.getPlayers().size());
+		} finally {
+			entityManager.close();
+		}
+	}
 }

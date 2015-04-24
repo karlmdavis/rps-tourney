@@ -1,5 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.util.UUID;
+
 /**
  * A mock {@link IAccountsResource} implementation for use in tests.
  */
@@ -37,10 +39,12 @@ public class MockAccountsClient implements IAccountsResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#getLogins()
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long,
+	 *      java.util.UUID)
 	 */
 	@Override
-	public LoginIdentities getLogins() {
+	public void mergeAccount(long targetAccountId,
+			UUID sourceAccountAuthTokenValue) {
 		throw new UnsupportedOperationException();
 	}
 }

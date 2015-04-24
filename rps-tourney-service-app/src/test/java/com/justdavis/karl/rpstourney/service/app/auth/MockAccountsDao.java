@@ -1,13 +1,12 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 
 /**
  * A mock {@link IAccountsDao} implementation for use in tests. Stores
@@ -23,6 +22,14 @@ public final class MockAccountsDao implements IAccountsDao {
 	public void save(Account account) {
 		if (!accounts.contains(account))
 			accounts.add(account);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#delete(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 */
+	@Override
+	public void delete(Account account) {
+		accounts.remove(account);
 	}
 
 	/**
@@ -90,10 +97,18 @@ public final class MockAccountsDao implements IAccountsDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getLoginsForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#getAccountAuditEntries(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
-	public List<ILoginIdentity> getLoginsForAccount(Account account) {
-		return Collections.emptyList();
+	public List<AuditAccountMerge> getAccountAuditEntries(Account targetAccount) {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao#save(com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge[])
+	 */
+	@Override
+	public void save(AuditAccountMerge... auditAccountEntries) {
+		throw new UnsupportedOperationException();
 	}
 }

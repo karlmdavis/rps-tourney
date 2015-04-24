@@ -39,7 +39,7 @@ public final class GameAuthResourceImplTest {
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
@@ -80,7 +80,7 @@ public final class GameAuthResourceImplTest {
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
@@ -114,7 +114,7 @@ public final class GameAuthResourceImplTest {
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
 		authService.setHttpServletRequest(httpRequest);
-		authService.setAccountSecurityContext(securityContext);
+		authService.setSecurityContext(securityContext);
 		authService.setAccountsDao(accountsDao);
 		authService.setGameLoginIdentitiesDao(loginsDao);
 

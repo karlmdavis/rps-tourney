@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
@@ -33,6 +34,7 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
 @Entity
 @Table(name = "`GameLoginIdentities`")
 @PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
+@XmlRootElement
 public class GameLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
@@ -106,4 +108,33 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements
 	public String getPasswordHash() {
 		return passwordHash;
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GameLoginIdentity [id=");
+		builder.append(id);
+		/*
+		 * Can't just include account.toString(), as that would create a
+		 * recursive never-ending loop.
+		 */
+		builder.append(", account.getId()=");
+		builder.append(account.hasId() ? account.getId() : "N/A");
+		builder.append(", createdTimestamp=");
+		builder.append(createdTimestamp);
+		builder.append(", emailAddress=");
+		builder.append(emailAddress);
+		/*
+		 * Can't print out the passwordHash itself, as that value needs to be
+		 * very carefully protected.
+		 */
+		builder.append(", passwordHash=");
+		builder.append(passwordHash != null ? "(not null)" : "(null)");
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

@@ -25,8 +25,7 @@ public final class AccountsResourceImplTest {
 
 		// Build the service
 		AccountsResourceImpl accountService = new AccountsResourceImpl();
-		accountService.setAccountSecurityContext(new AccountSecurityContext(
-				account));
+		accountService.setSecurityContext(new AccountSecurityContext(account));
 		MockAccountsDao accountsDao = new MockAccountsDao();
 		accountService.setAccountsDao(accountsDao);
 
@@ -52,8 +51,7 @@ public final class AccountsResourceImplTest {
 
 		// Build the service
 		AccountsResourceImpl accountService = new AccountsResourceImpl();
-		accountService.setAccountSecurityContext(new AccountSecurityContext(
-				account));
+		accountService.setSecurityContext(new AccountSecurityContext(account));
 		accountService.setAccountsDao(accountsDao);
 
 		// Call the service.

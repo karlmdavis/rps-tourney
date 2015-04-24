@@ -1,8 +1,12 @@
 package com.justdavis.karl.rpstourney.webapp.account;
 
 import java.security.Principal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
+import javax.mail.internet.InternetAddress;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -10,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
+import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 
 /**
@@ -53,7 +59,22 @@ public class AccountController {
 
 		// Build the model for the account.jsp view.
 		ModelAndView modelAndView = new ModelAndView("account");
+
 		modelAndView.addObject("account", authenticatedAccount);
+
+		List<InternetAddress> emails = new LinkedList<>();
+		for (AbstractLoginIdentity login : authenticatedAccount.getLogins())
+			if (login instanceof GameLoginIdentity)
+				emails.add(((GameLoginIdentity) login).getEmailAddress());
+		StringBuilder emailsText = new StringBuilder();
+		ListIterator<InternetAddress> emailsIter = emails.listIterator();
+		while (emailsIter.hasNext()) {
+			emailsText.append(emailsIter.next().toString());
+			if (emailsIter.hasNext())
+				emailsText.append(", ");
+		}
+		modelAndView.addObject("emails",
+				emails.isEmpty() ? null : emailsText.toString());
 
 		return modelAndView;
 	}

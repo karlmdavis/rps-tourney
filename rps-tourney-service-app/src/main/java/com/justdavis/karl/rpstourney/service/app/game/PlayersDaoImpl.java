@@ -76,6 +76,14 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#delete(com.justdavis.karl.rpstourney.service.api.game.Player)
+	 */
+	@Override
+	public void delete(Player player) {
+		entityManager.remove(player);
+	}
+
+	/**
 	 * @param account
 	 *            the {@link Player#getHumanAccount()} value to find a matching
 	 *            {@link Player} for

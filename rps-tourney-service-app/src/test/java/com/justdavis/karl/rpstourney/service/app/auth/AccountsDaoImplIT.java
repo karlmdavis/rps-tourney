@@ -7,12 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.xml.bind.JAXBContext;
@@ -34,15 +33,17 @@ import com.justdavis.karl.misc.datasources.provisioners.IProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningRequest;
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
+import com.justdavis.karl.rpstourney.api.PlayerRole;
+import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountGameMerge;
+import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
-import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
+import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.app.SpringConfig;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
-import com.justdavis.karl.rpstourney.service.app.auth.game.GameLoginIdentitiesDaoImpl;
-import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestLoginIdentitiesDaoImpl;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
 /**
@@ -110,7 +111,7 @@ public final class AccountsDaoImplIT {
 	 * Tests {@link AccountsDaoImpl#save(Account)}.
 	 */
 	@Test
-	public void save() {
+	public void saveAccount() {
 		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
 				.createEntityManager();
 
@@ -150,10 +151,57 @@ public final class AccountsDaoImplIT {
 	}
 
 	/**
+	 * Tests {@link AccountsDaoImpl#delete(Account)}.
+	 */
+	@Test
+	public void deleteAccount() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAO.
+			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
+			accountsDao.setEntityManager(entityManager);
+
+			// Create and save the entity to try deleting.
+			Account account = new Account();
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
+			account.getAuthTokens().add(authToken);
+			EntityTransaction tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				accountsDao.save(account);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Try to delete the entity.
+			tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				accountsDao.delete(account);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the result.
+			Assert.assertEquals(0, accountsDao.getAccounts().size());
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
 	 * Tests {@link AccountsDaoImpl#merge(Account)}.
 	 */
 	@Test
-	public void merge() {
+	public void mergeAccount() {
 		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
 				.createEntityManager();
 
@@ -334,59 +382,6 @@ public final class AccountsDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link AccountsDaoImpl#getLoginsForAccount(Account)}.
-	 * 
-	 * @throws AddressException
-	 *             (won't happen, as the email addresses are hardcoded)
-	 */
-	@Test
-	public void getLoginsForAccount() throws AddressException {
-		// Create the DAO.
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
-
-		try {
-			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
-			accountsDao.setEntityManager(entityManager);
-			GuestLoginIdentitiesDaoImpl guestLoginsDao = new GuestLoginIdentitiesDaoImpl();
-			guestLoginsDao.setEntityManager(entityManager);
-			GameLoginIdentitiesDaoImpl gameLoginsDao = new GameLoginIdentitiesDaoImpl();
-			gameLoginsDao.setEntityManager(entityManager);
-
-			// Create and save the entities to test against.
-			Account account1 = new Account();
-			GuestLoginIdentity login1 = new GuestLoginIdentity(account1);
-			GameLoginIdentity login2 = new GameLoginIdentity(account1,
-					new InternetAddress("foo@example.com"), "secret");
-			Account account2 = new Account();
-			GuestLoginIdentity login3 = new GuestLoginIdentity(account2);
-			EntityTransaction tx = entityManager.getTransaction();
-			try {
-				tx.begin();
-				accountsDao.save(account1);
-				guestLoginsDao.save(login1);
-				gameLoginsDao.save(login2);
-				accountsDao.save(account2);
-				guestLoginsDao.save(login3);
-				tx.commit();
-			} finally {
-				if (tx.isActive())
-					tx.rollback();
-			}
-
-			// Try to query for the entities.
-			List<ILoginIdentity> loginsForAccount1 = accountsDao
-					.getLoginsForAccount(account1);
-			Assert.assertEquals(2, loginsForAccount1.size());
-			List<ILoginIdentity> loginsForAccount2 = accountsDao
-					.getLoginsForAccount(account2);
-			Assert.assertEquals(1, loginsForAccount2.size());
-		} finally {
-			entityManager.close();
-		}
-	}
-
-	/**
 	 * @param resourcePath
 	 *            the path of the classpath resource file to unmarshall the
 	 *            {@link Account} from
@@ -409,6 +404,59 @@ public final class AccountsDaoImplIT {
 			return parsedAccount;
 		} catch (JAXBException e) {
 			throw new UncheckedJaxbException(e);
+		}
+	}
+
+	/**
+	 * Tests {@link AccountsDaoImpl#save(AuditAccountMerge...)} and
+	 * {@link IAccountsDao#getAccountAuditEntries(Account)}.
+	 */
+	@Test
+	public void saveAndGetAuditAccountMerge() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAO.
+			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
+			accountsDao.setEntityManager(entityManager);
+
+			// Create the entity to try saving.
+			Account account = new Account();
+			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
+			account.getAuthTokens().add(authToken);
+			Set<AbstractLoginIdentity> mergedLogins = new HashSet<>();
+			mergedLogins.add(new GuestLoginIdentity(account));
+			AuditAccountMerge auditAccountMerge = new AuditAccountMerge(
+					account, mergedLogins);
+			Game game = new Game(new Player(account));
+			AuditAccountGameMerge auditAccountGameMerge = new AuditAccountGameMerge(
+					auditAccountMerge, game, PlayerRole.PLAYER_1);
+			auditAccountMerge.getMergedGames().add(auditAccountGameMerge);
+
+			// Try to save the entity.
+			EntityTransaction tx = null;
+			try {
+				tx = entityManager.getTransaction();
+				tx.begin();
+				accountsDao.save(auditAccountMerge);
+				tx.commit();
+			} finally {
+				if (tx != null && tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the result.
+			Assert.assertEquals(1, accountsDao.getAccountAuditEntries(account)
+					.size());
+			AuditAccountMerge auditAccountEntryFromDb = accountsDao
+					.getAccountAuditEntries(account).get(0);
+			Assert.assertEquals(1, auditAccountEntryFromDb.getId());
+			Assert.assertEquals(1, auditAccountEntryFromDb.getMergedGames()
+					.size());
+			Assert.assertNotNull(auditAccountEntryFromDb.getMergeTimestamp());
+		} finally {
+			entityManager.close();
 		}
 	}
 }

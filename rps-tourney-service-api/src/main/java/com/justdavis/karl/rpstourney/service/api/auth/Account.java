@@ -2,7 +2,9 @@ package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,6 +32,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
@@ -49,6 +55,7 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * </p>
  */
 @XmlRootElement
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "`Accounts`")
 public class Account implements Principal, Serializable {
@@ -75,6 +82,10 @@ public class Account implements Principal, Serializable {
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	private Instant createdTimestamp;
 
+	@XmlElement(required = true, nillable = true)
+	@Column(name = "`name`", nullable = true)
+	private String name;
+
 	@XmlElementWrapper(name = "roles", required = true)
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -93,9 +104,11 @@ public class Account implements Principal, Serializable {
 			CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
 	private Set<AuthToken> authTokens;
 
-	@XmlElement(required = true, nillable = true)
-	@Column(name = "`name`", nullable = true)
-	private String name;
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("createdTimestamp ASC")
+	@XmlElementWrapper(name = "logins")
+	@XmlElement(name = "login")
+	private List<AbstractLoginIdentity> logins;
 
 	/**
 	 * Constructs a new {@link Account} instance.
@@ -106,11 +119,13 @@ public class Account implements Principal, Serializable {
 	 */
 	public Account(SecurityRole... roles) {
 		this.createdTimestamp = Instant.now();
+		this.name = null;
 		this.roles = new HashSet<>();
 		this.roles.add(SecurityRole.USERS);
 		for (SecurityRole role : roles)
 			this.roles.add(role);
 		this.authTokens = new HashSet<>();
+		this.logins = new ArrayList<>();
 	}
 
 	/**
@@ -170,6 +185,27 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * @return the user-defined name for this {@link Account}, or
+	 *         <code>null</code> if the user has not (yet) specified a name for
+	 *         themselves
+	 * 
+	 * @see java.security.Principal#getName()
+	 */
+	@XmlTransient
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the new value to use for {@link #getName()}
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
 	 * @param role
 	 *            the {@link SecurityRole} to check for
 	 * @return <code>true</code> if {@link Account#getRoles()} contains the
@@ -226,24 +262,24 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @return the user-defined name for this {@link Account}, or
-	 *         <code>null</code> if the user has not (yet) specified a name for
-	 *         themselves
-	 * 
-	 * @see java.security.Principal#getName()
+	 * @return the {@link List} of {@link AbstractLoginIdentity}s associated
+	 *         with this {@link Account}, ordered by
+	 *         {@link AbstractLoginIdentity#getCreatedTimestamp()}
 	 */
-	@XmlTransient
-	@Override
-	public String getName() {
-		return name;
+	public List<AbstractLoginIdentity> getLogins() {
+		return logins;
 	}
 
 	/**
-	 * @param name
-	 *            the new value to use for {@link #getName()}
+	 * @return <code>false</code> if {@link #getLogins()} contains anything
+	 *         other than {@link GuestLoginIdentity}s, <code>true</code>
+	 *         otherwise
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public boolean isAnonymous() {
+		for (ILoginIdentity login : logins)
+			if (login.getLoginProvider() != LoginProvider.GUEST)
+				return false;
+		return true;
 	}
 
 	/**
@@ -312,6 +348,8 @@ public class Account implements Principal, Serializable {
 		builder.append(id);
 		builder.append(", createdTimestamp=");
 		builder.append(createdTimestamp);
+		builder.append(", name=");
+		builder.append(name);
 		builder.append(", roles=");
 		builder.append(roles);
 		/*
@@ -321,8 +359,8 @@ public class Account implements Principal, Serializable {
 		 */
 		builder.append(", authTokens.size()=");
 		builder.append(authTokens.size());
-		builder.append(", name=");
-		builder.append(name);
+		builder.append(", logins=");
+		builder.append(logins);
 		builder.append("]");
 		return builder.toString();
 	}
