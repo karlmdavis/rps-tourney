@@ -3253,3 +3253,11 @@ This file should never be committed along with other files; it should always be 
         * Makes me want to go back and remove the cycle-related `@XmlTransient` annotations. But not worth it right now.
     * After a chair nap to mull things over, got the tests finished, fixed, and the build is now passing.
     * Committed all of my changes to date and pushed them, marking the issue as resolved.
+
+### 2015-04-25, Saturday
+
+* 0.55h (23:10-23:44): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Decided to push a release now that this is closed.
+    * First, need to push a release of `jessentials-misc`.
+        * That release failed miserably. Checked things in at the wrong version somehow.
+        * Didn't have time to fix tonight.
