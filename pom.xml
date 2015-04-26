@@ -57,11 +57,11 @@
 	<distributionManagement>
 		<repository>
 			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/releases-opensource</url>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource</url>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -70,7 +70,7 @@
 			as well (in addition to being specified in the parent itself). -->
 		<repository>
 			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/releases-opensource/</url>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -80,7 +80,7 @@
 		</repository>
 		<repository>
 			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/snapshots-opensource/</url>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -104,13 +104,13 @@
 		</repository>
 		<repository>
 			<!-- This repo is used to grab Bootstrap (and perhaps other artifacts). -->
-			<id>justdavis.com-nexus-thirdparty</id>
-			<url>https://justdavis.com/nexus/content/repositories/thirdparty/</url>
+			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
+			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
