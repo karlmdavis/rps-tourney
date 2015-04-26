@@ -3261,3 +3261,13 @@ This file should never be committed along with other files; it should always be 
     * First, need to push a release of `jessentials-misc`.
         * That release failed miserably. Checked things in at the wrong version somehow.
         * Didn't have time to fix tonight.
+
+### 2015-04-26, Sunday
+
+* 1.25h (11:48-13:01): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Got the `jessentials-parent` POM fixed up and released it-- I'd never updated the Nexus repos in it when they were renamed.
+    * Released `jessentials-misc`.
+    * Released `2.0.0-milestone.2` of RPS.
+    * Deployed that RPS release to `eddings`. Had to wipe the DB, as I'd made changes to the Liquibase log.
+        * Shame on me!
+    * Need to test the production deployment a bit to ensure everything works as expected there.
