@@ -3271,3 +3271,11 @@ This file should never be committed along with other files; it should always be 
     * Deployed that RPS release to `eddings`. Had to wipe the DB, as I'd made changes to the Liquibase log.
         * Shame on me!
     * Need to test the production deployment a bit to ensure everything works as expected there.
+
+### 2015-04-27, Monday
+
+* 0.45h (21:56-22:23): [Issue #62: The game webapp should allow users to create a named login/account](https://github.com/karlmdavis/rps-tourney/issues/62):
+    * Tested the production instance out. Found and filed the following issues:
+        * [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
+        * [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
+        * [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
