@@ -3279,3 +3279,9 @@ This file should never be committed along with other files; it should always be 
         * [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
         * [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
         * [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
+* Think I need to do some more testing and a bugfix release next.
+
+### 2015-04-28, Tuesday
+
+* 0.15h (23:46-23:56): [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
+    * Wrote a test case for this. Didn't have time to run or debug it.
