@@ -3285,3 +3285,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h (23:46-23:56): [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
     * Wrote a test case for this. Didn't have time to run or debug it.
+
+### 2015-04-29, Wednesday
+
+* 0.6h (21:57-22:32): [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
+    * Got the test case finished and fixed the bug.
+    * The problem basically boils down to my use of `@JsonIdentityInfo`: because game data objects reference users in so many places, the serialization wasn't very predictable. I'm not sure, but it might have even serialized things differently if someone was a player in the game or not. Too goofy for the JS to cope with.
+    * Fixed the JSON serialization with a different more limited set of annotations that work just great.
