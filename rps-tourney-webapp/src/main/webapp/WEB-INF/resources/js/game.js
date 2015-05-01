@@ -181,7 +181,7 @@ function refreshGameState() {
 			
 			// Create the result row, if it hasn't been already.
 			if ($("#result-row").length === 0) {
-				// Computer the "Foo Won/Lost" display text.
+				// Computer the "You Won/Lost" display text.
 				var finalResultCell;
 				if (isUserAPlayer(gameData) && isUserTheWinner(gameData)) {
 					finalResultCell = '<td class="won">' + $.i18n.prop("game.roundHistory.userWon") + '</td>';
