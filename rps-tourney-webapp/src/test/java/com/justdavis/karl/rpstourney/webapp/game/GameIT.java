@@ -690,12 +690,72 @@ public final class GameIT {
 			Assert.assertNotNull(gameDataString);
 			JSONObject gameDataJson = new JSONObject(gameDataString);
 			Assert.assertEquals(gameId, gameDataJson.get("id"));
-			System.out.println(gameDataJson);
 		} finally {
 			if (gameDataScanner != null)
 				gameDataScanner.close();
 			if (gameDataStream != null)
 				gameDataStream.close();
+		}
+	}
+
+	/**
+	 * A regression test case for <a
+	 * href="https://github.com/karlmdavis/rps-tourney/issues/78">Issue #78:
+	 * "You Won" / "You Lost" display wrong: a 3 to 1 win reports
+	 * "You Lost"</a>. Verifies that the AJAXy win/loss display is correct when
+	 * your opponent makes the final move and loses.
+	 */
+	@Test
+	public void ajaxOpponentLoses() {
+		WebDriver player1Driver = null;
+		WebDriver player2Driver = null;
+		try {
+			// Create the Selenium drivers.
+			player1Driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> player1Wait = new WebDriverWait(player1Driver, 20);
+			player2Driver = new HtmlUnitDriver(true);
+
+			// Play the (short) game, with player 2 going last and losing.
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = player1Driver.getCurrentUrl().substring(
+					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
+			player1Driver.findElement(By.id("max-rounds-down")).click();
+			Assert.assertEquals("1",
+					player1Driver.findElement(By.id("max-rounds-value"))
+							.getText());
+			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
+			player2Driver.findElement(By.id("join-game")).click();
+			player1Driver
+					.findElement(
+							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
+					.click();
+			player2Driver
+					.findElement(
+							By.xpath("//div[@id='player-2-controls']//a[@class='throw-scissors']"))
+					.click();
+
+			// Verify that the won/lost displays are correct.
+			player1Wait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.cssSelector("div#player-1-controls p.player-score-value"),
+							"1"));
+			Assert.assertEquals(
+					"0",
+					player1Driver
+							.findElement(
+									By.cssSelector("div#player-2-controls p.player-score-value"))
+							.getText());
+			Assert.assertEquals(
+					"You Won!",
+					player1Driver.findElement(
+							By.xpath("//tr[@id='result-row']/td[4]")).getText());
+			Assert.assertEquals(
+					"You Lost",
+					player2Driver.findElement(
+							By.xpath("//tr[@id='result-row']/td[4]")).getText());
+		} finally {
+			if (player1Driver != null)
+				player1Driver.quit();
 		}
 	}
 

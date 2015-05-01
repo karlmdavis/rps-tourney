@@ -32,8 +32,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
@@ -55,7 +54,6 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * </p>
  */
 @XmlRootElement
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "`Accounts`")
 public class Account implements Principal, Serializable {
@@ -108,6 +106,7 @@ public class Account implements Principal, Serializable {
 	@OrderBy("createdTimestamp ASC")
 	@XmlElementWrapper(name = "logins")
 	@XmlElement(name = "login")
+	@JsonManagedReference
 	private List<AbstractLoginIdentity> logins;
 
 	/**

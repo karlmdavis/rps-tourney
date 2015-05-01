@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
@@ -64,6 +65,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity {
 			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
 	@XmlTransient
+	@JsonBackReference
 	protected Account account;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
