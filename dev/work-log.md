@@ -3292,3 +3292,10 @@ This file should never be committed along with other files; it should always be 
     * Got the test case finished and fixed the bug.
     * The problem basically boils down to my use of `@JsonIdentityInfo`: because game data objects reference users in so many places, the serialization wasn't very predictable. I'm not sure, but it might have even serialized things differently if someone was a player in the game or not. Too goofy for the JS to cope with.
     * Fixed the JSON serialization with a different more limited set of annotations that work just great.
+
+### 2015-04-30, Thursday
+
+* 0.05h (22:52-22:55): [Issue #78: "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"](https://github.com/karlmdavis/rps-tourney/issues/78)
+    * Committed fix.
+* 0.4h (22:55-23:19): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
+    * Wrote a test case for this and started trying to debug it. Didn't finish.
