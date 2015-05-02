@@ -3299,3 +3299,8 @@ This file should never be committed along with other files; it should always be 
     * Committed fix.
 * 0.4h (22:55-23:19): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
     * Wrote a test case for this and started trying to debug it. Didn't finish.
+
+### 2015-05-01, Friday
+
+* 0.75h (22:35-23:20): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
+    * Worked on the test case some more. `ExpectedConditions.not(...)` is broken somehow.
