@@ -403,6 +403,11 @@ public class GameController {
 				&& game.getWinner().equals(game.getPlayer2()));
 		modelAndView.addObject("isPlayer2TheLoser", hasWinner
 				&& !game.getWinner().equals(game.getPlayer2()));
+		if (hasWinner)
+			modelAndView.addObject("winnerLabel",
+					game.getWinner().equals(game.getPlayer1()) ? modelAndView
+							.getModel().get("player1Label") : modelAndView
+							.getModel().get("player2Label"));
 
 		return modelAndView;
 	}

@@ -760,6 +760,90 @@ public final class GameIT {
 	}
 
 	/**
+	 * <p>
+	 * Verifies that the AJAXy round history updates are rendered correctly for
+	 * non-players.
+	 * </p>
+	 * <p>
+	 * This is also a regression test case for <a
+	 * href="https://github.com/karlmdavis/rps-tourney/issues/79">Issue #79:
+	 * Round history table updates goofily: rows out of order</a>.
+	 * </p>
+	 */
+	@Test
+	public void ajaxObserver() {
+		WebDriver observerDriver = null;
+		try {
+			// Create the Selenium driver.
+			observerDriver = new HtmlUnitDriver(true);
+			Wait<WebDriver> observerWait = new WebDriverWait(observerDriver, 20);
+
+			// Create the web service clients that will be used for the players.
+			ClientConfig clientConfig = ITUtils.createClientConfig();
+			CookieStore player1Cookies = new CookieStore();
+			CookieStore player2Cookies = new CookieStore();
+			GuestAuthClient player1AuthClient = new GuestAuthClient(
+					clientConfig, player1Cookies);
+			GuestAuthClient player2AuthClient = new GuestAuthClient(
+					clientConfig, player2Cookies);
+			GameClient player1GameClient = new GameClient(clientConfig,
+					player1Cookies);
+			GameClient player2GameClient = new GameClient(clientConfig,
+					player2Cookies);
+
+			/*
+			 * Play a game, verifying the observer's round history.
+			 */
+
+			player1AuthClient.loginAsGuest();
+			player2AuthClient.loginAsGuest();
+			GameView game = player1GameClient.createGame();
+
+			observerDriver.get(ITUtils.buildWebAppUrl("game/" + game.getId()));
+			player2GameClient.joinGame(game.getId());
+			observerWait.until(ExpectedConditions
+					.invisibilityOfElementLocated(By.id("#join-controls")));
+
+			player1GameClient.submitThrow(game.getId(), 0, Throw.ROCK);
+			player2GameClient.submitThrow(game.getId(), 0, Throw.ROCK);
+			observerWait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.xpath("//table[@id='rounds']/tbody/tr[1]/td[4]"),
+							"(tied)"));
+
+			player1GameClient.submitThrow(game.getId(), 1, Throw.ROCK);
+			player2GameClient.submitThrow(game.getId(), 1, Throw.PAPER);
+			observerWait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.xpath("//table[@id='rounds']/tbody/tr[2]/td[4]"),
+							"Player 2"));
+
+			player1GameClient.submitThrow(game.getId(), 2, Throw.PAPER);
+			player2GameClient.submitThrow(game.getId(), 2, Throw.ROCK);
+			observerWait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.xpath("//table[@id='rounds']/tbody/tr[3]/td[4]"),
+							"Player 1"));
+
+			player1GameClient.submitThrow(game.getId(), 3, Throw.ROCK);
+			player2GameClient.submitThrow(game.getId(), 3, Throw.PAPER);
+			observerWait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.xpath("//table[@id='rounds']/tbody/tr[4]/td[4]"),
+							"Player 2"));
+
+			System.err.println(observerDriver.getPageSource());
+			observerWait
+					.until(ExpectedConditions.textToBePresentInElementLocated(
+							By.xpath("//table[@id='rounds']/tbody/tr[5]/td[4]"),
+							"Player 2"));
+		} finally {
+			if (observerDriver != null)
+				observerDriver.quit();
+		}
+	}
+
+	/**
 	 * @param driver
 	 *            the {@link WebDriver} to use
 	 * @return the value of the <code>#round-counter-current</code> element on

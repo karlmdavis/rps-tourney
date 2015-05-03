@@ -86,8 +86,10 @@
 				<div id="join-message" class="alert alert-success" role="alert"><spring:message code="game.join.message.player1" /></div>
 				</c:if>
 				<c:if test="${!isPlayer && !hasPlayer2}">
-				<div class="alert alert-info" role="alert"><spring:message code="game.join.message.other" /></div>
-				<a id="join-game" href="${gameUrl}/join"><spring:message code="game.join" /></a>
+				<div id="join-controls">
+					<div class="alert alert-info" role="alert"><spring:message code="game.join.message.other" /></div>
+					<a id="join-game" href="${gameUrl}/join"><spring:message code="game.join" /></a>
+				</div>
 				</c:if>
 				<c:if test="${isPlayer}">
 				<div id="max-round-controls">
@@ -156,7 +158,7 @@
 							<td class="lost"><spring:message code="game.roundHistory.userLost" /></td>
 							</c:when>
 							<c:otherwise>
-							<td>${game.winner.name}<spring:message code="game.roundHistory.someoneWonSuffix" /></td>
+							<td>${winnerLabel}<spring:message code="game.roundHistory.someoneWonSuffix" /></td>
 							</c:otherwise>
 							</c:choose>
 						</tr>
