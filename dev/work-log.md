@@ -3304,3 +3304,12 @@ This file should never be committed along with other files; it should always be 
 
 * 0.75h (22:35-23:20): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
     * Worked on the test case some more. `ExpectedConditions.not(...)` is broken somehow.
+
+### 2015-05-02, Saturday
+
+* 1.0h (21:00-22:01): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
+    * Worked on the test case some more. Found & fixed a number of JS bugs, and the test case now passes.
+        * Was inserting the result row before inserting round rows.
+        * Wasn't wrapping the result text in `td` cell.
+        * Wasn't properly determining what to "name" the winner.
+            * Still may not have this correct in the server-side version.
