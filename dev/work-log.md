@@ -3313,3 +3313,9 @@ This file should never be committed along with other files; it should always be 
         * Wasn't wrapping the result text in `td` cell.
         * Wasn't properly determining what to "name" the winner.
             * Still may not have this correct in the server-side version.
+
+### 2015-05-03, Sunday
+
+* 0.3h (11:43-11:55,13:25-13:31): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
+    * Fixed the server-side winner name bug.
+* Next, I think I should fix the intermittent test case failures, and then the FF cert error.
