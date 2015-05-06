@@ -3319,3 +3319,11 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (11:43-11:55,13:25-13:31): [Issue #79: Round history table updates goofily: rows out of order](https://github.com/karlmdavis/rps-tourney/issues/79)
     * Fixed the server-side winner name bug.
 * Next, I think I should fix the intermittent test case failures, and then the FF cert error.
+
+### 2015-05-05, Tuesday
+
+* *Was out sick yesterday-- from work and from this project. Terrible, awful allergies.*
+* 0.2h (22:23-22:36): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Started looking at this, but the old stack traces in the issue comments are no longer valid.
+    * Set things to build a bunch of times to force a new failure.
+    * Got a failure, but didn't have a chance to investigate it yet.
