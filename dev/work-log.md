@@ -3327,3 +3327,12 @@ This file should never be committed along with other files; it should always be 
     * Started looking at this, but the old stack traces in the issue comments are no longer valid.
     * Set things to build a bunch of times to force a new failure.
     * Got a failure, but didn't have a chance to investigate it yet.
+
+### 2015-05-06, Wednesday
+
+* 0.75h (21:01-21:45): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Found and fixed a problem: `GameController` was never calling `prepareRound(...)`.
+    * Found another problem that will need to be fixed: `Game.submitThrow(...)` calls `prepareRound(...)`, which could cause an unnecessary conflict.
+    * Cannot, however, figure out why the IT's call to `prepareRound(...)` is failing.
+        * It should be the only thread running at that point in time, so I don't see what could cause a conflict.
+        * Need to try rerunning, and probably adding some extra logging to figure out what's up.
