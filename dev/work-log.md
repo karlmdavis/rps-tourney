@@ -3336,3 +3336,9 @@ This file should never be committed along with other files; it should always be 
     * Cannot, however, figure out why the IT's call to `prepareRound(...)` is failing.
         * It should be the only thread running at that point in time, so I don't see what could cause a conflict.
         * Need to try rerunning, and probably adding some extra logging to figure out what's up.
+
+### 2015-05-07, Thursday
+
+* 0.2h (23:12-23:25): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * The `prepareRound(...)` failure seems to be a Heisenbug: I added logging to the web service to help track it down, and couldn't get it to reproduce. It **did** appear before I added that logging, though.
+    * Instead, a different failure appeared during my last run for the same test case. I'll need to investigate it first, I guess.
