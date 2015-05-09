@@ -3351,3 +3351,11 @@ This file should never be committed along with other files; it should always be 
         * Can't tell if there's a bug in the client, in the server, or if this is just one of those HTTP things.
         * Need to run a traffic sniffer and see what's happening at that level.
         * Might also want to just consider making `prepareRound(...)` private and handling it internally, though this would require manual transaction management.
+
+### 2015-05-09, Saturday
+
+* 1.0h (12:44-13:44): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Spent a while trying to use `tcpdump` to debug things, but ran into problems.
+        * Have to set it to use a non-random port, or there's too much noise.
+        * Had to add a random query parameter to the `prepareRound(...)` web service calls, to keep track of them.
+        * Still not too sure to how to read `tcpdump`'s output.
