@@ -3342,3 +3342,12 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (23:12-23:25): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
     * The `prepareRound(...)` failure seems to be a Heisenbug: I added logging to the web service to help track it down, and couldn't get it to reproduce. It **did** appear before I added that logging, though.
     * Instead, a different failure appeared during my last run for the same test case. I'll need to investigate it first, I guess.
+
+### 2015-05-08, Friday
+
+* 0.45h (22:57-23:25): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Couldn't parse the gigantic log from last night's failure, so tried re-running just the one test case. Back to the `prepareRound(...)` failure.
+    * It doesn't make much sense to me yet, but I see one client request leaving, but see it handled twice by the server.
+        * Can't tell if there's a bug in the client, in the server, or if this is just one of those HTTP things.
+        * Need to run a traffic sniffer and see what's happening at that level.
+        * Might also want to just consider making `prepareRound(...)` private and handling it internally, though this would require manual transaction management.
