@@ -3370,3 +3370,10 @@ This file should never be committed along with other files; it should always be 
     * Tried again to debug via `tcpdump`.
         * Can't seem to capture outgoing loopback traffic with it, even if it's addressed to the `10.0.0...` IP, rather than `localhost`.
         * I need to just try and crank up the CXF logging, and try debugging that way.
+
+### 2015-05-11, Monday
+
+* 0.7h (22:15-22:55): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Spent some time trying to get the CXF client logging at a low level. No luck so far.
+        * Need to read a bit about JUL's `logging.properties` file, I think.
+        * Short-term, maybe I should just add the SLF4J bridge programmatically.
