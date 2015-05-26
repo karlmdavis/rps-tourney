@@ -3377,3 +3377,19 @@ This file should never be committed along with other files; it should always be 
     * Spent some time trying to get the CXF client logging at a low level. No luck so far.
         * Need to read a bit about JUL's `logging.properties` file, I think.
         * Short-term, maybe I should just add the SLF4J bridge programmatically.
+
+### 2015-05-25, Monday
+
+* *On vacation from May 9 through May 31. Only working on side projects intermittently during that period.*
+* 2.9h (14:37-15:30,18:10-18:20,20:48-22:41): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Spent some time trying to get the CXF client logging at a low level. No luck so far.
+        * Delved in via the debugger and proved that CXF is not using the JRE's `HttpURLConnection`.
+        * Tried turning on "all" logging, but could not reproduce the problem-- it alters the timing enough to "fix" things.
+            * Gah, when enabled this way, there **are** log entries being fired for the "`s.n.w.p.http.HttpURLConnection`" category (expands to "`sun.net.www.protocol.http.HttpURLConnection`").
+        * Finally got JUL logging working: programmatically set the root JUL level to `ALL` and programmatically install `SLF4JBridgeHandler`.
+            * From the logs, it looks like things are going out once, but coming in to Jetty twice.
+            * From my earlier `tcpdump` attempts, I recall that it looked like things were coming in twice at that layer, too.
+    * Tried debugging using an HTTP proxy: [zaproxy / OWASP ZAP](https://code.google.com/p/zaproxy/wiki/Introduction).
+        * The failing requests look like they're being issued three times, with one or two of them failing with the following: "HTTP/1.1 502 Bad Gateway ... ZAP Error [java.net.SocketException]: Broken pipe". Progress!
+        * This leads me to suspect Jetty as the culprit, though it could still be something to do with the client.
+        * Need to either update to latest Jetty, and/or replace Jetty with Tomcat.
