@@ -3393,3 +3393,10 @@ This file should never be committed along with other files; it should always be 
         * The failing requests look like they're being issued three times, with one or two of them failing with the following: "HTTP/1.1 502 Bad Gateway ... ZAP Error [java.net.SocketException]: Broken pipe". Progress!
         * This leads me to suspect Jetty as the culprit, though it could still be something to do with the client.
         * Need to either update to latest Jetty, and/or replace Jetty with Tomcat.
+
+### 2015-06-01, Monday
+
+* *Was on vacation from May 9 through May 31. Only worked on side projects intermittently during that period.*
+* 0.3h (07:56-08:15): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Updated to Jetty 9.2.1, kicked off test run.
+        * Looks to be working now, but will leave running for a while to verify.
