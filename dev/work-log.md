@@ -3400,3 +3400,11 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (07:56-08:15): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
     * Updated to Jetty 9.2.1, kicked off test run.
         * Looks to be working now, but will leave running for a while to verify.
+
+### 2015-06-02, Tuesday
+
+* 0.4h (06:51-07:14): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Different kind of failure now: `SocketException: Unexpected end of file from server`, received by the client on a throw.
+        * Though the client *thinks* the request failed, it looks like the server did actually process it, so the second try fails for legit reasons. To the client, though, both requests looked like they failed. Test goes boom.
+        * Oh, I think the proxy I was using may just have died, causing the error.
+        * Restarted the test without the proxy involved.
