@@ -3408,3 +3408,9 @@ This file should never be committed along with other files; it should always be 
         * Though the client *thinks* the request failed, it looks like the server did actually process it, so the second try fails for legit reasons. To the client, though, both requests looked like they failed. Test goes boom.
         * Oh, I think the proxy I was using may just have died, causing the error.
         * Restarted the test without the proxy involved.
+
+### 2015-06-04, Wednesday
+
+* 0.1h (23:45-23:51): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * The test run yesterday was still passing after several hours, so I'd say things are now fixed.
+    * Started cleaning up and committing things. More to do still.
