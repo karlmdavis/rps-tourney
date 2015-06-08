@@ -13,6 +13,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,6 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
+import com.justdavis.karl.misc.junit.JulLoggingToSlf4jBinder;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
@@ -46,6 +48,9 @@ import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class GameResourceImplIT {
+	@Rule
+	public JulLoggingToSlf4jBinder julBinder = new JulLoggingToSlf4jBinder();
+
 	@Inject
 	private EmbeddedServer server;
 
