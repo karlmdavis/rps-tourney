@@ -12,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,8 @@ import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GameResourceImpl implements IGameResource {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameResourceImpl.class);
+	
 	private AccountSecurityContext securityContext;
 	private IPlayersDao playersDao;
 	private IGamesDao gamesDao;
@@ -218,6 +222,7 @@ public class GameResourceImpl implements IGameResource {
 		 * it doesn't really matter who calls it.
 		 */
 
+		LOGGER.trace("Prepare round start.");
 		Game game = getRawGame(gameId);
 
 		// Prepare the round, if needed.
@@ -230,6 +235,7 @@ public class GameResourceImpl implements IGameResource {
 		// Create and return a GameView for the game.
 		Account userAccount = getUserAccount();
 		GameView gameView = new GameView(game, userAccount);
+		LOGGER.trace("Prepare round end.");
 		return gameView;
 	}
 
