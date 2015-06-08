@@ -3414,3 +3414,10 @@ This file should never be committed along with other files; it should always be 
 * 0.1h (23:45-23:51): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
     * The test run yesterday was still passing after several hours, so I'd say things are now fixed.
     * Started cleaning up and committing things. More to do still.
+
+### 2015-06-08, Thursday
+
+* *Had a 3-day camping trip to prep for and attend.*
+* 1.1h (06:29-07:35): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Cleaned up and committed everything, but did not push as the build is failing.
+    * Looks like the `jessentials` "delayed install/deploy" thingy isn't actually installing artifacts at the end of a build. Need to figure out why.
