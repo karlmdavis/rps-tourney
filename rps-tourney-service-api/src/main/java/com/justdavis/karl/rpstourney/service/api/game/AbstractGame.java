@@ -168,6 +168,34 @@ class AbstractGame {
 	}
 
 	/**
+	 * 
+	 * @return <code>true</code> if {@link Game#prepareRound()} needs to be
+	 *         called before the next
+	 *         {@link Game#submitThrow(int, Player, Throw)}, <code>false</code>
+	 *         if it does not
+	 * @see Game#prepareRound()
+	 */
+	public boolean isRoundPrepared() {
+		if (state == State.WAITING_FOR_PLAYER)
+			return true;
+		if (state == State.FINISHED)
+			return true;
+
+		int currentRoundIndex = rounds.size() - 1;
+		GameRound currentRound = rounds.get(currentRoundIndex);
+
+		/*
+		 * Is the current round complete? (Note that the game isn't marked
+		 * FINISHED.)
+		 */
+		if (currentRound.getResult() != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @return the latest {@link GameRound#getThrowForPlayer1Timestamp()} /
 	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the
 	 *         {@link GameRound}s in this {@link Game}, or

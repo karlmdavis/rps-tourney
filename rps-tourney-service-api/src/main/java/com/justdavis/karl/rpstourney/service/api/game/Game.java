@@ -160,33 +160,6 @@ public class Game extends AbstractGame {
 	}
 
 	/**
-	 * 
-	 * @return <code>true</code> if {@link #prepareRound()} needs to be called
-	 *         before the next {@link #submitThrow(int, Player, Throw)},
-	 *         <code>false</code> if it does not
-	 * @see #prepareRound()
-	 */
-	public boolean isRoundPrepared() {
-		if (state == State.WAITING_FOR_PLAYER)
-			return false;
-		if (state == State.FINISHED)
-			return false;
-
-		int currentRoundIndex = rounds.size() - 1;
-		GameRound currentRound = rounds.get(currentRoundIndex);
-
-		/*
-		 * Is the current round complete? (Note that the game isn't marked
-		 * FINISHED.)
-		 */
-		if (currentRound.getResult() != null) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * <p>
 	 * Before calling {@link #submitThrow(int, Player, Throw)} each
 	 * {@link GameRound}, players/clients must first do the following:

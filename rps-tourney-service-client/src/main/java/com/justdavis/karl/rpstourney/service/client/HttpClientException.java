@@ -18,9 +18,25 @@ public final class HttpClientException extends RuntimeException {
 	 *            received
 	 */
 	public HttpClientException(StatusType status) {
-		super(String.format("Unexpected HTTP %d status on response: %s",
-				status.getStatusCode(), status.getReasonPhrase()));
+		super(buildMessage(status));
 		this.status = status;
+	}
+
+	private static String buildMessage(StatusType status) {
+		return String.format("Unexpected HTTP %d status on response: %s",
+				status.getStatusCode(), status.getReasonPhrase());
+	}
+
+	/**
+	 * Constructs a new {@link HttpClientException}.
+	 * 
+	 * @param cause
+	 *            the unexpected {@link HttpClientException} being wrapped and
+	 *            rethrown
+	 */
+	public HttpClientException(HttpClientException cause) {
+		super(buildMessage(cause.getStatus()), cause);
+		this.status = cause.getStatus();
 	}
 
 	/**

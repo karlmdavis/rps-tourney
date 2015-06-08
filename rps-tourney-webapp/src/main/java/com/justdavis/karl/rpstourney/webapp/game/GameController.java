@@ -210,6 +210,24 @@ public class GameController {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
 
+		// Prepare the round, if needed.
+		try {
+			if (!gameBeforeThrow.isRoundPrepared())
+				gameClient.prepareRound(gameId);
+		} catch (HttpClientException e) {
+			if (e.getStatus().getStatusCode() == Status.CONFLICT
+					.getStatusCode()) {
+				/*
+				 * This is perfectly normal and not a problem: it can happen due
+				 * to one of the clients being slightly out of date before
+				 * making the call.
+				 */
+			} else {
+				// For anything other than a CONFLICT, wrap & rethrow.
+				throw new HttpClientException(e);
+			}
+		}
+
 		// Submit the throw.
 		int currentRoundIndex = gameBeforeThrow.getRounds().size() - 1;
 		try {
