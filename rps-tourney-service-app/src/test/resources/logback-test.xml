@@ -1,6 +1,8 @@
 <configuration scan="true" scanPeriod="5 seconds">
 	<!-- Required to ensure that JUL respects log level changes. -->
-	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator" />
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
 
 	<!-- This appender will be sent all of the app's logging statements. -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -23,6 +25,17 @@
 		level="info" />
 	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
 		level="info" />
+
+	<!-- Log all traffic from the JAX-RS clients at a low level. -->
+	<!-- <logger name="sun.net.www.protocol.http.HttpURLConnection" level="all" 
+		/> -->
+	<!-- <logger name="org.apache.cxf.transport.http.HTTPConduit" level="all" 
+		/> -->
+
+	<!-- This Jetty logger will be used at almost the very start of every incoming 
+		HTTP request. It provides a simple way to debug request handling at a lower 
+		level. -->
+	<!-- <logger name="org.eclipse.jetty.server.Server" level="all" /> -->
 
 	<!-- Log at the INFO level and above by default, to the console. -->
 	<root level="info">
