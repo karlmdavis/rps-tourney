@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>3.4.0</version>
+		<version>4.0.0</version>
 	</parent>
 
 	<groupId>com.justdavis.karl.rpstourney</groupId>
@@ -205,6 +205,24 @@
 						<!-- Set the Java source version used by the compiler. -->
 						<source>${javaSourceVersion}</source>
 						<target>${javaSourceVersion}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<configuration>
+						<!-- This setting is marked as experimental, but should prevent partial 
+							installs in multi-module builds and releases. -->
+						<installAtEnd>true</installAtEnd>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<!-- This setting is marked as experimental, but should prevent partial 
+							deploys in multi-module builds and releases. -->
+						<deployAtEnd>true</deployAtEnd>
 					</configuration>
 				</plugin>
 				<plugin>
