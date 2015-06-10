@@ -3427,3 +3427,9 @@ This file should never be committed along with other files; it should always be 
 * 0.75h (06:42-07:26): [Issue #37: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
     * Fixed the problems with installAtEnd/deployAtEnd.
     * Pushed to GitHub.
+
+### 2015-06-10, Wednesday
+
+* 0.3h (06:17-06:36): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Update in issue comment.
+    * Left tests running in loop, about 35s each run.
