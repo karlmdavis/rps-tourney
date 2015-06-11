@@ -3433,3 +3433,10 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (06:17-06:36): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
     * Update in issue comment.
     * Left tests running in loop, about 35s each run.
+
+### 2015-06-11, Thursday
+
+* 0.3h (08:40-08:57): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+    * Tests running in loop haven't failed yet, after about 2500 iterations.
+    * Marked this issue as resolved.
+    * Cleaned up the issues & milestones a bit.
