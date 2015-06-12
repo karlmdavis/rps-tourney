@@ -3430,13 +3430,20 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-06-10, Wednesday
 
-* 0.3h (06:17-06:36): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+* 0.3h (06:17-06:36): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/77)
     * Update in issue comment.
     * Left tests running in loop, about 35s each run.
 
 ### 2015-06-11, Thursday
 
-* 0.3h (08:40-08:57): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/37)
+* 0.3h (08:40-08:57): [Issue #77: Intermittent test failures in GameSessionResourceImplIT](https://github.com/karlmdavis/rps-tourney/issues/77)
     * Tests running in loop haven't failed yet, after about 2500 iterations.
     * Marked this issue as resolved.
     * Cleaned up the issues & milestones a bit.
+
+### 2015-06-12, Friday
+
+* 0.25h (08:29-08:45): [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
+    * A `ctrl+F5` refresh on Erica's FF removed all of the errors and warnings.
+    * I'm not entirely sure what was up, but I was seeing some errors in the details that indicate perhaps one of the linked resources was responsible for some of the problem.
+    * Nonetheless, a test on ssllabs.com has indicated that I have some minor problems to resolve.
