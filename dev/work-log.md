@@ -3447,3 +3447,9 @@ This file should never be committed along with other files; it should always be 
     * A `ctrl+F5` refresh on Erica's FF removed all of the errors and warnings.
     * I'm not entirely sure what was up, but I was seeing some errors in the details that indicate perhaps one of the linked resources was responsible for some of the problem.
     * Nonetheless, a test on ssllabs.com has indicated that I have some minor problems to resolve.
+
+### 2015-06-13, Saturday
+
+1.05h (20:34-20:50,21:45-22:24,22:34-22:43): [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
+    * Fixed the CA chain problem.
+    * Resolved the GitHub issue.
