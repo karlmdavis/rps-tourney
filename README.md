@@ -53,6 +53,15 @@ Artifacts:
 * [rps-tourney-webapp-2.0.0-milestone.2.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.2/rps-tourney-webapp-2.0.0-milestone.2.war): the WAR for the game's web application
 * [rps-tourney-service-app-2.0.0-milestone.2.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.2/rps-tourney-service-app-2.0.0-milestone.2.war): the WAR for the game's web service (required by the web application)
 
+### [2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.3) (2015-06-14)
+
+This pre-release contains a number of important bugfixes. It was deployed publicly: [rpstourney.com](https://rpstourney.com).
+
+Artifacts:
+
+* [rps-tourney-webapp-2.0.0-milestone.3.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.3/rps-tourney-webapp-2.0.0-milestone.3.war): the WAR for the game's web application
+* [rps-tourney-service-app-2.0.0-milestone.3.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.3/rps-tourney-service-app-2.0.0-milestone.3.war): the WAR for the game's web service (required by the web application)
+
 
 ## Inspiration
 
