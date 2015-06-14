@@ -137,4 +137,10 @@ When prompted, the `openssl` questions were answered as follows:
 
 The CSR was then uploaded via Gandi's web interface, during the SSL certificate purchase process. Please note that, per [gandi.net: Generating Your CSR](http://wiki.gandi.net/en/ssl/csr#sha-2_certificate_request), the issued certificate will also cover the `www.rpstourney.com` subdomain.
 
-Once the certificate was issued, it was saved as `/etc/ssl/certs/rpstourney.com-2014-12-30.crt` on `eddings`. Gandi's intermediate CA certificate was also saved on `eddings` as `/etc/ssl/certs/GandiStandardSSLCA2.pem`. Please note that the "Comodo Cross-Signed Certificate" was manually appended to `GandiStandardSSLCA2.pem`, per the instructions at [Gandi Wiki: Retrieving the Gandi Intermediate Certificate](http://wiki.gandi.net/en/ssl/intermediate).
+Once the certificate was issued, it was saved as `/etc/ssl/certs/rpstourney.com-2014-12-30.crt` on `eddings`. 
+
+Gandi's intermediate CA certificate was also saved on `eddings` as `/etc/ssl/certs/GandiStandardSSLCA2.pem`. Please note that the "Comodo Cross-Signed Certificate" was manually appended to `GandiStandardSSLCA2.pem`, per the instructions at [Gandi Wiki: Retrieving the Gandi Intermediate Certificate](http://wiki.gandi.net/en/ssl/intermediate).
+
+It appears that Apache doesn't quite make use of binary PEM files (which `GandiStandardSSLCA2.pem` seems to be). At least, attempting to use this file in Apache via `SSLCertificateChainFile` results in an "incomplete" certificate chain, according to [Qualys SSL Labs](https://www.ssllabs.com/ssltest/). The PEM file was then converted from binary to ASCII format, as follows:
+
+    $ sudo openssl x509 -in /etc/ssl/certs/GandiStandardSSLCA2.pem -inform DES -out /etc/ssl/certs/GandiStandardSSLCA2.pem -text
