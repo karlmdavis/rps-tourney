@@ -3450,14 +3450,20 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-06-13, Saturday
 
-1.05h (20:34-20:50,21:45-22:24,22:34-22:43): [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
+* 1.05h (20:34-20:50,21:45-22:24,22:34-22:43): [Issue #80: Erica's FF encounters an "invalid certificate" warning when accessing rpstourney.com](https://github.com/karlmdavis/rps-tourney/issues/80)
     * Fixed the CA chain problem.
     * Resolved the GitHub issue.
 
 ### 2015-06-14, Sunday
 
-0.4h (17:46-18:08): [Issue #81: Release 2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues/81)
+* 0.4h (17:46-18:08): [Issue #81: Release 2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues/81)
     * Ran the Maven release.
     * Deployed the release to production.
     * Need to fix the page's copyright year.
     * Need to update the README to be more interesting.
+
+### 2015-06-15, Monday
+
+* 0.2h (07:50-?): [Issue #82: The webapp displays "2014" (last year) in the copyright section](https://github.com/karlmdavis/rps-tourney/issues/82)
+    * Resolved.
+* Need to update the README to be more interesting.
