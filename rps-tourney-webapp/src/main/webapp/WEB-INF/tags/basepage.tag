@@ -6,6 +6,7 @@
 <%@ taglib prefix="rps" uri="http://justdavis.com/karl/rpstourney/app/jsp-tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -47,7 +48,11 @@
 
 		<footer id="page-footer">
 			<div class="container">
-				<p>&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, 2014. Check this project out at <a href="https://github.com/karlmdavis/rps-tourney">github.com/karlmdavis/rps-tourney</a>.</p>
+				<jsp:useBean id="date" class="java.util.Date" />
+				<p>
+					&copy; <a href="https://justdavis.com/karl/">Karl M. Davis</a>, <fmt:formatDate value="${date}" pattern="yyyy" />.
+					Check this project out at <a href="https://github.com/karlmdavis/rps-tourney">github.com/karlmdavis/rps-tourney</a>.
+				</p>
 			</div>
 		</footer>
 
