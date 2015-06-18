@@ -3473,3 +3473,12 @@ This file should never be committed along with other files; it should always be 
 * 0.7h (04:54-05:36): [Issue #85: Need to update the README to be more interesting and relevant](https://github.com/karlmdavis/rps-tourney/issues/85)
     * Updated the Jenkins [Embeddable Build Status Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Embeddable+Build+Status+Plugin) plugin, which was having caching issues that prevented it from actually being displayed.
     * Created test user accounts that I can use in screenshots.
+
+### 2015-06-17, Wednesday
+
+* 0.15h (23:26-23:35): [Issue #85: Need to update the README to be more interesting and relevant](https://github.com/karlmdavis/rps-tourney/issues/85)
+    * Figured out how to do the screen capture:
+        1. Use RecordMyDesktop to capture video.
+        2. Use ffmpeg to convert the video to a set of image frames: <http://xmodulo.com/convert-video-animated-gif-image-linux.html>.
+        3. Use ImageMagick to combine the frame into an animated GIF.
+    * However, first I need to tighten up the webapp template a bit, or I'm going to need a giant video/image.
