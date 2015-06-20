@@ -3482,10 +3482,16 @@ This file should never be committed along with other files; it should always be 
         2. Use ffmpeg to convert the video to a set of image frames: <http://xmodulo.com/convert-video-animated-gif-image-linux.html>.
         3. Use ImageMagick to combine the frame into an animated GIF.
     * However, first I need to tighten up the webapp template a bit, or I'm going to need a giant video/image.
-### 2015-06-17, Wednesday
+
+### 2015-06-18, Thursday
 
 * 0.25h (22:32-22:36,23:35-23:47): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Basically, just stared at the UI for a while...
         * I always underestimate the importance of a really awesome UI. Need to make milestone 4 all about making the UI awesome.
         * Should move the scores to the sides of the throw controls, and reword them as "Has Won X of Y Rounds", with the number really large and the words small.
         * Need to make the throw controls more snazzy... just not sure how yet.
+
+### 2015-06-19, Friday
+
+* 2.35h (16:10-16:28,19:16-20:27,22:18-23:10): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Created `GameTitleTag` and almost got it working.
