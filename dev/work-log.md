@@ -3495,3 +3495,9 @@ This file should never be committed along with other files; it should always be 
 
 * 2.35h (16:10-16:28,19:16-20:27,22:18-23:10): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Created `GameTitleTag` and almost got it working.
+
+### 2015-06-20, Saturday
+
+* 0.15h (21:00-21:08): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Work on `GameTitleTag`.
+        * Realized that the Spring injection in these kinds of objects has to be done manually. See `AccountNameTag`.
