@@ -3513,3 +3513,8 @@ This file should never be committed along with other files; it should always be 
             * If the player is the current user, append " (You)" to the name.
         * Rename `gamePlayerName.jsp` to `playerNameEditable.jsp`.
         * Use the new `PlayerNameTag` everywhere: title, scores, round history, home page.
+
+### 2015-06-22, Monday
+
+* 0.75h (05:14-05:59): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Created `PlayerNameTag`. Haven't written tests for it yet, though.
