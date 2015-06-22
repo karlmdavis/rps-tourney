@@ -3501,3 +3501,15 @@ This file should never be committed along with other files; it should always be 
 * 0.15h (21:00-21:08): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Work on `GameTitleTag`.
         * Realized that the Spring injection in these kinds of objects has to be done manually. See `AccountNameTag`.
+
+### 2015-06-21, Sunday
+
+* 0.75h (18:03-18:33,19:05-19:11,20:31-20:39): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Need to HTML-escape custom tag outputs. See `HtmlEscapingAwareTag` and use the same util.
+    * Need to really rework things:
+        * For consistency, `GameTitleTag` should use a new `PlayerNameTag` that just renders a properly-tagged `span` with the name.
+            * For players with a set name, always display that.
+            * For anonyous players, always display "Anonymous".
+            * If the player is the current user, append " (You)" to the name.
+        * Rename `gamePlayerName.jsp` to `playerNameEditable.jsp`.
+        * Use the new `PlayerNameTag` everywhere: title, scores, round history, home page.
