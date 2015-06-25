@@ -3523,3 +3523,17 @@ This file should never be committed along with other files; it should always be 
 
 * 0.5h (08:31-9:00): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Completed tests for `PlayerNameTag` and restructured it so that other custom tags can leverage it.
+
+### 2015-06-24, Wednesday
+
+* 0.25h (08:49-09:04): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Reworked `GameTitleTag` and its tests to use `PlayerNameTag`.
+    * Started updating the JS to cope with the changes, but will need to reproduce the player name logic there.
+
+### 2015-06-25, Thursday
+
+* 1.0h (06:22-07:23): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Finished updating the JS, and also found a couple more places to shove `PlayerNameTag` into.
+        * Found and fixed another bug or two in the JS.
+    * Need to finish fixing the ITs.
+    * Probably need to make the new strings a bit shorter, too.
