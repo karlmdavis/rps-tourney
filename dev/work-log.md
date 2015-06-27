@@ -3543,3 +3543,8 @@ This file should never be committed along with other files; it should always be 
 * 0.8h (20:38-21:24): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Trying to fix the ITs led me to realizing that I still needed to shove the `PlayerNameTag` into the round history and game results.
         * Got that done in the JS, but still not done with the JSP.
+
+### 2015-06-26, Friday
+
+* 0.55h (14:05-14:39): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Worked on the ITs. Only one failure left.
