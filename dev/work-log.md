@@ -3537,3 +3537,9 @@ This file should never be committed along with other files; it should always be 
         * Found and fixed another bug or two in the JS.
     * Need to finish fixing the ITs.
     * Probably need to make the new strings a bit shorter, too.
+
+### 2015-06-26, Friday
+
+* 0.8h (20:38-21:24): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Trying to fix the ITs led me to realizing that I still needed to shove the `PlayerNameTag` into the round history and game results.
+        * Got that done in the JS, but still not done with the JSP.
