@@ -14,6 +14,7 @@
 	</jsp:attribute>
 	<jsp:body>
 			<h1><rps:gameTitle game="${game}" /></h1>
+			<p id="created">Game created <rps:temporal value="${game.createdTimestamp}" format="PRETTY_TIME" />.</p>
 			<c:if test="${not empty warningType}">
 			<div id="game-warning" class="alert alert-warning" role="alert">
 				<spring:message code="game.warning.${warningType}" />
