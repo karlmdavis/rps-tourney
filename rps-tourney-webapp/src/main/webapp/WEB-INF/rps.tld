@@ -41,4 +41,36 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<name>playerName</name>
+		<tag-class>com.justdavis.karl.rpstourney.webapp.jsp.PlayerNameTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>game</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>player</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>gameTitle</name>
+		<tag-class>com.justdavis.karl.rpstourney.webapp.jsp.GameTitleTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>game</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>

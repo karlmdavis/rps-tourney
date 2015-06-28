@@ -117,10 +117,9 @@ public final class GameIT {
 					driver.findElement(
 							By.cssSelector("div#player-2-controls p.player-score-value"))
 							.getText());
-			Assert.assertEquals(
-					"You Won!",
-					driver.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
-							.getText());
+			Assert.assertEquals("Anonymous Player (You) Won!", driver
+					.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
+					.getText());
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -203,7 +202,7 @@ public final class GameIT {
 
 			// Player 2 (webapp): Check Player 2's name.
 			Assert.assertEquals(
-					"bar",
+					"bar (You)",
 					driver.findElement(
 							By.xpath("//div[@id='player-2-controls']//h3"))
 							.getText());
@@ -404,7 +403,8 @@ public final class GameIT {
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
 					By.id("player-2-score-value"), "1"));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
-					By.xpath("//tr[@id='result-row']/td[4]"), "You Lost"));
+					By.xpath("//tr[@id='result-row']/td[4]"),
+					"Anonymous Player Won!"));
 		} catch (TimeoutException e) {
 			/*
 			 * If one of these are thrown, the page has the wrong state. We need
@@ -745,14 +745,12 @@ public final class GameIT {
 							.findElement(
 									By.cssSelector("div#player-2-controls p.player-score-value"))
 							.getText());
-			Assert.assertEquals(
-					"You Won!",
-					player1Driver.findElement(
-							By.xpath("//tr[@id='result-row']/td[4]")).getText());
-			Assert.assertEquals(
-					"You Lost",
-					player2Driver.findElement(
-							By.xpath("//tr[@id='result-row']/td[4]")).getText());
+			Assert.assertEquals("Anonymous Player (You) Won!", player1Driver
+					.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
+					.getText());
+			Assert.assertEquals("Anonymous Player Won!", player2Driver
+					.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
+					.getText());
 		} finally {
 			if (player1Driver != null)
 				player1Driver.quit();
@@ -784,8 +782,18 @@ public final class GameIT {
 			CookieStore player2Cookies = new CookieStore();
 			GuestAuthClient player1AuthClient = new GuestAuthClient(
 					clientConfig, player1Cookies);
+			Account player1Account = player1AuthClient.loginAsGuest();
+			AccountsClient player1AccountsClient = new AccountsClient(
+					clientConfig, player1Cookies);
+			player1Account.setName("p1");
+			player1AccountsClient.updateAccount(player1Account);
 			GuestAuthClient player2AuthClient = new GuestAuthClient(
 					clientConfig, player2Cookies);
+			Account player2Account = player2AuthClient.loginAsGuest();
+			AccountsClient player2AccountsClient = new AccountsClient(
+					clientConfig, player2Cookies);
+			player2Account.setName("p2");
+			player2AccountsClient.updateAccount(player2Account);
 			GameClient player1GameClient = new GameClient(clientConfig,
 					player1Cookies);
 			GameClient player2GameClient = new GameClient(clientConfig,
@@ -795,8 +803,6 @@ public final class GameIT {
 			 * Play a game, verifying the observer's round history.
 			 */
 
-			player1AuthClient.loginAsGuest();
-			player2AuthClient.loginAsGuest();
 			GameView game = player1GameClient.createGame();
 
 			observerDriver.get(ITUtils.buildWebAppUrl("game/" + game.getId()));
@@ -816,27 +822,25 @@ public final class GameIT {
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[2]/td[4]"),
-							"Player 2"));
+							"p2"));
 
 			player1GameClient.submitThrow(game.getId(), 2, Throw.PAPER);
 			player2GameClient.submitThrow(game.getId(), 2, Throw.ROCK);
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[3]/td[4]"),
-							"Player 1"));
+							"p1"));
 
 			player1GameClient.submitThrow(game.getId(), 3, Throw.ROCK);
 			player2GameClient.submitThrow(game.getId(), 3, Throw.PAPER);
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[4]/td[4]"),
-							"Player 2"));
-
-			System.err.println(observerDriver.getPageSource());
+							"p2"));
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[5]/td[4]"),
-							"Player 2"));
+							"p2"));
 		} finally {
 			if (observerDriver != null)
 				observerDriver.quit();

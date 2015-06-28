@@ -17,32 +17,52 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * <p>
  * A JSP tag handler that provides the
- * <code>&lt;rps:gameOpponent game="${someGame}" /&gt;</code> tag, for printing
- * out a user's opponent in a {@link GameView}.
+ * <code>&lt;rps:gameTitle game="${someGame}" /&gt;</code> tag, for printing out
+ * the title/display label to use for {@link GameView}s.
  * </p>
  * <p>
  * Please note that this class and its properties must be correctly listed in
  * this project's <code>src/main/webapp/WEB-INF/rps.tld</code> file.
  * </p>
  */
-public final class GameOpponentTag extends RequestContextAwareTag {
-	private static final long serialVersionUID = -2870916586936080691L;
+public final class GameTitleTag extends RequestContextAwareTag {
+	private static final long serialVersionUID = 6618966382086544238L;
 
 	private GameView game;
+	private String variableName;
 	private SecurityContext mockSecurityContext;
 	private MessageSource messageSource;
 	private boolean initialized;
 
 	/**
+	 * This is passed in as a required tag attribute.
+	 * 
 	 * @param game
 	 *            the {@link GameView} to be rendered
 	 */
-	public void setGame(GameView value) {
-		this.game = value;
+	public void setGame(GameView game) {
+		this.game = game;
+	}
+
+	/**
+	 * <p>
+	 * This is passed in as an optional tag attribute.
+	 * </p>
+	 * <p>
+	 * If this value is set, this tag will not render any page output.
+	 * </p>
+	 * 
+	 * @param var
+	 *            the name of the page variable whose value will be set to this
+	 *            {@link GameTitleTag}'s output
+	 */
+	public void setVar(String variableName) {
+		this.variableName = variableName;
 	}
 
 	/**
@@ -57,15 +77,18 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	}
 
 	/**
+	 * <strong>Warning:</strong> This method is only intended for use by unit
+	 * tests.
+	 * 
 	 * @param mockSecurityContext
 	 *            the mock {@link SecurityContext} to use
 	 */
-	void setMockSecurityContext(SecurityContext securityContext) {
+	void setMockSecurityContext(SecurityContext mockSecurityContext) {
 		/*
 		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
 		 * or inject SecurityContext instances.
 		 */
-		this.mockSecurityContext = securityContext;
+		this.mockSecurityContext = mockSecurityContext;
 	}
 
 	/**
@@ -105,11 +128,16 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	public int doEndTag() throws JspException {
 		String content = generateContent();
 
-		// Write out the tag's output.
-		try {
-			pageContext.getOut().write(content);
-		} catch (IOException e) {
-			throw new JspTagException(e);
+		if (variableName != null) {
+			// Pass the value out as a variable.
+			pageContext.setAttribute(variableName, content);
+		} else {
+			// Write out the tag's output.
+			try {
+				pageContext.getOut().write(content);
+			} catch (IOException e) {
+				throw new JspTagException(e);
+			}
 		}
 
 		return EVAL_PAGE;
@@ -123,21 +151,33 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 		if (game == null)
 			return null;
 
-		// If the user isn't logged in, this tag can't do anything.
+		// Determine the order to list the Players in.
+		Player firstPlayer;
+		Player secondPlayer;
 		Account authenticatedAccount = getAuthenticatedAccount();
-		if (authenticatedAccount == null)
-			return null;
+		if (game.isPlayer(authenticatedAccount)) {
+			firstPlayer = game.getPlayer(authenticatedAccount);
+			secondPlayer = game.getPlayer1().equals(firstPlayer) ? game
+					.getPlayer2() : game.getPlayer1();
+		} else {
+			firstPlayer = game.getPlayer1();
+			secondPlayer = game.getPlayer2();
+		}
 
-		// If the user isn't one of the Players, this tag can't do anything.
-		if (!game.isPlayer(authenticatedAccount))
-			return null;
+		// Build the display tags for each Player.
+		String firstPlayerTag = PlayerNameTag.generateTag(messageSource,
+				pageContext.getELContext().getLocale(), authenticatedAccount,
+				game, firstPlayer);
+		String secondPlayerTag = PlayerNameTag.generateTag(messageSource,
+				pageContext.getELContext().getLocale(), authenticatedAccount,
+				game, secondPlayer);
 
-		// Calculate the content.
-		String content = PlayerNameTag.generateTag(messageSource, pageContext
-				.getELContext().getLocale(), authenticatedAccount, game, game
-				.determineOpponent(authenticatedAccount));
-
-		return content;
+		// Return the result.
+		String versusSeparator = messageSource.getMessage("game.title.versus",
+				null, pageContext.getELContext().getLocale());
+		String result = String.format("%s %s %s", firstPlayerTag,
+				versusSeparator, secondPlayerTag);
+		return result;
 	}
 
 	/**
