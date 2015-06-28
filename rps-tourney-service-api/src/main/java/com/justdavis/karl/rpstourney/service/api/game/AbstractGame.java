@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
@@ -325,6 +327,82 @@ class AbstractGame {
 	}
 
 	/**
+	 * A utility method for working with game {@link Player}s.
+	 * 
+	 * @param account
+	 *            the {@link Account} to check
+	 * @return <code>true</code> if the specified {@link Account} represents
+	 *         {@link #getPlayer1()} or {@link #getPlayer2()},
+	 *         <code>false</code> otherwise
+	 */
+	public boolean isPlayer(Account account) {
+		if (account == null)
+			return false;
+
+		// Are they Player 1?
+		if (getPlayer1() != null && getPlayer1().getHumanAccount() != null
+				&& getPlayer1().getHumanAccount().equals(account))
+			return true;
+
+		// Are they Player 2?
+		if (getPlayer2() != null && getPlayer2().getHumanAccount() != null
+				&& getPlayer2().getHumanAccount().equals(account))
+			return true;
+
+		// They're not one of the players.
+		return false;
+	}
+
+	/**
+	 * A utility method for working with game {@link Player}s.
+	 * 
+	 * @param player
+	 *            the {@link Player} to determine the {@link PlayerRole}s for in
+	 *            this {@link AbstractGame}
+	 * @return the {@link PlayerRole}s represented by the specified
+	 *         {@link Player} in this {@link AbstractGame}
+	 */
+	public PlayerRole[] getPlayerRoles(Player player) {
+		List<PlayerRole> roles = new ArrayList<>(2);
+		if (getPlayer1() != null && getPlayer1().equals(player))
+			roles.add(PlayerRole.PLAYER_1);
+		if (getPlayer2() != null && getPlayer2().equals(player))
+			roles.add(PlayerRole.PLAYER_2);
+		return roles.toArray(new PlayerRole[roles.size()]);
+	}
+
+	/**
+	 * A utility method for working with game {@link Player}s.
+	 * 
+	 * @param account
+	 *            the {@link Account} to select the opponent of (from this
+	 *            {@link AbstractGame}), which must be one of the two players
+	 * @return if the specified {@link Account} is represented by
+	 *         {@link #getPlayer1()} this will return the value of
+	 *         {@link #getPlayer2()}, or if the specified {@link Account} is
+	 *         represented by {@link #getPlayer1()} this will return the value
+	 *         of {@link #getPlayer1()}
+	 * @throws IllegalArgumentException
+	 *             An {@link IllegalArgumentException} will be thrown if
+	 *             {@link #isPlayer(Account)} returns <code>false</code> for the
+	 *             specified {@link Account}.
+	 */
+	public Player determineOpponent(Account account) {
+		// Are they Player 1?
+		if (getPlayer1() != null && getPlayer1().getHumanAccount() != null
+				&& getPlayer1().getHumanAccount().equals(account))
+			return getPlayer2();
+
+		// Are they Player 2?
+		if (getPlayer2() != null && getPlayer2().getHumanAccount() != null
+				&& getPlayer2().getHumanAccount().equals(account))
+			return getPlayer1();
+
+		// They're not one of the players.
+		throw new IllegalArgumentException("Invalid player: " + account);
+	}
+
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -345,6 +423,29 @@ class AbstractGame {
 		builder.append(rounds);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	/**
+	 * @param playerAccount
+	 *            the {@link Account} of one of the {@link Player}s in this
+	 *            {@link AbstractGame}
+	 * @return the {@link Player} in this {@link AbstractGame} that corresponds
+	 *         to the specified {@link Account}
+	 * @throws IllegalArgumentException
+	 *             An {@link IllegalArgumentException} will be thrown if the
+	 *             specified {@link Account} does not correspond to
+	 *             {@link #getPlayer1()} or {@link #getPlayer2()}.
+	 */
+	public Player getPlayer(Account playerAccount) {
+		if (getPlayer1().getHumanAccount() != null
+				&& getPlayer1().getHumanAccount().equals(playerAccount))
+			return getPlayer1();
+		else if (getPlayer2().getHumanAccount() != null
+				&& getPlayer2().getHumanAccount().equals(playerAccount))
+			return getPlayer2();
+		else
+			throw new IllegalArgumentException(String.format(
+					"Unknown Player Account: %s", playerAccount));
 	}
 
 	/**

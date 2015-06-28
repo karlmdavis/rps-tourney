@@ -29,30 +29,43 @@ $(document).on("blur", "form.player-name", function (event) {
 	$("h3.player-name-current").show();
 });
 
-// This function returns the text to display as the result of the specified round in the specified game.
-function computeRoundResultText(gameData, round) {
-	var roundResult = $.i18n.prop('game.roundHistory.result.none');
+// This function returns the element to display as the result of the specified round in the specified game.
+function computeRoundResultElement(gameData, round) {
+	var resultText = $.i18n.prop('game.roundHistory.result.none');
+	var resultClass = "";
 	if (round.result === 'PLAYER_1_WON') {
-		roundResult = gameData.player1.name !== null ? gameData.player1.name : $.i18n.prop('game.player1.label');
+		resultText = computePlayerNameText(gameData, gameData.player1);
+		resultClass = "PLAYER_1";
 	}
 	else if (round.result === 'PLAYER_2_WON') {
-		roundResult = gameData.player2.name !== null ? gameData.player2.name : $.i18n.prop('game.player2.label');
+		resultText = computePlayerNameText(gameData, gameData.player2);
+		resultClass = "PLAYER_2";
 	}
 	else if (round.result === 'TIED') {
-		roundResult = $.i18n.prop('game.roundHistory.result.tied');
+		resultText = $.i18n.prop('game.roundHistory.result.tied');
 	}
 	
-	return roundResult;
+	return '<span class="' + resultClass + '">' + resultText + '</span>';
 }
 
-// This function returns true if the user that the game data instance was created for 
-// is a player in the game, false if not.
+// This function returns the text to display as the name of the specified player in the specified game.
+function computePlayerNameText(gameData, player) {
+	var playerLabel = $.i18n.prop('game.player.notJoined');
+	if(player != null) {
+		playerLabel = player.name !== null ? player.name : $.i18n.prop('game.player.anonymous');
+		if(isUserThisPlayer(gameData, player)) {
+			playerLabel = playerLabel + $.i18n.prop('game.player.current.suffix')
+		}
+	}
+	
+	return playerLabel;
+}
+
+//This function returns true if the user that the game data instance was created for 
+//is a player in the game, false if not.
 function isUserAPlayer(gameData) {
 	if (gameData === null) {
 		throw "Missing game data.";
-	}
-	if (gameData.state !== "FINISHED") {
-		throw "Game not finished.";
 	}
 	
 	// Check to see if the game data has an associated user.
@@ -60,7 +73,33 @@ function isUserAPlayer(gameData) {
 		return false;
 	}
 	
-	return gameData.viewUser.id === gameData.player1.id || gameData.viewUser.id === gameData.player2.id;
+	if(gameData.player1 !== null && isUserThisPlayer(gameData, gameData.player1)) {
+		return true;
+	}
+	else if(gameData.player2 !== null && isUserThisPlayer(gameData, gameData.player2)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+// This function returns true if the user that the game data instance was created for 
+// is the specified player in the game, false if not.
+function isUserThisPlayer(gameData, player) {
+	if (gameData === null) {
+		throw "Missing game data.";
+	}
+	if (player === null) {
+		throw "Missing player.";
+	}
+	
+	// Check to see if the game data has an associated user.
+	if (gameData.viewUser === null) {
+		return false;
+	}
+	
+	return player.humanAccount !== null && player.humanAccount.id === gameData.viewUser.id;
 }
 
 // This function returns true if the user that the game data instance was created for 
@@ -121,21 +160,27 @@ function refreshGameState() {
 	// Issue an AJAX request for the current game state.
 	$.getJSON(gameStateUrl, function(gameData) {
 		console.log("Refresh successful. Next interval: %d.", refreshInterval);
-		//console.log("Refresh request succeeded: %s", JSON.stringify(gameData));
+		// console.log("Refresh request succeeded: %s", JSON.stringify(gameData));
 		
 		// Grab player names/labels for use later.
-		var player1Label = gameData.player1.name !== null ? gameData.player1.name : $.i18n.prop('game.player1.label');
-		var player2Label = $.i18n.prop('game.player2.label.waiting');
+		var player1Label = gameData.player1.name !== null ? gameData.player1.name : $.i18n.prop('game.player.anonymous');
+		if(isUserThisPlayer(gameData, gameData.player1)) {
+			player1Label = player1Label + $.i18n.prop('game.player.current.suffix')
+		}
+		var player2Label = $.i18n.prop('game.player.notJoined');
 		if(gameData.player2 != null) {
-			player2Label = gameData.player2.name !== null ? gameData.player2.name : $.i18n.prop('game.player2.label');
+			player2Label = gameData.player2.name !== null ? gameData.player2.name : $.i18n.prop('game.player.anonymous');
+			if(isUserThisPlayer(gameData, gameData.player2)) {
+				player2Label = player2Label + $.i18n.prop('game.player.current.suffix')
+			}
 		}
 		
 		// Update Player 1's name.
-		$("div#player-1-controls span.player-name-display").text(player1Label);
+		$(".PLAYER_1").text(player1Label);
 		
-		// Update Player 2's name.
 		if (gameData.state != "WAITING_FOR_PLAYER") {
-			$("div#player-2-controls span.player-name-display").text(player2Label);
+			// Update Player 2's name.
+			$(".PLAYER_2").text(player2Label);
 			
 			// Remove the "ask someone to join" message and/or the "Join Game" controls.
 			$("#join-message").remove();
@@ -178,7 +223,7 @@ function refreshGameState() {
 				roundRow.children("td:nth-child(2)").text($.i18n.prop(throwForPlayer1Key));
 				var throwForPlayer2Key = round.throwForPlayer2 === null ? 'game.roundHistory.' : 'game.roundHistory.' + round.throwForPlayer2;
 				roundRow.children("td:nth-child(3)").text($.i18n.prop(throwForPlayer2Key));
-				roundRow.children("td:nth-child(4)").text(computeRoundResultText(gameData, round));
+				roundRow.children("td:nth-child(4)").empty().append(computeRoundResultElement(gameData, round));
 			}
 		}
 		
@@ -201,19 +246,34 @@ function refreshGameState() {
 			
 			// Create the result row, if it hasn't been already.
 			if ($("#result-row").length === 0) {
-				// Compute the "You Won/Lost" display text.
-				var finalResultCell;
+				/*
+				 * Compute the "You Won/Lost" display.
+				 */
+				var winOrLossClass = "";
 				if (isUserAPlayer(gameData) && isUserTheWinner(gameData)) {
-					finalResultCell = '<td class="won">' + $.i18n.prop("game.roundHistory.userWon") + '</td>';
+					winOrLossClass = "won";
 				}
 				else if (isUserAPlayer(gameData) && !isUserTheWinner(gameData)) {
-					finalResultCell = '<td class="lost">' + $.i18n.prop("game.roundHistory.userLost") + '</td>';
+					winOrLossClass = "lost";
+				}
+				
+				var winnerDisplayName = "";
+				var winnerDisplayClass = "";
+				if (gameData.winner.id === gameData.player1.id) {
+					winnerDisplayName = computePlayerNameText(gameData, gameData.player1);
+					winnerDisplayClass = "PLAYER_1";
 				}
 				else {
-					var winnerLabel = gameData.winner.id == gameData.player1.id ? player1Label : player2Label;
-					finalResultCell = '<td>' + winnerLabel + $.i18n.prop("game.roundHistory.someoneWonSuffix") + '</td>';
+					winnerDisplayName = computePlayerNameText(gameData, gameData.player2);
+					winnerDisplayClass = "PLAYER_2";
 				}
-
+				
+				var finalResultCell = '<td class="' + winOrLossClass 
+						+ '"><span class="' 
+						+ winnerDisplayClass + '">' 
+						+ winnerDisplayName + '</span>'
+						+ $.i18n.prop('game.roundHistory.someoneWonSuffix')
+						+ '</td>';
 				$('table#rounds > tbody').append('<tr id="result-row"><td /><td /><td />' + finalResultCell + '</tr>');
 			}
 		}

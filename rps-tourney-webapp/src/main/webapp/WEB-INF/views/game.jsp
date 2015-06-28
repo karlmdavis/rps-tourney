@@ -5,14 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<spring:message code="game.subtitle" var="metaSubtitle" />
+<%@ taglib prefix="rps" uri="http://justdavis.com/karl/rpstourney/app/jsp-tags" %>
+<rps:gameTitle game="${game}" var="metaSubtitle" />
 <c:url value="${requestScope['rpstourney.config.baseurl']}/game/${game.id}" var="gameUrl" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 	<jsp:attribute name="bodyscripts">
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/game.min.js"></script>
 	</jsp:attribute>
 	<jsp:body>
-			<h1><spring:message code="game.subtitle" /></h1>
+			<h1><rps:gameTitle game="${game}" /></h1>
 			<c:if test="${not empty warningType}">
 			<div id="game-warning" class="alert alert-warning" role="alert">
 				<spring:message code="game.warning.${warningType}" />
@@ -20,7 +21,7 @@
 			</c:if>
 			<div id="player-controls">
 				<div id="player-1-controls">
-					<t:gamePlayerName gameUrl="${gameUrl}" playerName="${player1Label}" isCurrentPlayer="${isPlayer1}" />
+					<t:editablePlayerName game="${game}" player="${game.player1}" isCurrentPlayer="${isPlayer1}" />
 					<div class="player-throws">
 						<c:choose>
 						<c:when test="${isPlayer1}">
@@ -49,7 +50,7 @@
 					</div>
 				</div>
 				<div id="player-2-controls">
-					<t:gamePlayerName gameUrl="${gameUrl}" playerName="${player2Label}" isCurrentPlayer="${isPlayer2}" />
+					<t:editablePlayerName game="${game}" player="${game.player2}" isCurrentPlayer="${isPlayer2}" />
 					<div class="player-throws">
 						<c:choose>
 						<c:when test="${isPlayer2}">
@@ -109,8 +110,8 @@
 					<thead>
 						<tr>
 							<th><spring:message code="game.roundHistory.index" /></th>
-							<th>${player1Label}</th>
-							<th>${player2Label}</th>
+							<th><rps:playerName game="${game}" player="${game.player1}" /></th>
+							<th><rps:playerName game="${game}" player="${game.player2}" /></th>
 							<th><spring:message code="game.roundHistory.result" /></th>
 						</tr>
 					</thead>
@@ -130,19 +131,18 @@
 							<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
 							<c:choose>
 							<c:when test="${round.result == 'PLAYER_1_WON'}">
-							<c:set var="roundResultText" value="${player1Label}" />
+							<td><rps:playerName game="${game}" player="${game.player1}" /></td>
 							</c:when>
 							<c:when test="${round.result == 'PLAYER_2_WON'}">
-							<c:set var="roundResultText" value="${player2Label}" />
+							<td><rps:playerName game="${game}" player="${game.player2}" /></td>
 							</c:when>
 							<c:when test="${round.result == 'TIED'}">
-							<spring:message code="game.roundHistory.result.tied" var="roundResultText" />
+							<td><spring:message code="game.roundHistory.result.tied" /></td>
 							</c:when>
 							<c:otherwise>
-							<spring:message code="game.roundHistory.result.none" var="roundResultText" />
+							<td><spring:message code="game.roundHistory.result.none" /></td>
 							</c:otherwise>
 							</c:choose>
-							<td>${roundResultText}</td>
 						</tr>
 						</c:forEach>
 						<c:if test="${not empty game.winner}">
@@ -152,15 +152,18 @@
 							<td>&nbsp;</td>
 							<c:choose>
 							<c:when test="${isUserTheWinner}">
-							<td class="won"><spring:message code="game.roundHistory.userWon" /></td>
+							<td class="won">
 							</c:when>
 							<c:when test="${isUserTheLoser}">
-							<td class="lost"><spring:message code="game.roundHistory.userLost" /></td>
+							<td class="lost">
 							</c:when>
 							<c:otherwise>
-							<td>${winnerLabel}<spring:message code="game.roundHistory.someoneWonSuffix" /></td>
+							<td>
 							</c:otherwise>
 							</c:choose>
+								<rps:playerName game="${game}" player="${game.winner}" />
+								<spring:message code="game.roundHistory.someoneWonSuffix" />
+							</td>
 						</tr>
 						</c:if>
 					</tbody>
