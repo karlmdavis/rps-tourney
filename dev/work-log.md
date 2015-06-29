@@ -3544,7 +3544,18 @@ This file should never be committed along with other files; it should always be 
     * Trying to fix the ITs led me to realizing that I still needed to shove the `PlayerNameTag` into the round history and game results.
         * Got that done in the JS, but still not done with the JSP.
 
-### 2015-06-26, Friday
+### 2015-06-27, Saturday
 
 * 0.55h (14:05-14:39): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Worked on the ITs. Only one failure left.
+
+### 2015-06-28, Sunday
+
+* 0.25h (15:42-15:57): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Got my title and player name changes committed.
+* 1.5h (17:20-17:50,20:59-22:00): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Added a "Game created ..." subtitle. Committed it.
+    * Started building out the new scores display.
+        * How should I handle the editable player names? My new design didn't account for that.
+    * Came back later, and got the names & score displays done.
+    * My phone doesn't seem to be using any of the CSS or JS... oh, it's because all of the refs to them are via `localhost`.
