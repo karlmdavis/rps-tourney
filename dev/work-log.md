@@ -3559,3 +3559,13 @@ This file should never be committed along with other files; it should always be 
         * How should I handle the editable player names? My new design didn't account for that.
     * Came back later, and got the names & score displays done.
     * My phone doesn't seem to be using any of the CSS or JS... oh, it's because all of the refs to them are via `localhost`.
+
+### 2015-06-29, Monday
+
+* 0.2h (23:09-23:21): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Bug: Game page's title includes unrendered markup.
+    * Bug: Game page's title doesn't get updated when player names do.
+    * Tweaked the "edit name" icon's CSS a bit.
+    * Tested the new layout on my phone: looks good so far!
+    * I'm really wondering if the game page's `<h1/>` is adding anything.
+        * Should games have a "name" attribute? If so, who can set it? Is it editable?
