@@ -3569,3 +3569,10 @@ This file should never be committed along with other files; it should always be 
     * Tested the new layout on my phone: looks good so far!
     * I'm really wondering if the game page's `<h1/>` is adding anything.
         * Should games have a "name" attribute? If so, who can set it? Is it editable?
+
+### 2015-06-30, Tuesday
+
+* 0.45h (23:08-23:34): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Got the throw controls styled correctly.
+    * CSS Bug: Bootstrap columns need to be applied to outer `<div/>`s, with their content inside.
+        * Otherwise, the alignment and gutters aren't applied correctly.
