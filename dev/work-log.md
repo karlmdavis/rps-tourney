@@ -3576,3 +3576,8 @@ This file should never be committed along with other files; it should always be 
     * Got the throw controls styled correctly.
     * CSS Bug: Bootstrap columns need to be applied to outer `<div/>`s, with their content inside.
         * Otherwise, the alignment and gutters aren't applied correctly.
+
+### 2015-07-01, Wednesday
+
+* 0.35h (08:49-09:11): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Added a whole bunch of silly extra "wrapper" elements and used them to fix the Bootstrap rows & columns.
