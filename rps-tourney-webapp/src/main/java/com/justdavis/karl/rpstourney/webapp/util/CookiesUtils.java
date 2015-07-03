@@ -28,6 +28,14 @@ public final class CookiesUtils {
 			.compile("\\..*\\..*");
 
 	/**
+	 * A regex that will match against IP-only values. (Note: This will allow
+	 * components greater than 255, so isn't 100% effective, but it's good
+	 * enough for our purposes here.)
+	 */
+	private static final Pattern LIKELY_IP_ADDRESS = Pattern
+			.compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
+
+	/**
 	 * Private constructor; instances of this class aren't needed, as all
 	 * methods are static.
 	 */
@@ -125,9 +133,12 @@ public final class CookiesUtils {
 
 		/*
 		 * Per http://www.ietf.org/rfc/rfc2109.txt, the Domain property must
-		 * always have a leading '.'.
+		 * always have a leading '.'. Testing with FF and Chromium, though,
+		 * indicates that browsers will also accept a non-prefixed IP address.
 		 */
-		if (!domain.startsWith("."))
+		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain)
+				.matches();
+		if (!isLikelyAnIpAddress && !domain.startsWith("."))
 			domain = "." + domain;
 
 		/*
@@ -137,7 +148,8 @@ public final class CookiesUtils {
 		 * upset about this and ignores the cookies entirely. So, if we're about
 		 * to try and do that: stop. Leave the property unassigned, instead.
 		 */
-		if (!VALID_COOKIE_DOMAIN.matcher(domain).matches())
+		if (!isLikelyAnIpAddress
+				&& !VALID_COOKIE_DOMAIN.matcher(domain).matches())
 			return null;
 
 		return domain;
