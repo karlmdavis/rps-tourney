@@ -3594,3 +3594,8 @@ This file should never be committed along with other files; it should always be 
     * Tweaked the join & max rounds styling to be more consistent.
 * 0.45h (10:00-10:28): [Issue #89: Webapp cookies not set correctly for IP-only domains](https://github.com/karlmdavis/rps-tourney/issues/89)
     * Resolved and committed.
+* 2.9h (13:41-15:14,18:15-19:36): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Fixed some problems with the JS's handling of player order.
+    * Added more won/lost styling. I think that was a big improvement.
+    * Fixed many of the ITs. Still four broken ones, though.
+    * Still need to fix the player order in the history table, too.
