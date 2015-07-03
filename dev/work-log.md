@@ -3581,3 +3581,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.35h (08:49-09:11): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Added a whole bunch of silly extra "wrapper" elements and used them to fix the Bootstrap rows & columns.
+
+### 2015-07-02, Thursday
+
+* 0.7h (21:44-22:26): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Tweaked the layout and UX more, particularly the game controls section.
+    * Bug: Joined the game in Chromium, but did not get authenticated by doing so.
