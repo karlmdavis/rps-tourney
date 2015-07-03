@@ -3587,3 +3587,10 @@ This file should never be committed along with other files; it should always be 
 * 0.7h (21:44-22:26): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Tweaked the layout and UX more, particularly the game controls section.
     * Bug: Joined the game in Chromium, but did not get authenticated by doing so.
+
+### 2015-07-03, Friday
+
+* 0.6h (9:25-10:00): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Tweaked the join & max rounds styling to be more consistent.
+* 0.45h (10:00-10:28): [Issue #89: Webapp cookies not set correctly for IP-only domains](https://github.com/karlmdavis/rps-tourney/issues/89)
+    * Resolved and committed.
