@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 // Swap out the player name label for the editor, when it's clicked.
-$(document).on("click", "h3.player-name-current", function () {
+$(document).on("click", "p.player-name-current", function () {
 	$(this).hide();
 	
 	$("form.player-name").show();
@@ -26,7 +26,7 @@ $(document).on("blur", "form.player-name", function (event) {
 		return false;
 	
 	$(this).hide();
-	$("h3.player-name-current").show();
+	$("p.player-name-current").show();
 });
 
 // This function returns the element to display as the result of the specified round in the specified game.
@@ -182,19 +182,24 @@ function refreshGameState() {
 			// Update Player 2's name.
 			$(".PLAYER_2").text(player2Label);
 			
+			// If the user is a player, unhide the throw controls.
+			if (isUserAPlayer(gameData)) {
+				$(".player-throws").removeClass("hidden");
+			}
+			
 			// Remove the "ask someone to join" message and/or the "Join Game" controls.
 			$("#join-message").remove();
 			$("#join-controls").remove();
 		}
 		
-		// Update the max round controls.
+		// Update the max round displays and controls.
+		$(".max-rounds-value").text(gameData.maxRounds);
 		if (gameData.state !== "WAITING_FOR_PLAYER" && gameData.state !== "WAITING_FOR_FIRST_THROW") {
 			// If game has started, remove the game controls.
 			$("#game-controls").remove();
 		}
 		else {
 			// If game hasn't started, update the max round controls.
-			$("#max-rounds-value").text(gameData.maxRounds);
 			var roundsDecreaseUrl = gameUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds - 2);;
 			var roundsIncreaseUrl = gameUrl + "/setMaxRounds?oldMaxRoundsValue=" + gameData.maxRounds + "&newMaxRoundsValue=" + (gameData.maxRounds + 2);
 			$("#max-rounds-down").attr("href", roundsDecreaseUrl);
@@ -227,36 +232,39 @@ function refreshGameState() {
 			}
 		}
 		
-		// Update score.
-		var player1ScoreElement = $("#player-1-score-value");
-		var player2ScoreElement = $("#player-2-score-value");
-		if (gameData.state !== "WAITING_FOR_PLAYER" && gameData.state !== "WAITING_FOR_FIRST_THROW") {
-			player1ScoreElement.text(gameData.scoreForPlayer1);
-			player2ScoreElement.text(gameData.scoreForPlayer2);
+		// Determine the order players are displayed in the UI.
+		var player1Element, player2Element;
+		var player1HistoryColumn, player2HistoryColumn;
+		if (isUserThisPlayer(gameData, gameData.player2)) {
+			player1Element = $("#player-second");
+			player2Element = $("#player-first");
+			player1HistoryColumn = 3;
+			player2HistoryColumn = 2;
 		}
+		else {
+			player1Element = $("#player-first");
+			player2Element = $("#player-second");
+			player1HistoryColumn = 2;
+			player2HistoryColumn = 3;
+		}
+		
+		// Update the scores.
+		player1Element.find(".player-score-value").text(gameData.scoreForPlayer1);
+		player2Element.find(".player-score-value").text(gameData.scoreForPlayer2);
+		
 		if (gameData.state === "FINISHED") {
+			// Update the won/lost styling.
 			if (gameData.scoreForPlayer1 > gameData.scoreForPlayer2) {
-				player1ScoreElement.addClass("won");
-				player2ScoreElement.addClass("lost");
+				player1Element.addClass("won");
+				player2Element.addClass("lost");
 			}
 			else {
-				player1ScoreElement.addClass("lost");
-				player2ScoreElement.addClass("won");
+				player1Element.addClass("lost");
+				player2Element.addClass("won");
 			}
 			
 			// Create the result row, if it hasn't been already.
 			if ($("#result-row").length === 0) {
-				/*
-				 * Compute the "You Won/Lost" display.
-				 */
-				var winOrLossClass = "";
-				if (isUserAPlayer(gameData) && isUserTheWinner(gameData)) {
-					winOrLossClass = "won";
-				}
-				else if (isUserAPlayer(gameData) && !isUserTheWinner(gameData)) {
-					winOrLossClass = "lost";
-				}
-				
 				var winnerDisplayName = "";
 				var winnerDisplayClass = "";
 				if (gameData.winner.id === gameData.player1.id) {
@@ -268,8 +276,7 @@ function refreshGameState() {
 					winnerDisplayClass = "PLAYER_2";
 				}
 				
-				var finalResultCell = '<td class="' + winOrLossClass 
-						+ '"><span class="' 
+				var finalResultCell = '<td><span class="' 
 						+ winnerDisplayClass + '">' 
 						+ winnerDisplayName + '</span>'
 						+ $.i18n.prop('game.roundHistory.someoneWonSuffix')
@@ -279,7 +286,6 @@ function refreshGameState() {
 		}
 		
 		// Update the round counter.
-		$("#round-counter-max").text(gameData.maxRounds);
 		if (gameData.state !== "WAITING_FOR_PLAYER" && gameData.state !== "WAITING_FOR_FIRST_THROW") {
 			var currentRound = gameData.rounds[gameData.rounds.length - 1];
 			$("#round-counter-current").text(currentRound.adjustedRoundIndex + 1);

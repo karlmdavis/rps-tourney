@@ -372,6 +372,21 @@ public class GameController {
 		// Add the Game to the model.
 		modelAndView.addObject("game", game);
 
+		/*
+		 * Determine Player display order. Always display current user first, if
+		 * they're a Player.
+		 */
+		Player firstPlayer = isUserThisPlayer(authenticatedUser,
+				game.getPlayer2()) ? game.getPlayer2() : game.getPlayer1();
+		modelAndView.addObject("firstPlayer", firstPlayer);
+		modelAndView.addObject("firstPlayerScore",
+				game.getScoreForPlayer(firstPlayer));
+		Player secondPlayer = game.getPlayer1().equals(firstPlayer) ? game
+				.getPlayer2() : game.getPlayer1();
+		modelAndView.addObject("secondPlayer", secondPlayer);
+		modelAndView.addObject("secondPlayerScore",
+				game.getScoreForPlayer(secondPlayer));
+
 		// Add some display-related data to the model.
 		modelAndView.addObject("hasPlayer1", game.getPlayer1() != null);
 		modelAndView.addObject("player1Label",
