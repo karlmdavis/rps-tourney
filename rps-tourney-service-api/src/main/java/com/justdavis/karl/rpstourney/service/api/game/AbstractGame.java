@@ -449,6 +449,25 @@ class AbstractGame {
 	}
 
 	/**
+	 * @param player
+	 *            the {@link Player} in this {@link AbstractGame} to calculate
+	 *            the score of
+	 * @return the score for the specified {@link Player} in this
+	 *         {@link AbstractGame}, or <code>0</code> if a <code>null</code>
+	 *         {@link Player} was specified
+	 */
+	public int getScoreForPlayer(Player player) {
+		if (player == null)
+			return 0;
+		else if (player.equals(player1))
+			return getScoreForPlayer1();
+		else if (player.equals(player2))
+			return getScoreForPlayer2();
+		else
+			throw new IllegalArgumentException("Unknown Player: " + player);
+	}
+
+	/**
 	 * The JPA {@link IdClass} for {@link AbstractGame}/{@link Game}.
 	 */
 	public static final class GamePk implements Serializable {

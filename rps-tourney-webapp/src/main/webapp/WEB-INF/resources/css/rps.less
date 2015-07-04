@@ -84,64 +84,84 @@ p#created {
 }
 
 // Layout and style the player controls.
-#player-controls {
+#players {
 	.make-row();
 	
-	#player-1-controls, #player-2-controls {
-		.make-md-column(3);
+	div.col {
+		.make-xs-column(12);
+		.make-md-column(6);
+	
+		#player-first, #player-second {
+			.panel;
+			.panel-default;
+			margin-bottom: 0;
+	
+			p.player-name {
+				text-align: center;
+				font-size: 1.5em;
+				
+				.glyphicon-edit {
+					font-size: 0.75em;
+					color: @text-muted;
+					cursor: pointer;
+				}
+			}
+			
+			p.player-score-value {
+				text-align: center;
+				font-size: 3.0em;
+				font-weight: bold;
+				margin-bottom: 0;
 		
-		h3 {
-			margin-top: 0.2em;
-			margin-bottom: 3px;
+				.won {
+					.text-success;
+				}
+				.lost {
+					.text-danger;
+				}
+			}
+			
+			p.player-score-suffix {
+				margin-top: 0;
+				text-align: center;
+				font-size: 0.75em;
+				color: @text-muted;
+			}
 		}
 		
-		h3.player-name-current {
-			cursor: pointer;
+		#player-first.won, #player-second.won {
+			border-color: @brand-success;
+			background-color: @state-success-bg;
 		}
 		
-		h3.player-name .glyphicon-edit {
-			font-size: 0.6em;
-			color: @text-muted;
+		#player-first.lost, #player-second.lost {
+			border-color: @brand-danger;
+			background-color: @state-danger-bg;
 		}
+	}
+}
+
+.player-throws {
+	h2 {
+		.make-row();
 		
-		h3.player-name:hover .glyphicon-edit {
-			color: @text-color;
+		span.col {
+			.make-xs-column(12);
 		}
-		
-		form.player-name {
-			margin-top: 0.2em;
-			margin-bottom: 3px;
-		}
-		
-		.player-throws {
+	}
+	
+	div.row {
+		.make-row();
+
+		div.col {
+			.make-xs-column(4);
+			.make-md-column(2);
+
 			a.throw-rock, a.throw-paper, a.throw-scissors {
 				.btn;
-				.btn-success;
+				.btn-primary;
 				.btn-lg;
-				display: block;
-				width: 8em;
-				margin-bottom: 3px;
-			}
-				
-			span.throw-rock, span.throw-paper, span.throw-scissors {
-				.btn;
-				.btn-default;
-				.btn-lg;
-				.disabled;
-				display: block;
-				width: 8em;
-				margin-bottom: 3px;
-			}
-		}
-		
-		.player-score {
-			.won {
-				.text-success;
-				font-weight: bold;
-			}
-			.lost {
-				.text-danger;
-				font-weight: bold;
+				width: 100%;
 			}
 		}
 	}
@@ -151,33 +171,47 @@ p#created {
 // (These are only visible before the game starts.)
 #game-controls {
 
-	#join-game {
-		.btn;
-		.btn-primary;
-		.btn-sm;
+	#join-controls div.row {
+		.make-row();
+		
+		div.col {
+			.make-xs-column(4);
+			.make-md-column(2);
+	
+			#join-game {
+				.btn;
+				.btn-primary;
+				.btn-lg;
+				width: 100%;
+			}
+		}
 	}
 	
 	#max-round-controls {
-		width: auto;
+		div.row {
+			.make-row();
+			
+			div.col {
+				.make-xs-column(4);
+				.make-md-column(2);
+			}
+		}
 	
-		#max-rounds-label {
-			display: block;
-		}
-
-		#max-rounds-down, #max-rounds-up {
+		#max-rounds-down, #max-rounds-up, .max-rounds-value {
 			.btn;
+			.btn-lg;
+			width: 100%;
+		}
+		
+		#max-rounds-down, #max-rounds-up {
 			.btn-primary;
-			.btn-sm;
 		}
 
-		#max-rounds-value {
+		.max-rounds-value {
 			// This isn't actually a button at all; we're just cheating 
 			// because styling it this way looks good.
-			.btn;
 			.btn-default;
-			.btn-sm;
 			.disabled;
-			width: 5em;
 		}
 	}
 }

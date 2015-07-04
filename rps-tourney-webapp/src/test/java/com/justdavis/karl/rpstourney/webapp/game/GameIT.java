@@ -55,7 +55,7 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -89,33 +89,30 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 
 			// Player 2 (webapp): Join and set max rounds to 1.
 			driver.findElement(By.id("join-game")).click();
 			driver.findElement(By.id("max-rounds-down")).click();
 			Assert.assertEquals("1",
-					driver.findElement(By.id("max-rounds-value")).getText());
-			Assert.assertEquals("1",
-					driver.findElement(By.id("round-counter-max")).getText());
+					driver.findElement(By.className("max-rounds-value"))
+							.getText());
 			Assert.assertEquals("1", getRoundCounterCurrent(driver));
 
 			// Player 1 (service): Throw rock.
 			gameClient.submitThrow(game.getId(), 0, Throw.ROCK);
 
 			// Player 2 (webapp): Throw paper.
-			driver.findElement(
-					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
+			driver.findElement(By.className("throw-paper")).click();
 			Assert.assertEquals(
 					"0",
 					driver.findElement(
-							By.cssSelector("div#player-1-controls p.player-score-value"))
+							By.cssSelector("div#player-second p.player-score-value"))
 							.getText());
 			Assert.assertEquals(
 					"1",
 					driver.findElement(
-							By.cssSelector("div#player-2-controls p.player-score-value"))
+							By.cssSelector("div#player-first p.player-score-value"))
 							.getText());
 			Assert.assertEquals("Anonymous Player (You) Won!", driver
 					.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
@@ -157,7 +154,7 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 
 			// Player 2 (webapp): Join game.
 			driver.findElement(By.id("join-game")).click();
@@ -166,13 +163,12 @@ public final class GameIT {
 			Assert.assertEquals(
 					"foo",
 					driver.findElement(
-							By.xpath("//div[@id='player-1-controls']//h3"))
+							By.cssSelector("#player-second .player-name"))
 							.getText());
 
 			// Player 2 (webapp): Check player name controls' state.
 			Assert.assertTrue(driver.findElement(
-					By.xpath("//div[@id='player-2-controls']//h3"))
-					.isDisplayed());
+					By.cssSelector("#player-first .player-name")).isDisplayed());
 			Assert.assertFalse(driver.findElement(
 					By.xpath("//form[contains(@class, 'player-name')]"))
 					.isDisplayed());
@@ -181,14 +177,13 @@ public final class GameIT {
 			 * Player 2 (webapp): Activate the name editor, check the controls'
 			 * state.
 			 */
-			driver.findElement(By.xpath("//div[@id='player-2-controls']//h3"))
+			driver.findElement(By.cssSelector("#player-first .player-name"))
 					.click();
 			Assert.assertTrue(driver.findElement(
 					By.xpath("//form[contains(@class, 'player-name')]"))
 					.isDisplayed());
 			Assert.assertFalse(driver.findElement(
-					By.xpath("//div[@id='player-2-controls']//h3"))
-					.isDisplayed());
+					By.cssSelector("#player-first .player-name")).isDisplayed());
 			Assert.assertTrue(driver.findElement(
 					By.xpath("//form[contains(@class, 'player-name')]"))
 					.isDisplayed());
@@ -197,14 +192,14 @@ public final class GameIT {
 			driver.findElement(By.xpath("//input[@name='inputPlayerName']"))
 					.sendKeys("bar");
 			driver.findElement(
-					By.cssSelector("div#player-2-controls button.player-name-submit"))
+					By.cssSelector("div#player-first button.player-name-submit"))
 					.click();
 
 			// Player 2 (webapp): Check Player 2's name.
 			Assert.assertEquals(
 					"bar (You)",
 					driver.findElement(
-							By.xpath("//div[@id='player-2-controls']//h3"))
+							By.cssSelector("#player-first .player-name"))
 							.getText());
 		} finally {
 			if (driver != null)
@@ -233,7 +228,7 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 
 			// Player 1 (webapp): Try to set max rounds to invalid value.
 			driver.findElement(By.id("max-rounds-down")).click();
@@ -247,37 +242,55 @@ public final class GameIT {
 	}
 
 	/**
-	 * Ensures that the game behaves correctly if the user attempts to submit a
-	 * throw before the game starts.
+	 * Ensures that the throw controls are hidden before a game starts and
+	 * displayed once it does.
 	 */
 	@Test
-	public void submitThrowBeforeStart() {
-		WebDriver driver = null;
+	public void hideThrowsBeforeStart() {
+		WebDriver player1Driver = null;
+		WebDriver player2Driver = null;
 		try {
-			// Create the Selenium driver that will be used for Player 1.
-			driver = new HtmlUnitDriver(true);
+			// Create the Selenium drivers that will be used.
+			player1Driver = new HtmlUnitDriver(true);
+			player2Driver = new HtmlUnitDriver(false);
 
 			// Player 1 (webapp): Create the game.
-			driver.get(ITUtils.buildWebAppUrl("game/"));
-			String gameId = driver.getCurrentUrl().substring(
-					driver.getCurrentUrl().lastIndexOf('/') + 1);
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+			String gameId = player1Driver.getCurrentUrl().substring(
+					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
 
 			// Player 1 (webapp): Spot-check the page to ensure it's working.
-			driver.get(ITUtils.buildWebAppUrl("game", gameId));
-			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+			player1Driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(String.format("Invalid response: %s: %s",
+					player1Driver.getCurrentUrl(),
+					player1Driver.getPageSource()), 1, player1Driver
+					.findElements(By.id("players")).size());
 
-			// Player 1 (webapp): Try to submit a throw before game has started.
-			driver.findElement(
-					By.xpath("//div[@id='player-1-controls']//a[@class='throw-paper']"))
-					.click();
-			Assert.assertEquals(1, driver.findElements(By.id("game-warning"))
-					.size());
+			// Player 1 (webapp): Verify the throw controls are hidden.
+			Assert.assertTrue(player1Driver
+					.findElement(By.className("player-throws"))
+					.getAttribute("class").contains("hidden"));
+
+			// Player 2 (webapp): Spot-check the page to ensure it's working.
+			player2Driver.get(ITUtils.buildWebAppUrl("game", gameId));
+			Assert.assertEquals(String.format("Invalid response: %s: %s",
+					player2Driver.getCurrentUrl(),
+					player2Driver.getPageSource()), 1, player2Driver
+					.findElements(By.id("players")).size());
+
+			// Player 2 (webapp): Join and set max rounds to 1.
+			player2Driver.findElement(By.id("join-game")).click();
+
+			// Player 1 (webapp): Verify the throw controls are hidden.
+			player1Driver.navigate().refresh();
+			Assert.assertFalse(player1Driver
+					.findElement(By.className("player-throws"))
+					.getAttribute("class").contains("hidden"));
 		} finally {
-			if (driver != null)
-				driver.quit();
+			if (player1Driver != null)
+				player1Driver.quit();
+			if (player2Driver != null)
+				player2Driver.quit();
 		}
 	}
 
@@ -312,18 +325,14 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 
 			// Player 2 (webapp): Join game.
 			driver.findElement(By.id("join-game")).click();
 
 			// Player 2 (webapp): Try to submit throw twice.
-			driver.findElement(
-					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
-			driver.findElement(
-					By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
+			driver.findElement(By.className("throw-paper")).click();
+			driver.findElement(By.className("throw-paper")).click();
 			Assert.assertEquals(1, driver.findElements(By.id("game-warning"))
 					.size());
 		} finally {
@@ -361,24 +370,21 @@ public final class GameIT {
 			Assert.assertEquals(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()), 1,
-					driver.findElements(By.id("player-controls")).size());
+					driver.findElements(By.id("players")).size());
 
 			// Player 2 (service): Join and set max rounds.
 			authClient.loginAsGuest();
 			gameClient.joinGame(gameId);
 			gameClient.setMaxRounds(gameId, 3, 1);
-			wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
-					By.cssSelector("div#player-2-controls h3.player-name"),
-					"Not Joined")));
+			wait.until(ExpectedConditions.not(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.cssSelector("div#player-second .player-name"),
+							"Waiting")));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
-					By.id("max-rounds-value"), "1"));
-			wait.until(ExpectedConditions.textToBePresentInElementLocated(
-					By.id("round-counter-max"), "1"));
+					By.className("max-rounds-value"), "1"));
 
 			// Player 1 (webapp): Throw ROCK.
-			driver.findElement(
-					By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
+			driver.findElement(By.className("throw-rock")).click();
 
 			// Player 2 (service): Throw ROCK.
 			gameClient.submitThrow(gameId, 0, Throw.ROCK);
@@ -392,16 +398,14 @@ public final class GameIT {
 					By.xpath("//tr[@id='round-data-0']/td[4]"), "(tied)"));
 
 			// Player 1 (webapp): Throw ROCK.
-			driver.findElement(
-					By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
+			driver.findElement(By.className("throw-rock")).click();
 
 			// Player 2 (service): Throw PAPER.
 			gameClient.submitThrow(gameId, 1, Throw.PAPER);
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
-					By.id("player-1-score-value"), "0"));
+					By.cssSelector("#player-first .player-score-value"), "0"));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
-					By.id("player-2-score-value"), "1"));
+					By.cssSelector("#player-second .player-score-value"), "1"));
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
 					By.xpath("//tr[@id='result-row']/td[4]"),
 					"Anonymous Player Won!"));
@@ -453,7 +457,7 @@ public final class GameIT {
 			Assert.assertEquals(String.format("Invalid response: %s: %s",
 					player1Driver.getCurrentUrl(),
 					player1Driver.getPageSource()), 1, player1Driver
-					.findElements(By.id("player-controls")).size());
+					.findElements(By.id("players")).size());
 
 			// Player 2: Open the game.
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
@@ -468,58 +472,33 @@ public final class GameIT {
 			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
 
 			player2Driver.findElement(By.id("join-game")).click();
-			player1Wait.until(ExpectedConditions
-					.textToBePresentInElementLocated(
-							By.id("round-counter-current"), "1"));
+			player1Wait.until(ExpectedConditions.elementToBeClickable(By
+					.className("throw-rock")));
 			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
 
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-paper")).click();
 			player1Wait.until(ExpectedConditions
 					.textToBePresentInElementLocated(
 							By.id("round-counter-current"), "2"));
 			Assert.assertEquals("2", getRoundCounterCurrent(player2Driver));
 
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-rock']"))
-					.click();
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-rock")).click();
 			player1Wait.until(ExpectedConditions
 					.textToBePresentInElementLocated(
 							By.id("round-counter-current"), "2"));
 			Assert.assertEquals("2", getRoundCounterCurrent(player2Driver));
 
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-scissors']"))
-					.click();
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-scissors")).click();
 			player1Wait.until(ExpectedConditions
 					.textToBePresentInElementLocated(
 							By.id("round-counter-current"), "3"));
 			Assert.assertEquals("3", getRoundCounterCurrent(player2Driver));
 
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-paper")).click();
 			player1Wait.until(ExpectedConditions
 					.textToBePresentInElementLocated(
 							By.id("round-counter-current"), "3"));
@@ -565,7 +544,7 @@ public final class GameIT {
 			Assert.assertEquals(String.format("Invalid response: %s: %s",
 					player1Driver.getCurrentUrl(),
 					player1Driver.getPageSource()), 1, player1Driver
-					.findElements(By.id("player-controls")).size());
+					.findElements(By.id("players")).size());
 
 			// Player 2: Join the game.
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
@@ -576,16 +555,16 @@ public final class GameIT {
 			 * really needed for is to delay adjusting the rounds until at least
 			 * one JS update cycle has completed.
 			 */
-			player1Wait
-					.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
-							By.cssSelector("div#player-2-controls h3.player-name"),
-							"Not Joined")));
+			player1Wait.until(ExpectedConditions.not(ExpectedConditions
+					.textToBePresentInElementLocated(
+							By.cssSelector("div#player-second .player-name"),
+							"Waiting")));
 
 			// Player 1: Increase the max rounds to 7.
 			player1Driver.findElement(By.id("max-rounds-up")).click();
 			player1Driver.findElement(By.id("max-rounds-up")).click();
 			Assert.assertEquals("7",
-					player1Driver.findElement(By.id("max-rounds-value"))
+					player1Driver.findElement(By.className("max-rounds-value"))
 							.getText());
 
 			// Player 1: Increase the max rounds to 7.
@@ -598,13 +577,13 @@ public final class GameIT {
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
 			player2Driver.findElement(By.id("max-rounds-down")).click();
 			Assert.assertEquals("5",
-					player2Driver.findElement(By.id("max-rounds-value"))
+					player2Driver.findElement(By.className("max-rounds-value"))
 							.getText());
 
 			// Player 1: Verify that the max rounds refreshes dynamically.
 			player1Wait.until(ExpectedConditions
-					.textToBePresentInElementLocated(By.id("max-rounds-value"),
-							"5"));
+					.textToBePresentInElementLocated(
+							By.className("max-rounds-value"), "5"));
 		} finally {
 			if (player1Driver != null)
 				player1Driver.quit();
@@ -652,14 +631,9 @@ public final class GameIT {
 					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
 			player2Driver.findElement(By.id("join-game")).click();
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-paper']"))
-					.click();
+			player1Driver.navigate().refresh();
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-paper")).click();
 			player1Wait.until(ExpectedConditions
 					.textToBePresentInElementLocated(
 							By.id("round-counter-current"), "2"));
@@ -721,29 +695,25 @@ public final class GameIT {
 					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
 			player1Driver.findElement(By.id("max-rounds-down")).click();
 			Assert.assertEquals("1",
-					player1Driver.findElement(By.id("max-rounds-value"))
+					player1Driver.findElement(By.className("max-rounds-value"))
 							.getText());
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
 			player2Driver.findElement(By.id("join-game")).click();
-			player1Driver
-					.findElement(
-							By.xpath("//div[@id='player-1-controls']//a[@class='throw-rock']"))
-					.click();
-			player2Driver
-					.findElement(
-							By.xpath("//div[@id='player-2-controls']//a[@class='throw-scissors']"))
-					.click();
+			player1Wait.until(ExpectedConditions.elementToBeClickable(By
+					.className("throw-rock")));
+			player1Driver.findElement(By.className("throw-rock")).click();
+			player2Driver.findElement(By.className("throw-scissors")).click();
 
 			// Verify that the won/lost displays are correct.
 			player1Wait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
-							By.cssSelector("div#player-1-controls p.player-score-value"),
+							By.cssSelector("div#player-first p.player-score-value"),
 							"1"));
 			Assert.assertEquals(
 					"0",
 					player1Driver
 							.findElement(
-									By.cssSelector("div#player-2-controls p.player-score-value"))
+									By.cssSelector("div#player-second p.player-score-value"))
 							.getText());
 			Assert.assertEquals("Anonymous Player (You) Won!", player1Driver
 					.findElement(By.xpath("//tr[@id='result-row']/td[4]"))
