@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -19,6 +18,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
@@ -662,8 +663,8 @@ public final class GameIT {
 			String gameDataString = gameDataScanner.hasNext() ? gameDataScanner
 					.next() : null;
 			Assert.assertNotNull(gameDataString);
-			JSONObject gameDataJson = new JSONObject(gameDataString);
-			Assert.assertEquals(gameId, gameDataJson.get("id"));
+			JsonNode gameDataJson = new ObjectMapper().readTree(gameDataString);
+			Assert.assertEquals(gameId, gameDataJson.get("id").asText());
 		} finally {
 			if (gameDataScanner != null)
 				gameDataScanner.close();

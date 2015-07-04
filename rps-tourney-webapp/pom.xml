@@ -198,13 +198,6 @@
 			<version>2.42.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<!-- Used in tests to parse and verify JSON data. -->
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.json</artifactId>
-			<version>1.0.4</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
