@@ -2,6 +2,8 @@ package com.justdavis.karl.rpstourney.webapp.jsp;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ELResolver;
@@ -28,6 +30,7 @@ import org.springframework.mock.web.MockServletContext;
 final class MockPageContext extends PageContext {
 	private final JspWriter jspWriter;
 	private final ServletContext servletContext;
+	private final Map<String, Object> attributes;
 
 	/**
 	 * Constructs a new {@link MockPageContext} instance.
@@ -52,6 +55,7 @@ final class MockPageContext extends PageContext {
 		this.jspWriter = jspWriter;
 		this.servletContext = servletContext != null ? servletContext
 				: new MockServletContext();
+		this.attributes = new HashMap<>();
 	}
 
 	/**
@@ -60,7 +64,7 @@ final class MockPageContext extends PageContext {
 	 */
 	@Override
 	public void setAttribute(String name, Object value) {
-		throw new UnsupportedOperationException();
+		attributes.put(name, value);
 	}
 
 	/**
@@ -77,7 +81,7 @@ final class MockPageContext extends PageContext {
 	 */
 	@Override
 	public Object getAttribute(String name) {
-		throw new UnsupportedOperationException();
+		return attributes.get(name);
 	}
 
 	/**

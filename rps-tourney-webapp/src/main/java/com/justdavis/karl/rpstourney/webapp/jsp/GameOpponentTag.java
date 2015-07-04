@@ -133,9 +133,9 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 			return null;
 
 		// Calculate the content.
-		String content = PlayerNameTag.generateTag(messageSource, pageContext
-				.getELContext().getLocale(), authenticatedAccount, game, game
-				.determineOpponent(authenticatedAccount));
+		String content = PlayerNameTag.generateContent(messageSource,
+				pageContext.getELContext().getLocale(), authenticatedAccount,
+				game, game.determineOpponent(authenticatedAccount), false);
 
 		return content;
 	}

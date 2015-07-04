@@ -130,9 +130,9 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	 */
 	@Override
 	public int doEndTag() throws JspException {
-		String gameTitle = generateTag(messageSource, pageContext
+		String gameTitle = generateContent(messageSource, pageContext
 				.getELContext().getLocale(), getAuthenticatedAccount(), game,
-				player);
+				player, false);
 
 		// Write out the tag's output.
 		try {
@@ -156,20 +156,29 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	 *            the {@link GameView} to render the {@link Player} for
 	 * @param player
 	 *            the {@link Player} whose name is being rendered
+	 * @param textOnly
+	 *            if <code>true</code>, only text will be returned, if
+	 *            <code>false</code>, the result will include HTML markup
 	 * @return a rendered <code>&lt;span /&gt;</code> tag that wraps the
 	 *         specified {@link Player}'s name, and includes CSS classes
 	 *         indicating which {@link PlayerRole}s they represent
 	 */
-	static String generateTag(MessageSource messageSource, Locale locale,
-			Account authenticatedAccount, GameView game, Player player) {
+	static String generateContent(MessageSource messageSource, Locale locale,
+			Account authenticatedAccount, GameView game, Player player,
+			boolean textOnly) {
 		// If no Game was provided, just print out nothing.
 		if (game == null)
 			return null;
 
 		if (player == null && game.getPlayer2() == null) {
 			// We're printing out a not-yet-joined Player 2.
-			return generateTag(messageSource.getMessage(
-					"game.player.notJoined", null, locale), PlayerRole.PLAYER_2);
+			String displayName = messageSource.getMessage(
+					"game.player.notJoined", null, locale);
+
+			if (textOnly)
+				return displayName;
+			else
+				return generateTag(displayName, PlayerRole.PLAYER_2);
 		} else {
 			// We should be printing out an already-joined Player...
 
@@ -193,7 +202,10 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 						+ messageSource.getMessage(
 								"game.player.current.suffix", null, locale);
 
-			return generateTag(displayName, game.getPlayerRoles(player));
+			if (textOnly)
+				return displayName;
+			else
+				return generateTag(displayName, game.getPlayerRoles(player));
 		}
 	}
 

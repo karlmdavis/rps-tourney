@@ -136,6 +136,42 @@ public class GameTitleTagTest {
 	}
 
 	/**
+	 * Tests usage of {@link GameTitleTag} when it's set to just output to a
+	 * variable.
+	 * 
+	 * @throws IOException
+	 *             (indicates a problem with the test setup)
+	 * @throws JspException
+	 *             (indicates a problem with the test setup)
+	 */
+	@Test
+	public void renderToVariable() throws JspException, IOException {
+		// Create the mock objects to use.
+		SecurityContextImpl securityContext = new SecurityContextImpl();
+		MockJspWriter jspWriter = new MockJspWriter();
+		MockPageContext pageContext = new MockPageContext(jspWriter);
+
+		// Create the tag to test.
+		GameTitleTag gameTitleTag = new GameTitleTag();
+		gameTitleTag.setMockSecurityContext(securityContext);
+		gameTitleTag.setMessageSource(createMessageSource());
+		gameTitleTag.setPageContext(pageContext);
+		gameTitleTag.setVar("fizz");
+
+		// Test the tag.
+		Account player1Account = new Account();
+		player1Account.setName("Foo");
+		Account player2Account = new Account();
+		player2Account.setName("Bar");
+		Game game = new Game(new Player(player1Account));
+		game.setPlayer2(new Player(player2Account));
+		GameView gameView = new GameView(game, null);
+		gameTitleTag.setGame(gameView);
+		gameTitleTag.doEndTag();
+		Assert.assertEquals("Foo vs. Bar", pageContext.getAttribute("fizz"));
+	}
+
+	/**
 	 * @return a mock {@link MessageSource}
 	 */
 	private MessageSource createMessageSource() {

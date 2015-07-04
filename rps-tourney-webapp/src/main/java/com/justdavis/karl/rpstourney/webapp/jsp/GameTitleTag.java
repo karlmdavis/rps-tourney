@@ -126,7 +126,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	 */
 	@Override
 	public int doEndTag() throws JspException {
-		String content = generateContent();
+		String content = generateContent(variableName != null);
 
 		if (variableName != null) {
 			// Pass the value out as a variable.
@@ -144,9 +144,12 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	}
 
 	/**
+	 * @param textOnly
+	 *            if <code>true</code>, only text will be returned, if
+	 *            <code>false</code>, the result will include HTML markup
 	 * @return the text, tags, etc. to be rendered
 	 */
-	private String generateContent() {
+	private String generateContent(boolean textOnly) {
 		// If no Game was provided, just print out nothing.
 		if (game == null)
 			return null;
@@ -165,18 +168,18 @@ public final class GameTitleTag extends RequestContextAwareTag {
 		}
 
 		// Build the display tags for each Player.
-		String firstPlayerTag = PlayerNameTag.generateTag(messageSource,
+		String firstPlayerName = PlayerNameTag.generateContent(messageSource,
 				pageContext.getELContext().getLocale(), authenticatedAccount,
-				game, firstPlayer);
-		String secondPlayerTag = PlayerNameTag.generateTag(messageSource,
+				game, firstPlayer, textOnly);
+		String secondPlayerName = PlayerNameTag.generateContent(messageSource,
 				pageContext.getELContext().getLocale(), authenticatedAccount,
-				game, secondPlayer);
+				game, secondPlayer, textOnly);
 
 		// Return the result.
 		String versusSeparator = messageSource.getMessage("game.title.versus",
 				null, pageContext.getELContext().getLocale());
-		String result = String.format("%s %s %s", firstPlayerTag,
-				versusSeparator, secondPlayerTag);
+		String result = String.format("%s %s %s", firstPlayerName,
+				versusSeparator, secondPlayerName);
 		return result;
 	}
 
