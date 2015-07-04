@@ -3599,3 +3599,15 @@ This file should never be committed along with other files; it should always be 
     * Added more won/lost styling. I think that was a big improvement.
     * Fixed many of the ITs. Still four broken ones, though.
     * Still need to fix the player order in the history table, too.
+* 0.5h (22:53-23:23): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Fixed some more of the ITs. Still have two broken, though.
+
+### 2015-07-04, Saturday
+
+* 1.45h (10:49-12:15): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Fixed the remaining ITs.
+    * Committed the changes so far.
+* 0.3h (13:30-13:48): [Issue #90: Remove extra JSON dependency in rps-tourney-webapp](https://github.com/karlmdavis/rps-tourney/issues/90)
+    * Resolved and committed.
+* 0.6h (14:05-14:42): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Fixed the game page's title attribute, so that it doesn't include escaped HTML.
