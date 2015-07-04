@@ -3611,3 +3611,15 @@ This file should never be committed along with other files; it should always be 
     * Resolved and committed.
 * 0.6h (14:05-14:42): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Fixed the game page's title attribute, so that it doesn't include escaped HTML.
+* 2.4h (17:31-19:55): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Things to do:
+        * Still need to fix the player order in the history table, too.
+        * Should games have a "name" attribute? If so, who can set it? Is it editable?
+        * Need to add a bit of `margin-bottom` to the player panels.
+        * Move the "new game" button up a section.
+        * Rework the home page text a bit.
+        * Check `AbstractGame` for unused methods.
+        * Remove unused strings.
+    * Corrected the player order in the history table.
+    * Added a bit of `margin-bottom` to the player panels.
+    * Moved the "new game" button up a section.
