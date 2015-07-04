@@ -8,6 +8,7 @@
 <%@ taglib prefix="rps" uri="http://justdavis.com/karl/rpstourney/app/jsp-tags" %>
 <rps:gameTitle game="${game}" var="metaSubtitle" />
 <c:url value="${requestScope['rpstourney.config.baseurl']}/game/${game.id}" var="gameUrl" />
+<sec:authentication var="principal" property="principal" />
 <t:basepage metaSubtitle="${metaSubtitle}">
 	<jsp:attribute name="bodyscripts">
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/game.min.js"></script>
@@ -127,8 +128,8 @@
 					<thead>
 						<tr>
 							<th><spring:message code="game.roundHistory.index" /></th>
-							<th><rps:playerName game="${game}" player="${game.player1}" /></th>
-							<th><rps:playerName game="${game}" player="${game.player2}" /></th>
+							<th><rps:playerName game="${game}" player="${firstPlayer}" /></th>
+							<th><rps:playerName game="${game}" player="${secondPlayer}" /></th>
 							<th><spring:message code="game.roundHistory.result" /></th>
 						</tr>
 					</thead>
@@ -144,22 +145,17 @@
 						<c:forEach items="${game.rounds}" var="round">
 						<tr id="round-data-${round.roundIndex}">
 							<td>${round.adjustedRoundIndex + 1}</td>
+							<c:choose>
+							<c:when test="${firstPlayer == game.player1}">
 							<td><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></td>
 							<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
-							<c:choose>
-							<c:when test="${round.result == 'PLAYER_1_WON'}">
-							<td><rps:playerName game="${game}" player="${game.player1}" /></td>
-							</c:when>
-							<c:when test="${round.result == 'PLAYER_2_WON'}">
-							<td><rps:playerName game="${game}" player="${game.player2}" /></td>
-							</c:when>
-							<c:when test="${round.result == 'TIED'}">
-							<td><spring:message code="game.roundHistory.result.tied" /></td>
 							</c:when>
 							<c:otherwise>
-							<td><spring:message code="game.roundHistory.result.none" /></td>
+							<td><spring:message code="game.roundHistory.${round.throwForPlayer2}" /></td>
+							<td><spring:message code="game.roundHistory.${round.throwForPlayer1}" /></td>
 							</c:otherwise>
 							</c:choose>
+							<td><rps:roundResult game="${game}" round="${round}" /></td>
 						</tr>
 						</c:forEach>
 						<c:if test="${not empty game.winner}">
@@ -170,6 +166,9 @@
 							<c:choose>
 							<c:when test="${isUserTheWinner}">
 							<td class="won">
+							</c:when>
+							<c:when test="${isUserTheLoser}">
+							<td class="lost">
 							</c:when>
 							<c:otherwise>
 							<td>

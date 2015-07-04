@@ -31,21 +31,44 @@ $(document).on("blur", "form.player-name", function (event) {
 
 // This function returns the element to display as the result of the specified round in the specified game.
 function computeRoundResultElement(gameData, round) {
+	/*
+	 * Note: This HTML is slightly different from the server-side version. The
+	 * server-side version puts the won/lost class in an outer, wrapping
+	 * <span/>. The differences don't affect any of the logic or rendering,
+	 * though.
+	 */
+	
 	var resultText = $.i18n.prop('game.roundHistory.result.none');
-	var resultClass = "";
+	var resultClasses = "";
 	if (round.result === 'PLAYER_1_WON') {
 		resultText = computePlayerNameText(gameData, gameData.player1);
-		resultClass = "PLAYER_1";
+		if(isUserThisPlayer(gameData, gameData.player1)) {
+			resultClasses = "PLAYER_1 won";
+		}
+		else if (isUserAPlayer(gameData)) {
+			resultClasses = "PLAYER_1 lost";
+		}
+		else {
+			resultClasses = "PLAYER_1";
+		}
 	}
 	else if (round.result === 'PLAYER_2_WON') {
 		resultText = computePlayerNameText(gameData, gameData.player2);
-		resultClass = "PLAYER_2";
+		if(isUserThisPlayer(gameData, gameData.player2)) {
+			resultClasses = "PLAYER_2 won";
+		}
+		else if (isUserAPlayer(gameData)) {
+			resultClasses = "PLAYER_2 lost";
+		}
+		else {
+			resultClasses = "PLAYER_2";
+		}
 	}
 	else if (round.result === 'TIED') {
 		resultText = $.i18n.prop('game.roundHistory.result.tied');
 	}
 	
-	return '<span class="' + resultClass + '">' + resultText + '</span>';
+	return '<span class="' + resultClasses + '">' + resultText + '</span>';
 }
 
 // This function returns the text to display as the name of the specified player in the specified game.
@@ -224,28 +247,32 @@ function refreshGameState() {
 				
 				// Set/update all of the column values in the row for the round.
 				roundRow.children("td:nth-child(1)").text(round.adjustedRoundIndex + 1);
-				var throwForPlayer1Key = round.throwForPlayer1 === null ? 'game.roundHistory.' : 'game.roundHistory.' + round.throwForPlayer1;
-				roundRow.children("td:nth-child(2)").text($.i18n.prop(throwForPlayer1Key));
-				var throwForPlayer2Key = round.throwForPlayer2 === null ? 'game.roundHistory.' : 'game.roundHistory.' + round.throwForPlayer2;
-				roundRow.children("td:nth-child(3)").text($.i18n.prop(throwForPlayer2Key));
+				var firstPlayerThrow, secondPlayerThrow;
+				if (isUserThisPlayer(gameData, gameData.player2)) {
+					firstPlayerThrow = round.throwForPlayer2;
+					secondPlayerThrow = round.throwForPlayer1;
+				}
+				else {
+					firstPlayerThrow = round.throwForPlayer1;
+					secondPlayerThrow = round.throwForPlayer2;
+				}
+				var throwForFirstPlayerKey = firstPlayerThrow === null ? 'game.roundHistory.' : 'game.roundHistory.' + firstPlayerThrow;
+				roundRow.children("td:nth-child(2)").text($.i18n.prop(throwForFirstPlayerKey));
+				var throwForSecondPlayerKey = secondPlayerThrow === null ? 'game.roundHistory.' : 'game.roundHistory.' + secondPlayerThrow;
+				roundRow.children("td:nth-child(3)").text($.i18n.prop(throwForSecondPlayerKey));
 				roundRow.children("td:nth-child(4)").empty().append(computeRoundResultElement(gameData, round));
 			}
 		}
 		
 		// Determine the order players are displayed in the UI.
 		var player1Element, player2Element;
-		var player1HistoryColumn, player2HistoryColumn;
 		if (isUserThisPlayer(gameData, gameData.player2)) {
 			player1Element = $("#player-second");
 			player2Element = $("#player-first");
-			player1HistoryColumn = 3;
-			player2HistoryColumn = 2;
 		}
 		else {
 			player1Element = $("#player-first");
 			player2Element = $("#player-second");
-			player1HistoryColumn = 2;
-			player2HistoryColumn = 3;
 		}
 		
 		// Update the scores.
@@ -266,18 +293,27 @@ function refreshGameState() {
 			// Create the result row, if it hasn't been already.
 			if ($("#result-row").length === 0) {
 				var winnerDisplayName = "";
-				var winnerDisplayClass = "";
+				var winnerNameClass = "";
+				var wonOrLostClass = "";
+				
 				if (gameData.winner.id === gameData.player1.id) {
 					winnerDisplayName = computePlayerNameText(gameData, gameData.player1);
-					winnerDisplayClass = "PLAYER_1";
+					winnerNameClass = "PLAYER_1";
 				}
 				else {
 					winnerDisplayName = computePlayerNameText(gameData, gameData.player2);
-					winnerDisplayClass = "PLAYER_2";
+					winnerNameClass = "PLAYER_2";
 				}
 				
-				var finalResultCell = '<td><span class="' 
-						+ winnerDisplayClass + '">' 
+				if (isUserAPlayer(gameData) && isUserTheWinner(gameData)) {
+					wonOrLostClass = "won";
+				}
+				else if (isUserAPlayer(gameData)) {
+					wonOrLostClass = "lost";
+				}
+				
+				var finalResultCell = '<td class="'	+ wonOrLostClass 
+						+ '"><span class="' + winnerNameClass + '">' 
 						+ winnerDisplayName + '</span>'
 						+ $.i18n.prop('game.roundHistory.someoneWonSuffix')
 						+ '</td>';
