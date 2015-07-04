@@ -8,10 +8,9 @@
 <t:basepage metaSubtitle="${metaSubtitle}">
 		<h1><spring:message code="home.h1" /></h1>
 		<p><spring:message code="home.intro.1" /></p>
+		<p><a id="create-game" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a></p>
 		
 		<h2><spring:message code="home.games.h2" /></h2>
-		<a id="create-game" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a>
-		
 		<sec:authorize access="isAuthenticated()">
 		<c:if test="${not empty games}">
 		<table id="player-games">
