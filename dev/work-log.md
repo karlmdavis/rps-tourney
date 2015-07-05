@@ -3626,3 +3626,12 @@ This file should never be committed along with other files; it should always be 
 * 0.35h (23:55-00:16): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Reworked the home page text a bit.
     * Fixed the "Your Games" section being completely empty glitch (when no games were created yet).
+    * Still need to do:
+        * Should games have a "name" attribute? If so, who can set it? Is it editable?
+        * Check `AbstractGame` for unused methods.
+        * Remove unused strings.
+
+### 2015-07-05, Sunday
+
+* 1.0h (06:29-07:28): [Issue #91: Clean up unused methods, strings, etc.](https://github.com/karlmdavis/rps-tourney/issues/91)
+    * Resolved and committed.
