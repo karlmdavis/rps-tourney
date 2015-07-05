@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -48,7 +47,6 @@ public class GameController {
 	 */
 	private static final String FLASH_ATTRIB_WARNING_TYPE = "warningType";
 
-	private final MessageSource messageSource;
 	private final IGameResource gameClient;
 	private final IAccountsResource accountsClient;
 	private final IGuestLoginManager guestLoginManager;
@@ -56,8 +54,6 @@ public class GameController {
 	/**
 	 * Constructs a new {@link GameController} instance.
 	 * 
-	 * @param messageSource
-	 *            the {@link MessageSource} to use
 	 * @param gameClient
 	 *            the {@link IGameResource} client to use
 	 * @param accountsClient
@@ -66,10 +62,9 @@ public class GameController {
 	 *            the {@link IGuestLoginManager} to use
 	 */
 	@Inject
-	public GameController(MessageSource messageSource,
-			IGameResource gameClient, IAccountsResource accountsClient,
+	public GameController(IGameResource gameClient,
+			IAccountsResource accountsClient,
 			IGuestLoginManager guestLoginManager) {
-		this.messageSource = messageSource;
 		this.gameClient = gameClient;
 		this.accountsClient = accountsClient;
 		this.guestLoginManager = guestLoginManager;
@@ -388,12 +383,6 @@ public class GameController {
 				game.getScoreForPlayer(secondPlayer));
 
 		// Add some display-related data to the model.
-		modelAndView.addObject("hasPlayer1", game.getPlayer1() != null);
-		modelAndView.addObject("player1Label",
-				getPlayer1Label(game, messageSource, locale));
-		modelAndView.addObject("hasPlayer2", game.getPlayer2() != null);
-		modelAndView.addObject("player2Label",
-				getPlayer2Label(game, messageSource, locale));
 		modelAndView.addObject(
 				"currentAdjustedRoundIndex",
 				game.getRounds().isEmpty() ? 0 : game.getRounds()
@@ -411,16 +400,6 @@ public class GameController {
 				game.getPlayer2());
 		boolean isPlayer = isPlayer1 || isPlayer2;
 		modelAndView.addObject("isPlayer", isPlayer);
-		modelAndView.addObject("isPlayer1", isPlayer1);
-		modelAndView.addObject("isPlayer2", isPlayer2);
-
-		// This is used for the name-editing widget.
-		if (isPlayer1)
-			modelAndView.addObject("currentPlayerName",
-					getPlayerName(game.getPlayer1()));
-		else if (isPlayer2)
-			modelAndView.addObject("currentPlayerName",
-					getPlayerName(game.getPlayer2()));
 
 		// Setup some winner/loser properties.
 		boolean hasWinner = game.getWinner() != null;
@@ -428,83 +407,8 @@ public class GameController {
 				&& isUserThisPlayer(authenticatedUser, game.getWinner()));
 		modelAndView.addObject("isUserTheLoser", hasWinner && isPlayer
 				&& !isUserThisPlayer(authenticatedUser, game.getWinner()));
-		modelAndView.addObject("isPlayer1TheWinner", hasWinner
-				&& game.getWinner().equals(game.getPlayer1()));
-		modelAndView.addObject("isPlayer1TheLoser", hasWinner
-				&& !game.getWinner().equals(game.getPlayer1()));
-		modelAndView.addObject("isPlayer2TheWinner", hasWinner
-				&& game.getWinner().equals(game.getPlayer2()));
-		modelAndView.addObject("isPlayer2TheLoser", hasWinner
-				&& !game.getWinner().equals(game.getPlayer2()));
-		if (hasWinner)
-			modelAndView.addObject("winnerLabel",
-					game.getWinner().equals(game.getPlayer1()) ? modelAndView
-							.getModel().get("player1Label") : modelAndView
-							.getModel().get("player2Label"));
 
 		return modelAndView;
-	}
-
-	/**
-	 * @param player
-	 *            the {@link Player} to get the {@link Player#getName()} value
-	 *            of
-	 * @return the specified {@link Player}'s {@link Player#getName()} value, or
-	 *         <code>null</code> if either the {@link Player} or name is
-	 *         <code>null</code>
-	 */
-	private static String getPlayerName(Player player) {
-		if (player == null)
-			return null;
-		return player.getName();
-	}
-
-	/**
-	 * @param game
-	 *            the {@link GameView} to get the label for
-	 * @param messageSource
-	 *            the {@link MessageSource} to look up text from
-	 * @param locale
-	 *            the {@link Locale} to display text for
-	 * @return the display text/label to use to represent
-	 *         {@link Game#getPlayer1()}
-	 */
-	private static String getPlayer1Label(GameView game,
-			MessageSource messageSource, Locale locale) {
-		// If the Player has an actual name, use that.
-		if (game.getPlayer1() != null && game.getPlayer1().getName() != null)
-			return game.getPlayer1().getName();
-
-		// Has the Player joined the game yet?
-		if (game.getPlayer1() != null)
-			return messageSource.getMessage("game.player1.label", null, locale);
-		else
-			return messageSource.getMessage("game.player1.label.waiting", null,
-					locale);
-	}
-
-	/**
-	 * @param game
-	 *            the {@link GameView} to get the label for
-	 * @param messageSource
-	 *            the {@link MessageSource} to look up text from
-	 * @param locale
-	 *            the {@link Locale} to display text for
-	 * @return the display text/label to use to represent
-	 *         {@link Game#getPlayer2()}
-	 */
-	private static String getPlayer2Label(GameView game,
-			MessageSource messageSource, Locale locale) {
-		// If the Player has an actual name, use that.
-		if (game.getPlayer2() != null && game.getPlayer2().getName() != null)
-			return game.getPlayer2().getName();
-
-		// Has the Player joined the game yet?
-		if (game.getPlayer2() != null)
-			return messageSource.getMessage("game.player2.label", null, locale);
-		else
-			return messageSource.getMessage("game.player2.label.waiting", null,
-					locale);
 	}
 
 	/**
