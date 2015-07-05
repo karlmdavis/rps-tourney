@@ -179,8 +179,8 @@ p#created {
 		.make-row();
 		
 		div.col {
-			.make-xs-column(4);
-			.make-md-column(2);
+			.make-xs-column(8);
+			.make-md-column(4);
 	
 			#join-game {
 				.btn;
@@ -192,13 +192,19 @@ p#created {
 	}
 	
 	#max-round-controls {
-		div.row {
-			.make-row();
-			
-			div.col {
-				.make-xs-column(4);
-				.make-md-column(2);
-			}
+		#max-rounds-label-row > .col {
+			.make-xs-column(12);
+		}
+		
+		#max-rounds-controls-outer > .col {
+			.make-xs-column(8);
+			.make-md-column(4);
+		}
+		
+		#max-rounds-controls-inner > .col {
+			// We use nested rows+cols to ensure these controls are spaced 
+			// evenly, but are only as wide total as two of the throw buttons.
+			.make-xs-column(4);
 		}
 	
 		#max-rounds-down, #max-rounds-up, .max-rounds-value {
