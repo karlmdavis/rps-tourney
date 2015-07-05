@@ -82,13 +82,17 @@
 					</p>
 				</div>
 				<div id="max-round-controls">
-					<div class="row">
+					<div id="max-rounds-label-row" class="row">
 						<div class="col"><span id="max-rounds-label"><spring:message code="game.maxRounds.label" /></span></div>
 					</div>
-					<div class="row">
-						<div class="col"><a id="max-rounds-down" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a></div>
-						<div class="col"><span class="max-rounds-value">${game.maxRounds}</span></div>
-						<div class="col"><a id="max-rounds-up" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a></div>
+					<div id="max-rounds-controls-outer" class="row">
+						<div class="col">
+							<div id="max-rounds-controls-inner" class="row">
+								<div class="col"><a id="max-rounds-down" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></div>
+								<div class="col"><span class="max-rounds-value">${game.maxRounds}</span></div>
+								<div class="col"><a id="max-rounds-up" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -108,13 +112,17 @@
 			<div id="game-controls">
 				<h2><spring:message code="game.controls" /></h2>
 				<div id="max-round-controls">
-					<div class="row">
+					<div id="max-rounds-label-row" class="row">
 						<div class="col"><span id="max-rounds-label"><spring:message code="game.maxRounds.label" /></span></div>
 					</div>
-					<div class="row">
-						<div class="col"><a id="max-rounds-down" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><spring:message code="game.maxRounds.down" /></a></div>
-						<div class="col"><span class="max-rounds-value">${game.maxRounds}</span></div>
-						<div class="col"><a id="max-rounds-up" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><spring:message code="game.maxRounds.up" /></a></div>
+					<div id="max-rounds-controls-outer" class="row">
+						<div class="col">
+							<div id="max-rounds-controls-inner" class="row">
+								<div class="col"><a id="max-rounds-down" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds - 2}"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></div>
+								<div class="col"><span class="max-rounds-value">${game.maxRounds}</span></div>
+								<div class="col"><a id="max-rounds-up" href="${gameUrl}/setMaxRounds?oldMaxRoundsValue=${game.maxRounds}&newMaxRoundsValue=${game.maxRounds + 2}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
