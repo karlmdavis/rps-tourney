@@ -133,11 +133,11 @@ public class PlayerNameTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("game.player.current.suffix",
+		messageSource.addMessage("playerName.current.suffix",
 				Locale.getDefault(), " (You)");
-		messageSource.addMessage("game.player.notJoined", Locale.getDefault(),
+		messageSource.addMessage("playerName.notJoined", Locale.getDefault(),
 				"(Waiting for Opponent...)");
-		messageSource.addMessage("game.player.anonymous", Locale.getDefault(),
+		messageSource.addMessage("playerName.anon", Locale.getDefault(),
 				"Anonymous");
 		return messageSource;
 	}

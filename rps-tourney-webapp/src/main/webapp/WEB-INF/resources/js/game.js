@@ -51,7 +51,7 @@ function computeRoundResultElement(gameData, round) {
 	 * though.
 	 */
 
-	var resultText = $.i18n.prop('game.roundHistory.result.none');
+	var resultText = $.i18n.prop('roundResult.none');
 	var resultClasses = "";
 	if (round.result === 'PLAYER_1_WON') {
 		resultText = computePlayerNameText(gameData, gameData.player1);
@@ -72,7 +72,7 @@ function computeRoundResultElement(gameData, round) {
 			resultClasses = "PLAYER_2";
 		}
 	} else if (round.result === 'TIED') {
-		resultText = $.i18n.prop('game.roundHistory.result.tied');
+		resultText = $.i18n.prop('roundResult.tied');
 	}
 
 	return '<span class="' + resultClasses + '">' + resultText + '</span>';
@@ -83,13 +83,13 @@ function computeRoundResultElement(gameData, round) {
  * in the specified game.
  */
 function computePlayerNameText(gameData, player) {
-	var playerLabel = $.i18n.prop('game.player.notJoined');
+	var playerLabel = $.i18n.prop('playerName.notJoined');
 	if (player != null) {
 		playerLabel = player.name !== null ? player.name : $.i18n
-				.prop('game.player.anonymous');
+				.prop('playerName.anon');
 		if (isUserThisPlayer(gameData, player)) {
 			playerLabel = playerLabel
-					+ $.i18n.prop('game.player.current.suffix')
+					+ $.i18n.prop('playerName.current.suffix')
 		}
 	}
 
@@ -178,17 +178,17 @@ function processNewGameState(gameData) {
 
 	// Grab player names/labels for use later.
 	var player1Label = gameData.player1.name !== null ? gameData.player1.name
-			: $.i18n.prop('game.player.anonymous');
+			: $.i18n.prop('playerName.anon');
 	if (isUserThisPlayer(gameData, gameData.player1)) {
-		player1Label = player1Label + $.i18n.prop('game.player.current.suffix')
+		player1Label = player1Label + $.i18n.prop('playerName.current.suffix')
 	}
-	var player2Label = $.i18n.prop('game.player.notJoined');
+	var player2Label = $.i18n.prop('playerName.notJoined');
 	if (gameData.player2 != null) {
 		player2Label = gameData.player2.name !== null ? gameData.player2.name
-				: $.i18n.prop('game.player.anonymous');
+				: $.i18n.prop('playerName.anon');
 		if (isUserThisPlayer(gameData, gameData.player2)) {
 			player2Label = player2Label
-					+ $.i18n.prop('game.player.current.suffix')
+					+ $.i18n.prop('playerName.current.suffix')
 		}
 	}
 

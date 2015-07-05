@@ -15,7 +15,7 @@
 				</c:when>
 				<c:otherwise>
 				<a href="${requestScope['rpstourney.config.baseurl']}/login" id="sign-in" class="btn btn-default navbar-btn navbar-right">
-					<spring:message code="template.signin.label" />
+					<spring:message code="accountControl.signin" />
 				</a>
 				</c:otherwise>
 				</c:choose>

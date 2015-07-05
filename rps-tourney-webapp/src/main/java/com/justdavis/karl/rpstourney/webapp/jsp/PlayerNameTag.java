@@ -173,7 +173,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 		if (player == null && game.getPlayer2() == null) {
 			// We're printing out a not-yet-joined Player 2.
 			String displayName = messageSource.getMessage(
-					"game.player.notJoined", null, locale);
+					"playerName.notJoined", null, locale);
 
 			if (textOnly)
 				return displayName;
@@ -192,7 +192,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 
 			// Select the base display name.
 			String displayName = player.getName() != null ? player.getName()
-					: messageSource.getMessage("game.player.anonymous", null,
+					: messageSource.getMessage("playerName.anon", null,
 							locale);
 
 			// Append a " (You)" indicator, if appropriate.
@@ -200,7 +200,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 					&& player.getHumanAccount().equals(authenticatedAccount))
 				displayName = displayName
 						+ messageSource.getMessage(
-								"game.player.current.suffix", null, locale);
+								"playerName.current.suffix", null, locale);
 
 			if (textOnly)
 				return displayName;

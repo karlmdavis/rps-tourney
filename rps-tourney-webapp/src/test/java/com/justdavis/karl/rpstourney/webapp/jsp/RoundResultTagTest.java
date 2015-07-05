@@ -106,12 +106,12 @@ public class RoundResultTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("game.player.current.suffix",
+		messageSource.addMessage("playerName.current.suffix",
 				Locale.getDefault(), " (You)");
-		messageSource.addMessage("game.player.anonymous", Locale.getDefault(),
+		messageSource.addMessage("playerName.anon", Locale.getDefault(),
 				"Anonymous Player");
-		messageSource.addMessage("game.roundHistory.result.tied",
-				Locale.getDefault(), "(tied)");
+		messageSource.addMessage("roundResult.tied", Locale.getDefault(),
+				"(tied)");
 		return messageSource;
 	}
 }
