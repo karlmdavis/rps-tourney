@@ -148,32 +148,6 @@ function isUserTheWinner(gameData) {
 	return gameData.winner.humanAccount.id === gameData.viewUser.id;
 }
 
-// This function returns true if "Player 1" in the specified game data instance won the 
-// game, false if not, and throws an error if the game hasn't even completed yet.
-function isPlayer1TheWinner(gameData) {
-	if (gameData === null) {
-		throw "Missing game data.";
-	}
-	if (gameData.state !== "FINISHED") {
-		throw "Game not finished.";
-	}
-	
-	return gameData.winner.id === gameData.player1.id;
-}
-
-// This function returns true if "Player 2" in the specified game data instance won the 
-// game, false if not, and throws an error if the game hasn't even completed yet.
-function isPlayer2TheWinner(gameData) {
-	if (gameData === null) {
-		throw "Missing game data.";
-	}
-	if (gameData.state !== "FINISHED") {
-		throw "Game not finished.";
-	}
-	
-	return gameData.winner.id === gameData.player2.id;
-}
-
 // When called, this function will automatically refresh the game state.
 function refreshGameState() {
 	// Build the URL for the game state, based on the URL for the game page.
