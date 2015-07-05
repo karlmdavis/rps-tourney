@@ -163,6 +163,7 @@ public final class AuthenticationIT {
 					.click();
 
 			// Verify that the account control has the name in it.
+			driver.findElement(By.id("nav-collapse-toggle")).click();
 			Assert.assertTrue(
 					String.format("Invalid response: %s: %s",
 							driver.getCurrentUrl(), driver.getPageSource()),
