@@ -273,14 +273,24 @@ function processNewGameState(gameData) {
 	}
 
 	// Determine the order players are displayed in the UI.
+	var playerFirst, playerSecond;
 	var player1Element, player2Element;
 	if (isUserThisPlayer(gameData, gameData.player2)) {
+		playerFirst = gameData.player2;
+		playerSecond = gameData.player1;
 		player1Element = $("#player-second");
 		player2Element = $("#player-first");
 	} else {
+		playerFirst = gameData.player1;
+		playerSecond = gameData.player2;
 		player1Element = $("#player-first");
 		player2Element = $("#player-second");
 	}
+
+	// Update the page's title (in the HTML header).
+	document.title = '' + computePlayerNameText(gameData, playerFirst) + ' '
+			+ $.i18n.prop('gameTitle.versus') + ' '
+			+ computePlayerNameText(gameData, playerSecond);
 
 	// Update the scores.
 	player1Element.find(".player-score-value").text(gameData.scoreForPlayer1);
