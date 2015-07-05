@@ -12,8 +12,11 @@
 		<p><a id="create-game" href="${requestScope['rpstourney.config.baseurl']}/game/"><spring:message code="home.games.create" /></a></p>
 		
 		<h2><spring:message code="home.games.h2" /></h2>
-		<sec:authorize access="isAuthenticated()">
-		<c:if test="${not empty games}">
+		<c:choose>
+		<c:when test="${empty games}">
+		<p id="player-games-empty"><spring:message code="home.games.empty" /></p>
+		</c:when>
+		<c:otherwise>
 		<table id="player-games">
 			<thead>
 				<tr>
@@ -34,8 +37,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		</c:if>
-		</sec:authorize>
+		</c:otherwise>
+		</c:choose>
 		
 		<%-- Disabling logout until username & password authentication is fully supported: registration and login are missing. --%>
 		<%-- <sec:authorize access="isAuthenticated()"> --%>
