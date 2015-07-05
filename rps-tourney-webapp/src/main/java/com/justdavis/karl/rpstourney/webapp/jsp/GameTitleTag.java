@@ -176,7 +176,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 				game, secondPlayer, textOnly);
 
 		// Return the result.
-		String versusSeparator = messageSource.getMessage("game.title.versus",
+		String versusSeparator = messageSource.getMessage("gameTitle.versus",
 				null, pageContext.getELContext().getLocale());
 		String result = String.format("%s %s %s", firstPlayerName,
 				versusSeparator, secondPlayerName);

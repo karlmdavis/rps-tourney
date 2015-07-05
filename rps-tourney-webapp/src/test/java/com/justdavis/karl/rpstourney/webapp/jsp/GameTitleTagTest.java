@@ -176,13 +176,13 @@ public class GameTitleTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("game.title.versus", Locale.getDefault(),
+		messageSource.addMessage("gameTitle.versus", Locale.getDefault(),
 				"vs.");
-		messageSource.addMessage("game.player.current.suffix",
+		messageSource.addMessage("playerName.current.suffix",
 				Locale.getDefault(), " (You)");
-		messageSource.addMessage("game.player.notJoined", Locale.getDefault(),
+		messageSource.addMessage("playerName.notJoined", Locale.getDefault(),
 				"(Waiting for Opponent...)");
-		messageSource.addMessage("game.player.anonymous", Locale.getDefault(),
+		messageSource.addMessage("playerName.anon", Locale.getDefault(),
 				"Anonymous Player");
 		return messageSource;
 	}

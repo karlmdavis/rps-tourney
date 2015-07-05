@@ -180,10 +180,10 @@ public final class RoundResultTag extends RequestContextAwareTag {
 			return String.format("<span class=\"%s\">%s</span>",
 					wonOrLostClass, winnerNameTag);
 		} else if (round.getResult() == Result.TIED) {
-			return messageSource.getMessage("game.roundHistory.result.tied",
+			return messageSource.getMessage("roundResult.tied",
 					null, locale);
 		} else {
-			return messageSource.getMessage("game.roundHistory.result.none",
+			return messageSource.getMessage("roundResult.none",
 					null, locale);
 		}
 	}
