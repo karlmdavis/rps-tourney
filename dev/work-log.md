@@ -3642,6 +3642,9 @@ This file should never be committed along with other files; it should always be 
     * Need to have JS update page title, too.
 * 0.45h (09:05-09:33): [Issue #91: Clean up unused methods, strings, etc.](https://github.com/karlmdavis/rps-tourney/issues/91)
     * Also went through and refactored the message names to reflect where they're actually being used. Committed again.
-* 0.2h (09:44-09:57): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+* 1.2h (09:44-10:57): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Get game page titles updating dynamically (in HTML header).
+    * Made the game controls less wide and replaced the round controls' text with icons.
     * Am I done with this task now? Should probably play test it a bit with Erica, first.
+* 1.15h (12:05-13:13): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Set the navbar to collapse at small sizes, rather than wrap to a new line.
