@@ -3635,3 +3635,13 @@ This file should never be committed along with other files; it should always be 
 
 * 1.0h (06:29-07:28): [Issue #91: Clean up unused methods, strings, etc.](https://github.com/karlmdavis/rps-tourney/issues/91)
     * Resolved and committed.
+* 0.6h (07:31-07:43,08:40-09:05): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Stared at things for a while.
+    * Experimented with removing the game page's headers and other not-absolutely-needed elements.
+    * Made the template's headers all smaller, so they look less silly on the game page.
+    * Need to have JS update page title, too.
+* 0.45h (09:05-09:33): [Issue #91: Clean up unused methods, strings, etc.](https://github.com/karlmdavis/rps-tourney/issues/91)
+    * Also went through and refactored the message names to reflect where they're actually being used. Committed again.
+* 0.2h (09:44-09:57): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Get game page titles updating dynamically (in HTML header).
+    * Am I done with this task now? Should probably play test it a bit with Erica, first.
