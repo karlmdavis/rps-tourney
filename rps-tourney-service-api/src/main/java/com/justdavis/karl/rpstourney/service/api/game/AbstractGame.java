@@ -403,29 +403,6 @@ class AbstractGame {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(this.getClass().getSimpleName());
-		builder.append(" [id=");
-		builder.append(id);
-		builder.append(", state=");
-		builder.append(state);
-		builder.append(", maxRounds=");
-		builder.append(maxRounds);
-		builder.append(", player1=");
-		builder.append(player1);
-		builder.append(", player2=");
-		builder.append(player2);
-		builder.append(", rounds=");
-		builder.append(rounds);
-		builder.append("]");
-		return builder.toString();
-	}
-
-	/**
 	 * @param playerAccount
 	 *            the {@link Account} of one of the {@link Player}s in this
 	 *            {@link AbstractGame}
@@ -465,6 +442,29 @@ class AbstractGame {
 			return getScoreForPlayer2();
 		else
 			throw new IllegalArgumentException("Unknown Player: " + player);
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.getClass().getSimpleName());
+		builder.append(" [id=");
+		builder.append(id);
+		builder.append(", state=");
+		builder.append(state);
+		builder.append(", maxRounds=");
+		builder.append(maxRounds);
+		builder.append(", player1=");
+		builder.append(player1);
+		builder.append(", player2=");
+		builder.append(player2);
+		builder.append(", rounds=");
+		builder.append(rounds);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	/**
