@@ -3623,3 +3623,6 @@ This file should never be committed along with other files; it should always be 
     * Corrected the player order in the history table.
     * Added a bit of `margin-bottom` to the player panels.
     * Moved the "new game" button up a section.
+* 0.35h (23:55-00:16): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
+    * Reworked the home page text a bit.
+    * Fixed the "Your Games" section being completely empty glitch (when no games were created yet).
