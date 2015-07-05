@@ -62,7 +62,7 @@
 				<c:set var="throwsVisibility" value="hidden"/>
 			</c:if>
 			<div class="player-throws ${throwsVisibility}">
-				<h2><span class="col">Choose Your Throw</span></h2>
+				<h2><span class="col"><spring:message code="game.throws.h2" /></span></h2>
 				<div class="row">
 					<div class="col"><a class="throw-rock" href="${gameUrl}/playThrow?throwToPlay=ROCK"><spring:message code="game.throw.rock" /></a></div>
 					<div class="col"><a class="throw-paper" href="${gameUrl}/playThrow?throwToPlay=PAPER"><spring:message code="game.throw.paper" /></a></div>
