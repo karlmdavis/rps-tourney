@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.context.MessageSource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -41,7 +38,6 @@ public final class GameControllerTest {
 	@Test
 	public void createNewGame() throws Exception {
 		// Build the mocks that will be needed by the controller.
-		MessageSource messageSource = new ResourceBundleMessageSource();
 		final Game game = new Game(new Player(new Account()));
 		IGameResource gameClient = new MockGameClient(game) {
 			/**
@@ -56,8 +52,8 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
+		GameController GameController = new GameController(gameClient,
+				accountsClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
 				.build();
 
@@ -80,18 +76,14 @@ public final class GameControllerTest {
 	@Test
 	public void getGame() throws Exception {
 		// Build the mocks that will be needed by the controller.
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource
-				.setBasename("file:./src/main/webapp/WEB-INF/i18n/messages");
-		messageSource.setFallbackToSystemLocale(false);
 		Game game = new Game(new Player(new Account()));
 		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockAccountsClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
+		GameController GameController = new GameController(gameClient,
+				accountsClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
 				.build();
 
@@ -102,10 +94,7 @@ public final class GameControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/" + game.getId()))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(
-						MockMvcResultMatchers.model().attributeExists("game"))
-				.andExpect(
-						MockMvcResultMatchers.model().attribute("hasPlayer2",
-								false));
+						MockMvcResultMatchers.model().attributeExists("game"));
 	}
 
 	/**
@@ -119,10 +108,6 @@ public final class GameControllerTest {
 	@Test
 	public void updateName() throws Exception {
 		// Build the mocks that will be needed by the controller.
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource
-				.setBasename("file:./src/main/webapp/WEB-INF/i18n/messages");
-		messageSource.setFallbackToSystemLocale(false);
 		Account player1 = new Account();
 		Game game = new Game(new Player(player1));
 		IGameResource gameClient = new MockGameClient(game);
@@ -131,8 +116,8 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(messageSource,
-				gameClient, accountsClient, guestLoginManager);
+		GameController gameController = new GameController(gameClient,
+				accountsClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 
@@ -153,8 +138,8 @@ public final class GameControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get(gamePath))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(
-						MockMvcResultMatchers.model().attribute("player1Label",
-								"foo"));
+						MockMvcResultMatchers.model().attribute(
+								"isUserTheWinner", false));
 	}
 
 	/**
