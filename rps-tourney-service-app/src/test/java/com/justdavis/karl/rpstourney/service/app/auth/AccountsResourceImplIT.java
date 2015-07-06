@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.app.auth;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response.Status;
 
 import org.hamcrest.core.StringContains;
@@ -165,6 +166,39 @@ public final class AccountsResourceImplIT {
 		Account copyOfAccount = accountsClient.getAccount();
 		Assert.assertEquals(createdAccount.getId(), copyOfAccount.getId());
 		Assert.assertEquals(createdAccount.getName(), copyOfAccount.getName());
+	}
+
+	/**
+	 * Ensures that the bean validation on
+	 * {@link AccountsResourceImpl#updateAccount(Account)} is working as
+	 * expected.
+	 */
+	@Test
+	public void updateAccountValidation() {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookieStore = new CookieStore();
+		AccountsClient accountsClient = new AccountsClient(clientConfig,
+				cookieStore);
+
+		// Create the login and account.
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
+				cookieStore);
+		Account createdAccount = guestAuthClient.loginAsGuest();
+
+		/*
+		 * Set the Account.name to something invalid and try to apply that. This
+		 * should go boom with an HTTP 400.
+		 */
+		createdAccount.setName("<script>alert(\"pwned!\");</script>");
+		BadRequestException error = null;
+		try {
+			accountsClient.updateAccount(createdAccount);
+		} catch (BadRequestException e) {
+			error = e;
+		}
+
+		Assert.assertNotNull(error);
 	}
 
 	/**

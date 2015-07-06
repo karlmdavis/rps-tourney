@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.http.MediaType;
@@ -25,7 +26,6 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
-import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
@@ -41,11 +41,22 @@ import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 @RequestMapping("/game")
 public class GameController {
 	/**
+	 * <p>
 	 * The {@link RedirectAttributes#getFlashAttributes()} key used to store
-	 * {@link ConflictType}s when {@link GameConflictException}s are
-	 * encountered.
+	 * error codes when problems are encountered. The following error codes are
+	 * supported:
+	 * </p>
+	 * <ul>
+	 * <li>All of the {@link GameConflictException} constant names.</li>
+	 * <li>{@link #WARNING_CODE_INVALID_NAME}</li>
+	 * </ul>
 	 */
-	private static final String FLASH_ATTRIB_WARNING_TYPE = "warningType";
+	static final String FLASH_ATTRIB_WARNING_TYPE = "warningType";
+
+	/**
+	 * A possible value for {@link #FLASH_ATTRIB_WARNING_TYPE}.
+	 */
+	static final String WARNING_CODE_INVALID_NAME = "INVALID_ACCOUNT_NAME";
 
 	private final IGameResource gameClient;
 	private final IAccountsResource accountsClient;
@@ -160,11 +171,15 @@ public class GameController {
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal} (whose
 	 *            {@link Account#getName()} is to be updated)
+	 * @param redirectAttributes
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to
+	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public String updateName(@PathVariable String gameId,
-			String inputPlayerName, Principal authenticatedUser) {
+			String inputPlayerName, Principal authenticatedUser,
+			RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
 
@@ -176,7 +191,19 @@ public class GameController {
 		// Update the user's name for themselves.
 		Account account = accountsClient.getAccount();
 		account.setName(inputPlayerName);
-		accountsClient.updateAccount(account);
+
+		/*
+		 * Try to submit the name update. If the user has specified an invalid
+		 * name (per the web service's bean validation), this will go boom with
+		 * an HTTP 400.
+		 */
+		try {
+			accountsClient.updateAccount(account);
+		} catch (BadRequestException e) {
+			// Catch these errors and display them in a friendlier fashion.
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE,
+					WARNING_CODE_INVALID_NAME);
+		}
 
 		// Redirect the user to the updated game.
 		return "redirect:/game/" + gameBeforeThrow.getId();

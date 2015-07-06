@@ -756,14 +756,14 @@ public final class GameIT {
 			Account player1Account = player1AuthClient.loginAsGuest();
 			AccountsClient player1AccountsClient = new AccountsClient(
 					clientConfig, player1Cookies);
-			player1Account.setName("p1");
+			player1Account.setName("player1");
 			player1AccountsClient.updateAccount(player1Account);
 			GuestAuthClient player2AuthClient = new GuestAuthClient(
 					clientConfig, player2Cookies);
 			Account player2Account = player2AuthClient.loginAsGuest();
 			AccountsClient player2AccountsClient = new AccountsClient(
 					clientConfig, player2Cookies);
-			player2Account.setName("p2");
+			player2Account.setName("player2");
 			player2AccountsClient.updateAccount(player2Account);
 			GameClient player1GameClient = new GameClient(clientConfig,
 					player1Cookies);
@@ -793,25 +793,25 @@ public final class GameIT {
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[2]/td[4]"),
-							"p2"));
+							"player2"));
 
 			player1GameClient.submitThrow(game.getId(), 2, Throw.PAPER);
 			player2GameClient.submitThrow(game.getId(), 2, Throw.ROCK);
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[3]/td[4]"),
-							"p1"));
+							"player1"));
 
 			player1GameClient.submitThrow(game.getId(), 3, Throw.ROCK);
 			player2GameClient.submitThrow(game.getId(), 3, Throw.PAPER);
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[4]/td[4]"),
-							"p2"));
+							"player2"));
 			observerWait
 					.until(ExpectedConditions.textToBePresentInElementLocated(
 							By.xpath("//table[@id='rounds']/tbody/tr[5]/td[4]"),
-							"p2"));
+							"player2"));
 		} finally {
 			if (observerDriver != null)
 				observerDriver.quit();
