@@ -24,12 +24,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.threeten.bp.Instant;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -82,6 +86,9 @@ public class Account implements Principal, Serializable {
 
 	@XmlElement(required = true, nillable = true)
 	@Column(name = "`name`", nullable = true)
+	@Size(min = 3, max = 40)
+	@Pattern(regexp = "\\S+")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String name;
 
 	@XmlElementWrapper(name = "roles", required = true)

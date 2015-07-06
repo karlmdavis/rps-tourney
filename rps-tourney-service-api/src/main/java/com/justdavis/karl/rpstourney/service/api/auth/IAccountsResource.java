@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.FormParam;
@@ -107,7 +108,7 @@ public interface IAccountsResource {
 	@POST
 	@Path(SERVICE_PATH_GET_ACCOUNT)
 	@Produces(MediaType.TEXT_XML)
-	Account updateAccount(Account accountToUpdate);
+	Account updateAccount(@Valid Account accountToUpdate);
 
 	/**
 	 * Selects the most recent active {@link AuthToken} from the requesting

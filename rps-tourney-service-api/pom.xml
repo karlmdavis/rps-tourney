@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -125,6 +126,16 @@
 			<artifactId>hibernate-jpamodelgen</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+
+		<dependency>
+			<!-- This is the reference implementation for the "bean validation" spec, 
+				which has a transitive dependency on the API. The implementation is included 
+				here (instead of just the API) to allow use of its custom validation annotations. -->
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.0.2.Final</version>
+		</dependency>
+
 		<dependency>
 			<!-- JUnit is used for all unit and integration tests. -->
 			<groupId>junit</groupId>

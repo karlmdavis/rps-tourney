@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.app;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,9 +10,12 @@ import javax.ws.rs.ext.RuntimeDelegate;
 
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.ResourceProvider;
 import org.apache.cxf.jaxrs.spring.SpringResourceFactory;
+import org.apache.cxf.jaxrs.validation.ValidationExceptionMapper;
+import org.apache.cxf.message.Message;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -138,6 +142,13 @@ public class SpringConfig {
 		 */
 		factory.setResourceProviders(resourceProviders);
 
+		/*
+		 * Set the interceptors to be used.
+		 */
+		List<Interceptor<? extends Message>> inInterceptors = new ArrayList<>();
+		inInterceptors.add(new CxfBeanValidationInInterceptor());
+		factory.setInInterceptors(inInterceptors);
+
 		return factory.create();
 	}
 
@@ -166,6 +177,9 @@ public class SpringConfig {
 
 		// Register the exception mappers.
 		providers.add(new GameConflictExceptionMapper());
+
+		// Register the bean validator's exception mapper.
+		providers.add(new ValidationExceptionMapper());
 
 		return providers;
 	}

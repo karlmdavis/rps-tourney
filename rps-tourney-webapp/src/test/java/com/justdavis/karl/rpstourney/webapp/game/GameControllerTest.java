@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -99,7 +100,7 @@ public final class GameControllerTest {
 
 	/**
 	 * Tests
-	 * {@link GameController#updateName(String, String, java.security.Principal)}
+	 * {@link GameController#updateName(String, String, Principal, org.springframework.web.servlet.mvc.support.RedirectAttributes)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -143,6 +144,47 @@ public final class GameControllerTest {
 	}
 
 	/**
+	 * Tests
+	 * {@link GameController#updateName(String, String, Principal, org.springframework.web.servlet.mvc.support.RedirectAttributes)}
+	 * to verify that it handles web service validation errors as expected.
+	 * 
+	 * @throws Exception
+	 *             (all of the MVC test methods declare this exception)
+	 */
+	@Test
+	public void updateNameValidation() throws Exception {
+		// Build the mocks that will be needed by the controller.
+		Account player1 = new Account();
+		Game game = new Game(new Player(player1));
+		IGameResource gameClient = new MockGameClient(game);
+		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
+				player1);
+		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
+
+		// Build the controller and prepare it for mock testing.
+		GameController gameController = new GameController(gameClient,
+				accountsClient, guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
+				.build();
+
+		/*
+		 * Run the mock tests against the controller, and verify that it
+		 * generates a user-visible warning, as expected.
+		 */
+		String gamePath = "/game/" + game.getId();
+		String updateNamePath = gamePath + "/updateName";
+		Principal principal = new WebServiceAccountAuthentication(player1);
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(updateNamePath)
+						.principal(principal).param("inputPlayerName", "  "))
+				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath))
+				.andExpect(
+						MockMvcResultMatchers.flash().attribute(
+								GameController.FLASH_ATTRIB_WARNING_TYPE,
+								GameController.WARNING_CODE_INVALID_NAME));
+	}
+
+	/**
 	 * A mock {@link IAccountsResource} client implementation for use in
 	 * {@link GameControllerTest#updateName()}, and other tests.
 	 */
@@ -173,6 +215,9 @@ public final class GameControllerTest {
 		 */
 		@Override
 		public Account updateAccount(Account accountToUpdate) {
+			if (account.getName().trim().isEmpty())
+				throw new BadRequestException("boom!");
+
 			this.account = accountToUpdate;
 			return accountToUpdate;
 		}
