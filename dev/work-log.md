@@ -3648,3 +3648,7 @@ This file should never be committed along with other files; it should always be 
     * Am I done with this task now? Should probably play test it a bit with Erica, first.
 * 1.15h (12:05-13:13): [Issue #87: The webapp UI needs to be more awesome](https://github.com/karlmdavis/rps-tourney/issues/87)
     * Set the navbar to collapse at small sizes, rather than wrap to a new line.
+* 3.7h (16:05-16:29,17:34-20:51): [Issue #88: TGame users can set their name to an empty string and other "bad" values](https://github.com/karlmdavis/rps-tourney/issues/88)
+    * Added the bean validation dependencies that will be used.
+    * Had to futz around a lot with CXF to get bean validation enabled, but finally did. (See the comments in `CxfBeanValidationInInterceptor` for details.)
+    * Resolved and committed.
