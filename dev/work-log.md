@@ -3665,3 +3665,7 @@ This file should never be committed along with other files; it should always be 
     * Resolved and committed.
     * Opted to not put together another animated GIF, and just went with a static screenshot, instead.
         * Did leave a comment in the issue with my research into how that could be done, though.
+
+### 2015-07-07, Tuesday
+
+* 0.15h (08:13-08:21): Spent some time filing the bugs and enhancements that I've had kicking around in my brain for a while.
