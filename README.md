@@ -8,9 +8,16 @@ RPS Tourney
 
 ![Console Game Playthrough](rps-tourney-console/dev/game-gifs/playthrough-win-in-two-rounds.gif)
 
-This is a collection of Rock-Paper-Scissors games. It includes a single-player console version of the game, as well as a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com). In later releases the console version will also be multiplayer, and an Android version of the game will also be available.
+This is an open source multiplayer Rock-Paper-Scissors game, available to play at [rpstourney.com](https://rpstourney.com). Why on earth would someone build such a thing? Why on earth not?!
 
-I will also likely explore AI-only tournaments, similar to [RPSContest.com](http://www.rpscontest.com/).
+Right now, the project is mostly just the web application linked above, along with the web service that supports it. However, there's also a console version of the game that will eventually be updated to support multiplayer via the web service as well. There will probably also be an Android version of the game. That's all a good ways down the road, though. At the moment, work is focused on polishing the web application and on adding AI-player support.
+
+
+## Inspiration
+
+Credit for the idea goes to [RPSContest.com](http://www.rpscontest.com/), which I first came across in the following Reddit post: [My three-line rock, paper, scissors bot has done surprisingly well...](http://www.reddit.com/r/programming/comments/1nj3z6/my_threeline_rock_paper_scissors_bot_has_done/). Once I do get to adding in support for AI and AI tournaments, I'm thinking that a fun differentiator/selling point will be the JVM's multi-language support.
+
+This is obviously not the world's most serious of projects. Given my employer's rather stringent non-compete policy, it's actually a selling point (for me) that it's so pointless. This project is mostly an entertaining excuse to explore various technologies that I've wanted to play with.
 
 
 ## Development Documentation
@@ -25,46 +32,23 @@ The following documents document the architecture and development of the game:
 
 ## Releases
 
-### [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0) (2013-11-03)
-
-This release just provides a simple console application that allows for against a computer opponent.
-
-Artifacts:
-
-* [rps-tourney-console-1.0.0-dist.tar.gz](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-console/1.0.0/rps-tourney-console-1.0.0-dist.tar.gz): the console game
-
-### [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1) (2014-12-31)
-
-This pre-release adds a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com).
-
-The console version of the game is (as of yet) unchanged, and does not support multiplayer.
-
-Artifacts:
-
-* [rps-tourney-webapp-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.1/rps-tourney-webapp-2.0.0-milestone.1.war): the WAR for the game's web application
-* [rps-tourney-service-app-2.0.0-milestone.1.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.1/rps-tourney-service-app-2.0.0-milestone.1.war): the WAR for the game's web service (required by the web application)
-
-### [2.0.0-milestone.2](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.2) (2015-04-26)
-
-This pre-release adds named logins/accounts to the game and also fixes a client bug. It was deployed publicly: [rpstourney.com](https://rpstourney.com).
-
-Artifacts:
-
-* [rps-tourney-webapp-2.0.0-milestone.2.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.2/rps-tourney-webapp-2.0.0-milestone.2.war): the WAR for the game's web application
-* [rps-tourney-service-app-2.0.0-milestone.2.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.2/rps-tourney-service-app-2.0.0-milestone.2.war): the WAR for the game's web service (required by the web application)
-
-### [2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.3) (2015-06-14)
-
-This pre-release contains a number of important bugfixes. It was deployed publicly: [rpstourney.com](https://rpstourney.com).
-
-Artifacts:
-
-* [rps-tourney-webapp-2.0.0-milestone.3.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-webapp/2.0.0-milestone.3/rps-tourney-webapp-2.0.0-milestone.3.war): the WAR for the game's web application
-* [rps-tourney-service-app-2.0.0-milestone.3.war](https://justdavis.com/nexus/service/local/repositories/releases-opensource/content/com/justdavis/karl/rpstourney/rps-tourney-service-app/2.0.0-milestone.3/rps-tourney-service-app-2.0.0-milestone.3.war): the WAR for the game's web service (required by the web application)
-
-
-## Inspiration
-
-Credit for the idea goes to [RPSContest.com](http://www.rpscontest.com/), which I first came across in the following Reddit post: [My three-line rock, paper, scissors bot has done surprisingly well...](http://www.reddit.com/r/programming/comments/1nj3z6/my_threeline_rock_paper_scissors_bot_has_done/). If I do get into the AI-only tournaments space with this project, I'm thinking that a differentiator/selling point will be the JVM's multi-language support, rather than just the Python support that version has.
-
-This is obviously not the world's most serious of projects. It's really meant to be a fun excuse to write some silly code. Given my current employer's rather stringent non-compete policy, it's actually a selling point (for me) that it's so more-or-less pointless.
+* `1.0.0`: This release just provides a simple console application that allows for play against a computer opponent.
+    * Release Date: 2013-11-03
+    * Issues: [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0)
+    * Binaries: [com.justdavis.karl.rpstourney:*:1.0.0](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~1.0.0~~)
+* `2.0.0-milestone.1`: This pre-release adds a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com). The console version of the game is (as of yet) unchanged, and does not support multiplayer.
+    * Release Date: 2014-12-31
+    * Issues: [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.1](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.1~~)
+* `2.0.0-milestone.2`: This pre-release adds named logins/accounts to the game and also fixes a client bug.
+    * Release Date: 2015-04-26
+    * Issues: [2.0.0-milestone.2](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.2)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.2](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.2~~)
+* `2.0.0-milestone.3`: This pre-release contains a number of important bugfixes.
+    * Release Date: 2015-06-04
+    * Issues: [2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.3)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.3](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.3~~)
+* `2.0.0-milestone.4`: This pre-release includes a major UI and UX overhaul, but also contains an important security fix and other minor changes.
+    * Release Date: 2015-07-05
+    * Issues: [2.0.0-milestone.4](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.4)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.4](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.4~~)
