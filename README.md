@@ -6,7 +6,7 @@ RPS Tourney
 
 ## Introduction
 
-![Console Game Playthrough](rps-tourney-console/dev/game-gifs/playthrough-win-in-two-rounds.gif)
+![Screenshot of Finished Game](rps-tourney-webapp/dev/screenshots/2015-07-06-2.0.0-milestone.4-game-with-erica-zoom-75-percent.png)
 
 This is an open source multiplayer Rock-Paper-Scissors game, available to play at [rpstourney.com](https://rpstourney.com). Why on earth would someone build such a thing? Why on earth not?!
 
