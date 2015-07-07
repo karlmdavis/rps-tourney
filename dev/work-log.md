@@ -3658,3 +3658,10 @@ This file should never be committed along with other files; it should always be 
 * 0.45h (22:49-23:15): [Issue #85: Need to update the README to be more interesting and relevant](https://github.com/karlmdavis/rps-tourney/issues/85)
     * Reworked the `README.md` file a good bit. Still more to do, but that's a solid start.
     * Also still need to work on a screen capture of the webapp.
+
+### 2015-07-06, Monday
+
+* 0.55h (22:21-22:55): [Issue #85: Need to update the README to be more interesting and relevant](https://github.com/karlmdavis/rps-tourney/issues/85)
+    * Resolved and committed.
+    * Opted to not put together another animated GIF, and just went with a static screenshot, instead.
+        * Did leave a comment in the issue with my research into how that could be done, though.
