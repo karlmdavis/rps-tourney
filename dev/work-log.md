@@ -3669,3 +3669,13 @@ This file should never be committed along with other files; it should always be 
 ### 2015-07-07, Tuesday
 
 * 0.15h (08:13-08:21): Spent some time filing the bugs and enhancements that I've had kicking around in my brain for a while.
+
+### 2015-07-08, Wednesday
+
+* 0.3h (05:40-05:58): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started to design the requirements, which will eventually need to be posted to the issue:
+        1. A new game's "invite a player" section will have to be replaced with a dropdown that allows players to choose _how_ a second player will be chosen. For now, the only two options will be "Invite A Friend" and "Play Against AI".
+        2. The "Play Against AI" option should have two sub-options: select a specific AI or a random one (at a particular skill level. The control for selecting a specific AI should probably be combo box, as there may eventually be hundreds to choose from. The option to select a random skill-based one should be the default sub-option, with the easiest one of the three or so selected as the default.
+        3. Once a game is started, play proceeds normally for the human player. The AI will not attempt to modify the number of rounds in the game.
+        4. Each time a game/round is started, a job must be created and queued for the AI subsystem to pick up and work. The job creation & queueing is the responsibility of the web service.
+        5. The project will need a separate module/service, named something like `rps-tourney-ai-manager`, which is responsible for monitoring the job queue and spawning workers to deal with new jobs.
