@@ -3685,7 +3685,7 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (23:08-23:23): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Continued to design the requirements, which will eventually need to be posted to the issue:
         2. The "Play Against AI" option should have two sub-options: select a specific AI or a difficulty level.
-            1.The control for selecting a specific AI should probably be combo box, as there may eventually be hundreds to choose from.
+            1. The control for selecting a specific AI should probably be combo box, as there may eventually be hundreds to choose from.
             2. The option to select a difficulty level should be the default sub-option, with the easiest one of the three (or so) selected as the default.
             3. The first release should only have the difficulty level option.
         4. Each time a game/round is started, a job must be created and queued for the AI subsystem to pick up and work. The job creation & queueing is the responsibility of the web service.
@@ -3697,3 +3697,16 @@ This file should never be committed along with other files; it should always be 
             3. The manager may also be responsible for freeing "stuck" jobs, such that a different worker can pick them up.
         6. The project will also need a `rps-tourney-ai-worker` module. This may run as a WAR for convenience, but will basically just be a thread pool that picks jobs up off of the queue and works them.
             1. Security for allowing and restricting AI players' actions against the web service will need to be carefully controlled.
+
+### 2015-07-10, Friday
+
+* 0.1h (08:49-08:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Should the first release of the webservice skip all of that architectural complexity, and just run the AI every time the human player makes a throw?
+        * What's the goal here: to just get AI opponents for people, or to have fun playing with cloud stuff?
+            * Both.
+        * Am I in a rush to get AI support out?
+            * Only a small one.
+        * Will I do a 2.0 release before rematches, console support, Android support, and player stats are available?
+            * This is ultimately the important question.
+            * I think the honest answer right now, though, is that I don't know.
+            * Accordingly, I think it makes sense to implement AI in small steps, so I leave open the option of releasing earlier.
