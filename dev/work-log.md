@@ -3679,3 +3679,21 @@ This file should never be committed along with other files; it should always be 
         3. Once a game is started, play proceeds normally for the human player. The AI will not attempt to modify the number of rounds in the game.
         4. Each time a game/round is started, a job must be created and queued for the AI subsystem to pick up and work. The job creation & queueing is the responsibility of the web service.
         5. The project will need a separate module/service, named something like `rps-tourney-ai-manager`, which is responsible for monitoring the job queue and spawning workers to deal with new jobs.
+
+### 2015-07-09, Thursday
+
+* 0.25h (23:08-23:23): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Continued to design the requirements, which will eventually need to be posted to the issue:
+        2. The "Play Against AI" option should have two sub-options: select a specific AI or a difficulty level.
+            1.The control for selecting a specific AI should probably be combo box, as there may eventually be hundreds to choose from.
+            2. The option to select a difficulty level should be the default sub-option, with the easiest one of the three (or so) selected as the default.
+            3. The first release should only have the difficulty level option.
+        4. Each time a game/round is started, a job must be created and queued for the AI subsystem to pick up and work. The job creation & queueing is the responsibility of the web service.
+            1. There may eventually be different types of jobs (e.g. play a whole game between two AI players), so the queue design must accomodate that.
+        5. The project will need a separate module/service, `rps-tourney-ai-manager`, which is responsible for monitoring and managing the job queue.
+            1. Workers will run in separate processes/services. They must send heartbeats to the manager, so it can track how many workers are available.
+            2. If cloud is supported, the manager will be able to start new cloud instances to deal with high load.
+                1. The first version should not support cloud. It won't be needed initially.
+            3. The manager may also be responsible for freeing "stuck" jobs, such that a different worker can pick them up.
+        6. The project will also need a `rps-tourney-ai-worker` module. This may run as a WAR for convenience, but will basically just be a thread pool that picks jobs up off of the queue and works them.
+            1. Security for allowing and restricting AI players' actions against the web service will need to be carefully controlled.
