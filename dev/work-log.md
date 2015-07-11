@@ -3700,7 +3700,7 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-07-10, Friday
 
-* 0.1h (08:49-08:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+* 0.15h (08:49-08:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Should the first release of the webservice skip all of that architectural complexity, and just run the AI every time the human player makes a throw?
         * What's the goal here: to just get AI opponents for people, or to have fun playing with cloud stuff?
             * Both.
@@ -3710,3 +3710,18 @@ This file should never be committed along with other files; it should always be 
             * This is ultimately the important question.
             * I think the honest answer right now, though, is that I don't know.
             * Accordingly, I think it makes sense to implement AI in small steps, so I leave open the option of releasing earlier.
+
+### 2015-07-11, Saturday
+
+* Need to file an issue: ensure that there's a DB constraint enforcing just one `Player` record per `Account`.
+* 0.35h (11:13-11:33): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * I've decided to leave jobs and queues out of the design for my first go-round at this.
+    * Let's size this bad boy:
+        * 2.0h: Create an `IAiPlayer` interface and "random idiot" implementation.
+        * 6.0h: Create a web service method that returns the list of available AI players. Calling this method will populate the DB, as necessary.
+        * 2.0h: Create a web service method that allows players to join an AI player to their game.
+        * 6.0h: Update the `submitThrow(...)` method in the web service to automatically request and record AI players' throws, if playing against AI.
+        * 6.0h: Rework the "invite an opponent" controls to allow selecting AI players.
+        * 2.0h: Add an IT that plays through a game with an AI opponent.
+        * 8.0h: Write a couple of more AI implementations, that correspond roughly to "medium" and "hard".
+        * 32.0h total
