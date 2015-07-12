@@ -3725,3 +3725,8 @@ This file should never be committed along with other files; it should always be 
         * 2.0h: Add an IT that plays through a game with an AI opponent.
         * 8.0h: Write a couple of more AI implementations, that correspond roughly to "medium" and "hard".
         * 32.0h total
+
+### 2015-07-12, Sunday
+
+* 0.1h (07:44-07:50): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Posted the requirements and sizings to the issue.
