@@ -3730,3 +3730,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h (07:44-07:50): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Posted the requirements and sizings to the issue.
+
+### 2015-07-13, Monday
+
+* 0.3h (07:55-08:12): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started speccing out `IAiPlayer`.
