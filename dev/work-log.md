@@ -3735,3 +3735,11 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h (07:55-08:12): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Started speccing out `IAiPlayer`.
+
+### 2015-07-14, Tuesday
+
+* 0.05h (09:19-09:23): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Didn't get much done. Just kind of stared at things.
+* 0.15h (22:39-22:47): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started refactoring `AiPlayerId` into `AiPlayerRecord`, as a full entity.
+        * Really need to decide what the ID/PK for the entity will be, and how that will eventually work out with plugins.
