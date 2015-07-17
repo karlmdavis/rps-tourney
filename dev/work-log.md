@@ -3754,3 +3754,12 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (22:55-23:14): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Found this very useful example of compiling and using Java source at runtime: [Stack Overflow: How do you dynamically compile and load external java classes?](http://stackoverflow.com/a/21544850/1851299)
     * Kept speccing things out on paper. Still need to figure out how to model things, with consideration for future functionality.
+
+### 2015-07-17, Friday
+
+* 0.45h (18:37-19:05): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Think I finally settled on how to handle things:
+        * For built-in AIs, `Player` will have a `builtInAiName` field that can be set.
+        * For user-provided AIs, `Player` will have an entity relation field that can be set.
+        * Some manager class will be created to abstract away the differences between built-in and user-provided AIs. Games will call this, instead of trying to figure out which is which themselves.
+    * Started creating the `BuiltInAi` enum, per the above.
