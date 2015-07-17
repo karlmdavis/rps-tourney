@@ -3748,3 +3748,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h (09:20-09:31): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Specced out the `AiPlayerRecord` requirements some on paper.
+
+### 2015-07-16, Thursday
+
+* 0.3h (22:55-23:14): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Found this very useful example of compiling and using Java source at runtime: [Stack Overflow: How do you dynamically compile and load external java classes?](http://stackoverflow.com/a/21544850/1851299)
+    * Kept speccing things out on paper. Still need to figure out how to model things, with consideration for future functionality.
