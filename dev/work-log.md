@@ -3767,5 +3767,11 @@ This file should never be committed along with other files; it should always be 
 ### 2015-07-18, Saturday
 
 * 0.15h (23:16-23:24): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
-    * Write the first AI logic implementation.
+    * Wrote the first AI logic implementation.
     * Pretty sure I need to rip out `AiPlayerRecord`, but I'm pretty tired so I'll wait until tomorrow to do that.
+
+### 2015-07-19, Sunday
+
+* 0.9h (10:50-11:06,11:25-12:00,12:31-12:34): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Cleaned things up a bit. Not really very productive, sadly.
+    * Need to think a bit about how AI-only games will be created, and the permissions issues around that.
