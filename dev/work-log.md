@@ -3763,3 +3763,9 @@ This file should never be committed along with other files; it should always be 
         * For user-provided AIs, `Player` will have an entity relation field that can be set.
         * Some manager class will be created to abstract away the differences between built-in and user-provided AIs. Games will call this, instead of trying to figure out which is which themselves.
     * Started creating the `BuiltInAi` enum, per the above.
+
+### 2015-07-18, Saturday
+
+* 0.15h (23:16-23:24): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Write the first AI logic implementation.
+    * Pretty sure I need to rip out `AiPlayerRecord`, but I'm pretty tired so I'll wait until tomorrow to do that.
