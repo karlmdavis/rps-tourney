@@ -3775,3 +3775,13 @@ This file should never be committed along with other files; it should always be 
 * 0.9h (10:50-11:06,11:25-12:00,12:31-12:34): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Cleaned things up a bit. Not really very productive, sadly.
     * Need to think a bit about how AI-only games will be created, and the permissions issues around that.
+        * Any human can play any AI player at any time.
+        * Once user-created AIs are allowed, only the owners of those AIs can create games where their AIs are Player 1.
+        * Admins can create games however they want.
+
+### 2015-07-20, Monday
+
+* 0.5h (10:05-10:15,12:06-12:11,12:20-12:34): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Added an `inviteOpponent(...)` method to the web service.
+    * Need to create a method for finding AI players.
+    * Need to write something that progresses gameplay for AIs.
