@@ -3785,3 +3785,8 @@ This file should never be committed along with other files; it should always be 
     * Added an `inviteOpponent(...)` method to the web service.
     * Need to create a method for finding AI players.
     * Need to write something that progresses gameplay for AIs.
+
+### 2015-07-21, Tuesday
+
+* 0.2h (23:07-23:19): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Created the `IPlayersResource` interface.
