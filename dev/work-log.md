@@ -3811,3 +3811,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h (21:57-22:11): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Stubbed out `AiGameplayHelper` and started plugging it in to the web service.
+
+### 2015-07-24, Friday
+
+* 1.05h (18:35-19:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started `AiGameplayHelperTest` and created `OneSidedDieBrain`.
