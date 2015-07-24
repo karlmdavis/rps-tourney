@@ -3790,3 +3790,24 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h (23:07-23:19): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Created the `IPlayersResource` interface.
+
+### 2015-07-22, Wednesday
+
+* 0.95h (11:22-11:30,13:17-14:07): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * A bit stuck figuring out which layer should own the list of AIs to display to the users.
+        * Options:
+            1. Return an ordered list of AIs from the web service.
+                * Frontend still needs to have translations for each AI name.
+                * Actually, it might be kind of fun to leave the AIs names alone and just rank them by win %.
+            2. Make the frontend request specific AIs.
+        * I think the decision comes down to: does each AI require some kind of translation?
+        * Ultimately, each AI player will just display its Player#name field, unless I want to really rework things.
+        * And no, I don't really want to rework things, so no translation is required.
+    * Got a good chunk more of the web service implemented.
+    * Need to write something that progresses gameplay for AIs.
+    * Need to write something that calculates `Player` statistics.
+
+### 2015-07-23, Thursday
+
+* 0.25h (21:57-22:11): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Stubbed out `AiGameplayHelper` and started plugging it in to the web service.
