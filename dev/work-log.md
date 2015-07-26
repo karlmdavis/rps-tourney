@@ -3816,3 +3816,10 @@ This file should never be committed along with other files; it should always be 
 
 * 1.05h (18:35-19:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Started `AiGameplayHelperTest` and created `OneSidedDieBrain`.
+
+### 2015-07-25, Saturday
+
+* 0.7h (21:49-22:31): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Finished `AiGameplayHelperTest`.
+    * Almost finished `AiGameplayHelper`.
+    * Need to rework `GameView` to accept a `Player` instead of an `Account`, so that it works with AIs.
