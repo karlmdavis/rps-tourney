@@ -3823,3 +3823,8 @@ This file should never be committed along with other files; it should always be 
     * Finished `AiGameplayHelperTest`.
     * Almost finished `AiGameplayHelper`.
     * Need to rework `GameView` to accept a `Player` instead of an `Account`, so that it works with AIs.
+
+### 2015-07-26, Sunday
+
+* 0.55h (20:42-21:14): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Refactored `GameView`, but haven't yet updated anything else to cope with the changes.
