@@ -3828,3 +3828,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.55h (20:42-21:14): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Refactored `GameView`, but haven't yet updated anything else to cope with the changes.
+
+### 2015-07-27, Monday
+
+* 0.05h (22:11-22:16): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Fixed a bunch of easy compile errors from the `GameView` refactor. Still need to fix the JS for it.
