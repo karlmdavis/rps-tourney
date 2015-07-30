@@ -3838,3 +3838,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.1h (09:06-09:12): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Fixed up the JS from the `GameView` refactor (adjusted all occurrences of `viewUser`).
+
+### 2015-07-29, Wednesday
+
+* 0.15h (22:07-22:16): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Fixed a bug in `AiGameplayHelperTest`.
+    * Implemented `GameClient.inviteOpponent(...)`.
+    * Need to write integration tests.
