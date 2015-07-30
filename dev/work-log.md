@@ -3845,3 +3845,8 @@ This file should never be committed along with other files; it should always be 
     * Fixed a bug in `AiGameplayHelperTest`.
     * Implemented `GameClient.inviteOpponent(...)`.
     * Need to write integration tests.
+
+### 2015-07-30, Thursday
+
+* 0.15h (09:14-09:24): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Implemented the new `PlayersDaoImpl` methods. Still need to write tests for them.
