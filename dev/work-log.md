@@ -3855,3 +3855,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h (23:30-23:49): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Added the new IT cases for `PlayersDaoImpl`. Not yet passing.
+
+### 2015-08-01, Saturday
+
+* 1.0h (10:27-10:46,11:41-12:10,12:46-12:58): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got `PlayersDaoImplIT` passing.
+    * Fixed `AiPlayersInitializer`.
