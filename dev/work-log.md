@@ -3861,3 +3861,11 @@ This file should never be committed along with other files; it should always be 
 * 1.0h (10:27-10:46,11:41-12:10,12:46-12:58): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got `PlayersDaoImplIT` passing.
     * Fixed `AiPlayersInitializer`.
+
+### 2015-08-02, Sunday
+
+* 0.25h (23:14-23:30): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started writing `GameResourceImplIT.playGameWithAi()`.
+    * Started writing `PlayersClient`.
+    * Need to write `PlayersResourceImplIT`.
+    * Need to finish implementing my addition to `IPlayersResource`.
