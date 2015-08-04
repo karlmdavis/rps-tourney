@@ -3869,3 +3869,10 @@ This file should never be committed along with other files; it should always be 
     * Started writing `PlayersClient`.
     * Need to write `PlayersResourceImplIT`.
     * Need to finish implementing my addition to `IPlayersResource`.
+
+### 2015-08-03, Monday
+
+* 0.3h (22:35-22:53): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got my `IPlayersResource` addition finished.
+    * Got everything compiling.
+    * Finished writing `GameResourceImplIT.playGameWithAi()`, but it and many other test cases are failing.
