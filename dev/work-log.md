@@ -3876,3 +3876,8 @@ This file should never be committed along with other files; it should always be 
     * Got my `IPlayersResource` addition finished.
     * Got everything compiling.
     * Finished writing `GameResourceImplIT.playGameWithAi()`, but it and many other test cases are failing.
+
+### 2015-08-04, Tuesday
+
+* 0.55h (09:36-10:08): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Spent a while screwing with `AiPlayerInitializer` to get it to play nice with `GameResourceImplIT`. No dice.
