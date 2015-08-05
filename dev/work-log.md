@@ -3881,3 +3881,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.55h (09:36-10:08): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Spent a while screwing with `AiPlayerInitializer` to get it to play nice with `GameResourceImplIT`. No dice.
+
+### 2015-08-05, Wednesday
+
+* 0.3h (06:37-06:56): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Solved the `AiPlayerInitializer` issues in `GameResourceImplIT`.
+    * `GameResourceImplIT` is still not passing, though.
