@@ -3905,3 +3905,12 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (22:16-22:34): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got `PlayersResourceImplIT` passing.
     * Ran a full build, which passed.
+
+### 2015-08-09, Sunday
+
+* 0.75h (09:05-9:50): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Reviewed and committed changes so far.
+    * Removed my workaround for [CXF-5980: JAX-RS 2.0 client: response.readEntity(new GenericType<...>{}) fails with "unexpected element" UnmarshalException](https://issues.apache.org/jira/browse/CXF-5980)
+        * Added a comment to the issue explaining my original mistake.
+    * Went through and rebased to fix the goofed commit from 2015-06-23.
+        * Had to `git push --force`.
