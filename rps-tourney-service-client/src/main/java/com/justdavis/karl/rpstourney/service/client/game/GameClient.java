@@ -1,7 +1,5 @@
 package com.justdavis.karl.rpstourney.service.client.game;
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,18 +9,11 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
-import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
@@ -80,7 +71,6 @@ public final class GameClient implements IGameResource {
 	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#getGamesForPlayer()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<GameView> getGamesForPlayer() {
 		Client client = ClientBuilder.newClient();
@@ -94,28 +84,9 @@ public final class GameClient implements IGameResource {
 		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
 			throw new HttpClientException(response.getStatusInfo());
 
-		/*
-		 * FIXME This is a workaround for
-		 * https://issues.apache.org/jira/browse/CXF-5980.
-		 */
-		/*
-		 * List<Game> games = response .readEntity(new GenericType<List<Game>>(
-		 * Game.class) { });
-		 */
-		List<GameView> games = null;
-		InputStream responseEntityStream = (InputStream) response.getEntity();
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(GameView.class,
-					JaxbListWrapper.class);
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			Source responseEntitySource = new StreamSource(responseEntityStream);
-			@SuppressWarnings("rawtypes")
-			JAXBElement<JaxbListWrapper> responseWrapperEntity = unmarshaller
-					.unmarshal(responseEntitySource, JaxbListWrapper.class);
-			games = responseWrapperEntity.getValue().getItems();
-		} catch (JAXBException e) {
-			throw new UncheckedJaxbException(e);
-		}
+		GenericType<List<GameView>> gamesListType = new GenericType<List<GameView>>() {
+		};
+		List<GameView> games = response.readEntity(gamesListType);
 
 		cookieStore.remember(response.getCookies());
 
@@ -288,34 +259,5 @@ public final class GameClient implements IGameResource {
 		cookieStore.remember(response.getCookies());
 
 		return game;
-	}
-
-	/**
-	 * <p>
-	 * A JAXB wrapper for generic {@link List} responses (from JAX-RS services).
-	 * </p>
-	 * <p>
-	 * Only needed as a workaround for <a
-	 * href="https://issues.apache.org/jira/browse/CXF-5980">CXF-5980</a>. This
-	 * solution is courtesy of: <a
-	 * href="http://stackoverflow.com/a/13273022/1851299">Generic JAXB
-	 * Wrappers</a>.
-	 * </p>
-	 * 
-	 * @param <T>
-	 *            the type of the elements that will be stored inside the
-	 *            wrapper
-	 */
-	private static final class JaxbListWrapper<T> {
-		private List<T> items = new ArrayList<>();
-
-		/**
-		 * @return the items that were placed into this wrapper object, or an
-		 *         empty {@link List}
-		 */
-		@XmlAnyElement(lax = true)
-		public List<T> getItems() {
-			return items;
-		}
 	}
 }
