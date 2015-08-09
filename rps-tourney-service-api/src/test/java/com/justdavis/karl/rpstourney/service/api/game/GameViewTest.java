@@ -46,7 +46,7 @@ public final class GameViewTest {
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
 		Game game = new Game(player1);
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, player1);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -108,7 +108,7 @@ public final class GameViewTest {
 		Player player2 = new Player(player2Account);
 		game.setPlayer2(player2);
 		game.submitThrow(0, player1, Throw.ROCK);
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, player1);
 
 		// Convert it to XML.
 		DOMResult domResult = new DOMResult();
@@ -196,7 +196,7 @@ public final class GameViewTest {
 				.getThrowForPlayer1());
 		Assert.assertNull(parsedGameView.getRounds().get(0)
 				.getThrowForPlayer2());
-		Assert.assertEquals(42, parsedGameView.getViewUser().getId());
+		Assert.assertEquals(7, parsedGameView.getViewPlayer().getId());
 	}
 
 	/**
@@ -214,8 +214,8 @@ public final class GameViewTest {
 		game.submitThrow(0, player1, Throw.ROCK);
 
 		// Make sure that the first round is filtered as expected.
-		GameView gameViewForPlayer1 = new GameView(game, player1Account);
-		GameView gameViewForPlayer2 = new GameView(game, player2Account);
+		GameView gameViewForPlayer1 = new GameView(game, player1);
+		GameView gameViewForPlayer2 = new GameView(game, player2);
 		GameView gameViewForNullPlayer = new GameView(game, null);
 		Assert.assertNotNull(gameViewForPlayer1.getRounds().get(0)
 				.getThrowForPlayer1());
@@ -230,8 +230,8 @@ public final class GameViewTest {
 		 */
 		game.submitThrow(0, player2, Throw.PAPER);
 		game.submitThrow(1, player2, Throw.SCISSORS);
-		gameViewForPlayer1 = new GameView(game, player1Account);
-		gameViewForPlayer2 = new GameView(game, player2Account);
+		gameViewForPlayer1 = new GameView(game, player1);
+		gameViewForPlayer2 = new GameView(game, player2);
 		gameViewForNullPlayer = new GameView(game, null);
 		Assert.assertNotNull(gameViewForNullPlayer.getRounds().get(0)
 				.getThrowForPlayer1());

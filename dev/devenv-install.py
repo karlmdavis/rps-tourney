@@ -177,6 +177,9 @@ def eclipse_install_plugins(eclipse_install_dir):
     markdownPlugins = PluginGroup('Markdown Editor', 
             [Plugin('markdown.editor.feature.feature.group', '0.2.3')], 
             ['http://www.winterwell.com/software/updatesite/'])
+    dataNucleusPlugins = PluginGroup('DataNucleus Eclipse Plugins', 
+            [Plugin('org.datanucleus.ide.eclipse.feature.feature.group', '4.0.0.release')], 
+            [' http://www.datanucleus.org/downloads/eclipse-update/'])
 
     # The Eclipse executable.
     eclipse_exe = os.path.join(eclipse_install_dir, 'eclipse')
@@ -184,7 +187,7 @@ def eclipse_install_plugins(eclipse_install_dir):
     # Install the plugins, one at a time. This is slower, but makes debugging 
     # problems a lot simpler.
     print('2) Install Eclipse Plugins')
-    for plugin_group in [aptPlugins, markdownPlugins]:
+    for plugin_group in [aptPlugins, markdownPlugins, dataNucleusPlugins]:
         print('   - Installing ' + plugin_group.name + '... ', end="", flush=True)
         
         # Build the comma-separated list of repos for this install.

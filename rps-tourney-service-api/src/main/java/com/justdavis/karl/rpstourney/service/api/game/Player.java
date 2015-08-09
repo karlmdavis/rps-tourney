@@ -3,6 +3,8 @@ package com.justdavis.karl.rpstourney.service.api.game;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
 /**
  * Models a player in a {@link Game}. This class allows other code to abstract
@@ -48,11 +51,10 @@ public class Player {
 	@XmlElement
 	private Account humanAccount;
 
-	/*
-	 * TODO This class also needs to have an optional field to identify who an
-	 * AI player might be (namely, which AI algorithm is represented). Logic
-	 * such as an isHuman() method would likely also be helpful.
-	 */
+	@Column(name = "`builtInAi`")
+	@Enumerated(EnumType.STRING)
+	@XmlElement
+	private BuiltInAi builtInAi;
 
 	/**
 	 * Constructs a new {@link Player} instance to represent a human player.
@@ -63,6 +65,20 @@ public class Player {
 	public Player(Account humanAccount) {
 		this.id = -1;
 		this.humanAccount = humanAccount;
+		this.builtInAi = null;
+	}
+
+	/**
+	 * Constructs a new {@link Player} instance to represent a {@link BuiltInAi}
+	 * computer player.
+	 * 
+	 * @param builtInAi
+	 *            the value to use for {@link #getBuiltInAi()}
+	 */
+	public Player(BuiltInAi builtInAi) {
+		this.id = -1;
+		this.humanAccount = null;
+		this.builtInAi = builtInAi;
 	}
 
 	/**
@@ -117,6 +133,23 @@ public class Player {
 	 */
 	public Account getHumanAccount() {
 		return humanAccount;
+	}
+
+	/**
+	 * @return the {@link BuiltInAi} constant for the built-in computer AI
+	 *         represented by this {@link Player}, or <code>null</code> if this
+	 *         is some other type of player
+	 */
+	public BuiltInAi getBuiltInAi() {
+		return builtInAi;
+	}
+
+	/**
+	 * @return <code>true</code> if {@link #getHumanAccount()} is not
+	 *         <code>null</code>, <code>false</code> otherwise
+	 */
+	public boolean isHuman() {
+		return humanAccount != null;
 	}
 
 	/**

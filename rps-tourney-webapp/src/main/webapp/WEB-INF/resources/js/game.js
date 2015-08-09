@@ -106,7 +106,7 @@ function isUserAPlayer(gameData) {
 	}
 
 	// Check to see if the game data has an associated user.
-	if (gameData.viewUser === null) {
+	if (gameData.viewPlayer === null) {
 		return false;
 	}
 
@@ -134,12 +134,12 @@ function isUserThisPlayer(gameData, player) {
 	}
 
 	// Check to see if the game data has an associated user.
-	if (gameData.viewUser === null) {
+	if (gameData.viewPlayer === null) {
 		return false;
 	}
 
 	return player.humanAccount !== null
-			&& player.humanAccount.id === gameData.viewUser.id;
+			&& player.id === gameData.viewPlayer.id;
 }
 
 /*
@@ -156,8 +156,13 @@ function isUserTheWinner(gameData) {
 	}
 
 	// Check to see if the game data has an associated user.
-	if (gameData.viewUser === null) {
+	if (gameData.viewPlayer === null) {
 		return false;
+	}
+	
+	// Sanity check: Make sure the current player is a human.
+	if (gameData.viewPlayer.humanAccount === null) {
+		throw "Cyborg detected!";
 	}
 
 	// Check to see if the winner was an actual user.
@@ -165,7 +170,7 @@ function isUserTheWinner(gameData) {
 		return false;
 	}
 
-	return gameData.winner.humanAccount.id === gameData.viewUser.id;
+	return gameData.winner.humanAccount.id === gameData.viewPlayer.humanAccount.id;
 }
 
 /*

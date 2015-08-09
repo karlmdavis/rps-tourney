@@ -9,11 +9,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.justdavis.karl.rpstourney.service.api.auth.Account;
-
 /**
  * <p>
- * An immutable, point-in-time view of a {@link Game}'s state.
+ * An immutable, point-in-time view of a {@link Game}'s state, filtered to hide
+ * moves that shouldn't yet be revealed to other players.
  * </p>
  * <p>
  * Instances of this class, rather than {@link Game}, should be returned by the
@@ -29,7 +28,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class GameView extends AbstractGame {
 	@XmlElement
-	private final Account viewUser;
+	private final Player viewPlayer;
 
 	/**
 	 * Constructs a new {@link GameView} instance.
@@ -37,16 +36,16 @@ public final class GameView extends AbstractGame {
 	 * @param gameToWrap
 	 *            the {@link Game} instance that the new {@link GameView} will
 	 *            be a view of
-	 * @param viewUser
-	 *            the value to use for {@link #getViewUser()}
+	 * @param viewPlayer
+	 *            the value to use for {@link #getViewPlayer()}
 	 */
-	public GameView(Game gameToWrap, Account viewUser) {
+	public GameView(Game gameToWrap, Player viewPlayer) {
 		super(gameToWrap.getId(), gameToWrap.getCreatedTimestamp(), gameToWrap
-				.getState(), gameToWrap.getMaxRounds(), filterRoundsForUser(
-				gameToWrap, viewUser), gameToWrap.getPlayer1(), gameToWrap
+				.getState(), gameToWrap.getMaxRounds(), filterRoundsForPlayer(
+				gameToWrap, viewPlayer), gameToWrap.getPlayer1(), gameToWrap
 				.getPlayer2());
 
-		this.viewUser = viewUser;
+		this.viewPlayer = viewPlayer;
 	}
 
 	/**
@@ -55,26 +54,26 @@ public final class GameView extends AbstractGame {
 	 */
 	@Deprecated
 	GameView() {
-		this.viewUser = null;
+		this.viewPlayer = null;
 	}
 
 	/**
 	 * @param gameToWrap
 	 *            the {@link Game} instance to filter the
 	 *            {@link Game#getRounds()} of
-	 * @param user
-	 *            the user who requested or will be shown the resulting
-	 *            {@link GameView}, or <code>null</code> if the user is
-	 *            anonymous
+	 * @param player
+	 *            the {@link Player} who requested or will be shown the
+	 *            resulting {@link GameView}, or <code>null</code> if it's for
+	 *            someone other than one of the game's players
 	 * @return the filtered {@link GameRound}s that should be visible to the
-	 *         specified user
+	 *         specified {@link Player}
 	 */
-	private static List<GameRound> filterRoundsForUser(Game gameToWrap,
-			Account user) {
-		boolean isPlayer1 = user != null
-				&& user.equals(gameToWrap.getPlayer1().getHumanAccount());
-		boolean isPlayer2 = user != null && gameToWrap.getPlayer2() != null
-				&& user.equals(gameToWrap.getPlayer2().getHumanAccount());
+	private static List<GameRound> filterRoundsForPlayer(Game gameToWrap,
+			Player player) {
+		boolean isPlayer1 = player != null
+				&& player.equals(gameToWrap.getPlayer1());
+		boolean isPlayer2 = player != null && gameToWrap.getPlayer2() != null
+				&& player.equals(gameToWrap.getPlayer2());
 
 		List<GameRound> rounds = gameToWrap.getRounds();
 		List<GameRound> filteredRounds = new ArrayList<GameRound>(rounds.size());
@@ -105,12 +104,13 @@ public final class GameView extends AbstractGame {
 	}
 
 	/**
-	 * @return the user who requested or will be shown the resulting
-	 *         {@link GameView}, which will be used to determine how to filter
-	 *         {@link GameView#getRounds()}, or <code>null</code> if the user is
-	 *         anonymous
+	 * @return the {@link Player} in the {@link Game} who requested or will be
+	 *         shown the resulting {@link GameView}, which will be used to
+	 *         determine how to filter {@link GameView#getRounds()}, or
+	 *         <code>null</code> if it will be displayed to someone who is not
+	 *         one of the {@link Game}'s {@link Player}s
 	 */
-	public Account getViewUser() {
-		return viewUser;
+	public Player getViewPlayer() {
+		return viewPlayer;
 	}
 }

@@ -31,6 +31,7 @@ import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.State;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
@@ -39,6 +40,7 @@ import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
+import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
 
 /**
  * Integration tests for {@link GameResourceImpl} and {@link GameClient}.
@@ -59,6 +61,9 @@ public final class GameResourceImplIT {
 
 	@Inject
 	private IConfigLoader configLoader;
+
+	@Inject
+	private AiPlayerInitializer aiPlayerInitializer;
 
 	/**
 	 * Wipes and repopulates the data source schema between tests.
@@ -184,6 +189,49 @@ public final class GameResourceImplIT {
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(accountForPlayer2, game.getWinner()
 				.getHumanAccount());
+	}
+
+	/**
+	 * Ensures that the client and server {@link IGameResource} implementations
+	 * work correctly for a simple game with a human and an AI player.
+	 * 
+	 * @throws AddressException
+	 *             (won't be thrown; address is correct and static)
+	 */
+	@Test
+	public void playGameWithAi() throws AddressException {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+		CookieStore cookiesForPlayer1 = new CookieStore();
+
+		// Login the human player.
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
+				clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.loginAsGuest();
+
+		// Create the game and request an AI opponent.
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		PlayersClient playersClientForPlayer1 = new PlayersClient(clientConfig,
+				cookiesForPlayer1);
+		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
+		Player aiPlayer = playersClientForPlayer1
+				.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_ROCK);
+		GameView game = gameClientForPlayer1.createGame();
+		gameClientForPlayer1.inviteOpponent(game.getId(), aiPlayer.getId());
+
+		// Play the game.
+		gameClientForPlayer1.submitThrow(game.getId(), 0, Throw.ROCK);
+		gameClientForPlayer1.submitThrow(game.getId(), 1, Throw.PAPER);
+		gameClientForPlayer1.submitThrow(game.getId(), 2, Throw.PAPER);
+
+		// Verify the game's results.
+		game = gameClientForPlayer1.getGame(game.getId());
+		Assert.assertNotNull(game);
+		Assert.assertEquals(aiPlayer, game.getPlayer2());
+		Assert.assertEquals(3, game.getRounds().size());
+		Assert.assertEquals(State.FINISHED, game.getState());
+		Assert.assertEquals(game.getPlayer1(), game.getWinner());
 	}
 
 	/**

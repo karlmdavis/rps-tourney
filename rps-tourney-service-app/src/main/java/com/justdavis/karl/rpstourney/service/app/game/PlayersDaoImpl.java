@@ -1,6 +1,10 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +18,7 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Player_;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
 /**
  * The default {@link IPlayersDao} implementation.
@@ -43,12 +48,82 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#save(com.justdavis.karl.rpstourney.service.api.game.Player)
+	 */
+	@Override
+	public void save(Player player) {
+		entityManager.persist(player);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#getPlayer(long)
+	 */
+	@Override
+	public Player getPlayer(long playerId) {
+		if (playerId < 0)
+			throw new IllegalArgumentException();
+
+		// Build a query for the matching Player.
+		CriteriaBuilder criteriaBuilder = entityManager
+				.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder
+				.createQuery(Player.class);
+		criteria.where(criteriaBuilder.equal(
+				criteria.from(Player.class).get(Player_.id), playerId));
+
+		// Run the query.
+		TypedQuery<Player> query = entityManager.createQuery(criteria);
+		List<Player> results = query.getResultList();
+
+		/*
+		 * The Player.id field should have a UNIQUE constraint, so this should
+		 * only return 0 or 1 results.
+		 */
+		if (results.isEmpty())
+			return null;
+		else if (results.size() != 1)
+			throw new BadCodeMonkeyException();
+
+		// Return the result.
+		Player player = results.get(0);
+		return player;
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#findPlayerForAccount(com.justdavis.karl.rpstourney.service.api.auth.Account)
 	 */
 	@Override
 	public Player findPlayerForAccount(Account account) {
 		// Look up the pre-existing Player record, if any.
 		return find(account);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IPlayersDao#findPlayerForBuiltInAi(com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi[])
+	 */
+	@Override
+	public Set<Player> findPlayerForBuiltInAi(BuiltInAi... ais) {
+		if (ais == null)
+			throw new IllegalArgumentException();
+		if (ais.length <= 0)
+			throw new IllegalArgumentException();
+
+		// Build a query for the matching Player(s).
+		Collection<BuiltInAi> aisCollection = Arrays.asList(ais);
+		CriteriaBuilder criteriaBuilder = entityManager
+				.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder
+				.createQuery(Player.class);
+		criteria.where(criteria.from(Player.class).get(Player_.builtInAi)
+				.in(aisCollection));
+
+		// Run the query.
+		TypedQuery<Player> query = entityManager.createQuery(criteria);
+		List<Player> results = query.getResultList();
+
+		// Return the result.
+		Set<Player> matchingPlayers = new HashSet<>(results);
+		return matchingPlayers;
 	}
 
 	/**
@@ -91,6 +166,9 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	 *         criteria, or <code>null</code> if no such record is found
 	 */
 	private Player find(Account account) {
+		if(account == null)
+			throw new IllegalArgumentException();
+		
 		// If the Account hasn't been saved, there won't be a Player for it.
 		if (!account.hasId())
 			return null;

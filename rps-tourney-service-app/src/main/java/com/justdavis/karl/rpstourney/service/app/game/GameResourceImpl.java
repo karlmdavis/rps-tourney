@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -24,9 +25,11 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.State;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
@@ -38,11 +41,13 @@ import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GameResourceImpl implements IGameResource {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameResourceImpl.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GameResourceImpl.class);
+
 	private AccountSecurityContext securityContext;
 	private IPlayersDao playersDao;
 	private IGamesDao gamesDao;
+	private AiGameplayHelper aiHelper;
 
 	/**
 	 * This public, default/no-arg constructor is required by Spring (for
@@ -89,6 +94,18 @@ public class GameResourceImpl implements IGameResource {
 	}
 
 	/**
+	 * @param aiHelper
+	 *            the injected {@link AiGameplayHelper} to use
+	 */
+	@Inject
+	public void setAiGameplayHelper(AiGameplayHelper aiHelper) {
+		if (aiHelper == null)
+			throw new IllegalArgumentException();
+
+		this.aiHelper = aiHelper;
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#createGame()
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
@@ -105,7 +122,7 @@ public class GameResourceImpl implements IGameResource {
 		gamesDao.save(game);
 
 		// Create and return a GameView for the game.
-		GameView gameView = new GameView(game, userAccount);
+		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
 	}
 
@@ -133,7 +150,7 @@ public class GameResourceImpl implements IGameResource {
 		// Create and return the GameViews for the Games.
 		List<GameView> gameViews = new ArrayList<GameView>(games.size());
 		for (Game game : games)
-			gameViews.add(new GameView(game, userAccount));
+			gameViews.add(new GameView(game, userPlayer));
 		return gameViews;
 	}
 
@@ -149,7 +166,9 @@ public class GameResourceImpl implements IGameResource {
 
 		// Create and return a GameView for the game.
 		Account userAccount = securityContext.getUserPrincipal();
-		GameView gameView = new GameView(game, userAccount);
+		Player userPlayer = userAccount != null ? playersDao
+				.findPlayerForAccount(userAccount) : null;
+		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
 	}
 
@@ -179,8 +198,43 @@ public class GameResourceImpl implements IGameResource {
 				newMaxRoundsValue);
 
 		// Create and return a GameView for the game.
-		GameView gameView = new GameView(game, userAccount);
+		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
+	 *      long)
+	 */
+	@RolesAllowed({ SecurityRole.ID_USERS })
+	@Transactional
+	@Override
+	public void inviteOpponent(String gameId, long playerId)
+			throws NotFoundException, GameConflictException {
+		Game game = getRawGame(gameId);
+
+		// Determine the current user/player.
+		Account userAccount = getUserAccount();
+		Player userPlayer = playersDao
+				.findOrCreatePlayerForAccount(userAccount);
+
+		// Verify that the current user is Player 1.
+		if (!game.getPlayer1().equals(userPlayer))
+			throw new ForbiddenException();
+
+		// Verify that the invited player is a BuiltInAi.
+		Player invitedPlayer = playersDao.getPlayer(playerId);
+		if (invitedPlayer.getBuiltInAi() == null)
+			throw new ForbiddenException();
+
+		// Join the player to the game.
+		game.setPlayer2(invitedPlayer);
+
+		// Advance the game for any AI players.
+		aiHelper.advanceGameForAiPlayers(game);
+
+		// Save the resulting game state.
+		gamesDao.save(game);
 	}
 
 	/**
@@ -204,10 +258,14 @@ public class GameResourceImpl implements IGameResource {
 			throw new WebApplicationException(e, Status.BAD_REQUEST);
 		}
 
+		// Advance the game for any AI players.
+		aiHelper.advanceGameForAiPlayers(game);
+
+		// Save the resulting game state.
 		gamesDao.save(game);
 
 		// Create and return a GameView for the game.
-		GameView gameView = new GameView(game, userAccount);
+		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
 	}
 
@@ -230,11 +288,14 @@ public class GameResourceImpl implements IGameResource {
 			game.prepareRound();
 		}
 
+		// TODO does AI need to be called here, too?
+
 		gamesDao.save(game);
 
 		// Create and return a GameView for the game.
 		Account userAccount = getUserAccount();
-		GameView gameView = new GameView(game, userAccount);
+		Player userPlayer = playersDao.findPlayerForAccount(userAccount);
+		GameView gameView = new GameView(game, userPlayer);
 		LOGGER.trace("Prepare round end.");
 		return gameView;
 	}
@@ -254,11 +315,18 @@ public class GameResourceImpl implements IGameResource {
 		Player userPlayer = playersDao
 				.findOrCreatePlayerForAccount(userAccount);
 
+		// Submit the Throw to the game.
 		game.submitThrow(roundIndex, userPlayer, throwToPlay);
+
+		// Advance the game for any AI players.
+		if (game.getState() != State.FINISHED)
+			aiHelper.advanceGameForAiPlayers(game);
+
+		// Save the resulting game state.
 		gamesDao.save(game);
 
 		// Create and return a GameView for the game.
-		GameView gameView = new GameView(game, userAccount);
+		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
 	}
 

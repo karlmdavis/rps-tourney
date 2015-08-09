@@ -49,7 +49,7 @@ public class PlayerNameTagTest {
 		securityContext.setAuthentication(new WebServiceAccountAuthentication(
 				player1Account));
 		Game game = new Game(new Player(player1Account));
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, game.getPlayer1());
 		playerNameTag.setGame(gameView);
 		playerNameTag.setPlayer(game.getPlayer1());
 		playerNameTag.doEndTag();

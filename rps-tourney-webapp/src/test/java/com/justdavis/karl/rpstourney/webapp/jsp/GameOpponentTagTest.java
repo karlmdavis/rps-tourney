@@ -51,7 +51,7 @@ public class GameOpponentTagTest {
 		player2Account.setName("foo");
 		Game game = new Game(new Player(player1Account));
 		game.setPlayer2(new Player(player2Account));
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, game.getPlayer1());
 		gameOpponentTag.setGame(gameView);
 		gameOpponentTag.doEndTag();
 		Assert.assertEquals("<span class=\"PLAYER_2\">foo</span>",
@@ -85,7 +85,7 @@ public class GameOpponentTagTest {
 		securityContext.setAuthentication(new WebServiceAccountAuthentication(
 				player1Account));
 		Game game = new Game(new Player(player1Account));
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, game.getPlayer1());
 		gameOpponentTag.setGame(gameView);
 		gameOpponentTag.doEndTag();
 		Assert.assertEquals(

@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.app.game;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -20,6 +21,7 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningReq
 import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlProvisioningRequest;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 import com.justdavis.karl.rpstourney.service.app.SpringConfig;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
@@ -140,6 +142,80 @@ public final class PlayersDaoImplIT {
 			Assert.assertNotNull(loadedPlayer.getHumanAccount());
 			Assert.assertEquals(newPlayer, loadedPlayer);
 			Assert.assertEquals(savedAccount, loadedPlayer.getHumanAccount());
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
+	 * Tests {@link PlayersDaoImpl#findPlayerForBuiltInAi(BuiltInAi...)}.
+	 */
+	@Test
+	public void findPlayerForBuiltInAi() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
+				.createEntityManager();
+
+		try {
+			// Create the DAOs.
+			PlayersDaoImpl playersDao = new PlayersDaoImpl();
+			playersDao.setEntityManager(entityManager);
+
+			/*
+			 * Call findPlayerForBuiltInAi(...) with BuiltInAis that don't
+			 * already have Player instances.
+			 */
+			Set<Player> returnedPlayers = null;
+			EntityTransaction tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				returnedPlayers = playersDao.findPlayerForBuiltInAi(
+						BuiltInAi.ONE_SIDED_DIE_PAPER,
+						BuiltInAi.ONE_SIDED_DIE_ROCK);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the results.
+			Assert.assertNotNull(returnedPlayers);
+			Assert.assertEquals(0, returnedPlayers.size());
+
+			/*
+			 * Create the Player instances.
+			 */
+			tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				playersDao.save(new Player(BuiltInAi.ONE_SIDED_DIE_PAPER));
+				playersDao.save(new Player(BuiltInAi.ONE_SIDED_DIE_ROCK));
+				playersDao.save(new Player(BuiltInAi.THREE_SIDED_DIE_V1));
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			/*
+			 * Call findPlayerForBuiltInAi(...) again for the BuiltInAis. This
+			 * time, it should have results.
+			 */
+			returnedPlayers = null;
+			tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				returnedPlayers = playersDao.findPlayerForBuiltInAi(
+						BuiltInAi.ONE_SIDED_DIE_PAPER,
+						BuiltInAi.ONE_SIDED_DIE_ROCK);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify the results.
+			Assert.assertNotNull(returnedPlayers);
+			Assert.assertEquals(2, returnedPlayers.size());
 		} finally {
 			entityManager.close();
 		}

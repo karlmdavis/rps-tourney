@@ -93,6 +93,16 @@ public class MockGameClient implements IGameResource {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
+	 *      long)
+	 */
+	@Override
+	public void inviteOpponent(String gameId, long playerId)
+			throws NotFoundException, GameConflictException {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#joinGame(java.lang.String)
 	 */
 	@Override

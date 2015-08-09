@@ -178,6 +178,34 @@ public final class GameClient implements IGameResource {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
+	 *      long)
+	 */
+	@Override
+	public void inviteOpponent(String gameId, long playerId)
+			throws NotFoundException, GameConflictException {
+		Client client = ClientBuilder.newClient();
+		Builder requestBuilder = client.target(config.getServiceRoot())
+				.path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_INVITE_OPPONENT)
+				.request(MediaType.TEXT_XML_TYPE);
+		cookieStore.applyCookies(requestBuilder);
+
+		Form params = new Form();
+		params.param("playerId", "" + playerId);
+
+		Response response = requestBuilder.post(Entity.form(params));
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameId, response);
+		else if (response.getStatus() == Status.CONFLICT.getStatusCode())
+			throw new GameConflictException(response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+			throw new HttpClientException(response.getStatusInfo());
+
+		cookieStore.remember(response.getCookies());
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#joinGame(java.lang.String)
 	 */
 	@Override

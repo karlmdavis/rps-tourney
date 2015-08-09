@@ -11,6 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
+
 /**
  * This service allows users to create, retrieve, and play games. Please note
  * that all {@link Game} instances returned by this service should be treated as
@@ -44,6 +46,11 @@ public interface IGameResource {
 	 * The {@link Path} for the {@link #setMaxRounds(String, int)} method.
 	 */
 	public static final String SERVICE_PATH_MAX_ROUNDS = "/maxRounds";
+
+	/**
+	 * The {@link Path} for the {@link #inviteOpponent(String, String)} method.
+	 */
+	public static final String SERVICE_PATH_INVITE_OPPONENT = "/invite";
 
 	/**
 	 * The {@link Path} for the {@link #joinGame(String)} method.
@@ -147,6 +154,40 @@ public interface IGameResource {
 			@FormParam("oldMaxRoundsValue") int oldMaxRoundsValue,
 			@FormParam("newMaxRoundsValue") int newMaxRoundsValue)
 			throws NotFoundException, GameConflictException;
+
+	/**
+	 * <p>
+	 * Invites the specified {@link Player} to join the specified {@link Game}.
+	 * </p>
+	 * <p>
+	 * <strong>Note:</strong> Currently, this method may only be used to invite
+	 * {@link BuiltInAi} players to join a game created by the human opponent
+	 * inviting them to it. As this is always allowed, this method will just set
+	 * the {@link Game#getPlayer2()} to the requested {@link Player} before
+	 * returning. Additional uses for this method are expected in the future,
+	 * but not yet supported.
+	 * </p>
+	 * 
+	 * @param gameId
+	 *            the {@link Game#getId()} value of the {@link Game} to modify
+	 * @param playerId
+	 *            the {@link Player#getId()} value of the {@link Player} to
+	 *            invite to join the specified {@link Game}
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link Game} can be found.
+	 * @throws GameConflictException
+	 *             A {@link GameConflictException} will be thrown if
+	 *             {@link Game#getState()} is not
+	 *             {@link State#WAITING_FOR_PLAYER}.
+	 */
+	@POST
+	@Path(IGameResource.SERVICE_PATH_GAME_ID
+			+ IGameResource.SERVICE_PATH_INVITE_OPPONENT)
+	@Produces(MediaType.TEXT_XML)
+	void inviteOpponent(@PathParam("gameId") String gameId,
+			@FormParam("playerId") long playerId) throws NotFoundException,
+			GameConflictException;
 
 	/**
 	 * <p>

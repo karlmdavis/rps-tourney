@@ -48,7 +48,7 @@ public class RoundResultTagTest {
 		game.setPlayer2(new Player(new Account()));
 		game.submitThrow(0, game.getPlayer1(), Throw.ROCK);
 		game.submitThrow(0, game.getPlayer2(), Throw.SCISSORS);
-		GameView gameView = new GameView(game, player1Account);
+		GameView gameView = new GameView(game, game.getPlayer1());
 
 		// Create the tag to test.
 		RoundResultTag roundResultTag = new RoundResultTag();

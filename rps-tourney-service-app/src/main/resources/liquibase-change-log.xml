@@ -286,4 +286,16 @@
 
 	</changeSet>
 
+	<changeSet id="7" author="karlmdavis">
+
+		<!-- Done as part of https://github.com/karlmdavis/rps-tourney/issues/64. -->
+		<dropNotNullConstraint tableName="Players" columnName="humanAccountId" />
+		<addColumn tableName="Players">
+			<column name="builtInAi" type="varchar(50)">
+				<constraints nullable="true" unique="true" />
+			</column>
+		</addColumn>
+
+	</changeSet>
+
 </databaseChangeLog>

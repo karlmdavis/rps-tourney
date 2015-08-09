@@ -1,14 +1,31 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
 import java.util.List;
+import java.util.Set;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
 /**
  * A DAO for {@link Player} JPA entities.
  */
 public interface IPlayersDao {
+	/**
+	 * @param player
+	 *            the {@link Player} to be saved/updated in the database
+	 */
+	void save(Player player);
+
+	/**
+	 * @param playerId
+	 *            the {@link Player#getId()} value to find a matching
+	 *            {@link Player} for
+	 * @return the existing {@link Player} record that matches the specified
+	 *         criteria, or <code>null</code> if no existing record was found
+	 */
+	Player getPlayer(long playerId);
+
 	/**
 	 * @param account
 	 *            the {@link Account} record to find a matching {@link Player}
@@ -17,6 +34,13 @@ public interface IPlayersDao {
 	 *         criteria, or <code>null</code> if no existing record was found
 	 */
 	Player findPlayerForAccount(Account account);
+
+	/**
+	 * @param ais
+	 *            the {@link Player#getBuiltInAi()} values to match against
+	 * @return the {@link Player} records that match the specified criteria
+	 */
+	Set<Player> findPlayerForBuiltInAi(BuiltInAi... ais);
 
 	/**
 	 * @param account

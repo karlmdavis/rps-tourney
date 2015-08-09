@@ -123,6 +123,8 @@ public class SpringConfig {
 		resourceProviders.add(new RequestScopeResourceFactory(
 				"gameAuthResourceImpl"));
 		resourceProviders.add(new RequestScopeResourceFactory(
+				"playersResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory(
 				"gameResourceImpl"));
 
 		/*

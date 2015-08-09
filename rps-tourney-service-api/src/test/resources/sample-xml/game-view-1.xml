@@ -7,6 +7,7 @@
 	<rps:scoreForPlayer1>0</rps:scoreForPlayer1>
 	<rps:scoreForPlayer2>0</rps:scoreForPlayer2>
 	<rps:player1>
+		<rps:id>7</rps:id>
 		<rps:humanAccount>
 			<rps:id>42</rps:id>
 			<rps:roles>
@@ -21,10 +22,13 @@
 			<rps:throwForPlayer1>ROCK</rps:throwForPlayer1>
 		</rps:round>
 	</rps:rounds>
-	<rps:viewUser>
-		<rps:id>42</rps:id>
-		<rps:roles>
-			<rps:role>USERS</rps:role>
-		</rps:roles>
-	</rps:viewUser>
+	<rps:viewPlayer>
+		<rps:id>7</rps:id>
+		<rps:humanAccount>
+			<rps:id>42</rps:id>
+			<rps:roles>
+				<rps:role>USERS</rps:role>
+			</rps:roles>
+		</rps:humanAccount>
+	</rps:viewPlayer>
 </rps:gameView>
