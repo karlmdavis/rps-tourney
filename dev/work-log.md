@@ -3899,3 +3899,9 @@ This file should never be committed along with other files; it should always be 
     * Fixed `GameResourceImplIT`.
     * Created `PlayersResourceImplIT`.
         * Still have a failure in here to resolve.
+
+### 2015-08-08, Saturday
+
+* 0.3h (22:16-22:34): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got `PlayersResourceImplIT` passing.
+    * Ran a full build, which passed.
