@@ -3914,3 +3914,9 @@ This file should never be committed along with other files; it should always be 
         * Added a comment to the issue explaining my original mistake.
     * Went through and rebased to fix the goofed commit from 2015-06-23.
         * Had to `git push --force`.
+
+### 2015-08-10, Monday
+
+* 0.25h (20:42-20:56): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Sketched out a simple UI design for AI selection in the webapp.
+        * Might want to use tabs instead of radio buttons. More mobile-friendly.
