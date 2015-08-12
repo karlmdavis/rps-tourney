@@ -3920,3 +3920,15 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (20:42-20:56): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Sketched out a simple UI design for AI selection in the webapp.
         * Might want to use tabs instead of radio buttons. More mobile-friendly.
+
+### 2015-08-11, Tuesday
+
+* 0.35h (22:10-22:32): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Thinking about the Opponent Selection UI...
+        * What should the top-level choice control be for AI/friend?
+            * Don't like radio buttons.
+            * I'm not a huge fan of tabs, either.
+            * Maybe vertical pills?
+            * Dropdowns are okay, but make things less discoverable.
+        * How bad is it if the content resizes depending on the top-level selection?
+            * Pretty bad, and would likely indicate that non-JS browsers are screwed.
