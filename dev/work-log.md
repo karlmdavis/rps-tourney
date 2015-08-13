@@ -3932,3 +3932,9 @@ This file should never be committed along with other files; it should always be 
             * Dropdowns are okay, but make things less discoverable.
         * How bad is it if the content resizes depending on the top-level selection?
             * Pretty bad, and would likely indicate that non-JS browsers are screwed.
+
+### 2015-08-12, Wednesday
+
+* 0.2h (22:39-22:50): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Started creating the invite opponent form.
+    * Decided to go with radio buttons for now. May re-evaluate once I see how they look.
