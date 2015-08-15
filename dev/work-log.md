@@ -3944,3 +3944,8 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (22:29-22:42): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Worked more on invite opponent form.
     * Thinking of using this for AI selector: [seiyria/bootstrap-slider](https://github.com/seiyria/bootstrap-slider).
+
+### 2015-08-14, Friday
+
+* 0.25h (23:22-23:36): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Worked more on invite opponent form. It needs a submit button.
