@@ -3949,3 +3949,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.25h (23:22-23:36): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Worked more on invite opponent form. It needs a submit button.
+
+### 2015-08-15, Saturday
+
+* 0.25h (22:16-22:30): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Implemented `inviteOpponent` in the controller.
+    * Need to verify that the service handles security and bad input correctly.
