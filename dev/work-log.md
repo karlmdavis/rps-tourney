@@ -3963,3 +3963,9 @@ This file should never be committed along with other files; it should always be 
     * Added an IT covering `inviteOpponent(...)`'s security.
     * Worked on debugging the frontend "invite opponent" form.
         * Still need to fix `editablePlayerName.tag`.
+
+### 2015-08-18, Tuesday
+
+* 0.3h (07:20-07:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got things working enough to play against an AI opponent.
+    * Still need to polish the "invite opponent" form, and add a check for the radio button.
