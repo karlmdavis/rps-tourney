@@ -3955,3 +3955,11 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (22:16-22:30): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Implemented `inviteOpponent` in the controller.
     * Need to verify that the service handles security and bad input correctly.
+
+### 2015-08-17, Monday
+
+* _Just forgot to work on this yesterday. No good reason._
+* 0.6h (19:32-20:07): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Added an IT covering `inviteOpponent(...)`'s security.
+    * Worked on debugging the frontend "invite opponent" form.
+        * Still need to fix `editablePlayerName.tag`.
