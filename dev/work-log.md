@@ -3969,3 +3969,10 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (07:20-07:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got things working enough to play against an AI opponent.
     * Still need to polish the "invite opponent" form, and add a check for the radio button.
+
+### 2015-08-19, Wednesday
+
+* 0.75h (08:06-08:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got the "invite opponent" form's JS working.
+    * Need to work on the form's styling.
+    * Need to fix the JS error on the game page from before an opponent is selected.
