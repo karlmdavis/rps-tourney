@@ -3982,3 +3982,10 @@ This file should never be committed along with other files; it should always be 
 * 0.7h (23:04-23:46): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Started styling the controls.
         * Problem: radio buttons (and checkboxes) can't be reliably styled. Can't make them big enough to match other controls.
+
+### 2015-08-21, Friday
+
+* 0.3h (18:54-19:11): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Applying the CSS 'scale' property does resize radio buttons, but they look blurry.
+    * I could use Bootstrap's "pill" components, but then the form only works with JavaScript.
+    * Theoretically, background-image-replacement buttons could work just with CSS, using advanced selectors.
