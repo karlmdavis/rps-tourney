@@ -3989,3 +3989,8 @@ This file should never be committed along with other files; it should always be 
     * Applying the CSS 'scale' property does resize radio buttons, but they look blurry.
     * I could use Bootstrap's "pill" components, but then the form only works with JavaScript.
     * Theoretically, background-image-replacement buttons could work just with CSS, using advanced selectors.
+
+### 2015-08-22, Saturday
+
+* 1.15h (08:24-08:30, 17:57-19:00): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Spent some time switching the radio controls to [WTF, forms?](http://wtfforms.com/). Still don't have the sizing right, though.
