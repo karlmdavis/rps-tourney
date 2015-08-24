@@ -3994,3 +3994,9 @@ This file should never be committed along with other files; it should always be 
 
 * 1.15h (08:24-08:30, 17:57-19:00): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Spent some time switching the radio controls to [WTF, forms?](http://wtfforms.com/). Still don't have the sizing right, though.
+
+### 2015-08-23, Sunday
+
+* 0.2h (23:13-23:26): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * I think that the WTF Forms idea is good, but that the implementation needs some work.
+        * Should switch from using background shading for the radio button to a font.
