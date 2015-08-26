@@ -4005,3 +4005,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.95h (23:02-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Worked on switching the radio buttons to using [Font Awesome](https://fortawesome.github.io/Font-Awesome/).
+
+### 2015-08-25, Tuesday
+
+* 0.55h (21:37-22:10): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got the radio buttons finished up. They look & feel correct now. Tested in Firefox and Chromium.
