@@ -4010,3 +4010,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.55h (21:37-22:10): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got the radio buttons finished up. They look & feel correct now. Tested in Firefox and Chromium.
+
+### 2015-08-28, Friday
+
+* _Was way too busy with work and meetups this week, so skipped a few days._
+* 0.2h (23:28-23:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Fixed a minor thing: the AI dropdown is now sized correctly.
