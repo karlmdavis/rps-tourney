@@ -4024,3 +4024,9 @@ This file should never be committed along with other files; it should always be 
     * Spent way too damned long tracking down a problem with Font Awesome: the font resources weren't actually being loaded correctly.
         * No idea why it was displaying correctly on my desktop, but it definitely wouldn't on Android, which is how I noticed there was a problem at all.
     * Also fixed the last of the compile errors.
+
+### 2015-08-30, Sunday
+
+* 0.55h (14:19-14:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got the "invite opponent" form design more or less done, I think. I'm now pretty happy with how it looks.
+    * Need to write ITs and fix that one JS bug I noticed.
