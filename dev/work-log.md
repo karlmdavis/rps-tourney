@@ -4016,3 +4016,11 @@ This file should never be committed along with other files; it should always be 
 * _Was way too busy with work and meetups this week, so skipped a few days._
 * 0.2h (23:28-23:39): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Fixed a minor thing: the AI dropdown is now sized correctly.
+
+### 2015-08-29, Saturday
+
+* 2.2h (18:00-20:12): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Spent some time trying to clean up the "Game Setup" design to look better. Not done.
+    * Spent way too damned long tracking down a problem with Font Awesome: the font resources weren't actually being loaded correctly.
+        * No idea why it was displaying correctly on my desktop, but it definitely wouldn't on Android, which is how I noticed there was a problem at all.
+    * Also fixed the last of the compile errors.
