@@ -4030,3 +4030,9 @@ This file should never be committed along with other files; it should always be 
 * 0.55h (14:19-14:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got the "invite opponent" form design more or less done, I think. I'm now pretty happy with how it looks.
     * Need to write ITs and fix that one JS bug I noticed.
+
+### 2015-08-31, Monday
+
+* ?h (23:15-?): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Took my first stab at writing `GameIT.playGameVsAi()`.
+    * Most of the test cases in there now seem broken, actually. Need to fix that.
