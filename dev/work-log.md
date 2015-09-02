@@ -4042,3 +4042,9 @@ This file should never be committed along with other files; it should always be 
 * 0.15h (23:51-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * I ran a command line build and discovered that only the new test case is failing.
     * Kicked off a Clean in Eclipse, since there's something goofy up with my previous run.
+
+### 2015-08-02, Wednesday
+
+* 0.25h (23:43-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Interestingly, way more things were still failing in Eclipse.
+        * Two problems: had a different IP address in the app configs and needed another clean.
