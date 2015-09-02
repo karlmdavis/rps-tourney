@@ -4033,6 +4033,12 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-08-31, Monday
 
-* ?h (23:15-?): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+* 0.3h (23:15-23:32): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Took my first stab at writing `GameIT.playGameVsAi()`.
     * Most of the test cases in there now seem broken, actually. Need to fix that.
+
+### 2015-08-01, Tuesday
+
+* 0.15h (23:51-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * I ran a command line build and discovered that only the new test case is failing.
+    * Kicked off a Clean in Eclipse, since there's something goofy up with my previous run.
