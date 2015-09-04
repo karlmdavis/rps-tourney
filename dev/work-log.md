@@ -4048,3 +4048,8 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (23:43-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Interestingly, way more things were still failing in Eclipse.
         * Two problems: had a different IP address in the app configs and needed another clean.
+
+### 2015-08-03, Thursday
+
+* 0.4h (21:02-21:04,21:21-21:43): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got the ITs passing.
