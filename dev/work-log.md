@@ -4053,3 +4053,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.4h (21:02-21:04,21:21-21:43): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got the ITs passing.
+
+### 2015-08-04, Friday
+
+* 0.6h (07:27-08:02): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * I think I'm almost done.
+    * Only problem is the AI player's name resets to "Anonymous Player" when the JS updates it.
