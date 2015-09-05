@@ -97,7 +97,7 @@ public class Player {
 	 *         it has not
 	 */
 	public boolean hasId() {
-		return id >= 0;
+		return id > 0;
 	}
 
 	/**
@@ -121,10 +121,11 @@ public class Player {
 	}
 
 	/**
-	 * @return a user-displayable name for the {@link Player}
+	 * @return a user-displayable name for the {@link Player}, or
+	 *         <code>null</code> if no such name has been assigned
 	 */
 	public String getName() {
-		return humanAccount.getName();
+		return humanAccount != null ? humanAccount.getName() : null;
 	}
 
 	/**

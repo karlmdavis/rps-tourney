@@ -29,6 +29,7 @@ import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
+import com.justdavis.karl.rpstourney.service.api.game.IPlayersResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
@@ -60,6 +61,7 @@ public class GameController {
 
 	private final IGameResource gameClient;
 	private final IAccountsResource accountsClient;
+	private final IPlayersResource playersClient;
 	private final IGuestLoginManager guestLoginManager;
 
 	/**
@@ -69,15 +71,18 @@ public class GameController {
 	 *            the {@link IGameResource} client to use
 	 * @param accountsClient
 	 *            the {@link IAccountsResource} client to use
+	 * @param playersClient
+	 *            the {@link IPlayersResource} client to use
 	 * @param guestLoginManager
 	 *            the {@link IGuestLoginManager} to use
 	 */
 	@Inject
 	public GameController(IGameResource gameClient,
-			IAccountsResource accountsClient,
+			IAccountsResource accountsClient, IPlayersResource playersClient,
 			IGuestLoginManager guestLoginManager) {
 		this.gameClient = gameClient;
 		this.accountsClient = accountsClient;
+		this.playersClient = playersClient;
 		this.guestLoginManager = guestLoginManager;
 	}
 
@@ -310,6 +315,60 @@ public class GameController {
 
 	/**
 	 * The controller facade for
+	 * {@link IGameResource#inviteOpponent(String, long)}.
+	 * 
+	 * @param gameId
+	 *            the {@link Game#getId()} of the game being updated
+	 * @param opponentType
+	 *            either <code>friend</code> or <code>ai</code>, indicating
+	 *            which type of opponent the user has requested
+	 * @param playerId
+	 *            the {@link Player#getId()} of the player being invited as the
+	 *            user's opponent
+	 * @param authenticatedUser
+	 *            the currently logged in user {@link Principal}
+	 * @param redirectAttributes
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to
+	 *            pass flash attributes around
+	 * @return a <code>redirect:</code> view name for the updated {@link Game}
+	 */
+	@RequestMapping(value = "/{gameId}/inviteOpponent", method = {
+			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String inviteOpponent(@PathVariable String gameId,
+			@RequestParam String opponentType, @RequestParam int playerId,
+			Principal authenticatedUser, RedirectAttributes redirectAttributes) {
+		// Load the specified game.
+		GameView game = loadGame(gameId);
+
+		/*
+		 * If they haven't requested an AI opponent, do nothing. (The submit
+		 * button generally wouldn't be visible for them, but if they have
+		 * disabled JS, they might still use it.)
+		 */
+		if (!"ai".equals(opponentType))
+			return "redirect:/game/" + gameId;
+
+		// In the webapp, we'll only allow player 1 to call this.
+		if (!isUserThisPlayer(authenticatedUser, game.getPlayer1())) {
+			throw new AccessDeniedException(
+					"Only the first player in a game may invite an opponent.");
+		}
+
+		// Try to invite the specified player as an opponent.
+		try {
+			gameClient.inviteOpponent(gameId, playerId);
+		} catch (GameConflictException e) {
+			// Catch these errors and display them in a friendlier fashion.
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
+					.getType().name());
+		}
+
+		// Redirect the user to the updated game.
+		return "redirect:/game/" + gameId;
+	}
+
+	/**
+	 * The controller facade for
 	 * {@link IGameResource#setMaxRounds(String, int, int)}.
 	 * 
 	 * @param gameId
@@ -434,6 +493,10 @@ public class GameController {
 				&& isUserThisPlayer(authenticatedUser, game.getWinner()));
 		modelAndView.addObject("isUserTheLoser", hasWinner && isPlayer
 				&& !isUserThisPlayer(authenticatedUser, game.getWinner()));
+
+		// Collect and add the AI players.
+		modelAndView.addObject("aiPlayers",
+				playersClient.getPlayersForBuiltInAis());
 
 		return modelAndView;
 	}

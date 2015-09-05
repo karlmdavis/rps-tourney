@@ -11,6 +11,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
+import com.justdavis.karl.rpstourney.service.api.game.IPlayersResource;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.ServiceStatusClient;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
@@ -20,6 +21,7 @@ import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
+import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
 import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
 
 /**
@@ -147,5 +149,20 @@ public class GameClientBindings {
 	public IGameResource gameClient(ClientConfig config, CookieStore cookieStore) {
 		IGameResource gameClient = new GameClient(config, cookieStore);
 		return gameClient;
+	}
+
+	/**
+	 * @param config
+	 *            the {@link ClientConfig} being used
+	 * @param cookieStore
+	 *            the {@link CookieStore} being used (likely session scoped and
+	 *            proxied)
+	 * @return the {@link IPlayersResource} client for the application to use
+	 */
+	@Bean
+	public IPlayersResource playersClient(ClientConfig config,
+			CookieStore cookieStore) {
+		IPlayersResource playersClient = new PlayersClient(config, cookieStore);
+		return playersClient;
 	}
 }

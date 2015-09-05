@@ -40,6 +40,29 @@ $(document).on("blur", "form.player-name", function(event) {
 });
 
 /*
+ * Whenever the user selects one of the "invite opponent" form's two radio
+ * buttons, show/hide the panels in that form appropriately.
+ */
+$("input[name='opponentType']").on("change", function() {
+	var opponentTypeValue = $("input[name='opponentType']:checked").val();
+	if (opponentTypeValue == "friend") {
+		$("#opponent-type-friend-panel").show();
+		$("#opponent-type-ai-panel").hide();
+	} else if (opponentTypeValue == "ai") {
+		$("#opponent-type-friend-panel").hide();
+		$("#opponent-type-ai-panel").show();
+	}
+});
+
+/*
+ * Prepare the "invite opponent" form when the page loads.
+ */
+$(document).ready(function() {
+	$("#opponent-type-friend").prop("checked", true);
+	$("input[name='opponentType']").change();
+});
+
+/*
  * This function returns the element to display as the result of the specified
  * round in the specified game.
  */
@@ -85,8 +108,17 @@ function computeRoundResultElement(gameData, round) {
 function computePlayerNameText(gameData, player) {
 	var playerLabel = $.i18n.prop('playerName.notJoined');
 	if (player != null) {
-		playerLabel = player.name !== null ? player.name : $.i18n
-				.prop('playerName.anon');
+		// Compute the display name.
+		if (player.name !== null) {
+			playerLabel = player.name;
+		} else if (player.builtInAi != null) {
+			playerLabel = $.i18n.prop('players.ai.name.'
+					+ player.builtInAi.displayNameKey);
+		} else {
+			playerLabel = $.i18n.prop('playerName.anon');
+		}
+
+		// Add the " (You)" suffix, if needed.
 		if (isUserThisPlayer(gameData, player)) {
 			playerLabel = playerLabel
 					+ $.i18n.prop('playerName.current.suffix')
@@ -138,8 +170,7 @@ function isUserThisPlayer(gameData, player) {
 		return false;
 	}
 
-	return player.humanAccount !== null
-			&& player.id === gameData.viewPlayer.id;
+	return player.humanAccount !== null && player.id === gameData.viewPlayer.id;
 }
 
 /*
@@ -159,7 +190,7 @@ function isUserTheWinner(gameData) {
 	if (gameData.viewPlayer === null) {
 		return false;
 	}
-	
+
 	// Sanity check: Make sure the current player is a human.
 	if (gameData.viewPlayer.humanAccount === null) {
 		throw "Cyborg detected!";
@@ -182,20 +213,8 @@ function processNewGameState(gameData) {
 	gameUrl = window.location.href;
 
 	// Grab player names/labels for use later.
-	var player1Label = gameData.player1.name !== null ? gameData.player1.name
-			: $.i18n.prop('playerName.anon');
-	if (isUserThisPlayer(gameData, gameData.player1)) {
-		player1Label = player1Label + $.i18n.prop('playerName.current.suffix')
-	}
-	var player2Label = $.i18n.prop('playerName.notJoined');
-	if (gameData.player2 != null) {
-		player2Label = gameData.player2.name !== null ? gameData.player2.name
-				: $.i18n.prop('playerName.anon');
-		if (isUserThisPlayer(gameData, gameData.player2)) {
-			player2Label = player2Label
-					+ $.i18n.prop('playerName.current.suffix')
-		}
-	}
+	var player1Label = computePlayerNameText(gameData, gameData.player1);
+	var player2Label = computePlayerNameText(gameData, gameData.player2);
 
 	// Update Player 1's name.
 	$(".PLAYER_1").text(player1Label);

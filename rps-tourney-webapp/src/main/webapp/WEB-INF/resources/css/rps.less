@@ -78,6 +78,34 @@ table#player-games {
 
 
 /*
+ * Replace radio buttons with Font Awesome icons, instead.
+ */
+div.radio label {
+	position: relative;
+	display: inline-block;
+	padding-left: 1.5rem;
+	cursor: pointer;
+	
+	input {
+		position: absolute;
+		opacity: 0;
+		z-index: -1; /* Put the input behind the label so it doesn't overlay text */
+	}
+	
+	.control-indicator {
+		.fa-icon;
+		padding-right: 0.25em;
+	}
+	
+	input:checked ~ .control-indicator:before, 
+	input:active ~ .control-indicator:before {
+		position: absolute;
+		content: "\f192";
+	}
+}
+
+
+/*
  * Game Page
  */
 
@@ -175,6 +203,43 @@ p#created {
 // (These are only visible before the game starts.)
 #game-controls {
 
+	form#opponent-selection {
+		.make-row();
+		
+		div.col {
+			.make-xs-column(12);
+			.make-md-column(6);
+		}
+		
+		// Collapse the margin between the label and the first radio button.
+		label:first-child + div.radio {
+			margin-top: 0;
+		}
+		
+		div#ai-id-group {
+			.form-group;
+		}
+		
+		button[type='submit'] {
+			.btn;
+			.btn-lg;
+			.btn-primary;
+		}
+		
+		input, select {
+			.form-control;
+		}
+		
+		select {
+			.input-lg;
+		}
+		
+		div.radio {
+			font-size: @font-size-large;
+			line-height: @line-height-large;
+		}
+	}
+
 	#join-controls div.row {
 		.make-row();
 		
@@ -192,6 +257,8 @@ p#created {
 	}
 	
 	#max-round-controls {
+		margin-bottom: 10px;
+		
 		#max-rounds-label-row > .col {
 			.make-xs-column(12);
 		}

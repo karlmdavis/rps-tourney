@@ -95,10 +95,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web
 			.ignoring()
 				// Instruct Spring Security to completely ignore these requests.
+				// Matching entries are probably also needed in SpringMvcConfig.addResourceHandlers(ResourceHandlerRegistry).
 				.antMatchers("/css/**")
 				.antMatchers("/js/**")
 				.antMatchers("/i18n/**")
-				.antMatchers("/bootstrap-3.2.0/fonts/**");
+				.antMatchers("/bootstrap-3.2.0/fonts/**")
+				.antMatchers("/font-awesome-4.4.0/fonts/**");
 	}
 
 	/**

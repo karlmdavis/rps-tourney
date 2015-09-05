@@ -89,13 +89,17 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 				"/WEB-INF/i18n/");
 
 		/*
-		 * Though the entire Bootstrap source is available, only the fonts from
-		 * it are needed. (All of its LESS and JS have been copied by
-		 * wro4j-maven-plugin into the css and js folders.)
+		 * Though all of the sources from Bootstrap and FontAwesome are
+		 * available, only the fonts from them are needed. (All of their LESS
+		 * and JS have been copied by wro4j-maven-plugin into the css and js
+		 * folders.)
 		 */
 		registry.addResourceHandler("/bootstrap-3.2.0/fonts/**")
 				.addResourceLocations(
 						"/WEB-INF/resources/bootstrap-3.2.0/fonts/");
+		registry.addResourceHandler("/font-awesome-4.4.0/fonts/**")
+				.addResourceLocations(
+						"/WEB-INF/resources/font-awesome-4.4.0/fonts/");
 	}
 
 	/**

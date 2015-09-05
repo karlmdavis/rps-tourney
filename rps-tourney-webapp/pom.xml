@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -240,6 +241,24 @@
 									by its compiled LESS. -->
 								<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
 							</artifactItem>
+							<artifactItem>
+								<!-- Font Awesome is similar to Bootstrap's Glyphicons, but way more 
+									comprehensive: it provides a symbol font and CSS classes to make it easier 
+									to use. -->
+								<!-- This artifact was uploaded to Nexus with the following command: 
+									'mvn deploy:deploy-file -Durl=https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/ 
+									-DrepositoryId=justdavis.com-nexus -DupdateReleaseInfo=true -Dfile=font-awesome-4.4.0.zip 
+									-DgeneratePom=false -DgroupId=io.github.fortawesome -DartifactId=font-awesome 
+									-Dversion=4.4.0 -Dpackaging=zip' -->
+								<groupId>io.github.fortawesome</groupId>
+								<artifactId>font-awesome</artifactId>
+								<version>4.4.0</version>
+								<type>zip</type>
+								<overWrite>false</overWrite>
+								<!-- Drop the Font Awesome resources into the WAR's output resources 
+									directory. -->
+								<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
+							</artifactItem>
 						</artifactItems>
 					</configuration>
 				</plugin>
@@ -250,11 +269,14 @@
 						<webResources>
 							<resource>
 								<!-- This entry here is needed as WRO4J leaves out the fonts from 
-									Bootstrap. -->
+									Bootstrap and FontAwesome. -->
+								<!-- Any resources listed here also have to be whitelisted in SecurityConfig.configure(WebSecurity) 
+									and SpringMvcConfig.addResourceHandlers(ResourceHandlerRegistry). -->
 								<directory>${project.build.directory}/generated-war-resources/</directory>
 								<targetPath>WEB-INF/resources</targetPath>
 								<includes>
 									<include>bootstrap-3.2.0/fonts/**</include>
+									<include>font-awesome-4.4.0/fonts/**</include>
 								</includes>
 							</resource>
 						</webResources>

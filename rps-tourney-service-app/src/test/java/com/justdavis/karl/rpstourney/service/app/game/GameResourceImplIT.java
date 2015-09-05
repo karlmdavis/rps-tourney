@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.ws.rs.core.Response.Status;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -36,6 +37,7 @@ import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
@@ -232,6 +234,55 @@ public final class GameResourceImplIT {
 		Assert.assertEquals(3, game.getRounds().size());
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(game.getPlayer1(), game.getWinner());
+	}
+
+	/**
+	 * Ensures that {@link GameResourceImpl#inviteOpponent(String, long)}
+	 * correctly handles security: only player 1 should be able to invite
+	 * opponents into their game.
+	 * 
+	 * @throws AddressException
+	 *             (won't be thrown; address is correct and static)
+	 */
+	@Test
+	public void inviteOpponentSecurity() throws AddressException {
+		ClientConfig clientConfig = new ClientConfig(
+				server.getServerBaseAddress());
+
+		// Login the human player.
+		CookieStore cookiesForPlayer1 = new CookieStore();
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
+				clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.loginAsGuest();
+
+		// Create the game and request an AI opponent.
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
+				cookiesForPlayer1);
+		GameView game = gameClientForPlayer1.createGame();
+
+		// Login a "villian".
+		CookieStore cookiesForVillian = new CookieStore();
+		GuestAuthClient authClientForVillain = new GuestAuthClient(
+				clientConfig, cookiesForVillian);
+		authClientForVillain.loginAsGuest();
+		GameClient gameClientForVillian = new GameClient(clientConfig,
+				cookiesForVillian);
+
+		// Have the villian try to invite an AI opponent.
+		PlayersClient playersClientForVillian = new PlayersClient(clientConfig,
+				cookiesForVillian);
+		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
+		Player aiPlayer = playersClientForVillian
+				.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_ROCK);
+		HttpClientException inviteError = null;
+		try {
+			gameClientForVillian.inviteOpponent(game.getId(), aiPlayer.getId());
+		} catch (HttpClientException e) {
+			inviteError = e;
+		}
+
+		Assert.assertEquals(Status.FORBIDDEN.getStatusCode(), inviteError
+				.getStatus().getStatusCode());
 	}
 
 	/**

@@ -38,6 +38,10 @@
 		<js>/bootstrap-3.2.0/js/tab.js</js>
 		<js>/bootstrap-3.2.0/js/affix.js</js>
 		<js>/bootstrap-3.2.0/js/transition.js</js>
+		
+		<!-- The FontAwesome LESS include, which is just a bunch of '@include's, itself. -->
+		<css>/font-awesome-4.4.0/less/font-awesome.less</css>
+		<css>/WEB-INF/resources/css/fa-customizations.less</css>
 	</group>
 	<group name="game.min">
 		<js>/WEB-INF/resources/js/game.js</js>

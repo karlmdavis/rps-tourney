@@ -187,20 +187,27 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 				return null;
 
 			// If the Player is not part of the Game, just print out nothing.
-			if (!game.isPlayer(player.getHumanAccount()))
+			if (!game.isPlayer(player))
 				return null;
 
 			// Select the base display name.
-			String displayName = player.getName() != null ? player.getName()
-					: messageSource.getMessage("playerName.anon", null,
-							locale);
+			String displayName;
+			if (player.getName() != null)
+				displayName = player.getName();
+			else if (player.getBuiltInAi() != null)
+				displayName = messageSource.getMessage("players.ai.name."
+						+ player.getBuiltInAi().getDisplayNameKey(), null,
+						locale);
+			else
+				displayName = messageSource.getMessage("playerName.anon", null,
+						locale);
 
 			// Append a " (You)" indicator, if appropriate.
 			if (player.getHumanAccount() != null
 					&& player.getHumanAccount().equals(authenticatedAccount))
 				displayName = displayName
-						+ messageSource.getMessage(
-								"playerName.current.suffix", null, locale);
+						+ messageSource.getMessage("playerName.current.suffix",
+								null, locale);
 
 			if (textOnly)
 				return displayName;

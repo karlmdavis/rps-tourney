@@ -15,6 +15,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentication;
 
 /**
@@ -94,6 +95,41 @@ public class GameOpponentTagTest {
 	}
 
 	/**
+	 * Tests usage of {@link GameOpponentTag} when the opponent is a
+	 * {@link BuiltInAi}.
+	 * 
+	 * @throws IOException
+	 *             (indicates a problem with the test setup)
+	 * @throws JspException
+	 *             (indicates a problem with the test setup)
+	 */
+	@Test
+	public void withBuiltInAiOpponent() throws JspException, IOException {
+		// Create the mock objects to use.
+		SecurityContextImpl securityContext = new SecurityContextImpl();
+		MockJspWriter jspWriter = new MockJspWriter();
+		MockPageContext pageContext = new MockPageContext(jspWriter);
+
+		// Create the tag to test.
+		GameOpponentTag gameOpponentTag = new GameOpponentTag();
+		gameOpponentTag.setMockSecurityContext(securityContext);
+		gameOpponentTag.setPageContext(pageContext);
+		gameOpponentTag.setMessageSource(createMessageSource());
+
+		// Test the tag.
+		Account player1Account = new Account();
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(
+				player1Account));
+		Game game = new Game(new Player(player1Account));
+		game.setPlayer2(new Player(BuiltInAi.ONE_SIDED_DIE_PAPER));
+		GameView gameView = new GameView(game, game.getPlayer1());
+		gameOpponentTag.setGame(gameView);
+		gameOpponentTag.doEndTag();
+		Assert.assertEquals("<span class=\"PLAYER_2\">Always Paper</span>",
+				jspWriter.output.toString());
+	}
+
+	/**
 	 * @return a mock {@link MessageSource}
 	 */
 	private MessageSource createMessageSource() {
@@ -104,6 +140,8 @@ public class GameOpponentTagTest {
 				"(Waiting for Opponent...)");
 		messageSource.addMessage("playerName.anon", Locale.getDefault(),
 				"Anonymous");
+		messageSource.addMessage("players.ai.name.oneSidedDiePaper",
+				Locale.getDefault(), "Always Paper");
 		return messageSource;
 	}
 }

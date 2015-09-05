@@ -1,5 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.game.ai;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
@@ -15,6 +17,7 @@ import com.justdavis.karl.rpstourney.service.api.game.Throw;
  * new entry for the modified AI, and flag the old entry as retired.
  * </p>
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum BuiltInAi {
 	/**
 	 * Represents a {@link ScriptedLoopBrain} {@link IPositronicBrain}
@@ -81,6 +84,7 @@ public enum BuiltInAi {
 	 *         implementation that is associated with/represented by this
 	 *         particular {@link BuiltInAi}
 	 */
+	@JsonIgnore
 	public IPositronicBrain getPositronicBrain() {
 		return positronicBrain;
 	}

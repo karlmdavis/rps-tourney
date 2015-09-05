@@ -19,7 +19,9 @@ import com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
+import com.justdavis.karl.rpstourney.service.api.game.IPlayersResource;
 import com.justdavis.karl.rpstourney.service.api.game.MockGameClient;
+import com.justdavis.karl.rpstourney.service.api.game.MockPlayersClient;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentication;
@@ -50,11 +52,12 @@ public final class GameControllerTest {
 			}
 		};
 		IAccountsResource accountsClient = new MockAccountsClient();
+		IPlayersResource playersClient = new MockPlayersClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController GameController = new GameController(gameClient,
-				accountsClient, guestLoginManager);
+				accountsClient, playersClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
 				.build();
 
@@ -80,11 +83,12 @@ public final class GameControllerTest {
 		Game game = new Game(new Player(new Account()));
 		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockAccountsClient();
+		IPlayersResource playersClient = new MockPlayersClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController GameController = new GameController(gameClient,
-				accountsClient, guestLoginManager);
+				accountsClient, playersClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
 				.build();
 
@@ -112,13 +116,14 @@ public final class GameControllerTest {
 		Account player1 = new Account();
 		Game game = new Game(new Player(player1));
 		IGameResource gameClient = new MockGameClient(game);
+		IPlayersResource playersClient = new MockPlayersClient();
 		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
 				player1);
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController gameController = new GameController(gameClient,
-				accountsClient, guestLoginManager);
+				accountsClient, playersClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 
@@ -159,11 +164,12 @@ public final class GameControllerTest {
 		IGameResource gameClient = new MockGameClient(game);
 		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
 				player1);
+		IPlayersResource playersClient = new MockPlayersClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
 		GameController gameController = new GameController(gameClient,
-				accountsClient, guestLoginManager);
+				accountsClient, playersClient, guestLoginManager);
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
 				.build();
 

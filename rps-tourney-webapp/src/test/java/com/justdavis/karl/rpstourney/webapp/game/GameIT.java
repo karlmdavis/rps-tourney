@@ -125,6 +125,63 @@ public final class GameIT {
 	}
 
 	/**
+	 * Exercises the web application to ensure that game can be played against
+	 * an AI opponent.
+	 */
+	@Test
+	public void playGameVsAi() {
+		WebDriver player1Driver = null;
+		try {
+			// Create the Selenium driver that will be used for Player 1.
+			player1Driver = new HtmlUnitDriver(true);
+
+			// Create the game.
+			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
+
+			// Set max rounds to 1.
+			player1Driver.findElement(By.id("max-rounds-down")).click();
+
+			// Request an AI opponent.
+			player1Driver.findElement(By.id("opponent-type-ai")).click();
+			player1Driver
+					.findElement(
+							By.cssSelector("form#opponent-selection button[type='submit']"))
+					.click();
+
+			// Verify that the Player 2 is now correct.
+			Assert.assertEquals(
+					"Dumb Robot",
+					player1Driver.findElement(
+							By.cssSelector("div#player-second .player-name"))
+							.getText());
+
+			// Verify that, once Player 1 makes a move, Player 2 does, too.
+			player1Driver.findElement(By.className("throw-rock")).click();
+			Assert.assertEquals(
+					"Rock",
+					player1Driver.findElement(
+							By.xpath("//tr[@id='round-data-0']/td[2]"))
+							.getText());
+			String aiThrowText = player1Driver.findElement(
+					By.xpath("//tr[@id='round-data-0']/td[3]")).getText();
+			Assert.assertTrue(aiThrowText.equals("Rock")
+					|| aiThrowText.equals("Paper")
+					|| aiThrowText.equals("Scissors"));
+
+			/*
+			 * Because the AI for Player 2 will just make random moves, we don't
+			 * really want to try and play to the end of the game-- no point.
+			 * The web service ITs verify that AI games will play all the way to
+			 * the end. We just want to ensure they at least start correctly in
+			 * the web interface.
+			 */
+		} finally {
+			if (player1Driver != null)
+				player1Driver.quit();
+		}
+	}
+
+	/**
 	 * Uses {@link GameController} and {@link GameClient} to ensure that players
 	 * can change their names.
 	 */

@@ -329,6 +329,31 @@ class AbstractGame {
 	/**
 	 * A utility method for working with game {@link Player}s.
 	 * 
+	 * @param player
+	 *            the {@link Player} to check
+	 * @return <code>true</code> if the specified {@link Player} represents
+	 *         {@link #getPlayer1()} or {@link #getPlayer2()},
+	 *         <code>false</code> otherwise
+	 */
+	public boolean isPlayer(Player player) {
+		if (player == null)
+			return false;
+
+		// Are they Player 1?
+		if (getPlayer1() != null && getPlayer1().equals(player))
+			return true;
+
+		// Are they Player 2?
+		if (getPlayer2() != null && getPlayer2().equals(player))
+			return true;
+
+		// They're not one of the players.
+		return false;
+	}
+
+	/**
+	 * A utility method for working with game {@link Player}s.
+	 * 
 	 * @param account
 	 *            the {@link Account} to check
 	 * @return <code>true</code> if the specified {@link Account} represents

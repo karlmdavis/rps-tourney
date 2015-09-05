@@ -74,16 +74,9 @@
 			<c:when test="${isPlayer && (game.state == 'WAITING_FOR_PLAYER')}">
 			<div id="game-controls">
 				<h2><spring:message code="game.controls" /></h2>
-				<div id="join-message" class="alert alert-info" role="alert">
-					<p><spring:message code="game.join.message.player1" /></p>
-					<p>
-						<strong><spring:message code="game.join.message.player1.url" /></strong>
-						<a href="${gameUrl}">${gameUrl}</a>
-					</p>
-				</div>
 				<div id="max-round-controls">
 					<div id="max-rounds-label-row" class="row">
-						<div class="col"><span id="max-rounds-label"><spring:message code="game.maxRounds.label" /></span></div>
+						<div class="col"><label><spring:message code="game.maxRounds.label" /></label></div>
 					</div>
 					<div id="max-rounds-controls-outer" class="row">
 						<div class="col">
@@ -95,6 +88,52 @@
 						</div>
 					</div>
 				</div>
+				<form:form method="POST" action="${gameUrl}/inviteOpponent" id="opponent-selection">
+					<div class="col">
+						<label><spring:message code="game.inviteOpponent.label" /></label>
+						<div class="radio">
+							<label>
+								<input type="radio" name="opponentType" id="opponent-type-friend" value="friend" checked />
+								<span class="control-indicator">&#xf10c;</span>
+								<spring:message code="game.inviteOpponent.friend" />
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="opponentType" id="opponent-type-ai" value="ai" />
+								<span class="control-indicator">&#xf10c;</span>
+								<spring:message code="game.inviteOpponent.ai" />
+							</label>
+						</div>
+						<div id="opponent-type-friend-panel">
+							<div id="join-message" class="alert alert-info" role="alert">
+								<p><spring:message code="game.join.message.player1" /></p>
+								<p>
+									<strong><spring:message code="game.join.message.player1.url" /></strong>
+									<a href="${gameUrl}">${gameUrl}</a>
+								</p>
+							</div>
+						</div>
+						<div id="opponent-type-ai-panel">
+							<div id="ai-id-group">
+								<label for="ai-id"><spring:message code="game.inviteOpponent.ai.difficulty" /></label>
+								<select name="playerId" id="ai-id">
+									<c:forEach items="${aiPlayers}" var="aiPlayer">
+									<c:choose>
+									<c:when test="${not empty aiPlayer.name}">
+									<option value="${aiPlayer.id}">${aiPlayer.name}</option>
+									</c:when>
+									<c:when test="${not empty aiPlayer.builtInAi}">
+									<option value="${aiPlayer.id}"><spring:message code="players.ai.name.${aiPlayer.builtInAi.displayNameKey}" /></option>
+									</c:when>
+									</c:choose>
+									</c:forEach>
+								</select> 
+							</div>
+							<button type="submit"><spring:message code="game.inviteOpponent.submit" /></button>
+						</div>
+					</div>
+				</form:form>
 			</div>
 			</c:when>
 			<c:when test="${!isPlayer && (game.state == 'WAITING_FOR_PLAYER')}">
@@ -113,7 +152,7 @@
 				<h2><spring:message code="game.controls" /></h2>
 				<div id="max-round-controls">
 					<div id="max-rounds-label-row" class="row">
-						<div class="col"><span id="max-rounds-label"><spring:message code="game.maxRounds.label" /></span></div>
+						<div class="col"><label><spring:message code="game.maxRounds.label" /></label></div>
 					</div>
 					<div id="max-rounds-controls-outer" class="row">
 						<div class="col">
