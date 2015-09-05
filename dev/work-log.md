@@ -4061,3 +4061,9 @@ This file should never be committed along with other files; it should always be 
     * Only problem is the AI player's name resets to "Anonymous Player" when the JS updates it.
 * 0.9h (20:43-21:37): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Trying to get `BuiltInAi` to serialize its properties via Jackson. Not having much luck.
+
+### 2015-08-05, Saturday
+
+* 0.75h (09:07-09:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Fixed the `BuiltInAi` serializtion problem.
+    * Committed the webapp enhancements.
