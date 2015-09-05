@@ -4067,3 +4067,6 @@ This file should never be committed along with other files; it should always be 
 * 0.75h (09:07-09:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Fixed the `BuiltInAi` serializtion problem.
     * Committed the webapp enhancements.
+* 2.15h (12:21-13:12,13:20-14:37): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Added two new AI strategies.
+    * Need to add the display strings for them, and a test to make sure I've always done that.
