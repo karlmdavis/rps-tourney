@@ -329,6 +329,9 @@ function processNewGameState(gameData) {
 			player1Element.addClass("lost");
 			player2Element.addClass("won");
 		}
+		
+		// Hide the throw controls.
+		$(".player-throws").toggleClass("hidden", true);
 
 		// Create the result row, if it hasn't been already.
 		if ($("#result-row").length === 0) {

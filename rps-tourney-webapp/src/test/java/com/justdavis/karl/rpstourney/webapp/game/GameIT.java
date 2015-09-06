@@ -471,6 +471,8 @@ public final class GameIT {
 			wait.until(ExpectedConditions.textToBePresentInElementLocated(
 					By.xpath("//tr[@id='result-row']/td[4]"),
 					"Anonymous Player Won!"));
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By
+					.cssSelector(".player-throws")));
 		} catch (TimeoutException e) {
 			/*
 			 * If one of these are thrown, the page has the wrong state. We need
