@@ -4070,3 +4070,7 @@ This file should never be committed along with other files; it should always be 
 * 2.15h (12:21-13:12,13:20-14:37): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Added two new AI strategies.
     * Need to add the display strings for them, and a test to make sure I've always done that.
+* 0.9h (21:31-22:24): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Reworked my "hard" AI to match the strategy it was supposed to.
+    * Added display strings for the new AIs and a test verifying that.
+    * Ran a build, which failed. Need to investigate.
