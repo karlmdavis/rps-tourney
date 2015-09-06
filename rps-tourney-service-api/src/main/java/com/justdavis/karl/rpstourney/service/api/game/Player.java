@@ -208,4 +208,20 @@ public class Player {
 			return this == obj;
 		}
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Player [id=");
+		builder.append(id);
+		builder.append(", humanAccount=");
+		builder.append(humanAccount);
+		builder.append(", builtInAi=");
+		builder.append(builtInAi);
+		builder.append("]");
+		return builder.toString();
+	}
 }
