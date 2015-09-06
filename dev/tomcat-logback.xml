@@ -34,6 +34,9 @@
 	<!-- Set to the 'all' level when debugging issues with Spring MVC. -->
 	<logger name="org.springframework.web" level="info" />
 
+	<!-- Set to the 'all' level when debugging issues with Liquibase or the DB schema. -->
+	<logger name="liquibase" level="info" />
+
 	<!-- Log at the INFO level and above by default, to the 'STDOUT' appender. -->
 	<root level="info">
 		<appender-ref ref="STDOUT" />
