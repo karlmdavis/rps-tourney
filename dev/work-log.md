@@ -4074,3 +4074,10 @@ This file should never be committed along with other files; it should always be 
     * Reworked my "hard" AI to match the strategy it was supposed to.
     * Added display strings for the new AIs and a test verifying that.
     * Ran a build, which failed. Need to investigate.
+
+### 2015-08-06, Sunday
+
+* 2.25h (06:29-06:59,07:49-07:53,08:06-09:47): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Got the build passing again.
+        * Took a while to figure out.
+        * When passing in a List via a JAX-RS client, you have to add the values one at a time. Stupid, but oh well.
