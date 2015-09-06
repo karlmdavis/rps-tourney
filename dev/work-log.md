@@ -4081,3 +4081,17 @@ This file should never be committed along with other files; it should always be 
     * Got the build passing again.
         * Took a while to figure out.
         * When passing in a List via a JAX-RS client, you have to add the values one at a time. Stupid, but oh well.
+* 0.7h (11:07-11:49): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
+    * Cleaned up and committed everything. Closed the issue. 
+* 0.35h (11:50-12:10): Release planning.
+    * What else might I need to do before release?
+        * Clean up my logs.
+        * Ensure that access logs are being collected.
+* 0.3h (15:12-15:30): [Issue #97: Error in browser console before games are started: "uncaught exception: Missing player"](https://github.com/karlmdavis/rps-tourney/issues/97)
+    * Resolved and pushed.
+* 0.1h (15:57-16:03): [Issue #96: The DB should have a UNIQUE constraint that ensures a 1:1 relationship between Player and Account](https://github.com/karlmdavis/rps-tourney/issues/96)
+    * Investigated and closed as invalid, with a comment explaining why.
+* 0.35h (16:04-16:14,16:55-17:07): [Issue #94: Throw controls should be hidden/disabled after a game has ended](https://github.com/karlmdavis/rps-tourney/issues/94)
+    * Resolved and committed.
+* 0.2h (17:08-17:19): [Issue #92: Errors on Tomcat startup in production: java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity](https://github.com/karlmdavis/rps-tourney/issues/92)
+    * Resolved and committed.
