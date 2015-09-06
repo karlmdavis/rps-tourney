@@ -32,6 +32,7 @@ import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.IPlayersResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
+import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 
@@ -496,7 +497,7 @@ public class GameController {
 
 		// Collect and add the AI players.
 		modelAndView.addObject("aiPlayers",
-				playersClient.getPlayersForBuiltInAis());
+				playersClient.getPlayersForBuiltInAis(BuiltInAi.active()));
 
 		return modelAndView;
 	}

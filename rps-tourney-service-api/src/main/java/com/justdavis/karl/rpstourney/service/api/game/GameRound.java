@@ -280,6 +280,25 @@ public class GameRound {
 	}
 
 	/**
+	 * @param role
+	 *            the {@link PlayerRole} to get the {@link Throw} (if any) for
+	 * @return the result of either {@link #getThrowForPlayer1()} or
+	 *         {@link #getThrowForPlayer2()}, as specified
+	 */
+	public Throw getThrowForPlayer(PlayerRole role) {
+		if (role == null)
+			throw new IllegalArgumentException();
+
+		if (role == PlayerRole.PLAYER_1)
+			return getThrowForPlayer1();
+		else if (role == PlayerRole.PLAYER_2)
+			return getThrowForPlayer2();
+
+		// Must have missed a case.
+		throw new BadCodeMonkeyException();
+	}
+
+	/**
 	 * @return the {@link Result} of this {@link GameRound}, or
 	 *         <code>null</code> if the {@link GameRound} has not yet completed.
 	 */
@@ -330,11 +349,31 @@ public class GameRound {
 	 * Enumerates the possible results for a completed {@link GameRound}.
 	 */
 	public static enum Result {
-		PLAYER_1_WON,
+		PLAYER_1_WON(PlayerRole.PLAYER_1),
 
-		PLAYER_2_WON,
+		PLAYER_2_WON(PlayerRole.PLAYER_2),
 
-		TIED;
+		TIED(null);
+
+		private final PlayerRole playerRole;
+
+		/**
+		 * Enum constant constructor.
+		 * 
+		 * @param playerRole
+		 *            the value to use for {@link #getWinningPlayerRole()}
+		 */
+		private Result(PlayerRole playerRole) {
+			this.playerRole = playerRole;
+		}
+
+		/**
+		 * @return the winning {@link PlayerRole} represented by this
+		 *         {@link Result}, or <code>null</code> for {@link Result#TIED}
+		 */
+		public PlayerRole getWinningPlayerRole() {
+			return playerRole;
+		}
 	}
 
 	/**

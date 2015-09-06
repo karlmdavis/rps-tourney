@@ -1,10 +1,9 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.ws.rs.NotFoundException;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -44,34 +43,16 @@ public class PlayersResourceImpl implements IPlayersResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis()
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis(java.util.List)
 	 */
 	@Override
-	public Set<Player> getPlayersForBuiltInAis() {
-		// First, figure out which AIs we're looking for.
-		Set<BuiltInAi> activeAis = new HashSet<>();
-		for (BuiltInAi ai : BuiltInAi.values()) {
-			if (!ai.isRetired())
-				activeAis.add(ai);
-		}
-
-		Set<Player> aiPlayers = playersDao.findPlayerForBuiltInAi(activeAis
-				.toArray(new BuiltInAi[activeAis.size()]));
-		if (aiPlayers.size() != activeAis.size())
-			throw new IllegalStateException();
+	public Set<Player> getPlayersForBuiltInAis(List<BuiltInAi> ais) {
+		Set<Player> aiPlayers = playersDao.findPlayerForBuiltInAi(ais
+				.toArray(new BuiltInAi[ais.size()]));
+		if (aiPlayers.size() != ais.size())
+			throw new IllegalStateException(String.format(
+					"Active AIs are %s, but retrieved AIs are %s.", ais,
+					aiPlayers));
 		return aiPlayers;
-	}
-
-	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayerForBuiltInAi(com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi)
-	 */
-	@Override
-	public Player getPlayerForBuiltInAi(BuiltInAi ai) {
-		Set<Player> aiPlayers = playersDao.findPlayerForBuiltInAi(ai);
-		if (aiPlayers.size() > 1)
-			throw new IllegalStateException();
-		else if (aiPlayers.isEmpty())
-			throw new NotFoundException();
-		return aiPlayers.iterator().next();
 	}
 }

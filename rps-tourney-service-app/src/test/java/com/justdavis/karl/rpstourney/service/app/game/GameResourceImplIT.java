@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -218,7 +219,9 @@ public final class GameResourceImplIT {
 				cookiesForPlayer1);
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
 		Player aiPlayer = playersClientForPlayer1
-				.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_ROCK);
+				.getPlayersForBuiltInAis(
+						Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK)).iterator()
+				.next();
 		GameView game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.inviteOpponent(game.getId(), aiPlayer.getId());
 
@@ -273,7 +276,9 @@ public final class GameResourceImplIT {
 				cookiesForVillian);
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
 		Player aiPlayer = playersClientForVillian
-				.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_ROCK);
+				.getPlayersForBuiltInAis(
+						Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK)).iterator()
+				.next();
 		HttpClientException inviteError = null;
 		try {
 			gameClientForVillian.inviteOpponent(game.getId(), aiPlayer.getId());

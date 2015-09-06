@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -22,31 +23,17 @@ public interface IPlayersResource {
 	public static final String SERVICE_PATH = "/players";
 
 	/**
-	 * The {@link Path} for {@link #getPlayersForBuiltInAis()}.
+	 * The {@link Path} for {@link #getPlayersForBuiltInAis(java.util.List)}.
 	 */
 	public static final String SERVICE_PATH_BUILT_IN_AIS = "/builtInAis";
 
 	/**
-	 * The {@link Path} for {@link #getPlayerForBuiltInAi(BuiltInAi)}.
-	 */
-	public static final String SERVICE_PATH_BUILT_IN_AI = "/builtInAi";
-
-	/**
-	 * @return the {@link Player} records for the active {@link BuiltInAi}s
-	 *         (where {@link BuiltInAi#isRetired()} are <code>false</code>)
+	 * @param ais
+	 *            the {@link BuiltInAi}s to find the {@link Player} records for
+	 * @return the {@link Player} records for the specified {@link BuiltInAi}s
 	 */
 	@GET
 	@Path(SERVICE_PATH_BUILT_IN_AIS)
 	@Produces(MediaType.TEXT_XML)
-	Set<Player> getPlayersForBuiltInAis();
-
-	/**
-	 * @param ai
-	 *            the {@link BuiltInAi} constant to get the {@link Player} for
-	 * @return the {@link Player} record for the specified {@link BuiltInAi}
-	 */
-	@GET
-	@Path(SERVICE_PATH_BUILT_IN_AI)
-	@Produces(MediaType.TEXT_XML)
-	Player getPlayerForBuiltInAi(@QueryParam("ai") BuiltInAi ai);
+	Set<Player> getPlayersForBuiltInAis(@QueryParam("ais") List<BuiltInAi> ais);
 }

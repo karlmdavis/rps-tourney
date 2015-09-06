@@ -1,11 +1,13 @@
 package com.justdavis.karl.rpstourney.service.client.game;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -41,15 +43,17 @@ public final class PlayersClient implements IPlayersResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis()
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis(java.util.List)
 	 */
 	@Override
-	public Set<Player> getPlayersForBuiltInAis() {
+	public Set<Player> getPlayersForBuiltInAis(List<BuiltInAi> ais) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
+		WebTarget webTarget = client.target(config.getServiceRoot())
 				.path(IPlayersResource.SERVICE_PATH)
-				.path(IPlayersResource.SERVICE_PATH_BUILT_IN_AIS)
-				.request(MediaType.TEXT_XML_TYPE);
+				.path(IPlayersResource.SERVICE_PATH_BUILT_IN_AIS);
+		for (BuiltInAi ai : ais)
+			webTarget = webTarget.queryParam("ais", ai);
+		Builder requestBuilder = webTarget.request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
@@ -63,28 +67,5 @@ public final class PlayersClient implements IPlayersResource {
 		cookieStore.remember(response.getCookies());
 
 		return players;
-	}
-
-	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayerForBuiltInAi(com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi)
-	 */
-	@Override
-	public Player getPlayerForBuiltInAi(BuiltInAi ai) {
-		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IPlayersResource.SERVICE_PATH)
-				.path(IPlayersResource.SERVICE_PATH_BUILT_IN_AI)
-				.queryParam("ai", ai).request(MediaType.TEXT_XML_TYPE);
-		cookieStore.applyCookies(requestBuilder);
-
-		Response response = requestBuilder.get();
-		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
-			throw new HttpClientException(response.getStatusInfo());
-
-		Player player = response.readEntity(Player.class);
-
-		cookieStore.remember(response.getCookies());
-
-		return player;
 	}
 }

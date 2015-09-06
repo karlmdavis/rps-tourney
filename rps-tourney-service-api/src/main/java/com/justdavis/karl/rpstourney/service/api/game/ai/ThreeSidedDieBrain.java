@@ -18,6 +18,18 @@ public final class ThreeSidedDieBrain implements IPositronicBrain {
 	 */
 	@Override
 	public Throw calculateNextThrow(GameView game, PlayerRole role) {
+		return calculateRandomThrow();
+	}
+
+	/**
+	 * This has been extracted into a static method for the convenience of other
+	 * {@link IPositronicBrain} implementations, as many of them will sometimes
+	 * need to select a random {@link Throw}.
+	 * 
+	 * @return a random {@link Throw}, where all possibilities are weighted
+	 *         equally
+	 */
+	static Throw calculateRandomThrow() {
 		ThreadLocalRandom rng = ThreadLocalRandom.current();
 		int dieRoll = rng.nextInt(3);
 

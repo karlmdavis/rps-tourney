@@ -1,10 +1,8 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import javax.ws.rs.NotFoundException;
 
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
@@ -26,25 +24,18 @@ public class MockPlayersClient implements IPlayersResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis()
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis(java.util.List)
 	 */
 	@Override
-	public Set<Player> getPlayersForBuiltInAis() {
-		return new HashSet<>(Arrays.asList(players));
-	}
-
-	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayerForBuiltInAi(com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi)
-	 */
-	@Override
-	public Player getPlayerForBuiltInAi(BuiltInAi ai) {
-		if (ai == null)
+	public Set<Player> getPlayersForBuiltInAis(List<BuiltInAi> ais) {
+		if (ais == null)
 			throw new IllegalArgumentException();
 
+		Set<Player> results = new HashSet<>();
 		for (Player player : players)
-			if (ai.equals(player.getBuiltInAi()))
-				return player;
+			if (ais.contains(player.getBuiltInAi()))
+				results.add(player);
 
-		throw new NotFoundException();
+		return results;
 	}
 }

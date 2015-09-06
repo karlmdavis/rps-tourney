@@ -1,9 +1,9 @@
 package com.justdavis.karl.rpstourney.service.app.game;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -24,7 +24,6 @@ import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
-import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
 
@@ -63,7 +62,8 @@ public final class PlayersResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link PlayersResourceImpl#getPlayersForBuiltInAis()} works
+	 * Ensures that
+	 * {@link PlayersResourceImpl#getPlayersForBuiltInAis(java.util.List)} works
 	 * correctly.
 	 */
 	@Test
@@ -74,42 +74,15 @@ public final class PlayersResourceImplIT {
 
 		// Create some AI Players.
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.THREE_SIDED_DIE_V1);
+		aiPlayerInitializer
+				.initializeAiPlayers(BuiltInAi.WIN_STAY_LOSE_SHIFT_V1);
 
 		// Try to get the list of Players.
 		PlayersClient playersClient = new PlayersClient(clientConfig,
 				cookiesForPlayer1);
-		Set<Player> aiPlayers = playersClient.getPlayersForBuiltInAis();
-		Assert.assertEquals(1, aiPlayers.size());
-	}
-
-	/**
-	 * Ensures that {@link PlayersResourceImpl#getPlayerForBuiltInAi(BuiltInAi)}
-	 * works correctly.
-	 */
-	@Test
-	public void getPlayerForBuiltInAi() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
-		CookieStore cookiesForPlayer1 = new CookieStore();
-		PlayersClient playersClient = new PlayersClient(clientConfig,
-				cookiesForPlayer1);
-
-		// Create some AI Players.
-		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_PAPER);
-
-		// Try to retrieve a Player that's not there.
-		HttpClientException playerNotFoundError = null;
-		try {
-			playersClient.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_ROCK);
-		} catch (HttpClientException e) {
-			playerNotFoundError = e;
-		}
-		Assert.assertNotNull(playerNotFoundError);
-		Assert.assertEquals(Status.NOT_FOUND.getStatusCode(),
-				playerNotFoundError.getStatus().getStatusCode());
-
-		// Try to retrieve a Player that is there.
-		Assert.assertNotNull(playersClient
-				.getPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_PAPER));
+		Set<Player> aiPlayers = playersClient.getPlayersForBuiltInAis(Arrays
+				.asList(BuiltInAi.THREE_SIDED_DIE_V1,
+						BuiltInAi.WIN_STAY_LOSE_SHIFT_V1));
+		Assert.assertEquals(2, aiPlayers.size());
 	}
 }

@@ -1,5 +1,8 @@
 package com.justdavis.karl.rpstourney.service.api.game.ai;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
@@ -39,7 +42,21 @@ public enum BuiltInAi {
 	 * Represents the {@link ThreeSidedDieBrain} {@link IPositronicBrain}
 	 * implementation.
 	 */
-	THREE_SIDED_DIE_V1("threeSidedDie", false, new ThreeSidedDieBrain());
+	THREE_SIDED_DIE_V1("threeSidedDie", false, new ThreeSidedDieBrain()),
+
+	/**
+	 * Represents the {@link WinStayLoseShiftBrain} {@link IPositronicBrain}
+	 * implementation.
+	 */
+	WIN_STAY_LOSE_SHIFT_V1("winStayLoseShift", false,
+			new WinStayLoseShiftBrain()),
+
+	/**
+	 * Represents the {@link MetaWinStayLoseShiftBrain} {@link IPositronicBrain}
+	 * implementation.
+	 */
+	META_WIN_STAY_LOSE_SHIFT_V1("metaWinStayLoseShift", false,
+			new MetaWinStayLoseShiftBrain());
 
 	private final String displayNameKey;
 	private final boolean retired;
@@ -87,5 +104,17 @@ public enum BuiltInAi {
 	@JsonIgnore
 	public IPositronicBrain getPositronicBrain() {
 		return positronicBrain;
+	}
+
+	/**
+	 * @return a {@link List} of all the {@link BuiltInAi}s where
+	 *         {@link BuiltInAi#isRetired()} is <code>false</code>
+	 */
+	public static List<BuiltInAi> active() {
+		List<BuiltInAi> activeAis = new ArrayList<>();
+		for (BuiltInAi ai : BuiltInAi.values())
+			if (!ai.isRetired())
+				activeAis.add(ai);
+		return activeAis;
 	}
 }

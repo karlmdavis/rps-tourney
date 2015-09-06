@@ -15,6 +15,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -143,6 +144,9 @@ public final class GameIT {
 
 			// Request an AI opponent.
 			player1Driver.findElement(By.id("opponent-type-ai")).click();
+			Select aiIdSelect = new Select(player1Driver.findElement(By
+					.cssSelector("form#opponent-selection select#ai-id")));
+			aiIdSelect.selectByVisibleText("Dumb Robot");
 			player1Driver
 					.findElement(
 							By.cssSelector("form#opponent-selection button[type='submit']"))
