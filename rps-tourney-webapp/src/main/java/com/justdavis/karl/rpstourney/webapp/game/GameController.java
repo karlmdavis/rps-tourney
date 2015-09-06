@@ -1,7 +1,12 @@
 package com.justdavis.karl.rpstourney.webapp.game;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -496,8 +501,26 @@ public class GameController {
 				&& !isUserThisPlayer(authenticatedUser, game.getWinner()));
 
 		// Collect and add the AI players.
-		modelAndView.addObject("aiPlayers",
-				playersClient.getPlayersForBuiltInAis(BuiltInAi.active()));
+		Set<Player> aiPlayersSet = playersClient
+				.getPlayersForBuiltInAis(BuiltInAi.active());
+		List<Player> aiPlayersList = new ArrayList<>(aiPlayersSet);
+		Collections.sort(aiPlayersList, new Comparator<Player>() {
+			/**
+			 * @see java.util.Comparator#compare(java.lang.Object,
+			 *      java.lang.Object)
+			 */
+			@Override
+			public int compare(Player o1, Player o2) {
+				/*
+				 * This is hacky, but it gives the AIs a stable order that
+				 * happens to be from least-->most difficult.
+				 */
+				Integer ai1Ordinal = o1.getBuiltInAi().ordinal();
+				Integer ai2Ordinal = o2.getBuiltInAi().ordinal();
+				return ai1Ordinal.compareTo(ai2Ordinal);
+			}
+		});
+		modelAndView.addObject("aiPlayers", aiPlayersList);
 
 		return modelAndView;
 	}
