@@ -146,7 +146,7 @@ public final class GameIT {
 			player1Driver.findElement(By.id("opponent-type-ai")).click();
 			Select aiIdSelect = new Select(player1Driver.findElement(By
 					.cssSelector("form#opponent-selection select#ai-id")));
-			aiIdSelect.selectByVisibleText("Dumb Robot");
+			aiIdSelect.selectByVisibleText("Easy");
 			player1Driver
 					.findElement(
 							By.cssSelector("form#opponent-selection button[type='submit']"))
@@ -154,7 +154,7 @@ public final class GameIT {
 
 			// Verify that the Player 2 is now correct.
 			Assert.assertEquals(
-					"Dumb Robot",
+					"Easy",
 					player1Driver.findElement(
 							By.cssSelector("div#player-second .player-name"))
 							.getText());
