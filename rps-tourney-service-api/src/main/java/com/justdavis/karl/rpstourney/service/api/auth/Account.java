@@ -54,7 +54,7 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * </p>
  * <p>
  * This class is marked as {@link Serializable}, as Spring Security will store
- * authenticated {@link Principal}s in user sessions.
+ * instances of it as the authenticated {@link Principal}s in user sessions.
  * </p>
  */
 @XmlRootElement

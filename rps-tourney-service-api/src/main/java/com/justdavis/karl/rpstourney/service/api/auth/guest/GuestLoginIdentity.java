@@ -34,6 +34,8 @@ import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 @XmlRootElement
 public class GuestLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
+	private static final long serialVersionUID = 1153446108796952793L;
+
 	/**
 	 * Constructs a new {@link GuestLoginIdentity} instance.
 	 * 

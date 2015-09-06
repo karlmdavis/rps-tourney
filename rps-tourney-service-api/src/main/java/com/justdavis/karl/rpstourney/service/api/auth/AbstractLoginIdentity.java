@@ -1,5 +1,8 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.io.Serializable;
+import java.security.Principal;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +41,11 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * those queries for for supertypes if the types all share a common base
  * class/table.
  * </p>
+ * <p>
+ * This class is marked as {@link Serializable}, as Spring Security will store
+ * instances of it as part of the authenticated {@link Principal}s in user
+ * sessions (via {@link Account#getLogins()}).
+ * </p>
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -45,7 +53,10 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @XmlType
 @XmlSeeAlso({ GuestLoginIdentity.class, GameLoginIdentity.class })
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AbstractLoginIdentity implements ILoginIdentity {
+public abstract class AbstractLoginIdentity implements ILoginIdentity,
+		Serializable {
+	private static final long serialVersionUID = 4133421893609326130L;
+
 	/*
 	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
 	 * https://hibernate.atlassian.net/browse/HHH-9430.

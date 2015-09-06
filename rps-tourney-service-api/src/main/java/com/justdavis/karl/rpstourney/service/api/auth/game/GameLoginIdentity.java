@@ -37,6 +37,8 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
 @XmlRootElement
 public class GameLoginIdentity extends AbstractLoginIdentity implements
 		ILoginIdentity {
+	private static final long serialVersionUID = 5592372522747907472L;
+
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
 	@Column(name = "`emailAddress`", unique = true, nullable = false)
 	@XmlElement
