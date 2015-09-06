@@ -162,7 +162,7 @@ function isUserThisPlayer(gameData, player) {
 		throw "Missing game data.";
 	}
 	if (player === null) {
-		throw "Missing player.";
+		return false;
 	}
 
 	// Check to see if the game data has an associated user.
