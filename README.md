@@ -32,23 +32,24 @@ The following documents document the architecture and development of the game:
 
 ## Releases
 
-* `1.0.0`: This release just provides a simple console application that allows for play against a computer opponent.
-    * Release Date: 2013-11-03
-    * Issues: [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0)
-    * Binaries: [com.justdavis.karl.rpstourney:*:1.0.0](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~1.0.0~~)
-* `2.0.0-milestone.1`: This pre-release adds a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com). The console version of the game is (as of yet) unchanged, and does not support multiplayer.
-    * Release Date: 2014-12-31
-    * Issues: [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1)
-    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.1](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.1~~)
-* `2.0.0-milestone.2`: This pre-release adds named logins/accounts to the game and also fixes a client bug.
-    * Release Date: 2015-04-26
-    * Issues: [2.0.0-milestone.2](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.2)
-    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.2](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.2~~)
-* `2.0.0-milestone.3`: This pre-release contains a number of important bugfixes.
-    * Release Date: 2015-06-04
-    * Issues: [2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.3)
-    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.3](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.3~~)
 * `2.0.0-milestone.4`: This pre-release includes a major UI and UX overhaul, but also contains an important security fix and other minor changes.
     * Release Date: 2015-07-05
     * Issues: [2.0.0-milestone.4](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.4)
     * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.4](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.4~~)
+* `2.0.0-milestone.3`: This pre-release contains a number of important bugfixes.
+    * Release Date: 2015-06-04
+    * Issues: [2.0.0-milestone.3](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.3)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.3](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.3~~)
+* `2.0.0-milestone.2`: This pre-release adds named logins/accounts to the game and also fixes a client bug.
+    * Release Date: 2015-04-26
+    * Issues: [2.0.0-milestone.2](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.2)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.2](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.2~~)
+* `2.0.0-milestone.1`: This pre-release adds a multiplayer web version of the game, available at [rpstourney.com](https://rpstourney.com). The console version of the game is (as of yet) unchanged, and does not support multiplayer.
+    * Release Date: 2014-12-31
+    * Issues: [2.0.0-milestone.1](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.1)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.1](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.1~~)
+* `1.0.0`: This release just provides a simple console application that allows for play against a computer opponent.
+    * Release Date: 2013-11-03
+    * Issues: [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0)
+    * Binaries: [com.justdavis.karl.rpstourney:*:1.0.0](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~1.0.0~~)
+    
