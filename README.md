@@ -8,14 +8,14 @@ RPS Tourney
 
 ![Screenshot of Finished Game](rps-tourney-webapp/dev/screenshots/2015-07-06-2.0.0-milestone.4-game-with-erica-zoom-67-percent.png)
 
-This is an open source multiplayer Rock-Paper-Scissors game, available to play at [rpstourney.com](https://rpstourney.com). Why on earth would someone build such a thing? Why on earth not?!
+This is an open source multiplayer Rock-Paper-Scissors game, available to play at [rpstourney.com](https://rpstourney.com). Why on earth would someone build such a thing? [Why on earth not?!](https://justdavis.com/karl/blog/2015/07/27/what_on_earth_was_i_thinking.html)
 
-Right now, the project is mostly just the web application linked above, along with the web service that supports it. However, there's also a console version of the game that will eventually be updated to support multiplayer via the web service as well. There will probably also be an Android version of the game. That's all a good ways down the road, though. At the moment, work is focused on polishing the web application and on adding AI-player support.
+Right now, the project is mostly just the web application linked above, along with the web service that supports it. However, there's also a console version of the game that will eventually be updated to support multiplayer via the web service as well. There will probably also be an Android version of the game. That's all a good ways down the road, though. At the moment, work is focused on polishing the web application.
 
 
 ## Inspiration
 
-Credit for the idea goes to [RPSContest.com](http://www.rpscontest.com/), which I first came across in the following Reddit post: [My three-line rock, paper, scissors bot has done surprisingly well...](http://www.reddit.com/r/programming/comments/1nj3z6/my_threeline_rock_paper_scissors_bot_has_done/). Once I do get to adding in support for AI and AI tournaments, I'm thinking that a fun differentiator/selling point will be the JVM's multi-language support.
+Credit for the idea goes to [RPSContest.com](http://www.rpscontest.com/), which I first came across in the following Reddit post: [My three-line rock, paper, scissors bot has done surprisingly well...](http://www.reddit.com/r/programming/comments/1nj3z6/my_threeline_rock_paper_scissors_bot_has_done/). Once I do get to adding in support for AI tournaments, I'm thinking that a fun differentiator/selling point will be the JVM's multi-language support.
 
 This is obviously not the world's most serious of projects. Given my employer's rather stringent non-compete policy, it's actually a selling point (for me) that it's so pointless. This project is mostly an entertaining excuse to explore various technologies that I've wanted to play with.
 
