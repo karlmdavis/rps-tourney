@@ -4037,24 +4037,24 @@ This file should never be committed along with other files; it should always be 
     * Took my first stab at writing `GameIT.playGameVsAi()`.
     * Most of the test cases in there now seem broken, actually. Need to fix that.
 
-### 2015-08-01, Tuesday
+### 2015-09-01, Tuesday
 
 * 0.15h (23:51-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * I ran a command line build and discovered that only the new test case is failing.
     * Kicked off a Clean in Eclipse, since there's something goofy up with my previous run.
 
-### 2015-08-02, Wednesday
+### 2015-09-02, Wednesday
 
 * 0.25h (23:43-23:59): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Interestingly, way more things were still failing in Eclipse.
         * Two problems: had a different IP address in the app configs and needed another clean.
 
-### 2015-08-03, Thursday
+### 2015-09-03, Thursday
 
 * 0.4h (21:02-21:04,21:21-21:43): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got the ITs passing.
 
-### 2015-08-04, Friday
+### 2015-09-04, Friday
 
 * 0.6h (07:27-08:02): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * I think I'm almost done.
@@ -4062,7 +4062,7 @@ This file should never be committed along with other files; it should always be 
 * 0.9h (20:43-21:37): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Trying to get `BuiltInAi` to serialize its properties via Jackson. Not having much luck.
 
-### 2015-08-05, Saturday
+### 2015-09-05, Saturday
 
 * 0.75h (09:07-09:52): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Fixed the `BuiltInAi` serializtion problem.
@@ -4075,7 +4075,7 @@ This file should never be committed along with other files; it should always be 
     * Added display strings for the new AIs and a test verifying that.
     * Ran a build, which failed. Need to investigate.
 
-### 2015-08-06, Sunday
+### 2015-09-06, Sunday
 
 * 2.25h (06:29-06:59,07:49-07:53,08:06-09:47): [Issue #64: Allow webapp users to play against AI opponents](https://github.com/karlmdavis/rps-tourney/issues/64)
     * Got the build passing again.
@@ -4095,3 +4095,6 @@ This file should never be committed along with other files; it should always be 
     * Resolved and committed.
 * 0.2h (17:08-17:19): [Issue #92: Errors on Tomcat startup in production: java.io.NotSerializableException: com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity](https://github.com/karlmdavis/rps-tourney/issues/92)
     * Resolved and committed.
+* 1.0h (22:05-23:05): [Issue #98: Push the 2.0.0-milestone.5 release](https://github.com/karlmdavis/rps-tourney/issues/98)
+    * Got the release performed and deployed. Yay!
+    * Closed the issue.
