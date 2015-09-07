@@ -32,6 +32,10 @@ The following documents document the architecture and development of the game:
 
 ## Releases
 
+* `2.0.0-milestone.5`: This pre-release adds support for play against a set of AI opponents, along with other minor fixes and enhancements.
+    * Release Date: 2015-09-06
+    * Issues: [2.0.0-milestone.5](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.5)
+    * Binaries: [com.justdavis.karl.rpstourney:*:2.0.0-milestone.5](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~2.0.0-milestone.5~~)
 * `2.0.0-milestone.4`: This pre-release includes a major UI and UX overhaul, but also contains an important security fix and other minor changes.
     * Release Date: 2015-07-05
     * Issues: [2.0.0-milestone.4](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A2.0.0-milestone.4)
