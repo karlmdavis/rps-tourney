@@ -4098,3 +4098,8 @@ This file should never be committed along with other files; it should always be 
 * 1.0h (22:05-23:05): [Issue #98: Push the 2.0.0-milestone.5 release](https://github.com/karlmdavis/rps-tourney/issues/98)
     * Got the release performed and deployed. Yay!
     * Closed the issue.
+
+### 2015-09-07, Monday
+
+* 0.35h (08:54-09:16): [Issue #99: SNI not working from Erica's computer](https://github.com/karlmdavis/rps-tourney/issues/99)
+    * Resolved and closed the issue.
