@@ -4103,3 +4103,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.35h (08:54-09:16): [Issue #99: SNI not working from Erica's computer](https://github.com/karlmdavis/rps-tourney/issues/99)
     * Resolved and closed the issue.
+
+### 2015-09-08, Tuesday
+
+* 0.2h (22:00-22:12): [Issue #83: Trying to view a "not found" game results in a 500 error, instead of a 404](https://github.com/karlmdavis/rps-tourney/issues/83)
+    * Wrote `GameExceptionHandler`. Need to add a test case. Maybe.
