@@ -4108,3 +4108,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.2h (22:00-22:12): [Issue #83: Trying to view a "not found" game results in a 500 error, instead of a 404](https://github.com/karlmdavis/rps-tourney/issues/83)
     * Wrote `GameExceptionHandler`. Need to add a test case. Maybe.
+
+### 2015-09-09, Wednesday
+
+* 0.25h (21:29-21:43): [Issue #83: Trying to view a "not found" game results in a 500 error, instead of a 404](https://github.com/karlmdavis/rps-tourney/issues/83)
+    * Added a test case.
+    * Committed and closed the issue.
