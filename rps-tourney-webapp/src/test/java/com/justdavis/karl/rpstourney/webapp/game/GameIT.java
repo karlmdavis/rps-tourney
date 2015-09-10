@@ -7,6 +7,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -61,6 +63,27 @@ public final class GameIT {
 		} finally {
 			if (driver != null)
 				driver.quit();
+		}
+	}
+
+	/**
+	 * Tests {@link GameController} and {@link GameExceptionHandler} to ensure
+	 * that {@link GameNotFoundException}s are converted to 404s.
+	 * 
+	 * @throws IOException
+	 *             (indicates a test failure)
+	 */
+	@Test
+	public void gameNotFound404() throws IOException {
+		URL badGameUrl = new URL(ITUtils.buildWebAppUrl("game/foo"));
+		HttpURLConnection gameConnection = null;
+		try {
+			gameConnection = (HttpURLConnection) badGameUrl.openConnection();
+			Assert.assertEquals(Status.NOT_FOUND.getStatusCode(),
+					gameConnection.getResponseCode());
+		} finally {
+			if (gameConnection != null)
+				gameConnection.disconnect();
 		}
 	}
 

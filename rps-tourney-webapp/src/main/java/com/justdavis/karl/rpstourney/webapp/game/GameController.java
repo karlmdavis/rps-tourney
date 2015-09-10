@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.http.MediaType;
@@ -431,13 +432,8 @@ public class GameController {
 		GameView game = null;
 		try {
 			game = gameClient.getGame(gameId);
-		} catch (HttpClientException e) {
-			if (e.getStatus().getStatusCode() == Status.NOT_FOUND
-					.getStatusCode())
-				throw new GameNotFoundException(e);
-
-			// TODO choose a better exception wrapper for other stuff
-			throw new RuntimeException(e);
+		} catch (NotFoundException e) {
+			throw new GameNotFoundException(e);
 		}
 
 		return game;
