@@ -4121,3 +4121,9 @@ This file should never be committed along with other files; it should always be 
     * Decided to start working this one next.
     * Filed a couple of additional issues.
     * Fixed a compiler warning in the old console code, just to kick things off.
+
+### 2015-09-11, Friday
+
+* 0.15h (20:32-20:42): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Started fleshing out the console options to allow for network play.
+    * Is the production web service remotely accessible?
