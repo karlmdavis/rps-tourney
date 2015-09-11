@@ -4114,3 +4114,10 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (21:29-21:43): [Issue #83: Trying to view a "not found" game results in a 500 error, instead of a 404](https://github.com/karlmdavis/rps-tourney/issues/83)
     * Added a test case.
     * Committed and closed the issue.
+
+### 2015-09-10, Thursday
+
+* 0.1h (20:08-20:15): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Decided to start working this one next.
+    * Filed a couple of additional issues.
+    * Fixed a compiler warning in the old console code, just to kick things off.
