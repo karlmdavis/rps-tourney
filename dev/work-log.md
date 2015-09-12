@@ -4127,3 +4127,8 @@ This file should never be committed along with other files; it should always be 
 * 0.15h (20:32-20:42): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Started fleshing out the console options to allow for network play.
     * Is the production web service remotely accessible?
+
+### 2015-09-12, Saturday
+
+* 0.2h (06:37-06:50): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Continued working on the options, and also added the web service dependencies.
