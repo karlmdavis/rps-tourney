@@ -4157,3 +4157,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.6h (19:55-20:30): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Got the options parsing completed. Started reworking `ConsoleApp`.
+
+### 2015-09-18, Friday
+
+* 0.15h (23:36-34:46): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Continued working on `ConsoleApp`. Kind of a mess, but coming along.
