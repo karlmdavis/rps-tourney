@@ -4175,5 +4175,11 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-09-21, Monday
 
-*  0.45h (21:14-21:42): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+* 0.45h (21:14-21:42): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Continued refactoring the mess to clean it up.
+
+### 2015-09-22, Tuesday
+
+* 0.1h (21:21-21:26): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Finished the refactoring for now, at least.
+    * Just barely started reworking `ConsoleGameDriver`.
