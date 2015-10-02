@@ -4226,3 +4226,8 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (20:43-20:56): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Wrapped up AI support.
     * Added some compile errors, but I think I'm about done reworking `ConsoleGameDriver`.
+
+### 2015-10-01, Thursday
+
+* 0.1h (23:01-23:07): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Fixed some of the compiler errors, but still more left.
