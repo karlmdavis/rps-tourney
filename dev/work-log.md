@@ -4237,3 +4237,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (21:19-21:31): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Fixed the compiler errors.
     * Need to fix and update the tests, next.
+
+### 2015-10-03, Saturday
+
+* 0.2h (12:30-12:41): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on the tests some.
+    * Will need separate `LocalGameClient` instances for each player.
