@@ -4243,3 +4243,10 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (12:30-12:41): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on the tests some.
     * Will need separate `LocalGameClient` instances for each player.
+
+### 2015-10-04, Sunday
+
+* 0.15h (23:13-23:23): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Found a pretty bad `FIXME` in `AiGameplayHelper`. Would become a major problem when player-created AIs are allowed.
+    * Worked on getting the tests passing. Not done.
+    * Think I was wrong about needing separate `LocalGameClient` instances.
