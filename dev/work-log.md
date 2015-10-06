@@ -4250,3 +4250,11 @@ This file should never be committed along with other files; it should always be 
     * Found a pretty bad `FIXME` in `AiGameplayHelper`. Would become a major problem when player-created AIs are allowed.
     * Worked on getting the tests passing. Not done.
     * Think I was wrong about needing separate `LocalGameClient` instances.
+
+### 2015-10-05, Monday
+
+* 0.15h (21:50-21:59): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * All of the current tests pass, which is a pleasant surprise.
+    * Started adding tests to cover network gameplay.
+        * Added Cargo to the POM. May need to also add a dependency on the WAR to get the build order right.
+        * Need to create an IT that uses the web service.
