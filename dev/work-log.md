@@ -4258,3 +4258,8 @@ This file should never be committed along with other files; it should always be 
     * Started adding tests to cover network gameplay.
         * Added Cargo to the POM. May need to also add a dependency on the WAR to get the build order right.
         * Need to create an IT that uses the web service.
+
+### 2015-10-06, Tuesday
+
+* 0.4h (22:38-23:02): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Spent a while looking for an `InputStream` I could use in my IT. Failed, and so started creating a new one.
