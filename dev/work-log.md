@@ -4263,3 +4263,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.4h (22:38-23:02): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Spent a while looking for an `InputStream` I could use in my IT. Failed, and so started creating a new one.
+
+### 2015-10-07, Wednesday
+
+* 0.3h (22:33-22:51): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Finished writing the `MockInputStream`. Who knows? It might even work.
