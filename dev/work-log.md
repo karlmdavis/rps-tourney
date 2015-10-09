@@ -4268,3 +4268,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h (22:33-22:51): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Finished writing the `MockInputStream`. Who knows? It might even work.
+
+### 2015-10-08, Thursday
+
+* 0.15h (21:24-21:33): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
