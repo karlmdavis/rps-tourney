@@ -4273,3 +4273,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h (21:24-21:33): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on `ConsoleAppIT` some more.
+
+### 2015-10-09, Friday
+
+* 0.15h (23:07-23:16): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
+        * It's now doing enough to actually fail.
+    * I should also add a test that plays against a web service client player, which I could control.
