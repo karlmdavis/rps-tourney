@@ -4280,3 +4280,9 @@ This file should never be committed along with other files; it should always be 
     * Worked on `ConsoleAppIT` some more.
         * It's now doing enough to actually fail.
     * I should also add a test that plays against a web service client player, which I could control.
+
+### 2015-10-10, Saturday
+
+* 0.15h (23:51-23:59): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
+        * I was wrong: my `MockInputStream1 has to block when waiting for more input, not just return `-1`. Need to fix that/
