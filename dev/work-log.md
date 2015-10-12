@@ -4285,4 +4285,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h (23:51-23:59): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on `ConsoleAppIT` some more.
-        * I was wrong: my `MockInputStream1 has to block when waiting for more input, not just return `-1`. Need to fix that/
+        * I was wrong: my `MockInputStream` has to block when waiting for more input, not just return `-1`. Need to fix that.
+
+### 2015-10-11, Sunday
+
+* 0.2h (23:46-23:59): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
+        * Not sure my current approach will work. How will I respond to output if there's only one thread?
