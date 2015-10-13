@@ -4292,3 +4292,8 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (23:46-23:59): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on `ConsoleAppIT` some more.
         * Not sure my current approach will work. How will I respond to output if there's only one thread?
+
+### 2015-10-12, Monday
+
+* 0.6h (22:02-22:20,22:45-23:02): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
