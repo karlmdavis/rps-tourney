@@ -4307,3 +4307,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.05h (21:12-21:14): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on `ConsoleAppIT` some more.
+
+### 2015-10-15, Thursday
+
+* 0.35h (21:34-21:54): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
+        * Too sick to make much progress. Do I need a tee stream? I don't know. I'll figure it out tomorrow.
