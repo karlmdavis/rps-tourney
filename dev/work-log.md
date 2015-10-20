@@ -4321,3 +4321,10 @@ This file should never be committed along with other files; it should always be 
     * Worked on `ConsoleAppIT` some more.
         * I think I got the test case done. Need to review it.
         * Are other IT test cases needed right now?
+
+### 2015-10-20, Tuesday
+
+* 0.2h (08:17-08:28): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Finised `ConsoleAppIT`.
+        * Don't think additional test cases are needed, but should check with Sonar.
+    * Need to do some manual build verification.
