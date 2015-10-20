@@ -4313,3 +4313,11 @@ This file should never be committed along with other files; it should always be 
 * 0.35h (21:34-21:54): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Worked on `ConsoleAppIT` some more.
         * Too sick to make much progress. Do I need a tee stream? I don't know. I'll figure it out tomorrow.
+
+### 2015-10-19, Monday
+
+* _Was "out sick" the last three days with the flu._
+* 0.4h (22:10-22:35): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Worked on `ConsoleAppIT` some more.
+        * I think I got the test case done. Need to review it.
+        * Are other IT test cases needed right now?
