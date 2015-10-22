@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>4.0.0</version>
+		<version>4.1.1</version>
 	</parent>
 
 	<groupId>com.justdavis.karl.rpstourney</groupId>
