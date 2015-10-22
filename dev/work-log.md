@@ -4325,6 +4325,14 @@ This file should never be committed along with other files; it should always be 
 ### 2015-10-20, Tuesday
 
 * 0.2h (08:17-08:28): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
-    * Finised `ConsoleAppIT`.
+    * Finished `ConsoleAppIT`.
         * Don't think additional test cases are needed, but should check with Sonar.
     * Need to do some manual build verification.
+
+### 2015-10-21, Wednesday
+
+* 0.5h (19:59-20:28): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Ran a full command line build, got some errors.
+        * Spent a while hammering out issues with the POM.
+            * Had to upgrade JaCoCo to tolerate Java 8.
+            * Had to add some test dependencies.
