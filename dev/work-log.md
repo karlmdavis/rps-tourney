@@ -4336,3 +4336,12 @@ This file should never be committed along with other files; it should always be 
         * Spent a while hammering out issues with the POM.
             * Had to upgrade JaCoCo to tolerate Java 8.
             * Had to add some test dependencies.
+
+### 2015-10-22, Thursday
+
+* 0.15h (19:58-20:07,20:39-20:40): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Got the command line build passing.
+        * Had to provide the service config file in `src/test/resources`.
+    * Found a new error: console script fails if passed no arguments.
+* 0.5h (20:08-20:38): [Issue #102: The console application can only be run from within the bundle directory](https://github.com/karlmdavis/rps-tourney/issues/102)
+    * Resolved and committed.
