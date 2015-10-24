@@ -4345,3 +4345,10 @@ This file should never be committed along with other files; it should always be 
     * Found a new error: console script fails if passed no arguments.
 * 0.5h (20:08-20:38): [Issue #102: The console application can only be run from within the bundle directory](https://github.com/karlmdavis/rps-tourney/issues/102)
     * Resolved and committed.
+
+### 2015-10-23, Friday
+
+* 0.35h (22:31-22:53): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Fixed a bunch of problems with local games.
+        * I'd been thinking `Game.id` would be `null` for them, but it's not.
+    * Need to add an IT for local games, given all of those problems.
