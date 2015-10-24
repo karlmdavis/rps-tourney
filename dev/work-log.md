@@ -4352,3 +4352,9 @@ This file should never be committed along with other files; it should always be 
     * Fixed a bunch of problems with local games.
         * I'd been thinking `Game.id` would be `null` for them, but it's not.
     * Need to add an IT for local games, given all of those problems.
+
+### 2015-10-24, Saturday
+
+* 0.3h (09:53-10:11): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Refactored the IT a bit and added a test case for local play.
+    * Got test logging working correctly-- just had to add the `logback-test.xml` file.
