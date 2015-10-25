@@ -4358,3 +4358,11 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (09:53-10:11): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Refactored the IT a bit and added a test case for local play.
     * Got test logging working correctly-- just had to add the `logback-test.xml` file.
+
+### 2015-10-25 Sunday
+
+* 0.05h (10:06-10:10): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Committed and pushed. Then closed the issue.
+        * I only reviewed them briefly, but the changes actually looked pretty clean for once.
+* 0.15h (14:17-14:27): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+    * Looks like Sonar needs to be updated.
