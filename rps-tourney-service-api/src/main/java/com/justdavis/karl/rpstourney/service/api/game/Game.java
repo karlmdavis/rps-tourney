@@ -65,7 +65,7 @@ public class Game extends AbstractGame {
 	/**
 	 * The regular expression that all {@link #getId()} values must match.
 	 */
-	private static final Pattern ID_PATTERN = Pattern.compile("[a-zA-Z]{1,10}");
+	public static final Pattern ID_PATTERN = Pattern.compile("[a-zA-Z]{1,10}");
 
 	private static final SecureRandom RANDOM = new SecureRandom();
 

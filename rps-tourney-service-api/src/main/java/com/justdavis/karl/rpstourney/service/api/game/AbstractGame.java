@@ -198,6 +198,21 @@ class AbstractGame {
 	}
 
 	/**
+	 * @return the latest/current {@link GameRound}
+	 * @throws IllegalStateException
+	 *             An {@link IllegalStateException} will be thrown if this is
+	 *             called while {@link #getState()} is
+	 *             {@link State#WAITING_FOR_PLAYER}.
+	 */
+	public GameRound getCurrentRound() {
+		if (getState() == State.WAITING_FOR_PLAYER)
+			throw new IllegalStateException();
+
+		int currentRoundIndex = getRounds().size() - 1;
+		return getRounds().get(currentRoundIndex);
+	}
+
+	/**
 	 * @return the latest {@link GameRound#getThrowForPlayer1Timestamp()} /
 	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the
 	 *         {@link GameRound}s in this {@link Game}, or

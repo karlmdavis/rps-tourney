@@ -2,41 +2,55 @@ package com.justdavis.karl.rpstourney.app.console;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.api.GameRound;
 import com.justdavis.karl.rpstourney.api.GameSession;
-import com.justdavis.karl.rpstourney.api.PlayerRole;
-import com.justdavis.karl.rpstourney.api.Throw;
-import com.justdavis.karl.rpstourney.api.ai.IAiPlayer;
+import com.justdavis.karl.rpstourney.app.console.i18n.IResourceBundleLoader;
+import com.justdavis.karl.rpstourney.app.console.localservice.GameBundle;
+import com.justdavis.karl.rpstourney.service.api.game.GameRound;
+import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
+import com.justdavis.karl.rpstourney.service.api.game.GameView;
+import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.PlayerRole;
+import com.justdavis.karl.rpstourney.service.api.game.State;
+import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
  * Allows a "Rock-Paper-Scissors Tourney" game to be played via a text console
  * (or something else connected to an input & output stream).
  */
 final class ConsoleGameDriver {
+	private final IResourceBundleLoader resourceBundleLoader;
+
+	/**
+	 * Constructs a new {@link ConsoleGameDriver} instance.
+	 * 
+	 * @param resourceBundleLoader
+	 *            the {@link IResourceBundleLoader} to use
+	 */
+	public ConsoleGameDriver(IResourceBundleLoader resourceBundleLoader) {
+		this.resourceBundleLoader = resourceBundleLoader;
+	}
+
 	/**
 	 * Allows the user at the specified input/output streams to play the
 	 * specified {@link GameSession}.
 	 * 
-	 * @param game
-	 *            the {@link GameSession} to play through
-	 * @param computerPlayer
-	 *            the {@link IAiPlayer} to use as the computer opponent
+	 * @param gameBundle
+	 *            the {@link GameBundle} containing the game and the services
+	 *            needed to play through it
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param in
 	 *            the {@link InputStream} to read the player's input from
 	 */
-	void playGameSession(GameSession game, IAiPlayer computerPlayer,
-			PrintStream out, InputStream in) {
+	void playGameSession(GameBundle gameBundle, PrintStream out, InputStream in) {
 		// Sanity check: null game.
-		if (game == null)
-			throw new IllegalArgumentException();
-		// Sanity check: new game.
-		if (game.getCurrentRoundIndex() != 0)
+		if (gameBundle == null)
 			throw new IllegalArgumentException();
 		// Sanity check: null out stream.
 		if (out == null)
@@ -45,128 +59,229 @@ final class ConsoleGameDriver {
 		if (in == null)
 			throw new IllegalArgumentException();
 
+		GameView game = getGame(gameBundle);
+
 		// Print out the intro text.
 		out.println("Rock-Paper-Scissors Tourney");
 		out.println("===========================");
 		out.println(String.format(
-				"\nYou are playing the computer. Best out of %d wins!",
+				"\nYou are playing against %s. Best out of %d wins!",
+				computeOpponentName(resourceBundleLoader, gameBundle),
 				game.getMaxRounds()));
 
 		// Play rounds until the game is won.
-		Scanner scanner = new Scanner(in);
-		while (game.checkForWinner() == null) {
-			// Print out the round intro text.
-			out.println(String.format("\nRound %d!",
-					game.getCurrentRoundIndex() + 1));
-			out.println(String.format(" Score: %s",
-					determineScoreText(game.getCompletedRounds())));
+		try (Scanner scanner = new Scanner(in);) {
+			while ((game = getGame(gameBundle)).getWinner() == null) {
+				int currentRoundIndex = game.getRounds().size() - 1;
+				GameRound currentRound = game.getRounds()
+						.get(currentRoundIndex);
 
-			// Wait for the human player to select a valid move.
-			Throw humanMove = null;
-			while (humanMove == null) {
-				// Print out the instructions.
-				out.print(String.format(" Select your throw [%s,%s,%s]: ",
-						ThrowToken.ROCK.getToken(),
-						ThrowToken.PAPER.getToken(),
-						ThrowToken.SCISSORS.getToken()));
+				// Print out the round intro text.
+				out.println(String.format("\nRound %d!",
+						currentRound.getAdjustedRoundIndex() + 1));
+				out.println(String.format(" Score: %s",
+						determineScoreText(game)));
 
-				// Grab the next character entered by the player.
-				String tokenEnteredByHuman = scanner.next();
+				// Wait for the human player to select a valid move.
+				Throw humanMove = null;
+				while (humanMove == null) {
+					// Print out the instructions.
+					out.print(String.format(" Select your throw [%s,%s,%s]: ",
+							ThrowToken.ROCK.getToken(),
+							ThrowToken.PAPER.getToken(),
+							ThrowToken.SCISSORS.getToken()));
 
-				// Try to match that character against a throw.
-				ThrowToken selectedThrowToken = ThrowToken
-						.match(tokenEnteredByHuman);
-				if (selectedThrowToken != null)
-					humanMove = selectedThrowToken.getMove();
-				else
-					out.println(" Invalid throw.");
+					// Grab the next character entered by the player.
+					String tokenEnteredByHuman = scanner.next();
 
-				// Loop until a valid move is selected.
+					// Try to match that character against a throw.
+					ThrowToken selectedThrowToken = ThrowToken
+							.match(tokenEnteredByHuman);
+					if (selectedThrowToken != null)
+						humanMove = selectedThrowToken.getMove();
+					else
+						out.println(" Invalid throw.");
+
+					// Loop until a valid move is selected.
+				}
+
+				// Submit the human player's Throw.
+				gameBundle.getGameClient().submitThrow(gameBundle.getGameId(),
+						currentRoundIndex, humanMove);
+
+				// Wait for the opponent to make their Throw.
+				while (currentRound.getResult() == null) {
+					// Wait a bit, then refresh the game state to check again.
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					game = getGame(gameBundle);
+					currentRound = game.getRounds().get(currentRoundIndex);
+				}
+
+				// Print out the round results.
+				PlayerRole[] playerRoles = game.getPlayerRoles(game
+						.getViewPlayer());
+				Throw yourThrow, opponentThrow;
+				if (playerRoles.length == 2) {
+					yourThrow = currentRound.getThrowForPlayer1();
+					opponentThrow = currentRound.getThrowForPlayer2();
+				} else if (playerRoles.length == 1
+						&& playerRoles[0].equals(PlayerRole.PLAYER_1)) {
+					yourThrow = currentRound.getThrowForPlayer1();
+					opponentThrow = currentRound.getThrowForPlayer2();
+				} else if (playerRoles.length == 1
+						&& playerRoles[0].equals(PlayerRole.PLAYER_2)) {
+					yourThrow = currentRound.getThrowForPlayer2();
+					opponentThrow = currentRound.getThrowForPlayer1();
+				} else {
+					throw new BadCodeMonkeyException();
+				}
+				out.println(String.format(" You threw %s, computer threw %s.",
+						ThrowToken.match(yourThrow).getFullDisplayText(),
+						ThrowToken.match(opponentThrow).getFullDisplayText()));
+				String winOrLossText = determineWonOrLostText(game,
+						currentRound);
+				out.println(String.format(" %s", winOrLossText));
 			}
-
-			// Submit the human player's Throw.
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-					humanMove);
-
-			// Select a Throw for the computer opponent and submit that.
-			Throw computerMove = computerPlayer.selectThrow(
-					game.getMaxRounds(), game.getCompletedRounds());
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-					computerMove);
-
-			// Print out the round results.
-			List<GameRound> completedRounds = game.getCompletedRounds();
-			GameRound thisRound = completedRounds
-					.get(completedRounds.size() - 1);
-			PlayerRole roundWinner = thisRound.determineWinner();
-			String winOrLossText = determineWinOrLossText(roundWinner);
-			out.println(String.format(" You threw %s, computer threw %s.",
-					ThrowToken.match(thisRound.getThrowForPlayer1())
-							.getFullDisplayText(),
-					ThrowToken.match(thisRound.getThrowForPlayer2())
-							.getFullDisplayText()));
-			out.println(String.format(" %s", winOrLossText));
 		}
 
 		// Print out the game's winner.
-		PlayerRole winner = game.checkForWinner();
 		out.println();
-		out.println(String.format("Final Score: %s", determineScoreText(game.getCompletedRounds())));
-		out.println(determineWinOrLossText(winner));
+		out.println(String.format("Final Score: %s", determineScoreText(game)));
+		out.println(determineWonOrLostText(game));
 	}
 
 	/**
-	 * Determines the "win/loss" text to display, based on the fact that
-	 * {@link PlayerRole#PLAYER_1} is always the human player and
-	 * {@link PlayerRole#PLAYER_2} is always the computer player.
-	 * 
-	 * @param winningPlayerRole
-	 *            the {@link PlayerRole} that won the round or game, or
-	 *            <code>null</code> if no {@link PlayerRole} won (as in a tie)
-	 * @return the text "<code>You won!</code>" if {@link PlayerRole#PLAYER_1}
-	 *         won, or "<code>You lost.</code>" if {@link PlayerRole#PLAYER_2}
-	 *         won, or "Tied." if no {@link PlayerRole} won
+	 * @param gameBundle
+	 *            the {@link GameBundle} for the active game
+	 * @return an updated {@link GameView} for the game being played
 	 */
-	private static String determineWinOrLossText(PlayerRole winningPlayerRole) {
-		if (winningPlayerRole == PlayerRole.PLAYER_1)
+	private static GameView getGame(GameBundle gameBundle) {
+		return gameBundle.getGameClient().getGame(gameBundle.getGameId());
+	}
+
+	/**
+	 * @param resourceBundleLoader
+	 *            the {@link IResourceBundleLoader} to use
+	 * @param gameBundle
+	 *            the {@link GameBundle} for the active game
+	 * @return the display name to use for the user's opponent in the active
+	 *         game
+	 */
+	private static String computeOpponentName(
+			IResourceBundleLoader resourceBundleLoader, GameBundle gameBundle) {
+		GameView game = getGame(gameBundle);
+		Player currentPlayer = game.getViewPlayer();
+
+		Player opponentPlayer;
+		if (game.getPlayer2() != null && game.getPlayer2().isHuman()
+				&& game.getPlayer2().equals(currentPlayer))
+			opponentPlayer = game.getPlayer1();
+		else
+			opponentPlayer = game.getPlayer2();
+
+		if (opponentPlayer == null) {
+			return "(waiting for opponent)";
+		} else if (opponentPlayer.getName() != null) {
+			return opponentPlayer.getName();
+		} else {
+			String aiNameKey = "players.ai.name."
+					+ opponentPlayer.getBuiltInAi().getDisplayNameKey();
+			return resourceBundleLoader.getBundle().getString(aiNameKey);
+		}
+	}
+
+	/**
+	 * Determines the "won/lost" text to display for a completed game.
+	 * 
+	 * @param game
+	 *            the {@link GameView} to calculate the result for
+	 * @return the text "<code>You won!</code>" or "<code>You lost.</code>", as
+	 *         appropriate
+	 */
+	private static String determineWonOrLostText(GameView game) {
+		if (game == null)
+			throw new IllegalArgumentException();
+		if (game.getState() != State.FINISHED)
+			throw new IllegalStateException();
+
+		int scoreForUser, scoreForOpponent;
+		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game
+				.getViewPlayer()));
+		if (userRoles.contains(PlayerRole.PLAYER_1)) {
+			scoreForUser = game.getScoreForPlayer1();
+			scoreForOpponent = game.getScoreForPlayer2();
+		} else {
+			scoreForUser = game.getScoreForPlayer2();
+			scoreForOpponent = game.getScoreForPlayer1();
+		}
+
+		if (scoreForUser > scoreForOpponent)
 			return "You won!";
-		else if (winningPlayerRole == PlayerRole.PLAYER_2)
+		else if (scoreForUser < scoreForOpponent)
 			return "You lost.";
-		else if (winningPlayerRole == null)
-			return "Tied.";
 		else
 			throw new BadCodeMonkeyException();
 	}
 
 	/**
-	 * Determines the score text to display.
+	 * Determines the "won/lost" text to display for a completed game round.
 	 * 
-	 * @param completedRounds
-	 *            the {@link List} of completed {@link GameRound}s
-	 * @return the score so far in the form of "
-	 *         <code>You: X, Computer: Y, Ties: Z</code>", where
-	 *         {@link PlayerRole#PLAYER_1} is the human player and
-	 *         {@link PlayerRole#PLAYER_2} is the computer opponent
+	 * @param game
+	 *            the {@link GameView} to calculate the result for
+	 * @param round
+	 *            the {@link GameRound} to calculate the result for
+	 * @return the text "<code>You won!</code>", or "<code>You lost.</code>
+	 *         ", or "<code>Tied.</code>", as appropriate
 	 */
-	private static String determineScoreText(List<GameRound> completedRounds) {
-		if (completedRounds == null)
+	private static String determineWonOrLostText(GameView game, GameRound round) {
+		if (game == null)
+			throw new IllegalArgumentException();
+		if (round == null)
 			throw new IllegalArgumentException();
 
-		int player = 0, computer = 0, ties = 0;
-		for (GameRound completedRound : completedRounds) {
-			PlayerRole roundWinner = completedRound.determineWinner();
-			if (roundWinner == PlayerRole.PLAYER_1)
-				player++;
-			else if (roundWinner == PlayerRole.PLAYER_2)
-				computer++;
-			else if (roundWinner == null)
-				ties++;
-			else
-				throw new BadCodeMonkeyException();
+		Result roundResult = round.getResult();
+		Collection<PlayerRole> userRoles = Arrays.asList(game
+				.getPlayerRoles(game.getViewPlayer()));
+		if (roundResult == null)
+			throw new BadCodeMonkeyException();
+		else if (roundResult == Result.TIED)
+			return "Tied.";
+		else if (userRoles.contains(roundResult.getWinningPlayerRole()))
+			return "You won!";
+		else
+			return "You Lost";
+	}
+
+	/**
+	 * Determines the score text to display.
+	 * 
+	 * @param game
+	 *            the {@link GameView} to calculate the score from
+	 * @return the score so far in the form of "<code>You: X, Opponent: Y</code>
+	 *         "
+	 */
+	private static String determineScoreText(GameView game) {
+		if (game == null)
+			throw new IllegalArgumentException();
+
+		int scoreForUser, scoreForOpponent;
+		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game
+				.getViewPlayer()));
+		if (userRoles.contains(PlayerRole.PLAYER_1)) {
+			scoreForUser = game.getScoreForPlayer1();
+			scoreForOpponent = game.getScoreForPlayer2();
+		} else {
+			scoreForUser = game.getScoreForPlayer2();
+			scoreForOpponent = game.getScoreForPlayer1();
 		}
 
-		return String.format("You: %d, Computer: %d, Ties: %d", player,
-				computer, ties);
+		return String.format("You: %d, Computer: %d", scoreForUser,
+				scoreForOpponent);
 	}
 
 	/**
@@ -256,5 +371,4 @@ final class ConsoleGameDriver {
 			throw new BadCodeMonkeyException();
 		}
 	}
-
 }

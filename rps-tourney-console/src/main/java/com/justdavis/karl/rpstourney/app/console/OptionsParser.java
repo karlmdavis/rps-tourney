@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Properties;
 
+import javax.mail.internet.InternetAddress;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -36,6 +38,8 @@ final class OptionsParser {
 	 */
 	Options parseCommandLineOptions(String[] args) {
 		Options options = new Options();
+		CmdLineParser.registerHandler(InternetAddress.class,
+				InternetAddressOptionHandler.class);
 		CmdLineParser optionsParser = new CmdLineParser(options);
 		try {
 			optionsParser.parseArgument(args);
@@ -99,5 +103,4 @@ final class OptionsParser {
 
 		return jarDetailsProps.getProperty("project.build.finalName");
 	}
-
 }
