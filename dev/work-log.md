@@ -4366,3 +4366,6 @@ This file should never be committed along with other files; it should always be 
         * I only reviewed them briefly, but the changes actually looked pretty clean for once.
 * 0.15h (14:17-14:27): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
     * Looks like Sonar needs to be updated.
+* 1.25h (18:22-18:29,21:01-21:24,21:45-22:30): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+    * Updated SonarQube on `eddings` to 5.1.2. Used Puppet (still).
+    * Unfortunately, the builds are now all failing on Jenkins with an odd SonarQube plugin error. Need to keep investigating.
