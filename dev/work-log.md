@@ -4359,7 +4359,7 @@ This file should never be committed along with other files; it should always be 
     * Refactored the IT a bit and added a test case for local play.
     * Got test logging working correctly-- just had to add the `logback-test.xml` file.
 
-### 2015-10-25 Sunday
+### 2015-10-25, Sunday
 
 * 0.05h (10:06-10:10): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Committed and pushed. Then closed the issue.
@@ -4369,3 +4369,11 @@ This file should never be committed along with other files; it should always be 
 * 1.25h (18:22-18:29,21:01-21:24,21:45-22:30): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
     * Updated SonarQube on `eddings` to 5.1.2. Used Puppet (still).
     * Unfortunately, the builds are now all failing on Jenkins with an odd SonarQube plugin error. Need to keep investigating.
+
+### 2015-10-26, Monday
+
+* 0.85h (06:27-07:17): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+    * Finally figured out the problem: Jenkins' local `.m2` repo was corrupt, and not downloading the latest SonarQube plugins.
+        * Removing the repo and letting it be rebuilt fixed this.
+        * Also had to reinstall the Git SCM plugin to SonarQube.
+    * Need to set SonarQube exclusions for the vendor JavaScript.
