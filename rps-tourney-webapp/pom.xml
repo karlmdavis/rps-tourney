@@ -26,6 +26,11 @@
 
 		<!-- The version of the Jetty webapp container to use. -->
 		<jetty.version>9.0.6.v20130930</jetty.version>
+		
+		<!-- Exclude the third-party JavaScript files from static analysis via SonarQube. -->
+		<sonar.exclusions>
+			src/main/webapp/WEB-INF/resources/js/vendor/*
+		</sonar.exclusions>
 	</properties>
 
 	<dependencyManagement>
