@@ -4377,3 +4377,9 @@ This file should never be committed along with other files; it should always be 
         * Removing the repo and letting it be rebuilt fixed this.
         * Also had to reinstall the Git SCM plugin to SonarQube.
     * Need to set SonarQube exclusions for the vendor JavaScript.
+
+### 2015-10-26, Tuesday
+
+* 0.3h (10:03-10:22): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+    * Set the exclusions needed.
+    * Closed the issue.
