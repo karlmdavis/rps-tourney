@@ -4383,3 +4383,10 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (10:03-10:22): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
     * Set the exclusions needed.
     * Closed the issue.
+
+### 2015-10-27, Wednesday
+
+* 0.3h (20:15-20:33): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+    * Reviewed the coverage and issues sound by SonarQube in `rps-tourney-console`.
+    * Started refactoring `ConsoleGameDriver.playGameSession(...)` to reduce its complexity.
+    * Also need to review the "TODO"s. Why isn't SonarQube listing those?
