@@ -4378,15 +4378,22 @@ This file should never be committed along with other files; it should always be 
         * Also had to reinstall the Git SCM plugin to SonarQube.
     * Need to set SonarQube exclusions for the vendor JavaScript.
 
-### 2015-10-26, Tuesday
+### 2015-10-27, Tuesday
 
 * 0.3h (10:03-10:22): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
     * Set the exclusions needed.
     * Closed the issue.
 
-### 2015-10-27, Wednesday
+### 2015-10-28, Wednesday
 
-* 0.3h (20:15-20:33): [Issue #103: Builds failing on Jenkins due to Sonar problems: "Can not execute SonarQube analysis: java.io.IOException: Incompatible version 1007"](https://github.com/karlmdavis/rps-tourney/issues/103)
+* 0.3h (20:15-20:33): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
     * Reviewed the coverage and issues sound by SonarQube in `rps-tourney-console`.
     * Started refactoring `ConsoleGameDriver.playGameSession(...)` to reduce its complexity.
     * Also need to review the "TODO"s. Why isn't SonarQube listing those?
+
+### 2015-10-29, Thursday
+
+* 0.45h (20:46-21:14): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Finished refactoring `ConsoleGameDriver.playGameSession(...)` to reduce its complexity.
+        * Committed and pushed.
+    * Still need to review the "TODO"s. Why isn't SonarQube listing those?
