@@ -45,7 +45,7 @@ public final class InternetAddressOptionHandler extends
 		} catch (AddressException e) {
 			throw new CmdLineException(owner,
 					Messages.ILLEGAL_OPERAND.format(
-							params.getParameter(-1), param));
+							params.getParameter(-1), param), e);
 		}
 	}
 
