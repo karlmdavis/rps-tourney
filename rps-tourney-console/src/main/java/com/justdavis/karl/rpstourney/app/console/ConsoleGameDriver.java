@@ -71,7 +71,7 @@ final class ConsoleGameDriver {
 		out.println("Rock-Paper-Scissors Tourney");
 		out.println("===========================");
 		out.println(String.format(
-				"\nYou are playing against %s. Best out of %d wins!",
+				"%nYou are playing against %s. Best out of %d wins!",
 				computeOpponentName(resourceBundleLoader, gameBundle),
 				game.getMaxRounds()));
 
@@ -107,7 +107,7 @@ final class ConsoleGameDriver {
 		GameRound currentRound = game.getRounds().get(currentRoundIndex);
 
 		// Print out the round intro text.
-		out.println(String.format("\nRound %d!",
+		out.println(String.format("%nRound %d!",
 				currentRound.getAdjustedRoundIndex() + 1));
 		out.println(String.format(" Score: %s", determineScoreText(game)));
 
