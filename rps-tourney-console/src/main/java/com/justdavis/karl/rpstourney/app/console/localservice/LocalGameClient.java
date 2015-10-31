@@ -2,10 +2,7 @@ package com.justdavis.karl.rpstourney.app.console.localservice;
 
 import java.util.List;
 
-import javax.ws.rs.NotFoundException;
-
 import com.justdavis.karl.rpstourney.service.api.game.Game;
-import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
@@ -61,7 +58,7 @@ public final class LocalGameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#getGame(java.lang.String)
 	 */
 	@Override
-	public GameView getGame(String gameId) throws NotFoundException {
+	public GameView getGame(String gameId) {
 		// The LocalGameClient only supports a single, local Game instance.
 		if (gameId == null || !gameId.equals(game.getId()))
 			throw new IllegalArgumentException();
@@ -75,8 +72,7 @@ public final class LocalGameClient implements IGameResource {
 	 */
 	@Override
 	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) throws NotFoundException,
-			GameConflictException {
+			int newMaxRoundsValue) {
 		game.setMaxRounds(newMaxRoundsValue);
 		return getGame(gameId);
 	}
@@ -86,8 +82,7 @@ public final class LocalGameClient implements IGameResource {
 	 *      long)
 	 */
 	@Override
-	public void inviteOpponent(String gameId, long playerId)
-			throws NotFoundException, GameConflictException {
+	public void inviteOpponent(String gameId, long playerId) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -95,8 +90,7 @@ public final class LocalGameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#joinGame(java.lang.String)
 	 */
 	@Override
-	public GameView joinGame(String gameId) throws NotFoundException,
-			GameConflictException {
+	public GameView joinGame(String gameId) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -104,7 +98,7 @@ public final class LocalGameClient implements IGameResource {
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#prepareRound(java.lang.String)
 	 */
 	@Override
-	public GameView prepareRound(String gameId) throws NotFoundException {
+	public GameView prepareRound(String gameId) {
 		game.prepareRound();
 		return getGame(gameId);
 	}
@@ -114,8 +108,7 @@ public final class LocalGameClient implements IGameResource {
 	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@Override
-	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay)
-			throws NotFoundException, GameConflictException {
+	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
 		game.submitThrow(roundIndex, localPlayer, throwToPlay);
 
 		// Calculate the Throw for the Player 2 AI.
