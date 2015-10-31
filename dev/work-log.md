@@ -4397,3 +4397,12 @@ This file should never be committed along with other files; it should always be 
     * Finished refactoring `ConsoleGameDriver.playGameSession(...)` to reduce its complexity.
         * Committed and pushed.
     * Still need to review the "TODO"s. Why isn't SonarQube listing those?
+
+### 2015-10-29, Thursday
+
+* 0.35h (22:47-23:08): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * The current SonarQube profile was almost empty: only had 17 rules.
+        * Had to restore the default SonarQube profile, and then customize it a bit.
+        * Just disabled the rule complaining about tabs. Dumb rule.
+        * Re-ran the builds.
+        * Yay! More issues! Need to start working through them tomorrow.
