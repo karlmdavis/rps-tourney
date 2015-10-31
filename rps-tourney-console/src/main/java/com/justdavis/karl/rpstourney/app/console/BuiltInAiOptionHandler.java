@@ -39,13 +39,13 @@ public final class BuiltInAiOptionHandler extends OptionHandler<BuiltInAi> {
 	public int parseArguments(Parameters params) throws CmdLineException {
 		String param = params.getParameter(0).trim();
 
-		if (param.equalsIgnoreCase("easy")) {
+		if ("easy".equalsIgnoreCase(param)) {
 			setter.addValue(BuiltInAi.THREE_SIDED_DIE_V1);
 			return 1;
-		} else if (param.equalsIgnoreCase("medium")) {
+		} else if ("medium".equalsIgnoreCase(param)) {
 			setter.addValue(BuiltInAi.WIN_STAY_LOSE_SHIFT_V1);
 			return 1;
-		} else if (param.equalsIgnoreCase("hard")) {
+		} else if ("hard".equalsIgnoreCase(param)) {
 			setter.addValue(BuiltInAi.META_WIN_STAY_LOSE_SHIFT_V1);
 			return 1;
 		}
