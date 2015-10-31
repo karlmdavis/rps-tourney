@@ -338,7 +338,7 @@ final class ConsoleGameDriver {
 	 * Associates each {@link Throw} with a token that can be used to represent
 	 * it.
 	 */
-	private static enum ThrowToken {
+	private enum ThrowToken {
 		ROCK("R", "Rock", Throw.ROCK),
 
 		PAPER("P", "Paper", Throw.PAPER),
