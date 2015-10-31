@@ -39,8 +39,6 @@ public final class DefaultResourceBundleLoader implements IResourceBundleLoader 
 	 */
 	@Override
 	public ResourceBundle getBundle() {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(
-				"i18n/messages", locale);
-		return resourceBundle;
+		return ResourceBundle.getBundle("i18n/messages", locale);
 	}
 }
