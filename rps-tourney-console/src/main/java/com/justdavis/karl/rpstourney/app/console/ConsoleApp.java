@@ -72,6 +72,13 @@ public final class ConsoleApp {
 	private final OptionsParser optionsParser;
 
 	/**
+	 * Constructs a new {@link ConsoleApp} instance.
+	 */
+	public ConsoleApp() {
+		this.optionsParser = new OptionsParser();
+	}
+
+	/**
 	 * The application entry point for {@link ConsoleApp}.
 	 * 
 	 * @param args
@@ -93,13 +100,6 @@ public final class ConsoleApp {
 		 * dumping a stack trace and returning an error code.
 		 */
 		System.exit(exitCode);
-	}
-
-	/**
-	 * Constructs a new {@link ConsoleApp} instance.
-	 */
-	public ConsoleApp() {
-		this.optionsParser = new OptionsParser();
 	}
 
 	/**
