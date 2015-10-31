@@ -74,7 +74,7 @@ final class Options {
 		try {
 			this.serverUri = new URI(DEFAULT_SERVER);
 		} catch (URISyntaxException e) {
-			throw new BadCodeMonkeyException();
+			throw new BadCodeMonkeyException(e);
 		}
 		this.emailAddress = null;
 		this.password = null;
