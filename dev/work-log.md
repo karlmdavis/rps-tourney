@@ -4413,3 +4413,10 @@ This file should never be committed along with other files; it should always be 
     * Worked through many of the issues Sonarqube found, committing as I went.
     * Had one change that I needed to test, ran into an odd and unrelated failure in the build.
         * Need to file a separate issue for that.
+
+### 2015-11-01, Sunday
+
+* 0.3h (07:21-07:40): [Issue #104: IT Failure: "java.lang.instrument.IllegalClassFormatException: Error while instrumenting class com/steadystate/css/parser/SACParserCSS3TokenManager"](https://github.com/karlmdavis/rps-tourney/issues/104)
+    * Resolved.
+* 0.15h (07:41-07:45,08:54-08:58): [Issue #15: Update console game to support web service](https://github.com/karlmdavis/rps-tourney/issues/15)
+    * Reviewed the remaining SonarQube issues, which are all just unit test coverage shortages that I don't care to address now.
