@@ -112,7 +112,7 @@ public final class LocalGameClient implements IGameResource {
 		game.submitThrow(roundIndex, localPlayer, throwToPlay);
 
 		// Calculate the Throw for the Player 2 AI.
-		GameView gameView = new GameView(game, /* FIXME */null);
+		GameView gameView = new GameView(game, game.getPlayer2());
 		Throw aiThrow = game.getPlayer2().getBuiltInAi().getPositronicBrain()
 				.calculateNextThrow(gameView, PlayerRole.PLAYER_2);
 
