@@ -4425,3 +4425,9 @@ This file should never be committed along with other files; it should always be 
 
 * 0.6h (07:36-07:41,20:08-20:39): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Started working on updating the docs.
+
+### 2015-11-03, Tuesday
+
+* 0.2h (06:06-06:10,22:47-22:56): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Got the WTP setup for Tomcat documented.
+    * Need to go through and upgrade things. It's time.
