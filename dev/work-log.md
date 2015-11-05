@@ -4431,3 +4431,10 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (06:06-06:10,22:47-22:56): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Got the WTP setup for Tomcat documented.
     * Need to go through and upgrade things. It's time.
+
+### 2015-11-04, Wednesday
+
+* 0.15h (22:55-23:03): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Reviewed and committed the docs.
+    * Still need to go through the tools and update all of them. Maybe except for Tomcat.
+    * Also need to check: is there anything the script should be doing, but isn't?
