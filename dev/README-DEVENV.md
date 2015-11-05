@@ -4,24 +4,52 @@ Development Environment Setup
 
 ## Introduction
 
-This document provides instructions on how to setup a development environment for the RPS Tourney projects. At the moment, it's targeted towards users of Ubuntu systems, though the instructions should be easily adaptable to other Unix environments. Windows users will have quite a bit more work in converting the instructions, though all of the tools used are cross-platform.
+This document provides instructions on how to setup a development environment for the RPS Tourney projects. At the moment, it's targeted towards users of Ubuntu systems, though the instructions should be easily adaptable to other Unix environments. Windows users will have quite a bit more work in converting the instructions, though all of the tools used are available cross-platform.
 
-Each of the following sections covers the installation of a set of dependencies required for development.
+Each of the following sections covers the installation of one of the dependencies required for development.
 
 
 ## Git
 
-TODO
+The source code is stored in [Git](https://git-scm.com/), and publicly hosted on GitHub here: <https://github.com/karlmdavis/rps-tourney>. On Ubuntu, Git can be installed, as follows:
+
+    $ sudo apt-get install git
+
+Once Git is installed, clone the [rps-tourney](https://github.com/karlmdavis/rps-tourney) repository from GitHub, as follows:
+
+    $ git clone git@github.com:karlmdavis/rps-tourney.git ~/workspaces/rps-tourney/rps-tourney.git
+
+In addition, you'll probably want to grab the [jessentials](https://github.com/karlmdavis/jessentials) code, too, which is a dependency of this project:
+
+    $ git clone git@github.com:karlmdavis/jessentials.git ~/workspaces/rps-tourney/jessentials.git
+
+
+## Recommended: Use the [devenv.py](./devenv.py) Script to Install Dependencies
+
+This project includes a simple Pyhton [devenv.py](./devenv.py) script that installs the following dependencies:
+
+* Oracle's Java 8 JDK
+
+Run that script as follows (after cloning the `rps-tourney` repo from Git):
+
+    $ cd rps-tourney.git/
+    $ ./dev/devenv-install.py
+
+That's it. There should now be an **Eclipse Luna** application launcher available in the Ubuntu dash.
 
 
 ## Java
 
-TODO
+The Java 8 SDK is required to build the code for this project. Either the Oracle or OpenJDK distribution should be fine.
+
+On Ubuntu Trusty, this should probably be installed via the `webupd8` PPA, as described in the following article: [Install Oracle Java 8 In Ubuntu Or Linux Mint Via PPA Repository [JDK8]](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html).
+
+If you'd prefer not to use that PPA (though it does seem to be fairly well-supported), it's recommended that you just download the JDK from Oracle and unzip it into `~/workspaces/tools/` directory—development with Eclipse doesn't require it to be *installed* on your system, just present.
 
 
 ### SSL Certificates: Gandi Standard
 
-If the https://justdavis.com/nexus repository is being used, the Gandi CA certificates that it requires will need to be added to the Java/system truststore. The following commands should accomplish that for OpenJDK:
+If the <https://justdavis.com/nexus> repository is being used, the Gandi CA certificates that it requires will need to be added to the Java/system truststore. The following commands should accomplish that for OpenJDK:
 
     $ sudo curl http://crt.gandi.net/GandiStandardSSLCA2.crt -o /usr/local/share/ca-certificates/GandiStandardSSLCA2.crt
     $ sudo update-ca-certificates
@@ -29,10 +57,12 @@ If the https://justdavis.com/nexus repository is being used, the Gandi CA certif
 
 ## Apache Maven
 
-TODO
+[Apache Maven](https://maven.apache.org/) is used to build, test, and release this project.
+
+This dependency can be installed via the [devenv.py](./devenv.py) script.
 
 
-## Eclipse Kepler
+## Eclipse
 
 References:
 
@@ -40,30 +70,12 @@ References:
 
 While you can certainly use whatever editor/IDE you want to develop this project, Eclipse is the "default" choice here (per the lead developer, Karl M. Davis). Specifically, Eclipse JavaEE Luna is required.
 
-While Ubuntu does have a somewhat-recent version of Eclipse in its repositories, it's rarely the latest release. On Ubuntu 12.10, the Eclipse in the repositories is 3.8.
+While Ubuntu does have a somewhat-recent version of Eclipse in its repositories, it's rarely the latest release. On Ubuntu 12.10, the Eclipse in the repositories is 3.8, which is **very** out of date.
 
-The `devenv-install-eclipse.py` script provided with this project will download and install Eclipse, and also install the plugins that are required for development of this project. Run that script as follows:
-
-    $ cd rps-tourney.git/
-    $ sudo dev/devenv-install-eclipse.py
-
-That's it. There should now be an **Eclipse Luna** application launcher available.
+This dependency can be installed via the [devenv.py](./devenv.py) script. The script will also install the various Eclipse plugins that are required.
 
 
-### Eclipse Plugins/Features
-
-References:
-
-* [Stack Overflow: How do you automate the installation of Eclipse plugins with command line?](http://stackoverflow.com/questions/7163970/how-do-you-automate-the-installation-of-eclipse-plugins-with-command-line)
-* [Eclipse: Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/keplersr1), see the *Detailed features list*
-
-The above script will install the "Eclipse IDE for Java Developers Eclipse IDE for Java Developers" distribution of Eclipse, which is lacking a number of plugins used in the development of this project. The `eclipse-kepler-sr1-install-plugins.sh` script will install those plugins. Run it as follows:
-
-    $ cd rps-tourney.git/
-    $ sudo dev/eclipse-kepler-sr1-install-plugins.sh
-
-
-#### Troubleshooting: JavaDoc Rendering
+### Troubleshooting: JavaDoc Rendering
 
 References:
 
@@ -74,7 +86,7 @@ If the JavaDoc displays in Eclipse are rendering everything as plain text with t
     $ sudo apt-get install libwebkitgtk-1.0-0
 
 
-### PostgreSQL
+## PostgreSQL
 
 References:
 
@@ -113,9 +125,11 @@ Each developer must edit their `~/.m2/settings.xml` file to contain the necessar
         <activeProfile>justdavis-integration-tests</activeProfile>
       </activeProfiles>
     </settings>
+    
+The database schema will be created and populated automatically when the application is first started. See the `/rps-tourney-service-app/com.justdavis.karl.rpstourney.service.app.jpa.DatabaseSchemaInitializer` class for details.
 
 
-### Tomcat (via Eclipse WTP)
+## Tomcat (via Eclipse WTP)
 
 References:
 
@@ -126,7 +140,18 @@ During development, it's recommended that the web applications be run in Apache 
 
 Within Eclipse, the Tomcat instance can be setup as follows:
 
-1. TODO
+1. Go to **Window > Show View > Other...**, select **Server > Servers** and click **OK**.
+1. Right-click a blank spot in the view, and select **New > Server**.
+1. On the *Define a New Server* screen:
+    1. Select the **Tomcat v7.0 Server** node.
+    1. For *Server runtime environment*, click **Add...**. On the *Tomcat Server* dialog this opens:
+        1. Select your `~/workspaces/tools/apache-tomcat-7.0.57` directory as the *Tomcat installation directory*.
+            * This was created by the [devenv-install.py](./devenv-install.py) script.
+        1. Click **Finish**.
+    1. Click **Next**.
+1. On the **Add and Remove** screen:
+    1. Click **Add All >>**.
+    1. Click **Finish**.
 
 Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
 
