@@ -4443,3 +4443,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.15h (20:40-20:49): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Updated Maven and Tomcat in the script. Need to update Eclipse.
+
+### 2015-11-06, Friday
+
+* 0.35h (06:56-07:16): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Started reading about Eclipse Oomph, the new Eclipse install helper.
