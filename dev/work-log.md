@@ -4438,3 +4438,8 @@ This file should never be committed along with other files; it should always be 
     * Reviewed and committed the docs.
     * Still need to go through the tools and update all of them. Maybe except for Tomcat.
     * Also need to check: is there anything the script should be doing, but isn't?
+
+### 2015-11-05, Thursday
+
+* 0.15h (20:40-20:49): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Updated Maven and Tomcat in the script. Need to update Eclipse.
