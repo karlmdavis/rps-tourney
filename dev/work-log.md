@@ -4448,3 +4448,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.35h (06:56-07:16): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Started reading about Eclipse Oomph, the new Eclipse install helper.
+
+### 2015-11-07, Saturday
+
+* ?h (09:07-09:30,10:10-10:18): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Played around with Oomph. Should probably try using it to setup a new workspace.
