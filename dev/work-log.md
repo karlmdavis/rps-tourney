@@ -4451,5 +4451,13 @@ This file should never be committed along with other files; it should always be 
 
 ### 2015-11-07, Saturday
 
-* ?h (09:07-09:30,10:10-10:18): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+* 0.5h (09:07-09:30,10:10-10:18): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Played around with Oomph. Should probably try using it to setup a new workspace.
+
+### 2015-11-09, Monday
+
+* _Just forgot to work on it yesterday. Spent a lot of time working on my website, instead._
+* 1.1h (20:22-21:29): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Updated the Eclipse install, and the Eclipse plugins install.
+        * Left DataNucleus alone for now.
+    * Fired up the new version and got everything running.
