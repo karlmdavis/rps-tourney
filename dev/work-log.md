@@ -4461,3 +4461,9 @@ This file should never be committed along with other files; it should always be 
     * Updated the Eclipse install, and the Eclipse plugins install.
         * Left DataNucleus alone for now.
     * Fired up the new version and got everything running.
+* Idea for next task: performance tests, plus whatever deletion APIs are required to support them.
+
+### 2015-11-10, Tuesday
+
+* 0.4h (22:08-22:31): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Finished the docs, committed, resolved the issue.
