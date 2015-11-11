@@ -46,6 +46,9 @@ def main():
     # Install Tomcat.
     tomcat_archive = tomcat_download()
     tomcat_install(tomcat_archive)
+    
+    print('')
+    print('Done.')
 
 def eclipse_download_from_internet():
     """
@@ -56,8 +59,8 @@ def eclipse_download_from_internet():
         `get_installers_dir()` directory.
     """
     
-    # The URL to download from: Luna for 64bit Linux.
-    eclipse_url = "http://mirrors.ibiblio.org/eclipse/technology/epp/downloads/release/luna/R/eclipse-jee-luna-R-linux-gtk-x86_64.tar.gz"
+    # The URL to download from.
+    eclipse_url = "http://download.eclipse.org/technology/epp/downloads/release/mars/1/eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz"
     
     # The path to save the installer to.
     file_name = urlsplit(eclipse_url).path.split('/')[-1]
@@ -136,7 +139,7 @@ def eclipse_create_shortcut(eclipse_install_dir):
     with open(launcher_path, 'w') as launcher_file:
         launcher_file.write('[Desktop Entry]\n')
         launcher_file.write('Version=1.0\n')
-        launcher_file.write('Name=Eclipse Luna\n')
+        launcher_file.write('Name=Eclipse Mars\n')
         launcher_file.write('\n')
         launcher_file.write('Exec={}\n'.format(os.path.join(eclipse_install_dir, 'eclipse')))
         launcher_file.write('Terminal=false\n')
@@ -172,14 +175,17 @@ def eclipse_install_plugins(eclipse_install_dir):
     Plugin = collections.namedtuple('Plugin', ['iu', 'version'])
     PluginGroup = collections.namedtuple('PluginGroup', ['name', 'plugins', 'repos'])
     aptPlugins = PluginGroup('Maven Integration for Eclipse JDT APT', 
-            [Plugin('org.jboss.tools.maven.apt.feature.feature.group', '1.1.0.201405210909')], 
+            [Plugin('org.jboss.tools.maven.apt.feature.feature.group', '1.1.1.201411262015')], 
             ['http://download.jboss.org/jbosstools/updates/m2e-extensions/m2e-apt'])
     markdownPlugins = PluginGroup('Markdown Editor', 
-            [Plugin('markdown.editor.feature.feature.group', '0.2.3')], 
-            ['http://www.winterwell.com/software/updatesite/'])
+            [Plugin('markdown.editor.feature.feature.group', '1.2.0.201501260515')], 
+            ['http://www.nodeclipse.org/updates/markdown/'])
     dataNucleusPlugins = PluginGroup('DataNucleus Eclipse Plugins', 
             [Plugin('org.datanucleus.ide.eclipse.feature.feature.group', '4.0.0.release')], 
-            [' http://www.datanucleus.org/downloads/eclipse-update/'])
+            ['http://www.datanucleus.org/downloads/eclipse-update/'])
+    wro4jPlugins = PluginGroup('m2e connector for WRO4J', 
+            [Plugin('org.jboss.tools.m2e.wro4j.feature.feature.group', '1.1.0.201406251020')], 
+            ['http://download.jboss.org/jbosstools/updates/m2e-wro4j/'])
 
     # The Eclipse executable.
     eclipse_exe = os.path.join(eclipse_install_dir, 'eclipse')
@@ -187,7 +193,7 @@ def eclipse_install_plugins(eclipse_install_dir):
     # Install the plugins, one at a time. This is slower, but makes debugging 
     # problems a lot simpler.
     print('2) Install Eclipse Plugins')
-    for plugin_group in [aptPlugins, markdownPlugins, dataNucleusPlugins]:
+    for plugin_group in [aptPlugins, markdownPlugins, dataNucleusPlugins, wro4jPlugins]:
         print('   - Installing ' + plugin_group.name + '... ', end="", flush=True)
         
         # Build the comma-separated list of repos for this install.
@@ -220,8 +226,8 @@ def maven_download():
         `get_installers_dir()` directory.
     """
     
-    # The URL to download from: Maven 3.2.3.
-    maven_url = "http://www.us.apache.org/dist/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz"
+    # The URL to download from: Maven 3.3.3.
+    maven_url = "http://www.us.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz"
     
     # The path to save the installer to.
     file_name = urlsplit(maven_url).path.split('/')[-1]
@@ -275,7 +281,7 @@ def maven_install(maven_archive_path):
                 maven_install_path_tmp, '--file', maven_archive_path], 
                 stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
-        # Make the extracted 'apache-maven...-tmp/apache-maven-3.2.3' directory the actual 
+        # Make the extracted 'apache-maven...-tmp/apache-maven-3.3.3' directory the actual 
         # install.
         shutil.move(os.path.join(maven_install_path_tmp, maven_name), 
                 maven_install_path)
@@ -312,8 +318,8 @@ def tomcat_download():
         `get_installers_dir()` directory.
     """
     
-    # The URL to download from: Tomcat 7.0.57.
-    tomcat_url = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz"
+    # The URL to download from: Tomcat 7.0.65.
+    tomcat_url = "http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz"
     
     # The path to save the installer to.
     file_name = urlsplit(tomcat_url).path.split('/')[-1]
@@ -359,7 +365,7 @@ def tomcat_install(tomcat_archive_path):
         with tarfile.open(tomcat_archive_path) as tomcat_archive:
             tomcat_archive.extractall(tomcat_install_path_tmp)
 
-        # Make the extracted 'apache-tomcat...-tmp/apache-tomcat-7.0.57' directory the 
+        # Make the extracted 'apache-tomcat...-tmp/apache-tomcat-7.0.65' directory the 
         # actual install.
         shutil.move(os.path.join(tomcat_install_path_tmp, tomcat_name), 
                 tomcat_install_path)

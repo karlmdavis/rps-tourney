@@ -145,7 +145,7 @@ Within Eclipse, the Tomcat instance can be setup as follows:
 1. On the *Define a New Server* screen:
     1. Select the **Tomcat v7.0 Server** node.
     1. For *Server runtime environment*, click **Add...**. On the *Tomcat Server* dialog this opens:
-        1. Select your `~/workspaces/tools/apache-tomcat-7.0.57` directory as the *Tomcat installation directory*.
+        1. Select your `~/workspaces/tools/apache-tomcat-7.0.65` directory as the *Tomcat installation directory*.
             * This was created by the [devenv-install.py](./devenv-install.py) script.
         1. Click **Finish**.
     1. Click **Next**.
@@ -155,7 +155,7 @@ Within Eclipse, the Tomcat instance can be setup as follows:
 
 Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
 
-1. Copy the sample logging properties file from `/rps-tourney-parent/dev/devenv-tomcat-logging.properties` to `/Servers/apache-tomcat-7.0.57 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
+1. Copy the sample logging properties file from `/rps-tourney-parent/dev/tomcat-logging.properties` to `/Servers/apache-tomcat-7.0.65 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
 2. Open the Tomcat server's run configuration in Eclipse, and configure it as follows:
     1. Add the following VM arguments, each on a separate line:
         * `-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager`
