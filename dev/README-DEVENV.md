@@ -6,10 +6,8 @@ Development Environment Setup
 
 This document provides instructions on how to setup a development environment for the RPS Tourney projects. At the moment, it's targeted towards users of Ubuntu systems, though the instructions should be easily adaptable to other Unix environments. Windows users will have quite a bit more work in converting the instructions, though all of the tools used are available cross-platform.
 
-Each of the following sections covers the installation of one of the dependencies required for development.
 
-
-## Git
+## Getting the Source
 
 The source code is stored in [Git](https://git-scm.com/), and publicly hosted on GitHub here: <https://github.com/karlmdavis/rps-tourney>. On Ubuntu, Git can be installed, as follows:
 
@@ -24,11 +22,18 @@ In addition, you'll probably want to grab the [jessentials](https://github.com/k
     $ git clone git@github.com:karlmdavis/jessentials.git ~/workspaces/rps-tourney/jessentials.git
 
 
-## Recommended: Use the [devenv.py](./devenv.py) Script to Install Dependencies
+## Installing the Development Tools
+
+Most of the tools required to develop the project can be installed with a provided helper script, as described below. There are other tools required, though, e.g. PostgreSQL, whose manual installation and configuration is also documented in these subsections.
+
+
+### Using the `devenv.py` Script
 
 This project includes a simple Pyhton [devenv.py](./devenv.py) script that installs the following dependencies:
 
-* Oracle's Java 8 JDK
+* Eclipse, and the plugins needed for it
+* Maven
+* Tomcat
 
 Run that script as follows (after cloning the `rps-tourney` repo from Git):
 
@@ -38,7 +43,7 @@ Run that script as follows (after cloning the `rps-tourney` repo from Git):
 That's it. There should now be an **Eclipse Luna** application launcher available in the Ubuntu dash.
 
 
-## Java
+### Java
 
 The Java 8 SDK is required to build the code for this project. Either the Oracle or OpenJDK distribution should be fine.
 
@@ -47,7 +52,7 @@ On Ubuntu Trusty, this should probably be installed via the `webupd8` PPA, as de
 If you'd prefer not to use that PPA (though it does seem to be fairly well-supported), it's recommended that you just download the JDK from Oracle and unzip it into `~/workspaces/tools/` directory—development with Eclipse doesn't require it to be *installed* on your system, just present.
 
 
-### SSL Certificates: Gandi Standard
+#### SSL Certificates: Gandi Standard
 
 If the <https://justdavis.com/nexus> repository is being used, the Gandi CA certificates that it requires will need to be added to the Java/system truststore. The following commands should accomplish that for OpenJDK:
 
@@ -55,14 +60,14 @@ If the <https://justdavis.com/nexus> repository is being used, the Gandi CA cert
     $ sudo update-ca-certificates
 
 
-## Apache Maven
+### Apache Maven
 
 [Apache Maven](https://maven.apache.org/) is used to build, test, and release this project.
 
 This dependency can be installed via the [devenv.py](./devenv.py) script.
 
 
-## Eclipse
+### Eclipse
 
 References:
 
@@ -75,7 +80,7 @@ While Ubuntu does have a somewhat-recent version of Eclipse in its repositories,
 This dependency can be installed via the [devenv.py](./devenv.py) script. The script will also install the various Eclipse plugins that are required.
 
 
-### Troubleshooting: JavaDoc Rendering
+#### Troubleshooting: JavaDoc Rendering
 
 References:
 
@@ -86,7 +91,7 @@ If the JavaDoc displays in Eclipse are rendering everything as plain text with t
     $ sudo apt-get install libwebkitgtk-1.0-0
 
 
-## PostgreSQL
+### PostgreSQL
 
 References:
 
@@ -129,7 +134,7 @@ Each developer must edit their `~/.m2/settings.xml` file to contain the necessar
 The database schema will be created and populated automatically when the application is first started. See the `/rps-tourney-service-app/com.justdavis.karl.rpstourney.service.app.jpa.DatabaseSchemaInitializer` class for details.
 
 
-## Tomcat (via Eclipse WTP)
+### Tomcat (via Eclipse WTP)
 
 References:
 
@@ -150,7 +155,6 @@ Within Eclipse, the Tomcat instance can be setup as follows:
         1. Click **Finish**.
     1. Click **Next**.
 1. On the **Add and Remove** screen:
-    1. Click **Add All >>**.
     1. Click **Finish**.
 
 Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
@@ -165,3 +169,32 @@ Once setup and available, the following should be done to ensure that Tomcat is 
         * `-Drps.service.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml}`
         * `-Drps.webapp.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-webapp-config-dev.xml}`
     2. Set the working directory to: `${workspace_loc}/.metadata/.plugins/org.eclipse.wst.server.core/tmp0`
+3. Configure the HTTP port that Tomcat will use:
+    1. Switch to the *Servers* view in Eclipse.
+    2. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Open**.
+    3. Set *Ports > HTTP/1.1* to `9093`, then click **Save** and close the editor.
+
+
+## Working with the Projects in Eclipse
+
+Once all of the required tools are installed, the projects should be imported into Eclipse, as follows:
+
+1. Start Eclipse and create a new Eclipse workspace at `~/workspaces/rps-tourney/`.
+1. Import the projects into Eclipse:
+    1. Select **File > Import...**.
+    1. Select the **Maven > Existing Maven Projects** node, then click **Next**.
+    1. Select the `~/workspaces/rps-tourney/` directory as the *Root Directory*.
+    1. Select all of the `rps-tourney-*` projects via **Select All**, then click **Finish**.
+
+Configure the `rps-tourney-service-app` and `rps-tourney-webapp` projects to run in Tomcat (via Eclipse WTP), as follows:
+
+1. Switch to the *Servers* view in Eclipse.
+1. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Add and Remove...**.
+1. Click **Add All**, then click **Finish**.
+
+Once configured, Tomcat can be run, as follows:
+
+1. Switch to the *Servers* view in Eclipse.
+1. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Start**.
+1. Switch to the **Console** view, and wait for the applications to finish launching.
+1. Access the web application at <http://localhost:9093/rps-tourney-webapp/>.
