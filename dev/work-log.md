@@ -4472,7 +4472,7 @@ This file should never be committed along with other files; it should always be 
 
 * 0.4h (22:08-22:31): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Finished the docs, committed, resolved the issue.
-    
+
 ### 2015-11-11, Wednesday
 
 * 0.95h (19:56-20:54): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
@@ -4482,3 +4482,10 @@ This file should never be committed along with other files; it should always be 
         * The tests will need to examine throughput at different levels of concurrency.
         * The amount of concurrency I can test is limited by the number of CPU cores I have.
     * Put together a work breakdown and estimates.
+
+### 2015-11-12, Thursday
+
+* 0.45h (05:45-06:13): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Created a baseline benchmark.
+    * I'm now going to have to run the web service embedded in these benchmarks. How am I going to manage that?
+
