@@ -4467,3 +4467,18 @@ This file should never be committed along with other files; it should always be 
 
 * 0.4h (22:08-22:31): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
     * Finished the docs, committed, resolved the issue.
+
+### 2015-11-10, Tuesday
+
+* 0.4h (22:08-22:31): [Issue #10: Create developer documentation](https://github.com/karlmdavis/rps-tourney/issues/10)
+    * Finished the docs, committed, resolved the issue.
+    
+### 2015-11-11, Wednesday
+
+* 0.95h (19:56-20:54): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Spent a lot of time researching various options. Most of them suck.
+    * Notes:
+        * [jmh](http://openjdk.java.net/projects/code-tools/jmh/) is probably the best of the bunch, as it understands differences between throughput, timing, etc.
+        * The tests will need to examine throughput at different levels of concurrency.
+        * The amount of concurrency I can test is limited by the number of CPU cores I have.
+    * Put together a work breakdown and estimates.
