@@ -4489,3 +4489,7 @@ This file should never be committed along with other files; it should always be 
     * Created a baseline benchmark.
     * I'm now going to have to run the web service embedded in these benchmarks. How am I going to manage that?
 
+### 2015-11-13, Friday
+
+* 0.35h (23:14-23:35): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Stubbed out some of the benchmark setup/state code.
