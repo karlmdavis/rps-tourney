@@ -4493,3 +4493,11 @@ This file should never be committed along with other files; it should always be 
 
 * 0.35h (23:14-23:35): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Stubbed out some of the benchmark setup/state code.
+
+### 2015-11-14, Saturday
+
+* 0.75h (16:22-17:07): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Continued stubbing out the benchmark setup/state code.
+        * Will use Cargo to start new Tomcat instances.
+        * Cargo supports working with pre-existing instances.
+        * When I want to add WTP support, I can add that via a giant `if` block that checks to see if WTP is already running, and if so, just uses it.
