@@ -4501,3 +4501,9 @@ This file should never be committed along with other files; it should always be 
         * Will use Cargo to start new Tomcat instances.
         * Cargo supports working with pre-existing instances.
         * When I want to add WTP support, I can add that via a giant `if` block that checks to see if WTP is already running, and if so, just uses it.
+
+### 2015-11-15, Sunday
+
+* 1.6h (14:17-14:22,15:12-16:43): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Created the new `jessentials-tomcat` project, started trying to figure out how it should work.
+    * Didn't get too far, pretty poor attention span today.
