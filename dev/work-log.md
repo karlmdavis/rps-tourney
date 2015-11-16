@@ -4507,3 +4507,8 @@ This file should never be committed along with other files; it should always be 
 * 1.6h (14:17-14:22,15:12-16:43): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Created the new `jessentials-tomcat` project, started trying to figure out how it should work.
     * Didn't get too far, pretty poor attention span today.
+
+### 2015-11-16, Monday
+
+* 0.35h (07:25-07:46): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Worked on getting Tomcat to run in embedded mode. Made good progress.
