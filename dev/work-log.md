@@ -4512,3 +4512,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.35h (07:25-07:46): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Worked on getting Tomcat to run in embedded mode. Made good progress.
+
+### 2015-11-16, Tuesday
+
+* 0.65h (09:05-09:43): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Spent a lot of time thinking about issues I'm running into: working directories, embedded vs. fork, etc.
+    * I think it's best to write the code to allow for all 3 modes: external server, fork, or embedded.
+    * The webapps will need rejiggering (later) to allow me to put their logs and config files somewhere other than the working directory.
