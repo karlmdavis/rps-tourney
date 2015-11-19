@@ -4525,3 +4525,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (21:15-21:26): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Worked on the Tomcat utilities a bit more.
     * To try and regain focus, I think I need to start from the test/benchmark code, and implement what it requires.
+
+### 2015-11-19, Thursday
+
+* 0.5h (06:24-06:45,06:49-06:58): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Need to debug the benchmark, to try and find how to pull out the Tomcat port.
+    * Can't get the benchmark to build, though-- must have goofed something. Maybe with State handling?
