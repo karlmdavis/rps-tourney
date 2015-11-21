@@ -4554,3 +4554,10 @@ This file should never be committed along with other files; it should always be 
     * Also have to figure out how to handle logging. Right now, Logback uses the working directory. This is bad, because that's often the project root.
         * Does Logback's config file format support variables?
             * Yes, just use the `${varName}` syntax, which supports Java system properties. The `${varName:-defaultValue}` syntax can be used to supply default values.
+
+### 2015-11-21, Saturday
+
+* 1.05h (09:19-10:21): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * The config file stuff was easy to fix: the config loader already supports system properties.
+    * Had a bit of trouble adding the WAR. Turns out that m2e (or Maven, in general) won't add WARs to the classpath at all.
+        * Need to rejigger that to have a `ModuleWar` kind of object, instead.
