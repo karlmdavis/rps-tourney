@@ -4531,3 +4531,26 @@ This file should never be committed along with other files; it should always be 
 * 0.5h (06:24-06:45,06:49-06:58): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Need to debug the benchmark, to try and find how to pull out the Tomcat port.
     * Can't get the benchmark to build, though-- must have goofed something. Maybe with State handling?
+
+### 2015-11-20, Friday
+
+* 0.65h (21:40-22:19): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Wasn't hitting my breakpoint.
+        * Might be because of earlier Tomcat errors (need to config the WAR).
+        * Or, might be because of JMH.
+        * If it's JMH, I can just run the main method inside `TomcatServerHelper`.
+    * Need to figure out the WAR configs...
+        * Well, I need to support servers running in a separate JVM. The only config options there are:
+            * Home directory config files.
+            * Working directory config files.
+            * Environment variables.
+            * Java system properties.
+        * For embedded instances, the additional config options are:
+            * Static fields, unless classloader stuff prevents this.
+        * I also need to allow for the possibility of multiple instances running at once (but not in embedded mode). That precludes:
+            * Home directory config files.
+            * Working directory config files.
+        * That really only leaves me with system properties as a viable option.
+    * Also have to figure out how to handle logging. Right now, Logback uses the working directory. This is bad, because that's often the project root.
+        * Does Logback's config file format support variables?
+            * Yes, just use the `${varName}` syntax, which supports Java system properties. The `${varName:-defaultValue}` syntax can be used to supply default values.
