@@ -4561,3 +4561,15 @@ This file should never be committed along with other files; it should always be 
     * The config file stuff was easy to fix: the config loader already supports system properties.
     * Had a bit of trouble adding the WAR. Turns out that m2e (or Maven, in general) won't add WARs to the classpath at all.
         * Need to rejigger that to have a `ModuleWar` kind of object, instead.
+* 0.5h (11:40-12:10): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got things running... sort of. Looks like trying to run it embedded will have classpath conflicts.
+* 0.4h (12:48-13:12): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Unless I create a filtered ClassLoader from scratch, I'm out of luck with using Tomcat in embedded mode.
+        * I don't want to do that now.
+        * Started refactoring the embedded version into a locally-installed version.
+
+### 2015-11-22, Sunday
+
+* 1.05h (12:34-13:04,13:52-14:28): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Thinking about yesterday, I'm surprised that no one's made a Maven-filtered `ClassLoader`. Might be an interesting open source project.
+    * Got things working: looks like Tomcat and the web service are running, though I haven't quite verified that yet.
