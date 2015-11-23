@@ -4573,3 +4573,9 @@ This file should never be committed along with other files; it should always be 
 * 1.05h (12:34-13:04,13:52-14:28): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Thinking about yesterday, I'm surprised that no one's made a Maven-filtered `ClassLoader`. Might be an interesting open source project.
     * Got things working: looks like Tomcat and the web service are running, though I haven't quite verified that yet.
+
+### 2015-11-23, Monday
+
+* 0.25h (09:09-09:25): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got the benchmark running! ... and then it died several iterations in, to some weird Tomcat error.
+    * Once that weird error is addressed, though, I'll need to clean things up and commit them.
