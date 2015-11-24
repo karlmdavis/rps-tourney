@@ -4579,3 +4579,14 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (09:09-09:25): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Got the benchmark running! ... and then it died several iterations in, to some weird Tomcat error.
     * Once that weird error is addressed, though, I'll need to clean things up and commit them.
+* 0.5h (09:59-10:30): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got it running for real! Yay!
+    * Had to set JMH's timeout, which required upgrading to the latest JMH release.
+    * Got the following result: `GameDisplayBenchmarks.retrieveGameAsUnauthenticatedUser  thrpt   10  1799.015 ± 747.155  ops/s`
+* Open source idea: it'd be great if there was a Maven plugin for JMH. And a Sonar one, too.
+
+### 2015-11-24, Tuesday
+
+* 0.3h (09:39-09:58): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Cleaned up the code, to get ready for the first commit.
+    * After that's committed, I think I'd really like to work on getting the benchmark to run against production.
