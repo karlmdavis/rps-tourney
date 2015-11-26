@@ -4596,3 +4596,15 @@ This file should never be committed along with other files; it should always be 
 * 0.55h (19:06-19:38): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Got `jessentials-tomcat` cleaned up and pushed.
     * Need to fix the game's logging directory to be configurable, and otherwise clean up and push the benchmarks code.
+
+### 2015-11-26, Thursday
+
+* 0.65h (09:05-09:44): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Took me a while to figure out what's happening with logging...
+        * It may be different in production, but locally, the WARs' `logback.xml` files are being completely ignored.
+        * Logback config is being passed in as a system property to the entire Tomcat instance.
+        * The `./logs/` directory I was getting in the benchmarks project, was actually from the `logback.xml` for **that** project.
+        * I've updated it to just log to the console (though it currently produces no output, anyways).
+    * Next steps:
+        * Look at logging in production. If they're not being used, I should remove the WARs' `logback.xml` files to prevent this sort of confusion in the future.
+        * Ensure that logging is correctly configured for the Tomcat instances started by the benchmarks. Probably to a file? 
