@@ -4590,3 +4590,9 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (09:39-09:58): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Cleaned up the code, to get ready for the first commit.
     * After that's committed, I think I'd really like to work on getting the benchmark to run against production.
+
+### 2015-11-25, Wednesday
+
+* 0.55h (19:06-19:38): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got `jessentials-tomcat` cleaned up and pushed.
+    * Need to fix the game's logging directory to be configurable, and otherwise clean up and push the benchmarks code.
