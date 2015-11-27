@@ -4608,3 +4608,10 @@ This file should never be committed along with other files; it should always be 
     * Next steps:
         * Look at logging in production. If they're not being used, I should remove the WARs' `logback.xml` files to prevent this sort of confusion in the future.
         * Ensure that logging is correctly configured for the Tomcat instances started by the benchmarks. Probably to a file? 
+
+### 2015-11-27, Friday
+
+* 2.6h (12:32-13:54,14:34-15:49): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Finally got it. What a collection of dumb mistakes on my part.
+        * Wasn't setting the logging path in the both spots in the config file, for one.
+        * Had let myself get lost on a complete tangent, wondering about production logging config.
