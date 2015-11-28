@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.justdavis.karl.rpstourney</groupId>
+		<artifactId>rps-tourney-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>rps-tourney-service-benchmarks</artifactId>
+	<packaging>jar</packaging>
+
+	<name>rps-tourney-service-benchmarks</name>
+	<description>
+		A set of benchmarks for the "RPS Tourney" web service.
+	</description>
+
+	<properties>
+		<!-- The version of the org.openjdk.jmh:* artifacts to use. -->
+		<jmh.version>1.11.2</jmh.version>
+
+		<uberjar.name>benchmarks</uberjar.name>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.justdavis.karl.jessentials</groupId>
+			<artifactId>jessentials-tomcat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-service-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.justdavis.karl.rpstourney</groupId>
+			<artifactId>rps-tourney-service-app</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<!-- Provides the API used by the benchmarks in this project. -->
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>${jmh.version}</version>
+		</dependency>
+		<dependency>
+			<!-- Annotation processors used by this project's benchmarks. -->
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>${jmh.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+				events will be sent to it. -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- The shade plugin is suggested for use with JMH, to build a single 
+							executable/"uber" JAR. That JAR, when run, executes all of the benchmarks 
+							defined in this project. -->
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>${uberjar.name}</finalName>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>org.openjdk.jmh.Main</mainClass>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<!-- Required for the CXF JAX-RS client, per https://cwiki.apache.org/confluence/display/CXF20DOC/Bundling+CXF+into+single+jar+with+Maven+shade+plugin. -->
+									<resource>META-INF/cxf/bus-extensions.txt</resource>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<!-- Shading signed JARs will fail without this. http://stackoverflow.com/questions/999489/invalid-signature-file-when-attempting-to-run-a-jar -->
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

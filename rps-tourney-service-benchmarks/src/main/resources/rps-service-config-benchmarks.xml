@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rps:serviceConfig xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1"
+	xmlns:jed="http://justdavis.com/karl/jessentials/datasources">
+	<jed:hsqlCoordinates>
+		<jed:url>jdbc:hsqldb:mem:serviceapp</jed:url>
+	</jed:hsqlCoordinates>
+</rps:serviceConfig>
