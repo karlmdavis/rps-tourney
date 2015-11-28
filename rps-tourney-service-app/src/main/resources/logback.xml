@@ -7,9 +7,9 @@
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- Note the 'logs/' directory being used, which is required for Tomcat. -->
-		<file>logs/${project.artifactId}.log</file>
+		<file>${rps.service.logs.path:-./logs}/${project.artifactId}.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/${project.artifactId}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${rps.service.logs.path:-./logs}/${project.artifactId}.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 
