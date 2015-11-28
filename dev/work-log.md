@@ -4615,3 +4615,12 @@ This file should never be committed along with other files; it should always be 
     * Finally got it. What a collection of dumb mistakes on my part.
         * Wasn't setting the logging path in the both spots in the config file, for one.
         * Had let myself get lost on a complete tangent, wondering about production logging config.
+
+### 2015-11-28, Saturday
+
+* 0.8h (15:42-16:30): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Cleaned up and committed the benchmarks in place so far.
+    * Next steps:
+        * Have the benchmarks run against PostgreSQL?
+        * Have the benchmarks run against production.
+        * Have the benchmarks run Tomcat in embedded mode, to allow for profiling.
