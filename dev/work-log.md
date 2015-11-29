@@ -4624,3 +4624,20 @@ This file should never be committed along with other files; it should always be 
         * Have the benchmarks run against PostgreSQL?
         * Have the benchmarks run against production.
         * Have the benchmarks run Tomcat in embedded mode, to allow for profiling.
+
+### 2015-11-29, Sunday
+
+* 0.45h (12:14-12:40): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * How to run against production? Options:
+        1. Don't worry about creating fake data. Maybe tag it, so that it can be ignored, when needed.
+        2. Delete anything I create, after the benchmark run.
+        3. Somehow rig up a giant DB transaction that all of the benchmarks run within.
+    * If I do go the "delete it after" route, I should probably still ensure things are tagged somehow, in case the cleanup fails.
+        * Using fixed accounts is probably enough to cover this: just delete all games, etc. associated with those accounts.
+    * What, exactly, will I need to be able to delete?
+        * Not accounts (not for this, anyways).
+        * Logins (assuming that I'll want to create guest logins for the benchmarks).
+        * Players.
+        * Game and rounds.
+    * I'll also need some sort of admin account to manage this. That'll require a way to customize the production password (and to pass that customized password into the benchmarks).
+    * Of course, if I want to actually run all this against production, I'll have to deploy a new version out there.
