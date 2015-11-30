@@ -4641,3 +4641,8 @@ This file should never be committed along with other files; it should always be 
         * Game and rounds.
     * I'll also need some sort of admin account to manage this. That'll require a way to customize the production password (and to pass that customized password into the benchmarks).
     * Of course, if I want to actually run all this against production, I'll have to deploy a new version out there.
+
+### 2015-11-30, Monday
+
+* 0.45h (08:53-09:05,10:01-10:17): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Working on `AdminAccountInitializer`, which will ensure that the web service always has a default admin account.
