@@ -4646,3 +4646,8 @@ This file should never be committed along with other files; it should always be 
 
 * 0.45h (08:53-09:05,10:01-10:17): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Working on `AdminAccountInitializer`, which will ensure that the web service always has a default admin account.
+
+### 2015-12-01, Tuesday
+
+* 0.45h (10:05-10:32): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Finished the first cut of `AdminAccountInitializer`. Not tested, yet.
