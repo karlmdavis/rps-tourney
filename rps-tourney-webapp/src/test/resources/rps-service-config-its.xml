@@ -4,4 +4,8 @@
 	<jed:hsqlCoordinates>
 		<jed:url>jdbc:hsqldb:mem:serviceapp</jed:url>
 	</jed:hsqlCoordinates>
+	<rps:admin>
+		<rps:address>admin@example.com</rps:address>
+		<rps:password>password</rps:password>
+	</rps:admin>
 </rps:serviceConfig>

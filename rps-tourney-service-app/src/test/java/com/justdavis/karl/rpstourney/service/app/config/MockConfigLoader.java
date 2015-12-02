@@ -32,9 +32,9 @@ public final class MockConfigLoader implements IConfigLoader {
 		HsqlProvisioningRequest hsqlProvisioningRequest = HsqlProvisioningRequest
 				.requestForRandomDatabase("integrationTests");
 		HsqlProvisioner hsqlProvisioner = new HsqlProvisioner();
-		HsqlCoordinates coords = hsqlProvisioner.provision(
-				new HsqlProvisioningTarget(), hsqlProvisioningRequest);
-		ServiceConfig actualConfig = new ServiceConfig(coords);
+		HsqlCoordinates coords = hsqlProvisioner.provision(new HsqlProvisioningTarget(), hsqlProvisioningRequest);
+		AdminAccountConfig adminAccountConfig = new AdminAccountConfig("admin@example.com", "password");
+		ServiceConfig actualConfig = new ServiceConfig(coords, adminAccountConfig);
 
 		this.config = actualConfig;
 	}

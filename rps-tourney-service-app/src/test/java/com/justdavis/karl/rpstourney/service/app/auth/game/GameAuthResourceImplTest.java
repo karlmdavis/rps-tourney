@@ -126,7 +126,7 @@ public final class GameAuthResourceImplTest {
 		accountsDao.accounts.add(account);
 		GameLoginIdentity login = new GameLoginIdentity(account,
 				new InternetAddress("foo@example.com"),
-				GameAuthResourceImpl.hashPassword("secret"));
+				PasswordUtils.hashPassword("secret"));
 		loginsDao.logins.add(login);
 
 		// Login.

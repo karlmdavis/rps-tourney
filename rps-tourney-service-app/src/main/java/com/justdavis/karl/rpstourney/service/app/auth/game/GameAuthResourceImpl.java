@@ -21,7 +21,6 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.IAccountsDao;
-import com.lambdaworks.crypto.SCryptUtil;
 
 /**
  * The JAX-RS server-side implementation of {@link IGameAuthResource}.
@@ -29,33 +28,6 @@ import com.lambdaworks.crypto.SCryptUtil;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GameAuthResourceImpl implements IGameAuthResource {
-	/**
-	 * The CPU cost factor (<code>"N"</code>) that will be passed to
-	 * {@link SCryptUtil#scrypt(String, int, int, int)} when new passwords are
-	 * first converted to hashes.
-	 * 
-	 * @see http://stackoverflow.com/a/12581268/1851299
-	 */
-	private static final int SCRYPT_CPU_COST = (int) Math.pow(2, 14);
-
-	/**
-	 * The memory cost factor (<code>"r"</code>) that will be passed to
-	 * {@link SCryptUtil#scrypt(String, int, int, int)} when new passwords are
-	 * first converted to hashes.
-	 * 
-	 * @see http://stackoverflow.com/a/12581268/1851299
-	 */
-	private static final int SCRYPT_MEMORY_COST = 8;
-
-	/**
-	 * The parallelization factor (<code>"p"</code>) that will be passed to
-	 * {@link SCryptUtil#scrypt(String, int, int, int)} when new passwords are
-	 * first converted to hashes.
-	 * 
-	 * @see http://stackoverflow.com/a/12581268/1851299
-	 */
-	private static final int SCRYPT_PARALLELIZATION = 1;
-
 	private HttpServletRequest httpRequest;
 	private IAccountsDao accountsDao;
 	private AccountSecurityContext securityContext;
@@ -127,39 +99,33 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 	 *      java.lang.String)
 	 */
 	@Override
-	public Account loginWithGameAccount(InternetAddress emailAddress,
-			String password) {
+	public Account loginWithGameAccount(InternetAddress emailAddress, String password) {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
 		 * users/clients want to log out, they must do so explicitly.
 		 */
 		if (securityContext.getUserPrincipal() != null)
-			throw new WebApplicationException("User already logged in.",
-					Status.CONFLICT);
+			throw new WebApplicationException("User already logged in.", Status.CONFLICT);
 
 		// Search for a matching login.
 		GameLoginIdentity login = loginsDao.find(emailAddress);
 
 		// If the login didn't match, return an error.
 		if (login == null)
-			throw new WebApplicationException("Authentication failed.",
-					Status.FORBIDDEN);
+			throw new WebApplicationException("Authentication failed.", Status.FORBIDDEN);
 
 		// Check the login's password.
-		if (!checkPassword(password, login))
-			throw new WebApplicationException("Authentication failed.",
-					Status.UNAUTHORIZED);
+		if (!PasswordUtils.checkPassword(password, login))
+			throw new WebApplicationException("Authentication failed.", Status.UNAUTHORIZED);
 
 		// Pull (or create) an auth token for the login.
-		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login
-				.getAccount());
+		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
 		 * Store the login in the HTTP request, so the response
 		 * AuthenticationFilter can record it in a cookie.
 		 */
-		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY,
-				authTokenForLogin);
+		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 
 		/*
 		 * Return the account that was logged in.
@@ -182,9 +148,7 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		// Search for a conflicting login.
 		GameLoginIdentity conflictingLogin = loginsDao.find(emailAddress);
 		if (conflictingLogin != null)
-			throw new WebApplicationException(
-					"Login already exists for that email address.",
-					Status.CONFLICT);
+			throw new WebApplicationException("Login already exists for that email address.", Status.CONFLICT);
 
 		// If there's an existing Account, reload it (so it's not detached).
 		if (account != null && account.hasId()) {
@@ -197,50 +161,22 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		}
 
 		// Create and persist the new login.
-		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress,
-				hashPassword(password));
+		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress, PasswordUtils.hashPassword(password));
 		login.getAccount().getLogins().add(login);
 		loginsDao.save(login);
 
 		// Pull (or create) an auth token for the login.
-		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login
-				.getAccount());
+		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
 		 * Store the new login in the HTTP request, so the response
 		 * AuthenticationFilter can record it in a cookie.
 		 */
-		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY,
-				authTokenForLogin);
+		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 
 		/*
 		 * Return the logged-in account.
 		 */
 		return login.getAccount();
-	}
-
-	/**
-	 * @param password
-	 *            the password to be hashed
-	 * @return an scrypt password hash of the specified password
-	 */
-	static String hashPassword(String password) {
-		String passwordHash = SCryptUtil.scrypt(password, SCRYPT_CPU_COST,
-				SCRYPT_MEMORY_COST, SCRYPT_PARALLELIZATION);
-		return passwordHash;
-	}
-
-	/**
-	 * @param password
-	 *            the password to compare against the hash in
-	 *            {@link GameLoginIdentity#getPasswordHash()}
-	 * @param login
-	 *            the {@link GameLoginIdentity} to pull the password hash from
-	 * @return <code>true</code> if the the specified password matches the
-	 *         specified password hash (as created by
-	 *         {@link #hashPassword(String)}), <code>false</code> if it does not
-	 */
-	static boolean checkPassword(String password, GameLoginIdentity login) {
-		return SCryptUtil.check(password, login.getPasswordHash());
 	}
 }

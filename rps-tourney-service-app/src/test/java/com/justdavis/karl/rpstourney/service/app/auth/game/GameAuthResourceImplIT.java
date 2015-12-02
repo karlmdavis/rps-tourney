@@ -51,10 +51,8 @@ public final class GameAuthResourceImplIT {
 	 */
 	@After
 	public void wipeSchema() {
-		schemaManager.wipeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
-		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
+		schemaManager.wipeSchema(configLoader.getConfig().getDataSourceCoordinates());
+		schemaManager.createOrUpgradeSchema(configLoader.getConfig().getDataSourceCoordinates());
 	}
 
 	/**
@@ -66,25 +64,22 @@ public final class GameAuthResourceImplIT {
 	 */
 	@Test
 	public void createAndValidateLogin() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create the login and account.
-		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
-				cookieStore);
-		Account createdAccount = gameAuthClient.createGameLogin(
-				new InternetAddress("foo@example.com"), "secret");
+		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig, cookieStore);
+		InternetAddress loginAddress = new InternetAddress("foo@example.com");
+		Account createdAccount = gameAuthClient.createGameLogin(loginAddress, "secret");
 
 		// Verify the create results.
 		Assert.assertNotNull(createdAccount);
-		Assert.assertEquals(1, loginsDao.getLogins().size());
-		Assert.assertEquals(new InternetAddress("foo@example.com"), loginsDao
-				.getLogins().get(0).getEmailAddress());
+		GameLoginIdentity loginFromDb = loginsDao.find(loginAddress);
+		Assert.assertNotNull(loginFromDb);
+		Assert.assertEquals(loginAddress, loginFromDb.getEmailAddress());
 
 		// Validate the login.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		Account validatedAccount = accountsClient.validateAuth();
 
 		// Verify the validate results.
@@ -102,21 +97,17 @@ public final class GameAuthResourceImplIT {
 	 */
 	@Test
 	public void createLoginForExistingAccount() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create a guest login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 		Assert.assertNotNull(createdAccount);
 
 		// Create a game login for the same account.
-		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
-				cookieStore);
-		Account updatedAccount = gameAuthClient.createGameLogin(
-				new InternetAddress("foo@example.com"), "secret");
+		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig, cookieStore);
+		Account updatedAccount = gameAuthClient.createGameLogin(new InternetAddress("foo@example.com"), "secret");
 		Assert.assertNotNull(updatedAccount);
 		Assert.assertEquals(1, loginsDao.getLogins().size());
 		Assert.assertEquals(createdAccount.getId(), updatedAccount.getId());
@@ -132,15 +123,12 @@ public final class GameAuthResourceImplIT {
 	 */
 	@Test
 	public void loginWithGameAccount() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create the login and account.
-		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig,
-				cookieStore);
-		Account createdAccount = gameAuthClient.createGameLogin(
-				new InternetAddress("foo@example.com"), "secret");
+		GameAuthClient gameAuthClient = new GameAuthClient(clientConfig, cookieStore);
+		Account createdAccount = gameAuthClient.createGameLogin(new InternetAddress("foo@example.com"), "secret");
 
 		// Make sure the create response looks correct.
 		Assert.assertNotNull(createdAccount);
@@ -149,16 +137,14 @@ public final class GameAuthResourceImplIT {
 		cookieStore.clear();
 
 		// Try to login.
-		Account loggedInAccount = gameAuthClient.loginWithGameAccount(
-				new InternetAddress("foo@example.com"), "secret");
+		Account loggedInAccount = gameAuthClient.loginWithGameAccount(new InternetAddress("foo@example.com"), "secret");
 
 		// Make sure the login response looks correct.
 		Assert.assertNotNull(loggedInAccount);
 		Assert.assertEquals(createdAccount.getId(), loggedInAccount.getId());
 
 		// Validate the login.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		Account validatedAccount = accountsClient.validateAuth();
 
 		// Verify the validate results.

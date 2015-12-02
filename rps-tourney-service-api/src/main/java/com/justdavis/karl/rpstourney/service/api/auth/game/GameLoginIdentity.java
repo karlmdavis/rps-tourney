@@ -35,8 +35,7 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
 @Table(name = "`GameLoginIdentities`")
 @PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
 @XmlRootElement
-public class GameLoginIdentity extends AbstractLoginIdentity implements
-		ILoginIdentity {
+public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginIdentity {
 	private static final long serialVersionUID = 5592372522747907472L;
 
 	@org.hibernate.annotations.Type(type = InternetAddressUserType.TYPE_NAME)
@@ -63,8 +62,7 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements
 	 * @param passwordHash
 	 *            the value to use for {@link #getPasswordHash()}
 	 */
-	public GameLoginIdentity(Account account, InternetAddress emailAddress,
-			String passwordHash) {
+	public GameLoginIdentity(Account account, InternetAddress emailAddress, String passwordHash) {
 		super(account);
 
 		this.emailAddress = emailAddress;
@@ -104,11 +102,17 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements
 	 * </p>
 	 * 
 	 * @return the scrypt hash of the user's password
-	 * @see GameAuthService#hashPassword(String)
-	 * @see GameAuthService#checkPassword(String, GameLoginIdentity)
 	 */
 	public String getPasswordHash() {
 		return passwordHash;
+	}
+
+	/**
+	 * @param passwordHash
+	 *            the new value for {@link #getPasswordHash()}
+	 */
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 
 	/**
@@ -138,5 +142,4 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements
 		builder.append("]");
 		return builder.toString();
 	}
-
 }

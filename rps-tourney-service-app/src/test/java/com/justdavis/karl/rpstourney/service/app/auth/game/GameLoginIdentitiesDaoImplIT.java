@@ -111,7 +111,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 			account.getAuthTokens().add(authToken);
 			GameLoginIdentity login = new GameLoginIdentity(account,
 					new InternetAddress("foo@example.com"),
-					GameAuthResourceImpl.hashPassword("secret"));
+					PasswordUtils.hashPassword("secret"));
 
 			// Try to save the entity.
 			EntityTransaction tx = entityManager.getTransaction();
@@ -161,7 +161,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 			account.getAuthTokens().add(authToken);
 			GameLoginIdentity login = new GameLoginIdentity(account,
 					new InternetAddress("foo@example.com"),
-					GameAuthResourceImpl.hashPassword("secret"));
+					PasswordUtils.hashPassword("secret"));
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
 				tx.begin();
