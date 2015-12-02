@@ -4651,3 +4651,11 @@ This file should never be committed along with other files; it should always be 
 
 * 0.45h (10:05-10:32): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Finished the first cut of `AdminAccountInitializer`. Not tested, yet.
+
+### 2015-12-02, Wednesday
+
+* 1.1h (14:16-15:23): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Updated the `ServiceConfigTest` unit tests to include `AdminAccountConfig`. Found & fixed a bug they caught.
+    * Created `AdminAccountInitializerIT`. It told me that the `AdminAccountInitializer` wasn't being called at all.
+        * Rejiggered it to work like `AiPlayerInitializer`. Fixed!
+    * Committed my admin account changes.
