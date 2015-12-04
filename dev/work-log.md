@@ -4659,3 +4659,8 @@ This file should never be committed along with other files; it should always be 
     * Created `AdminAccountInitializerIT`. It told me that the `AdminAccountInitializer` wasn't being called at all.
         * Rejiggered it to work like `AiPlayerInitializer`. Fixed!
     * Committed my admin account changes.
+
+### 2015-12-02, Wednesday
+
+* 0.3h (20:17-20:36): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Implemented a `Game` delete in the web service and DAO. Need to add tests for it.
