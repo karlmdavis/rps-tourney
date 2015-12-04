@@ -4670,3 +4670,14 @@ This file should never be committed along with other files; it should always be 
 * 0.35h (10:26-10:47): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Added a test case for the DAO delete, which is failing in a very interesting way.
         * Need to research more: JPA caching and cascade removes.
+* 0.35h (13:41-14:03): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * All but one FK contraint in the DB is missing! Filed this as a new issue.
+* 1.35h (14:04-14:51,15:52-15:59,16:55-17:21): [Issue #106: DB tables are missing constraints](https://github.com/karlmdavis/rps-tourney/issues/106)
+    * I just love that, with Liquibase, this failure will be memorialized in my DB changelog for all eternity. Yay...
+    * Something weird is going on, trying to add a FK on `GuestLoginIdentities`...
+        * In change set `3`, I add the FK and then (accidentally) remove all FKs on that table.
+        * However, in my new change set, I can't (re-)create the FK because it already exists. Except it doesn't; I don't see it there.
+    * Also, to add to my pain, the DAO ITs are always provisioning the schema and setting up entity managers for HSQL.
+        * My Spring profiles are all pretty whacked, it seems.
+        * I'm starting to think that a part of my pain with the FK recreation is due to this.
+        * Need to file this as a separate issue, stash all my current changes, fix the profiles, then come back to the FK mess. 
