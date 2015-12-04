@@ -4660,7 +4660,13 @@ This file should never be committed along with other files; it should always be 
         * Rejiggered it to work like `AiPlayerInitializer`. Fixed!
     * Committed my admin account changes.
 
-### 2015-12-02, Wednesday
+### 2015-12-03, Thursday
 
 * 0.3h (20:17-20:36): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Implemented a `Game` delete in the web service and DAO. Need to add tests for it.
+
+### 2015-12-04, Friday
+
+* 0.35h (10:26-10:47): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Added a test case for the DAO delete, which is failing in a very interesting way.
+        * Need to research more: JPA caching and cascade removes.
