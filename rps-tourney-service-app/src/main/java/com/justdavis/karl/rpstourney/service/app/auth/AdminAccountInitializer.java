@@ -21,7 +21,6 @@ import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.game.IGameLoginIndentitiesDao;
 import com.justdavis.karl.rpstourney.service.app.auth.game.PasswordUtils;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
-import com.justdavis.karl.rpstourney.service.app.jpa.DatabaseSchemaInitializer;
 
 /**
  * This {@link ServletContextListener} runs at application startup to ensure
@@ -40,7 +39,7 @@ public class AdminAccountInitializer implements ApplicationListener<ContextRefre
 	private final IGameLoginIndentitiesDao loginsDao;
 
 	/**
-	 * Constructs a new {@link DatabaseSchemaInitializer} instance.
+	 * Constructs a new {@link AdminAccountInitializer} instance.
 	 * 
 	 * @param config
 	 *            the injected {@link ServiceConfig} to use
