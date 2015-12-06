@@ -4681,3 +4681,17 @@ This file should never be committed along with other files; it should always be 
         * My Spring profiles are all pretty whacked, it seems.
         * I'm starting to think that a part of my pain with the FK recreation is due to this.
         * Need to file this as a separate issue, stash all my current changes, fix the profiles, then come back to the FK mess. 
+
+### 2015-12-05, Saturday
+
+* 1.85h (07:46-08:27,14:48-15:57): [Issue #107: The web service DAO ITs always provision an extra HSQL DB](https://github.com/karlmdavis/rps-tourney/issues/107)
+    * Stashed my changes for #106.
+    * Thinking through the problem...
+        * The DAO tests are different from the other ITs in that they don't just need to override beans, they need to exclude them.
+        * It seems like it'd be best to have a separate configuration just for these tests.
+        * Either that, or just move them to a different project entirely. That seems like overkill, though.
+    * Currently trying to programmatically verify the application's schema. Not going very well.
+* 1.05h (20:14-21:16): [Issue #107: The web service DAO ITs always provision an extra HSQL DB](https://github.com/karlmdavis/rps-tourney/issues/107)
+    * Gave up on the programmatic schema verification.
+    * Got everything else cleaned up, fixed, and committed.
+    * The configs before were pretty damn screwy, so I'm quite happy with this little detour-- cleans up a lot of weird stuff.
