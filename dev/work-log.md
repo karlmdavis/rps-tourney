@@ -4695,3 +4695,12 @@ This file should never be committed along with other files; it should always be 
     * Gave up on the programmatic schema verification.
     * Got everything else cleaned up, fixed, and committed.
     * The configs before were pretty damn screwy, so I'm quite happy with this little detour-- cleans up a lot of weird stuff.
+
+### 2015-12-06, Sunday
+
+* 0.35h (12:03-12:25): [Issue #106: DB tables are missing constraints](https://github.com/karlmdavis/rps-tourney/issues/106)
+    * Tried updating HSQL and Liquibase.
+        * The HSQL upgrade doesn't fix it.
+        * The Liquibase update just starts running into this: [CORE-2425: Type VARBINARY(256) changed to BLOB on HSQLDB](https://liquibase.jira.com/browse/CORE-2425).
+    * Fixing #107 was huge, though, as it turns out the problem only exists with HSQL.
+    * Think I'll need to hack and invalidate the change set that originally created-then-deleted the FK.
