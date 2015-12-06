@@ -13,7 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
-import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.AccountsClient;
@@ -24,7 +24,7 @@ import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
  * Integration tests for {@link GuestAuthResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class GuestAuthResourceImplIT {

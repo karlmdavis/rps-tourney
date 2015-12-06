@@ -26,10 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.justdavis.karl.misc.SpringConfigForJEMisc;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
-import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
-import com.justdavis.karl.misc.datasources.schema.LiquibaseSchemaManager;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.GameConflictExceptionMapper;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
@@ -37,15 +34,15 @@ import com.justdavis.karl.rpstourney.service.app.auth.game.InternetAddressReader
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
-import com.justdavis.karl.rpstourney.service.app.jpa.SpringJpaConfig;
+import com.justdavis.karl.rpstourney.service.app.jpa.SpringBindingsForJpa;
 
 /**
  * Provides the primary Spring {@link Configuration} for the JAX-RS application.
  */
 @Configuration
 @ComponentScan(basePackageClasses = { ServiceApplication.class })
-@Import({ SpringConfigForJEMisc.class, SpringJpaConfig.class })
-public class SpringConfig {
+@Import({ SpringBindingsForDaos.class, SpringBindingsForJpa.class })
+public class SpringBindingsForWebServices {
 	/**
 	 * @return Returns the {@link SpringBus} that the CXF application uses. Such
 	 *         a {@link SpringBus} instance <strong>must</strong> be provided in
@@ -98,11 +95,9 @@ public class SpringConfig {
 	 */
 	@Bean
 	@DependsOn({ "cxf" })
-	Server jaxRsServer(ApplicationContext springApplicationContext,
-			AuthenticationFilter authenticationFilter) {
-		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance()
-				.createEndpoint(jaxRsApiApplication(),
-						JAXRSServerFactoryBean.class);
+	Server jaxRsServer(ApplicationContext springApplicationContext, AuthenticationFilter authenticationFilter) {
+		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance().createEndpoint(jaxRsApiApplication(),
+				JAXRSServerFactoryBean.class);
 
 		List<Object> providers = getProviders();
 		providers.add(authenticationFilter);
@@ -112,20 +107,13 @@ public class SpringConfig {
 		 * The following Spring Beans will be request-scoped.
 		 */
 		List<ResourceProvider> resourceProviders = new LinkedList<>();
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"serviceStatusResourceImpl"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"helloWorldResource"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"accountsResourceImpl"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"guestAuthResourceImpl"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"gameAuthResourceImpl"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"playersResourceImpl"));
-		resourceProviders.add(new RequestScopeResourceFactory(
-				"gameResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("serviceStatusResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("helloWorldResource"));
+		resourceProviders.add(new RequestScopeResourceFactory("accountsResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("guestAuthResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("gameAuthResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("playersResourceImpl"));
+		resourceProviders.add(new RequestScopeResourceFactory("gameResourceImpl"));
 
 		/*
 		 * Initialize all of the SpringResourceFactory instances. This
@@ -134,8 +122,7 @@ public class SpringConfig {
 		 */
 		for (ResourceProvider resourceProvider : resourceProviders)
 			if (resourceProvider instanceof SpringResourceFactory)
-				((SpringResourceFactory) resourceProvider)
-						.setApplicationContext(springApplicationContext);
+				((SpringResourceFactory) resourceProvider).setApplicationContext(springApplicationContext);
 
 		/*
 		 * This is equivalent to <jaxrs:serviceFactories/> elements in a Spring
@@ -212,25 +199,7 @@ public class SpringConfig {
 	 * @return the {@link DataSource} for the application's database
 	 */
 	@Bean
-	public DataSource dataSource(
-			DataSourceConnectorsManager dsConnectorsManager,
-			ServiceConfig serviceConfig) {
-		return dsConnectorsManager.createDataSource(serviceConfig
-				.getDataSourceCoordinates());
-	}
-
-	/**
-	 * @return the {@link IDataSourceSchemaManager} for the application to use
-	 */
-	@Bean
-	public IDataSourceSchemaManager schemaManager(
-			DataSourceConnectorsManager connectorsManager) {
-		/*
-		 * The rps-tourney-webservice/src/main/resources/liquibase-change-log
-		 * .xml file contains the Liquibase schema changelog, which will be
-		 * applied at application startup via the DatabaseSchemaInitializer.
-		 */
-		return new LiquibaseSchemaManager(connectorsManager,
-				"liquibase-change-log.xml");
+	public DataSource dataSource(DataSourceConnectorsManager dsConnectorsManager, ServiceConfig serviceConfig) {
+		return dsConnectorsManager.createDataSource(serviceConfig.getDataSourceCoordinates());
 	}
 }

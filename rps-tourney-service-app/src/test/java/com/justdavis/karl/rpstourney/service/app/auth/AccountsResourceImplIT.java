@@ -20,7 +20,7 @@ import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
-import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.GuestAuthResourceImpl;
 import com.justdavis.karl.rpstourney.service.app.auth.guest.IGuestLoginIndentitiesDao;
@@ -36,7 +36,7 @@ import com.justdavis.karl.rpstourney.service.client.game.GameClient;
  * Integration tests for {@link AccountsResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class AccountsResourceImplIT {

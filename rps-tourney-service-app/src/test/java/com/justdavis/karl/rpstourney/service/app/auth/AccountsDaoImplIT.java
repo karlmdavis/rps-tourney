@@ -42,7 +42,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
-import com.justdavis.karl.rpstourney.service.app.SpringConfig;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForDaoITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
@@ -50,7 +50,7 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
  * Integration tests for {@link AccountsDaoImpl}.
  */
 @RunWith(Parameterized.class)
-@ContextConfiguration(classes = { SpringConfig.class })
+@ContextConfiguration(classes = { SpringBindingsForDaoITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class AccountsDaoImplIT {
 	/**

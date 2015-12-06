@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
-public class SpringJpaConfig {
+public class SpringBindingsForJpa {
 	/**
 	 * @return the Spring {@link JpaVendorAdapter} for the application's
 	 *         database

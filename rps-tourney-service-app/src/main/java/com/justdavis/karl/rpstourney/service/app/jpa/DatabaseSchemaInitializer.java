@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.justdavis.karl.misc.datasources.IDataSourceCoordinates;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
-import com.justdavis.karl.rpstourney.service.app.SpringConfig;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForDaos;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 
 /**
@@ -26,7 +26,7 @@ import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
  * initialization: the schema has to be populated before that happens.
  * </p>
  * 
- * @see SpringConfig#schemaManager(com.justdavis.karl.misc.datasources.DataSourceConnectorsManager)
+ * @see SpringBindingsForDaos#schemaManager(com.justdavis.karl.misc.datasources.DataSourceConnectorsManager)
  */
 @Component
 public class DatabaseSchemaInitializer {

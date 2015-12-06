@@ -33,7 +33,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * {@link #SPRING_PARENT_CONTEXT} mechanism.
  * </p>
  * 
- * @see SpringConfig
+ * @see SpringBindingsForWebServices
  */
 public final class GameServiceApplicationInitializer implements
 		WebApplicationInitializer {
@@ -60,14 +60,14 @@ public final class GameServiceApplicationInitializer implements
 		 * ourselves. It's expected that any integration tests that use Jetty as
 		 * the web application container will provide a parent
 		 * ApplicationContext. (See
-		 * com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs for
+		 * com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs for
 		 * more details.)
 		 */
 		ApplicationContext springParentContext = findSpringParentContext(container);
 		if (springParentContext != null) {
 			rootContext.setParent(springParentContext);
 		} else {
-			rootContext.register(SpringConfig.class);
+			rootContext.register(SpringBindingsForWebServices.class);
 		}
 
 		// Set the Spring PRODUCTION profile as the default.

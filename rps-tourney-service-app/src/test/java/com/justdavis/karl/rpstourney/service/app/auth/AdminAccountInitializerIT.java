@@ -17,7 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
-import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.auth.game.IGameLoginIndentitiesDao;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
@@ -26,7 +26,7 @@ import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
  * Integration tests for {@link AdminAccountInitializer}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class AdminAccountInitializerIT {

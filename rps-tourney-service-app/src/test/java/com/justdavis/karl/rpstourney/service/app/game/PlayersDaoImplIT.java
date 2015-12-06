@@ -22,7 +22,7 @@ import com.justdavis.karl.misc.datasources.provisioners.postgresql.PostgreSqlPro
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
-import com.justdavis.karl.rpstourney.service.app.SpringConfig;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForDaoITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 
@@ -30,7 +30,7 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
  * Integration tests for {@link PlayersDaoImpl}.
  */
 @RunWith(Parameterized.class)
-@ContextConfiguration(classes = { SpringConfig.class })
+@ContextConfiguration(classes = { SpringBindingsForDaoITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class PlayersDaoImplIT {
 	/**

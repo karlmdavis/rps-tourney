@@ -13,14 +13,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
-import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 
 /**
  * Integration tests for {@link HelloWorldServiceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class HelloWorldServiceIT {

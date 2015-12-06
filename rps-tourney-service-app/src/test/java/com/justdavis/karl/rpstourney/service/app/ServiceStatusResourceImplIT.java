@@ -19,7 +19,7 @@ import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
  * Integration tests for {@link ServiceStatusResourceImpl}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class ServiceStatusResourceImplIT {

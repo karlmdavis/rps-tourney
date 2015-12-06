@@ -34,7 +34,7 @@ import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.State;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
-import com.justdavis.karl.rpstourney.service.app.JettyBindingsForITs;
+import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
@@ -49,7 +49,7 @@ import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
  * Integration tests for {@link GameResourceImpl} and {@link GameClient}.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JettyBindingsForITs.class })
+@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
 @WebAppConfiguration
 public final class GameResourceImplIT {
