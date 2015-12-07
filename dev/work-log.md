@@ -4704,3 +4704,11 @@ This file should never be committed along with other files; it should always be 
         * The Liquibase update just starts running into this: [CORE-2425: Type VARBINARY(256) changed to BLOB on HSQLDB](https://liquibase.jira.com/browse/CORE-2425).
     * Fixing #107 was huge, though, as it turns out the problem only exists with HSQL.
     * Think I'll need to hack and invalidate the change set that originally created-then-deleted the FK.
+
+### 2015-12-07, Monday
+
+* 0.45h (08:17-08:45): [Issue #106: DB tables are missing constraints](https://github.com/karlmdavis/rps-tourney/issues/106)
+    * Think I got this fixed.
+        * However, this forum thread makes me wonder if Liquibase does actually support the `validCheckSum` option: [Liquibase Forums: Calculation of checksum md5sum](http://forum.liquibase.org/topic/calculation-of-checksum-md5sum).
+        * If not, this may blow up when I try to push it to production.
+    * Still need to review and commit it.
