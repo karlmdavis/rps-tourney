@@ -190,6 +190,22 @@ public final class DaoTestHelper extends ExternalResource implements
 	}
 
 	/**
+	 * @return the Spring {@link ApplicationContext} being used for the currect
+	 *         test case
+	 */
+	public ApplicationContext getSpringAppContext() {
+		return springAppContext;
+	}
+
+	/**
+	 * @return the {@link ProvisioningResult} that identifies the DB schema
+	 *         being used for the current test run
+	 */
+	public ProvisioningResult getProvisioningResult() {
+		return provisioningResult;
+	}
+
+	/**
 	 * @return the {@link EntityManagerFactory} to use for the current test case
 	 */
 	public EntityManagerFactory getEntityManagerFactory() {
