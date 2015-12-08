@@ -175,6 +175,10 @@
 			to think about it some still, but they probably ought to have the AuthTokens, 
 			rather than those being associated directly with Accounts. -->
 
+		<!-- This change set had a goof that had to be hacked out, as part of Issue 
+			#106. -->
+		<validCheckSum>31f186d37ae0605a0f866ba1e47bb3d9</validCheckSum>
+
 		<!-- Create the new base table. -->
 		<createTable tableName="LoginIdentities">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
@@ -200,11 +204,6 @@
 		</sql>
 
 		<!-- Update the guest logins table to work with the new base table. -->
-		<addForeignKeyConstraint constraintName="GuestLoginIdentitiesIdToLoginIdentitiesId"
-			referencedTableName="LoginIdentities" baseColumnNames="id"
-			baseTableName="GuestLoginIdentities" referencedColumnNames="id" />
-		<dropAllForeignKeyConstraints
-			baseTableName="GuestLoginIdentities" />
 		<dropColumn tableName="GuestLoginIdentities" columnName="accountId" />
 
 		<!-- Update the game logins table to work with the new base table. -->
@@ -295,6 +294,56 @@
 				<constraints nullable="true" unique="true" />
 			</column>
 		</addColumn>
+
+	</changeSet>
+
+	<changeSet id="8" author="karlmdavis">
+
+		<!-- These FK contraints were all missing, due to me forgetting to include 
+			the 'referencedColumnNames' attribute in my 'createTable/column/constraints' 
+			directives, above. Fixed as part of https://github.com/karlmdavis/rps-tourney/issues/106. -->
+
+		<addForeignKeyConstraint constraintName="AccountRolesToAccountsId"
+			baseTableName="AccountRoles" baseColumnNames="accountId"
+			referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuthTokensToAccountsId"
+			baseTableName="AuthTokens" baseColumnNames="accountId"
+			referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GuestLoginIdentitiesToLoginIdentitiesId"
+			baseTableName="GuestLoginIdentities" baseColumnNames="id"
+			referencedTableName="LoginIdentities" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GamesToPlayersId1"
+			baseTableName="Games" baseColumnNames="player1Id"
+			referencedTableName="Players" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GamesToPlayersId2"
+			baseTableName="Games" baseColumnNames="player2Id"
+			referencedTableName="Players" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="PlayersToAccountsId"
+			baseTableName="Players" baseColumnNames="humanAccountId"
+			referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GameRoundsToGamesId"
+			baseTableName="GameRounds" baseColumnNames="${fkColumnName.Game.id}"
+			referencedTableName="Games" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="LoginIdentitiesToAccountsId"
+			baseTableName="LoginIdentities" baseColumnNames="accountId"
+			referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuditAccountMergesToAccountsId"
+			baseTableName="AuditAccountMerges" baseColumnNames="targetAccountId"
+			referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="AuditAccountLoginMergesToAuditAccountMergesId"
+			baseTableName="AuditAccountLoginMerges" baseColumnNames="auditAccountMergeId"
+			referencedTableName="AuditAccountMerges" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuditAccountLoginMergesToLoginIdentitiesId"
+			baseTableName="AuditAccountLoginMerges" baseColumnNames="${fkColumnName.LoginIdentity.id}"
+			referencedTableName="LoginIdentities" referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="AuditAccountGameMergesToAuditAccountMergesId"
+			baseTableName="AuditAccountGameMerges" baseColumnNames="parentAuditAccountMergeId"
+			referencedTableName="AuditAccountMerges" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuditAccountGameMergesToGamesId"
+			baseTableName="AuditAccountGameMerges" baseColumnNames="${fkColumnName.Game.id}"
+			referencedTableName="Games" referencedColumnNames="id" />
 
 	</changeSet>
 
