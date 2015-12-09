@@ -4712,3 +4712,19 @@ This file should never be committed along with other files; it should always be 
         * However, this forum thread makes me wonder if Liquibase does actually support the `validCheckSum` option: [Liquibase Forums: Calculation of checksum md5sum](http://forum.liquibase.org/topic/calculation-of-checksum-md5sum).
         * If not, this may blow up when I try to push it to production.
     * Still need to review and commit it.
+
+### 2015-12-08, Tuesday
+
+* 0.15h (07:21-07:30): [Issue #106: DB tables are missing constraints](https://github.com/karlmdavis/rps-tourney/issues/106)
+    * Cleaned up, committed, and resolved.
+* 1.1h (10:19-10:40,10:58-11:05,12:44-13:23): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Fixed the problem with game deletes: `CriteriaDelete` isn't honoring `CascadeType.REMOVE`.
+    * Now seeing a really odd problem in `GameResourceImplIT.submitThrowConcurrency()`, which should be unrelated...
+
+### 2015-12-09, Wednesday
+
+* 1.35h (13:11-13:38,14:20-14:33,15:45-16:27): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Fixed the problem with `GameResourceImplIT.submitThrowConcurrency()`. Why'd it start happening now?
+        * Oh yeah, duh. I'd updated the method's `toString` earlier for some reason or other.
+    * Cleaned up and committed the `Game` delete functionality.
+    * Got the benchmarks deleting the `Game` that they create.
