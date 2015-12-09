@@ -126,4 +126,12 @@ public class MockGameClient implements IGameResource {
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
 		throw new UnsupportedOperationException();
 	}
+	
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#deleteGame(java.lang.String)
+	 */
+	@Override
+	public void deleteGame(String gameId) throws NotFoundException {
+		throw new UnsupportedOperationException();
+	}
 }

@@ -71,6 +71,13 @@ public interface IGamesDao {
 	 *             or the {@link Game#getState()} no longer allows for the
 	 *             rounds to be modified.
 	 */
-	Game setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue);
+	Game setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue);
+
+	/**
+	 * Removes/deletes the specified {@link Game} from the database.
+	 * 
+	 * @param gameId
+	 *            the {@link Game#getId()} of the {@link Game} to be deleted
+	 */
+	void delete(String gameId);
 }

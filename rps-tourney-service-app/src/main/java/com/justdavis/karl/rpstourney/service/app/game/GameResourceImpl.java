@@ -331,6 +331,20 @@ public class GameResourceImpl implements IGameResource {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#deleteGame(java.lang.String)
+	 */
+	@RolesAllowed({ SecurityRole.ID_ADMINS })
+	@Transactional
+	@Override
+	public void deleteGame(String gameId) throws NotFoundException {
+		Game game = getRawGame(gameId);
+		if (game == null)
+			throw new NotFoundException("Game not found: " + gameId);
+
+		gamesDao.delete(game.getId());
+	}
+	
+	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} value to match
 	 * @return the specified {@link Game} instance (not wrapped in a

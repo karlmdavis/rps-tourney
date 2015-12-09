@@ -15,10 +15,10 @@ import org.springframework.stereotype.Repository;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
+import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 import com.justdavis.karl.rpstourney.service.api.game.Game_;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.State;
-import com.justdavis.karl.rpstourney.service.api.game.GameConflictException.ConflictType;
 
 /**
  * The default {@link IGamesDao} implementation.
@@ -167,5 +167,20 @@ public class GamesDaoImpl implements IGamesDao {
 		Game game = findById(gameId);
 		entityManager.refresh(game);
 		return game;
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IGamesDao#delete(java.lang.String)
+	 */
+	@Override
+	public void delete(String gameId) {
+		/*
+		 * Note: I'd prefer to use a CriteriaDelete here, as it saves an extra
+		 * query, but Hibernate 4 doesn't seem to correctly handle
+		 * CascadeType.REMOVE with that API.
+		 * https://hibernate.atlassian.net/browse/HHH-8993
+		 */
+		Game game = findById(gameId);
+		entityManager.remove(game);
 	}
 }

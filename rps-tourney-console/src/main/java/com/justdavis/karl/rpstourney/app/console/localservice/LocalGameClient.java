@@ -2,6 +2,8 @@ package com.justdavis.karl.rpstourney.app.console.localservice;
 
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.api.game.IGameResource;
@@ -120,5 +122,13 @@ public final class LocalGameClient implements IGameResource {
 		game.submitThrow(roundIndex, game.getPlayer2(), aiThrow);
 
 		return getGame(gameId);
+	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#deleteGame(java.lang.String)
+	 */
+	@Override
+	public void deleteGame(String gameId) throws NotFoundException {
+		throw new UnsupportedOperationException();
 	}
 }

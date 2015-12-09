@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.inject.Inject;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.After;
@@ -632,5 +633,42 @@ public final class GameResourceImplIT {
 		}
 
 		// If we got here: Success!
+	}
+
+	/**
+	 * Ensures that the client and server
+	 * {@link IGameResource#deleteGame(String)} implementations work correctly.
+	 */
+	@Test
+	public void delete() {
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
+		CookieStore cookiesForPlayer1 = new CookieStore();
+
+		// Login the player.
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.loginAsGuest();
+
+		// Create the game.
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
+		GameView gameFromCreate = gameClientForPlayer1.createGame();
+		Assert.assertNotNull(gameFromCreate);
+
+		// Now, login as admin and try to delete the game.
+		CookieStore cookiesForAdmin = new CookieStore();
+		GameAuthClient authClientForAdmin = new GameAuthClient(clientConfig, cookiesForAdmin);
+		authClientForAdmin.loginWithGameAccount(configLoader.getConfig().getAdminAccountConfig().getAddress(),
+				configLoader.getConfig().getAdminAccountConfig().getPassword());
+		GameClient gameClientForAdmin = new GameClient(clientConfig, cookiesForAdmin);
+		gameClientForAdmin.deleteGame(gameFromCreate.getId());
+
+		// Verify that the game was actually deleted.
+		boolean gameDeleted = false;
+		try {
+			GameView gameFromGet = gameClientForPlayer1.getGame(gameFromCreate.getId());
+			Assert.assertNull(gameFromGet);
+		} catch (NotFoundException e) {
+			gameDeleted = true;
+		}
+		Assert.assertTrue(gameDeleted);
 	}
 }

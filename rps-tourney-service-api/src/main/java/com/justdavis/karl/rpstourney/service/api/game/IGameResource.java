@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.api.game;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -11,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
 /**
@@ -285,4 +287,20 @@ public interface IGameResource {
 			@FormParam("roundIndex") int roundIndex,
 			@FormParam("throwToPlay") Throw throwToPlay)
 			throws NotFoundException, GameConflictException;
+
+	/**
+	 * <p>
+	 * Deletes the specified {@link Game} from the service/database. This
+	 * operation is restricted to {@link SecurityRole#ADMINS} only.
+	 * </p>
+	 * 
+	 * @param gameId
+	 *            the {@link Game#getId()} value of the {@link Game} to delete
+	 * @throws NotFoundException
+	 *             A {@link NotFoundException} will be thrown if no matching
+	 *             {@link Game} can be found.
+	 */
+	@DELETE
+	@Path(IGameResource.SERVICE_PATH_GAME_ID)
+	void deleteGame(@PathParam("gameId") String gameId) throws NotFoundException;
 }

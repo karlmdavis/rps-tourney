@@ -56,9 +56,9 @@ public class GameRound {
 	 * FIXME This column can't be quoted unless/until
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
 	 */
-	@JoinColumn(name = "gameId")
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH })
+	@JoinColumn(name = "gameId", nullable = false)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH }, optional = false)
 	@XmlTransient
 	private Game game;
 
@@ -335,7 +335,9 @@ public class GameRound {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("GameRound [roundIndex=");
+		builder.append("GameRound [game.id=");
+		builder.append(game != null ? game.getId() : null);
+		builder.append(", roundIndex=");
 		builder.append(roundIndex);
 		builder.append(", throwForPlayer1=");
 		builder.append(throwForPlayer1);

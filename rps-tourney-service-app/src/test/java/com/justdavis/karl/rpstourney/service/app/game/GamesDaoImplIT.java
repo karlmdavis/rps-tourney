@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -311,6 +314,66 @@ public final class GamesDaoImplIT {
 					.getGamesForPlayer(playerB);
 			Assert.assertNotNull(gamesForPlayerB);
 			Assert.assertEquals(1, gamesForPlayerB.size());
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	/**
+	 * Tests {@link GamesDaoImpl#delete(String)}.
+	 */
+	@Test
+	public void deleteGameAndRounds() {
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
+
+		try {
+			// Create the DAO.
+			GamesDaoImpl gamesDao = new GamesDaoImpl();
+			gamesDao.setEntityManager(entityManager);
+
+			// Create the Game, GameRounds, and other required entities.
+			Player player1 = new Player(new Account());
+			Player player2 = new Player(new Account());
+			Game game = new Game(player1);
+			game.setPlayer2(player2);
+			game.submitThrow(0, player1, Throw.ROCK);
+
+			// Try to save the entity.
+			EntityTransaction tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+				gamesDao.save(game);
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Try to delete the game
+			tx = entityManager.getTransaction();
+			try {
+				tx.begin();
+
+				gamesDao.delete(game.getId());
+
+				tx.commit();
+			} finally {
+				if (tx.isActive())
+					tx.rollback();
+			}
+
+			// Verify that the Game was deleted.
+			Assert.assertEquals(0, gamesDao.getGames().size());
+
+			/*
+			 * Verify that the GameRounds were also deleted. Have to fall back
+			 * to JPA here, as they're not directly exposed by a DAO.
+			 */
+			CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+			CriteriaQuery<GameRound> criteria = criteriaBuilder.createQuery(GameRound.class);
+			criteria.from(GameRound.class);
+			TypedQuery<GameRound> query = entityManager.createQuery(criteria);
+			Assert.assertEquals(0, query.getResultList().size());
 		} finally {
 			entityManager.close();
 		}

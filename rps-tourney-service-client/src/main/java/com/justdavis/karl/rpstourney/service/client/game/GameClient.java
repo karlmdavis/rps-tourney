@@ -260,4 +260,23 @@ public final class GameClient implements IGameResource {
 
 		return game;
 	}
+
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#deleteGame(java.lang.String)
+	 */
+	@Override
+	public void deleteGame(String gameId) throws NotFoundException {
+		Client client = ClientBuilder.newClient();
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.request();
+		cookieStore.applyCookies(requestBuilder);
+
+		Response response = requestBuilder.delete();
+		if (response.getStatus() == Status.NOT_FOUND.getStatusCode())
+			throw new NotFoundException("Game not found: " + gameId, response);
+		else if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+			throw new HttpClientException(response.getStatusInfo());
+
+		cookieStore.remember(response.getCookies());
+	}
 }
