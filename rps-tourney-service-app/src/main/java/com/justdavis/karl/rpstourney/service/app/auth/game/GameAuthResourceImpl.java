@@ -99,6 +99,7 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 	 *      java.lang.String)
 	 */
 	@Override
+	@Transactional
 	public Account loginWithGameAccount(InternetAddress emailAddress, String password) {
 		/*
 		 * Never, ever allow this method to kill an existing login. If
