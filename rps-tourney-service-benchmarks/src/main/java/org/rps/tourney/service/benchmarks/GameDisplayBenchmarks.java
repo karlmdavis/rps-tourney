@@ -15,6 +15,7 @@ import org.rps.tourney.service.benchmarks.state.ServerState;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
 import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
@@ -112,12 +113,13 @@ public class GameDisplayBenchmarks {
 		 */
 		@TearDown
 		public void tearDownGameInProgressState() {
-			// TODO Will eventually need to implement this.
-			// ClientConfig config = new ClientConfig(
-			// serverState.getServer().getUrlWithPath(ServerState.CONTEXT_ROOT_SERVICE));
-			// CookieStore cookies = new CookieStore();
-			// GameClient gameClient = new GameClient(config, cookies);
-			// gameClient.deleteGame(gameId);
+			ClientConfig config = new ClientConfig(
+					serverState.getServer().getUrlWithPath(ServerState.CONTEXT_ROOT_SERVICE));
+			CookieStore cookies = new CookieStore();
+			GameAuthClient loginClient = new GameAuthClient(config, cookies);
+			loginClient.loginWithGameAccount(serverState.getAdminAddress(), serverState.getAdminPassword());
+			GameClient gameClient = new GameClient(config, cookies);
+			gameClient.deleteGame(gameId);
 		}
 	}
 }
