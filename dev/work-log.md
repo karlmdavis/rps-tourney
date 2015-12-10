@@ -4728,3 +4728,10 @@ This file should never be committed along with other files; it should always be 
         * Oh yeah, duh. I'd updated the method's `toString` earlier for some reason or other.
     * Cleaned up and committed the `Game` delete functionality.
     * Got the benchmarks deleting the `Game` that they create.
+
+### 2015-12-10, Thursday
+
+* 0.65h (12:41-12:49,15:20-15:29,18:17-18:31,18:41-18:49): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Next step: update the benchmarks so that they can run against other Tomcat instances: production or WTP.
+    * `TomcatServerHelper` isn't the right place for the new/existing server logic. `ServerState` is.
+    * Made decent progress on that, but was getting too tired, so stopped mid-thought.
