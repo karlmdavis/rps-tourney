@@ -4735,3 +4735,22 @@ This file should never be committed along with other files; it should always be 
     * Next step: update the benchmarks so that they can run against other Tomcat instances: production or WTP.
     * `TomcatServerHelper` isn't the right place for the new/existing server logic. `ServerState` is.
     * Made decent progress on that, but was getting too tired, so stopped mid-thought.
+* 0.1h (21:50-21:57): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Working on the new/existing server logic in `ServerState`.
+
+### 2015-12-10, Thursday
+
+* 0.65h (12:41-12:49,15:20-15:29,18:17-18:31,18:41-18:49): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Next step: update the benchmarks so that they can run against other Tomcat instances: production or WTP.
+
+### 2015-12-11, Friday
+
+* 1.2h (07:55-08:05,09:58-10:18,10:29-10:37,11:04-11:37): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got the benchmarks to run against a WTP instance of Tomcat!
+    * Definitely runs slower. I wonder if that's because of GC? Or maybe logging?
+    * Next steps?
+        * Have the benchmarks run Tomcat in embedded mode, to allow for profiling.
+        * Have the benchmarks run against PostgreSQL?
+            * This isn't really valuable, except to allow for apples-to-apples comparisons against production.
+        * Have the benchmarks run against production.
+            * Won't get profiling data there. Can't. That's okay, though: I'm still quite curious!
