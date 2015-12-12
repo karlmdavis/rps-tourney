@@ -4754,3 +4754,17 @@ This file should never be committed along with other files; it should always be 
             * This isn't really valuable, except to allow for apples-to-apples comparisons against production.
         * Have the benchmarks run against production.
             * Won't get profiling data there. Can't. That's okay, though: I'm still quite curious!
+
+### 2015-12-12, Saturday
+
+* 0.05h (10:08-10:11): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Cleaned up and committed WIP.
+* 0.65h (17:20-17:38,18:25-18:45): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Played around with the JMH profilers, just to see what they can do.
+    * Had to install `linux-tools-common` and `linux-tools-generic` to get some of them to work.
+    * Also had to temporarily install `linux-tools-3.13.0-68-generic`, which can be uninstalled after the next reboot. Was just needed for the currently-in-use kernel.
+    * `StackProfiler`: seems to work well enough, though obviously can't tell me much yet.
+    * `LinuxPerfNormProfiler`: provides tons of very low-level information that unfortunately doesn't mean much to me
+    * `Hotspot*Profiler`: generally provide information that's more useful to the JVM devs, though I might be able to use some of the threading and locking and GC info.
+    * Overall, I'm not terribly impressed with the profiling options here. Netbeans' profiler is way better.
+    * Given that, is getting Tomcat running embedded all that useful? Not really, no.
