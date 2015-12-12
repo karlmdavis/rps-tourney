@@ -7,9 +7,10 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
+import org.rps.tourney.service.benchmarks.state.ExistingServerManager;
 import org.rps.tourney.service.benchmarks.state.ServerState;
 
 import com.justdavis.karl.rpstourney.service.api.game.Game;
@@ -35,8 +36,7 @@ public class GameDisplayBenchmarks {
 	 */
 	@Benchmark
 	public void retrieveGameAsUnauthenticatedUser(GameInProgressState gameInProgressState) {
-		ClientConfig config = new ClientConfig(
-				gameInProgressState.getServerState().getServer().getUrlWithPath("rps-tourney-service-app"));
+		ClientConfig config = new ClientConfig(gameInProgressState.getServerState().getServerManager().getServiceUrl());
 		CookieStore cookies = new CookieStore();
 		GameClient gameClient = new GameClient(config, cookies);
 
@@ -55,11 +55,12 @@ public class GameDisplayBenchmarks {
 	 *             as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
-		Options benchmarkOptions = new OptionsBuilder().include(GameDisplayBenchmarks.class.getSimpleName())
-				.warmupIterations(20).measurementIterations(10).forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA)
-				.build();
+		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
+				.include(GameDisplayBenchmarks.class.getSimpleName()).warmupIterations(20).measurementIterations(10)
+				.forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
+		benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
 
-		new Runner(benchmarkOptions).run();
+		new Runner(benchmarkOptions.build()).run();
 	}
 
 	/**
@@ -96,8 +97,7 @@ public class GameDisplayBenchmarks {
 		public void setupGameInProgressState(ServerState serverState) {
 			this.serverState = serverState;
 
-			ClientConfig config = new ClientConfig(
-					serverState.getServer().getUrlWithPath(ServerState.CONTEXT_ROOT_SERVICE));
+			ClientConfig config = new ClientConfig(serverState.getServerManager().getServiceUrl());
 			CookieStore cookies = new CookieStore();
 
 			GuestAuthClient authClient = new GuestAuthClient(config, cookies);
@@ -113,11 +113,11 @@ public class GameDisplayBenchmarks {
 		 */
 		@TearDown
 		public void tearDownGameInProgressState() {
-			ClientConfig config = new ClientConfig(
-					serverState.getServer().getUrlWithPath(ServerState.CONTEXT_ROOT_SERVICE));
+			ClientConfig config = new ClientConfig(serverState.getServerManager().getServiceUrl());
 			CookieStore cookies = new CookieStore();
 			GameAuthClient loginClient = new GameAuthClient(config, cookies);
-			loginClient.loginWithGameAccount(serverState.getAdminAddress(), serverState.getAdminPassword());
+			loginClient.loginWithGameAccount(serverState.getServerManager().getAdminAddress(),
+					serverState.getServerManager().getAdminPassword());
 			GameClient gameClient = new GameClient(config, cookies);
 			gameClient.deleteGame(gameId);
 		}
