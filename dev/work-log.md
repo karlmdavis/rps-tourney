@@ -4768,3 +4768,13 @@ This file should never be committed along with other files; it should always be 
     * `Hotspot*Profiler`: generally provide information that's more useful to the JVM devs, though I might be able to use some of the threading and locking and GC info.
     * Overall, I'm not terribly impressed with the profiling options here. Netbeans' profiler is way better.
     * Given that, is getting Tomcat running embedded all that useful? Not really, no.
+    * Next steps:
+        * Ensure that the benchmarks have two standard users with email addresses that they always create/use
+            * Needed to ensure that benchmark "oopses" in production can be fixed, if necessary.
+        * Add more benchmarks.
+
+### 2015-12-13, Sunday
+
+* 1.25h (19:18-20:10,20:31-20:53): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Worked on adding `GameplayBenchmarks`.
+    * Running into an odd error that I'll need to track down.
