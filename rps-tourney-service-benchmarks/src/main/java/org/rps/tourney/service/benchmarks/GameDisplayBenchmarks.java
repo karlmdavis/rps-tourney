@@ -5,19 +5,18 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
+import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
-import org.rps.tourney.service.benchmarks.state.ExistingServerManager;
 import org.rps.tourney.service.benchmarks.state.ServerState;
 
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
 import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
-import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 
@@ -58,7 +57,8 @@ public class GameDisplayBenchmarks {
 		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
 				.include(GameDisplayBenchmarks.class.getSimpleName()).warmupIterations(20).measurementIterations(10)
 				.forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
-		benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
+		benchmarkOptions.addProfiler(StackProfiler.class);
+		// benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
 
 		new Runner(benchmarkOptions.build()).run();
 	}
@@ -100,8 +100,8 @@ public class GameDisplayBenchmarks {
 			ClientConfig config = new ClientConfig(serverState.getServerManager().getServiceUrl());
 			CookieStore cookies = new CookieStore();
 
-			GuestAuthClient authClient = new GuestAuthClient(config, cookies);
-			authClient.loginAsGuest();
+			GameAuthClient authClient = new GameAuthClient(config, cookies);
+			authClient.createGameLogin(BenchmarkUser.USER_A.getAddress(), BenchmarkUser.USER_A.getPassword());
 
 			GameClient gameClient = new GameClient(config, cookies);
 			GameView game = gameClient.createGame();
