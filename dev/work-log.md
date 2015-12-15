@@ -4778,3 +4778,10 @@ This file should never be committed along with other files; it should always be 
 * 1.25h (19:18-20:10,20:31-20:53): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Worked on adding `GameplayBenchmarks`.
     * Running into an odd error that I'll need to track down.
+
+### 2015-12-14, Monday
+
+* 0.85h (21:33-22:25): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Figured out the problem from yesterday: I just hadn't updated the WAR, so that it included the new web service method.
+    * This was obscured by a new issue that I filed: [Issue #108: Web service throws 500 errors at AuthenticationFilter:137 if a 404 is encountered](https://github.com/karlmdavis/rps-tourney/issues/108). I should fix that soon.
+    * Have `GameplayBenchmarks` running single-threaded, but fails when running with more than that. Some sort of HSQL issue?
