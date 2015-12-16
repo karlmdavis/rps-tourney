@@ -4784,4 +4784,13 @@ This file should never be committed along with other files; it should always be 
 * 0.85h (21:33-22:25): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Figured out the problem from yesterday: I just hadn't updated the WAR, so that it included the new web service method.
     * This was obscured by a new issue that I filed: [Issue #108: Web service throws 500 errors at AuthenticationFilter:137 if a 404 is encountered](https://github.com/karlmdavis/rps-tourney/issues/108). I should fix that soon.
-    * Have `GameplayBenchmarks` running single-threaded, but fails when running with more than that. Some sort of HSQL issue?
+    * Have `GameplayBenchmarks` running single-threaded, but it fails when running with more than that. Some sort of HSQL issue?
+
+### 2015-12-15, Tuesday
+
+* 0.35h (21:03-21:24): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Need to set the default transaction level for HSQL to `MVCC`.
+        * The default level, `LOCKS`, locks entire tables, which is causing the `org.hibernate.exception.LockAcquisitionException: could not execute statement` benchmark errors.
+        * Transaction levels: [HSQL: Sessions and Transactions](http://hsqldb.org/doc/guide/sessions-chapt.html#snc_tx_mvcc)
+        * DB properties: [HSQL: Properties](http://www.hsqldb.org/doc/guide/dbproperties-chapt.html)
+        * Set `hsqldb.tx=mvcc` when creating the DBs, in the URL.
