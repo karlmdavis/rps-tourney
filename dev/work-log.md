@@ -4794,3 +4794,14 @@ This file should never be committed along with other files; it should always be 
         * Transaction levels: [HSQL: Sessions and Transactions](http://hsqldb.org/doc/guide/sessions-chapt.html#snc_tx_mvcc)
         * DB properties: [HSQL: Properties](http://www.hsqldb.org/doc/guide/dbproperties-chapt.html)
         * Set `hsqldb.tx=mvcc` when creating the DBs, in the URL.
+
+### 2015-12-16, Wednesday
+
+* 0.3h (21:03-21:20): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Just set the property in the URL for the benchmarks, as the HSQL connector was designed to basically just pass-through the URLs. Don't want to change that unless/until this is also required for other use cases.
+    * With that change, `GameplayBenchmarks` is now running fine. Only managing 40 ops/second, though, which is surprisingly low!
+    * Next steps:
+        * Commit things.
+        * Start adding benchmarks that include the webapp.
+            * Do I want to put those benchmarks in the same project?
+                * For now, yeah: think I do. Makes code reuse a lot easier.
