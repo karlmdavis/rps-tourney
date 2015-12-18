@@ -4805,3 +4805,9 @@ This file should never be committed along with other files; it should always be 
         * Start adding benchmarks that include the webapp.
             * Do I want to put those benchmarks in the same project?
                 * For now, yeah: think I do. Makes code reuse a lot easier.
+
+### 2015-12-17, Thursday
+
+* 0.4h (21:35-21:50): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Added `PlayersResourceImplIT.findOrCreatePlayer()`.
+    * Committed `GameplayBenchmarks` and the changes it required.
