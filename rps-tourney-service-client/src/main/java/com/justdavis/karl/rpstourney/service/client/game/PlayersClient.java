@@ -43,13 +43,33 @@ public final class PlayersClient implements IPlayersResource {
 	}
 
 	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#findOrCreatePlayer()
+	 */
+	@Override
+	public Player findOrCreatePlayer() {
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(config.getServiceRoot()).path(IPlayersResource.SERVICE_PATH)
+				.path(IPlayersResource.SERVICE_PATH_PLAYER);
+		Builder requestBuilder = webTarget.request(MediaType.TEXT_XML_TYPE);
+		cookieStore.applyCookies(requestBuilder);
+
+		Response response = requestBuilder.get();
+		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
+			throw new HttpClientException(response.getStatusInfo());
+
+		Player player = response.readEntity(Player.class);
+		cookieStore.remember(response.getCookies());
+
+		return player;
+	}
+
+	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis(java.util.List)
 	 */
 	@Override
 	public Set<Player> getPlayersForBuiltInAis(List<BuiltInAi> ais) {
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(config.getServiceRoot())
-				.path(IPlayersResource.SERVICE_PATH)
+		WebTarget webTarget = client.target(config.getServiceRoot()).path(IPlayersResource.SERVICE_PATH)
 				.path(IPlayersResource.SERVICE_PATH_BUILT_IN_AIS);
 		for (BuiltInAi ai : ais)
 			webTarget = webTarget.queryParam("ais", ai);

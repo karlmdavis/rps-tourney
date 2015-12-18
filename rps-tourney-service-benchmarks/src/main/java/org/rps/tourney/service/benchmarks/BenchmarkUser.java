@@ -12,7 +12,8 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
  * the benchmarks fail to clean up after themselves for some reason.
  */
 enum BenchmarkUser {
-	USER_A("benchmarker.a@example.com", "player.a.pw1");
+	USER_A("benchmarker.a@example.com", "player.a.pw1"),
+	USER_B("benchmarker.b@example.com", "player.b.pw1");
 
 	private final InternetAddress address;
 	private final String password;

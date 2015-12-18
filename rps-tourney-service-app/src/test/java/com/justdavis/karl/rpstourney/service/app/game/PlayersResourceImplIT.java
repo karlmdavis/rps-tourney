@@ -18,12 +18,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 import com.justdavis.karl.misc.junit.JulLoggingToSlf4jBinder;
+import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.service.client.CookieStore;
+import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
 
@@ -59,6 +61,31 @@ public final class PlayersResourceImplIT {
 				.getDataSourceCoordinates());
 		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
 				.getDataSourceCoordinates());
+	}
+
+	/**
+	 * Ensures that {@link PlayersResourceImpl#findOrCreatePlayer()} works
+	 * correctly.
+	 */
+	@Test
+	public void findOrCreatePlayer() {
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
+		CookieStore cookies = new CookieStore();
+
+		// Create an Account.
+		GuestAuthClient authClient = new GuestAuthClient(clientConfig, cookies);
+		Account accountFromLogin = authClient.loginAsGuest();
+
+		// Try to create a Player for the Account.
+		PlayersClient playersClient = new PlayersClient(clientConfig, cookies);
+		Player playerFromFirstCall = playersClient.findOrCreatePlayer();
+		Assert.assertNotNull(playerFromFirstCall);
+		Assert.assertEquals(accountFromLogin, playerFromFirstCall.getHumanAccount());
+
+		// Verify that a second call returns the same Player.
+		Player playerFromSecondCall = playersClient.findOrCreatePlayer();
+		Assert.assertNotNull(playerFromSecondCall);
+		Assert.assertEquals(playerFromFirstCall.getId(), playerFromSecondCall.getId());
 	}
 
 	/**

@@ -22,6 +22,14 @@ public class MockPlayersClient implements IPlayersResource {
 	public MockPlayersClient(Player... players) {
 		this.players = players;
 	}
+	
+	/**
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#findOrCreatePlayer()
+	 */
+	@Override
+	public Player findOrCreatePlayer() {
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#getPlayersForBuiltInAis(java.util.List)

@@ -23,9 +23,22 @@ public interface IPlayersResource {
 	public static final String SERVICE_PATH = "/players";
 
 	/**
+	 * The {@link Path} for {@link #findOrCreatePlayer().
+	 */
+	public static final String SERVICE_PATH_PLAYER = "/player";
+
+	/**
 	 * The {@link Path} for {@link #getPlayersForBuiltInAis(java.util.List)}.
 	 */
 	public static final String SERVICE_PATH_BUILT_IN_AIS = "/builtInAis";
+
+	/**
+	 * @return the {@link Player} record for the current user
+	 */
+	@GET
+	@Path(SERVICE_PATH_PLAYER)
+	@Produces(MediaType.TEXT_XML)
+	Player findOrCreatePlayer();
 
 	/**
 	 * @param ais
