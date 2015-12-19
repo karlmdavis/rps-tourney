@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.api.PlayerRole;
 import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountGameMerge;
@@ -30,6 +29,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.ILoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
+import com.justdavis.karl.rpstourney.service.api.game.PlayerRole;
 import com.justdavis.karl.rpstourney.service.app.game.IGamesDao;
 import com.justdavis.karl.rpstourney.service.app.game.IPlayersDao;
 

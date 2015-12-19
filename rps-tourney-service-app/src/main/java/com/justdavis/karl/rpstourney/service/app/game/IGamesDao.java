@@ -2,9 +2,9 @@ package com.justdavis.karl.rpstourney.service.app.game;
 
 import java.util.List;
 
-import com.justdavis.karl.rpstourney.api.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameConflictException;
+import com.justdavis.karl.rpstourney.service.api.game.GameRound;
 import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**

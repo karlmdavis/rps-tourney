@@ -41,7 +41,7 @@ public final class ConsoleGameDriverTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(humanInput.getBytes("US-ASCII"));
 
 		ConsoleGameDriver gameDriver = new ConsoleGameDriver(new DefaultResourceBundleLoader(Locale.ENGLISH));
-		gameDriver.playGameSession(gameBundle, new PrintStream(outputStream), inputStream);
+		gameDriver.playGame(gameBundle, new PrintStream(outputStream), inputStream);
 
 		String gameOutput = outputStream.toString("US-ASCII");
 		Assert.assertNotNull(gameOutput);
@@ -69,7 +69,7 @@ public final class ConsoleGameDriverTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(humanInput.getBytes("US-ASCII"));
 
 		ConsoleGameDriver gameDriver = new ConsoleGameDriver(new DefaultResourceBundleLoader(Locale.ENGLISH));
-		gameDriver.playGameSession(gameBundle, new PrintStream(outputStream), inputStream);
+		gameDriver.playGame(gameBundle, new PrintStream(outputStream), inputStream);
 
 		String gameOutput = outputStream.toString("US-ASCII");
 		Assert.assertNotNull(gameOutput);

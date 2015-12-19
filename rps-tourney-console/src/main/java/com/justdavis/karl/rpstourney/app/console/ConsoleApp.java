@@ -160,7 +160,7 @@ public final class ConsoleApp {
 
 		// Play the game.
 		ConsoleGameDriver gameDriver = new ConsoleGameDriver(new DefaultResourceBundleLoader());
-		gameDriver.playGameSession(gameBundle, out, in);
+		gameDriver.playGame(gameBundle, out, in);
 
 		return EXIT_CODE_OK;
 	}

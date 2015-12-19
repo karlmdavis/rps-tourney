@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
-import com.justdavis.karl.rpstourney.api.GameSession;
 import com.justdavis.karl.rpstourney.app.console.i18n.IResourceBundleLoader;
 import com.justdavis.karl.rpstourney.app.console.localservice.GameBundle;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound;
@@ -43,7 +42,7 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Allows the user at the specified input/output streams to play the
-	 * specified {@link GameSession}.
+	 * specified game.
 	 * 
 	 * @param gameBundle
 	 *            the {@link GameBundle} containing the game and the services
@@ -53,7 +52,7 @@ final class ConsoleGameDriver {
 	 * @param in
 	 *            the {@link InputStream} to read the player's input from
 	 */
-	void playGameSession(GameBundle gameBundle, PrintStream out, InputStream in) {
+	void playGame(GameBundle gameBundle, PrintStream out, InputStream in) {
 		// Sanity check: null game.
 		if (gameBundle == null)
 			throw new IllegalArgumentException();
