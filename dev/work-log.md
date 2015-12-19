@@ -4811,3 +4811,9 @@ This file should never be committed along with other files; it should always be 
 * 0.4h (21:35-21:50): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Added `PlayersResourceImplIT.findOrCreatePlayer()`.
     * Committed `GameplayBenchmarks` and the changes it required.
+
+### 2015-12-18, Friday
+
+* 0.5h (20:07-20:38): General admin stuff.
+    * Ran the new Eclipse Mars formatter on all of the Java files.
+    * Removed the long-obsoleted `rps-tourney-api` module.
