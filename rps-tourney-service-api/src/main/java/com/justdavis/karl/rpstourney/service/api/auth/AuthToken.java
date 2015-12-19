@@ -44,8 +44,7 @@ public class AuthToken implements Serializable {
 	private static final long serialVersionUID = -3645697446338430584L;
 
 	@XmlElement
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.DETACH })
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
 	private Account account;
 

@@ -27,8 +27,7 @@ public final class BuiltInAiOptionHandler extends OptionHandler<BuiltInAi> {
 	 * @param setter
 	 *            a {@link Setter} for the options object being parsed into
 	 */
-	public BuiltInAiOptionHandler(CmdLineParser parser, OptionDef option,
-			Setter<? super BuiltInAi> setter) {
+	public BuiltInAiOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super BuiltInAi> setter) {
 		super(parser, option, setter);
 	}
 
@@ -50,8 +49,7 @@ public final class BuiltInAiOptionHandler extends OptionHandler<BuiltInAi> {
 			return 1;
 		}
 
-		throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(
-				params.getParameter(-1), param));
+		throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(params.getParameter(-1), param));
 	}
 
 	/**

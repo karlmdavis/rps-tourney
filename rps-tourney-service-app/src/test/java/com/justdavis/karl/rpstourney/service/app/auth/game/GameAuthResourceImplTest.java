@@ -33,8 +33,7 @@ public final class GameAuthResourceImplTest {
 		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
 		MockAccountsDao accountsDao = new MockAccountsDao();
-		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
-				accountsDao);
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(accountsDao);
 
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
@@ -44,8 +43,7 @@ public final class GameAuthResourceImplTest {
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Call the service.
-		Account loggedInAccount = authService.createGameLogin(
-				new InternetAddress("foo@example.com"), "secret");
+		Account loggedInAccount = authService.createGameLogin(new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results
 		Assert.assertNotNull(loggedInAccount);
@@ -65,8 +63,7 @@ public final class GameAuthResourceImplTest {
 		// Create a guest login (manually).
 		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		MockAccountsDao accountsDao = new MockAccountsDao();
-		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
-				accountsDao);
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(accountsDao);
 		UUID randomAuthToken = UUID.randomUUID();
 		Account account = new Account();
 		AuthToken authToken = new AuthToken(account, randomAuthToken);
@@ -74,8 +71,7 @@ public final class GameAuthResourceImplTest {
 		accountsDao.accounts.add(account);
 
 		// Create the mock params to pass to the service .
-		AccountSecurityContext securityContext = new AccountSecurityContext(
-				account);
+		AccountSecurityContext securityContext = new AccountSecurityContext(account);
 
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
@@ -85,8 +81,7 @@ public final class GameAuthResourceImplTest {
 		authService.setGameLoginIdentitiesDao(loginsDao);
 
 		// Create a new game login.
-		Account loggedInAccount = authService.createGameLogin(
-				new InternetAddress("foo@example.com"), "secret");
+		Account loggedInAccount = authService.createGameLogin(new InternetAddress("foo@example.com"), "secret");
 
 		// Verify the results.
 		Assert.assertNotNull(loggedInAccount);
@@ -108,8 +103,7 @@ public final class GameAuthResourceImplTest {
 		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
 		MockAccountsDao accountsDao = new MockAccountsDao();
-		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(
-				accountsDao);
+		MockGameLoginIdentitiesDao loginsDao = new MockGameLoginIdentitiesDao(accountsDao);
 
 		// Create the service.
 		GameAuthResourceImpl authService = new GameAuthResourceImpl();
@@ -124,14 +118,12 @@ public final class GameAuthResourceImplTest {
 		AuthToken authToken = new AuthToken(account, randomAuthToken);
 		account.getAuthTokens().add(authToken);
 		accountsDao.accounts.add(account);
-		GameLoginIdentity login = new GameLoginIdentity(account,
-				new InternetAddress("foo@example.com"),
+		GameLoginIdentity login = new GameLoginIdentity(account, new InternetAddress("foo@example.com"),
 				PasswordUtils.hashPassword("secret"));
 		loginsDao.logins.add(login);
 
 		// Login.
-		Account loggedInAccount = authService.loginWithGameAccount(
-				login.getEmailAddress(), "secret");
+		Account loggedInAccount = authService.loginWithGameAccount(login.getEmailAddress(), "secret");
 
 		// Verify the results.
 		Assert.assertNotNull(loggedInAccount);

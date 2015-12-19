@@ -42,8 +42,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
 @Priority(Priorities.AUTHENTICATION)
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class AuthenticationFilter implements ContainerRequestFilter,
-		ContainerResponseFilter {
+public class AuthenticationFilter implements ContainerRequestFilter, ContainerResponseFilter {
 	/**
 	 * The custom authentication scheme ID used by the application.
 	 * 
@@ -59,8 +58,7 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * that, if returned, will be used to authenticate that user/account on
 	 * future requests.
 	 */
-	public static final String LOGIN_PROPERTY = AuthenticationFilter.class
-			.getName() + ".login";
+	public static final String LOGIN_PROPERTY = AuthenticationFilter.class.getName() + ".login";
 
 	private IAccountsDao accountsDao;
 
@@ -94,11 +92,9 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.ContainerRequestContext)
 	 */
 	@Override
-	public void filter(ContainerRequestContext requestContext)
-			throws IOException {
+	public void filter(ContainerRequestContext requestContext) throws IOException {
 		// Is there an auth token cookie? If so, grab the Account for it.
-		Cookie authTokenCookie = requestContext.getCookies().get(
-				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
+		Cookie authTokenCookie = requestContext.getCookies().get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
 		Account userAccount = null;
 		if (authTokenCookie != null) {
 			UUID authTokenUuid = UUID.fromString(authTokenCookie.getValue());
@@ -106,12 +102,10 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 		}
 
 		// Was the request made over SSL?
-		boolean secure = requestContext.getUriInfo().getRequestUri()
-				.getScheme().equals("https");
+		boolean secure = requestContext.getUriInfo().getRequestUri().getScheme().equals("https");
 
 		// Set the SecurityContext for the rest of the request.
-		AccountSecurityContext securityContext = new AccountSecurityContext(
-				userAccount, secure);
+		AccountSecurityContext securityContext = new AccountSecurityContext(userAccount, secure);
 		requestContext.setSecurityContext(securityContext);
 	}
 
@@ -126,29 +120,26 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 *      javax.ws.rs.container.ContainerResponseContext)
 	 */
 	@Override
-	public void filter(ContainerRequestContext requestContext,
-			ContainerResponseContext responseContext) throws IOException {
+	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+			throws IOException {
 		/*
 		 * This filter method will be run towards the end of each request's
 		 * response chain.
 		 */
 
 		// Pull the login the request came in with (if any).
-		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getSecurityContext();
+		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext.getSecurityContext();
 
 		/*
 		 * Pull the auth token for the login that was set during the response
 		 * (if any).
 		 */
-		AuthToken authTokenForLogin = (AuthToken) requestContext
-				.getProperty(LOGIN_PROPERTY);
+		AuthToken authTokenForLogin = (AuthToken) requestContext.getProperty(LOGIN_PROPERTY);
 
 		// Set or refresh the login cookie, if needed.
 		if (authTokenForLogin != null) {
 			setLoginCookie(authTokenForLogin, requestContext, responseContext);
-		} else if (securityContext != null
-				&& securityContext.getUserPrincipal() != null) {
+		} else if (securityContext != null && securityContext.getUserPrincipal() != null) {
 			refreshLoginCookie(securityContext, requestContext, responseContext);
 		}
 	}
@@ -171,13 +162,11 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * @param responseContext
 	 *            the response being generated
 	 */
-	private static void setLoginCookie(AuthToken authTokenForLogin,
-			ContainerRequestContext requestContext,
+	private static void setLoginCookie(AuthToken authTokenForLogin, ContainerRequestContext requestContext,
 			ContainerResponseContext responseContext) {
 		// Create the login/auth Cookie we'll drop in to the response.
-		NewCookie authTokenCookie = AuthTokenCookieHelper
-				.createAuthTokenCookie(authTokenForLogin, requestContext
-						.getUriInfo().getRequestUri());
+		NewCookie authTokenCookie = AuthTokenCookieHelper.createAuthTokenCookie(authTokenForLogin,
+				requestContext.getUriInfo().getRequestUri());
 
 		addCookieToResponse(responseContext, authTokenCookie);
 	}
@@ -201,17 +190,14 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * @param responseContext
 	 *            the response being generated
 	 */
-	private void refreshLoginCookie(AccountSecurityContext securityContext,
-			ContainerRequestContext requestContext,
+	private void refreshLoginCookie(AccountSecurityContext securityContext, ContainerRequestContext requestContext,
 			ContainerResponseContext responseContext) {
 		// Pull the Account that's logged in.
 		Account userAccount = securityContext.getUserPrincipal();
 
 		// Find the AuthToken to use, reusing the current one where possible.
-		Cookie currentAuthCookie = requestContext.getCookies().get(
-				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
-		UUID currentAuthTokenValue = currentAuthCookie != null ? UUID
-				.fromString(currentAuthCookie.getValue()) : null;
+		Cookie currentAuthCookie = requestContext.getCookies().get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
+		UUID currentAuthTokenValue = currentAuthCookie != null ? UUID.fromString(currentAuthCookie.getValue()) : null;
 		AuthToken authToken;
 		if (userAccount.isValidAuthToken(currentAuthTokenValue))
 			authToken = userAccount.getAuthToken(currentAuthTokenValue);
@@ -219,8 +205,8 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 			authToken = accountsDao.selectOrCreateAuthToken(userAccount);
 
 		// Add a new login Cookie to the response.
-		NewCookie newAuthCookie = AuthTokenCookieHelper.createAuthTokenCookie(
-				authToken, requestContext.getUriInfo().getRequestUri());
+		NewCookie newAuthCookie = AuthTokenCookieHelper.createAuthTokenCookie(authToken,
+				requestContext.getUriInfo().getRequestUri());
 		addCookieToResponse(responseContext, newAuthCookie);
 	}
 
@@ -236,16 +222,14 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 	 * @param authTokenCookie
 	 *            the {@link NewCookie} to include in the response
 	 */
-	private static void addCookieToResponse(
-			ContainerResponseContext responseContext, NewCookie authTokenCookie) {
+	private static void addCookieToResponse(ContainerResponseContext responseContext, NewCookie authTokenCookie) {
 		/*
 		 * Loop through the Cookies, checking to see if any match the one being
 		 * set.
 		 */
 		boolean matchingCookieFound = false;
 		if (responseContext.getHeaders().containsKey(HttpHeaders.SET_COOKIE)) {
-			ListIterator<Object> cookies = responseContext.getHeaders()
-					.get(HttpHeaders.SET_COOKIE).listIterator();
+			ListIterator<Object> cookies = responseContext.getHeaders().get(HttpHeaders.SET_COOKIE).listIterator();
 			while (cookies.hasNext()) {
 				String cookieBody = cookies.next().toString();
 				if (cookieBody.startsWith(authTokenCookie.getName())) {
@@ -257,7 +241,6 @@ public class AuthenticationFilter implements ContainerRequestFilter,
 
 		// If not, add this cookie.
 		if (!matchingCookieFound)
-			responseContext.getHeaders().add(HttpHeaders.SET_COOKIE,
-					authTokenCookie);
+			responseContext.getHeaders().add(HttpHeaders.SET_COOKIE, authTokenCookie);
 	}
 }

@@ -18,9 +18,9 @@ import org.apache.cxf.transport.http.HTTPConduit;
 public final class WebClientHelper {
 	/*
 	 * These methods may or may not be being used at the moment, but they have
-	 * all been used at one point or another while trying things out and/or debugging
-	 * issues, and they took forever to write. Deleting them would probably not
-	 * be a great idea.
+	 * all been used at one point or another while trying things out and/or
+	 * debugging issues, and they took forever to write. Deleting them would
+	 * probably not be a great idea.
 	 */
 
 	/**
@@ -34,13 +34,9 @@ public final class WebClientHelper {
 	 *            <code>true</code> to enable session maintenance,
 	 *            <code>false</code> to disable it
 	 */
-	public static void enableSessionMaintenance(WebClient client,
-			boolean maintainSession) {
-		WebClient
-				.getConfig(client)
-				.getRequestContext()
-				.put(org.apache.cxf.message.Message.MAINTAIN_SESSION,
-						maintainSession);
+	public static void enableSessionMaintenance(WebClient client, boolean maintainSession) {
+		WebClient.getConfig(client).getRequestContext().put(org.apache.cxf.message.Message.MAINTAIN_SESSION,
+				maintainSession);
 	}
 
 	/**
@@ -54,8 +50,7 @@ public final class WebClientHelper {
 	 *            <code>true</code> to enable "permissive SSL trust",
 	 *            <code>false</code> to disable it
 	 */
-	public static void enablePermissiveSslTrustMode(WebClient client,
-			boolean permissiveSslTrustMode) {
+	public static void enablePermissiveSslTrustMode(WebClient client, boolean permissiveSslTrustMode) {
 		// Grab the WebClient's config.
 		ClientConfiguration clientConfig = WebClient.getConfig(client);
 
@@ -72,8 +67,7 @@ public final class WebClientHelper {
 		// If "permissive SSL trust" is enabled, set a custom X509TrustManager.
 		tlsParams.setDisableCNCheck(permissiveSslTrustMode);
 		if (permissiveSslTrustMode)
-			tlsParams
-					.setTrustManagers(new TrustManager[] { new PermissiveX509TrustManager() });
+			tlsParams.setTrustManagers(new TrustManager[] { new PermissiveX509TrustManager() });
 		else
 			tlsParams.setTrustManagers(new TrustManager[] {});
 	}
@@ -86,12 +80,9 @@ public final class WebClientHelper {
 	 * @param targetClient
 	 *            the {@link WebClient} to copy to
 	 */
-	public static void copyCookies(WebClient sourceClient,
-			WebClient targetClient) {
-		HTTPConduit sourceConduit = WebClient.getConfig(sourceClient)
-				.getHttpConduit();
-		HTTPConduit targetConduit = WebClient.getConfig(targetClient)
-				.getHttpConduit();
+	public static void copyCookies(WebClient sourceClient, WebClient targetClient) {
+		HTTPConduit sourceConduit = WebClient.getConfig(sourceClient).getHttpConduit();
+		HTTPConduit targetConduit = WebClient.getConfig(targetClient).getHttpConduit();
 		targetConduit.getCookies().putAll(sourceConduit.getCookies());
 	}
 
@@ -105,15 +96,13 @@ public final class WebClientHelper {
 	 * validity.
 	 * </p>
 	 */
-	private static final class PermissiveX509TrustManager implements
-			X509TrustManager {
+	private static final class PermissiveX509TrustManager implements X509TrustManager {
 		/**
 		 * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[],
 		 *      java.lang.String)
 		 */
 		@Override
-		public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-				throws CertificateException {
+		public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 			// This class is only used by clients.
 			throw new UnsupportedOperationException();
 		}
@@ -132,8 +121,7 @@ public final class WebClientHelper {
 		 *      java.lang.String)
 		 */
 		@Override
-		public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-				throws CertificateException {
+		public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 			// Do nothing; trust everything.
 			// DO NOT USE IN PRODUCTION!
 		}

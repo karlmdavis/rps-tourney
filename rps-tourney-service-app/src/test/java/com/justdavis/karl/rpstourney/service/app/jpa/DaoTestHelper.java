@@ -29,10 +29,8 @@ import com.justdavis.karl.misc.datasources.schema.IDataSourceSchemaManager;
  * It's hacky, and fairly ugly, but it works.
  * </p>
  */
-public final class DaoTestHelper extends ExternalResource implements
-		TestExecutionListener {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DaoTestHelper.class);
+public final class DaoTestHelper extends ExternalResource implements TestExecutionListener {
+	private static final Logger LOGGER = LoggerFactory.getLogger(DaoTestHelper.class);
 
 	private final IProvisioningRequest provisioningRequest;
 	private ApplicationContext springAppContext;
@@ -93,27 +91,21 @@ public final class DaoTestHelper extends ExternalResource implements
 	@Override
 	protected void before() throws Throwable {
 		// Provision the data source repository to use for the test.
-		IProvisioningTargetsProvider targetsProvider = springAppContext
-				.getBean(IProvisioningTargetsProvider.class);
-		this.provisionersManager = springAppContext
-				.getBean(DataSourceProvisionersManager.class);
-		this.provisioningResult = provisionersManager.provision(
-				targetsProvider, provisioningRequest);
+		IProvisioningTargetsProvider targetsProvider = springAppContext.getBean(IProvisioningTargetsProvider.class);
+		this.provisionersManager = springAppContext.getBean(DataSourceProvisionersManager.class);
+		this.provisioningResult = provisionersManager.provision(targetsProvider, provisioningRequest);
 
 		try {
 			// Create the data source repository's schema.
-			IDataSourceSchemaManager schemaManager = springAppContext
-					.getBean(IDataSourceSchemaManager.class);
-			schemaManager.createOrUpgradeSchema(this.provisioningResult
-					.getCoords());
+			IDataSourceSchemaManager schemaManager = springAppContext.getBean(IDataSourceSchemaManager.class);
+			schemaManager.createOrUpgradeSchema(this.provisioningResult.getCoords());
 
 			// Create the EMF to use for the test.
-			DataSourceConnectorsManager connectorsManager = springAppContext
-					.getBean(DataSourceConnectorsManager.class);
+			DataSourceConnectorsManager connectorsManager = springAppContext.getBean(DataSourceConnectorsManager.class);
 			Map<String, Object> jpaCoords = connectorsManager
 					.convertToJpaProperties(this.provisioningResult.getCoords());
-			this.entityManagerFactory = Persistence.createEntityManagerFactory(
-					"com.justdavis.karl.rpstourney", jpaCoords);
+			this.entityManagerFactory = Persistence.createEntityManagerFactory("com.justdavis.karl.rpstourney",
+					jpaCoords);
 		} catch (Throwable t) {
 			/*
 			 * If anything in the try block blows up, the after() method won't

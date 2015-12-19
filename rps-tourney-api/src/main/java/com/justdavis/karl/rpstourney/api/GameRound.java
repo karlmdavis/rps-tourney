@@ -26,8 +26,7 @@ public final class GameRound {
 	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
 	 */
-	public GameRound(int roundIndex, Throw throwForPlayer1,
-			Throw throwForPlayer2) {
+	public GameRound(int roundIndex, Throw throwForPlayer1, Throw throwForPlayer2) {
 		// Sanity check: legit round.
 		if (roundIndex < 0)
 			throw new IllegalArgumentException();
@@ -44,7 +43,7 @@ public final class GameRound {
 	}
 
 	/**
-	 * @return the index of this {@link GameRound} in the {@link GameSession} 
+	 * @return the index of this {@link GameRound} in the {@link GameSession}
 	 *         it's part of
 	 */
 	public int getRoundIndex() {

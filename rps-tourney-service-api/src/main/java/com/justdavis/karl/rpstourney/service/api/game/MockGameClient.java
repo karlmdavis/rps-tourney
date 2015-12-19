@@ -87,8 +87,7 @@ public class MockGameClient implements IGameResource {
 	 *      int, int)
 	 */
 	@Override
-	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) {
+	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -97,8 +96,7 @@ public class MockGameClient implements IGameResource {
 	 *      long)
 	 */
 	@Override
-	public void inviteOpponent(String gameId, long playerId)
-			throws NotFoundException, GameConflictException {
+	public void inviteOpponent(String gameId, long playerId) throws NotFoundException, GameConflictException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -126,7 +124,7 @@ public class MockGameClient implements IGameResource {
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#deleteGame(java.lang.String)
 	 */

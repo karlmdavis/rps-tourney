@@ -73,8 +73,7 @@ public class AccountController {
 			if (emailsIter.hasNext())
 				emailsText.append(", ");
 		}
-		modelAndView.addObject("emails",
-				emails.isEmpty() ? null : emailsText.toString());
+		modelAndView.addObject("emails", emails.isEmpty() ? null : emailsText.toString());
 
 		return modelAndView;
 	}
@@ -93,8 +92,7 @@ public class AccountController {
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/update", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView updateAccount(Principal authenticatedUser,
-			String inputName) {
+	public ModelAndView updateAccount(Principal authenticatedUser, String inputName) {
 		/*
 		 * If a client requests this page without having authenticated, we want
 		 * to redirect them to the login page.

@@ -24,8 +24,7 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 	 * {@link IGameAuthResource#createGameLogin(javax.mail.internet.InternetAddress, String)}
 	 * requests/responses.
 	 */
-	static final Pattern GAME_ACCOUNT_PASSWORD_REGEX = Pattern
-			.compile("password=[^&]*");
+	static final Pattern GAME_ACCOUNT_PASSWORD_REGEX = Pattern.compile("password=[^&]*");
 
 	private static Field loggingMessageIdField;
 
@@ -37,8 +36,7 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 
 		if (loggingMessageIdField == null) {
 			try {
-				Field loggingMessageIdField = LoggingMessage.class
-						.getDeclaredField("id");
+				Field loggingMessageIdField = LoggingMessage.class.getDeclaredField("id");
 				loggingMessageIdField.setAccessible(true);
 
 				/*
@@ -65,24 +63,17 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 
 		buffer.append("id=").append(getId(loggingMessage));
 		if (loggingMessage.getAddress().length() > 0)
-			buffer.append(",address='").append(loggingMessage.getAddress())
-					.append("'");
+			buffer.append(",address='").append(loggingMessage.getAddress()).append("'");
 		if (loggingMessage.getResponseCode().length() > 0)
-			buffer.append(",responseCode=").append(
-					loggingMessage.getResponseCode());
+			buffer.append(",responseCode=").append(loggingMessage.getResponseCode());
 		if (loggingMessage.getEncoding().length() > 0)
-			buffer.append(",encoding='").append(loggingMessage.getEncoding())
-					.append("'");
+			buffer.append(",encoding='").append(loggingMessage.getEncoding()).append("'");
 		if (loggingMessage.getHttpMethod().length() > 0)
-			buffer.append(",httpMethod=")
-					.append(loggingMessage.getHttpMethod());
-		buffer.append(",contentType='").append(loggingMessage.getContentType())
-				.append("'");
+			buffer.append(",httpMethod=").append(loggingMessage.getHttpMethod());
+		buffer.append(",contentType='").append(loggingMessage.getContentType()).append("'");
 		buffer.append(",headers=").append(loggingMessage.getHeader());
-		buffer.append(",message='").append(loggingMessage.getMessage())
-				.append("'");
-		buffer.append(",payload='").append(getPayload(loggingMessage))
-				.append("'");
+		buffer.append(",message='").append(loggingMessage.getMessage()).append("'");
+		buffer.append(",payload='").append(getPayload(loggingMessage)).append("'");
 
 		buffer.append("]");
 
@@ -121,13 +112,11 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 
 		// This method is known to involve passwords.
 		if (address.contains("auth/game/create"))
-			return GAME_ACCOUNT_PASSWORD_REGEX.matcher(payload).replaceAll(
-					"password=***");
+			return GAME_ACCOUNT_PASSWORD_REGEX.matcher(payload).replaceAll("password=***");
 
 		// This method is known to involve passwords.
 		if (address.contains("auth/game/login"))
-			return GAME_ACCOUNT_PASSWORD_REGEX.matcher(payload).replaceAll(
-					"password=***");
+			return GAME_ACCOUNT_PASSWORD_REGEX.matcher(payload).replaceAll("password=***");
 
 		return payload;
 	}

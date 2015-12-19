@@ -12,9 +12,8 @@ import org.springframework.web.WebApplicationInitializer;
  * </p>
  */
 @Order(1)
-public final class SecurityWebApplicationInitializer extends
-		AbstractSecurityWebApplicationInitializer implements
-		WebApplicationInitializer {
+public final class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer
+		implements WebApplicationInitializer {
 	/*
 	 * A bunch of Spring documentation mentions that it's important that these
 	 * filters be configured before anything else, thus the {@link Order}

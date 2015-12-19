@@ -53,8 +53,7 @@ final class MockPageContext extends PageContext {
 	 */
 	public MockPageContext(JspWriter jspWriter, ServletContext servletContext) {
 		this.jspWriter = jspWriter;
-		this.servletContext = servletContext != null ? servletContext
-				: new MockServletContext();
+		this.servletContext = servletContext != null ? servletContext : new MockServletContext();
 		this.attributes = new HashMap<>();
 	}
 
@@ -170,10 +169,9 @@ final class MockPageContext extends PageContext {
 	 *      java.lang.String, boolean, int, boolean)
 	 */
 	@Override
-	public void initialize(Servlet servlet, ServletRequest request,
-			ServletResponse response, String errorPageURL,
+	public void initialize(Servlet servlet, ServletRequest request, ServletResponse response, String errorPageURL,
 			boolean needsSession, int bufferSize, boolean autoFlush)
-			throws IOException, IllegalStateException, IllegalArgumentException {
+					throws IOException, IllegalStateException, IllegalArgumentException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -245,8 +243,7 @@ final class MockPageContext extends PageContext {
 	 * @see javax.servlet.jsp.PageContext#forward(java.lang.String)
 	 */
 	@Override
-	public void forward(String relativeUrlPath) throws ServletException,
-			IOException {
+	public void forward(String relativeUrlPath) throws ServletException, IOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -254,8 +251,7 @@ final class MockPageContext extends PageContext {
 	 * @see javax.servlet.jsp.PageContext#include(java.lang.String)
 	 */
 	@Override
-	public void include(String relativeUrlPath) throws ServletException,
-			IOException {
+	public void include(String relativeUrlPath) throws ServletException, IOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -263,8 +259,7 @@ final class MockPageContext extends PageContext {
 	 * @see javax.servlet.jsp.PageContext#include(java.lang.String, boolean)
 	 */
 	@Override
-	public void include(String relativeUrlPath, boolean flush)
-			throws ServletException, IOException {
+	public void include(String relativeUrlPath, boolean flush) throws ServletException, IOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -272,8 +267,7 @@ final class MockPageContext extends PageContext {
 	 * @see javax.servlet.jsp.PageContext#handlePageException(java.lang.Exception)
 	 */
 	@Override
-	public void handlePageException(Exception e) throws ServletException,
-			IOException {
+	public void handlePageException(Exception e) throws ServletException, IOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -281,8 +275,7 @@ final class MockPageContext extends PageContext {
 	 * @see javax.servlet.jsp.PageContext#handlePageException(java.lang.Throwable)
 	 */
 	@Override
-	public void handlePageException(Throwable t) throws ServletException,
-			IOException {
+	public void handlePageException(Throwable t) throws ServletException, IOException {
 		throw new UnsupportedOperationException();
 	}
 

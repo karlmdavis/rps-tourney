@@ -27,8 +27,8 @@ public class ServiceStatusResourceImpl implements IServiceStatusResource {
 		try {
 			// Load the .properties resource that has the version number in it.
 			Properties versionProps = new Properties();
-			versionProps.load(Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream("project-version.properties"));
+			versionProps.load(
+					Thread.currentThread().getContextClassLoader().getResourceAsStream("project-version.properties"));
 
 			// Read the version from that resource.
 			this.version = versionProps.getProperty("project.version");

@@ -50,10 +50,8 @@ public final class GameClient implements IGameResource {
 	@Override
 	public GameView createGame() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH)
-				.path(IGameResource.SERVICE_PATH_NEW)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH)
+				.path(IGameResource.SERVICE_PATH_NEW).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();
@@ -74,10 +72,8 @@ public final class GameClient implements IGameResource {
 	@Override
 	public List<GameView> getGamesForPlayer() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH)
-				.path(IGameResource.SERVICE_PATH_GAMES_FOR_PLAYER)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH)
+				.path(IGameResource.SERVICE_PATH_GAMES_FOR_PLAYER).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
@@ -99,8 +95,7 @@ public final class GameClient implements IGameResource {
 	@Override
 	public GameView getGame(String gameId) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
 				.request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
@@ -121,13 +116,10 @@ public final class GameClient implements IGameResource {
 	 *      int, int)
 	 */
 	@Override
-	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) {
+	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
-				.path(IGameResource.SERVICE_PATH_MAX_ROUNDS)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_MAX_ROUNDS).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();
@@ -153,13 +145,10 @@ public final class GameClient implements IGameResource {
 	 *      long)
 	 */
 	@Override
-	public void inviteOpponent(String gameId, long playerId)
-			throws NotFoundException, GameConflictException {
+	public void inviteOpponent(String gameId, long playerId) throws NotFoundException, GameConflictException {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
-				.path(IGameResource.SERVICE_PATH_INVITE_OPPONENT)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_INVITE_OPPONENT).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();
@@ -182,10 +171,8 @@ public final class GameClient implements IGameResource {
 	@Override
 	public GameView joinGame(String gameId) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
-				.path(IGameResource.SERVICE_PATH_JOIN)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_JOIN).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();
@@ -210,10 +197,8 @@ public final class GameClient implements IGameResource {
 	@Override
 	public GameView prepareRound(String gameId) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
-				.path(IGameResource.SERVICE_PATH_PREPARE)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_PREPARE).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();
@@ -237,10 +222,8 @@ public final class GameClient implements IGameResource {
 	@Override
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameResource.SERVICE_PATH).path(gameId)
-				.path(IGameResource.SERVICE_PATH_THROW)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameResource.SERVICE_PATH).path(gameId)
+				.path(IGameResource.SERVICE_PATH_THROW).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();

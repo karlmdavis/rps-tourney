@@ -53,15 +53,12 @@ public class GuestLoginIdentitiesDaoImpl implements IGuestLoginIndentitiesDao {
 	@Override
 	public List<GuestLoginIdentity> getLogins() {
 		// Build a query for the logins.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<GuestLoginIdentity> criteria = criteriaBuilder
-				.createQuery(GuestLoginIdentity.class);
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<GuestLoginIdentity> criteria = criteriaBuilder.createQuery(GuestLoginIdentity.class);
 		criteria.from(GuestLoginIdentity.class);
 
 		// Run the query.
-		TypedQuery<GuestLoginIdentity> query = entityManager
-				.createQuery(criteria);
+		TypedQuery<GuestLoginIdentity> query = entityManager.createQuery(criteria);
 		List<GuestLoginIdentity> results = query.getResultList();
 
 		return results;

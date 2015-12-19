@@ -42,8 +42,7 @@ public final class ITUtils {
 	 * @return a URL for the specified resource in the web application
 	 */
 	public static String buildWebAppUrl(String... pathComponents) {
-		String baseUrl = String.format("http://localhost:%d%s", JETTY_PORT,
-				CONTEXT_WEB_APP);
+		String baseUrl = String.format("http://localhost:%d%s", JETTY_PORT, CONTEXT_WEB_APP);
 
 		StringBuilder url = new StringBuilder(baseUrl);
 		for (String pathComponent : pathComponents) {
@@ -61,8 +60,8 @@ public final class ITUtils {
 	 *         embedded Jetty instance used in this project's integration tests
 	 */
 	public static ClientConfig createClientConfig() {
-		UriBuilder serviceRootUri = UriBuilder.fromPath(String.format(
-				"http://localhost:%d/%s", JETTY_PORT, CONTEXT_WEB_SERVICE));
+		UriBuilder serviceRootUri = UriBuilder
+				.fromPath(String.format("http://localhost:%d/%s", JETTY_PORT, CONTEXT_WEB_SERVICE));
 		ClientConfig clientConfig = new ClientConfig(serviceRootUri.build());
 		return clientConfig;
 	}

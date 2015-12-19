@@ -64,8 +64,7 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.ContainerRequestContext)
 	 */
 	@Override
-	public void filter(ContainerRequestContext requestContext)
-			throws IOException {
+	public void filter(ContainerRequestContext requestContext) throws IOException {
 		/*
 		 * Grab the SecurityContext, which should have been setup by the
 		 * AuthenticationFilter. FIXME Grabbing it from a property is a
@@ -91,10 +90,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 	 * with any of the {@link PermitAll}, {@link DenyAll}, and/or
 	 * {@link RolesAllowed} annotations.
 	 */
-	public static final class AuthorizationFilterFeature implements
-			DynamicFeature {
-		private static final Logger LOGGER = LoggerFactory
-				.getLogger(AuthorizationFilterFeature.class);
+	public static final class AuthorizationFilterFeature implements DynamicFeature {
+		private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizationFilterFeature.class);
 
 		/**
 		 * @see javax.ws.rs.container.DynamicFeature#configure(javax.ws.rs.container.ResourceInfo,
@@ -118,23 +115,18 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 			 * doesn't have access to the info.
 			 */
 			Class<?> webServiceClass = resourceInfo.getResourceClass();
-			RolesAllowed rolesAllowedForClass = webServiceClass
-					.getAnnotation(RolesAllowed.class);
+			RolesAllowed rolesAllowedForClass = webServiceClass.getAnnotation(RolesAllowed.class);
 			Method webServiceMethod = resourceInfo.getResourceMethod();
-			boolean permitAllForMethod = webServiceMethod
-					.isAnnotationPresent(PermitAll.class);
-			boolean denyAll = webServiceMethod
-					.isAnnotationPresent(DenyAll.class);
-			RolesAllowed rolesAllowedForMethod = webServiceMethod
-					.getAnnotation(RolesAllowed.class);
+			boolean permitAllForMethod = webServiceMethod.isAnnotationPresent(PermitAll.class);
+			boolean denyAll = webServiceMethod.isAnnotationPresent(DenyAll.class);
+			RolesAllowed rolesAllowedForMethod = webServiceMethod.getAnnotation(RolesAllowed.class);
 
 			/*
 			 * The overriding rules specified for these annotations (in their
 			 * JavaDoc) are a bit complex, but in general, method-level
 			 * annotations always override class-level ones.
 			 */
-			RolesAllowed rolesAllowed = rolesAllowedForMethod != null ? rolesAllowedForMethod
-					: rolesAllowedForClass;
+			RolesAllowed rolesAllowed = rolesAllowedForMethod != null ? rolesAllowedForMethod : rolesAllowedForClass;
 
 			// Create the AuthFilter (if needed).
 			AuthorizationFilter authFilter;
@@ -149,9 +141,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 			// Register the AuthFilter (if it was created).
 			if (authFilter != null) {
 				context.register(authFilter);
-				LOGGER.debug(
-						"An {} instance was registered for the {} JAX-RS method.",
-						AuthorizationFilter.class, webServiceMethod);
+				LOGGER.debug("An {} instance was registered for the {} JAX-RS method.", AuthorizationFilter.class,
+						webServiceMethod);
 			}
 		}
 	}

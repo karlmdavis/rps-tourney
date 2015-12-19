@@ -37,10 +37,8 @@ public class ServiceStatusClient implements IServiceStatusResource {
 	@Override
 	public String ping() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IServiceStatusResource.SERVICE_PATH)
-				.path(IServiceStatusResource.SERVICE_PATH_PING)
-				.request(MediaType.TEXT_PLAIN);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IServiceStatusResource.SERVICE_PATH)
+				.path(IServiceStatusResource.SERVICE_PATH_PING).request(MediaType.TEXT_PLAIN);
 
 		Response response = requestBuilder.get();
 		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)
@@ -56,8 +54,7 @@ public class ServiceStatusClient implements IServiceStatusResource {
 	@Override
 	public String echo(String text) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IServiceStatusResource.SERVICE_PATH)
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IServiceStatusResource.SERVICE_PATH)
 				.path(IServiceStatusResource.SERVICE_PATH_ECHO).request();
 
 		Form params = new Form();
@@ -77,10 +74,8 @@ public class ServiceStatusClient implements IServiceStatusResource {
 	@Override
 	public String getVersion() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IServiceStatusResource.SERVICE_PATH)
-				.path(IServiceStatusResource.SERVICE_PATH_VERSION)
-				.request(MediaType.TEXT_PLAIN);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IServiceStatusResource.SERVICE_PATH)
+				.path(IServiceStatusResource.SERVICE_PATH_VERSION).request(MediaType.TEXT_PLAIN);
 
 		Response response = requestBuilder.get();
 		if (Status.Family.familyOf(response.getStatus()) != Status.Family.SUCCESSFUL)

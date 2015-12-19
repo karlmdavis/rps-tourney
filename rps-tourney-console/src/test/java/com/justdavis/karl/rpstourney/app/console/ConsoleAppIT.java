@@ -31,8 +31,7 @@ import com.justdavis.karl.rpstourney.service.client.auth.game.GameAuthClient;
  * </p>
  */
 public final class ConsoleAppIT {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConsoleAppIT.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleAppIT.class);
 
 	/**
 	 * Runs the app, creating a new local game against an AI opponent. The
@@ -47,8 +46,7 @@ public final class ConsoleAppIT {
 	 *             (indicates problem with test code)
 	 */
 	@Test(timeout = 5000)
-	public void playOneRoundGameAgainstLocalAi() throws AddressException,
-			IOException {
+	public void playOneRoundGameAgainstLocalAi() throws AddressException, IOException {
 		final ByteArrayOutputStream gameOutputStream = new ByteArrayOutputStream();
 		final MockInputStream gameInputStream = new MockInputStream();
 
@@ -60,18 +58,15 @@ public final class ConsoleAppIT {
 		 * just return -1 after exhausting all existing input.
 		 */
 		ExecutorService gameExecutor = Executors.newSingleThreadExecutor();
-		Runnable gameRunnable = new GameRunnable(gameInputStream,
-				gameOutputStream, "--ai", "Hard", "-r", "1");
+		Runnable gameRunnable = new GameRunnable(gameInputStream, gameOutputStream, "--ai", "Hard", "-r", "1");
 
 		// Start the game.
 		Future<?> gameFuture = gameExecutor.submit(gameRunnable);
 
 		// Play rounds until the game ends.
 		while (!gameFuture.isDone()) {
-			String gameOutputSoFar = gameOutputStream
-					.toString(StandardCharsets.US_ASCII.name());
-			if (gameOutputSoFar.toString().endsWith(
-					"Select your throw [R,P,S]: ")) {
+			String gameOutputSoFar = gameOutputStream.toString(StandardCharsets.US_ASCII.name());
+			if (gameOutputSoFar.toString().endsWith("Select your throw [R,P,S]: ")) {
 				// Make a Throw (doesn't matter what).
 				gameInputStream.addMessage("R\n");
 			}
@@ -81,14 +76,11 @@ public final class ConsoleAppIT {
 		gameInputStream.exit();
 
 		// Verify that the user either won or lost.
-		String gameOutput = gameOutputStream.toString(StandardCharsets.US_ASCII
-				.name());
+		String gameOutput = gameOutputStream.toString(StandardCharsets.US_ASCII.name());
 		LOGGER.info("Final game output:\n" + gameOutput);
-		Assert.assertTrue(gameOutput
-				.contains("You are playing against Challenging. Best out of 1 wins!"));
+		Assert.assertTrue(gameOutput.contains("You are playing against Challenging. Best out of 1 wins!"));
 		Assert.assertTrue(gameOutput.contains("Final Score"));
-		Assert.assertTrue(gameOutput.contains("You won!")
-				|| gameOutput.contains("You lost."));
+		Assert.assertTrue(gameOutput.contains("You won!") || gameOutput.contains("You lost."));
 	}
 
 	/**
@@ -104,16 +96,12 @@ public final class ConsoleAppIT {
 	 *             (indicates problem with test code)
 	 */
 	@Test(timeout = 5000)
-	public void playOneRoundGameAgainstNetworkAi() throws AddressException,
-			IOException {
+	public void playOneRoundGameAgainstNetworkAi() throws AddressException, IOException {
 		// Use the web service to create a login that can be used.
-		final String userEmail = String.format("foo.%d@example.com",
-				new Random().nextInt());
+		final String userEmail = String.format("foo.%d@example.com", new Random().nextInt());
 		final String userPassword = "secret";
-		GameAuthClient gameAuthClient = new GameAuthClient(
-				ITUtils.createClientConfig(), new CookieStore());
-		gameAuthClient.createGameLogin(new InternetAddress(userEmail),
-				userPassword);
+		GameAuthClient gameAuthClient = new GameAuthClient(ITUtils.createClientConfig(), new CookieStore());
+		gameAuthClient.createGameLogin(new InternetAddress(userEmail), userPassword);
 
 		final ByteArrayOutputStream gameOutputStream = new ByteArrayOutputStream();
 		final MockInputStream gameInputStream = new MockInputStream();
@@ -126,21 +114,17 @@ public final class ConsoleAppIT {
 		 * just return -1 after exhausting all existing input.
 		 */
 		ExecutorService gameExecutor = Executors.newSingleThreadExecutor();
-		Runnable gameRunnable = new GameRunnable(gameInputStream,
-				gameOutputStream, "--online", "--server", ITUtils
-						.createClientConfig().getServiceRoot().toString(),
-				"--user", userEmail, "--password", userPassword, "--ai",
-				"Hard", "-r", "1");
+		Runnable gameRunnable = new GameRunnable(gameInputStream, gameOutputStream, "--online", "--server",
+				ITUtils.createClientConfig().getServiceRoot().toString(), "--user", userEmail, "--password",
+				userPassword, "--ai", "Hard", "-r", "1");
 
 		// Start the game.
 		Future<?> gameFuture = gameExecutor.submit(gameRunnable);
 
 		// Play rounds until the game ends.
 		while (!gameFuture.isDone()) {
-			String gameOutputSoFar = gameOutputStream
-					.toString(StandardCharsets.US_ASCII.name());
-			if (gameOutputSoFar.toString().endsWith(
-					"Select your throw [R,P,S]: ")) {
+			String gameOutputSoFar = gameOutputStream.toString(StandardCharsets.US_ASCII.name());
+			if (gameOutputSoFar.toString().endsWith("Select your throw [R,P,S]: ")) {
 				// Make a Throw (doesn't matter what).
 				gameInputStream.addMessage("R\n");
 			}
@@ -150,14 +134,11 @@ public final class ConsoleAppIT {
 		gameInputStream.exit();
 
 		// Verify that the user either won or lost.
-		String gameOutput = gameOutputStream.toString(StandardCharsets.US_ASCII
-				.name());
+		String gameOutput = gameOutputStream.toString(StandardCharsets.US_ASCII.name());
 		LOGGER.info("Final game output:\n" + gameOutput);
-		Assert.assertTrue(gameOutput
-				.contains("You are playing against Challenging. Best out of 1 wins!"));
+		Assert.assertTrue(gameOutput.contains("You are playing against Challenging. Best out of 1 wins!"));
 		Assert.assertTrue(gameOutput.contains("Final Score"));
-		Assert.assertTrue(gameOutput.contains("You won!")
-				|| gameOutput.contains("You lost."));
+		Assert.assertTrue(gameOutput.contains("You won!") || gameOutput.contains("You lost."));
 	}
 
 	/**
@@ -181,8 +162,7 @@ public final class ConsoleAppIT {
 		 *            the list of arguments to pass to
 		 *            {@link ConsoleApp#runApp(String[], PrintStream, InputStream)}
 		 */
-		private GameRunnable(InputStream gameInputStream,
-				ByteArrayOutputStream gameOutputStream, String... gameArgs) {
+		private GameRunnable(InputStream gameInputStream, ByteArrayOutputStream gameOutputStream, String... gameArgs) {
 			this.gameInputStream = gameInputStream;
 			this.gameOutputStream = gameOutputStream;
 			this.gameArgs = gameArgs;
@@ -195,8 +175,7 @@ public final class ConsoleAppIT {
 		public void run() {
 			ConsoleApp app = new ConsoleApp();
 			try {
-				app.runApp(gameArgs, new PrintStream(gameOutputStream),
-						gameInputStream);
+				app.runApp(gameArgs, new PrintStream(gameOutputStream), gameInputStream);
 			} catch (Exception e) {
 				/*
 				 * Catch and rethrow errors, also logging the console output to
@@ -204,8 +183,7 @@ public final class ConsoleAppIT {
 				 */
 				try {
 					LOGGER.error("Test failed. Game output:\n"
-							+ gameOutputStream
-									.toString(StandardCharsets.US_ASCII.name()));
+							+ gameOutputStream.toString(StandardCharsets.US_ASCII.name()));
 				} catch (UnsupportedEncodingException e1) {
 					// Won't happen; encoding is hardcoded.
 					e1.printStackTrace();
@@ -219,10 +197,8 @@ public final class ConsoleAppIT {
 	 * A mock {@link InputStream} that tests can dynamically provide content to.
 	 */
 	private static final class MockInputStream extends InputStream {
-		private static final Logger LOGGER = LoggerFactory
-				.getLogger(MockInputStream.class);
-		private static final StringReader MAGIC_OBJECT_EXIT = new StringReader(
-				"");
+		private static final Logger LOGGER = LoggerFactory.getLogger(MockInputStream.class);
+		private static final StringReader MAGIC_OBJECT_EXIT = new StringReader("");
 
 		private final BlockingQueue<StringReader> messages;
 		private StringReader currentMessage;
@@ -264,8 +240,7 @@ public final class ConsoleAppIT {
 		@Override
 		public int read() throws IOException {
 			// Get the next result from the current message (if any).
-			int nextResult = currentMessage != null ? currentMessage.read()
-					: -1;
+			int nextResult = currentMessage != null ? currentMessage.read() : -1;
 
 			// If there was no result, grab the next message.
 			if (nextResult == -1) {

@@ -45,8 +45,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
-				.requestForRandomDatabase("integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
 		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
@@ -69,8 +68,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public GameLoginIdentitiesDaoImplIT(IProvisioningRequest provisioningRequest)
-			throws Exception {
+	public GameLoginIdentitiesDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
@@ -78,8 +76,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 		 * SpringJUnit4ClassRunner}, as this test is already using a different
 		 * runner: {@link Parameterized}.
 		 */
-		TestContextManager testContextManager = new TestContextManager(
-				getClass());
+		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
 		 * Register the DaoTestHelper with the Spring test context, so it can
@@ -97,8 +94,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 	 */
 	@Test
 	public void save() throws AddressException {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -109,8 +105,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 			Account account = new Account();
 			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
-			GameLoginIdentity login = new GameLoginIdentity(account,
-					new InternetAddress("foo@example.com"),
+			GameLoginIdentity login = new GameLoginIdentity(account, new InternetAddress("foo@example.com"),
 					PasswordUtils.hashPassword("secret"));
 
 			// Try to save the entity.
@@ -130,10 +125,8 @@ public final class GameLoginIdentitiesDaoImplIT {
 			Assert.assertEquals(1, loginFromDb.getId());
 			Assert.assertNotNull(loginFromDb.getAccount());
 			Assert.assertEquals(1, loginFromDb.getAccount().getId());
-			Assert.assertEquals(login.getEmailAddress(),
-					loginFromDb.getEmailAddress());
-			Assert.assertEquals(login.getPasswordHash(),
-					loginFromDb.getPasswordHash());
+			Assert.assertEquals(login.getEmailAddress(), loginFromDb.getEmailAddress());
+			Assert.assertEquals(login.getPasswordHash(), loginFromDb.getPasswordHash());
 		} finally {
 			entityManager.close();
 		}
@@ -147,8 +140,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 	 */
 	@Test
 	public void findByEmailAddress() throws AddressException {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -159,8 +151,7 @@ public final class GameLoginIdentitiesDaoImplIT {
 			Account account = new Account();
 			AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 			account.getAuthTokens().add(authToken);
-			GameLoginIdentity login = new GameLoginIdentity(account,
-					new InternetAddress("foo@example.com"),
+			GameLoginIdentity login = new GameLoginIdentity(account, new InternetAddress("foo@example.com"),
 					PasswordUtils.hashPassword("secret"));
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
@@ -173,14 +164,12 @@ public final class GameLoginIdentitiesDaoImplIT {
 			}
 
 			// Try to query for the entity.
-			GameLoginIdentity loginThatShouldExist = loginsDao.find(login
-					.getEmailAddress());
+			GameLoginIdentity loginThatShouldExist = loginsDao.find(login.getEmailAddress());
 			Assert.assertNotNull(loginThatShouldExist);
 			Assert.assertEquals(login.getId(), loginThatShouldExist.getId());
 
 			// Try to query for a non-existent entity.
-			GameLoginIdentity loginThatShouldntExist = loginsDao
-					.find(new InternetAddress("bar@example.com"));
+			GameLoginIdentity loginThatShouldntExist = loginsDao.find(new InternetAddress("bar@example.com"));
 			Assert.assertNull(loginThatShouldntExist);
 		} finally {
 			entityManager.close();

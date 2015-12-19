@@ -73,8 +73,7 @@ public final class LocalGameClient implements IGameResource {
 	 *      int, int)
 	 */
 	@Override
-	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) {
+	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
 		game.setMaxRounds(newMaxRoundsValue);
 		return getGame(gameId);
 	}
@@ -115,8 +114,8 @@ public final class LocalGameClient implements IGameResource {
 
 		// Calculate the Throw for the Player 2 AI.
 		GameView gameView = new GameView(game, game.getPlayer2());
-		Throw aiThrow = game.getPlayer2().getBuiltInAi().getPositronicBrain()
-				.calculateNextThrow(gameView, PlayerRole.PLAYER_2);
+		Throw aiThrow = game.getPlayer2().getBuiltInAi().getPositronicBrain().calculateNextThrow(gameView,
+				PlayerRole.PLAYER_2);
 
 		// Submit the Throw.
 		game.submitThrow(roundIndex, game.getPlayer2(), aiThrow);

@@ -49,8 +49,7 @@ import com.justdavis.karl.rpstourney.webapp.util.CookiesUtils;
  * </p>
  */
 @Component
-public final class GameLoginSuccessHandler extends
-		SavedRequestAwareAuthenticationSuccessHandler {
+public final class GameLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	private final AppConfig appConfig;
 	private final IAccountsResource accountsClientForCurrentAuth;
 	private final IAccountsClientFactory accountsClientFactory;
@@ -69,8 +68,7 @@ public final class GameLoginSuccessHandler extends
 	 *            {@link IAccountsResource} clients with different credentials
 	 */
 	@Inject
-	public GameLoginSuccessHandler(AppConfig appConfig,
-			IAccountsResource accountsClientForCurrentAuth,
+	public GameLoginSuccessHandler(AppConfig appConfig, IAccountsResource accountsClientForCurrentAuth,
 			IAccountsClientFactory accountsClientFactory) {
 		this.appConfig = appConfig;
 		this.accountsClientForCurrentAuth = accountsClientForCurrentAuth;
@@ -83,17 +81,14 @@ public final class GameLoginSuccessHandler extends
 	 *      org.springframework.security.core.Authentication)
 	 */
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request,
-			HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
 		// Extract the old AuthToken value (if any) from the request's cookies.
-		Cookie authTokenCookieForPrevLogin = CookiesUtils.extractCookie(
-				CustomRememberMeServices.COOKIE_NAME, request);
+		Cookie authTokenCookieForPrevLogin = CookiesUtils.extractCookie(CustomRememberMeServices.COOKIE_NAME, request);
 		boolean hadPreviousLogin = authTokenCookieForPrevLogin != null;
 
 		if (hadPreviousLogin) {
-			String authTokenValueForPrevLogin = hadPreviousLogin ? authTokenCookieForPrevLogin
-					.getValue() : null;
+			String authTokenValueForPrevLogin = hadPreviousLogin ? authTokenCookieForPrevLogin.getValue() : null;
 			IAccountsResource accountsClientForPrevLogin = accountsClientFactory
 					.createAccountsClient(authTokenValueForPrevLogin);
 
@@ -103,8 +98,7 @@ public final class GameLoginSuccessHandler extends
 			 * 'accountsClientForCurrentAuth' will still be authenticating as
 			 * the user's previous Account (if any).
 			 */
-			boolean previousLoginWasAnon = accountsClientForPrevLogin
-					.getAccount().isAnonymous();
+			boolean previousLoginWasAnon = accountsClientForPrevLogin.getAccount().isAnonymous();
 
 			/*
 			 * If previous Account was anonymous, we will automatically merge
@@ -113,12 +107,9 @@ public final class GameLoginSuccessHandler extends
 			 * that anonymous Account, and have no way of recovering it.
 			 */
 			if (previousLoginWasAnon) {
-				AuthToken authTokenForPrevLogin = accountsClientForPrevLogin
-						.selectOrCreateAuthToken();
-				Account accountForCurrentLogin = accountsClientForCurrentAuth
-						.getAccount();
-				accountsClientForCurrentAuth.mergeAccount(
-						accountForCurrentLogin.getId(),
+				AuthToken authTokenForPrevLogin = accountsClientForPrevLogin.selectOrCreateAuthToken();
+				Account accountForCurrentLogin = accountsClientForCurrentAuth.getAccount();
+				accountsClientForCurrentAuth.mergeAccount(accountForCurrentLogin.getId(),
 						authTokenForPrevLogin.getToken());
 			}
 		}
@@ -127,11 +118,9 @@ public final class GameLoginSuccessHandler extends
 		 * Set the 'AuthToken' cookie for the account the user is newly
 		 * authenticated to.
 		 */
-		AuthToken authTokenForNewLogin = accountsClientForCurrentAuth
-				.selectOrCreateAuthToken();
-		Cookie authTokenCookie = CustomRememberMeServices
-				.createRememberMeCookie(appConfig, request,
-						authTokenForNewLogin.getToken().toString());
+		AuthToken authTokenForNewLogin = accountsClientForCurrentAuth.selectOrCreateAuthToken();
+		Cookie authTokenCookie = CustomRememberMeServices.createRememberMeCookie(appConfig, request,
+				authTokenForNewLogin.getToken().toString());
 		response.addCookie(authTokenCookie);
 
 		/*

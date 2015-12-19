@@ -44,8 +44,7 @@ public final class GuestLoginIdentitiesDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
-				.requestForRandomDatabase("integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
 		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
@@ -68,8 +67,7 @@ public final class GuestLoginIdentitiesDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public GuestLoginIdentitiesDaoImplIT(
-			IProvisioningRequest provisioningRequest) throws Exception {
+	public GuestLoginIdentitiesDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
@@ -77,8 +75,7 @@ public final class GuestLoginIdentitiesDaoImplIT {
 		 * SpringJUnit4ClassRunner}, as this test is already using a different
 		 * runner: {@link Parameterized}.
 		 */
-		TestContextManager testContextManager = new TestContextManager(
-				getClass());
+		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
 		 * Register the DaoTestHelper with the Spring test context, so it can
@@ -93,8 +90,7 @@ public final class GuestLoginIdentitiesDaoImplIT {
 	 */
 	@Test
 	public void save() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.

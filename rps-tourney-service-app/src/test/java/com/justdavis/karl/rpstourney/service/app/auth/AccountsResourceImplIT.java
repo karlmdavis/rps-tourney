@@ -60,10 +60,8 @@ public final class AccountsResourceImplIT {
 	 */
 	@After
 	public void wipeSchema() {
-		schemaManager.wipeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
-		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
+		schemaManager.wipeSchema(configLoader.getConfig().getDataSourceCoordinates());
+		schemaManager.createOrUpgradeSchema(configLoader.getConfig().getDataSourceCoordinates());
 	}
 
 	/**
@@ -79,16 +77,14 @@ public final class AccountsResourceImplIT {
 		 * will handle this.
 		 */
 
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		/*
 		 * Attempt to validate the login, which should fail with an HTTP 401
 		 * Unauthorized error.
 		 */
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		expectedException.expect(HttpClientException.class);
 		expectedException.expectMessage(StringContains.containsString("401"));
 		accountsClient.validateAuth();
@@ -101,13 +97,11 @@ public final class AccountsResourceImplIT {
 	 */
 	@Test
 	public void createAndValidateGuestLogin() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create the login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
 		// Verify the create results.
@@ -115,8 +109,7 @@ public final class AccountsResourceImplIT {
 		Assert.assertEquals(1, loginsDao.getLogins().size());
 
 		// Validate the login.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		Account validatedAccount = accountsClient.validateAuth();
 
 		// Verify the validate results.
@@ -130,15 +123,12 @@ public final class AccountsResourceImplIT {
 	 */
 	@Test
 	public void updateAccount() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 
 		// Create the login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
 		// Create the AuthToken and grab a copy of it.
@@ -155,8 +145,7 @@ public final class AccountsResourceImplIT {
 
 		// Make sure that the AuthToken is the same.
 		AuthToken copyOfAuthToken = accountsClient.selectOrCreateAuthToken();
-		Assert.assertEquals(originalAuthToken.getToken(),
-				copyOfAuthToken.getToken());
+		Assert.assertEquals(originalAuthToken.getToken(), copyOfAuthToken.getToken());
 
 		/*
 		 * Pull the Account again and verify that the changes are still there.
@@ -175,15 +164,12 @@ public final class AccountsResourceImplIT {
 	 */
 	@Test
 	public void updateAccountValidation() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 
 		// Create the login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
 		/*
@@ -208,18 +194,15 @@ public final class AccountsResourceImplIT {
 	 */
 	@Test
 	public void selectOrCreateAuthToken() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create the login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		guestAuthClient.loginAsGuest();
 
 		// Get an AuthToken.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		AuthToken authToken = accountsClient.selectOrCreateAuthToken();
 
 		// Verify the validate results.
@@ -232,46 +215,35 @@ public final class AccountsResourceImplIT {
 	 */
 	@Test
 	public void mergeAccount() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 
 		// Create the source account and associated entities to be merged.
 		CookieStore sourceCookies = new CookieStore();
-		AccountsClient sourceAccountsClient = new AccountsClient(clientConfig,
-				sourceCookies);
-		GuestAuthClient sourceGuestAuthClient = new GuestAuthClient(
-				clientConfig, sourceCookies);
-		GameClient sourceGameClient = new GameClient(clientConfig,
-				sourceCookies);
+		AccountsClient sourceAccountsClient = new AccountsClient(clientConfig, sourceCookies);
+		GuestAuthClient sourceGuestAuthClient = new GuestAuthClient(clientConfig, sourceCookies);
+		GameClient sourceGameClient = new GameClient(clientConfig, sourceCookies);
 		Account sourceAccount = sourceGuestAuthClient.loginAsGuest();
 		sourceAccount.setName("foo");
 		sourceAccountsClient.updateAccount(sourceAccount);
-		AuthToken sourceAuthToken = sourceAccountsClient
-				.selectOrCreateAuthToken();
+		AuthToken sourceAuthToken = sourceAccountsClient.selectOrCreateAuthToken();
 		sourceGameClient.createGame();
 
 		// Create the target account to merge into.
 		CookieStore targetCookies = new CookieStore();
-		AccountsClient targetAccountsClient = new AccountsClient(clientConfig,
-				targetCookies);
-		GuestAuthClient targetGuestAuthClient = new GuestAuthClient(
-				clientConfig, targetCookies);
-		GameClient targetGameClient = new GameClient(clientConfig,
-				targetCookies);
+		AccountsClient targetAccountsClient = new AccountsClient(clientConfig, targetCookies);
+		GuestAuthClient targetGuestAuthClient = new GuestAuthClient(clientConfig, targetCookies);
+		GameClient targetGameClient = new GameClient(clientConfig, targetCookies);
 		Account targetAccount = targetGuestAuthClient.loginAsGuest();
 
 		/*
 		 * Merge the source Account and associated objects to the target
 		 * Account.
 		 */
-		targetAccountsClient.mergeAccount(targetAccount.getId(),
-				sourceAuthToken.getToken());
+		targetAccountsClient.mergeAccount(targetAccount.getId(), sourceAuthToken.getToken());
 
 		// Verify the results.
-		Assert.assertEquals(2, targetAccountsClient.getAccount().getLogins()
-				.size());
-		Assert.assertEquals(sourceAccount.getName(), targetAccountsClient
-				.getAccount().getName());
+		Assert.assertEquals(2, targetAccountsClient.getAccount().getLogins().size());
+		Assert.assertEquals(sourceAccount.getName(), targetAccountsClient.getAccount().getName());
 		Assert.assertEquals(1, targetGameClient.getGamesForPlayer().size());
 	}
 }

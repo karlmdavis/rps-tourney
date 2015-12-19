@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 
 /**
  * Unit tests for {@link GuestLoginIdentity}.

@@ -24,8 +24,7 @@ public final class GameTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void gameStartStateTransitions() throws JAXBException,
-			XPathExpressionException {
+	public void gameStartStateTransitions() throws JAXBException, XPathExpressionException {
 		// Create the initial instances.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
@@ -66,8 +65,7 @@ public final class GameTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void gameRoundTransitions() throws JAXBException,
-			XPathExpressionException {
+	public void gameRoundTransitions() throws JAXBException, XPathExpressionException {
 		// Create the initial instances.
 		Account player1Account = new Account();
 		Player player1 = new Player(player1Account);
@@ -88,8 +86,7 @@ public final class GameTest {
 		// Verify that there's now a second round.
 		Assert.assertEquals(State.STARTED, game.getState());
 		Assert.assertEquals(2, game.getRounds().size());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 	}
 
 	/**
@@ -112,8 +109,7 @@ public final class GameTest {
 		Assert.assertEquals(1, game.getRounds().size());
 		Assert.assertEquals(0, game.getScoreForPlayer1());
 		Assert.assertEquals(1, game.getScoreForPlayer2());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(player2, game.getWinner());
 	}
@@ -137,8 +133,7 @@ public final class GameTest {
 			game.prepareRound();
 		Assert.assertEquals(2, game.getRounds().size());
 		Assert.assertEquals(1, game.getRounds().get(1).getRoundIndex());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 		Assert.assertEquals(State.STARTED, game.getState());
 
 		// Play the second round.
@@ -148,8 +143,7 @@ public final class GameTest {
 			game.prepareRound();
 		Assert.assertEquals(3, game.getRounds().size());
 		Assert.assertEquals(2, game.getRounds().get(2).getRoundIndex());
-		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(1)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(1).getResult());
 		Assert.assertEquals(State.STARTED, game.getState());
 
 		// Play the third round.
@@ -158,8 +152,7 @@ public final class GameTest {
 		if (!game.isRoundPrepared())
 			game.prepareRound();
 		Assert.assertEquals(3, game.getRounds().size());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(2)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(2).getResult());
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(player2, game.getWinner());
 	}
@@ -183,8 +176,7 @@ public final class GameTest {
 			game.prepareRound();
 		Assert.assertEquals(2, game.getRounds().size());
 		Assert.assertEquals(1, game.getRounds().get(1).getRoundIndex());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 		Assert.assertEquals(State.STARTED, game.getState());
 
 		// Play the second round. Winner: Player 1.
@@ -194,8 +186,7 @@ public final class GameTest {
 			game.prepareRound();
 		Assert.assertEquals(3, game.getRounds().size());
 		Assert.assertEquals(2, game.getRounds().get(2).getRoundIndex());
-		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(1)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(1).getResult());
 		Assert.assertEquals(State.STARTED, game.getState());
 
 		// Play the third round. Winner: (none/tie)
@@ -214,8 +205,7 @@ public final class GameTest {
 		if (!game.isRoundPrepared())
 			game.prepareRound();
 		Assert.assertEquals(4, game.getRounds().size());
-		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(3)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_1_WON, game.getRounds().get(3).getResult());
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(player1, game.getWinner());
 	}
@@ -241,8 +231,7 @@ public final class GameTest {
 			game.prepareRound();
 		Assert.assertEquals(2, game.getRounds().size());
 		Assert.assertEquals(1, game.getRounds().get(1).getRoundIndex());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 		Assert.assertEquals(State.STARTED, game.getState());
 
 		// Play the second round. Winner: Player 2.
@@ -251,8 +240,7 @@ public final class GameTest {
 		if (!game.isRoundPrepared())
 			game.prepareRound();
 		Assert.assertEquals(2, game.getRounds().size());
-		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0)
-				.getResult());
+		Assert.assertEquals(Result.PLAYER_2_WON, game.getRounds().get(0).getResult());
 		Assert.assertEquals(State.FINISHED, game.getState());
 		Assert.assertEquals(player2, game.getWinner());
 	}
@@ -312,8 +300,7 @@ public final class GameTest {
 			game.prepareRound();
 
 		// Verify that the method works as expected.
-		Assert.assertEquals(game.getRounds().get(1)
-				.getThrowForPlayer1Timestamp(), game.getLastThrowTimestamp());
+		Assert.assertEquals(game.getRounds().get(1).getThrowForPlayer1Timestamp(), game.getLastThrowTimestamp());
 	}
 
 	/**

@@ -89,15 +89,13 @@ public final class GameConflictException extends ClientErrorException {
 	/**
 	 * A JAX-RS {@link ExceptionMapper} for {@link GameConflictException}s.
 	 */
-	public static final class GameConflictExceptionMapper implements
-			ExceptionMapper<GameConflictException> {
+	public static final class GameConflictExceptionMapper implements ExceptionMapper<GameConflictException> {
 		/**
 		 * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
 		 */
 		@Override
 		public Response toResponse(GameConflictException exception) {
-			return Response.status(Status.CONFLICT)
-					.entity(exception.getType().name()).build();
+			return Response.status(Status.CONFLICT).entity(exception.getType().name()).build();
 		}
 	}
 

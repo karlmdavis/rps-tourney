@@ -64,8 +64,8 @@ public class SpringBindingsForJpa {
 	 */
 	@Bean
 	@DependsOn({ "databaseSchemaInitializer" })
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-			DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+			JpaVendorAdapter jpaVendorAdapter) {
 		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
 		lef.setDataSource(dataSource);
 		lef.setJpaVendorAdapter(jpaVendorAdapter);
@@ -84,8 +84,7 @@ public class SpringBindingsForJpa {
 	public PlatformTransactionManager transactionManager(
 			LocalContainerEntityManagerFactoryBean entityManagerFactoryBean) {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactoryBean
-				.getObject());
+		transactionManager.setEntityManagerFactory(entityManagerFactoryBean.getObject());
 		return transactionManager;
 	}
 
@@ -112,6 +111,7 @@ public class SpringBindingsForJpa {
 		 * frustrating, unknown reason. My best guess is that it has something
 		 * to do with whatever's actually closing my transactions not being
 		 * involved. Note that even marking my JAX-RS resources (the ones with
+		 * 
 		 * @Transactional annotations) with @Repository doesn't seem to resolve
 		 * the problem.
 		 */

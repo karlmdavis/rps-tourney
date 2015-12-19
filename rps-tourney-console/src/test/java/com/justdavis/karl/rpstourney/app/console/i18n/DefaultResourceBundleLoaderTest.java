@@ -15,12 +15,10 @@ public class DefaultResourceBundleLoaderTest {
 	 */
 	@Test
 	public void normalUsage() {
-		DefaultResourceBundleLoader bundleLoader = new DefaultResourceBundleLoader(
-				Locale.ENGLISH);
+		DefaultResourceBundleLoader bundleLoader = new DefaultResourceBundleLoader(Locale.ENGLISH);
 		ResourceBundle bundle = bundleLoader.getBundle();
 
 		Assert.assertNotNull(bundle);
-		Assert.assertEquals(bundle.getString("players.ai.name.threeSidedDie"),
-				"Easy");
+		Assert.assertEquals(bundle.getString("players.ai.name.threeSidedDie"), "Easy");
 	}
 }

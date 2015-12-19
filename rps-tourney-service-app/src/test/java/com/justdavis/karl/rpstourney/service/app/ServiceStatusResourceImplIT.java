@@ -32,8 +32,7 @@ public final class ServiceStatusResourceImplIT {
 	@Test
 	public void normalUsage() {
 		// Create the client.
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		ServiceStatusClient statusClient = new ServiceStatusClient(clientConfig);
 
 		// Test the service.

@@ -33,10 +33,8 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 	 *            the {@link RememberMeServices} for the application
 	 */
 	@Inject
-	public DefaultGuestLoginManager(
-			SecurityContextHolderStrategy securityContextStrategy,
-			IGuestAuthResource guestAuthClient,
-			RememberMeServices rememberMeServices) {
+	public DefaultGuestLoginManager(SecurityContextHolderStrategy securityContextStrategy,
+			IGuestAuthResource guestAuthClient, RememberMeServices rememberMeServices) {
 		this.securityContextStrategy = securityContextStrategy;
 		this.guestAuthClient = guestAuthClient;
 		this.rememberMeServices = rememberMeServices;
@@ -47,14 +45,12 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void loginClientAsGuest(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void loginClientAsGuest(HttpServletRequest request, HttpServletResponse response) {
 		/*
 		 * This method shouldn't be called if the request/client is already
 		 * authenticated. If it is, whatever called this method screwed up.
 		 */
-		Authentication existingAuth = securityContextStrategy.getContext()
-				.getAuthentication();
+		Authentication existingAuth = securityContextStrategy.getContext().getAuthentication();
 		if (existingAuth != null)
 			throw new BadCodeMonkeyException("Already authenticated.");
 
@@ -62,8 +58,7 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 		Account guestAccount = guestAuthClient.loginAsGuest();
 
 		// Create a webapp Authentication object and apply it.
-		Authentication guestAuth = new WebServiceAccountAuthentication(
-				guestAccount);
+		Authentication guestAuth = new WebServiceAccountAuthentication(guestAccount);
 		securityContextStrategy.getContext().setAuthentication(guestAuth);
 
 		/*

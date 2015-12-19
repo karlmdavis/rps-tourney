@@ -48,8 +48,7 @@ public final class GamesDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
-				.requestForRandomDatabase("integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
 		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
@@ -63,8 +62,8 @@ public final class GamesDaoImplIT {
 	public DaoTestHelper daoTestHelper;
 
 	/**
-	 * Constructs a new {@link GamesDaoImplIT} instance. The test runner
-	 * will generate the parameters to pass to this from the
+	 * Constructs a new {@link GamesDaoImplIT} instance. The test runner will
+	 * generate the parameters to pass to this from the
 	 * {@link #createTestParameters()} method.
 	 * 
 	 * @param provisioningRequest
@@ -72,8 +71,7 @@ public final class GamesDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public GamesDaoImplIT(IProvisioningRequest provisioningRequest)
-			throws Exception {
+	public GamesDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
@@ -81,8 +79,7 @@ public final class GamesDaoImplIT {
 		 * SpringJUnit4ClassRunner}, as this test is already using a different
 		 * runner: {@link Parameterized}.
 		 */
-		TestContextManager testContextManager = new TestContextManager(
-				getClass());
+		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
 		 * Register the DaoTestHelper with the Spring test context, so it can
@@ -93,13 +90,11 @@ public final class GamesDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GamesDaoImpl#save(Game)} with a new/empty
-	 * {@link Game}.
+	 * Tests {@link GamesDaoImpl#save(Game)} with a new/empty {@link Game}.
 	 */
 	@Test
 	public void saveNewGame() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -133,13 +128,11 @@ public final class GamesDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GamesDaoImpl#save(Game)} with an updated
-	 * {@link Game}.
+	 * Tests {@link GamesDaoImpl#save(Game)} with an updated {@link Game}.
 	 */
 	@Test
 	public void saveUpdatedGame() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -188,13 +181,12 @@ public final class GamesDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GamesDaoImpl#save(Game)} with a
-	 * {@link Game} that has some {@link GameRound}s.
+	 * Tests {@link GamesDaoImpl#save(Game)} with a {@link Game} that has some
+	 * {@link GameRound}s.
 	 */
 	@Test
 	public void saveWithRounds() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -229,8 +221,7 @@ public final class GamesDaoImplIT {
 			Assert.assertNotNull(gameFromDb.getPlayer2());
 			Assert.assertEquals(game.getState(), gameFromDb.getState());
 			Assert.assertEquals(game.getMaxRounds(), gameFromDb.getMaxRounds());
-			Assert.assertEquals(game.getRounds().size(), gameFromDb.getRounds()
-					.size());
+			Assert.assertEquals(game.getRounds().size(), gameFromDb.getRounds().size());
 		} finally {
 			entityManager.close();
 		}
@@ -241,8 +232,7 @@ public final class GamesDaoImplIT {
 	 */
 	@Test
 	public void findById() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -280,8 +270,7 @@ public final class GamesDaoImplIT {
 	 */
 	@Test
 	public void getGamesForPlayer() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -306,12 +295,10 @@ public final class GamesDaoImplIT {
 			}
 
 			// Try to query for the entities.
-			List<Game> gamesForPlayerA = gamesDao
-					.getGamesForPlayer(playerA);
+			List<Game> gamesForPlayerA = gamesDao.getGamesForPlayer(playerA);
 			Assert.assertNotNull(gamesForPlayerA);
 			Assert.assertEquals(2, gamesForPlayerA.size());
-			List<Game> gamesForPlayerB = gamesDao
-					.getGamesForPlayer(playerB);
+			List<Game> gamesForPlayerB = gamesDao.getGamesForPlayer(playerB);
 			Assert.assertNotNull(gamesForPlayerB);
 			Assert.assertEquals(1, gamesForPlayerB.size());
 		} finally {

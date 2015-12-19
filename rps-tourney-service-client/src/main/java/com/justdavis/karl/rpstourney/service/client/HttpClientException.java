@@ -23,8 +23,8 @@ public final class HttpClientException extends RuntimeException {
 	}
 
 	private static String buildMessage(StatusType status) {
-		return String.format("Unexpected HTTP %d status on response: %s",
-				status.getStatusCode(), status.getReasonPhrase());
+		return String.format("Unexpected HTTP %d status on response: %s", status.getStatusCode(),
+				status.getReasonPhrase());
 	}
 
 	/**

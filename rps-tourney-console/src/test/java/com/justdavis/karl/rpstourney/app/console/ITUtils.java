@@ -35,8 +35,8 @@ public final class ITUtils {
 	 *         embedded Jetty instance used in this project's integration tests
 	 */
 	public static ClientConfig createClientConfig() {
-		UriBuilder serviceRootUri = UriBuilder.fromPath(String.format(
-				"http://localhost:%d/%s", JETTY_PORT, CONTEXT_WEB_SERVICE));
+		UriBuilder serviceRootUri = UriBuilder
+				.fromPath(String.format("http://localhost:%d/%s", JETTY_PORT, CONTEXT_WEB_SERVICE));
 		ClientConfig clientConfig = new ClientConfig(serviceRootUri.build());
 		return clientConfig;
 	}

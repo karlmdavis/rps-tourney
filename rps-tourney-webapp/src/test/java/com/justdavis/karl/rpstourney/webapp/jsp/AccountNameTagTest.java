@@ -38,8 +38,7 @@ public class AccountNameTagTest {
 		MockAccountsClient accountsClient = new MockAccountsClient();
 		MockJspWriter jspWriter = new MockJspWriter();
 		ServletContext servletContext = new MockServletContext();
-		MockPageContext pageContext = new MockPageContext(jspWriter,
-				servletContext);
+		MockPageContext pageContext = new MockPageContext(jspWriter, servletContext);
 
 		// Create the tag to test.
 		AccountNameTag accountNameTag = new AccountNameTag();
@@ -67,8 +66,7 @@ public class AccountNameTagTest {
 		// Create the mock objects to use.
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		final Account anonAccount = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				anonAccount));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(anonAccount));
 		MessageSource messageSource = createMessageSource();
 		MockAccountsClient accountsClient = new MockAccountsClient() {
 			/**
@@ -81,8 +79,7 @@ public class AccountNameTagTest {
 		};
 		MockJspWriter jspWriter = new MockJspWriter();
 		ServletContext servletContext = new MockServletContext();
-		MockPageContext pageContext = new MockPageContext(jspWriter,
-				servletContext);
+		MockPageContext pageContext = new MockPageContext(jspWriter, servletContext);
 
 		// Create the tag to test.
 		AccountNameTag accountNameTag = new AccountNameTag();
@@ -111,8 +108,7 @@ public class AccountNameTagTest {
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		final Account namedAccount = new Account();
 		namedAccount.setName("bar");
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				namedAccount));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(namedAccount));
 		MessageSource messageSource = createMessageSource();
 		MockAccountsClient accountsClient = new MockAccountsClient() {
 			/**
@@ -125,8 +121,7 @@ public class AccountNameTagTest {
 		};
 		MockJspWriter jspWriter = new MockJspWriter();
 		ServletContext servletContext = new MockServletContext();
-		MockPageContext pageContext = new MockPageContext(jspWriter,
-				servletContext);
+		MockPageContext pageContext = new MockPageContext(jspWriter, servletContext);
 
 		// Create the tag to test.
 		AccountNameTag accountNameTag = new AccountNameTag();
@@ -145,8 +140,7 @@ public class AccountNameTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource
-				.addMessage("accountName.anon", Locale.getDefault(), "foo");
+		messageSource.addMessage("accountName.anon", Locale.getDefault(), "foo");
 		return messageSource;
 	}
 }

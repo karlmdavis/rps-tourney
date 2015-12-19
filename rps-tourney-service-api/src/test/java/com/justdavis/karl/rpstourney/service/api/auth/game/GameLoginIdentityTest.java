@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
-import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 
 /**
  * Unit tests for {@link GameLoginIdentity}.
@@ -29,8 +28,7 @@ public final class GameLoginIdentityTest {
 		Account account = new Account();
 		InternetAddress emailAddress = new InternetAddress("foo@example.com");
 		String passwordHash = "foobar";
-		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress,
-				passwordHash);
+		GameLoginIdentity login = new GameLoginIdentity(account, emailAddress, passwordHash);
 
 		Assert.assertSame(account, login.getAccount());
 	}

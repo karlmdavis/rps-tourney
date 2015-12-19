@@ -72,8 +72,7 @@ public class AiGameplayHelper {
 	 */
 	private boolean advanceGame(Game game, PlayerRole playerRole) {
 		// Grab the specified Player.
-		Player player = playerRole == PlayerRole.PLAYER_1 ? game.getPlayer1()
-				: game.getPlayer2();
+		Player player = playerRole == PlayerRole.PLAYER_1 ? game.getPlayer1() : game.getPlayer2();
 
 		// Sanity check: make sure the Player is a legit AI.
 		if (player == null)
@@ -84,17 +83,14 @@ public class AiGameplayHelper {
 		// Is it time for the AI player to make a throw?
 		int currentRoundIndex = game.getRounds().size() - 1;
 		GameRound currentRound = game.getRounds().get(currentRoundIndex);
-		if (playerRole == PlayerRole.PLAYER_1
-				&& currentRound.getThrowForPlayer1() != null)
+		if (playerRole == PlayerRole.PLAYER_1 && currentRound.getThrowForPlayer1() != null)
 			return false;
-		if (playerRole == PlayerRole.PLAYER_2
-				&& currentRound.getThrowForPlayer2() != null)
+		if (playerRole == PlayerRole.PLAYER_2 && currentRound.getThrowForPlayer2() != null)
 			return false;
 
 		// Calculate the Throw that the AI would like to make.
 		GameView gameView = new GameView(game, /* FIXME */null);
-		Throw aiThrow = player.getBuiltInAi().getPositronicBrain()
-				.calculateNextThrow(gameView, playerRole);
+		Throw aiThrow = player.getBuiltInAi().getPositronicBrain().calculateNextThrow(gameView, playerRole);
 
 		// Submit the Throw.
 		game.submitThrow(currentRoundIndex, player, aiThrow);

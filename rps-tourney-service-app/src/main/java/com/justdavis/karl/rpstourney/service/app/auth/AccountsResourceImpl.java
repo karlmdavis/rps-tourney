@@ -152,21 +152,18 @@ public class AccountsResourceImpl implements IAccountsResource {
 
 		// Only admins may modify others' Accounts.
 		boolean userIsAdmin = authenticatedAccount.hasRole(SecurityRole.ADMINS);
-		boolean accountsAreSame = authenticatedAccount.getId() == accountToUpdate
-				.getId();
+		boolean accountsAreSame = authenticatedAccount.getId() == accountToUpdate.getId();
 		if (!userIsAdmin && !accountsAreSame)
 			throw new ForbiddenException();
 
 		// Only admins may modify security.
 		boolean rolesAreEqual = accountToUpdate.getRoles() != null
-				&& authenticatedAccount.getRoles().equals(
-						accountToUpdate.getRoles());
+				&& authenticatedAccount.getRoles().equals(accountToUpdate.getRoles());
 		if (!userIsAdmin && !rolesAreEqual)
 			throw new ForbiddenException();
 
 		// Does the specified account already exist?
-		Account existingAccount = accountsDao.getAccountById(accountToUpdate
-				.getId());
+		Account existingAccount = accountsDao.getAccountById(accountToUpdate.getId());
 
 		// This method doesn't allow for creating new accounts.
 		if (existingAccount == null)
@@ -200,8 +197,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new BadCodeMonkeyException("RolesAllowed not working.");
 
 		// Lookup/create the AuthToken, and return it.
-		AuthToken authToken = accountsDao
-				.selectOrCreateAuthToken(authenticatedAccount);
+		AuthToken authToken = accountsDao.selectOrCreateAuthToken(authenticatedAccount);
 		return authToken;
 	}
 
@@ -212,8 +208,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
-	public void mergeAccount(long targetAccountId,
-			UUID sourceAccountAuthTokenValue) {
+	public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
 		// Who's calling the method?
 		Account authenticatedAccount = getAuthenticatedAccount();
 		if (authenticatedAccount == null)
@@ -223,16 +218,12 @@ public class AccountsResourceImpl implements IAccountsResource {
 		// Find the target Account.
 		Account targetAccount = accountsDao.getAccountById(targetAccountId);
 		if (targetAccount == null)
-			throw new IllegalArgumentException(
-					"Unable to find target account with specified ID: "
-							+ targetAccountId);
+			throw new IllegalArgumentException("Unable to find target account with specified ID: " + targetAccountId);
 
 		// Find the source Account.
-		Account sourceAccount = accountsDao
-				.getAccountByAuthToken(sourceAccountAuthTokenValue);
+		Account sourceAccount = accountsDao.getAccountByAuthToken(sourceAccountAuthTokenValue);
 		if (sourceAccount == null)
-			throw new IllegalArgumentException(
-					"Unable to find source account with specified AuthToken");
+			throw new IllegalArgumentException("Unable to find source account with specified AuthToken");
 
 		/*
 		 * Verify that the target Account is the current user (unless the
@@ -251,8 +242,8 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new ForbiddenException();
 
 		// Create the root audit entry that will track what's merged.
-		AuditAccountMerge auditAccountEntry = new AuditAccountMerge(
-				targetAccount, new HashSet<AbstractLoginIdentity>());
+		AuditAccountMerge auditAccountEntry = new AuditAccountMerge(targetAccount,
+				new HashSet<AbstractLoginIdentity>());
 
 		// Merge the names (target wins, if set).
 		if (targetAccount.getName() == null && sourceAccount.getName() != null)
@@ -274,30 +265,26 @@ public class AccountsResourceImpl implements IAccountsResource {
 		Player sourcePlayer = playersDao.findPlayerForAccount(sourceAccount);
 		if (sourcePlayer != null) {
 			// We'll need a target Player to replace the source with.
-			Player targetPlayer = playersDao
-					.findOrCreatePlayerForAccount(targetAccount);
+			Player targetPlayer = playersDao.findOrCreatePlayerForAccount(targetAccount);
 
 			// Find all of the games for the source Player.
 			List<Game> gamesToMerge = gamesDao.getGamesForPlayer(sourcePlayer);
 			for (Game gameToMerge : gamesToMerge) {
 				if (sourcePlayer.equals(gameToMerge.getPlayer1())) {
 					gameToMerge.replacePlayer1(targetPlayer);
-					auditAccountEntry.getMergedGames().add(
-							new AuditAccountGameMerge(auditAccountEntry,
-									gameToMerge, PlayerRole.PLAYER_1));
+					auditAccountEntry.getMergedGames()
+							.add(new AuditAccountGameMerge(auditAccountEntry, gameToMerge, PlayerRole.PLAYER_1));
 				}
 				if (sourcePlayer.equals(gameToMerge.getPlayer2())) {
 					gameToMerge.replacePlayer2(targetPlayer);
-					auditAccountEntry.getMergedGames().add(
-							new AuditAccountGameMerge(auditAccountEntry,
-									gameToMerge, PlayerRole.PLAYER_2));
+					auditAccountEntry.getMergedGames()
+							.add(new AuditAccountGameMerge(auditAccountEntry, gameToMerge, PlayerRole.PLAYER_2));
 				}
 			}
 		}
 
 		// Merge any previous merge audit entries targeting the source Account.
-		List<AuditAccountMerge> previousMergeEntries = accountsDao
-				.getAccountAuditEntries(sourceAccount);
+		List<AuditAccountMerge> previousMergeEntries = accountsDao.getAccountAuditEntries(sourceAccount);
 		for (AuditAccountMerge previousMergeEntry : previousMergeEntries) {
 			previousMergeEntry.setTargetAccount(targetAccount);
 		}
@@ -308,8 +295,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 		 */
 		accountsDao.save(targetAccount);
 		accountsDao.save(auditAccountEntry);
-		accountsDao.save(previousMergeEntries
-				.toArray(new AuditAccountMerge[previousMergeEntries.size()]));
+		accountsDao.save(previousMergeEntries.toArray(new AuditAccountMerge[previousMergeEntries.size()]));
 		playersDao.delete(sourcePlayer);
 		accountsDao.delete(sourceAccount);
 	}
@@ -329,8 +315,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 
 		// Sanity check: our security filter uses Accounts as Principals.
 		if (!(userPrincipal instanceof Account))
-			throw new BadCodeMonkeyException(
-					"AuthenticationFilter not working.");
+			throw new BadCodeMonkeyException("AuthenticationFilter not working.");
 
 		Account authenticatedAccount = (Account) userPrincipal;
 		return authenticatedAccount;

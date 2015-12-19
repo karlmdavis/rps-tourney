@@ -38,8 +38,7 @@ final class OptionsParser {
 	 */
 	Options parseCommandLineOptions(String[] args) {
 		Options options = new Options();
-		CmdLineParser.registerHandler(InternetAddress.class,
-				InternetAddressOptionHandler.class);
+		CmdLineParser.registerHandler(InternetAddress.class, InternetAddressOptionHandler.class);
 		CmdLineParser optionsParser = new CmdLineParser(options);
 		try {
 			optionsParser.parseArgument(args);
@@ -89,14 +88,13 @@ final class OptionsParser {
 		 */
 
 		// Get the path to the resource.
-		ResourcePath jarDetailsPath = new ResourcePath(ConsoleApp.class,
-				"jar-details.properties");
+		ResourcePath jarDetailsPath = new ResourcePath(ConsoleApp.class, "jar-details.properties");
 
 		// Load & parse the resource.
 		Properties jarDetailsProps = new Properties();
 		try {
-			jarDetailsProps.load(Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(jarDetailsPath.getPath()));
+			jarDetailsProps
+					.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(jarDetailsPath.getPath()));
 		} catch (IOException e) {
 			throw new UncheckedIoException(e);
 		}

@@ -57,8 +57,7 @@ public interface IGameAuthResource {
 	@POST
 	@Path(SERVICE_PATH_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	Account loginWithGameAccount(
-			@FormParam("emailAddress") InternetAddress emailAddress,
+	Account loginWithGameAccount(@FormParam("emailAddress") InternetAddress emailAddress,
 			@FormParam("password") String password);
 
 	/**
@@ -86,7 +85,6 @@ public interface IGameAuthResource {
 	@POST
 	@Path(SERVICE_PATH_CREATE_LOGIN)
 	@Produces(MediaType.TEXT_XML)
-	Account createGameLogin(
-			@FormParam("emailAddress") InternetAddress emailAddress,
+	Account createGameLogin(@FormParam("emailAddress") InternetAddress emailAddress,
 			@FormParam("password") String password);
 }

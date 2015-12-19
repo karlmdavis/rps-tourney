@@ -30,15 +30,12 @@ public final class AiGameplayHelperTest {
 		game.submitThrow(0, game.getPlayer1(), Throw.ROCK);
 		aiHelper.advanceGameForAiPlayers(game);
 		Assert.assertEquals(2, game.getRounds().size());
-		Assert.assertEquals(Throw.ROCK, game.getRounds().get(0)
-				.getThrowForPlayer2());
-		Assert.assertEquals(Throw.ROCK, game.getRounds().get(1)
-				.getThrowForPlayer2());
+		Assert.assertEquals(Throw.ROCK, game.getRounds().get(0).getThrowForPlayer2());
+		Assert.assertEquals(Throw.ROCK, game.getRounds().get(1).getThrowForPlayer2());
 		game.submitThrow(1, game.getPlayer1(), Throw.PAPER);
 		aiHelper.advanceGameForAiPlayers(game);
 		Assert.assertEquals(3, game.getRounds().size());
-		Assert.assertEquals(Throw.ROCK, game.getRounds().get(2)
-				.getThrowForPlayer2());
+		Assert.assertEquals(Throw.ROCK, game.getRounds().get(2).getThrowForPlayer2());
 	}
 
 	/**

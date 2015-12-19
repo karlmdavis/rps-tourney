@@ -41,8 +41,7 @@ import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GameResourceImpl implements IGameResource {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameResourceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameResourceImpl.class);
 
 	private AccountSecurityContext securityContext;
 	private IPlayersDao playersDao;
@@ -114,8 +113,7 @@ public class GameResourceImpl implements IGameResource {
 	public GameView createGame() {
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
+		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
 
 		// Create the new game.
 		Game game = new Game(userPlayer);
@@ -166,8 +164,7 @@ public class GameResourceImpl implements IGameResource {
 
 		// Create and return a GameView for the game.
 		Account userAccount = securityContext.getUserPrincipal();
-		Player userPlayer = userAccount != null ? playersDao
-				.findPlayerForAccount(userAccount) : null;
+		Player userPlayer = userAccount != null ? playersDao.findPlayerForAccount(userAccount) : null;
 		GameView gameView = new GameView(game, userPlayer);
 		return gameView;
 	}
@@ -179,8 +176,7 @@ public class GameResourceImpl implements IGameResource {
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) {
+	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
 		Game game = getRawGame(gameId);
 
 		/*
@@ -188,14 +184,11 @@ public class GameResourceImpl implements IGameResource {
 		 * players.
 		 */
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
-		if (!userPlayer.equals(game.getPlayer1())
-				&& !userPlayer.equals(game.getPlayer2()))
+		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
+		if (!userPlayer.equals(game.getPlayer1()) && !userPlayer.equals(game.getPlayer2()))
 			throw new IllegalArgumentException();
 
-		game = gamesDao.setMaxRounds(gameId, oldMaxRoundsValue,
-				newMaxRoundsValue);
+		game = gamesDao.setMaxRounds(gameId, oldMaxRoundsValue, newMaxRoundsValue);
 
 		// Create and return a GameView for the game.
 		GameView gameView = new GameView(game, userPlayer);
@@ -209,14 +202,12 @@ public class GameResourceImpl implements IGameResource {
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
 	@Override
-	public void inviteOpponent(String gameId, long playerId)
-			throws NotFoundException, GameConflictException {
+	public void inviteOpponent(String gameId, long playerId) throws NotFoundException, GameConflictException {
 		Game game = getRawGame(gameId);
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
+		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
 
 		// Verify that the current user is Player 1.
 		if (!game.getPlayer1().equals(userPlayer))
@@ -248,8 +239,7 @@ public class GameResourceImpl implements IGameResource {
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
+		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
 
 		try {
 			game.setPlayer2(userPlayer);
@@ -312,8 +302,7 @@ public class GameResourceImpl implements IGameResource {
 
 		// Determine the current user/player.
 		Account userAccount = getUserAccount();
-		Player userPlayer = playersDao
-				.findOrCreatePlayerForAccount(userAccount);
+		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
 
 		// Submit the Throw to the game.
 		game.submitThrow(roundIndex, userPlayer, throwToPlay);
@@ -343,7 +332,7 @@ public class GameResourceImpl implements IGameResource {
 
 		gamesDao.delete(game.getId());
 	}
-	
+
 	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} value to match

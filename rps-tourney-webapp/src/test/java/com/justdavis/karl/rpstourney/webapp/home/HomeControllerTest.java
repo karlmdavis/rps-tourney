@@ -33,14 +33,11 @@ public final class HomeControllerTest {
 	@Test
 	public void getHomePage() throws Exception {
 		// Build the controller and prepare it for mock testing.
-		HomeController homeController = new HomeController(new MockGameClient(
-				(GameView) null));
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(homeController)
-				.build();
+		HomeController homeController = new HomeController(new MockGameClient((GameView) null));
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
 
 		// Run the mock tests against the controller.
-		mockMvc.perform(MockMvcRequestBuilders.get("/"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+		mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.forwardedUrl("home"));
 	}
 
@@ -71,8 +68,7 @@ public final class HomeControllerTest {
 
 		// Build the controller and prepare it for mock testing.
 		HomeController homeController = new HomeController(gameClient);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(homeController)
-				.build();
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
 
 		// Run the mock tests against the controller.
 		Matcher<Object> matcher = new CustomMatcher<Object>("games") {
@@ -85,12 +81,8 @@ public final class HomeControllerTest {
 				return Arrays.asList(gameViewB, gameViewA).equals(item);
 			}
 		};
-		mockMvc.perform(MockMvcRequestBuilders.get("/"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(
-						MockMvcResultMatchers.model().attributeExists("games"))
-				.andExpect(
-						MockMvcResultMatchers.model().attribute("games",
-								matcher));
+		mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("games"))
+				.andExpect(MockMvcResultMatchers.model().attribute("games", matcher));
 	}
 }

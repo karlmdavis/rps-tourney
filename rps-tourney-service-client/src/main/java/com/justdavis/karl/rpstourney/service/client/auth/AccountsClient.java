@@ -51,10 +51,8 @@ public class AccountsClient implements IAccountsResource {
 	@Override
 	public Account validateAuth() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IAccountsResource.SERVICE_PATH)
-				.path(IAccountsResource.SERVICE_PATH_VALIDATE)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_VALIDATE).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
@@ -73,10 +71,8 @@ public class AccountsClient implements IAccountsResource {
 	@Override
 	public Account getAccount() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IAccountsResource.SERVICE_PATH)
-				.path(IAccountsResource.SERVICE_PATH_GET_ACCOUNT)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_GET_ACCOUNT).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
@@ -95,10 +91,8 @@ public class AccountsClient implements IAccountsResource {
 	@Override
 	public Account updateAccount(Account accountToUpdate) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IAccountsResource.SERVICE_PATH)
-				.path(IAccountsResource.SERVICE_PATH_UPDATE_ACCOUNT)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_UPDATE_ACCOUNT).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.post(Entity.xml(accountToUpdate));
@@ -121,10 +115,8 @@ public class AccountsClient implements IAccountsResource {
 	@Override
 	public AuthToken selectOrCreateAuthToken() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IAccountsResource.SERVICE_PATH)
-				.path(IAccountsResource.SERVICE_PATH_AUTH_TOKEN)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_AUTH_TOKEN).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Response response = requestBuilder.get();
@@ -142,20 +134,14 @@ public class AccountsClient implements IAccountsResource {
 	 *      java.util.UUID)
 	 */
 	@Override
-	public void mergeAccount(long targetAccountId,
-			UUID sourceAccountAuthTokenValue) {
+	public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IAccountsResource.SERVICE_PATH)
-				.path(IAccountsResource.SERVICE_PATH_MERGE)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IAccountsResource.SERVICE_PATH)
+				.path(IAccountsResource.SERVICE_PATH_MERGE).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
-		Form formData = new Form().param(
-				IAccountsResource.SERVICE_PARAM_MERGE_TARGET,
-				"" + targetAccountId).param(
-				IAccountsResource.SERVICE_PARAM_MERGE_SOURCE,
-				sourceAccountAuthTokenValue.toString());
+		Form formData = new Form().param(IAccountsResource.SERVICE_PARAM_MERGE_TARGET, "" + targetAccountId)
+				.param(IAccountsResource.SERVICE_PARAM_MERGE_SOURCE, sourceAccountAuthTokenValue.toString());
 		Response response = requestBuilder.post(Entity.form(formData));
 		if (response.getStatus() == Status.BAD_REQUEST.getStatusCode())
 			throw new BadRequestException(response);
@@ -171,8 +157,7 @@ public class AccountsClient implements IAccountsResource {
 	 * The default {@link IAccountsClientFactory} implementation, which produces
 	 * {@link AccountsClient} instances.
 	 */
-	public static final class DefaultAccountsClientFactory implements
-			IAccountsClientFactory {
+	public static final class DefaultAccountsClientFactory implements IAccountsClientFactory {
 		private final ClientConfig config;
 
 		/**
@@ -189,8 +174,7 @@ public class AccountsClient implements IAccountsResource {
 		 * @see com.justdavis.karl.rpstourney.service.client.auth.IAccountsClientFactory#createAccountsClient(java.lang.String)
 		 */
 		@Override
-		public IAccountsResource createAccountsClient(
-				String authTokenValueForAccount) {
+		public IAccountsResource createAccountsClient(String authTokenValueForAccount) {
 			/*
 			 * Create a new (separate) CookieStore for the new client instance
 			 * to use. Note that this CookieStore will not be shared with other
@@ -198,9 +182,8 @@ public class AccountsClient implements IAccountsResource {
 			 * applied to them.
 			 */
 			CookieStore cookieStore = new CookieStore();
-			NewCookie authTokenCookie = AuthTokenCookieHelper
-					.createAuthTokenCookie(authTokenValueForAccount,
-							config.getServiceRoot());
+			NewCookie authTokenCookie = AuthTokenCookieHelper.createAuthTokenCookie(authTokenValueForAccount,
+					config.getServiceRoot());
 			cookieStore.remember(authTokenCookie);
 
 			return new AccountsClient(config, cookieStore);

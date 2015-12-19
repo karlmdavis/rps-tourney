@@ -38,15 +38,12 @@ public class AuthorizationFilterTest {
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
-		feature.configure(new MockResourceInfo(MockResource.class, "foo"),
-				featureContext);
+		feature.configure(new MockResourceInfo(MockResource.class, "foo"), featureContext);
 
 		// Verify that the expected AuthorizationFilter was registered.
 		Assert.assertEquals(1, featureContext.providers.size());
-		AuthorizationFilter filter = (AuthorizationFilter) featureContext.providers
-				.get(0);
-		Assert.assertArrayEquals(new String[] { "bob", "frank" },
-				filter.getRolesAllowed());
+		AuthorizationFilter filter = (AuthorizationFilter) featureContext.providers.get(0);
+		Assert.assertArrayEquals(new String[] { "bob", "frank" }, filter.getRolesAllowed());
 	}
 
 	/**
@@ -60,15 +57,12 @@ public class AuthorizationFilterTest {
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
-		feature.configure(new MockResourceInfo(MockResource.class, "bar"),
-				configurable);
+		feature.configure(new MockResourceInfo(MockResource.class, "bar"), configurable);
 
 		// Verify that the expected AuthorizationFilter was registered.
 		Assert.assertEquals(1, configurable.providers.size());
-		AuthorizationFilter filter = (AuthorizationFilter) configurable.providers
-				.get(0);
-		Assert.assertArrayEquals(new String[] { "sue" },
-				filter.getRolesAllowed());
+		AuthorizationFilter filter = (AuthorizationFilter) configurable.providers.get(0);
+		Assert.assertArrayEquals(new String[] { "sue" }, filter.getRolesAllowed());
 	}
 
 	/**
@@ -82,8 +76,7 @@ public class AuthorizationFilterTest {
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
-		feature.configure(new MockResourceInfo(MockResource.class, "bizz"),
-				configurable);
+		feature.configure(new MockResourceInfo(MockResource.class, "bizz"), configurable);
 
 		// Verify that the expected AuthorizationFilter was registered.
 		Assert.assertEquals(0, configurable.providers.size());
@@ -100,13 +93,11 @@ public class AuthorizationFilterTest {
 
 		// Run against the appropriate MockResource method.
 		AuthorizationFilterFeature feature = new AuthorizationFilterFeature();
-		feature.configure(new MockResourceInfo(MockResource.class, "buzz"),
-				configurable);
+		feature.configure(new MockResourceInfo(MockResource.class, "buzz"), configurable);
 
 		// Verify that the expected AuthorizationFilter was registered.
 		Assert.assertEquals(1, configurable.providers.size());
-		AuthorizationFilter filter = (AuthorizationFilter) configurable.providers
-				.get(0);
+		AuthorizationFilter filter = (AuthorizationFilter) configurable.providers.get(0);
 		Assert.assertArrayEquals(new String[] {}, filter.getRolesAllowed());
 	}
 
@@ -121,8 +112,7 @@ public class AuthorizationFilterTest {
 	public void filterToDeny() throws IOException {
 		// Create the request to test against.
 		MockContainerRequestContext requestContext = new MockContainerRequestContext();
-		AccountSecurityContext securityContext = new AccountSecurityContext(
-				null);
+		AccountSecurityContext securityContext = new AccountSecurityContext(null);
 		requestContext.setSecurityContext(securityContext);
 
 		// Run the filter.
@@ -130,8 +120,7 @@ public class AuthorizationFilterTest {
 		authFilter.filter(requestContext);
 
 		// Verify the result in the request.
-		Assert.assertEquals(Status.UNAUTHORIZED.getStatusCode(), requestContext
-				.getAbortResponse().getStatus());
+		Assert.assertEquals(Status.UNAUTHORIZED.getStatusCode(), requestContext.getAbortResponse().getStatus());
 	}
 
 	/**
@@ -146,13 +135,11 @@ public class AuthorizationFilterTest {
 		// Create the request to test against.
 		MockContainerRequestContext requestContext = new MockContainerRequestContext();
 		Account account = new Account();
-		AccountSecurityContext securityContext = new AccountSecurityContext(
-				account);
+		AccountSecurityContext securityContext = new AccountSecurityContext(account);
 		requestContext.setSecurityContext(securityContext);
 
 		// Run the filter.
-		AuthorizationFilter authFilter = new AuthorizationFilter(
-				SecurityRole.USERS.getId());
+		AuthorizationFilter authFilter = new AuthorizationFilter(SecurityRole.USERS.getId());
 		authFilter.filter(requestContext);
 
 		// Verify the result in the request.
@@ -201,13 +188,11 @@ public class AuthorizationFilterTest {
 		 *            the name of the {@link Method} in the specified
 		 *            {@link Class} to use for {@link #getResourceMethod()}
 		 */
-		public MockResourceInfo(Class<?> resourceClass,
-				String resourceMethodName) {
+		public MockResourceInfo(Class<?> resourceClass, String resourceMethodName) {
 			this.resourceClass = resourceClass;
 
 			try {
-				Method resourceMethod = resourceClass
-						.getMethod(resourceMethodName);
+				Method resourceMethod = resourceClass.getMethod(resourceMethodName);
 				this.resourceMethod = resourceMethod;
 			} catch (NoSuchMethodException e) {
 				throw new IllegalStateException(e);
@@ -277,8 +262,7 @@ public class AuthorizationFilterTest {
 		 *      java.lang.Class[])
 		 */
 		@Override
-		public FeatureContext register(Class<?> componentClass,
-				Class<?>... contracts) {
+		public FeatureContext register(Class<?> componentClass, Class<?>... contracts) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -287,8 +271,7 @@ public class AuthorizationFilterTest {
 		 *      java.util.Map)
 		 */
 		@Override
-		public FeatureContext register(Class<?> componentClass,
-				Map<Class<?>, Integer> contracts) {
+		public FeatureContext register(Class<?> componentClass, Map<Class<?>, Integer> contracts) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -323,8 +306,7 @@ public class AuthorizationFilterTest {
 		 *      java.util.Map)
 		 */
 		@Override
-		public FeatureContext register(Object component,
-				Map<Class<?>, Integer> contracts) {
+		public FeatureContext register(Object component, Map<Class<?>, Integer> contracts) {
 			throw new UnsupportedOperationException();
 		}
 

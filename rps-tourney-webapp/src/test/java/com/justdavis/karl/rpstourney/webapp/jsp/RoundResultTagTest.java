@@ -42,8 +42,7 @@ public class RoundResultTagTest {
 
 		// Create the mock data to use.
 		Account player1Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player1Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player1Account));
 		Game game = new Game(new Player(player1Account));
 		game.setPlayer2(new Player(new Account()));
 		game.submitThrow(0, game.getPlayer1(), Throw.ROCK);
@@ -60,9 +59,9 @@ public class RoundResultTagTest {
 
 		// Test the tag.
 		roundResultTag.doEndTag();
-		Assert.assertEquals("<span class=\"won\">"
-				+ "<span class=\"PLAYER_1\">Anonymous Player (You)</span>"
-				+ "</span>", jspWriter.output.toString());
+		Assert.assertEquals(
+				"<span class=\"won\">" + "<span class=\"PLAYER_1\">Anonymous Player (You)</span>" + "</span>",
+				jspWriter.output.toString());
 	}
 
 	/**
@@ -106,12 +105,9 @@ public class RoundResultTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("playerName.current.suffix",
-				Locale.getDefault(), " (You)");
-		messageSource.addMessage("playerName.anon", Locale.getDefault(),
-				"Anonymous Player");
-		messageSource.addMessage("roundResult.tied", Locale.getDefault(),
-				"(tied)");
+		messageSource.addMessage("playerName.current.suffix", Locale.getDefault(), " (You)");
+		messageSource.addMessage("playerName.anon", Locale.getDefault(), "Anonymous Player");
+		messageSource.addMessage("roundResult.tied", Locale.getDefault(), "(tied)");
 		return messageSource;
 	}
 }

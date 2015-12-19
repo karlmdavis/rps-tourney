@@ -41,8 +41,8 @@ public class BaseUrlInterceptor extends HandlerInterceptorAdapter {
 	 *      javax.servlet.http.HttpServletResponse, java.lang.Object)
 	 */
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		request.setAttribute(REQUEST_ATTRIB_BASE_URL, appConfig.getBaseUrl());
 
 		return super.preHandle(request, response, handler);

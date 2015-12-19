@@ -116,8 +116,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(
-					this);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
 			this.initialized = true;
 		}
@@ -130,9 +129,8 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	 */
 	@Override
 	public int doEndTag() throws JspException {
-		String gameTitle = generateContent(messageSource, pageContext
-				.getELContext().getLocale(), getAuthenticatedAccount(), game,
-				player, false);
+		String gameTitle = generateContent(messageSource, pageContext.getELContext().getLocale(),
+				getAuthenticatedAccount(), game, player, false);
 
 		// Write out the tag's output.
 		try {
@@ -163,17 +161,15 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	 *         specified {@link Player}'s name, and includes CSS classes
 	 *         indicating which {@link PlayerRole}s they represent
 	 */
-	static String generateContent(MessageSource messageSource, Locale locale,
-			Account authenticatedAccount, GameView game, Player player,
-			boolean textOnly) {
+	static String generateContent(MessageSource messageSource, Locale locale, Account authenticatedAccount,
+			GameView game, Player player, boolean textOnly) {
 		// If no Game was provided, just print out nothing.
 		if (game == null)
 			return null;
 
 		if (player == null && game.getPlayer2() == null) {
 			// We're printing out a not-yet-joined Player 2.
-			String displayName = messageSource.getMessage(
-					"playerName.notJoined", null, locale);
+			String displayName = messageSource.getMessage("playerName.notJoined", null, locale);
 
 			if (textOnly)
 				return displayName;
@@ -195,19 +191,14 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 			if (player.getName() != null)
 				displayName = player.getName();
 			else if (player.getBuiltInAi() != null)
-				displayName = messageSource.getMessage("players.ai.name."
-						+ player.getBuiltInAi().getDisplayNameKey(), null,
-						locale);
+				displayName = messageSource.getMessage("players.ai.name." + player.getBuiltInAi().getDisplayNameKey(),
+						null, locale);
 			else
-				displayName = messageSource.getMessage("playerName.anon", null,
-						locale);
+				displayName = messageSource.getMessage("playerName.anon", null, locale);
 
 			// Append a " (You)" indicator, if appropriate.
-			if (player.getHumanAccount() != null
-					&& player.getHumanAccount().equals(authenticatedAccount))
-				displayName = displayName
-						+ messageSource.getMessage("playerName.current.suffix",
-								null, locale);
+			if (player.getHumanAccount() != null && player.getHumanAccount().equals(authenticatedAccount))
+				displayName = displayName + messageSource.getMessage("playerName.current.suffix", null, locale);
 
 			if (textOnly)
 				return displayName;
@@ -234,8 +225,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 				classValue.append(' ');
 		}
 
-		return String.format("<span class=\"%s\">%s</span>",
-				classValue.toString(), displayName);
+		return String.format("<span class=\"%s\">%s</span>", classValue.toString(), displayName);
 	}
 
 	/**

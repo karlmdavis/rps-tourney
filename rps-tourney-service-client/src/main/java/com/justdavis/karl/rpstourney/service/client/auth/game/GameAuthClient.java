@@ -44,11 +44,9 @@ public final class GameAuthClient implements IGameAuthResource {
 	 *      java.lang.String)
 	 */
 	@Override
-	public Account loginWithGameAccount(InternetAddress emailAddress,
-			String password) {
+	public Account loginWithGameAccount(InternetAddress emailAddress, String password) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameAuthResource.SERVICE_PATH)
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameAuthResource.SERVICE_PATH)
 				.path(IGameAuthResource.SERVICE_PATH_LOGIN).request();
 		cookieStore.applyCookies(requestBuilder);
 
@@ -73,10 +71,8 @@ public final class GameAuthClient implements IGameAuthResource {
 	@Override
 	public Account createGameLogin(InternetAddress emailAddress, String password) {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGameAuthResource.SERVICE_PATH)
-				.path(IGameAuthResource.SERVICE_PATH_CREATE_LOGIN)
-				.request(MediaType.TEXT_XML_TYPE);
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGameAuthResource.SERVICE_PATH)
+				.path(IGameAuthResource.SERVICE_PATH_CREATE_LOGIN).request(MediaType.TEXT_XML_TYPE);
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();

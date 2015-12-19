@@ -112,8 +112,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(
-					this);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
 			this.initialized = true;
 		}
@@ -160,26 +159,22 @@ public final class GameTitleTag extends RequestContextAwareTag {
 		Account authenticatedAccount = getAuthenticatedAccount();
 		if (game.isPlayer(authenticatedAccount)) {
 			firstPlayer = game.getPlayer(authenticatedAccount);
-			secondPlayer = game.getPlayer1().equals(firstPlayer) ? game
-					.getPlayer2() : game.getPlayer1();
+			secondPlayer = game.getPlayer1().equals(firstPlayer) ? game.getPlayer2() : game.getPlayer1();
 		} else {
 			firstPlayer = game.getPlayer1();
 			secondPlayer = game.getPlayer2();
 		}
 
 		// Build the display tags for each Player.
-		String firstPlayerName = PlayerNameTag.generateContent(messageSource,
-				pageContext.getELContext().getLocale(), authenticatedAccount,
-				game, firstPlayer, textOnly);
-		String secondPlayerName = PlayerNameTag.generateContent(messageSource,
-				pageContext.getELContext().getLocale(), authenticatedAccount,
-				game, secondPlayer, textOnly);
+		String firstPlayerName = PlayerNameTag.generateContent(messageSource, pageContext.getELContext().getLocale(),
+				authenticatedAccount, game, firstPlayer, textOnly);
+		String secondPlayerName = PlayerNameTag.generateContent(messageSource, pageContext.getELContext().getLocale(),
+				authenticatedAccount, game, secondPlayer, textOnly);
 
 		// Return the result.
-		String versusSeparator = messageSource.getMessage("gameTitle.versus",
-				null, pageContext.getELContext().getLocale());
-		String result = String.format("%s %s %s", firstPlayerName,
-				versusSeparator, secondPlayerName);
+		String versusSeparator = messageSource.getMessage("gameTitle.versus", null,
+				pageContext.getELContext().getLocale());
+		String result = String.format("%s %s %s", firstPlayerName, versusSeparator, secondPlayerName);
 		return result;
 	}
 

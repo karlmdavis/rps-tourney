@@ -38,8 +38,7 @@ final class DatabaseSchemaPrinter {
 					jpaCoords);
 
 			Configuration hibernateConfig = new Configuration();
-			hibernateConfig.setProperty(Environment.DIALECT,
-					HSQLDialect.class.getName());
+			hibernateConfig.setProperty(Environment.DIALECT, HSQLDialect.class.getName());
 			for (EntityType<?> entityType : emf.getMetamodel().getEntities()) {
 				hibernateConfig.addAnnotatedClass(entityType.getJavaType());
 			}

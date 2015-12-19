@@ -95,13 +95,11 @@ public class XmlConfigLoader implements IConfigLoader {
 			jaxbClasses.addAll(dsConnectorsManager.getCoordinatesTypes());
 
 			// Create the Unmarshaller needed.
-			JAXBContext jaxbContext = JAXBContext.newInstance(jaxbClasses
-					.toArray(new Class<?>[jaxbClasses.size()]));
+			JAXBContext jaxbContext = JAXBContext.newInstance(jaxbClasses.toArray(new Class<?>[jaxbClasses.size()]));
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 			// Try to unmarshall the config file.
-			ServiceConfig parsedConfig = (ServiceConfig) unmarshaller
-					.unmarshal(configFileStream);
+			ServiceConfig parsedConfig = (ServiceConfig) unmarshaller.unmarshal(configFileStream);
 
 			// Cache the config for future calls.
 			cachedConfig = parsedConfig;
@@ -128,11 +126,9 @@ public class XmlConfigLoader implements IConfigLoader {
 		// If no file was found, throw an explanatory error.
 		if (configFileStream == null)
 			throw new ServiceConfigException(String.format(
-					"A configuration file must be available"
-							+ " either at the default path ('%s')"
-							+ " or at the path specified by the '%s'"
-							+ " Java system property.", CONFIG_DEFAULT,
-					CONFIG_PROP));
+					"A configuration file must be available" + " either at the default path ('%s')"
+							+ " or at the path specified by the '%s'" + " Java system property.",
+					CONFIG_DEFAULT, CONFIG_PROP));
 
 		return configFileStream;
 	}
@@ -152,8 +148,7 @@ public class XmlConfigLoader implements IConfigLoader {
 			// No file exists at the default path.
 			return null;
 		} catch (IOException e) {
-			throw new ServiceConfigException(
-					"Unable to open the configuration file.", e);
+			throw new ServiceConfigException("Unable to open the configuration file.", e);
 		}
 	}
 
@@ -166,8 +161,7 @@ public class XmlConfigLoader implements IConfigLoader {
 	 *             {@link #CONFIG_PROP} property has been set to a value that
 	 *             does not point to an actual file.
 	 */
-	private static InputStream retrieveConfigFile_overridden()
-			throws ServiceConfigException {
+	private static InputStream retrieveConfigFile_overridden() throws ServiceConfigException {
 		try {
 			// If the property isn't set, bail out.
 			String configFilePropValue = System.getProperty(CONFIG_PROP);
@@ -175,19 +169,16 @@ public class XmlConfigLoader implements IConfigLoader {
 				return null;
 
 			// Is a file available at that path?
-			Path configPath = FileSystems.getDefault().getPath(
-					configFilePropValue);
+			Path configPath = FileSystems.getDefault().getPath(configFilePropValue);
 			if (!Files.exists(configPath) || !Files.isRegularFile(configPath))
 				throw new ServiceConfigException(String.format(
-						"The path specified by the %s property does "
-								+ "not point to a valid file: '%s'.",
-						CONFIG_PROP, configFilePropValue));
+						"The path specified by the %s property does " + "not point to a valid file: '%s'.", CONFIG_PROP,
+						configFilePropValue));
 
 			// Return a stream for the file.
 			return new BufferedInputStream(Files.newInputStream(configPath));
 		} catch (IOException e) {
-			throw new ServiceConfigException(
-					"Unable to open the configuration file.", e);
+			throw new ServiceConfigException("Unable to open the configuration file.", e);
 		}
 	}
 }

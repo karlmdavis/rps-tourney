@@ -33,8 +33,7 @@ final class Options {
 	private boolean online;
 
 	@Option(name = "--server", aliases = { "-s" }, required = false, usage = "specifies the URL "
-			+ "of the RPS Tourney service to play via (if network play is enabled), defaults to "
-			+ DEFAULT_SERVER)
+			+ "of the RPS Tourney service to play via (if network play is enabled), defaults to " + DEFAULT_SERVER)
 	private URI serverUri;
 
 	@Option(name = "--user", aliases = { "-u" }, required = false, usage = "the email address "
@@ -50,8 +49,9 @@ final class Options {
 			+ "of the RPS Tourney game to join (instead of starting a new game)")
 	private URI gameUri;
 
-	@Option(name = "--ai", aliases = { "-a" }, required = false, handler = BuiltInAiOptionHandler.class, usage = "specify the AI "
-			+ "to play against: 'Easy', 'Medium', or 'Hard', defaults to 'Easy'")
+	@Option(name = "--ai", aliases = {
+			"-a" }, required = false, handler = BuiltInAiOptionHandler.class, usage = "specify the AI "
+					+ "to play against: 'Easy', 'Medium', or 'Hard', defaults to 'Easy'")
 	private BuiltInAi aiOpponent;
 
 	@Option(name = "--numRounds", aliases = { "-r" }, required = false, usage = "the maximum number "

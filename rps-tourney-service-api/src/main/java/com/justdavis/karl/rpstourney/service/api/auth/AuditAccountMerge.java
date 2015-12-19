@@ -52,23 +52,23 @@ public class AuditAccountMerge {
 	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	private Instant mergeTimestamp;
 
-	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH })
 	@JoinColumn(name = "`targetAccountId`")
 	private Account targetAccount;
 
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH })
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	/*
 	 * FIXME The 'inverseJoinColumns' column here can't be quoted unless/until
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
 	 */
-	@JoinTable(name = "`AuditAccountLoginMerges`", joinColumns = { @JoinColumn(name = "`auditAccountMergeId`") }, inverseJoinColumns = { @JoinColumn(name = "loginIdentityId") })
+	@JoinTable(name = "`AuditAccountLoginMerges`", joinColumns = {
+			@JoinColumn(name = "`auditAccountMergeId`") }, inverseJoinColumns = {
+					@JoinColumn(name = "loginIdentityId") })
 	private Set<AbstractLoginIdentity> mergedLogins;
 
-	@OneToMany(mappedBy = "parentAuditAccountMerge", cascade = {
-			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-			CascadeType.DETACH })
+	@OneToMany(mappedBy = "parentAuditAccountMerge", cascade = { CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.REFRESH, CascadeType.DETACH })
 	private Set<AuditAccountGameMerge> mergedGames;
 
 	/**
@@ -79,8 +79,7 @@ public class AuditAccountMerge {
 	 * @param mergedLogins
 	 *            the value to use for {@link #getMergedLogins()}
 	 */
-	public AuditAccountMerge(Account targetAccount,
-			Set<AbstractLoginIdentity> mergedLogins) {
+	public AuditAccountMerge(Account targetAccount, Set<AbstractLoginIdentity> mergedLogins) {
 		this.mergeTimestamp = Instant.now();
 		this.targetAccount = targetAccount;
 		this.mergedLogins = mergedLogins;

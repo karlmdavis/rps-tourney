@@ -61,11 +61,9 @@ public class GamesDaoImpl implements IGamesDao {
 	@Override
 	public Game findById(String gameId) {
 		// Build a query for the matching game.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 		CriteriaQuery<Game> criteria = criteriaBuilder.createQuery(Game.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(Game.class).get(Game_.id), gameId));
+		criteria.where(criteriaBuilder.equal(criteria.from(Game.class).get(Game_.id), gameId));
 
 		// Run the query.
 		TypedQuery<Game> query = entityManager.createQuery(criteria);
@@ -90,8 +88,7 @@ public class GamesDaoImpl implements IGamesDao {
 	@Override
 	public List<Game> getGames() {
 		// Build a query.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 		CriteriaQuery<Game> criteria = criteriaBuilder.createQuery(Game.class);
 		criteria.from(Game.class);
 
@@ -108,15 +105,11 @@ public class GamesDaoImpl implements IGamesDao {
 	@Override
 	public List<Game> getGamesForPlayer(Player player) {
 		// Build a query.
-		CriteriaBuilder cb = entityManager.getEntityManagerFactory()
-				.getCriteriaBuilder();
+		CriteriaBuilder cb = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 		CriteriaQuery<Game> cq = cb.createQuery(Game.class);
 		Root<Game> game = cq.from(Game.class);
-		cq.where(cb.or(
-				cb.and(cb.isNotNull(game.get(Game_.player1)),
-						cb.equal(game.get(Game_.player1), player)),
-				cb.and(cb.isNotNull(game.get(Game_.player1)),
-						cb.equal(game.get(Game_.player2), player))));
+		cq.where(cb.or(cb.and(cb.isNotNull(game.get(Game_.player1)), cb.equal(game.get(Game_.player1), player)),
+				cb.and(cb.isNotNull(game.get(Game_.player1)), cb.equal(game.get(Game_.player2), player))));
 
 		// Run the query.
 		TypedQuery<Game> query = entityManager.createQuery(cq);
@@ -130,8 +123,7 @@ public class GamesDaoImpl implements IGamesDao {
 	 *      int, int)
 	 */
 	@Override
-	public Game setMaxRounds(String gameId, int oldMaxRoundsValue,
-			int newMaxRoundsValue) {
+	public Game setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
 		// Make sure the desired new value is legit.
 		Game.validateMaxRoundsValue(newMaxRoundsValue);
 
@@ -141,16 +133,13 @@ public class GamesDaoImpl implements IGamesDao {
 		 * maxRounds value. This helps to prevent "mid-air collision" issues
 		 * when multiple users/clients try to update this at the same time.
 		 */
-		CriteriaBuilder cb = entityManager.getEntityManagerFactory()
-				.getCriteriaBuilder();
+		CriteriaBuilder cb = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 		CriteriaUpdate<Game> cu = cb.createCriteriaUpdate(Game.class);
 		Root<Game> gameRoot = cu.from(Game.class);
-		cu.set(Game_.maxRounds, newMaxRoundsValue).where(
-				cb.and(cb.equal(gameRoot.get(Game_.id), gameId),
-						cb.equal(gameRoot.get(Game_.maxRounds),
-								oldMaxRoundsValue),
-						gameRoot.get(Game_.state).in(State.WAITING_FOR_PLAYER,
-								State.WAITING_FOR_FIRST_THROW)));
+		cu.set(Game_.maxRounds, newMaxRoundsValue)
+				.where(cb.and(cb.equal(gameRoot.get(Game_.id), gameId),
+						cb.equal(gameRoot.get(Game_.maxRounds), oldMaxRoundsValue),
+						gameRoot.get(Game_.state).in(State.WAITING_FOR_PLAYER, State.WAITING_FOR_FIRST_THROW)));
 
 		// Run the update query.
 		int numEntitiesUpdated = entityManager.createQuery(cu).executeUpdate();

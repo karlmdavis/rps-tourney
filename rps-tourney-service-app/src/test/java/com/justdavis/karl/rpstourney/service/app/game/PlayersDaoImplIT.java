@@ -43,8 +43,7 @@ public final class PlayersDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
-				.requestForRandomDatabase("integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
 		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
@@ -67,8 +66,7 @@ public final class PlayersDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public PlayersDaoImplIT(IProvisioningRequest provisioningRequest)
-			throws Exception {
+	public PlayersDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
@@ -76,8 +74,7 @@ public final class PlayersDaoImplIT {
 		 * SpringJUnit4ClassRunner}, as this test is already using a different
 		 * runner: {@link Parameterized}.
 		 */
-		TestContextManager testContextManager = new TestContextManager(
-				getClass());
+		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
 		 * Register the DaoTestHelper with the Spring test context, so it can
@@ -92,8 +89,7 @@ public final class PlayersDaoImplIT {
 	 */
 	@Test
 	public void findPlayerForAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAOs.
@@ -152,8 +148,7 @@ public final class PlayersDaoImplIT {
 	 */
 	@Test
 	public void findPlayerForBuiltInAi() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAOs.
@@ -168,8 +163,7 @@ public final class PlayersDaoImplIT {
 			EntityTransaction tx = entityManager.getTransaction();
 			try {
 				tx.begin();
-				returnedPlayers = playersDao.findPlayerForBuiltInAi(
-						BuiltInAi.ONE_SIDED_DIE_PAPER,
+				returnedPlayers = playersDao.findPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_PAPER,
 						BuiltInAi.ONE_SIDED_DIE_ROCK);
 				tx.commit();
 			} finally {
@@ -204,8 +198,7 @@ public final class PlayersDaoImplIT {
 			tx = entityManager.getTransaction();
 			try {
 				tx.begin();
-				returnedPlayers = playersDao.findPlayerForBuiltInAi(
-						BuiltInAi.ONE_SIDED_DIE_PAPER,
+				returnedPlayers = playersDao.findPlayerForBuiltInAi(BuiltInAi.ONE_SIDED_DIE_PAPER,
 						BuiltInAi.ONE_SIDED_DIE_ROCK);
 				tx.commit();
 			} finally {
@@ -226,8 +219,7 @@ public final class PlayersDaoImplIT {
 	 */
 	@Test
 	public void findOrCreatePlayerForAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAOs.
@@ -261,8 +253,7 @@ public final class PlayersDaoImplIT {
 			tx = entityManager.getTransaction();
 			try {
 				tx.begin();
-				loadedPlayer = playersDao
-						.findOrCreatePlayerForAccount(savedAccount);
+				loadedPlayer = playersDao.findOrCreatePlayerForAccount(savedAccount);
 				tx.commit();
 			} finally {
 				if (tx.isActive())
@@ -285,8 +276,7 @@ public final class PlayersDaoImplIT {
 	 */
 	@Test
 	public void deleteAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.

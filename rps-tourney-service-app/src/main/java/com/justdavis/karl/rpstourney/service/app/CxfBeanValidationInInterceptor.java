@@ -21,8 +21,7 @@ import org.apache.cxf.message.Message;
  * support request-scoped resources?</a>.
  * </p>
  */
-public class CxfBeanValidationInInterceptor extends
-		JAXRSBeanValidationInInterceptor {
+public class CxfBeanValidationInInterceptor extends JAXRSBeanValidationInInterceptor {
 	/**
 	 * This is a customization of the code in CXF's builtin
 	 * {@link ValidationUtils#getResourceInstance(Message)}.
@@ -31,17 +30,14 @@ public class CxfBeanValidationInInterceptor extends
 	 */
 	@Override
 	protected Object getServiceObject(Message message) {
-		final OperationResourceInfo ori = message.getExchange().get(
-				OperationResourceInfo.class);
+		final OperationResourceInfo ori = message.getExchange().get(OperationResourceInfo.class);
 		if (ori == null) {
 			return null;
 		}
 		if (!ori.getClassResourceInfo().isRoot()) {
-			return message.getExchange().get(
-					"org.apache.cxf.service.object.last");
+			return message.getExchange().get("org.apache.cxf.service.object.last");
 		}
-		final ResourceProvider resourceProvider = ori.getClassResourceInfo()
-				.getResourceProvider();
+		final ResourceProvider resourceProvider = ori.getClassResourceInfo().getResourceProvider();
 
 		return resourceProvider.getInstance(message);
 	}

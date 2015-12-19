@@ -1,5 +1,5 @@
 /**
- * Contains the client-side implementation of the 
+ * Contains the client-side implementation of the
  * {@link com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource}
  * service.
  */

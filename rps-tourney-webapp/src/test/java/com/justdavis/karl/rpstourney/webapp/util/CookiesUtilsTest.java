@@ -60,9 +60,7 @@ public final class CookiesUtilsTest {
 	public void applyCookieSecurityProperties() throws MalformedURLException {
 		// Create the mocks needed for the test.
 		Cookie cookie1 = new Cookie("foo", "bar");
-		AppConfig appConfig1 = new AppConfig(
-				new URL("https://example.com/foo"), new URL(
-						"https://example.com/bar"));
+		AppConfig appConfig1 = new AppConfig(new URL("https://example.com/foo"), new URL("https://example.com/bar"));
 
 		// Set the cookie's security properties.
 		CookiesUtils.applyCookieSecurityProperties(cookie1, appConfig1);
@@ -73,8 +71,7 @@ public final class CookiesUtilsTest {
 
 		// Create the mocks needed for the test.
 		Cookie cookie2 = new Cookie("foo", "bar");
-		AppConfig appConfig2 = new AppConfig(new URL("http://localhost/foo"),
-				new URL("https://localhost/bar"));
+		AppConfig appConfig2 = new AppConfig(new URL("http://localhost/foo"), new URL("https://localhost/bar"));
 
 		// Set the cookie's security properties.
 		CookiesUtils.applyCookieSecurityProperties(cookie2, appConfig2);

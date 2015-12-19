@@ -30,25 +30,21 @@ public final class DefaultGuestLoginManagerTest {
 	public void loginClientAsGuest() {
 		// Build the mock objects needed.
 		SecurityContext security = new SecurityContextImpl();
-		SecurityContextHolderStrategy securityHolder = new MockSecurityContextHolderStrategy(
-				security);
+		SecurityContextHolderStrategy securityHolder = new MockSecurityContextHolderStrategy(security);
 		Account mockAccount = new Account();
-		IGuestAuthResource guestAuthClient = new MockGuestAuthClient(
-				mockAccount);
+		IGuestAuthResource guestAuthClient = new MockGuestAuthClient(mockAccount);
 		MockRememberMeServices rememberMeServices = new MockRememberMeServices();
 		HttpServletRequest mockRequest = new MockHttpServletRequest();
 		HttpServletResponse mockResponse = new MockHttpServletResponse();
 
 		// Try logging in and verify the results.
-		DefaultGuestLoginManager loginManager = new DefaultGuestLoginManager(
-				securityHolder, guestAuthClient, rememberMeServices);
+		DefaultGuestLoginManager loginManager = new DefaultGuestLoginManager(securityHolder, guestAuthClient,
+				rememberMeServices);
 		loginManager.loginClientAsGuest(mockRequest, mockResponse);
 		Assert.assertNotNull(securityHolder.getContext().getAuthentication());
-		Assert.assertEquals(mockAccount, securityHolder.getContext()
-				.getAuthentication().getPrincipal());
+		Assert.assertEquals(mockAccount, securityHolder.getContext().getAuthentication().getPrincipal());
 		Assert.assertNotNull(rememberMeServices.successfulAuthentication);
-		Assert.assertEquals(mockAccount,
-				rememberMeServices.successfulAuthentication.getPrincipal());
+		Assert.assertEquals(mockAccount, rememberMeServices.successfulAuthentication.getPrincipal());
 	}
 
 	/**
@@ -61,19 +57,17 @@ public final class DefaultGuestLoginManagerTest {
 		// Build the mock objects needed.
 		Account mockAccount = new Account();
 		SecurityContext security = new SecurityContextImpl();
-		Authentication mockAuth = new WebServiceAccountAuthentication(
-				mockAccount);
+		Authentication mockAuth = new WebServiceAccountAuthentication(mockAccount);
 		security.setAuthentication(mockAuth);
-		SecurityContextHolderStrategy securityHolder = new MockSecurityContextHolderStrategy(
-				security);
+		SecurityContextHolderStrategy securityHolder = new MockSecurityContextHolderStrategy(security);
 		IGuestAuthResource guestAuthClient = new MockGuestAuthClient(null);
 		MockRememberMeServices rememberMeServices = new MockRememberMeServices();
 		HttpServletRequest mockRequest = new MockHttpServletRequest();
 		HttpServletResponse mockResponse = new MockHttpServletResponse();
 
 		// Try logging in, which should go boom.
-		DefaultGuestLoginManager loginManager = new DefaultGuestLoginManager(
-				securityHolder, guestAuthClient, rememberMeServices);
+		DefaultGuestLoginManager loginManager = new DefaultGuestLoginManager(securityHolder, guestAuthClient,
+				rememberMeServices);
 		loginManager.loginClientAsGuest(mockRequest, mockResponse);
 	}
 
@@ -81,8 +75,7 @@ public final class DefaultGuestLoginManagerTest {
 	 * A mock {@link SecurityContextHolderStrategy} implementation for use in
 	 * tests.
 	 */
-	private static final class MockSecurityContextHolderStrategy implements
-			SecurityContextHolderStrategy {
+	private static final class MockSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
 		private final SecurityContext securityContext;
 
 		/**
@@ -164,8 +157,7 @@ public final class DefaultGuestLoginManagerTest {
 		 *      javax.servlet.http.HttpServletResponse)
 		 */
 		@Override
-		public Authentication autoLogin(HttpServletRequest request,
-				HttpServletResponse response) {
+		public Authentication autoLogin(HttpServletRequest request, HttpServletResponse response) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -174,8 +166,7 @@ public final class DefaultGuestLoginManagerTest {
 		 *      javax.servlet.http.HttpServletResponse)
 		 */
 		@Override
-		public void loginFail(HttpServletRequest request,
-				HttpServletResponse response) {
+		public void loginFail(HttpServletRequest request, HttpServletResponse response) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -185,8 +176,7 @@ public final class DefaultGuestLoginManagerTest {
 		 *      org.springframework.security.core.Authentication)
 		 */
 		@Override
-		public void loginSuccess(HttpServletRequest request,
-				HttpServletResponse response,
+		public void loginSuccess(HttpServletRequest request, HttpServletResponse response,
 				Authentication successfulAuthentication) {
 			this.successfulAuthentication = successfulAuthentication;
 		}

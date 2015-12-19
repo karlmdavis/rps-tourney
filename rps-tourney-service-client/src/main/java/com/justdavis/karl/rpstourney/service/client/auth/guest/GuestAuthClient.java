@@ -43,8 +43,7 @@ public final class GuestAuthClient implements IGuestAuthResource {
 	@Override
 	public Account loginAsGuest() {
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(config.getServiceRoot())
-				.path(IGuestAuthResource.SERVICE_PATH).request();
+		Builder requestBuilder = client.target(config.getServiceRoot()).path(IGuestAuthResource.SERVICE_PATH).request();
 		cookieStore.applyCookies(requestBuilder);
 
 		Form params = new Form();

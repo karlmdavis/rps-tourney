@@ -163,18 +163,15 @@ public class CookieStore implements Externalizable {
 	 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
 	 */
 	@Override
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		/*
 		 * First, read in the version field and verify it's correct, so we don't
 		 * attempt to read in an unsupported version of this class' data.
 		 */
 		int serializationVersion = in.readInt();
 		if (serializationVersion != SERIALIZATION_VERSION)
-			throw new IOException(String.format(
-					"Version mismatch for %s: '%d' instead of '%d'.",
-					this.getClass(), serializationVersion,
-					SERIALIZATION_VERSION));
+			throw new IOException(String.format("Version mismatch for %s: '%d' instead of '%d'.", this.getClass(),
+					serializationVersion, SERIALIZATION_VERSION));
 
 		/*
 		 * Read in the list of directly-serialized NewCookies. Populate this
@@ -199,8 +196,8 @@ public class CookieStore implements Externalizable {
 			boolean secure = in.readBoolean();
 			boolean httpOnly = in.readBoolean();
 
-			NewCookie cookie = new NewCookie(name, value, path, domain,
-					version, comment, maxAge, expiry, secure, httpOnly);
+			NewCookie cookie = new NewCookie(name, value, path, domain, version, comment, maxAge, expiry, secure,
+					httpOnly);
 			this.remember(cookie);
 		}
 	}

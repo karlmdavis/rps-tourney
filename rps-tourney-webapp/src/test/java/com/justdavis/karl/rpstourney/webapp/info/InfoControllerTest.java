@@ -21,15 +21,11 @@ public final class InfoControllerTest {
 	public void ping() throws Exception {
 		// Build the controller and prepare it for mock testing.
 		InfoController infoController = new InfoController();
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(infoController)
-				.build();
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(infoController).build();
 
 		// Run the mock tests against the controller.
-		mockMvc.perform(MockMvcRequestBuilders.get("/info/ping"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(
-						MockMvcResultMatchers.content().contentType(
-								MediaType.TEXT_PLAIN))
+		mockMvc.perform(MockMvcRequestBuilders.get("/info/ping")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().contentType(MediaType.TEXT_PLAIN))
 				.andExpect(MockMvcResultMatchers.content().string("OK"));
 	}
 
@@ -43,12 +39,10 @@ public final class InfoControllerTest {
 	public void getAppInfo() throws Exception {
 		// Build the controller and prepare it for mock testing.
 		InfoController infoController = new InfoController();
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(infoController)
-				.build();
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(infoController).build();
 
 		// Run the mock tests against the controller.
-		mockMvc.perform(MockMvcRequestBuilders.get("/info"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+		mockMvc.perform(MockMvcRequestBuilders.get("/info")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.forwardedUrl("app-info"));
 	}
 }

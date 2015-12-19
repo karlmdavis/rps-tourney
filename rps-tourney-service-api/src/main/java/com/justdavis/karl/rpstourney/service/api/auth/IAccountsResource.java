@@ -158,7 +158,6 @@ public interface IAccountsResource {
 	 */
 	@POST
 	@Path(SERVICE_PATH_MERGE)
-	void mergeAccount(
-			@FormParam(SERVICE_PARAM_MERGE_TARGET) long targetAccountId,
+	void mergeAccount(@FormParam(SERVICE_PARAM_MERGE_TARGET) long targetAccountId,
 			@FormParam(SERVICE_PARAM_MERGE_SOURCE) UUID sourceAccountAuthTokenValue);
 }

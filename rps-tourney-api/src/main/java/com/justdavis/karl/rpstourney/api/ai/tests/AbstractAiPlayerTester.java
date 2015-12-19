@@ -43,8 +43,7 @@ public abstract class AbstractAiPlayerTester {
 	public void submitFirstThrow() {
 		IAiPlayer aiPlayer = getAiPlayer();
 
-		Throw selectedThrow = aiPlayer.selectThrow(1,
-				new ArrayList<GameRound>());
+		Throw selectedThrow = aiPlayer.selectThrow(1, new ArrayList<GameRound>());
 		Assert.assertNotNull(selectedThrow);
 	}
 
@@ -59,16 +58,13 @@ public abstract class AbstractAiPlayerTester {
 		GameSession game = new GameSession(21);
 
 		while (game.checkForWinner() == null) {
-			Throw player1Throw = aiPlayer.selectThrow(game.getMaxRounds(),
-					game.getCompletedRounds());
+			Throw player1Throw = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
 			Assert.assertNotNull(player1Throw);
 
 			Throw player2Throw = Throw.PAPER;
 
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-					player1Throw);
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-					player2Throw);
+			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1, player1Throw);
+			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2, player2Throw);
 		}
 	}
 
@@ -96,8 +92,7 @@ public abstract class AbstractAiPlayerTester {
 		IAiPlayer randomOpponent = new RandomAiPlayer();
 		List<Throw> randomThrows = new ArrayList<Throw>();
 		for (int i = 0; i < 1000; i++)
-			randomThrows.add(randomOpponent.selectThrow(1,
-					new ArrayList<GameRound>()));
+			randomThrows.add(randomOpponent.selectThrow(1, new ArrayList<GameRound>()));
 
 		// Create the game that will be played partway through.
 		GameSession game = new GameSession((1000 * 2) + 1);
@@ -106,21 +101,17 @@ public abstract class AbstractAiPlayerTester {
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < 1000; i++) {
 			// Submit the pre-generated opponent Throw.
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-					randomThrows.get(i));
+			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1, randomThrows.get(i));
 
 			// Generate and submit the AI's throw.
-			Throw aiPlayerThrow = aiPlayer.selectThrow(game.getMaxRounds(),
-					game.getCompletedRounds());
-			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-					aiPlayerThrow);
+			Throw aiPlayerThrow = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
+			game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2, aiPlayerThrow);
 		}
 		long endTime = System.currentTimeMillis();
 
 		// Ensure it was fast enough.
 		long runTime = endTime - startTime;
-		logger.info("The {} AI ran through 1000 rounds in {}ms.",
-				aiPlayer.getClass(), runTime);
+		logger.info("The {} AI ran through 1000 rounds in {}ms.", aiPlayer.getClass(), runTime);
 		Assert.assertTrue("Clock rollover problem.", runTime > 0);
 		Assert.assertTrue((runTime / 1000) <= 5);
 	}

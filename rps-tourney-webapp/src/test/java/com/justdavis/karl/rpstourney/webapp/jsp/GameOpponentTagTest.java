@@ -46,8 +46,7 @@ public class GameOpponentTagTest {
 
 		// Test the tag.
 		Account player1Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player1Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player1Account));
 		Account player2Account = new Account();
 		player2Account.setName("foo");
 		Game game = new Game(new Player(player1Account));
@@ -55,8 +54,7 @@ public class GameOpponentTagTest {
 		GameView gameView = new GameView(game, game.getPlayer1());
 		gameOpponentTag.setGame(gameView);
 		gameOpponentTag.doEndTag();
-		Assert.assertEquals("<span class=\"PLAYER_2\">foo</span>",
-				jspWriter.output.toString());
+		Assert.assertEquals("<span class=\"PLAYER_2\">foo</span>", jspWriter.output.toString());
 	}
 
 	/**
@@ -83,15 +81,12 @@ public class GameOpponentTagTest {
 
 		// Test the tag.
 		Account player1Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player1Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player1Account));
 		Game game = new Game(new Player(player1Account));
 		GameView gameView = new GameView(game, game.getPlayer1());
 		gameOpponentTag.setGame(gameView);
 		gameOpponentTag.doEndTag();
-		Assert.assertEquals(
-				"<span class=\"PLAYER_2\">(Waiting for Opponent...)</span>",
-				jspWriter.output.toString());
+		Assert.assertEquals("<span class=\"PLAYER_2\">(Waiting for Opponent...)</span>", jspWriter.output.toString());
 	}
 
 	/**
@@ -118,15 +113,13 @@ public class GameOpponentTagTest {
 
 		// Test the tag.
 		Account player1Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player1Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player1Account));
 		Game game = new Game(new Player(player1Account));
 		game.setPlayer2(new Player(BuiltInAi.ONE_SIDED_DIE_PAPER));
 		GameView gameView = new GameView(game, game.getPlayer1());
 		gameOpponentTag.setGame(gameView);
 		gameOpponentTag.doEndTag();
-		Assert.assertEquals("<span class=\"PLAYER_2\">Always Paper</span>",
-				jspWriter.output.toString());
+		Assert.assertEquals("<span class=\"PLAYER_2\">Always Paper</span>", jspWriter.output.toString());
 	}
 
 	/**
@@ -134,14 +127,10 @@ public class GameOpponentTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("playerName.current.suffix",
-				Locale.getDefault(), " (You)");
-		messageSource.addMessage("playerName.notJoined", Locale.getDefault(),
-				"(Waiting for Opponent...)");
-		messageSource.addMessage("playerName.anon", Locale.getDefault(),
-				"Anonymous");
-		messageSource.addMessage("players.ai.name.oneSidedDiePaper",
-				Locale.getDefault(), "Always Paper");
+		messageSource.addMessage("playerName.current.suffix", Locale.getDefault(), " (You)");
+		messageSource.addMessage("playerName.notJoined", Locale.getDefault(), "(Waiting for Opponent...)");
+		messageSource.addMessage("playerName.anon", Locale.getDefault(), "Anonymous");
+		messageSource.addMessage("players.ai.name.oneSidedDiePaper", Locale.getDefault(), "Always Paper");
 		return messageSource;
 	}
 }

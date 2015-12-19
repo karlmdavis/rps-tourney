@@ -38,8 +38,7 @@ import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
  * thus the entire Spring Web MVC application.
  */
 @Configuration
-@Import({ SecurityConfig.class, GameClientBindings.class,
-		ConfigLoaderBindingForProduction.class })
+@Import({ SecurityConfig.class, GameClientBindings.class, ConfigLoaderBindingForProduction.class })
 @EnableWebMvc
 @ComponentScan(basePackageClasses = { SpringMvcConfig.class })
 public class SpringMvcConfig extends WebMvcConfigurerAdapter {
@@ -50,8 +49,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
 	 */
 	@Override
-	public void configureDefaultServletHandling(
-			DefaultServletHandlerConfigurer configurer) {
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable("default");
 	}
 
@@ -59,8 +57,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
 	 */
 	@Override
-	public void configureContentNegotiation(
-			ContentNegotiationConfigurer configurer) {
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 		/*
 		 * Older browsers, like IE8, send less-than-great "Accept" headers.
 		 * We'll assume that any client that cares will request a specific
@@ -81,12 +78,9 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 		 * SecurityConfig.configure(WebSecurity).
 		 */
 
-		registry.addResourceHandler("/css/**").addResourceLocations(
-				"/WEB-INF/resources/css/");
-		registry.addResourceHandler("/js/**").addResourceLocations(
-				"/WEB-INF/resources/js/");
-		registry.addResourceHandler("/i18n/**").addResourceLocations(
-				"/WEB-INF/i18n/");
+		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/resources/css/");
+		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/");
+		registry.addResourceHandler("/i18n/**").addResourceLocations("/WEB-INF/i18n/");
 
 		/*
 		 * Though all of the sources from Bootstrap and FontAwesome are
@@ -95,11 +89,9 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 		 * folders.)
 		 */
 		registry.addResourceHandler("/bootstrap-3.2.0/fonts/**")
-				.addResourceLocations(
-						"/WEB-INF/resources/bootstrap-3.2.0/fonts/");
+				.addResourceLocations("/WEB-INF/resources/bootstrap-3.2.0/fonts/");
 		registry.addResourceHandler("/font-awesome-4.4.0/fonts/**")
-				.addResourceLocations(
-						"/WEB-INF/resources/font-awesome-4.4.0/fonts/");
+				.addResourceLocations("/WEB-INF/resources/font-awesome-4.4.0/fonts/");
 	}
 
 	/**

@@ -103,20 +103,17 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 		 * users/clients want to log out, they must do so explicitly.
 		 */
 		if (securityContext.getUserPrincipal() != null)
-			throw new WebApplicationException("User already logged in.",
-					Status.CONFLICT);
+			throw new WebApplicationException("User already logged in.", Status.CONFLICT);
 
 		// Create the new login and auth token.
 		GuestLoginIdentity login = createLogin();
-		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login
-				.getAccount());
+		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
 		 * Store the new login's auth token in the HTTP request, so the response
 		 * AuthenticationFilter can record it in a cookie.
 		 */
-		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY,
-				authTokenForLogin);
+		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 
 		/*
 		 * Return a response with the new account that's associated with the

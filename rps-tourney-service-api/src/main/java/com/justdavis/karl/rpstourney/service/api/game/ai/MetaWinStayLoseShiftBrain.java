@@ -33,14 +33,12 @@ public final class MetaWinStayLoseShiftBrain implements IPositronicBrain {
 		 * that you just played."
 		 */
 		GameRound previousRound = game.getRounds().get(currentRoundIndex - 1);
-		boolean wonPreviousRound = role.equals(previousRound.getResult()
-				.getWinningPlayerRole());
+		boolean wonPreviousRound = role.equals(previousRound.getResult().getWinningPlayerRole());
 		if (wonPreviousRound) {
 			Throw previousThrow = previousRound.getThrowForPlayer(role);
 			return previousThrow.getOppositeThrow();
 		} else {
-			Throw previousOpponentThrow = previousRound.getThrowForPlayer(role
-					.getOpponentRole());
+			Throw previousOpponentThrow = previousRound.getThrowForPlayer(role.getOpponentRole());
 			return previousOpponentThrow.getOppositeThrow();
 		}
 	}

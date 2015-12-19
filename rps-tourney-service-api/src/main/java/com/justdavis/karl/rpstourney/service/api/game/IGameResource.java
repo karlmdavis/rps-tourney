@@ -115,8 +115,7 @@ public interface IGameResource {
 	@GET
 	@Path(IGameResource.SERVICE_PATH_GAME_ID)
 	@Produces(MediaType.TEXT_XML)
-	GameView getGame(@PathParam("gameId") String gameId)
-			throws NotFoundException;
+	GameView getGame(@PathParam("gameId") String gameId) throws NotFoundException;
 
 	/**
 	 * <p>
@@ -149,13 +148,10 @@ public interface IGameResource {
 	 * @see Game#setMaxRounds(int)
 	 */
 	@POST
-	@Path(IGameResource.SERVICE_PATH_GAME_ID
-			+ IGameResource.SERVICE_PATH_MAX_ROUNDS)
+	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_MAX_ROUNDS)
 	@Produces(MediaType.TEXT_XML)
-	GameView setMaxRounds(@PathParam("gameId") String gameId,
-			@FormParam("oldMaxRoundsValue") int oldMaxRoundsValue,
-			@FormParam("newMaxRoundsValue") int newMaxRoundsValue)
-			throws NotFoundException, GameConflictException;
+	GameView setMaxRounds(@PathParam("gameId") String gameId, @FormParam("oldMaxRoundsValue") int oldMaxRoundsValue,
+			@FormParam("newMaxRoundsValue") int newMaxRoundsValue) throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -184,12 +180,10 @@ public interface IGameResource {
 	 *             {@link State#WAITING_FOR_PLAYER}.
 	 */
 	@POST
-	@Path(IGameResource.SERVICE_PATH_GAME_ID
-			+ IGameResource.SERVICE_PATH_INVITE_OPPONENT)
+	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_INVITE_OPPONENT)
 	@Produces(MediaType.TEXT_XML)
-	void inviteOpponent(@PathParam("gameId") String gameId,
-			@FormParam("playerId") long playerId) throws NotFoundException,
-			GameConflictException;
+	void inviteOpponent(@PathParam("gameId") String gameId, @FormParam("playerId") long playerId)
+			throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -212,8 +206,7 @@ public interface IGameResource {
 	@POST
 	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_JOIN)
 	@Produces(MediaType.TEXT_XML)
-	GameView joinGame(@PathParam("gameId") String gameId)
-			throws NotFoundException, GameConflictException;
+	GameView joinGame(@PathParam("gameId") String gameId) throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>
@@ -241,11 +234,9 @@ public interface IGameResource {
 	 * @see Game#prepareRound()
 	 */
 	@POST
-	@Path(IGameResource.SERVICE_PATH_GAME_ID
-			+ IGameResource.SERVICE_PATH_PREPARE)
+	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_PREPARE)
 	@Produces(MediaType.TEXT_XML)
-	GameView prepareRound(@PathParam("gameId") String gameId)
-			throws NotFoundException;
+	GameView prepareRound(@PathParam("gameId") String gameId) throws NotFoundException;
 
 	/**
 	 * <p>
@@ -271,7 +262,8 @@ public interface IGameResource {
 	 *             following cases:
 	 *             </p>
 	 *             <ul>
-	 *             <li>If {@link Game#getState()} is not {@link State#STARTED}.</li>
+	 *             <li>If {@link Game#getState()} is not {@link State#STARTED}.
+	 *             </li>
 	 *             <li>If the specified <code>roundIndex</code> is not the same
 	 *             as {@link GameRound#getRoundIndex()} in the last/current
 	 *             round.</li>
@@ -283,10 +275,8 @@ public interface IGameResource {
 	@POST
 	@Path(IGameResource.SERVICE_PATH_GAME_ID + IGameResource.SERVICE_PATH_THROW)
 	@Produces(MediaType.TEXT_XML)
-	GameView submitThrow(@PathParam("gameId") String gameId,
-			@FormParam("roundIndex") int roundIndex,
-			@FormParam("throwToPlay") Throw throwToPlay)
-			throws NotFoundException, GameConflictException;
+	GameView submitThrow(@PathParam("gameId") String gameId, @FormParam("roundIndex") int roundIndex,
+			@FormParam("throwToPlay") Throw throwToPlay) throws NotFoundException, GameConflictException;
 
 	/**
 	 * <p>

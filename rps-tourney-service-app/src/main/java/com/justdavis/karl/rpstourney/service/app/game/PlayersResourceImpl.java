@@ -81,12 +81,10 @@ public class PlayersResourceImpl implements IPlayersResource {
 	 */
 	@Override
 	public Set<Player> getPlayersForBuiltInAis(List<BuiltInAi> ais) {
-		Set<Player> aiPlayers = playersDao.findPlayerForBuiltInAi(ais
-				.toArray(new BuiltInAi[ais.size()]));
+		Set<Player> aiPlayers = playersDao.findPlayerForBuiltInAi(ais.toArray(new BuiltInAi[ais.size()]));
 		if (aiPlayers.size() != ais.size())
-			throw new IllegalStateException(String.format(
-					"Active AIs are %s, but retrieved AIs are %s.", ais,
-					aiPlayers));
+			throw new IllegalStateException(
+					String.format("Active AIs are %s, but retrieved AIs are %s.", ais, aiPlayers));
 		return aiPlayers;
 	}
 

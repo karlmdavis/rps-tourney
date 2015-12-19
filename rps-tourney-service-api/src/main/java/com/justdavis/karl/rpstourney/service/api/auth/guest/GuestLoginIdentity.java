@@ -32,8 +32,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.LoginProvider;
 @Table(name = "`GuestLoginIdentities`")
 @PrimaryKeyJoinColumn(name = "`id`", referencedColumnName = "`id`")
 @XmlRootElement
-public class GuestLoginIdentity extends AbstractLoginIdentity implements
-		ILoginIdentity {
+public class GuestLoginIdentity extends AbstractLoginIdentity implements ILoginIdentity {
 	private static final long serialVersionUID = 1153446108796952793L;
 
 	/**

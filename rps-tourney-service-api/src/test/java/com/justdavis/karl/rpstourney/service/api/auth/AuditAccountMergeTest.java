@@ -29,23 +29,20 @@ public final class AuditAccountMergeTest {
 	 *             (shouldn't happen: address is hardcoded)
 	 */
 	@Test
-	public void equalsAndHashCode() throws IllegalArgumentException,
-			IllegalAccessException, NoSuchFieldException, SecurityException,
-			AddressException {
+	public void equalsAndHashCode() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+			SecurityException, AddressException {
 		// Create the first instance to test with.
 		Account account = new Account();
 		account.setName("foo");
 		Set<AbstractLoginIdentity> mergedLoginsA = new HashSet<>();
-		AuditAccountMerge auditEntryA = new AuditAccountMerge(account,
-				mergedLoginsA);
+		AuditAccountMerge auditEntryA = new AuditAccountMerge(account, mergedLoginsA);
 
 		Assert.assertEquals(auditEntryA, auditEntryA);
 		Assert.assertEquals(auditEntryA.hashCode(), auditEntryA.hashCode());
 
 		// Create the second instance to test with.
 		Set<AbstractLoginIdentity> mergedLoginsB = new HashSet<>();
-		AuditAccountMerge auditEntryB = new AuditAccountMerge(account,
-				mergedLoginsB);
+		AuditAccountMerge auditEntryB = new AuditAccountMerge(account, mergedLoginsB);
 
 		Assert.assertNotEquals(auditEntryA, auditEntryB);
 
@@ -61,8 +58,7 @@ public final class AuditAccountMergeTest {
 
 		// Create the third instance to test with.
 		Set<AbstractLoginIdentity> mergedLoginsC = new HashSet<>();
-		AuditAccountMerge auditEntryC = new AuditAccountMerge(account,
-				mergedLoginsC);
+		AuditAccountMerge auditEntryC = new AuditAccountMerge(account, mergedLoginsC);
 		auditIdField.set(auditEntryC, 3);
 
 		Assert.assertEquals(auditEntryC, auditEntryC);
@@ -71,8 +67,7 @@ public final class AuditAccountMergeTest {
 
 		// Create the fourth instance to test with.
 		Set<AbstractLoginIdentity> mergedLoginsD = new HashSet<>();
-		AuditAccountMerge auditEntryD = new AuditAccountMerge(account,
-				mergedLoginsD);
+		AuditAccountMerge auditEntryD = new AuditAccountMerge(account, mergedLoginsD);
 		auditIdField.set(auditEntryD, 4);
 
 		Assert.assertNotEquals(auditEntryD, auditEntryC);

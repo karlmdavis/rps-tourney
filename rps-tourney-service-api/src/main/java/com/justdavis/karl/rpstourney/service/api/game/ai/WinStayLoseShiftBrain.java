@@ -41,8 +41,7 @@ public final class WinStayLoseShiftBrain implements IPositronicBrain {
 	 *            actual current round in the specified {@link GameView})
 	 * @return the {@link Throw} to make
 	 */
-	static Throw calculateThrowForRound(GameView game, PlayerRole role,
-			int roundIndex) {
+	static Throw calculateThrowForRound(GameView game, PlayerRole role, int roundIndex) {
 		// Select a random Throw for the first round.
 		if (roundIndex < 1)
 			return ThreeSidedDieBrain.calculateRandomThrow();
@@ -52,15 +51,13 @@ public final class WinStayLoseShiftBrain implements IPositronicBrain {
 		 * round's Throw won.
 		 */
 		GameRound previousRound = game.getRounds().get(roundIndex - 1);
-		boolean wonPreviousRound = role.equals(previousRound.getResult()
-				.getWinningPlayerRole());
+		boolean wonPreviousRound = role.equals(previousRound.getResult().getWinningPlayerRole());
 		if (wonPreviousRound) {
 			// Stay with the Throw from last round.
 			return previousRound.getThrowForPlayer(role);
 		} else {
 			// Go with the Throw that could have won last round.
-			Throw previousWinningThrow = previousRound.getThrowForPlayer(role
-					.getOpponentRole());
+			Throw previousWinningThrow = previousRound.getThrowForPlayer(role.getOpponentRole());
 			return previousWinningThrow.getOppositeThrow();
 		}
 	}

@@ -29,12 +29,10 @@ public final class GameLoginAuthenticationProviderTest {
 		// Create the mocks needed for the test.
 		CookieStore cookies = new CookieStore();
 		IGameAuthResource gameAuthClient = new MockGameAuthClient(null);
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				"foo@example.com", "secret");
+		Authentication auth = new UsernamePasswordAuthenticationToken("foo@example.com", "secret");
 
 		// Verify the method works correctly (should throw an exception).
-		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				cookies, gameAuthClient);
+		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(cookies, gameAuthClient);
 		authProvider.authenticate(auth);
 	}
 
@@ -49,12 +47,10 @@ public final class GameLoginAuthenticationProviderTest {
 		CookieStore cookies = new CookieStore();
 		Account account = new Account();
 		IGameAuthResource gameAuthClient = new MockGameAuthClient(account);
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				"foo@example.com", "secret");
+		Authentication auth = new UsernamePasswordAuthenticationToken("foo@example.com", "secret");
 
 		// Verify the method works correctly.
-		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				cookies, gameAuthClient);
+		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(cookies, gameAuthClient);
 		Authentication authResult = authProvider.authenticate(auth);
 		Assert.assertNotNull(authResult);
 		Assert.assertEquals(account, authResult.getPrincipal());
@@ -70,12 +66,9 @@ public final class GameLoginAuthenticationProviderTest {
 
 		// Verify the method works correctly.
 		CookieStore cookies = new CookieStore();
-		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(
-				cookies, gameAuthClient);
-		Assert.assertTrue(authProvider
-				.supports(UsernamePasswordAuthenticationToken.class));
-		Assert.assertFalse(authProvider
-				.supports(RememberMeAuthenticationToken.class));
+		GameLoginAuthenticationProvider authProvider = new GameLoginAuthenticationProvider(cookies, gameAuthClient);
+		Assert.assertTrue(authProvider.supports(UsernamePasswordAuthenticationToken.class));
+		Assert.assertFalse(authProvider.supports(RememberMeAuthenticationToken.class));
 	}
 
 	/**
@@ -102,8 +95,7 @@ public final class GameLoginAuthenticationProviderTest {
 		 *      java.lang.String)
 		 */
 		@Override
-		public Account loginWithGameAccount(InternetAddress emailAddress,
-				String password) {
+		public Account loginWithGameAccount(InternetAddress emailAddress, String password) {
 			if (accountToLogin != null)
 				return accountToLogin;
 			else
@@ -115,8 +107,7 @@ public final class GameLoginAuthenticationProviderTest {
 		 *      java.lang.String)
 		 */
 		@Override
-		public Account createGameLogin(InternetAddress emailAddress,
-				String password) {
+		public Account createGameLogin(InternetAddress emailAddress, String password) {
 			throw new UnsupportedOperationException();
 		}
 	}

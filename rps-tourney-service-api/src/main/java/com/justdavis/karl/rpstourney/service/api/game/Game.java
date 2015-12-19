@@ -76,8 +76,8 @@ public class Game extends AbstractGame {
 	 *            the value to use for {@link #getPlayer1()}
 	 */
 	public Game(Player player1) {
-		super(generateRandomId(), Instant.now(), State.WAITING_FOR_PLAYER,
-				MAX_ROUNDS_DEFAULT, new ArrayList<GameRound>(), player1, null);
+		super(generateRandomId(), Instant.now(), State.WAITING_FOR_PLAYER, MAX_ROUNDS_DEFAULT,
+				new ArrayList<GameRound>(), player1, null);
 	}
 
 	/**
@@ -220,13 +220,10 @@ public class Game extends AbstractGame {
 				int newRoundIndex = roundIndex + 1;
 				int newAdjustedRoundIndex;
 				if (currentRound.getResult() != Result.TIED)
-					newAdjustedRoundIndex = currentRound
-							.getAdjustedRoundIndex() + 1;
+					newAdjustedRoundIndex = currentRound.getAdjustedRoundIndex() + 1;
 				else
-					newAdjustedRoundIndex = currentRound
-							.getAdjustedRoundIndex();
-				GameRound nextRound = new GameRound(this, newRoundIndex,
-						newAdjustedRoundIndex);
+					newAdjustedRoundIndex = currentRound.getAdjustedRoundIndex();
+				GameRound nextRound = new GameRound(this, newRoundIndex, newAdjustedRoundIndex);
 				rounds.add(nextRound);
 			} else {
 				// Mark the game as finished.
@@ -282,8 +279,7 @@ public class Game extends AbstractGame {
 			 * prepareRound() first.
 			 */
 			LOGGER.warn("Specified round '{}' is not current round '{}': {}",
-					new Object[] { roundIndex, currentRound.getRoundIndex(),
-							rounds.toString() });
+					new Object[] { roundIndex, currentRound.getRoundIndex(), rounds.toString() });
 			throw new GameConflictException(ConflictType.THROW_WRONG_ROUND);
 		}
 

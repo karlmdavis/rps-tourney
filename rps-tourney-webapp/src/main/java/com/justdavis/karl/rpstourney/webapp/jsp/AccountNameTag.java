@@ -103,8 +103,7 @@ public final class AccountNameTag extends RequestContextAwareTag {
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(
-					this);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
 			this.initialized = true;
 		}

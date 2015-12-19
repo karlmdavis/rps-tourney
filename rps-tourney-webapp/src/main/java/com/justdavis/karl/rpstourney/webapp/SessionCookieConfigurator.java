@@ -23,8 +23,7 @@ import com.justdavis.karl.rpstourney.webapp.util.CookiesUtils;
  * correctly.
  */
 public final class SessionCookieConfigurator {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SessionCookieConfigurator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SessionCookieConfigurator.class);
 
 	private final Class<?> springConfig;
 
@@ -72,8 +71,7 @@ public final class SessionCookieConfigurator {
 		AbstractApplicationContext springContext = getSpringContext();
 		try {
 			// Pull the AppConfig out of the Spring context.
-			IConfigLoader configLoader = springContext
-					.getBean(IConfigLoader.class);
+			IConfigLoader configLoader = springContext.getBean(IConfigLoader.class);
 			AppConfig appConfig = configLoader.getConfig();
 
 			// Compute the security properties to use.
@@ -81,18 +79,14 @@ public final class SessionCookieConfigurator {
 			CookiesUtils.applyCookieSecurityProperties(fakeCookie, appConfig);
 
 			// Configure the SessionCookieConfig.
-			SessionCookieConfig sessionCookieConfig = servletContext
-					.getSessionCookieConfig();
+			SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
 			sessionCookieConfig.setHttpOnly(fakeCookie.isHttpOnly());
 			sessionCookieConfig.setDomain(fakeCookie.getDomain());
 			sessionCookieConfig.setPath(fakeCookie.getPath());
 			sessionCookieConfig.setSecure(fakeCookie.getSecure());
 
-			LOGGER.info(
-					"Session cookies configured: secure={}, domain='{}', path='{}'",
-					sessionCookieConfig.isSecure(),
-					sessionCookieConfig.getDomain(),
-					sessionCookieConfig.getPath());
+			LOGGER.info("Session cookies configured: secure={}, domain='{}', path='{}'", sessionCookieConfig.isSecure(),
+					sessionCookieConfig.getDomain(), sessionCookieConfig.getPath());
 		} finally {
 			if (springContext != null)
 				springContext.close();
@@ -115,8 +109,7 @@ public final class SessionCookieConfigurator {
 		 * disposed of.
 		 */
 		AnnotationConfigApplicationContext springContext = new AnnotationConfigApplicationContext();
-		springContext.getEnvironment().setDefaultProfiles(
-				SpringProfile.PRODUCTION);
+		springContext.getEnvironment().setDefaultProfiles(SpringProfile.PRODUCTION);
 
 		springContext.register(springConfig);
 		springContext.refresh();

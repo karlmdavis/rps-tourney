@@ -26,8 +26,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
  * {@link IGameAuthResource} logins.
  */
 @Component
-public final class GameLoginAuthenticationProvider implements
-		AuthenticationProvider {
+public final class GameLoginAuthenticationProvider implements AuthenticationProvider {
 	private final CookieStore sessionCookies;
 	private final IGameAuthResource gameAuthClient;
 
@@ -40,8 +39,7 @@ public final class GameLoginAuthenticationProvider implements
 	 *            the {@link IGameAuthResource} client to use
 	 */
 	@Inject
-	public GameLoginAuthenticationProvider(CookieStore sessionCookies,
-			IGameAuthResource gameAuthClient) {
+	public GameLoginAuthenticationProvider(CookieStore sessionCookies, IGameAuthResource gameAuthClient) {
 		this.sessionCookies = sessionCookies;
 		this.gameAuthClient = gameAuthClient;
 	}
@@ -50,8 +48,7 @@ public final class GameLoginAuthenticationProvider implements
 	 * @see org.springframework.security.authentication.AuthenticationProvider#authenticate(org.springframework.security.core.Authentication)
 	 */
 	@Override
-	public Authentication authenticate(Authentication authentication)
-			throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		// Returning null lets another AuthenticationProvider handle this.
 		if (!supports(authentication.getClass()))
 			return null;
@@ -75,21 +72,18 @@ public final class GameLoginAuthenticationProvider implements
 
 			// Now login.
 			InternetAddress emailAddress = new InternetAddress(name);
-			authenticatedAccount = gameAuthClient.loginWithGameAccount(
-					emailAddress, password);
+			authenticatedAccount = gameAuthClient.loginWithGameAccount(emailAddress, password);
 		} catch (HttpClientException e) {
 			/*
 			 * These two status codes indicate a legitimate authentication
 			 * failure.
 			 */
-			if (e.getStatus() == Status.FORBIDDEN
-					|| e.getStatus() == Status.UNAUTHORIZED) {
+			if (e.getStatus() == Status.FORBIDDEN || e.getStatus() == Status.UNAUTHORIZED) {
 				throw new BadCredentialsException("Authentication failed.", e);
 			}
 
 			// Otherwise, we'll assume the service is down.
-			throw new AuthenticationServiceException(
-					"Authentication service failed.", e);
+			throw new AuthenticationServiceException("Authentication service failed.", e);
 		} catch (AddressException e) {
 			throw new UncheckedAddressException(e);
 		}
@@ -114,7 +108,6 @@ public final class GameLoginAuthenticationProvider implements
 	 */
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return UsernamePasswordAuthenticationToken.class
-				.isAssignableFrom(authentication);
+		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 }

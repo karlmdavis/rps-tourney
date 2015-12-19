@@ -64,8 +64,7 @@ public class HomeController {
 			if (o2.getLastThrowTimestamp() == null)
 				return -1;
 
-			int timestampComparison = o1.getLastThrowTimestamp().compareTo(
-					o2.getLastThrowTimestamp());
+			int timestampComparison = o1.getLastThrowTimestamp().compareTo(o2.getLastThrowTimestamp());
 			return -1 * timestampComparison;
 		}
 	}

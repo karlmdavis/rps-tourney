@@ -19,8 +19,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity_;
  * The default {@link IGameLoginIndentitiesDao} implementation.
  */
 @Component
-public final class GameLoginIdentitiesDaoImpl implements
-		IGameLoginIndentitiesDao {
+public final class GameLoginIdentitiesDaoImpl implements IGameLoginIndentitiesDao {
 	private EntityManager entityManager;
 
 	/**
@@ -57,17 +56,13 @@ public final class GameLoginIdentitiesDaoImpl implements
 	@Override
 	public GameLoginIdentity find(InternetAddress emailAddress) {
 		// Build a query for the matching AuthToken.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<GameLoginIdentity> criteria = criteriaBuilder
-				.createQuery(GameLoginIdentity.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(GameLoginIdentity.class).get(
-						GameLoginIdentity_.emailAddress), emailAddress));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<GameLoginIdentity> criteria = criteriaBuilder.createQuery(GameLoginIdentity.class);
+		criteria.where(criteriaBuilder
+				.equal(criteria.from(GameLoginIdentity.class).get(GameLoginIdentity_.emailAddress), emailAddress));
 
 		// Run the query.
-		TypedQuery<GameLoginIdentity> query = entityManager
-				.createQuery(criteria);
+		TypedQuery<GameLoginIdentity> query = entityManager.createQuery(criteria);
 		List<GameLoginIdentity> results = query.getResultList();
 
 		/*
@@ -90,15 +85,12 @@ public final class GameLoginIdentitiesDaoImpl implements
 	@Override
 	public List<GameLoginIdentity> getLogins() {
 		// Build a query for the logins.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<GameLoginIdentity> criteria = criteriaBuilder
-				.createQuery(GameLoginIdentity.class);
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<GameLoginIdentity> criteria = criteriaBuilder.createQuery(GameLoginIdentity.class);
 		criteria.from(GameLoginIdentity.class);
 
 		// Run the query.
-		TypedQuery<GameLoginIdentity> query = entityManager
-				.createQuery(criteria);
+		TypedQuery<GameLoginIdentity> query = entityManager.createQuery(criteria);
 		List<GameLoginIdentity> results = query.getResultList();
 
 		return results;

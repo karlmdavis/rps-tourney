@@ -72,9 +72,8 @@ public class InfoController {
 	private static String readInProjectVersion() {
 		Properties projectVersionProps = new Properties();
 		try {
-			projectVersionProps.load(Thread.currentThread()
-					.getContextClassLoader()
-					.getResourceAsStream("project-version.properties"));
+			projectVersionProps.load(
+					Thread.currentThread().getContextClassLoader().getResourceAsStream("project-version.properties"));
 		} catch (IOException e) {
 			throw new UncheckedIoException(e);
 		}

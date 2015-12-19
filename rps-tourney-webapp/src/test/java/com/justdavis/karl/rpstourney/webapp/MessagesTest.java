@@ -33,9 +33,8 @@ public final class MessagesTest {
 				continue;
 
 			String aiNameKey = "players.ai.name." + ai.getDisplayNameKey();
-			Assert.assertNotEquals("Missing message for key: " + aiNameKey,
-					"MISSING", messages.getMessage(aiNameKey, new Object[] {},
-							"MISSING", Locale.getDefault()));
+			Assert.assertNotEquals("Missing message for key: " + aiNameKey, "MISSING",
+					messages.getMessage(aiNameKey, new Object[] {}, "MISSING", Locale.getDefault()));
 		}
 	}
 
@@ -45,21 +44,17 @@ public final class MessagesTest {
 	private static MessageSource buildMessageSource() {
 		try {
 			// Have to jump through some hoops to find the file path.
-			URL projectVersionUrl = Thread.currentThread()
-					.getContextClassLoader()
+			URL projectVersionUrl = Thread.currentThread().getContextClassLoader()
 					.getResource("project.version.properties");
 			Path projectVersionPath = Paths.get(projectVersionUrl.toURI());
-			Path i18nPath = projectVersionPath.getParent().getParent()
-					.getParent().resolve("src").resolve("main")
+			Path i18nPath = projectVersionPath.getParent().getParent().getParent().resolve("src").resolve("main")
 					.resolve("webapp").resolve("WEB-INF").resolve("i18n");
 			if (!Files.exists(i18nPath))
-				throw new BadCodeMonkeyException("Directory not found: "
-						+ i18nPath.toAbsolutePath());
+				throw new BadCodeMonkeyException("Directory not found: " + i18nPath.toAbsolutePath());
 			URL i18nUrl = i18nPath.toUri().toURL();
 
 			ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-			messageSource.setBundleClassLoader(new URLClassLoader(
-					new URL[] { i18nUrl }));
+			messageSource.setBundleClassLoader(new URLClassLoader(new URL[] { i18nUrl }));
 			messageSource.setBasename("messages");
 			messageSource.setFallbackToSystemLocale(false);
 			return messageSource;

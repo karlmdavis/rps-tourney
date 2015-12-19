@@ -56,17 +56,13 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(gameClient,
-				accountsClient, playersClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
-				.build();
+		GameController GameController = new GameController(gameClient, accountsClient, playersClient,
+				guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		// Run the mock tests against the controller.
-		mockMvc.perform(MockMvcRequestBuilders.get("/game/"))
-				.andExpect(MockMvcResultMatchers.status().isFound())
-				.andExpect(
-						MockMvcResultMatchers.redirectedUrl("/game/"
-								+ game.getId()));
+		mockMvc.perform(MockMvcRequestBuilders.get("/game/")).andExpect(MockMvcResultMatchers.status().isFound())
+				.andExpect(MockMvcResultMatchers.redirectedUrl("/game/" + game.getId()));
 	}
 
 	/**
@@ -87,10 +83,9 @@ public final class GameControllerTest {
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController GameController = new GameController(gameClient,
-				accountsClient, playersClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController)
-				.build();
+		GameController GameController = new GameController(gameClient, accountsClient, playersClient,
+				guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		/*
 		 * Run the mock tests against the controller. We'll check the status and
@@ -98,8 +93,7 @@ public final class GameControllerTest {
 		 */
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/" + game.getId()))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(
-						MockMvcResultMatchers.model().attributeExists("game"));
+				.andExpect(MockMvcResultMatchers.model().attributeExists("game"));
 	}
 
 	/**
@@ -117,15 +111,13 @@ public final class GameControllerTest {
 		Game game = new Game(new Player(player1));
 		IGameResource gameClient = new MockGameClient(game);
 		IPlayersResource playersClient = new MockPlayersClient();
-		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
-				player1);
+		IAccountsResource accountsClient = new MockUpdatableAccountsClient(player1);
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(gameClient,
-				accountsClient, playersClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
-				.build();
+		GameController gameController = new GameController(gameClient, accountsClient, playersClient,
+				guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build();
 
 		/*
 		 * Run the mock tests against the controller, and verify that nothing
@@ -135,17 +127,13 @@ public final class GameControllerTest {
 		String updateNamePath = gamePath + "/updateName";
 		Principal principal = new WebServiceAccountAuthentication(player1);
 		mockMvc.perform(
-				MockMvcRequestBuilders.post(updateNamePath)
-						.principal(principal).param("inputPlayerName", "foo"))
+				MockMvcRequestBuilders.post(updateNamePath).principal(principal).param("inputPlayerName", "foo"))
 				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath));
 		Assert.assertEquals("foo", accountsClient.getAccount().getName());
 
 		// Now make sure the model contains the updated name.
-		mockMvc.perform(MockMvcRequestBuilders.get(gamePath))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(
-						MockMvcResultMatchers.model().attribute(
-								"isUserTheWinner", false));
+		mockMvc.perform(MockMvcRequestBuilders.get(gamePath)).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attribute("isUserTheWinner", false));
 	}
 
 	/**
@@ -162,16 +150,14 @@ public final class GameControllerTest {
 		Account player1 = new Account();
 		Game game = new Game(new Player(player1));
 		IGameResource gameClient = new MockGameClient(game);
-		IAccountsResource accountsClient = new MockUpdatableAccountsClient(
-				player1);
+		IAccountsResource accountsClient = new MockUpdatableAccountsClient(player1);
 		IPlayersResource playersClient = new MockPlayersClient();
 		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
 
 		// Build the controller and prepare it for mock testing.
-		GameController gameController = new GameController(gameClient,
-				accountsClient, playersClient, guestLoginManager);
-		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController)
-				.build();
+		GameController gameController = new GameController(gameClient, accountsClient, playersClient,
+				guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build();
 
 		/*
 		 * Run the mock tests against the controller, and verify that it
@@ -180,22 +166,16 @@ public final class GameControllerTest {
 		String gamePath = "/game/" + game.getId();
 		String updateNamePath = gamePath + "/updateName";
 		Principal principal = new WebServiceAccountAuthentication(player1);
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(updateNamePath)
-						.principal(principal).param("inputPlayerName", "  "))
-				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath))
-				.andExpect(
-						MockMvcResultMatchers.flash().attribute(
-								GameController.FLASH_ATTRIB_WARNING_TYPE,
-								GameController.WARNING_CODE_INVALID_NAME));
+		mockMvc.perform(MockMvcRequestBuilders.post(updateNamePath).principal(principal).param("inputPlayerName", "  "))
+				.andExpect(MockMvcResultMatchers.redirectedUrl(gamePath)).andExpect(MockMvcResultMatchers.flash()
+						.attribute(GameController.FLASH_ATTRIB_WARNING_TYPE, GameController.WARNING_CODE_INVALID_NAME));
 	}
 
 	/**
 	 * A mock {@link IAccountsResource} client implementation for use in
 	 * {@link GameControllerTest#updateName()}, and other tests.
 	 */
-	private static final class MockUpdatableAccountsClient extends
-			MockAccountsClient {
+	private static final class MockUpdatableAccountsClient extends MockAccountsClient {
 		private Account account;
 
 		/**
@@ -232,15 +212,13 @@ public final class GameControllerTest {
 	/**
 	 * A mock {@link IGuestLoginManager} implementation for use in tests.
 	 */
-	private static final class MockGuestLoginManager implements
-			IGuestLoginManager {
+	private static final class MockGuestLoginManager implements IGuestLoginManager {
 		/**
 		 * @see com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager#loginClientAsGuest(javax.servlet.http.HttpServletRequest,
 		 *      javax.servlet.http.HttpServletResponse)
 		 */
 		@Override
-		public void loginClientAsGuest(HttpServletRequest request,
-				HttpServletResponse response) {
+		public void loginClientAsGuest(HttpServletRequest request, HttpServletResponse response) {
 			// Do nothing.
 		}
 	}

@@ -57,10 +57,8 @@ public final class PlayersResourceImplIT {
 	 */
 	@After
 	public void wipeSchema() {
-		schemaManager.wipeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
-		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
+		schemaManager.wipeSchema(configLoader.getConfig().getDataSourceCoordinates());
+		schemaManager.createOrUpgradeSchema(configLoader.getConfig().getDataSourceCoordinates());
 	}
 
 	/**
@@ -95,21 +93,17 @@ public final class PlayersResourceImplIT {
 	 */
 	@Test
 	public void getPlayersForBuiltInAis() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 
 		// Create some AI Players.
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.THREE_SIDED_DIE_V1);
-		aiPlayerInitializer
-				.initializeAiPlayers(BuiltInAi.WIN_STAY_LOSE_SHIFT_V1);
+		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.WIN_STAY_LOSE_SHIFT_V1);
 
 		// Try to get the list of Players.
-		PlayersClient playersClient = new PlayersClient(clientConfig,
-				cookiesForPlayer1);
-		Set<Player> aiPlayers = playersClient.getPlayersForBuiltInAis(Arrays
-				.asList(BuiltInAi.THREE_SIDED_DIE_V1,
-						BuiltInAi.WIN_STAY_LOSE_SHIFT_V1));
+		PlayersClient playersClient = new PlayersClient(clientConfig, cookiesForPlayer1);
+		Set<Player> aiPlayers = playersClient
+				.getPlayersForBuiltInAis(Arrays.asList(BuiltInAi.THREE_SIDED_DIE_V1, BuiltInAi.WIN_STAY_LOSE_SHIFT_V1));
 		Assert.assertEquals(2, aiPlayers.size());
 	}
 }

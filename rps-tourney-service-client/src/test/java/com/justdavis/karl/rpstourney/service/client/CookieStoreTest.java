@@ -40,9 +40,8 @@ public final class CookieStoreTest {
 		// Create a mock cookie.
 		Calendar expiryDate = Calendar.getInstance();
 		expiryDate.set(3000, 1, 1);
-		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
-				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
-				true, true);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com", NewCookie.DEFAULT_VERSION, "foo", 300,
+				expiryDate.getTime(), true, true);
 
 		// Put the cookie in the CookieStore.
 		Map<String, NewCookie> cookies = new HashMap<>();
@@ -58,10 +57,8 @@ public final class CookieStoreTest {
 
 		// Verify that the cookies were applied.
 		Assert.assertEquals(1, requestBuilder.cookies.size());
-		Assert.assertEquals(cookie1.getName(), requestBuilder.cookies.get(0)
-				.getName());
-		Assert.assertEquals(cookie1.getValue(), requestBuilder.cookies.get(0)
-				.getValue());
+		Assert.assertEquals(cookie1.getName(), requestBuilder.cookies.get(0).getName());
+		Assert.assertEquals(cookie1.getValue(), requestBuilder.cookies.get(0).getValue());
 	}
 
 	/**
@@ -73,9 +70,8 @@ public final class CookieStoreTest {
 		// Create a mock cookie.
 		Calendar expiryDate = Calendar.getInstance();
 		expiryDate.set(3000, 1, 1);
-		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
-				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
-				true, true);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com", NewCookie.DEFAULT_VERSION, "foo", 300,
+				expiryDate.getTime(), true, true);
 
 		// Put the cookie in the CookieStore.
 		CookieStore cookieStore = new CookieStore();
@@ -95,9 +91,8 @@ public final class CookieStoreTest {
 		// Create a mock cookie.
 		Calendar expiryDate = Calendar.getInstance();
 		expiryDate.set(3000, 1, 1);
-		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
-				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
-				true, true);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com", NewCookie.DEFAULT_VERSION, "foo", 300,
+				expiryDate.getTime(), true, true);
 
 		// Put the cookie in the CookieStore.
 		Map<String, NewCookie> cookies = new HashMap<>();
@@ -133,23 +128,19 @@ public final class CookieStoreTest {
 		CookieStore cookieStore = new CookieStore();
 		Calendar expiryDate = Calendar.getInstance();
 		expiryDate.set(3000, 1, 1);
-		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com",
-				NewCookie.DEFAULT_VERSION, "foo", 300, expiryDate.getTime(),
-				true, true);
+		NewCookie cookie1 = new NewCookie("foo", "bar", "/", "example.com", NewCookie.DEFAULT_VERSION, "foo", 300,
+				expiryDate.getTime(), true, true);
 		cookieStore.remember(cookie1);
-		NewCookie cookie2 = new NewCookie("fizz", "buzz", "/", "example.com",
-				NewCookie.DEFAULT_VERSION, "fizz", 300, expiryDate.getTime(),
-				true, true);
+		NewCookie cookie2 = new NewCookie("fizz", "buzz", "/", "example.com", NewCookie.DEFAULT_VERSION, "fizz", 300,
+				expiryDate.getTime(), true, true);
 		cookieStore.remember(cookie2);
 
 		// Run the CookieStore through serialization and deserialization.
 		ByteArrayOutputStream bytesOutStream = new ByteArrayOutputStream();
-		ObjectOutputStream objectOutStream = new ObjectOutputStream(
-				bytesOutStream);
+		ObjectOutputStream objectOutStream = new ObjectOutputStream(bytesOutStream);
 		objectOutStream.writeObject(cookieStore);
 		objectOutStream.close();
-		ByteArrayInputStream bytesInStream = new ByteArrayInputStream(
-				bytesOutStream.toByteArray());
+		ByteArrayInputStream bytesInStream = new ByteArrayInputStream(bytesOutStream.toByteArray());
 		ObjectInputStream objectInStream = new ObjectInputStream(bytesInStream);
 		CookieStore cookieStoreCopy = (CookieStore) objectInStream.readObject();
 		objectInStream.close();
@@ -370,8 +361,7 @@ public final class CookieStoreTest {
 		 *      javax.ws.rs.client.Entity, javax.ws.rs.core.GenericType)
 		 */
 		@Override
-		public <T> T method(String name, Entity<?> entity,
-				GenericType<T> responseType) {
+		public <T> T method(String name, Entity<?> entity, GenericType<T> responseType) {
 			throw new UnsupportedOperationException();
 		}
 

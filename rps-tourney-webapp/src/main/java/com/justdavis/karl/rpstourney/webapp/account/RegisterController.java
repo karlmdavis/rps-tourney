@@ -36,8 +36,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RegisterController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RegisterController.class);
 
 	/**
 	 * The {@link RedirectAttributes#getFlashAttributes()} key used to store
@@ -57,8 +56,7 @@ public class RegisterController {
 	 *            the {@link IAccountsResource} client to use
 	 */
 	@Inject
-	public RegisterController(IAccountsResource accountsClient,
-			IGameAuthResource gameAuthClient) {
+	public RegisterController(IAccountsResource accountsClient, IGameAuthResource gameAuthClient) {
 		this.accountsClient = accountsClient;
 		this.gameAuthClient = gameAuthClient;
 	}
@@ -119,9 +117,8 @@ public class RegisterController {
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView registerLogin(Principal authenticatedUser,
-			RedirectAttributes redirectAttributes, String inputEmail,
-			String inputPassword1, String inputPassword2) {
+	public ModelAndView registerLogin(Principal authenticatedUser, RedirectAttributes redirectAttributes,
+			String inputEmail, String inputPassword1, String inputPassword2) {
 		// Grab the Account (if any) via the web service.
 		Account authenticatedAccount = null;
 		if (authenticatedUser != null)
@@ -133,8 +130,7 @@ public class RegisterController {
 		 * less submit it.
 		 */
 		if (authenticatedAccount != null && !authenticatedAccount.isAnonymous())
-			throw new BadCodeMonkeyException(
-					"Unable to create second game login for user.");
+			throw new BadCodeMonkeyException("Unable to create second game login for user.");
 
 		/*
 		 * TODO This should be using data binding and JSR-303 validation, which
@@ -153,13 +149,11 @@ public class RegisterController {
 			 * The InternetAddress constructor will throw this exception if the
 			 * address fails to parse correctly.
 			 */
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE,
-					"emailParseFailure");
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE, "emailParseFailure");
 			return new ModelAndView("redirect:/register");
 		}
 		if (inputPassword1 != null && !inputPassword1.equals(inputPassword2)) {
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE,
-					"passwordMismatch");
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE, "passwordMismatch");
 			return new ModelAndView("redirect:/register");
 		}
 
@@ -169,12 +163,10 @@ public class RegisterController {
 		 */
 		Account possiblyNewAccount;
 		try {
-			possiblyNewAccount = gameAuthClient.createGameLogin(emailAddress,
-					inputPassword1);
+			possiblyNewAccount = gameAuthClient.createGameLogin(emailAddress, inputPassword1);
 		} catch (HttpClientException e) {
 			LOGGER.warn("Client error creating login.", e);
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE,
-					"loginCreationFailure");
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_MESSAGE_TYPE, "loginCreationFailure");
 			return new ModelAndView("redirect:/register");
 		}
 
@@ -188,8 +180,7 @@ public class RegisterController {
 		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
 		for (SecurityRole role : possiblyNewAccount.getRoles())
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getId()));
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				possiblyNewAccount, null, grantedAuthorities);
+		Authentication auth = new UsernamePasswordAuthenticationToken(possiblyNewAccount, null, grantedAuthorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		// Redirect the user to the home page.

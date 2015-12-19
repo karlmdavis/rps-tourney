@@ -84,8 +84,7 @@ public class GameController {
 	 *            the {@link IGuestLoginManager} to use
 	 */
 	@Inject
-	public GameController(IGameResource gameClient,
-			IAccountsResource accountsClient, IPlayersResource playersClient,
+	public GameController(IGameResource gameClient, IAccountsResource accountsClient, IPlayersResource playersClient,
 			IGuestLoginManager guestLoginManager) {
 		this.gameClient = gameClient;
 		this.accountsClient = accountsClient;
@@ -115,8 +114,7 @@ public class GameController {
 	 *         been created
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public String createNewGame(Principal authenticatedUser,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String createNewGame(Principal authenticatedUser, HttpServletRequest request, HttpServletResponse response) {
 		// If the user isn't already logged in, log them in as a guest.
 		if (authenticatedUser == null) {
 			this.guestLoginManager.loginClientAsGuest(request, response);
@@ -140,8 +138,7 @@ public class GameController {
 	 *         gameplay session
 	 */
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET)
-	public ModelAndView getGameAsHtml(@PathVariable String gameId,
-			Principal authenticatedUser, Locale locale) {
+	public ModelAndView getGameAsHtml(@PathVariable String gameId, Principal authenticatedUser, Locale locale) {
 		/*
 		 * FIXME Per the suggestion in
 		 * https://jira.spring.io/browse/SPR-12481?focusedCommentId
@@ -154,8 +151,7 @@ public class GameController {
 
 		GameView game = loadGame(gameId);
 
-		ModelAndView modelAndView = buildGameModelAndView(locale,
-				authenticatedUser, game);
+		ModelAndView modelAndView = buildGameModelAndView(locale, authenticatedUser, game);
 
 		return modelAndView;
 	}
@@ -188,9 +184,9 @@ public class GameController {
 	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameId}/updateName", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String updateName(@PathVariable String gameId,
-			String inputPlayerName, Principal authenticatedUser,
+	@RequestMapping(value = "/{gameId}/updateName", method = {
+			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String updateName(@PathVariable String gameId, String inputPlayerName, Principal authenticatedUser,
 			RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
@@ -213,8 +209,7 @@ public class GameController {
 			accountsClient.updateAccount(account);
 		} catch (BadRequestException e) {
 			// Catch these errors and display them in a friendlier fashion.
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE,
-					WARNING_CODE_INVALID_NAME);
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, WARNING_CODE_INVALID_NAME);
 		}
 
 		// Redirect the user to the updated game.
@@ -236,10 +231,9 @@ public class GameController {
 	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameId}/playThrow", method = {
-			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String submitThrow(@PathVariable String gameId,
-			@RequestParam Throw throwToPlay,
+	@RequestMapping(value = "/{gameId}/playThrow", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String submitThrow(@PathVariable String gameId, @RequestParam Throw throwToPlay,
 			RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView gameBeforeThrow = loadGame(gameId);
@@ -249,8 +243,7 @@ public class GameController {
 			if (!gameBeforeThrow.isRoundPrepared())
 				gameClient.prepareRound(gameId);
 		} catch (HttpClientException e) {
-			if (e.getStatus().getStatusCode() == Status.CONFLICT
-					.getStatusCode()) {
+			if (e.getStatus().getStatusCode() == Status.CONFLICT.getStatusCode()) {
 				/*
 				 * This is perfectly normal and not a problem: it can happen due
 				 * to one of the clients being slightly out of date before
@@ -265,12 +258,10 @@ public class GameController {
 		// Submit the throw.
 		int currentRoundIndex = gameBeforeThrow.getRounds().size() - 1;
 		try {
-			gameClient.submitThrow(gameBeforeThrow.getId(), currentRoundIndex,
-					throwToPlay);
+			gameClient.submitThrow(gameBeforeThrow.getId(), currentRoundIndex, throwToPlay);
 		} catch (GameConflictException e) {
 			// Catch these errors and display them in a friendlier fashion.
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
-					.getType().name());
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e.getType().name());
 		}
 
 		// Redirect the user to the updated game.
@@ -295,8 +286,7 @@ public class GameController {
 	 */
 	@RequestMapping(value = "/{gameId}/join", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String joinGame(@PathVariable String gameId,
-			HttpServletRequest request, HttpServletResponse response,
+	public String joinGame(@PathVariable String gameId, HttpServletRequest request, HttpServletResponse response,
 			Principal authenticatedUser, RedirectAttributes redirectAttributes) {
 		// If the user isn't already logged in, log them in as a guest.
 		if (authenticatedUser == null) {
@@ -312,8 +302,7 @@ public class GameController {
 			gameClient.joinGame(gameBeforeJoin.getId());
 		} catch (GameConflictException e) {
 			// Catch these errors and display them in a friendlier fashion.
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
-					.getType().name());
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e.getType().name());
 		}
 
 		// Redirect the user to the updated game.
@@ -339,11 +328,10 @@ public class GameController {
 	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameId}/inviteOpponent", method = {
-			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String inviteOpponent(@PathVariable String gameId,
-			@RequestParam String opponentType, @RequestParam int playerId,
-			Principal authenticatedUser, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/{gameId}/inviteOpponent", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String inviteOpponent(@PathVariable String gameId, @RequestParam String opponentType,
+			@RequestParam int playerId, Principal authenticatedUser, RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView game = loadGame(gameId);
 
@@ -357,8 +345,7 @@ public class GameController {
 
 		// In the webapp, we'll only allow player 1 to call this.
 		if (!isUserThisPlayer(authenticatedUser, game.getPlayer1())) {
-			throw new AccessDeniedException(
-					"Only the first player in a game may invite an opponent.");
+			throw new AccessDeniedException("Only the first player in a game may invite an opponent.");
 		}
 
 		// Try to invite the specified player as an opponent.
@@ -366,8 +353,7 @@ public class GameController {
 			gameClient.inviteOpponent(gameId, playerId);
 		} catch (GameConflictException e) {
 			// Catch these errors and display them in a friendlier fashion.
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
-					.getType().name());
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e.getType().name());
 		}
 
 		// Redirect the user to the updated game.
@@ -392,30 +378,25 @@ public class GameController {
 	 *            pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
-	@RequestMapping(value = "/{gameId}/setMaxRounds", method = {
-			RequestMethod.GET, RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
-	public String setMaxRounds(@PathVariable String gameId,
-			@RequestParam int oldMaxRoundsValue,
-			@RequestParam int newMaxRoundsValue, Principal authenticatedUser,
-			RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/{gameId}/setMaxRounds", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
+	public String setMaxRounds(@PathVariable String gameId, @RequestParam int oldMaxRoundsValue,
+			@RequestParam int newMaxRoundsValue, Principal authenticatedUser, RedirectAttributes redirectAttributes) {
 		// Load the specified game.
 		GameView game = loadGame(gameId);
 
 		// In the webapp, we'll only allow actual players to adjust this.
 		if (!isUserThisPlayer(authenticatedUser, game.getPlayer1())
 				&& !isUserThisPlayer(authenticatedUser, game.getPlayer2())) {
-			throw new AccessDeniedException(
-					"Only players in a game may adjust the number of rounds.");
+			throw new AccessDeniedException("Only players in a game may adjust the number of rounds.");
 		}
 
 		// Try to set the number of rounds.
 		try {
-			gameClient.setMaxRounds(gameId, oldMaxRoundsValue,
-					newMaxRoundsValue);
+			gameClient.setMaxRounds(gameId, oldMaxRoundsValue, newMaxRoundsValue);
 		} catch (GameConflictException e) {
 			// Catch these errors and display them in a friendlier fashion.
-			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e
-					.getType().name());
+			redirectAttributes.addFlashAttribute(FLASH_ATTRIB_WARNING_TYPE, e.getType().name());
 		}
 
 		// Redirect the user to the updated game.
@@ -448,8 +429,7 @@ public class GameController {
 	 *            the {@link GameView} to render
 	 * @return the {@link ModelAndView} for <code>game.jsp</code> to render
 	 */
-	private ModelAndView buildGameModelAndView(Locale locale,
-			Principal authenticatedUser, GameView game) {
+	private ModelAndView buildGameModelAndView(Locale locale, Principal authenticatedUser, GameView game) {
 		ModelAndView modelAndView = new ModelAndView("game");
 
 		// Add the Game to the model.
@@ -459,46 +439,37 @@ public class GameController {
 		 * Determine Player display order. Always display current user first, if
 		 * they're a Player.
 		 */
-		Player firstPlayer = isUserThisPlayer(authenticatedUser,
-				game.getPlayer2()) ? game.getPlayer2() : game.getPlayer1();
+		Player firstPlayer = isUserThisPlayer(authenticatedUser, game.getPlayer2()) ? game.getPlayer2()
+				: game.getPlayer1();
 		modelAndView.addObject("firstPlayer", firstPlayer);
-		modelAndView.addObject("firstPlayerScore",
-				game.getScoreForPlayer(firstPlayer));
-		Player secondPlayer = game.getPlayer1().equals(firstPlayer) ? game
-				.getPlayer2() : game.getPlayer1();
+		modelAndView.addObject("firstPlayerScore", game.getScoreForPlayer(firstPlayer));
+		Player secondPlayer = game.getPlayer1().equals(firstPlayer) ? game.getPlayer2() : game.getPlayer1();
 		modelAndView.addObject("secondPlayer", secondPlayer);
-		modelAndView.addObject("secondPlayerScore",
-				game.getScoreForPlayer(secondPlayer));
+		modelAndView.addObject("secondPlayerScore", game.getScoreForPlayer(secondPlayer));
 
 		// Add some display-related data to the model.
-		modelAndView.addObject(
-				"currentAdjustedRoundIndex",
-				game.getRounds().isEmpty() ? 0 : game.getRounds()
-						.get(game.getRounds().size() - 1)
-						.getAdjustedRoundIndex());
+		modelAndView.addObject("currentAdjustedRoundIndex", game.getRounds().isEmpty() ? 0
+				: game.getRounds().get(game.getRounds().size() - 1).getAdjustedRoundIndex());
 
 		/*
 		 * The following model entries are ONLY used for display purposes. They
 		 * are not and should not be used for any sort of real/actual access
 		 * control.
 		 */
-		boolean isPlayer1 = isUserThisPlayer(authenticatedUser,
-				game.getPlayer1());
-		boolean isPlayer2 = isUserThisPlayer(authenticatedUser,
-				game.getPlayer2());
+		boolean isPlayer1 = isUserThisPlayer(authenticatedUser, game.getPlayer1());
+		boolean isPlayer2 = isUserThisPlayer(authenticatedUser, game.getPlayer2());
 		boolean isPlayer = isPlayer1 || isPlayer2;
 		modelAndView.addObject("isPlayer", isPlayer);
 
 		// Setup some winner/loser properties.
 		boolean hasWinner = game.getWinner() != null;
-		modelAndView.addObject("isUserTheWinner", hasWinner && isPlayer
-				&& isUserThisPlayer(authenticatedUser, game.getWinner()));
-		modelAndView.addObject("isUserTheLoser", hasWinner && isPlayer
-				&& !isUserThisPlayer(authenticatedUser, game.getWinner()));
+		modelAndView.addObject("isUserTheWinner",
+				hasWinner && isPlayer && isUserThisPlayer(authenticatedUser, game.getWinner()));
+		modelAndView.addObject("isUserTheLoser",
+				hasWinner && isPlayer && !isUserThisPlayer(authenticatedUser, game.getWinner()));
 
 		// Collect and add the AI players.
-		Set<Player> aiPlayersSet = playersClient
-				.getPlayersForBuiltInAis(BuiltInAi.active());
+		Set<Player> aiPlayersSet = playersClient.getPlayersForBuiltInAis(BuiltInAi.active());
 		List<Player> aiPlayersList = new ArrayList<>(aiPlayersSet);
 		Collections.sort(aiPlayersList, new Comparator<Player>() {
 			/**
@@ -531,8 +502,7 @@ public class GameController {
 	 * @return <code>true</code> if the specified {@link Principal} is the
 	 *         specified {@link Player}, <code>false</code> if not
 	 */
-	private static boolean isUserThisPlayer(Principal authenticatedUser,
-			Player player) {
+	private static boolean isUserThisPlayer(Principal authenticatedUser, Player player) {
 		/*
 		 * This is a bit tricky. Because we're using Spring Security, we can
 		 * expect that the Principal instances passed to any controller methods
@@ -544,11 +514,9 @@ public class GameController {
 		if (authenticatedUser == null)
 			return false;
 		else if (authenticatedUser instanceof Authentication)
-			actualPrincipal = ((Authentication) authenticatedUser)
-					.getPrincipal();
+			actualPrincipal = ((Authentication) authenticatedUser).getPrincipal();
 		else
-			throw new BadCodeMonkeyException("Unhandled security object: "
-					+ authenticatedUser);
+			throw new BadCodeMonkeyException("Unhandled security object: " + authenticatedUser);
 
 		if (player == null)
 			return false;

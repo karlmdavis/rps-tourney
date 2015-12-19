@@ -26,8 +26,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthToken_;
  */
 @Component
 public final class AccountsDaoImpl implements IAccountsDao {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AccountsDaoImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccountsDaoImpl.class);
 
 	private EntityManager entityManager;
 
@@ -84,10 +83,8 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	@Override
 	public List<Account> getAccounts() {
 		// Build a query for the logins.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Account> criteria = criteriaBuilder
-				.createQuery(Account.class);
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
 		criteria.from(Account.class);
 
 		// Run the query.
@@ -103,12 +100,9 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	@Override
 	public Account getAccountById(long id) {
 		// Build a query for the matching ID.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Account> criteria = criteriaBuilder
-				.createQuery(Account.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(Account.class).get(Account_.id), id));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Account> criteria = criteriaBuilder.createQuery(Account.class);
+		criteria.where(criteriaBuilder.equal(criteria.from(Account.class).get(Account_.id), id));
 
 		// Run the query.
 		TypedQuery<Account> query = entityManager.createQuery(criteria);
@@ -133,12 +127,9 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	@Override
 	public Account getAccountByAuthToken(UUID authTokenValue) {
 		// Build a query for the matching AuthToken.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<AuthToken> criteria = criteriaBuilder
-				.createQuery(AuthToken.class);
-		criteria.where(criteriaBuilder.equal(criteria.from(AuthToken.class)
-				.get(AuthToken_.token), authTokenValue));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<AuthToken> criteria = criteriaBuilder.createQuery(AuthToken.class);
+		criteria.where(criteriaBuilder.equal(criteria.from(AuthToken.class).get(AuthToken_.token), authTokenValue));
 
 		// Run the query.
 		TypedQuery<AuthToken> query = entityManager.createQuery(criteria);
@@ -151,9 +142,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 			 * someone's trying to hack, the Account has been deleted, or
 			 * something's gone fairly badly wrong.
 			 */
-			LOGGER.warn(
-					"Unable to find an existing account for auth token: {}",
-					authTokenValue);
+			LOGGER.warn("Unable to find an existing account for auth token: {}", authTokenValue);
 		}
 		if (results.isEmpty())
 			return null;
@@ -207,17 +196,13 @@ public final class AccountsDaoImpl implements IAccountsDao {
 	@Override
 	public List<AuditAccountMerge> getAccountAuditEntries(Account targetAccount) {
 		// Build a query for the matching audit entries.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<AuditAccountMerge> criteria = criteriaBuilder
-				.createQuery(AuditAccountMerge.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(AuditAccountMerge.class).get(
-						AuditAccountMerge_.targetAccount), targetAccount));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<AuditAccountMerge> criteria = criteriaBuilder.createQuery(AuditAccountMerge.class);
+		criteria.where(criteriaBuilder
+				.equal(criteria.from(AuditAccountMerge.class).get(AuditAccountMerge_.targetAccount), targetAccount));
 
 		// Run the query.
-		TypedQuery<AuditAccountMerge> query = entityManager
-				.createQuery(criteria);
+		TypedQuery<AuditAccountMerge> query = entityManager.createQuery(criteria);
 		List<AuditAccountMerge> results = query.getResultList();
 		return results;
 	}

@@ -53,10 +53,8 @@ public class AuthenticationFilterTest {
 		AuthToken authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		accountsDao.save(account);
-		requestContext.getCookies().put(
-				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
-				AuthTokenCookieHelper.createAuthTokenCookie(authToken,
-						requestContext.getUriInfo().getRequestUri()));
+		requestContext.getCookies().put(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
+				AuthTokenCookieHelper.createAuthTokenCookie(authToken, requestContext.getUriInfo().getRequestUri()));
 
 		// Run the auth filter.
 		AuthenticationFilter authFilter = new AuthenticationFilter();
@@ -64,12 +62,10 @@ public class AuthenticationFilterTest {
 		authFilter.filter(requestContext);
 
 		// Verify that the SecurityContext is set.
-		Assert.assertSame(account, requestContext.getSecurityContext()
-				.getUserPrincipal());
+		Assert.assertSame(account, requestContext.getSecurityContext().getUserPrincipal());
 
 		// Verify that the AccountSecurityContext is set correctly.
-		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getSecurityContext();
+		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext.getSecurityContext();
 		Assert.assertNotNull(securityContext);
 		Assert.assertSame(account, securityContext.getUserPrincipal());
 	}
@@ -93,12 +89,10 @@ public class AuthenticationFilterTest {
 		authFilter.filter(requestContext);
 
 		// Verify that the SecurityContext is set correctly.
-		Assert.assertNull(requestContext.getSecurityContext()
-				.getUserPrincipal());
+		Assert.assertNull(requestContext.getSecurityContext().getUserPrincipal());
 
 		// Verify that the AccountSecurityContext is set correctly.
-		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext
-				.getSecurityContext();
+		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext.getSecurityContext();
 		Assert.assertNotNull(securityContext);
 		Assert.assertNull(securityContext.getUserPrincipal());
 	}
@@ -123,10 +117,8 @@ public class AuthenticationFilterTest {
 		account.getAuthTokens().add(authToken);
 		accountsDao.save(account);
 		ContainerRequestContext requestContext = new MockContainerRequestContext();
-		requestContext.getCookies().put(
-				AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
-				AuthTokenCookieHelper.createAuthTokenCookie(authToken,
-						requestContext.getUriInfo().getRequestUri()));
+		requestContext.getCookies().put(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN,
+				AuthTokenCookieHelper.createAuthTokenCookie(authToken, requestContext.getUriInfo().getRequestUri()));
 		authFilter.filter(requestContext);
 
 		// Create the mock response to use.
@@ -137,8 +129,7 @@ public class AuthenticationFilterTest {
 
 		// Ensure that the auth token cookie was set.
 		Assert.assertEquals(1, responseContext.getHeaders().size());
-		NewCookie authTokenCookie = (NewCookie) responseContext.getHeaders()
-				.getFirst(HttpHeaders.SET_COOKIE);
+		NewCookie authTokenCookie = (NewCookie) responseContext.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
 		Assert.assertNotNull(authTokenCookie);
 	}
 
@@ -173,8 +164,7 @@ public class AuthenticationFilterTest {
 	/**
 	 * A mock {@link ContainerResponseContext} for use in tests.
 	 */
-	private static final class MockContainerResponseContext implements
-			ContainerResponseContext {
+	private static final class MockContainerResponseContext implements ContainerResponseContext {
 		private final MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
 
 		/**
@@ -374,8 +364,7 @@ public class AuthenticationFilterTest {
 		 *      java.lang.annotation.Annotation[], javax.ws.rs.core.MediaType)
 		 */
 		@Override
-		public void setEntity(Object entity, Annotation[] annotations,
-				MediaType mediaType) {
+		public void setEntity(Object entity, Annotation[] annotations, MediaType mediaType) {
 			throw new UnsupportedOperationException();
 		}
 

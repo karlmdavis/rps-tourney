@@ -22,7 +22,7 @@ public class MockPlayersClient implements IPlayersResource {
 	public MockPlayersClient(Player... players) {
 		this.players = players;
 	}
-	
+
 	/**
 	 * @see com.justdavis.karl.rpstourney.service.api.game.IPlayersResource#findOrCreatePlayer()
 	 */

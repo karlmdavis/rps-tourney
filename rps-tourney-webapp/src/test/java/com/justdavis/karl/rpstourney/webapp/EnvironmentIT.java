@@ -21,8 +21,7 @@ public final class EnvironmentIT {
 	@Test
 	public void checkWebService() {
 		// Call /status/ping to make sure things are up.
-		ServiceStatusClient statusClient = new ServiceStatusClient(
-				ITUtils.createClientConfig());
+		ServiceStatusClient statusClient = new ServiceStatusClient(ITUtils.createClientConfig());
 		Assert.assertEquals(IServiceStatusResource.PONG, statusClient.ping());
 	}
 
@@ -37,8 +36,7 @@ public final class EnvironmentIT {
 	@Test
 	public void checkWebApp() throws IOException {
 		URL webAppHomePageUrl = new URL(ITUtils.buildWebAppUrl());
-		HttpURLConnection webAppHomePageConnection = (HttpURLConnection) webAppHomePageUrl
-				.openConnection();
+		HttpURLConnection webAppHomePageConnection = (HttpURLConnection) webAppHomePageUrl.openConnection();
 
 		Assert.assertEquals(200, webAppHomePageConnection.getResponseCode());
 	}

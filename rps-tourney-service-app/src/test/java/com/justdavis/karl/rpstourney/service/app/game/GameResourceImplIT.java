@@ -74,10 +74,8 @@ public final class GameResourceImplIT {
 	 */
 	@After
 	public void wipeSchema() {
-		schemaManager.wipeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
-		schemaManager.createOrUpgradeSchema(configLoader.getConfig()
-				.getDataSourceCoordinates());
+		schemaManager.wipeSchema(configLoader.getConfig().getDataSourceCoordinates());
+		schemaManager.createOrUpgradeSchema(configLoader.getConfig().getDataSourceCoordinates());
 	}
 
 	/**
@@ -93,18 +91,15 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void getGamesForPlayerWithNewAccount() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 
 		// Login the player.
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		authClientForPlayer1.loginAsGuest();
 
 		// Try to get the list of games, which should be empty.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
 		Assert.assertEquals(0, gameClientForPlayer1.getGamesForPlayer().size());
 	}
 
@@ -114,33 +109,27 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void createAndGet() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 
 		// Login the player.
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		Account accountForPlayer1 = authClientForPlayer1.loginAsGuest();
 
 		// Create the game.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
 		GameView gameFromCreate = gameClientForPlayer1.createGame();
 		Assert.assertNotNull(gameFromCreate);
 		Assert.assertNotNull(gameFromCreate.getId());
 		Assert.assertNotNull(gameFromCreate.getPlayer1());
-		Assert.assertEquals(accountForPlayer1, gameFromCreate.getPlayer1()
-				.getHumanAccount());
+		Assert.assertEquals(accountForPlayer1, gameFromCreate.getPlayer1().getHumanAccount());
 
 		// Retrieve the game.
-		GameView gameFromGet = gameClientForPlayer1.getGame(gameFromCreate
-				.getId());
+		GameView gameFromGet = gameClientForPlayer1.getGame(gameFromCreate.getId());
 		Assert.assertNotNull(gameFromGet);
 		Assert.assertNotNull(gameFromGet.getId());
 		Assert.assertEquals(gameFromCreate.getId(), gameFromGet.getId());
-		Assert.assertEquals(accountForPlayer1, gameFromGet.getPlayer1()
-				.getHumanAccount());
+		Assert.assertEquals(accountForPlayer1, gameFromGet.getPlayer1().getHumanAccount());
 	}
 
 	/**
@@ -152,25 +141,19 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void playSimpleGame() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 		CookieStore cookiesForPlayer2 = new CookieStore();
 
 		// Login the players.
-		GameAuthClient authClientForPlayer1 = new GameAuthClient(clientConfig,
-				cookiesForPlayer1);
-		authClientForPlayer1.createGameLogin(new InternetAddress(
-				"foo@example.com"), "s,e%c&r et");
-		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer2);
+		GameAuthClient authClientForPlayer1 = new GameAuthClient(clientConfig, cookiesForPlayer1);
+		authClientForPlayer1.createGameLogin(new InternetAddress("foo@example.com"), "s,e%c&r et");
+		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(clientConfig, cookiesForPlayer2);
 		Account accountForPlayer2 = authClientForPlayer2.loginAsGuest();
 
 		// Create and configure the game.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
-		GameClient gameClientForPlayer2 = new GameClient(clientConfig,
-				cookiesForPlayer2);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
+		GameClient gameClientForPlayer2 = new GameClient(clientConfig, cookiesForPlayer2);
 		GameView game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.setMaxRounds(game.getId(), game.getMaxRounds(), 1);
 		gameClientForPlayer2.joinGame(game.getId());
@@ -184,15 +167,12 @@ public final class GameResourceImplIT {
 		// Verify the game's results.
 		game = gameClientForPlayer1.getGame(game.getId());
 		Assert.assertNotNull(game);
-		Assert.assertEquals(accountForPlayer2, game.getPlayer2()
-				.getHumanAccount());
-		Assert.assertEquals(accountForPlayer2, game.getPlayer2()
-				.getHumanAccount());
+		Assert.assertEquals(accountForPlayer2, game.getPlayer2().getHumanAccount());
+		Assert.assertEquals(accountForPlayer2, game.getPlayer2().getHumanAccount());
 		Assert.assertEquals(1, game.getMaxRounds());
 		Assert.assertEquals(2, game.getRounds().size());
 		Assert.assertEquals(State.FINISHED, game.getState());
-		Assert.assertEquals(accountForPlayer2, game.getWinner()
-				.getHumanAccount());
+		Assert.assertEquals(accountForPlayer2, game.getWinner().getHumanAccount());
 	}
 
 	/**
@@ -204,25 +184,19 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void playGameWithAi() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 
 		// Login the human player.
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		authClientForPlayer1.loginAsGuest();
 
 		// Create the game and request an AI opponent.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
-		PlayersClient playersClientForPlayer1 = new PlayersClient(clientConfig,
-				cookiesForPlayer1);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
+		PlayersClient playersClientForPlayer1 = new PlayersClient(clientConfig, cookiesForPlayer1);
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
-		Player aiPlayer = playersClientForPlayer1
-				.getPlayersForBuiltInAis(
-						Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK)).iterator()
-				.next();
+		Player aiPlayer = playersClientForPlayer1.getPlayersForBuiltInAis(Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK))
+				.iterator().next();
 		GameView game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.inviteOpponent(game.getId(), aiPlayer.getId());
 
@@ -250,36 +224,28 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void inviteOpponentSecurity() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 
 		// Login the human player.
 		CookieStore cookiesForPlayer1 = new CookieStore();
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		authClientForPlayer1.loginAsGuest();
 
 		// Create the game and request an AI opponent.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
 		GameView game = gameClientForPlayer1.createGame();
 
 		// Login a "villian".
 		CookieStore cookiesForVillian = new CookieStore();
-		GuestAuthClient authClientForVillain = new GuestAuthClient(
-				clientConfig, cookiesForVillian);
+		GuestAuthClient authClientForVillain = new GuestAuthClient(clientConfig, cookiesForVillian);
 		authClientForVillain.loginAsGuest();
-		GameClient gameClientForVillian = new GameClient(clientConfig,
-				cookiesForVillian);
+		GameClient gameClientForVillian = new GameClient(clientConfig, cookiesForVillian);
 
 		// Have the villian try to invite an AI opponent.
-		PlayersClient playersClientForVillian = new PlayersClient(clientConfig,
-				cookiesForVillian);
+		PlayersClient playersClientForVillian = new PlayersClient(clientConfig, cookiesForVillian);
 		aiPlayerInitializer.initializeAiPlayers(BuiltInAi.ONE_SIDED_DIE_ROCK);
-		Player aiPlayer = playersClientForVillian
-				.getPlayersForBuiltInAis(
-						Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK)).iterator()
-				.next();
+		Player aiPlayer = playersClientForVillian.getPlayersForBuiltInAis(Arrays.asList(BuiltInAi.ONE_SIDED_DIE_ROCK))
+				.iterator().next();
 		HttpClientException inviteError = null;
 		try {
 			gameClientForVillian.inviteOpponent(game.getId(), aiPlayer.getId());
@@ -287,8 +253,7 @@ public final class GameResourceImplIT {
 			inviteError = e;
 		}
 
-		Assert.assertEquals(Status.FORBIDDEN.getStatusCode(), inviteError
-				.getStatus().getStatusCode());
+		Assert.assertEquals(Status.FORBIDDEN.getStatusCode(), inviteError.getStatus().getStatusCode());
 	}
 
 	/**
@@ -299,24 +264,19 @@ public final class GameResourceImplIT {
 	 */
 	@Test
 	public void opponentsMoveNotRevealed() throws AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 		CookieStore cookiesForPlayer2 = new CookieStore();
 
 		// Login the players.
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		authClientForPlayer1.loginAsGuest();
-		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer2);
+		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(clientConfig, cookiesForPlayer2);
 		authClientForPlayer2.loginAsGuest();
 
 		// Create and configure the game.
-		GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
-		GameClient gameClientForPlayer2 = new GameClient(clientConfig,
-				cookiesForPlayer2);
+		GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
+		GameClient gameClientForPlayer2 = new GameClient(clientConfig, cookiesForPlayer2);
 		GameView game = gameClientForPlayer1.createGame();
 		gameClientForPlayer1.setMaxRounds(game.getId(), game.getMaxRounds(), 1);
 		gameClientForPlayer2.joinGame(game.getId());
@@ -326,8 +286,7 @@ public final class GameResourceImplIT {
 
 		// Verify that the move is visible to Player 1.
 		game = gameClientForPlayer1.getGame(game.getId());
-		Assert.assertEquals(Throw.ROCK, game.getRounds().get(0)
-				.getThrowForPlayer1());
+		Assert.assertEquals(Throw.ROCK, game.getRounds().get(0).getThrowForPlayer1());
 
 		// Verify that the move isn't visible to Player 2.
 		game = gameClientForPlayer2.getGame(game.getId());
@@ -335,8 +294,7 @@ public final class GameResourceImplIT {
 
 		// Verify that the move isn't visible to a non-player.
 		CookieStore cookiesForNonPlayer = new CookieStore();
-		GameClient gameClientForNonPlayer = new GameClient(clientConfig,
-				cookiesForNonPlayer);
+		GameClient gameClientForNonPlayer = new GameClient(clientConfig, cookiesForNonPlayer);
 		game = gameClientForNonPlayer.getGame(game.getId());
 		Assert.assertNull(game.getRounds().get(0).getThrowForPlayer1());
 	}
@@ -352,8 +310,7 @@ public final class GameResourceImplIT {
 	 *             (should never happen, as we never cancel tasks)
 	 */
 	@Test
-	public void setMaxRoundsConcurrency() throws InterruptedException,
-			ExecutionException {
+	public void setMaxRoundsConcurrency() throws InterruptedException, ExecutionException {
 		/*
 		 * Note to self: On 2014-04-27, I saw this test fail one of its
 		 * assertions but was unable to reproduce (can't recall which
@@ -361,25 +318,20 @@ public final class GameResourceImplIT {
 		 * lurking.
 		 */
 
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1 = new CookieStore();
 		CookieStore cookiesForPlayer2 = new CookieStore();
 
 		// Login the players.
-		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer1);
+		GuestAuthClient authClientForPlayer1 = new GuestAuthClient(clientConfig, cookiesForPlayer1);
 		authClientForPlayer1.loginAsGuest();
-		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer2);
+		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(clientConfig, cookiesForPlayer2);
 		authClientForPlayer2.loginAsGuest();
 
 		// Create the game.
-		final GameClient gameClientForPlayer1 = new GameClient(clientConfig,
-				cookiesForPlayer1);
+		final GameClient gameClientForPlayer1 = new GameClient(clientConfig, cookiesForPlayer1);
 		final GameView game = gameClientForPlayer1.createGame();
-		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
-				cookiesForPlayer2);
+		final GameClient gameClientForPlayer2 = new GameClient(clientConfig, cookiesForPlayer2);
 		gameClientForPlayer2.joinGame(game.getId());
 
 		/*
@@ -397,8 +349,7 @@ public final class GameResourceImplIT {
 			@Override
 			public GameView call() throws Exception {
 				try {
-					GameView gameAfterModification = gameClientForPlayer1
-							.setMaxRounds(game.getId(), 3, 5);
+					GameView gameAfterModification = gameClientForPlayer1.setMaxRounds(game.getId(), 3, 5);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -420,8 +371,7 @@ public final class GameResourceImplIT {
 			@Override
 			public GameView call() throws Exception {
 				try {
-					GameView gameAfterModification = gameClientForPlayer2
-							.setMaxRounds(game.getId(), 3, 7);
+					GameView gameAfterModification = gameClientForPlayer2.setMaxRounds(game.getId(), 3, 7);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -455,15 +405,12 @@ public final class GameResourceImplIT {
 			GameView resultB = futureB.get();
 
 			// Check the results: exactly one should have succeeded.
-			Assert.assertFalse("Both failed on attempt " + (i + 1),
-					resultA == null && resultB == null);
-			Assert.assertFalse("Both succeeded on attempt " + (i + 1),
-					resultA != null && resultB != null);
+			Assert.assertFalse("Both failed on attempt " + (i + 1), resultA == null && resultB == null);
+			Assert.assertFalse("Both succeeded on attempt " + (i + 1), resultA != null && resultB != null);
 
 			// Reset the number of rounds back to 3.
 			GameView currentGame = resultA != null ? resultA : resultB;
-			gameClientForPlayer1.setMaxRounds(game.getId(),
-					currentGame.getMaxRounds(), 3);
+			gameClientForPlayer1.setMaxRounds(game.getId(), currentGame.getMaxRounds(), 3);
 		}
 
 		// If we got here: Success!
@@ -483,29 +430,22 @@ public final class GameResourceImplIT {
 	 *             here)
 	 */
 	@Test
-	public void submitThrowConcurrency() throws InterruptedException,
-			ExecutionException, AddressException {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+	public void submitThrowConcurrency() throws InterruptedException, ExecutionException, AddressException {
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookiesForPlayer1a = new CookieStore();
 		CookieStore cookiesForPlayer2 = new CookieStore();
 
 		// Login the players.
-		GameAuthClient authClientForPlayer1a = new GameAuthClient(clientConfig,
-				cookiesForPlayer1a);
-		authClientForPlayer1a.createGameLogin(new InternetAddress(
-				"player1@example.com"), "secret");
-		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(
-				clientConfig, cookiesForPlayer2);
+		GameAuthClient authClientForPlayer1a = new GameAuthClient(clientConfig, cookiesForPlayer1a);
+		authClientForPlayer1a.createGameLogin(new InternetAddress("player1@example.com"), "secret");
+		GuestAuthClient authClientForPlayer2 = new GuestAuthClient(clientConfig, cookiesForPlayer2);
 		authClientForPlayer2.loginAsGuest();
 
 		// Create the game.
-		final GameClient gameClientForPlayer1a = new GameClient(clientConfig,
-				cookiesForPlayer1a);
+		final GameClient gameClientForPlayer1a = new GameClient(clientConfig, cookiesForPlayer1a);
 		GameView game = gameClientForPlayer1a.createGame();
 		final String gameId = game.getId();
-		final GameClient gameClientForPlayer2 = new GameClient(clientConfig,
-				cookiesForPlayer2);
+		final GameClient gameClientForPlayer2 = new GameClient(clientConfig, cookiesForPlayer2);
 		gameClientForPlayer2.joinGame(gameId);
 		gameClientForPlayer2.setMaxRounds(gameId, game.getMaxRounds(), 999999);
 
@@ -518,12 +458,9 @@ public final class GameResourceImplIT {
 		 */
 
 		CookieStore cookiesForPlayer1b = new CookieStore();
-		GameAuthClient authClientForPlayer1b = new GameAuthClient(clientConfig,
-				cookiesForPlayer1b);
-		authClientForPlayer1b.loginWithGameAccount(new InternetAddress(
-				"player1@example.com"), "secret");
-		final GameClient gameClientForPlayer1b = new GameClient(clientConfig,
-				cookiesForPlayer1b);
+		GameAuthClient authClientForPlayer1b = new GameAuthClient(clientConfig, cookiesForPlayer1b);
+		authClientForPlayer1b.loginWithGameAccount(new InternetAddress("player1@example.com"), "secret");
+		final GameClient gameClientForPlayer1b = new GameClient(clientConfig, cookiesForPlayer1b);
 
 		final AtomicInteger currentRound = new AtomicInteger(0);
 
@@ -532,8 +469,8 @@ public final class GameResourceImplIT {
 			@Override
 			public GameView call() throws Exception {
 				try {
-					GameView gameAfterModification = gameClientForPlayer1a
-							.submitThrow(gameId, currentRound.get(), Throw.ROCK);
+					GameView gameAfterModification = gameClientForPlayer1a.submitThrow(gameId, currentRound.get(),
+							Throw.ROCK);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -555,9 +492,8 @@ public final class GameResourceImplIT {
 			@Override
 			public GameView call() throws Exception {
 				try {
-					GameView gameAfterModification = gameClientForPlayer1b
-							.submitThrow(gameId, currentRound.get(),
-									Throw.PAPER);
+					GameView gameAfterModification = gameClientForPlayer1b.submitThrow(gameId, currentRound.get(),
+							Throw.PAPER);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -579,9 +515,8 @@ public final class GameResourceImplIT {
 			@Override
 			public GameView call() throws Exception {
 				try {
-					GameView gameAfterModification = gameClientForPlayer2
-							.submitThrow(gameId, currentRound.get(),
-									Throw.SCISSORS);
+					GameView gameAfterModification = gameClientForPlayer2.submitThrow(gameId, currentRound.get(),
+							Throw.SCISSORS);
 
 					/*
 					 * We'll use a non-null result to signal that the request
@@ -609,10 +544,8 @@ public final class GameResourceImplIT {
 			GameView resultC = futureC.get();
 
 			// Check the results: exactly one of A and B should have succeeded.
-			Assert.assertFalse("Both failed on attempt " + (i + 1),
-					resultA == null && resultB == null);
-			Assert.assertFalse("Both succeeded on attempt " + (i + 1),
-					resultA != null && resultB != null);
+			Assert.assertFalse("Both failed on attempt " + (i + 1), resultA == null && resultB == null);
+			Assert.assertFalse("Both succeeded on attempt " + (i + 1), resultA != null && resultB != null);
 
 			// Check the results: C should always succeed.
 			Assert.assertTrue("Failed on attempt " + (i + 1), resultC != null);
@@ -625,8 +558,7 @@ public final class GameResourceImplIT {
 			 * developing this test, intermittent failures were seen where
 			 * player 2's throw wasn't actually showing up.)
 			 */
-			Assert.assertEquals("Game state is off: " + gameThusFar, i + 2,
-					gameThusFar.getRounds().size());
+			Assert.assertEquals("Game state is off: " + gameThusFar, i + 2, gameThusFar.getRounds().size());
 
 			// Bump the round counter.
 			currentRound.incrementAndGet();

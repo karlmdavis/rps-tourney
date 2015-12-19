@@ -114,8 +114,7 @@ public final class RoundResultTag extends RequestContextAwareTag {
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(
-					this);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
 			this.initialized = true;
 		}
@@ -165,26 +164,20 @@ public final class RoundResultTag extends RequestContextAwareTag {
 
 		// Determine whether or not the current user won or lost.
 		String wonOrLostClass = "";
-		if (game.isPlayer(authenticatedAccount)
-				&& game.getPlayer(authenticatedAccount).equals(roundWinner))
+		if (game.isPlayer(authenticatedAccount) && game.getPlayer(authenticatedAccount).equals(roundWinner))
 			wonOrLostClass = "won";
-		else if (game.isPlayer(authenticatedAccount)
-				&& game.getPlayer(authenticatedAccount).equals(roundLoser))
+		else if (game.isPlayer(authenticatedAccount) && game.getPlayer(authenticatedAccount).equals(roundLoser))
 			wonOrLostClass = "lost";
 
 		// Calculate the tag to return.
-		if (round.getResult() == Result.PLAYER_1_WON
-				|| round.getResult() == Result.PLAYER_2_WON) {
-			String winnerNameTag = PlayerNameTag.generateContent(messageSource,
-					locale, authenticatedAccount, game, roundWinner, false);
-			return String.format("<span class=\"%s\">%s</span>",
-					wonOrLostClass, winnerNameTag);
+		if (round.getResult() == Result.PLAYER_1_WON || round.getResult() == Result.PLAYER_2_WON) {
+			String winnerNameTag = PlayerNameTag.generateContent(messageSource, locale, authenticatedAccount, game,
+					roundWinner, false);
+			return String.format("<span class=\"%s\">%s</span>", wonOrLostClass, winnerNameTag);
 		} else if (round.getResult() == Result.TIED) {
-			return messageSource.getMessage("roundResult.tied",
-					null, locale);
+			return messageSource.getMessage("roundResult.tied", null, locale);
 		} else {
-			return messageSource.getMessage("roundResult.none",
-					null, locale);
+			return messageSource.getMessage("roundResult.none", null, locale);
 		}
 	}
 

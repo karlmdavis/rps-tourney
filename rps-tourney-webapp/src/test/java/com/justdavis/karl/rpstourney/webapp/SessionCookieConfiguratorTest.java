@@ -34,15 +34,12 @@ public final class SessionCookieConfiguratorTest {
 
 		// Create and run the SessionCookieConfigurator.
 		@SuppressWarnings("deprecation")
-		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(
-				MockConfigLoaderBindingA.class);
+		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(MockConfigLoaderBindingA.class);
 		cookieConfigurator.applyConfiguration(servletContext);
 
 		// Verify that things were configured, as expected.
-		Assert.assertEquals(".example.com", servletContext
-				.getSessionCookieConfig().getDomain());
-		Assert.assertEquals("/foo/bar/", servletContext
-				.getSessionCookieConfig().getPath());
+		Assert.assertEquals(".example.com", servletContext.getSessionCookieConfig().getDomain());
+		Assert.assertEquals("/foo/bar/", servletContext.getSessionCookieConfig().getPath());
 	}
 
 	/**
@@ -60,15 +57,12 @@ public final class SessionCookieConfiguratorTest {
 
 		// Create and run the SessionCookieConfigurator.
 		@SuppressWarnings("deprecation")
-		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(
-				MockConfigLoaderBindingB.class);
+		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(MockConfigLoaderBindingB.class);
 		cookieConfigurator.applyConfiguration(servletContext);
 
 		// Verify that things were configured, as expected.
-		Assert.assertEquals(".example.com", servletContext
-				.getSessionCookieConfig().getDomain());
-		Assert.assertEquals("/", servletContext.getSessionCookieConfig()
-				.getPath());
+		Assert.assertEquals(".example.com", servletContext.getSessionCookieConfig().getDomain());
+		Assert.assertEquals("/", servletContext.getSessionCookieConfig().getPath());
 	}
 
 	/**
@@ -86,8 +80,7 @@ public final class SessionCookieConfiguratorTest {
 
 		// Create and run the SessionCookieConfigurator.
 		@SuppressWarnings("deprecation")
-		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(
-				MockConfigLoaderBindingC.class);
+		SessionCookieConfigurator cookieConfigurator = new SessionCookieConfigurator(MockConfigLoaderBindingC.class);
 		cookieConfigurator.applyConfiguration(servletContext);
 
 		/*

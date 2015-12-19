@@ -64,12 +64,9 @@ public final class PlayersDaoImpl implements IPlayersDao {
 			throw new IllegalArgumentException();
 
 		// Build a query for the matching Player.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Player> criteria = criteriaBuilder
-				.createQuery(Player.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(Player.class).get(Player_.id), playerId));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder.createQuery(Player.class);
+		criteria.where(criteriaBuilder.equal(criteria.from(Player.class).get(Player_.id), playerId));
 
 		// Run the query.
 		TypedQuery<Player> query = entityManager.createQuery(criteria);
@@ -110,12 +107,9 @@ public final class PlayersDaoImpl implements IPlayersDao {
 
 		// Build a query for the matching Player(s).
 		Collection<BuiltInAi> aisCollection = Arrays.asList(ais);
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Player> criteria = criteriaBuilder
-				.createQuery(Player.class);
-		criteria.where(criteria.from(Player.class).get(Player_.builtInAi)
-				.in(aisCollection));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder.createQuery(Player.class);
+		criteria.where(criteria.from(Player.class).get(Player_.builtInAi).in(aisCollection));
 
 		// Run the query.
 		TypedQuery<Player> query = entityManager.createQuery(criteria);
@@ -166,20 +160,17 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	 *         criteria, or <code>null</code> if no such record is found
 	 */
 	private Player find(Account account) {
-		if(account == null)
+		if (account == null)
 			throw new IllegalArgumentException();
-		
+
 		// If the Account hasn't been saved, there won't be a Player for it.
 		if (!account.hasId())
 			return null;
 
 		// Build a query for the matching Account.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Player> criteria = criteriaBuilder
-				.createQuery(Player.class);
-		criteria.where(criteriaBuilder.equal(
-				criteria.from(Player.class).get(Player_.humanAccount), account));
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder.createQuery(Player.class);
+		criteria.where(criteriaBuilder.equal(criteria.from(Player.class).get(Player_.humanAccount), account));
 
 		// Run the query.
 		TypedQuery<Player> query = entityManager.createQuery(criteria);
@@ -205,10 +196,8 @@ public final class PlayersDaoImpl implements IPlayersDao {
 	@Override
 	public List<Player> getPlayers() {
 		// Build a query.
-		CriteriaBuilder criteriaBuilder = entityManager
-				.getEntityManagerFactory().getCriteriaBuilder();
-		CriteriaQuery<Player> criteria = criteriaBuilder
-				.createQuery(Player.class);
+		CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
+		CriteriaQuery<Player> criteria = criteriaBuilder.createQuery(Player.class);
 		criteria.from(Player.class);
 
 		// Run the query.

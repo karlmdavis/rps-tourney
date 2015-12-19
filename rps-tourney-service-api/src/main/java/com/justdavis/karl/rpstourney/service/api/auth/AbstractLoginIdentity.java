@@ -53,8 +53,7 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @XmlType
 @XmlSeeAlso({ GuestLoginIdentity.class, GameLoginIdentity.class })
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AbstractLoginIdentity implements ILoginIdentity,
-		Serializable {
+public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializable {
 	private static final long serialVersionUID = 4133421893609326130L;
 
 	/*
@@ -72,8 +71,8 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity,
 	@XmlElement
 	protected long id;
 
-	@OneToOne(optional = false, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH })
 	@JoinColumn(name = "`accountId`")
 	@XmlTransient
 	@JsonBackReference
@@ -175,8 +174,9 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity,
 	 * This method will be called by JAXB during unmarshalling, and allows
 	 * instances of this class to rebuild their {@link #getAccount()} references
 	 * (which would otherwise be lost due to the {@link XmlTransient} annotation
-	 * on the field). This setup is necessary to avoid cycle problems, per <a
-	 * href="https://jaxb.java.net/guide/Mapping_cyclic_references_to_XML.html">
+	 * on the field). This setup is necessary to avoid cycle problems, per
+	 * <a href=
+	 * "https://jaxb.java.net/guide/Mapping_cyclic_references_to_XML.html">
 	 * Mapping cyclic references to XML</a>.
 	 * 
 	 * @param u

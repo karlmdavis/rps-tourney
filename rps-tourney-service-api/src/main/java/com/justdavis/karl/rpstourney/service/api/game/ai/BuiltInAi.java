@@ -27,16 +27,14 @@ public enum BuiltInAi {
 	 * implementation that always throws {@link Throw#ROCK}. Really only useful
 	 * for testing purposes, so it's marked as retired.
 	 */
-	ONE_SIDED_DIE_ROCK("oneSidedDieRock", true,
-			new OneSidedDieBrain(Throw.ROCK)),
+	ONE_SIDED_DIE_ROCK("oneSidedDieRock", true, new OneSidedDieBrain(Throw.ROCK)),
 
 	/**
 	 * Represents a {@link ScriptedLoopBrain} {@link IPositronicBrain}
 	 * implementation that always throws {@link Throw#PAPER}. Really only useful
 	 * for testing purposes, so it's marked as retired.
 	 */
-	ONE_SIDED_DIE_PAPER("oneSidedDiePaper", true, new OneSidedDieBrain(
-			Throw.PAPER)),
+	ONE_SIDED_DIE_PAPER("oneSidedDiePaper", true, new OneSidedDieBrain(Throw.PAPER)),
 
 	/**
 	 * Represents the {@link ThreeSidedDieBrain} {@link IPositronicBrain}
@@ -48,15 +46,13 @@ public enum BuiltInAi {
 	 * Represents the {@link WinStayLoseShiftBrain} {@link IPositronicBrain}
 	 * implementation.
 	 */
-	WIN_STAY_LOSE_SHIFT_V1("winStayLoseShift", false,
-			new WinStayLoseShiftBrain()),
+	WIN_STAY_LOSE_SHIFT_V1("winStayLoseShift", false, new WinStayLoseShiftBrain()),
 
 	/**
 	 * Represents the {@link MetaWinStayLoseShiftBrain} {@link IPositronicBrain}
 	 * implementation.
 	 */
-	META_WIN_STAY_LOSE_SHIFT_V1("metaWinStayLoseShift", false,
-			new MetaWinStayLoseShiftBrain());
+	META_WIN_STAY_LOSE_SHIFT_V1("metaWinStayLoseShift", false, new MetaWinStayLoseShiftBrain());
 
 	private final String displayNameKey;
 	private final boolean retired;
@@ -72,8 +68,7 @@ public enum BuiltInAi {
 	 * @param positronicBrain
 	 *            the value to use for {@link #getPositronicBrain()}
 	 */
-	private BuiltInAi(String displayNameKey, boolean retired,
-			IPositronicBrain positronicBrain) {
+	private BuiltInAi(String displayNameKey, boolean retired, IPositronicBrain positronicBrain) {
 		this.displayNameKey = displayNameKey;
 		this.retired = retired;
 		this.positronicBrain = positronicBrain;

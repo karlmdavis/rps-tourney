@@ -24,8 +24,7 @@ public final class GameSessionTest {
 		game.submitThrow(0, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(1, game.getCompletedRounds().size());
 		Assert.assertEquals(0, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(0).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(0).determineWinner());
 		Assert.assertEquals(PlayerRole.PLAYER_2, game.checkForWinner());
 	}
 
@@ -46,8 +45,7 @@ public final class GameSessionTest {
 		game.submitThrow(0, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(1, game.getCompletedRounds().size());
 		Assert.assertEquals(1, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(0).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(0).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the second round.
@@ -55,8 +53,7 @@ public final class GameSessionTest {
 		game.submitThrow(1, PlayerRole.PLAYER_1, Throw.PAPER);
 		Assert.assertEquals(2, game.getCompletedRounds().size());
 		Assert.assertEquals(2, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_1,
-				game.getCompletedRounds().get(1).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_1, game.getCompletedRounds().get(1).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the third round.
@@ -64,8 +61,7 @@ public final class GameSessionTest {
 		game.submitThrow(2, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(3, game.getCompletedRounds().size());
 		Assert.assertEquals(2, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(2).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(2).determineWinner());
 		Assert.assertEquals(PlayerRole.PLAYER_2, game.checkForWinner());
 	}
 
@@ -86,8 +82,7 @@ public final class GameSessionTest {
 		game.submitThrow(0, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(1, game.getCompletedRounds().size());
 		Assert.assertEquals(1, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(0).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(0).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the second round. Winner: Player 1.
@@ -95,8 +90,7 @@ public final class GameSessionTest {
 		game.submitThrow(1, PlayerRole.PLAYER_1, Throw.PAPER);
 		Assert.assertEquals(2, game.getCompletedRounds().size());
 		Assert.assertEquals(2, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_1,
-				game.getCompletedRounds().get(1).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_1, game.getCompletedRounds().get(1).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the third round. Winner: (none/tie)
@@ -104,8 +98,7 @@ public final class GameSessionTest {
 		game.submitThrow(2, PlayerRole.PLAYER_2, Throw.ROCK);
 		Assert.assertEquals(3, game.getCompletedRounds().size());
 		Assert.assertEquals(3, game.getCurrentRoundIndex());
-		Assert.assertEquals(null, game.getCompletedRounds().get(2)
-				.determineWinner());
+		Assert.assertEquals(null, game.getCompletedRounds().get(2).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the fourth round. Winner: Player 1.
@@ -113,8 +106,7 @@ public final class GameSessionTest {
 		game.submitThrow(3, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(4, game.getCompletedRounds().size());
 		Assert.assertEquals(3, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_1,
-				game.getCompletedRounds().get(3).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_1, game.getCompletedRounds().get(3).determineWinner());
 		Assert.assertEquals(PlayerRole.PLAYER_1, game.checkForWinner());
 	}
 
@@ -137,8 +129,7 @@ public final class GameSessionTest {
 		game.submitThrow(0, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(1, game.getCompletedRounds().size());
 		Assert.assertEquals(1, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(0).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(0).determineWinner());
 		Assert.assertEquals(null, game.checkForWinner());
 
 		// Play the second round. Winner: Player 2.
@@ -146,8 +137,7 @@ public final class GameSessionTest {
 		game.submitThrow(1, PlayerRole.PLAYER_2, Throw.PAPER);
 		Assert.assertEquals(2, game.getCompletedRounds().size());
 		Assert.assertEquals(1, game.getCurrentRoundIndex());
-		Assert.assertEquals(PlayerRole.PLAYER_2,
-				game.getCompletedRounds().get(1).determineWinner());
+		Assert.assertEquals(PlayerRole.PLAYER_2, game.getCompletedRounds().get(1).determineWinner());
 		Assert.assertEquals(PlayerRole.PLAYER_2, game.checkForWinner());
 	}
 }

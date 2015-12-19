@@ -16,8 +16,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
  * An {@link Authentication} implementation that can be used with the web
  * service's {@link Account} class.
  */
-public final class WebServiceAccountAuthentication extends
-		AbstractAuthenticationToken {
+public final class WebServiceAccountAuthentication extends AbstractAuthenticationToken {
 	private static final long serialVersionUID = 5599413980514620207L;
 
 	private final Account authenticatedAccount;
@@ -45,8 +44,7 @@ public final class WebServiceAccountAuthentication extends
 	 * @return a {@link List} of {@link GrantedAuthority}s built from the
 	 *         specified {@link Account}'s {@link Account#getRoles()}
 	 */
-	private static Collection<? extends GrantedAuthority> buildAuthoritiesList(
-			Account authenticatedAccount) {
+	private static Collection<? extends GrantedAuthority> buildAuthoritiesList(Account authenticatedAccount) {
 		if (authenticatedAccount == null)
 			throw new IllegalArgumentException();
 

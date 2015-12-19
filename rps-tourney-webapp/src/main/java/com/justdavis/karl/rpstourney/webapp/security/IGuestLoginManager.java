@@ -25,6 +25,5 @@ public interface IGuestLoginManager {
 	 *            the {@link HttpServletResponse} being generated for the
 	 *            request
 	 */
-	void loginClientAsGuest(HttpServletRequest request,
-			HttpServletResponse response);
+	void loginClientAsGuest(HttpServletRequest request, HttpServletResponse response);
 }

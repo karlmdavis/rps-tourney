@@ -94,7 +94,7 @@ public class Account implements Principal, Serializable {
 	@XmlElementWrapper(name = "roles", required = true)
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`"))
+	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`") )
 	@Column(name = "`role`")
 	@Enumerated(EnumType.STRING)
 	private Set<SecurityRole> roles;
@@ -105,8 +105,8 @@ public class Account implements Principal, Serializable {
 	 * response will have to do so explicitly.
 	 */
 	@XmlTransient
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH,
-			CascadeType.REMOVE, CascadeType.DETACH }, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE,
+			CascadeType.DETACH }, fetch = FetchType.EAGER, mappedBy = "account", orphanRemoval = true)
 	private Set<AuthToken> authTokens;
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

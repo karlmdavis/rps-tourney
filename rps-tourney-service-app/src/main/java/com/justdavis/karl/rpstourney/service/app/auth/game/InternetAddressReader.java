@@ -22,16 +22,14 @@ import org.apache.cxf.jaxrs.utils.HttpUtils;
  * {@link InternetAddress} instances.
  */
 @Provider
-public final class InternetAddressReader implements
-		MessageBodyReader<InternetAddress> {
+public final class InternetAddressReader implements MessageBodyReader<InternetAddress> {
 	/**
 	 * @see javax.ws.rs.ext.MessageBodyReader#isReadable(java.lang.Class,
 	 *      java.lang.reflect.Type, java.lang.annotation.Annotation[],
 	 *      javax.ws.rs.core.MediaType)
 	 */
 	@Override
-	public boolean isReadable(Class<?> type, Type genericType,
-			Annotation[] annotations, MediaType mediaType) {
+	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return InternetAddress.class.isAssignableFrom(type);
 	}
 
@@ -42,13 +40,11 @@ public final class InternetAddressReader implements
 	 *      java.io.InputStream)
 	 */
 	@Override
-	public InternetAddress readFrom(Class<InternetAddress> type,
-			Type genericType, Annotation[] annotations, MediaType mediaType,
-			MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
-			throws IOException, WebApplicationException {
+	public InternetAddress readFrom(Class<InternetAddress> type, Type genericType, Annotation[] annotations,
+			MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
+					throws IOException, WebApplicationException {
 		// Pull the email address out of the stream as a String.
-		String emailAddressString = IOUtils.toString(entityStream,
-				HttpUtils.getEncoding(mediaType, "UTF-8"));
+		String emailAddressString = IOUtils.toString(entityStream, HttpUtils.getEncoding(mediaType, "UTF-8"));
 
 		try {
 			// Try to convert the String to an InternetAddress instance.

@@ -45,8 +45,7 @@ public class Player {
 	@XmlElement
 	private long id;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH })
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "`humanAccountId`", nullable = true, unique = true)
 	@XmlElement
 	private Account humanAccount;

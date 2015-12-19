@@ -60,14 +60,14 @@ class AbstractGame {
 	@XmlElement(name = "round")
 	protected List<GameRound> rounds;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "`player1Id`")
 	@XmlElement
 	protected Player player1;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "`player2Id`")
 	@XmlElement
 	protected Player player2;
@@ -90,9 +90,8 @@ class AbstractGame {
 	 * @param player2
 	 *            the value to use for {@link #getPlayer2()}
 	 */
-	protected AbstractGame(String id, Instant createdTimestamp, State state,
-			int maxRounds, List<GameRound> rounds, Player player1,
-			Player player2) {
+	protected AbstractGame(String id, Instant createdTimestamp, State state, int maxRounds, List<GameRound> rounds,
+			Player player1, Player player2) {
 		if (id == null)
 			throw new IllegalArgumentException();
 		if (createdTimestamp == null)
@@ -222,16 +221,12 @@ class AbstractGame {
 	public Instant getLastThrowTimestamp() {
 		Instant lastThrowTime = createdTimestamp;
 		for (GameRound round : rounds) {
-			Instant throwForPlayer1Timestamp = round
-					.getThrowForPlayer1Timestamp();
-			if (throwForPlayer1Timestamp != null
-					&& lastThrowTime.compareTo(throwForPlayer1Timestamp) < 1)
+			Instant throwForPlayer1Timestamp = round.getThrowForPlayer1Timestamp();
+			if (throwForPlayer1Timestamp != null && lastThrowTime.compareTo(throwForPlayer1Timestamp) < 1)
 				lastThrowTime = throwForPlayer1Timestamp;
 
-			Instant throwForPlayer2Timestamp = round
-					.getThrowForPlayer2Timestamp();
-			if (throwForPlayer2Timestamp != null
-					&& lastThrowTime.compareTo(throwForPlayer2Timestamp) < 1)
+			Instant throwForPlayer2Timestamp = round.getThrowForPlayer2Timestamp();
+			if (throwForPlayer2Timestamp != null && lastThrowTime.compareTo(throwForPlayer2Timestamp) < 1)
 				lastThrowTime = throwForPlayer2Timestamp;
 		}
 
@@ -454,15 +449,12 @@ class AbstractGame {
 	 *             {@link #getPlayer1()} or {@link #getPlayer2()}.
 	 */
 	public Player getPlayer(Account playerAccount) {
-		if (getPlayer1().getHumanAccount() != null
-				&& getPlayer1().getHumanAccount().equals(playerAccount))
+		if (getPlayer1().getHumanAccount() != null && getPlayer1().getHumanAccount().equals(playerAccount))
 			return getPlayer1();
-		else if (getPlayer2().getHumanAccount() != null
-				&& getPlayer2().getHumanAccount().equals(playerAccount))
+		else if (getPlayer2().getHumanAccount() != null && getPlayer2().getHumanAccount().equals(playerAccount))
 			return getPlayer2();
 		else
-			throw new IllegalArgumentException(String.format(
-					"Unknown Player Account: %s", playerAccount));
+			throw new IllegalArgumentException(String.format("Unknown Player Account: %s", playerAccount));
 	}
 
 	/**

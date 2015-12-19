@@ -37,8 +37,8 @@ public final class AppConfigTest {
 	 *             (using static URLs; shouldn't happen)
 	 */
 	@Test
-	public void jaxbMarshalling() throws JAXBException,
-			XPathExpressionException, URISyntaxException, MalformedURLException {
+	public void jaxbMarshalling()
+			throws JAXBException, XPathExpressionException, URISyntaxException, MalformedURLException {
 		// Create the Marshaller needed.
 		JAXBContext jaxbContext = JAXBContext.newInstance(AppConfig.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
@@ -55,14 +55,11 @@ public final class AppConfigTest {
 		// Verify the results.
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
-		xpath.setNamespaceContext(new SimpleNamespaceContext(
-				new NamespaceBinding("rps", XmlNamespace.RPSTOURNEY_APP)));
-		Node clientServiceUriNode = (Node) xpath.evaluate(
-				"/rps:appConfig/rps:clientServiceRoot", domResult.getNode(),
+		xpath.setNamespaceContext(new SimpleNamespaceContext(new NamespaceBinding("rps", XmlNamespace.RPSTOURNEY_APP)));
+		Node clientServiceUriNode = (Node) xpath.evaluate("/rps:appConfig/rps:clientServiceRoot", domResult.getNode(),
 				XPathConstants.NODE);
 		Assert.assertNotNull(clientServiceUriNode);
-		Assert.assertEquals(clientServiceRoot.toString(),
-				clientServiceUriNode.getTextContent());
+		Assert.assertEquals(clientServiceRoot.toString(), clientServiceUriNode.getTextContent());
 	}
 
 	/**
@@ -74,27 +71,22 @@ public final class AppConfigTest {
 	 *             (shouldn't be thrown if things are working)
 	 */
 	@Test
-	public void jaxbUnmarshalling() throws JAXBException,
-			XPathExpressionException {
+	public void jaxbUnmarshalling() throws JAXBException, XPathExpressionException {
 		// Create the Unmarshaller needed.
 		JAXBContext jaxbContext = JAXBContext.newInstance(AppConfig.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		// Get the XML to be converted.
-		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
-				.getResource("sample-xml/config-1.xml");
+		URL sourceXmlUrl = Thread.currentThread().getContextClassLoader().getResource("sample-xml/config-1.xml");
 
 		// Parse the XML to an object.
-		AppConfig parsedConfig = (AppConfig) unmarshaller
-				.unmarshal(sourceXmlUrl);
+		AppConfig parsedConfig = (AppConfig) unmarshaller.unmarshal(sourceXmlUrl);
 
 		// Verify the results.
 		Assert.assertNotNull(parsedConfig);
 		Assert.assertNotNull(parsedConfig.getBaseUrl());
-		Assert.assertEquals("https://example.com/", parsedConfig.getBaseUrl()
-				.toString());
+		Assert.assertEquals("https://example.com/", parsedConfig.getBaseUrl().toString());
 		Assert.assertNotNull(parsedConfig.getClientServiceRoot());
-		Assert.assertEquals("https://example.com/service", parsedConfig
-				.getClientServiceRoot().toString());
+		Assert.assertEquals("https://example.com/service", parsedConfig.getClientServiceRoot().toString());
 	}
 }

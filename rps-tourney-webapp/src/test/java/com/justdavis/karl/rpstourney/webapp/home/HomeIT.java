@@ -24,8 +24,7 @@ public final class HomeIT {
 			driver.get(ITUtils.buildWebAppUrl("/"));
 
 			// Spot-check one of the page's elements to ensure it's present.
-			Assert.assertNotNull(driver.getPageSource(),
-					driver.findElement(By.id("create-game")));
+			Assert.assertNotNull(driver.getPageSource(), driver.findElement(By.id("create-game")));
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -49,8 +48,7 @@ public final class HomeIT {
 			driver.get(ITUtils.buildWebAppUrl("/"));
 
 			// Spot-check one of the page's elements to ensure it's present.
-			Assert.assertNotNull(driver.getPageSource(),
-					driver.findElement(By.id("player-games")));
+			Assert.assertNotNull(driver.getPageSource(), driver.findElement(By.id("player-games")));
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -60,9 +58,9 @@ public final class HomeIT {
 	/**
 	 * Ensures that the home page doesn't throw errors when it displays a game
 	 * at the {@link State#WAITING_FOR_FIRST_THROW} step. This is a regression
-	 * test case for <a
-	 * href="https://github.com/karlmdavis/rps-tourney/issues/66">Error on home
-	 * page after new game has been joined:
+	 * test case for
+	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/66">Error on
+	 * home page after new game has been joined:
 	 * "No message found under code 'home.games.game.state.WAITING_FOR_FIRST_THROW'..."
 	 * </a>.
 	 */
@@ -78,8 +76,7 @@ public final class HomeIT {
 
 			// Player 1: Create a game.
 			player1Driver.get(ITUtils.buildWebAppUrl("game/"));
-			String gameId = player1Driver.getCurrentUrl().substring(
-					player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
+			String gameId = player1Driver.getCurrentUrl().substring(player1Driver.getCurrentUrl().lastIndexOf('/') + 1);
 
 			// Player 2: Join the game.
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
@@ -90,8 +87,7 @@ public final class HomeIT {
 
 			// Player 1: Spot-check one of the page's elements to ensure it's
 			// present.
-			Assert.assertNotNull(player1Driver.getPageSource(),
-					player1Driver.findElement(By.id("player-games")));
+			Assert.assertNotNull(player1Driver.getPageSource(), player1Driver.findElement(By.id("player-games")));
 		} finally {
 			if (player1Driver != null)
 				player1Driver.quit();

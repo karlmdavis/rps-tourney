@@ -35,10 +35,8 @@ import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 @Component
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Profile({ SpringProfile.PRODUCTION, SpringProfile.INTEGRATION_TESTS_WITH_JETTY })
-public class AiPlayerInitializer implements
-		ApplicationListener<ContextRefreshedEvent> {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AiPlayerInitializer.class);
+public class AiPlayerInitializer implements ApplicationListener<ContextRefreshedEvent> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AiPlayerInitializer.class);
 
 	private final IPlayersDao playersDao;
 

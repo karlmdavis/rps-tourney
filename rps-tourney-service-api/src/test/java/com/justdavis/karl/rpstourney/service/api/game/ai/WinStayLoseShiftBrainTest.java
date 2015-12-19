@@ -32,8 +32,7 @@ public final class WinStayLoseShiftBrainTest {
 		 * this round.
 		 */
 		game.submitThrow(1, game.getPlayer1(), Throw.ROCK);
-		Throw aiThrowSecond = ai.calculateNextThrow(
-				new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
+		Throw aiThrowSecond = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
 		Assert.assertEquals(Throw.PAPER, aiThrowSecond);
 		game.submitThrow(1, game.getPlayer2(), aiThrowSecond);
 
@@ -41,8 +40,7 @@ public final class WinStayLoseShiftBrainTest {
 		 * The AI did win that round, so it should make the same Throw this
 		 * round.
 		 */
-		Throw aiThrowThird = ai.calculateNextThrow(
-				new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
+		Throw aiThrowThird = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
 		Assert.assertEquals(Throw.PAPER, aiThrowThird);
 	}
 }

@@ -16,24 +16,21 @@ import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
  * Contains static helper methods related to request/response cookie management.
  */
 public final class CookiesUtils {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CookiesUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CookiesUtils.class);
 
 	/**
 	 * A regex for validating the <code>Domain</code> property of cookies: it
 	 * must start with a '<code>.</code>' and contain a second one somewhere
 	 * else.
 	 */
-	private static final Pattern VALID_COOKIE_DOMAIN = Pattern
-			.compile("\\..*\\..*");
+	private static final Pattern VALID_COOKIE_DOMAIN = Pattern.compile("\\..*\\..*");
 
 	/**
 	 * A regex that will match against IP-only values. (Note: This will allow
 	 * components greater than 255, so isn't 100% effective, but it's good
 	 * enough for our purposes here.)
 	 */
-	private static final Pattern LIKELY_IP_ADDRESS = Pattern
-			.compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
+	private static final Pattern LIKELY_IP_ADDRESS = Pattern.compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
 
 	/**
 	 * Private constructor; instances of this class aren't needed, as all
@@ -52,8 +49,7 @@ public final class CookiesUtils {
 	 *         {@link HttpServletRequest}, or <code>null</code> if no such
 	 *         {@link Cookie} is present
 	 */
-	public static Cookie extractCookie(String cookieName,
-			HttpServletRequest request) {
+	public static Cookie extractCookie(String cookieName, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null || cookies.length <= 0)
 			return null;
@@ -72,8 +68,7 @@ public final class CookiesUtils {
 	 * @param response
 	 *            the {@link HttpServletResponse} to cancel the cookie in
 	 */
-	public static void cancelCookie(String cookieName,
-			HttpServletResponse response) {
+	public static void cancelCookie(String cookieName, HttpServletResponse response) {
 		Cookie cancellationCookie = new Cookie(cookieName, null);
 		cancellationCookie.setMaxAge(0);
 		cancellationCookie.setPath("/");
@@ -92,8 +87,7 @@ public final class CookiesUtils {
 	 * @param appConfig
 	 *            the {@link AppConfig} for the application a {@link URL}
 	 */
-	public static void applyCookieSecurityProperties(Cookie cookie,
-			AppConfig appConfig) {
+	public static void applyCookieSecurityProperties(Cookie cookie, AppConfig appConfig) {
 		URL baseUrl = appConfig.getBaseUrl();
 
 		cookie.setHttpOnly(true);
@@ -114,8 +108,7 @@ public final class CookiesUtils {
 		if (isHttps)
 			cookie.setSecure(isHttps);
 		else
-			LOGGER.warn("Application not hosted at a secure URL: "
-					+ "authentication credentials will be vulnerable!");
+			LOGGER.warn("Application not hosted at a secure URL: " + "authentication credentials will be vulnerable!");
 	}
 
 	/**
@@ -136,8 +129,7 @@ public final class CookiesUtils {
 		 * always have a leading '.'. Testing with FF and Chromium, though,
 		 * indicates that browsers will also accept a non-prefixed IP address.
 		 */
-		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain)
-				.matches();
+		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain).matches();
 		if (!isLikelyAnIpAddress && !domain.startsWith("."))
 			domain = "." + domain;
 
@@ -148,8 +140,7 @@ public final class CookiesUtils {
 		 * upset about this and ignores the cookies entirely. So, if we're about
 		 * to try and do that: stop. Leave the property unassigned, instead.
 		 */
-		if (!isLikelyAnIpAddress
-				&& !VALID_COOKIE_DOMAIN.matcher(domain).matches())
+		if (!isLikelyAnIpAddress && !VALID_COOKIE_DOMAIN.matcher(domain).matches())
 			return null;
 
 		return domain;

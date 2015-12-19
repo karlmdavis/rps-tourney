@@ -73,8 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * configures it to use the correct authentication mechanisms.
 	 */
 	@Inject
-	public void configureGlobal(AuthenticationManagerBuilder auth)
-			throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		/*
 		 * Note: I'm not really sure why this method is used, rather than just
 		 * overriding the superclass' configure(AuthenticationManagerBuilder
@@ -86,21 +85,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		auth.authenticationProvider(gameLoginAuthProvider);
 	}
-	
+
 	/**
 	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.WebSecurity)
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web
-			.ignoring()
+		web.ignoring()
 				// Instruct Spring Security to completely ignore these requests.
-				// Matching entries are probably also needed in SpringMvcConfig.addResourceHandlers(ResourceHandlerRegistry).
-				.antMatchers("/css/**")
-				.antMatchers("/js/**")
-				.antMatchers("/i18n/**")
-				.antMatchers("/bootstrap-3.2.0/fonts/**")
-				.antMatchers("/font-awesome-4.4.0/fonts/**");
+				// Matching entries are probably also needed in
+				// SpringMvcConfig.addResourceHandlers(ResourceHandlerRegistry).
+				.antMatchers("/css/**").antMatchers("/js/**").antMatchers("/i18n/**")
+				.antMatchers("/bootstrap-3.2.0/fonts/**").antMatchers("/font-awesome-4.4.0/fonts/**");
 	}
 
 	/**
@@ -115,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * done programmatically, and the MVC Controllers are all responsible
 		 * for redirecting to '/login' as necessary.
 		 */
-		
+
 		/*
 		 * Spring Security's "remember me" services are used as a form of
 		 * automatic anonymous-ish login. If users, for example, start a game,
@@ -126,24 +122,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * "merged" into the new username+password accounts.
 		 */
 		gameLoginSuccessHandler.setDefaultTargetUrl("/account");
-		http
-			.formLogin()
-				.loginPage("/login")
-				.successHandler(gameLoginSuccessHandler)
-				.and()
-			.logout()
-				.and()
-			.httpBasic()
-				.and()
-			.rememberMe()
-				.rememberMeServices(rememberMeServices)
-				.key(CustomRememberMeServices.REMEMBER_ME_TOKEN_KEY)
-				.and()
-			.anonymous().disable();
+		http.formLogin().loginPage("/login").successHandler(gameLoginSuccessHandler).and().logout().and().httpBasic()
+				.and().rememberMe().rememberMeServices(rememberMeServices)
+				.key(CustomRememberMeServices.REMEMBER_ME_TOKEN_KEY).and().anonymous().disable();
 	}
 
 	/**
-	 * @return the {@link SecurityContextHolderStrategy} that the application is using
+	 * @return the {@link SecurityContextHolderStrategy} that the application is
+	 *         using
 	 */
 	@Bean
 	public SecurityContextHolderStrategy securityContextHolderStrategy() {

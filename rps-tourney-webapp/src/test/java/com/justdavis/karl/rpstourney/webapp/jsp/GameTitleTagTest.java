@@ -31,8 +31,7 @@ public class GameTitleTagTest {
 	 *             (indicates a problem with the test setup)
 	 */
 	@Test
-	public void withPlayer1AsUserAndPlayer2AsNull() throws JspException,
-			IOException {
+	public void withPlayer1AsUserAndPlayer2AsNull() throws JspException, IOException {
 		// Create the mock objects to use.
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		MockJspWriter jspWriter = new MockJspWriter();
@@ -46,8 +45,7 @@ public class GameTitleTagTest {
 
 		// Test the tag.
 		Account player1Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player1Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player1Account));
 		Game game = new Game(new Player(player1Account));
 		GameView gameView = new GameView(game, null);
 		gameTitleTag.setGame(gameView);
@@ -69,8 +67,7 @@ public class GameTitleTagTest {
 	 *             (indicates a problem with the test setup)
 	 */
 	@Test
-	public void withPlayer1AnonAndPlayer2AsUser() throws JspException,
-			IOException {
+	public void withPlayer1AnonAndPlayer2AsUser() throws JspException, IOException {
 		// Create the mock objects to use.
 		SecurityContextImpl securityContext = new SecurityContextImpl();
 		MockJspWriter jspWriter = new MockJspWriter();
@@ -85,17 +82,14 @@ public class GameTitleTagTest {
 		// Test the tag.
 		Account player1Account = new Account();
 		Account player2Account = new Account();
-		securityContext.setAuthentication(new WebServiceAccountAuthentication(
-				player2Account));
+		securityContext.setAuthentication(new WebServiceAccountAuthentication(player2Account));
 		Game game = new Game(new Player(player1Account));
 		game.setPlayer2(new Player(player2Account));
 		GameView gameView = new GameView(game, null);
 		gameTitleTag.setGame(gameView);
 		gameTitleTag.doEndTag();
-		Assert.assertEquals(
-				"<span class=\"PLAYER_2\">Anonymous Player (You)</span>"
-						+ " vs. <span class=\"PLAYER_1\">Anonymous Player</span>",
-				jspWriter.output.toString());
+		Assert.assertEquals("<span class=\"PLAYER_2\">Anonymous Player (You)</span>"
+				+ " vs. <span class=\"PLAYER_1\">Anonymous Player</span>", jspWriter.output.toString());
 	}
 
 	/**
@@ -130,8 +124,7 @@ public class GameTitleTagTest {
 		GameView gameView = new GameView(game, null);
 		gameTitleTag.setGame(gameView);
 		gameTitleTag.doEndTag();
-		Assert.assertEquals("<span class=\"PLAYER_1\">Foo</span>"
-				+ " vs. <span class=\"PLAYER_2\">Bar</span>",
+		Assert.assertEquals("<span class=\"PLAYER_1\">Foo</span>" + " vs. <span class=\"PLAYER_2\">Bar</span>",
 				jspWriter.output.toString());
 	}
 
@@ -176,14 +169,10 @@ public class GameTitleTagTest {
 	 */
 	private MessageSource createMessageSource() {
 		StaticMessageSource messageSource = new StaticMessageSource();
-		messageSource.addMessage("gameTitle.versus", Locale.getDefault(),
-				"vs.");
-		messageSource.addMessage("playerName.current.suffix",
-				Locale.getDefault(), " (You)");
-		messageSource.addMessage("playerName.notJoined", Locale.getDefault(),
-				"(Waiting for Opponent...)");
-		messageSource.addMessage("playerName.anon", Locale.getDefault(),
-				"Anonymous Player");
+		messageSource.addMessage("gameTitle.versus", Locale.getDefault(), "vs.");
+		messageSource.addMessage("playerName.current.suffix", Locale.getDefault(), " (You)");
+		messageSource.addMessage("playerName.notJoined", Locale.getDefault(), "(Waiting for Opponent...)");
+		messageSource.addMessage("playerName.anon", Locale.getDefault(), "Anonymous Player");
 		return messageSource;
 	}
 }

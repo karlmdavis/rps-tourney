@@ -169,7 +169,7 @@ public class GameplayBenchmarks {
 				if (e.getStatus().getStatusCode() != Status.CONFLICT.getStatusCode())
 					throw new IllegalStateException(e);
 				// Ignore the error if it's just that the user already exists.
-				
+
 				// Login, instead.
 				authClientA.loginWithGameAccount(BenchmarkUser.USER_A.getAddress(), BenchmarkUser.USER_A.getPassword());
 			}
@@ -185,7 +185,7 @@ public class GameplayBenchmarks {
 				if (e.getStatus().getStatusCode() != Status.CONFLICT.getStatusCode())
 					throw new IllegalStateException(e);
 				// Ignore the error if it's just that the user already exists.
-				
+
 				// Login, instead.
 				authClientB.loginWithGameAccount(BenchmarkUser.USER_B.getAddress(), BenchmarkUser.USER_B.getPassword());
 			}

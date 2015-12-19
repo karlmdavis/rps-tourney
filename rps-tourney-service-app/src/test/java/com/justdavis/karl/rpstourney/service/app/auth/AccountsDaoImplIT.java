@@ -63,8 +63,7 @@ public final class AccountsDaoImplIT {
 	public static Collection<Object[]> createTestParameters() {
 		Collection<Object[]> testParameters = new LinkedList<>();
 
-		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest
-				.requestForRandomDatabase("integrationtest");
+		IProvisioningRequest hsqlRequest = HsqlProvisioningRequest.requestForRandomDatabase("integrationtest");
 		testParameters.add(new Object[] { hsqlRequest });
 
 		IProvisioningRequest postgreSqlRequest = PostgreSqlProvisioningRequest
@@ -87,8 +86,7 @@ public final class AccountsDaoImplIT {
 	 *             An {@link Exception} might be thrown by the Spring context
 	 *             initialization.
 	 */
-	public AccountsDaoImplIT(IProvisioningRequest provisioningRequest)
-			throws Exception {
+	public AccountsDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
@@ -96,8 +94,7 @@ public final class AccountsDaoImplIT {
 		 * SpringJUnit4ClassRunner}, as this test is already using a different
 		 * runner: {@link Parameterized}.
 		 */
-		TestContextManager testContextManager = new TestContextManager(
-				getClass());
+		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
 		 * Register the DaoTestHelper with the Spring test context, so it can
@@ -112,8 +109,7 @@ public final class AccountsDaoImplIT {
 	 */
 	@Test
 	public void saveAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -141,10 +137,8 @@ public final class AccountsDaoImplIT {
 			Assert.assertEquals(1, accountsDao.getAccounts().size());
 			Account accountFromDb = accountsDao.getAccounts().get(0);
 			Assert.assertEquals(1, accountFromDb.getId());
-			Assert.assertEquals(account.getRoles().size(), accountFromDb
-					.getRoles().size());
-			Assert.assertNotNull(accountFromDb.getAuthToken(authToken
-					.getToken()));
+			Assert.assertEquals(account.getRoles().size(), accountFromDb.getRoles().size());
+			Assert.assertNotNull(accountFromDb.getAuthToken(authToken.getToken()));
 		} finally {
 			entityManager.close();
 		}
@@ -155,8 +149,7 @@ public final class AccountsDaoImplIT {
 	 */
 	@Test
 	public void deleteAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -202,8 +195,7 @@ public final class AccountsDaoImplIT {
 	 */
 	@Test
 	public void mergeAccount() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -247,8 +239,7 @@ public final class AccountsDaoImplIT {
 			entityManager.refresh(account);
 			Assert.assertEquals(account.getId(), detachedAccount.getId());
 			Assert.assertEquals(detachedAccount.getName(), account.getName());
-			Assert.assertEquals(detachedAccount.getAuthTokens().size(), account
-					.getAuthTokens().size());
+			Assert.assertEquals(detachedAccount.getAuthTokens().size(), account.getAuthTokens().size());
 		} finally {
 			entityManager.close();
 		}
@@ -260,8 +251,7 @@ public final class AccountsDaoImplIT {
 	@Test
 	public void getAccountByUuuid() {
 		// Create the DAO.
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
@@ -282,15 +272,12 @@ public final class AccountsDaoImplIT {
 			}
 
 			// Try to query for the entity.
-			Account accountFromDb = accountsDao.getAccountByAuthToken(authToken
-					.getToken());
+			Account accountFromDb = accountsDao.getAccountByAuthToken(authToken.getToken());
 			Assert.assertNotNull(accountFromDb);
-			Assert.assertEquals(authToken.getToken(), accountFromDb
-					.getAuthTokens().iterator().next().getToken());
+			Assert.assertEquals(authToken.getToken(), accountFromDb.getAuthTokens().iterator().next().getToken());
 
 			// Try to query for a non-existent entity.
-			Account accountThatShouldntExist = accountsDao
-					.getAccountByAuthToken(UUID.randomUUID());
+			Account accountThatShouldntExist = accountsDao.getAccountByAuthToken(UUID.randomUUID());
 			Assert.assertNull(accountThatShouldntExist);
 		} finally {
 			entityManager.close();
@@ -303,8 +290,7 @@ public final class AccountsDaoImplIT {
 	@Test
 	public void selectOrCreateAuthToken() {
 		// Create the DAO.
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			AccountsDaoImpl accountsDao = new AccountsDaoImpl();
@@ -327,16 +313,12 @@ public final class AccountsDaoImplIT {
 			}
 
 			// Try to query for the entities.
-			AuthToken authTokenThatShouldAlreadyExist = accountsDao
-					.selectOrCreateAuthToken(account1);
+			AuthToken authTokenThatShouldAlreadyExist = accountsDao.selectOrCreateAuthToken(account1);
 			Assert.assertNotNull(authTokenThatShouldAlreadyExist);
-			Assert.assertEquals(authToken1.getToken(),
-					authTokenThatShouldAlreadyExist.getToken());
-			AuthToken authTokenThatShouldBeNew = accountsDao
-					.selectOrCreateAuthToken(account2);
+			Assert.assertEquals(authToken1.getToken(), authTokenThatShouldAlreadyExist.getToken());
+			AuthToken authTokenThatShouldBeNew = accountsDao.selectOrCreateAuthToken(account2);
 			Assert.assertNotNull(authTokenThatShouldBeNew);
-			Assert.assertEquals(account2.getId(), authTokenThatShouldBeNew
-					.getAccount().getId());
+			Assert.assertEquals(account2.getId(), authTokenThatShouldBeNew.getAccount().getId());
 		} finally {
 			entityManager.close();
 		}
@@ -352,19 +334,16 @@ public final class AccountsDaoImplIT {
 	 */
 	@Test
 	public void authTokenCreationTimestampSqlType() throws SQLException {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Verify the SQL type for AuthToken.getCreationTimestamp().
 			Session session = entityManager.unwrap(Session.class);
 			SessionImplementor sessionImplementor = (SessionImplementor) session;
-			Connection connection = sessionImplementor
-					.getJdbcConnectionAccess().obtainConnection();
+			Connection connection = sessionImplementor.getJdbcConnectionAccess().obtainConnection();
 			try {
 				DatabaseMetaData metaData = connection.getMetaData();
-				ResultSet columns = metaData.getColumns(null, null,
-						"AuthTokens", "createdTimestamp");
+				ResultSet columns = metaData.getColumns(null, null, "AuthTokens", "createdTimestamp");
 				boolean hasAtLeastOneColumn = columns.next();
 				Assert.assertTrue(hasAtLeastOneColumn);
 				int firstColumnSqlType = columns.getInt("DATA_TYPE");
@@ -373,8 +352,7 @@ public final class AccountsDaoImplIT {
 				boolean hasMoreThanOneColumn = columns.next();
 				Assert.assertFalse(hasMoreThanOneColumn);
 			} finally {
-				sessionImplementor.getJdbcConnectionAccess().releaseConnection(
-						connection);
+				sessionImplementor.getJdbcConnectionAccess().releaseConnection(connection);
 			}
 		} finally {
 			entityManager.close();
@@ -395,12 +373,10 @@ public final class AccountsDaoImplIT {
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 			// Get the XML to be converted.
-			URL sourceXmlUrl = Thread.currentThread().getContextClassLoader()
-					.getResource(resourcePath);
+			URL sourceXmlUrl = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
 
 			// Parse the XML to an object.
-			Account parsedAccount = (Account) unmarshaller
-					.unmarshal(sourceXmlUrl);
+			Account parsedAccount = (Account) unmarshaller.unmarshal(sourceXmlUrl);
 			return parsedAccount;
 		} catch (JAXBException e) {
 			throw new UncheckedJaxbException(e);
@@ -413,8 +389,7 @@ public final class AccountsDaoImplIT {
 	 */
 	@Test
 	public void saveAndGetAuditAccountMerge() {
-		EntityManager entityManager = daoTestHelper.getEntityManagerFactory()
-				.createEntityManager();
+		EntityManager entityManager = daoTestHelper.getEntityManagerFactory().createEntityManager();
 
 		try {
 			// Create the DAO.
@@ -427,11 +402,10 @@ public final class AccountsDaoImplIT {
 			account.getAuthTokens().add(authToken);
 			Set<AbstractLoginIdentity> mergedLogins = new HashSet<>();
 			mergedLogins.add(new GuestLoginIdentity(account));
-			AuditAccountMerge auditAccountMerge = new AuditAccountMerge(
-					account, mergedLogins);
+			AuditAccountMerge auditAccountMerge = new AuditAccountMerge(account, mergedLogins);
 			Game game = new Game(new Player(account));
-			AuditAccountGameMerge auditAccountGameMerge = new AuditAccountGameMerge(
-					auditAccountMerge, game, PlayerRole.PLAYER_1);
+			AuditAccountGameMerge auditAccountGameMerge = new AuditAccountGameMerge(auditAccountMerge, game,
+					PlayerRole.PLAYER_1);
 			auditAccountMerge.getMergedGames().add(auditAccountGameMerge);
 
 			// Try to save the entity.
@@ -447,13 +421,10 @@ public final class AccountsDaoImplIT {
 			}
 
 			// Verify the result.
-			Assert.assertEquals(1, accountsDao.getAccountAuditEntries(account)
-					.size());
-			AuditAccountMerge auditAccountEntryFromDb = accountsDao
-					.getAccountAuditEntries(account).get(0);
+			Assert.assertEquals(1, accountsDao.getAccountAuditEntries(account).size());
+			AuditAccountMerge auditAccountEntryFromDb = accountsDao.getAccountAuditEntries(account).get(0);
 			Assert.assertEquals(1, auditAccountEntryFromDb.getId());
-			Assert.assertEquals(1, auditAccountEntryFromDb.getMergedGames()
-					.size());
+			Assert.assertEquals(1, auditAccountEntryFromDb.getMergedGames().size());
 			Assert.assertNotNull(auditAccountEntryFromDb.getMergeTimestamp());
 		} finally {
 			entityManager.close();

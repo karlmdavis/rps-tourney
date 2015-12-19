@@ -28,8 +28,8 @@ public final class PlayerTest {
 	 *             (won't happen)
 	 */
 	@Test
-	public void equalsAndHashCode() throws IllegalArgumentException,
-			IllegalAccessException, NoSuchFieldException, SecurityException {
+	public void equalsAndHashCode()
+			throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		Account accountA = new Account();
 		Player playerA = new Player(accountA);
 
@@ -84,9 +84,8 @@ public final class PlayerTest {
 	 *             (won't occur)
 	 */
 	@Test
-	public void jsonSerialization() throws JsonProcessingException,
-			NoSuchFieldException, SecurityException, IllegalArgumentException,
-			IllegalAccessException {
+	public void jsonSerialization() throws JsonProcessingException, NoSuchFieldException, SecurityException,
+			IllegalArgumentException, IllegalAccessException {
 		ObjectMapper jacksonMapper = new ObjectMapper();
 		Field playerIdField = Player.class.getDeclaredField("id");
 		playerIdField.setAccessible(true);
@@ -100,16 +99,13 @@ public final class PlayerTest {
 		Player playerB = new Player(BuiltInAi.THREE_SIDED_DIE_V1);
 		playerIdField.setInt(playerB, 2);
 
-		JsonNode playerAJson = jacksonMapper.convertValue(playerA,
-				JsonNode.class);
+		JsonNode playerAJson = jacksonMapper.convertValue(playerA, JsonNode.class);
 		Assert.assertNotNull(playerAJson);
 		Assert.assertEquals(playerA.getId(), playerAJson.get("id").asInt());
 		Assert.assertNotNull(playerAJson.get("humanAccount"));
-		Assert.assertEquals(playerA.getHumanAccount().getId(),
-				playerAJson.get("humanAccount").get("id").asInt());
+		Assert.assertEquals(playerA.getHumanAccount().getId(), playerAJson.get("humanAccount").get("id").asInt());
 
-		JsonNode playerBJson = jacksonMapper.convertValue(playerB,
-				JsonNode.class);
+		JsonNode playerBJson = jacksonMapper.convertValue(playerB, JsonNode.class);
 		Assert.assertNotNull(playerBJson);
 		Assert.assertNotNull(playerBJson.get("builtInAi"));
 		Assert.assertNotNull(playerBJson.get("builtInAi").get("displayNameKey"));

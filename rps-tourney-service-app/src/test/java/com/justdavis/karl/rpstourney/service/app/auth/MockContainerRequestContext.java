@@ -91,8 +91,7 @@ final class MockContainerRequestContext implements ContainerRequestContext {
 	 *      java.net.URI)
 	 */
 	@Override
-	public void setRequestUri(URI baseUri, URI requestUri)
-			throws IllegalStateException {
+	public void setRequestUri(URI baseUri, URI requestUri) throws IllegalStateException {
 		throw new UnsupportedOperationException();
 	}
 

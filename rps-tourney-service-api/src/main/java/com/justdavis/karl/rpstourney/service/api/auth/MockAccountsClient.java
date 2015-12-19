@@ -43,8 +43,7 @@ public class MockAccountsClient implements IAccountsResource {
 	 *      java.util.UUID)
 	 */
 	@Override
-	public void mergeAccount(long targetAccountId,
-			UUID sourceAccountAuthTokenValue) {
+	public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
 		throw new UnsupportedOperationException();
 	}
 }

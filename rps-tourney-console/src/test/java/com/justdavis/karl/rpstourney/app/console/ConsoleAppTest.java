@@ -31,12 +31,10 @@ public final class ConsoleAppTest {
 	public void helpRequested() throws UnsupportedEncodingException {
 		String humanInput = "";
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(
-				humanInput.getBytes("US-ASCII"));
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(humanInput.getBytes("US-ASCII"));
 
 		ConsoleApp app = new ConsoleApp();
-		app.runApp(new String[] { "--help" }, new PrintStream(outputStream),
-				inputStream);
+		app.runApp(new String[] { "--help" }, new PrintStream(outputStream), inputStream);
 
 		String appOutput = outputStream.toString("US-ASCII");
 		Assert.assertNotNull(appOutput);

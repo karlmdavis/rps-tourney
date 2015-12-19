@@ -42,8 +42,7 @@ public class DatabaseSchemaInitializer {
 	 *            the injected {@link ServiceConfig} to use
 	 */
 	@Inject
-	public DatabaseSchemaInitializer(IDataSourceSchemaManager schemaManager,
-			ServiceConfig config) {
+	public DatabaseSchemaInitializer(IDataSourceSchemaManager schemaManager, ServiceConfig config) {
 		this.schemaManager = schemaManager;
 		this.config = config;
 	}

@@ -19,10 +19,8 @@ import org.springframework.web.servlet.DispatcherServlet;
  * The programmatic replacement for <code>web.xml</code> in this project.
  */
 @Order(2)
-public final class GameWebApplicationInitializer implements
-		WebApplicationInitializer {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameWebApplicationInitializer.class);
+public final class GameWebApplicationInitializer implements WebApplicationInitializer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameWebApplicationInitializer.class);
 
 	/*
 	 * A bunch of Spring documentation mentions that it's important that the
@@ -53,8 +51,7 @@ public final class GameWebApplicationInitializer implements
 	 * @see org.springframework.web.WebApplicationInitializer#onStartup(javax.servlet.ServletContext)
 	 */
 	@Override
-	public void onStartup(ServletContext servletContext)
-			throws ServletException {
+	public void onStartup(ServletContext servletContext) throws ServletException {
 		LOGGER.trace("Running onStartup(ServletContext)...");
 
 		// Create the Spring context for the application.
@@ -111,8 +108,8 @@ public final class GameWebApplicationInitializer implements
 		 */
 
 		// Register the Spring MVC DispatcherServlet to handle requests.
-		ServletRegistration.Dynamic mvcGameAppServlet = servletContext
-				.addServlet("gameapp", new DispatcherServlet(springContext));
+		ServletRegistration.Dynamic mvcGameAppServlet = servletContext.addServlet("gameapp",
+				new DispatcherServlet(springContext));
 		mvcGameAppServlet.setLoadOnStartup(1);
 		mvcGameAppServlet.addMapping("/");
 
@@ -131,8 +128,7 @@ public final class GameWebApplicationInitializer implements
 	 * @return the parent {@link ApplicationContext} for Spring, or
 	 *         <code>null</code> if none was found
 	 */
-	private static ApplicationContext findSpringParentContext(
-			ServletContext servletContext) {
+	private static ApplicationContext findSpringParentContext(ServletContext servletContext) {
 		ApplicationContext springParentContext = (ApplicationContext) servletContext
 				.getAttribute(SPRING_PARENT_CONTEXT);
 		if (springParentContext == null)

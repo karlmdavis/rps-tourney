@@ -30,17 +30,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * to not use it in production.)</li>
  * </ul>
  */
-public final class RequestResponseLoggingInterceptor extends
-		HandlerInterceptorAdapter {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RequestResponseLoggingInterceptor.class);
+public final class RequestResponseLoggingInterceptor extends HandlerInterceptorAdapter {
+	private static final Logger LOGGER = LoggerFactory.getLogger(RequestResponseLoggingInterceptor.class);
 
 	/**
 	 * Constructs a new {@link RequestResponseLoggingInterceptor} instance.
 	 */
 	public RequestResponseLoggingInterceptor() {
 		if (LOGGER.isTraceEnabled())
-			LOGGER.warn("Full request and response logging enabled. If you see this message in production, that's bad!");
+			LOGGER.warn(
+					"Full request and response logging enabled. If you see this message in production, that's bad!");
 	}
 
 	/**
@@ -48,8 +47,8 @@ public final class RequestResponseLoggingInterceptor extends
 	 *      javax.servlet.http.HttpServletResponse, java.lang.Object)
 	 */
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		if (LOGGER.isTraceEnabled()) {
 			StringBuilder requestRepresentation = new StringBuilder();
 
@@ -97,8 +96,7 @@ public final class RequestResponseLoggingInterceptor extends
 	 *      org.springframework.web.servlet.ModelAndView)
 	 */
 	@Override
-	public void postHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler,
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (LOGGER.isTraceEnabled()) {
 			StringBuilder responseRepresentation = new StringBuilder();

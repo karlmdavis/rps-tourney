@@ -26,15 +26,12 @@ public class HibernateUserTypesIntegrator implements Integrator {
 	 *      org.hibernate.service.spi.SessionFactoryServiceRegistry)
 	 */
 	@Override
-	public void integrate(Configuration configuration,
-			SessionFactoryImplementor sessionFactory,
+	public void integrate(Configuration configuration, SessionFactoryImplementor sessionFactory,
 			SessionFactoryServiceRegistry serviceRegistry) {
 		// Register the custom user type mapping(s) with Hibernate.
 		InternetAddressUserType emailAddressUserType = new InternetAddressUserType();
-		configuration
-				.registerTypeOverride(emailAddressUserType,
-						new String[] { emailAddressUserType.returnedClass()
-								.getName() });
+		configuration.registerTypeOverride(emailAddressUserType,
+				new String[] { emailAddressUserType.returnedClass().getName() });
 	}
 
 	/**
@@ -43,8 +40,7 @@ public class HibernateUserTypesIntegrator implements Integrator {
 	 *      org.hibernate.service.spi.SessionFactoryServiceRegistry)
 	 */
 	@Override
-	public void integrate(MetadataImplementor metadata,
-			SessionFactoryImplementor sessionFactory,
+	public void integrate(MetadataImplementor metadata, SessionFactoryImplementor sessionFactory,
 			SessionFactoryServiceRegistry serviceRegistry) {
 		// Nothing to do here.
 	}
@@ -54,8 +50,7 @@ public class HibernateUserTypesIntegrator implements Integrator {
 	 *      org.hibernate.service.spi.SessionFactoryServiceRegistry)
 	 */
 	@Override
-	public void disintegrate(SessionFactoryImplementor sessionFactory,
-			SessionFactoryServiceRegistry serviceRegistry) {
+	public void disintegrate(SessionFactoryImplementor sessionFactory, SessionFactoryServiceRegistry serviceRegistry) {
 		// Nothing to do here.
 	}
 }

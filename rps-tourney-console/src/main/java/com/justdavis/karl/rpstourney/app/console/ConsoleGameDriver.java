@@ -27,8 +27,7 @@ import com.justdavis.karl.rpstourney.service.api.game.Throw;
  * (or something else connected to an input & output stream).
  */
 final class ConsoleGameDriver {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConsoleGameDriver.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleGameDriver.class);
 
 	private final IResourceBundleLoader resourceBundleLoader;
 
@@ -70,10 +69,8 @@ final class ConsoleGameDriver {
 		// Print out the intro text.
 		out.println("Rock-Paper-Scissors Tourney");
 		out.println("===========================");
-		out.println(String.format(
-				"%nYou are playing against %s. Best out of %d wins!",
-				computeOpponentName(resourceBundleLoader, gameBundle),
-				game.getMaxRounds()));
+		out.println(String.format("%nYou are playing against %s. Best out of %d wins!",
+				computeOpponentName(resourceBundleLoader, gameBundle), game.getMaxRounds()));
 
 		// Play rounds until the game is won.
 		try (Scanner scanner = new Scanner(in);) {
@@ -99,22 +96,19 @@ final class ConsoleGameDriver {
 	 * @param scanner
 	 *            the {@link Scanner} to read the player's input from
 	 */
-	private static void playGameRound(GameBundle gameBundle, PrintStream out,
-			Scanner scanner) {
+	private static void playGameRound(GameBundle gameBundle, PrintStream out, Scanner scanner) {
 		GameView game = getGame(gameBundle);
 
 		int currentRoundIndex = game.getRounds().size() - 1;
 		GameRound currentRound = game.getRounds().get(currentRoundIndex);
 
 		// Print out the round intro text.
-		out.println(String.format("%nRound %d!",
-				currentRound.getAdjustedRoundIndex() + 1));
+		out.println(String.format("%nRound %d!", currentRound.getAdjustedRoundIndex() + 1));
 		out.println(String.format(" Score: %s", determineScoreText(game)));
 
 		// Wait for the human player to select a valid move and submit it.
 		Throw humanMove = requestHumanMove(out, scanner);
-		gameBundle.getGameClient().submitThrow(gameBundle.getGameId(),
-				currentRoundIndex, humanMove);
+		gameBundle.getGameClient().submitThrow(gameBundle.getGameId(), currentRoundIndex, humanMove);
 
 		// Wait for the opponent to make their Throw.
 		waitForOpponentThrow(gameBundle, currentRoundIndex);
@@ -127,20 +121,17 @@ final class ConsoleGameDriver {
 		if (playerRoles.length == 2) {
 			yourThrow = currentRound.getThrowForPlayer1();
 			opponentThrow = currentRound.getThrowForPlayer2();
-		} else if (playerRoles.length == 1
-				&& playerRoles[0].equals(PlayerRole.PLAYER_1)) {
+		} else if (playerRoles.length == 1 && playerRoles[0].equals(PlayerRole.PLAYER_1)) {
 			yourThrow = currentRound.getThrowForPlayer1();
 			opponentThrow = currentRound.getThrowForPlayer2();
-		} else if (playerRoles.length == 1
-				&& playerRoles[0].equals(PlayerRole.PLAYER_2)) {
+		} else if (playerRoles.length == 1 && playerRoles[0].equals(PlayerRole.PLAYER_2)) {
 			yourThrow = currentRound.getThrowForPlayer2();
 			opponentThrow = currentRound.getThrowForPlayer1();
 		} else {
 			throw new BadCodeMonkeyException();
 		}
-		out.println(String.format(" You threw %s, computer threw %s.",
-				ThrowToken.match(yourThrow).getFullDisplayText(), ThrowToken
-						.match(opponentThrow).getFullDisplayText()));
+		out.println(String.format(" You threw %s, computer threw %s.", ThrowToken.match(yourThrow).getFullDisplayText(),
+				ThrowToken.match(opponentThrow).getFullDisplayText()));
 		String winOrLossText = determineWonOrLostText(game, currentRound);
 		out.println(String.format(" %s", winOrLossText));
 	}
@@ -157,16 +148,14 @@ final class ConsoleGameDriver {
 		Throw humanMove = null;
 		while (humanMove == null) {
 			// Print out the instructions.
-			out.print(String.format(" Select your throw [%s,%s,%s]: ",
-					ThrowToken.ROCK.getToken(), ThrowToken.PAPER.getToken(),
-					ThrowToken.SCISSORS.getToken()));
+			out.print(String.format(" Select your throw [%s,%s,%s]: ", ThrowToken.ROCK.getToken(),
+					ThrowToken.PAPER.getToken(), ThrowToken.SCISSORS.getToken()));
 
 			// Grab the next character entered by the player.
 			String tokenEnteredByHuman = scanner.next();
 
 			// Try to match that character against a throw.
-			ThrowToken selectedThrowToken = ThrowToken
-					.match(tokenEnteredByHuman);
+			ThrowToken selectedThrowToken = ThrowToken.match(tokenEnteredByHuman);
 			if (selectedThrowToken != null)
 				humanMove = selectedThrowToken.getMove();
 			else
@@ -187,8 +176,7 @@ final class ConsoleGameDriver {
 	 * @return an updated {@link GameView} instance, wherein the opponent has
 	 *         now made their move for the specified round
 	 */
-	private static void waitForOpponentThrow(GameBundle gameBundle,
-			int roundIndex) {
+	private static void waitForOpponentThrow(GameBundle gameBundle, int roundIndex) {
 		GameView game = getGame(gameBundle);
 		GameRound round = game.getRounds().get(roundIndex);
 
@@ -222,14 +210,12 @@ final class ConsoleGameDriver {
 	 * @return the display name to use for the user's opponent in the active
 	 *         game
 	 */
-	private static String computeOpponentName(
-			IResourceBundleLoader resourceBundleLoader, GameBundle gameBundle) {
+	private static String computeOpponentName(IResourceBundleLoader resourceBundleLoader, GameBundle gameBundle) {
 		GameView game = getGame(gameBundle);
 		Player currentPlayer = game.getViewPlayer();
 
 		Player opponentPlayer;
-		if (game.getPlayer2() != null && game.getPlayer2().isHuman()
-				&& game.getPlayer2().equals(currentPlayer))
+		if (game.getPlayer2() != null && game.getPlayer2().isHuman() && game.getPlayer2().equals(currentPlayer))
 			opponentPlayer = game.getPlayer1();
 		else
 			opponentPlayer = game.getPlayer2();
@@ -239,8 +225,7 @@ final class ConsoleGameDriver {
 		} else if (opponentPlayer.getName() != null) {
 			return opponentPlayer.getName();
 		} else {
-			String aiNameKey = "players.ai.name."
-					+ opponentPlayer.getBuiltInAi().getDisplayNameKey();
+			String aiNameKey = "players.ai.name." + opponentPlayer.getBuiltInAi().getDisplayNameKey();
 			return resourceBundleLoader.getBundle().getString(aiNameKey);
 		}
 	}
@@ -260,8 +245,7 @@ final class ConsoleGameDriver {
 			throw new IllegalStateException();
 
 		int scoreForUser, scoreForOpponent;
-		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game
-				.getViewPlayer()));
+		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game.getViewPlayer()));
 		if (userRoles.contains(PlayerRole.PLAYER_1)) {
 			scoreForUser = game.getScoreForPlayer1();
 			scoreForOpponent = game.getScoreForPlayer2();
@@ -295,8 +279,7 @@ final class ConsoleGameDriver {
 			throw new IllegalArgumentException();
 
 		Result roundResult = round.getResult();
-		Collection<PlayerRole> userRoles = Arrays.asList(game
-				.getPlayerRoles(game.getViewPlayer()));
+		Collection<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game.getViewPlayer()));
 		if (roundResult == null)
 			throw new BadCodeMonkeyException();
 		else if (roundResult == Result.TIED)
@@ -320,8 +303,7 @@ final class ConsoleGameDriver {
 			throw new IllegalArgumentException();
 
 		int scoreForUser, scoreForOpponent;
-		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game
-				.getViewPlayer()));
+		List<PlayerRole> userRoles = Arrays.asList(game.getPlayerRoles(game.getViewPlayer()));
 		if (userRoles.contains(PlayerRole.PLAYER_1)) {
 			scoreForUser = game.getScoreForPlayer1();
 			scoreForOpponent = game.getScoreForPlayer2();
@@ -330,8 +312,7 @@ final class ConsoleGameDriver {
 			scoreForOpponent = game.getScoreForPlayer1();
 		}
 
-		return String.format("You: %d, Computer: %d", scoreForUser,
-				scoreForOpponent);
+		return String.format("You: %d, Computer: %d", scoreForUser, scoreForOpponent);
 	}
 
 	/**

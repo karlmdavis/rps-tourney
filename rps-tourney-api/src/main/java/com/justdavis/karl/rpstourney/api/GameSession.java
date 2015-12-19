@@ -186,8 +186,7 @@ public final class GameSession {
 		// Is the round now over?
 		if (currentThrowPlayer1 != null && currentThrowPlayer2 != null) {
 			// Record the completed round.
-			GameRound completedRound = new GameRound(roundIndex,
-					currentThrowPlayer1, currentThrowPlayer2);
+			GameRound completedRound = new GameRound(roundIndex, currentThrowPlayer1, currentThrowPlayer2);
 			completedRounds.add(completedRound);
 
 			// Clean things up for the next round.

@@ -75,8 +75,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 
 	private static final AuthenticationDetailsSource<HttpServletRequest, ?> AUTH_DETAILS_BUILDER = new WebAuthenticationDetailsSource();
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(CustomRememberMeServices.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomRememberMeServices.class);
 
 	private final AppConfig appConfig;
 	private final CookieStore serviceClientCookieStore;
@@ -94,8 +93,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *            the injected {@link AccountsClient} to use
 	 */
 	@Inject
-	public CustomRememberMeServices(AppConfig appConfig,
-			CookieStore serviceClientCookieStore,
+	public CustomRememberMeServices(AppConfig appConfig, CookieStore serviceClientCookieStore,
 			IAccountsResource accountsClient) {
 		this.appConfig = appConfig;
 		this.serviceClientCookieStore = serviceClientCookieStore;
@@ -107,8 +105,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public Authentication autoLogin(HttpServletRequest request,
-			HttpServletResponse response) {
+	public Authentication autoLogin(HttpServletRequest request, HttpServletResponse response) {
 		LOGGER.trace("Authenticating request...");
 
 		/*
@@ -118,8 +115,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 		 */
 
 		// Grab the cookie (if any).
-		Cookie rememberMeCookie = CookiesUtils.extractCookie(COOKIE_NAME,
-				request);
+		Cookie rememberMeCookie = CookiesUtils.extractCookie(COOKIE_NAME, request);
 		if (rememberMeCookie == null) {
 			LOGGER.trace("Request had no auth token.");
 			return null;
@@ -151,8 +147,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 			 */
 			throw new BadCodeMonkeyException(e);
 		}
-		NewCookie serviceClientAuthCookie = AuthTokenCookieHelper
-				.createAuthTokenCookie(rememberMeValue, requestUri);
+		NewCookie serviceClientAuthCookie = AuthTokenCookieHelper.createAuthTokenCookie(rememberMeValue, requestUri);
 		serviceClientCookieStore.remember(serviceClientAuthCookie);
 
 		/*
@@ -163,22 +158,18 @@ public class CustomRememberMeServices implements RememberMeServices {
 		try {
 			validatedAccount = accountsClient.validateAuth();
 		} catch (HttpClientException e) {
-			if (e.getStatus().getStatusCode() == Status.UNAUTHORIZED
-					.getStatusCode()) {
+			if (e.getStatus().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
 				/*
 				 * Called the web service successfully, but it said the login
 				 * was invalid.
 				 */
-				LOGGER.warn(String.format(
-						"Invalid remember me token '%s' on request '%s'.",
-						rememberMeValue, request));
+				LOGGER.warn(String.format("Invalid remember me token '%s' on request '%s'.", rememberMeValue, request));
 				CookiesUtils.cancelCookie(COOKIE_NAME, response);
 				return null;
 			}
 
 			// Seems to be a problem contacting the web service.
-			throw new IllegalStateException(
-					"Unable to validate login with service.", e);
+			throw new IllegalStateException("Unable to validate login with service.", e);
 		}
 
 		/*
@@ -190,8 +181,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
 		for (SecurityRole role : validatedAccount.getRoles())
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getId()));
-		RememberMeAuthenticationToken auth = new RememberMeAuthenticationToken(
-				REMEMBER_ME_TOKEN_KEY, validatedAccount, grantedAuthorities);
+		RememberMeAuthenticationToken auth = new RememberMeAuthenticationToken(REMEMBER_ME_TOKEN_KEY, validatedAccount,
+				grantedAuthorities);
 		auth.setDetails(AUTH_DETAILS_BUILDER.buildDetails(request));
 
 		return auth;
@@ -202,8 +193,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void loginFail(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void loginFail(HttpServletRequest request, HttpServletResponse response) {
 		/*
 		 * This method's JavaDoc instructs that, whenever a user tries to login
 		 * and supplies invalid credentials, that their auto-login token should
@@ -221,8 +211,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *      org.springframework.security.core.Authentication)
 	 */
 	@Override
-	public void loginSuccess(HttpServletRequest request,
-			HttpServletResponse response,
+	public void loginSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication successfulAuthentication) {
 		/*
 		 * Typical RememberMeServices implementations would check the request
@@ -250,8 +239,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *            the principal that was successfully authenticated in the
 	 *            specified {@link HttpServletRequest}
 	 */
-	private void saveRememberMeToken(HttpServletRequest request,
-			HttpServletResponse response,
+	private void saveRememberMeToken(HttpServletRequest request, HttpServletResponse response,
 			Authentication successfulAuthentication) {
 		/*
 		 * This is a bit hokey, but to avoid having to create a separate model
@@ -283,8 +271,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 		/*
 		 * Convert the CookieStore's JAX-RS cookie into a servlet API cookie.
 		 */
-		Cookie servletResponseAuthTokenCookie = createRememberMeCookie(
-				appConfig, request, serviceClientAuthTokenCookie.getValue());
+		Cookie servletResponseAuthTokenCookie = createRememberMeCookie(appConfig, request,
+				serviceClientAuthTokenCookie.getValue());
 
 		// Add the cookie to the response.
 		response.addCookie(servletResponseAuthTokenCookie);
@@ -303,14 +291,11 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 *         basically just contains the same {@link AuthToken} as is used by
 	 *         the web service clients
 	 */
-	static Cookie createRememberMeCookie(AppConfig appConfig,
-			HttpServletRequest request, String authTokenCookieValue) {
-		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME,
-				authTokenCookieValue);
+	static Cookie createRememberMeCookie(AppConfig appConfig, HttpServletRequest request, String authTokenCookieValue) {
+		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME, authTokenCookieValue);
 
 		servletResponseAuthTokenCookie.setVersion(0);
-		CookiesUtils.applyCookieSecurityProperties(
-				servletResponseAuthTokenCookie, appConfig);
+		CookiesUtils.applyCookieSecurityProperties(servletResponseAuthTokenCookie, appConfig);
 		int maxAge = 60 * 60 * 24 * 365 * 1;
 		servletResponseAuthTokenCookie.setMaxAge(maxAge);
 

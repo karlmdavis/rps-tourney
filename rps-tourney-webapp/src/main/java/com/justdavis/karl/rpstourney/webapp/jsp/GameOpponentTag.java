@@ -89,8 +89,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
-			applicationContext.getAutowireCapableBeanFactory().autowireBean(
-					this);
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
 
 			this.initialized = true;
 		}
@@ -133,9 +132,8 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 			return null;
 
 		// Calculate the content.
-		String content = PlayerNameTag.generateContent(messageSource,
-				pageContext.getELContext().getLocale(), authenticatedAccount,
-				game, game.determineOpponent(authenticatedAccount), false);
+		String content = PlayerNameTag.generateContent(messageSource, pageContext.getELContext().getLocale(),
+				authenticatedAccount, game, game.determineOpponent(authenticatedAccount), false);
 
 		return content;
 	}

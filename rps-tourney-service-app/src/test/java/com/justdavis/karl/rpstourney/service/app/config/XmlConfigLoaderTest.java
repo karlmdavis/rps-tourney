@@ -16,8 +16,6 @@ import org.junit.rules.TemporaryFolder;
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
 import com.justdavis.karl.misc.datasources.hsql.HsqlConnector;
 import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
-import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
-import com.justdavis.karl.rpstourney.service.app.config.XmlConfigLoader;
 
 /**
  * Unit tests for {@link XmlConfigLoader}.
@@ -39,27 +37,23 @@ public final class XmlConfigLoaderTest {
 		 * Sanity check: We're going to create a config file in the working
 		 * directory, so lets make sure that there isn't one there already.
 		 */
-		Path defaultConfigPath = FileSystems.getDefault().getPath(
-				XmlConfigLoader.CONFIG_DEFAULT);
+		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))
 			throw new IllegalStateException();
 
 		try {
 			// Copy the sample config file to the working directory.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
 			Files.copy(sampleConfigStream, defaultConfigPath);
 
 			// Use XmlConfigLoader to load the config, then verify it.
 			@SuppressWarnings("unchecked")
-			XmlConfigLoader configLoader = new XmlConfigLoader(
-					new DataSourceConnectorsManager(new HsqlConnector()));
+			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertTrue(config.getDataSourceCoordinates() instanceof HsqlCoordinates);
-			HsqlCoordinates coords = (HsqlCoordinates) config
-					.getDataSourceCoordinates();
+			HsqlCoordinates coords = (HsqlCoordinates) config.getDataSourceCoordinates();
 			Assert.assertEquals("jdbc:hsqldb:mem:foo", coords.getUrl());
 		} finally {
 			// Need to ensure we delete the file we've created.
@@ -86,25 +80,20 @@ public final class XmlConfigLoaderTest {
 		try {
 			// Set the property.
 			File tempConfigFile = tempFolder.newFile();
-			System.setProperty(XmlConfigLoader.CONFIG_PROP,
-					tempConfigFile.getAbsolutePath());
+			System.setProperty(XmlConfigLoader.CONFIG_PROP, tempConfigFile.getAbsolutePath());
 
 			// Copy the sample config file to the temp file.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
-			Files.copy(sampleConfigStream, tempConfigFile.toPath(),
-					StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(sampleConfigStream, tempConfigFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 			// Use XmlConfigLoader to load the config, then verify it.
 			@SuppressWarnings("unchecked")
-			XmlConfigLoader configLoader = new XmlConfigLoader(
-					new DataSourceConnectorsManager(new HsqlConnector()));
+			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertTrue(config.getDataSourceCoordinates() instanceof HsqlCoordinates);
-			HsqlCoordinates coords = (HsqlCoordinates) config
-					.getDataSourceCoordinates();
+			HsqlCoordinates coords = (HsqlCoordinates) config.getDataSourceCoordinates();
 			Assert.assertEquals("jdbc:hsqldb:mem:foo", coords.getUrl());
 		} finally {
 			// Need to ensure we unset the config property.
@@ -125,22 +114,19 @@ public final class XmlConfigLoaderTest {
 		 * Sanity check: We're going to create a config file in the working
 		 * directory, so lets make sure that there isn't one there already.
 		 */
-		Path defaultConfigPath = FileSystems.getDefault().getPath(
-				XmlConfigLoader.CONFIG_DEFAULT);
+		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))
 			throw new IllegalStateException();
 
 		try {
 			// Copy the sample config file to the working directory.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
 			Files.copy(sampleConfigStream, defaultConfigPath);
 
 			// Use XmlConfigLoader to load the config twice.
 			@SuppressWarnings("unchecked")
-			XmlConfigLoader configLoader = new XmlConfigLoader(
-					new DataSourceConnectorsManager(new HsqlConnector()));
+			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config1 = configLoader.getConfig();
 			ServiceConfig config2 = configLoader.getConfig();
 			Assert.assertNotNull(config1);

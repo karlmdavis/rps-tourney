@@ -33,15 +33,13 @@ public final class XmlConfigLoaderTest {
 		 * Sanity check: We're going to create a config file in the working
 		 * directory, so lets make sure that there isn't one there already.
 		 */
-		Path defaultConfigPath = FileSystems.getDefault().getPath(
-				XmlConfigLoader.CONFIG_DEFAULT);
+		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))
 			throw new IllegalStateException();
 
 		try {
 			// Copy the sample config file to the working directory.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
 			Files.copy(sampleConfigStream, defaultConfigPath);
 
@@ -50,11 +48,9 @@ public final class XmlConfigLoaderTest {
 			AppConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertNotNull(config.getBaseUrl());
-			Assert.assertEquals("https://example.com/", config.getBaseUrl()
-					.toString());
+			Assert.assertEquals("https://example.com/", config.getBaseUrl().toString());
 			Assert.assertNotNull(config.getClientServiceRoot());
-			Assert.assertEquals("https://example.com/service", config
-					.getClientServiceRoot().toString());
+			Assert.assertEquals("https://example.com/service", config.getClientServiceRoot().toString());
 		} finally {
 			// Need to ensure we delete the file we've created.
 			Files.deleteIfExists(defaultConfigPath);
@@ -80,26 +76,21 @@ public final class XmlConfigLoaderTest {
 		try {
 			// Set the property.
 			File tempConfigFile = tempFolder.newFile();
-			System.setProperty(XmlConfigLoader.CONFIG_PROP,
-					tempConfigFile.getAbsolutePath());
+			System.setProperty(XmlConfigLoader.CONFIG_PROP, tempConfigFile.getAbsolutePath());
 
 			// Copy the sample config file to the temp file.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
-			Files.copy(sampleConfigStream, tempConfigFile.toPath(),
-					StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(sampleConfigStream, tempConfigFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 			// Use XmlConfigLoader to load the config, then verify it.
 			XmlConfigLoader configLoader = new XmlConfigLoader();
 			AppConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
 			Assert.assertNotNull(config.getBaseUrl());
-			Assert.assertEquals("https://example.com/", config.getBaseUrl()
-					.toString());
+			Assert.assertEquals("https://example.com/", config.getBaseUrl().toString());
 			Assert.assertNotNull(config.getClientServiceRoot());
-			Assert.assertEquals("https://example.com/service", config
-					.getClientServiceRoot().toString());
+			Assert.assertEquals("https://example.com/service", config.getClientServiceRoot().toString());
 		} finally {
 			// Need to ensure we unset the config property.
 			System.getProperties().remove(XmlConfigLoader.CONFIG_PROP);
@@ -119,15 +110,13 @@ public final class XmlConfigLoaderTest {
 		 * Sanity check: We're going to create a config file in the working
 		 * directory, so lets make sure that there isn't one there already.
 		 */
-		Path defaultConfigPath = FileSystems.getDefault().getPath(
-				XmlConfigLoader.CONFIG_DEFAULT);
+		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))
 			throw new IllegalStateException();
 
 		try {
 			// Copy the sample config file to the working directory.
-			InputStream sampleConfigStream = Thread.currentThread()
-					.getContextClassLoader()
+			InputStream sampleConfigStream = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("sample-xml/config-1.xml");
 			Files.copy(sampleConfigStream, defaultConfigPath);
 

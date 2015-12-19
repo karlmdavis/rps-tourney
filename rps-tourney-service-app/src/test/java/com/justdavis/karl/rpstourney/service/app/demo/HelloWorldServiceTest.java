@@ -3,9 +3,6 @@ package com.justdavis.karl.rpstourney.service.app.demo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.justdavis.karl.rpstourney.service.app.demo.HelloWorldServiceImpl;
-import com.justdavis.karl.rpstourney.service.app.demo.IHelloWorldService;
-
 /**
  * Unit tests for {@link HelloWorldServiceImpl}.
  */

@@ -44,16 +44,12 @@ public final class ScriptedAiPlayerTest extends AbstractAiPlayerTester {
 		 * paper.
 		 */
 
-		Throw aiThrow1 = aiPlayer.selectThrow(game.getMaxRounds(),
-				game.getCompletedRounds());
+		Throw aiThrow1 = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
 		Assert.assertEquals(Throw.ROCK, aiThrow1);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-				aiThrow1);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-				Throw.PAPER);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1, aiThrow1);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2, Throw.PAPER);
 
-		Throw aiThrow2 = aiPlayer.selectThrow(game.getCurrentRoundIndex(),
-				game.getCompletedRounds());
+		Throw aiThrow2 = aiPlayer.selectThrow(game.getCurrentRoundIndex(), game.getCompletedRounds());
 		Assert.assertEquals(Throw.ROCK, aiThrow2);
 	}
 
@@ -63,8 +59,7 @@ public final class ScriptedAiPlayerTest extends AbstractAiPlayerTester {
 	 */
 	@Test
 	public void scriptWithTwoEntries() {
-		ScriptedAiPlayer aiPlayer = new ScriptedAiPlayer(Throw.ROCK,
-				Throw.PAPER);
+		ScriptedAiPlayer aiPlayer = new ScriptedAiPlayer(Throw.ROCK, Throw.PAPER);
 		GameSession game = new GameSession(11);
 
 		/*
@@ -72,24 +67,17 @@ public final class ScriptedAiPlayerTest extends AbstractAiPlayerTester {
 		 * scissors.
 		 */
 
-		Throw aiThrow1 = aiPlayer.selectThrow(game.getMaxRounds(),
-				game.getCompletedRounds());
+		Throw aiThrow1 = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
 		Assert.assertEquals(Throw.ROCK, aiThrow1);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-				aiThrow1);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-				Throw.SCISSORS);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1, aiThrow1);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2, Throw.SCISSORS);
 
-		Throw aiThrow2 = aiPlayer.selectThrow(game.getMaxRounds(),
-				game.getCompletedRounds());
+		Throw aiThrow2 = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
 		Assert.assertEquals(Throw.PAPER, aiThrow2);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1,
-				aiThrow2);
-		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2,
-				Throw.SCISSORS);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_1, aiThrow2);
+		game.submitThrow(game.getCurrentRoundIndex(), PlayerRole.PLAYER_2, Throw.SCISSORS);
 
-		Throw aiThrow3 = aiPlayer.selectThrow(game.getMaxRounds(),
-				game.getCompletedRounds());
+		Throw aiThrow3 = aiPlayer.selectThrow(game.getMaxRounds(), game.getCompletedRounds());
 		Assert.assertEquals(Throw.ROCK, aiThrow3);
 	}
 }

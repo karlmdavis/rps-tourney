@@ -48,8 +48,7 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GameRound {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GameRound.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameRound.class);
 
 	@Id
 	/*
@@ -203,13 +202,11 @@ public class GameRound {
 	 *             {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
-	void setThrowForPlayer1(Throw throwForPlayer1,
-			Instant throwForPlayer1Timestamp) {
+	void setThrowForPlayer1(Throw throwForPlayer1, Instant throwForPlayer1Timestamp) {
 		if (throwForPlayer1 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer1 != null) {
-			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.",
-					this.throwForPlayer1, throwForPlayer1);
+			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.", this.throwForPlayer1, throwForPlayer1);
 			throw new GameConflictException(ConflictType.THROW_ALREADY_SET);
 		}
 
@@ -265,13 +262,11 @@ public class GameRound {
 	 *             {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
-	void setThrowForPlayer2(Throw throwForPlayer2,
-			Instant throwForPlayer2Timestamp) {
+	void setThrowForPlayer2(Throw throwForPlayer2, Instant throwForPlayer2Timestamp) {
 		if (throwForPlayer2 == null)
 			throw new IllegalArgumentException();
 		if (this.throwForPlayer2 != null) {
-			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.",
-					this.throwForPlayer2, throwForPlayer2);
+			LOGGER.warn("Throw already set to '{}'; can't set to '{}'.", this.throwForPlayer2, throwForPlayer2);
 			throw new GameConflictException(ConflictType.THROW_ALREADY_SET);
 		}
 

@@ -29,27 +29,21 @@ public final class RegisterIT {
 			String username = buildRandomEmail();
 			driver.get(ITUtils.buildWebAppUrl("register"));
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()), 1,
 					driver.findElements(By.id("inputEmail")).size());
 			driver.findElement(By.id("inputEmail")).sendKeys(username);
 			driver.findElement(By.id("inputPassword1")).sendKeys("secret");
 			driver.findElement(By.id("inputPassword2")).sendKeys("secret");
-			driver.findElement(
-					By.cssSelector("form#register button[type=submit]"))
-					.click();
+			driver.findElement(By.cssSelector("form#register button[type=submit]")).click();
 
 			// Ensure we were redirected to the homepage.
-			Assert.assertEquals(ITUtils.buildWebAppUrl(""),
-					driver.getCurrentUrl());
+			Assert.assertEquals(ITUtils.buildWebAppUrl(""), driver.getCurrentUrl());
 
 			// Attempt to access the account details page.
 			driver.get(ITUtils.buildWebAppUrl("account"));
-			Assert.assertEquals(ITUtils.buildWebAppUrl("account"),
-					driver.getCurrentUrl());
+			Assert.assertEquals(ITUtils.buildWebAppUrl("account"), driver.getCurrentUrl());
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()), 1,
 					driver.findElements(By.id("account-properties")).size());
 		} finally {
 			if (driver != null)
@@ -75,38 +69,29 @@ public final class RegisterIT {
 			String username = buildRandomEmail();
 			driver.get(ITUtils.buildWebAppUrl("register"));
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()), 1,
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()), 1,
 					driver.findElements(By.id("inputEmail")).size());
 			driver.findElement(By.id("inputEmail")).sendKeys(username);
 			driver.findElement(By.id("inputPassword1")).sendKeys("secret");
 			driver.findElement(By.id("inputPassword2")).sendKeys("secret");
-			driver.findElement(
-					By.cssSelector("form#register button[type=submit]"))
-					.click();
+			driver.findElement(By.cssSelector("form#register button[type=submit]")).click();
 
 			// Ensure we were redirected to the homepage.
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()),
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()),
 					ITUtils.buildWebAppUrl(""), driver.getCurrentUrl());
 
 			// Verify that the user's game is still there.
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()),
-					1,
-					driver.findElements(
-							By.cssSelector(String.format(
-									"table#player-games a[href='%s']", gameUrl)))
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()), 1,
+					driver.findElements(By.cssSelector(String.format("table#player-games a[href='%s']", gameUrl)))
 							.size());
 
 			// Verify that the account was actually registered.
 			driver.get(ITUtils.buildWebAppUrl("account"));
 			Assert.assertEquals(
-					String.format("Invalid response: %s: %s",
-							driver.getCurrentUrl(), driver.getPageSource()),
-					username, driver.findElement(By.id("emails")).getText());
+					String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()), username,
+					driver.findElement(By.id("emails")).getText());
 		} finally {
 			if (driver != null)
 				driver.quit();

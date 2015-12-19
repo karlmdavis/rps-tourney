@@ -43,13 +43,13 @@ public class AuditAccountGameMerge {
 	@SequenceGenerator(name = "AuditAccountGameMerges_id_seq", sequenceName = "auditaccountgamemerges_id_seq")
 	private long id;
 
-	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH })
 	@JoinColumn(name = "`parentAuditAccountMergeId`", nullable = false, updatable = false)
 	private AuditAccountMerge parentAuditAccountMerge;
 
-	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH })
 	/*
 	 * FIXME This column can't be quoted unless/until
 	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
@@ -71,8 +71,7 @@ public class AuditAccountGameMerge {
 	 * @param playerRole
 	 *            the value to use for {@link #getPlayerRole()}
 	 */
-	public AuditAccountGameMerge(AuditAccountMerge parentAuditAccountMerge,
-			Game game, PlayerRole playerRole) {
+	public AuditAccountGameMerge(AuditAccountMerge parentAuditAccountMerge, Game game, PlayerRole playerRole) {
 		this.parentAuditAccountMerge = parentAuditAccountMerge;
 		this.game = game;
 		this.playerRole = playerRole;

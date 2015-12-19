@@ -40,13 +40,11 @@ public final class GuestAuthResourceImplIT {
 	 */
 	@Test
 	public void createLogin() {
-		ClientConfig clientConfig = new ClientConfig(
-				server.getServerBaseAddress());
+		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		// Create the login and account.
-		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig,
-				cookieStore);
+		GuestAuthClient guestAuthClient = new GuestAuthClient(clientConfig, cookieStore);
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
 		// Verify the create results.
@@ -54,8 +52,7 @@ public final class GuestAuthResourceImplIT {
 		Assert.assertEquals(1, loginsDao.getLogins().size());
 
 		// Validate the login.
-		AccountsClient accountsClient = new AccountsClient(clientConfig,
-				cookieStore);
+		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		Account validatedAccount = accountsClient.validateAuth();
 
 		// Verify the validate results.

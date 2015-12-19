@@ -40,10 +40,8 @@ public final class GameView extends AbstractGame {
 	 *            the value to use for {@link #getViewPlayer()}
 	 */
 	public GameView(Game gameToWrap, Player viewPlayer) {
-		super(gameToWrap.getId(), gameToWrap.getCreatedTimestamp(), gameToWrap
-				.getState(), gameToWrap.getMaxRounds(), filterRoundsForPlayer(
-				gameToWrap, viewPlayer), gameToWrap.getPlayer1(), gameToWrap
-				.getPlayer2());
+		super(gameToWrap.getId(), gameToWrap.getCreatedTimestamp(), gameToWrap.getState(), gameToWrap.getMaxRounds(),
+				filterRoundsForPlayer(gameToWrap, viewPlayer), gameToWrap.getPlayer1(), gameToWrap.getPlayer2());
 
 		this.viewPlayer = viewPlayer;
 	}
@@ -68,12 +66,9 @@ public final class GameView extends AbstractGame {
 	 * @return the filtered {@link GameRound}s that should be visible to the
 	 *         specified {@link Player}
 	 */
-	private static List<GameRound> filterRoundsForPlayer(Game gameToWrap,
-			Player player) {
-		boolean isPlayer1 = player != null
-				&& player.equals(gameToWrap.getPlayer1());
-		boolean isPlayer2 = player != null && gameToWrap.getPlayer2() != null
-				&& player.equals(gameToWrap.getPlayer2());
+	private static List<GameRound> filterRoundsForPlayer(Game gameToWrap, Player player) {
+		boolean isPlayer1 = player != null && player.equals(gameToWrap.getPlayer1());
+		boolean isPlayer2 = player != null && gameToWrap.getPlayer2() != null && player.equals(gameToWrap.getPlayer2());
 
 		List<GameRound> rounds = gameToWrap.getRounds();
 		List<GameRound> filteredRounds = new ArrayList<GameRound>(rounds.size());
@@ -83,18 +78,16 @@ public final class GameView extends AbstractGame {
 				filteredRounds.add(round);
 			} else {
 				// Otherwise, build a copy of the round and hide others' moves.
-				GameRound filteredRound = new GameRound(round.getGame(),
-						round.getRoundIndex(), round.getAdjustedRoundIndex());
+				GameRound filteredRound = new GameRound(round.getGame(), round.getRoundIndex(),
+						round.getAdjustedRoundIndex());
 
 				Throw player1Throw = round.getThrowForPlayer1();
 				if (player1Throw != null && isPlayer1)
-					filteredRound.setThrowForPlayer1(player1Throw,
-							round.getThrowForPlayer1Timestamp());
+					filteredRound.setThrowForPlayer1(player1Throw, round.getThrowForPlayer1Timestamp());
 
 				Throw player2Throw = round.getThrowForPlayer2();
 				if (player2Throw != null && isPlayer2)
-					filteredRound.setThrowForPlayer2(player2Throw,
-							round.getThrowForPlayer2Timestamp());
+					filteredRound.setThrowForPlayer2(player2Throw, round.getThrowForPlayer2Timestamp());
 
 				filteredRounds.add(filteredRound);
 			}

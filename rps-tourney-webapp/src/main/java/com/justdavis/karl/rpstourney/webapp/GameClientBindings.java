@@ -36,8 +36,7 @@ public class GameClientBindings {
 	 */
 	@Bean
 	public ClientConfig serviceClientConfig(AppConfig appConfig) {
-		ClientConfig serviceClientConfig = new ClientConfig(
-				appConfig.getClientServiceRoot());
+		ClientConfig serviceClientConfig = new ClientConfig(appConfig.getClientServiceRoot());
 		return serviceClientConfig;
 	}
 
@@ -85,10 +84,8 @@ public class GameClientBindings {
 	 * @return the {@link IAccountsResource} client for the application to use
 	 */
 	@Bean
-	public IAccountsResource accountsClient(ClientConfig config,
-			CookieStore cookieStore) {
-		IAccountsResource accountsClient = new AccountsClient(config,
-				cookieStore);
+	public IAccountsResource accountsClient(ClientConfig config, CookieStore cookieStore) {
+		IAccountsResource accountsClient = new AccountsClient(config, cookieStore);
 		return accountsClient;
 	}
 
@@ -100,8 +97,7 @@ public class GameClientBindings {
 	 */
 	@Bean
 	public IAccountsClientFactory accountsClientFactory(ClientConfig config) {
-		IAccountsClientFactory accountsClientFactory = new DefaultAccountsClientFactory(
-				config);
+		IAccountsClientFactory accountsClientFactory = new DefaultAccountsClientFactory(config);
 		return accountsClientFactory;
 	}
 
@@ -114,10 +110,8 @@ public class GameClientBindings {
 	 * @return the {@link IGuestAuthResource} client for the application to use
 	 */
 	@Bean
-	public IGuestAuthResource guestAuthClient(ClientConfig config,
-			CookieStore cookieStore) {
-		IGuestAuthResource gameAuthClient = new GuestAuthClient(config,
-				cookieStore);
+	public IGuestAuthResource guestAuthClient(ClientConfig config, CookieStore cookieStore) {
+		IGuestAuthResource gameAuthClient = new GuestAuthClient(config, cookieStore);
 		return gameAuthClient;
 	}
 
@@ -130,10 +124,8 @@ public class GameClientBindings {
 	 * @return the {@link IGameAuthResource} client for the application to use
 	 */
 	@Bean
-	public IGameAuthResource gameAuthClient(ClientConfig config,
-			CookieStore cookieStore) {
-		IGameAuthResource gameAuthClient = new GameAuthClient(config,
-				cookieStore);
+	public IGameAuthResource gameAuthClient(ClientConfig config, CookieStore cookieStore) {
+		IGameAuthResource gameAuthClient = new GameAuthClient(config, cookieStore);
 		return gameAuthClient;
 	}
 
@@ -160,8 +152,7 @@ public class GameClientBindings {
 	 * @return the {@link IPlayersResource} client for the application to use
 	 */
 	@Bean
-	public IPlayersResource playersClient(ClientConfig config,
-			CookieStore cookieStore) {
+	public IPlayersResource playersClient(ClientConfig config, CookieStore cookieStore) {
 		IPlayersResource playersClient = new PlayersClient(config, cookieStore);
 		return playersClient;
 	}

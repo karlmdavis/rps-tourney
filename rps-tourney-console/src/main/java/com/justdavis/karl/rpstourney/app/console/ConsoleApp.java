@@ -10,9 +10,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.LoggerContext;
-
 import com.justdavis.karl.rpstourney.app.console.i18n.DefaultResourceBundleLoader;
 import com.justdavis.karl.rpstourney.app.console.localservice.GameBundle;
 import com.justdavis.karl.rpstourney.app.console.localservice.LocalGameClient;
@@ -31,6 +28,9 @@ import com.justdavis.karl.rpstourney.service.client.auth.guest.GuestAuthClient;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 
 /**
  * <p>
@@ -66,8 +66,7 @@ public final class ConsoleApp {
 	private static final Pattern GAME_URI_PATTERN = Pattern
 			.compile("^https?://.+/(" + Game.ID_PATTERN.pattern() + ")$");
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(ConsoleApp.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
 
 	private final OptionsParser optionsParser;
 
@@ -160,8 +159,7 @@ public final class ConsoleApp {
 		}
 
 		// Play the game.
-		ConsoleGameDriver gameDriver = new ConsoleGameDriver(
-				new DefaultResourceBundleLoader());
+		ConsoleGameDriver gameDriver = new ConsoleGameDriver(new DefaultResourceBundleLoader());
 		gameDriver.playGameSession(gameBundle, out, in);
 
 		return EXIT_CODE_OK;
@@ -172,10 +170,8 @@ public final class ConsoleApp {
 	 */
 	private static void enableDebugLogging() {
 		// Grab the root Logback logger.
-		LoggerContext loggerContext = (LoggerContext) LoggerFactory
-				.getILoggerFactory();
-		ch.qos.logback.classic.Logger rootLogbackLogger = loggerContext
-				.getLogger(Logger.ROOT_LOGGER_NAME);
+		LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+		ch.qos.logback.classic.Logger rootLogbackLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
 
 		/*
 		 * Enable all logging levels at the root logger, which will in turn
@@ -193,8 +189,7 @@ public final class ConsoleApp {
 		Game game = new Game(new Player(new Account()));
 		game.setMaxRounds(options.getNumRounds());
 		game.setPlayer2(new Player(options.getAiOpponent()));
-		LocalGameClient gameClient = new LocalGameClient(game,
-				game.getPlayer1());
+		LocalGameClient gameClient = new LocalGameClient(game, game.getPlayer1());
 
 		return new GameBundle(gameClient, game.getId());
 	}
@@ -208,8 +203,7 @@ public final class ConsoleApp {
 	 *             A {@link GameConflictException} may be thrown if a problem is
 	 *             found with the provided {@link Options}.
 	 */
-	private static GameBundle createOnlineGame(Options options)
-			throws ConsoleGameExitException {
+	private static GameBundle createOnlineGame(Options options) throws ConsoleGameExitException {
 		ClientConfig config = new ClientConfig(options.getServerUri());
 		CookieStore cookieStore = new CookieStore();
 
@@ -218,26 +212,19 @@ public final class ConsoleApp {
 
 		if (options.getGameUri() == null) {
 			GameView game = gameClient.createGame();
-			gameClient.setMaxRounds(game.getId(), game.getMaxRounds(),
-					options.getNumRounds());
-			IPlayersResource playersClient = new PlayersClient(config,
-					cookieStore);
-			Set<Player> aiPlayers = playersClient
-					.getPlayersForBuiltInAis(Arrays.asList(options
-							.getAiOpponent()));
+			gameClient.setMaxRounds(game.getId(), game.getMaxRounds(), options.getNumRounds());
+			IPlayersResource playersClient = new PlayersClient(config, cookieStore);
+			Set<Player> aiPlayers = playersClient.getPlayersForBuiltInAis(Arrays.asList(options.getAiOpponent()));
 			if (aiPlayers.size() != 1)
-				throw new IllegalStateException("Unexpected AI lookup result: "
-						+ aiPlayers);
+				throw new IllegalStateException("Unexpected AI lookup result: " + aiPlayers);
 			Player aiPlayer = aiPlayers.iterator().next();
 			gameClient.inviteOpponent(game.getId(), aiPlayer.getId());
 
 			return new GameBundle(gameClient, game.getId());
 		} else {
-			Matcher gameUriMatcher = GAME_URI_PATTERN.matcher(options
-					.getGameUri().toString());
+			Matcher gameUriMatcher = GAME_URI_PATTERN.matcher(options.getGameUri().toString());
 			if (!gameUriMatcher.matches()) {
-				LOGGER.error("Unable to parse game URL: "
-						+ options.getGameUri());
+				LOGGER.error("Unable to parse game URL: " + options.getGameUri());
 				throw new ConsoleGameExitException(EXIT_CODE_BAD_ARGS);
 			}
 			String gameId = gameUriMatcher.group(1);
@@ -254,16 +241,12 @@ public final class ConsoleApp {
 	 * @param cookieStore
 	 *            the web service client {@link CookieStore} to use
 	 */
-	private static void authenticateToWebService(Options options,
-			ClientConfig config, CookieStore cookieStore) {
+	private static void authenticateToWebService(Options options, ClientConfig config, CookieStore cookieStore) {
 		if (options.getEmailAddress() != null) {
-			IGameAuthResource gameAuthClient = new GameAuthClient(config,
-					cookieStore);
-			gameAuthClient.loginWithGameAccount(options.getEmailAddress(),
-					options.getPassword());
+			IGameAuthResource gameAuthClient = new GameAuthClient(config, cookieStore);
+			gameAuthClient.loginWithGameAccount(options.getEmailAddress(), options.getPassword());
 		} else {
-			IGuestAuthResource guestAuthClient = new GuestAuthClient(config,
-					cookieStore);
+			IGuestAuthResource guestAuthClient = new GuestAuthClient(config, cookieStore);
 			guestAuthClient.loginAsGuest();
 		}
 	}

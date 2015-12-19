@@ -79,8 +79,7 @@ public class InternetAddressUserType implements UserType {
 	 *      java.lang.Object)
 	 */
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names,
-			SessionImplementor session, Object owner)
+	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
 			throws HibernateException, SQLException {
 		if (names.length != 1)
 			throw new BadCodeMonkeyException();
@@ -101,8 +100,8 @@ public class InternetAddressUserType implements UserType {
 	 *      java.lang.Object, int, org.hibernate.engine.spi.SessionImplementor)
 	 */
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index,
-			SessionImplementor session) throws HibernateException, SQLException {
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+			throws HibernateException, SQLException {
 
 		if (value != null) {
 			if (!(value instanceof InternetAddress))
@@ -156,8 +155,7 @@ public class InternetAddressUserType implements UserType {
 	 *      java.lang.Object)
 	 */
 	@Override
-	public Object assemble(Serializable cached, Object owner)
-			throws HibernateException {
+	public Object assemble(Serializable cached, Object owner) throws HibernateException {
 		if (cached == null)
 			return null;
 		if (!(cached instanceof String))
@@ -176,8 +174,7 @@ public class InternetAddressUserType implements UserType {
 	 *      java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public Object replace(Object original, Object target, Object owner)
-			throws HibernateException {
+	public Object replace(Object original, Object target, Object owner) throws HibernateException {
 		return deepCopy(original);
 	}
 

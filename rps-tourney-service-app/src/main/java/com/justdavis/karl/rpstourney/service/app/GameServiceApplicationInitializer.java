@@ -35,8 +35,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * 
  * @see SpringBindingsForWebServices
  */
-public final class GameServiceApplicationInitializer implements
-		WebApplicationInitializer {
+public final class GameServiceApplicationInitializer implements WebApplicationInitializer {
 	/**
 	 * The web application context-wide initialization parameter that specifies
 	 * the Spring parent {@link ApplicationContext} instance that should used
@@ -59,9 +58,8 @@ public final class GameServiceApplicationInitializer implements
 		 * configuration. If one is not available, we'll configure things
 		 * ourselves. It's expected that any integration tests that use Jetty as
 		 * the web application container will provide a parent
-		 * ApplicationContext. (See
-		 * com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs for
-		 * more details.)
+		 * ApplicationContext. (See com.justdavis.karl.rpstourney.service.app.
+		 * SpringBindingsForWebServiceITs for more details.)
 		 */
 		ApplicationContext springParentContext = findSpringParentContext(container);
 		if (springParentContext != null) {
@@ -87,8 +85,7 @@ public final class GameServiceApplicationInitializer implements
 
 		// Register the Servlet that will handle the Apache CXF JAX-RS services.
 		CXFServlet cxfServlet = new CXFServlet();
-		ServletRegistration.Dynamic cxfServletReg = container.addServlet(
-				"CXFServlet", cxfServlet);
+		ServletRegistration.Dynamic cxfServletReg = container.addServlet("CXFServlet", cxfServlet);
 		cxfServletReg.setLoadOnStartup(1);
 		cxfServletReg.addMapping("/*");
 	}
@@ -105,10 +102,8 @@ public final class GameServiceApplicationInitializer implements
 	 * @return the parent {@link ApplicationContext} for Spring, or
 	 *         <code>null</code> if none was found
 	 */
-	private static ApplicationContext findSpringParentContext(
-			ServletContext container) {
-		ApplicationContext springParentContext = (ApplicationContext) container
-				.getAttribute(SPRING_PARENT_CONTEXT);
+	private static ApplicationContext findSpringParentContext(ServletContext container) {
+		ApplicationContext springParentContext = (ApplicationContext) container.getAttribute(SPRING_PARENT_CONTEXT);
 		if (springParentContext == null)
 			return null;
 

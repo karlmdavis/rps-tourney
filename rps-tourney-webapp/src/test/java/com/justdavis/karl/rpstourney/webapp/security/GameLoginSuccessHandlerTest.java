@@ -41,27 +41,22 @@ public final class GameLoginSuccessHandlerTest {
 	 *             (shouldn't happen, but indicates test failure if it does)
 	 */
 	@Test
-	public void handleWithNoPreviousLogin() throws URISyntaxException,
-			IOException, ServletException {
+	public void handleWithNoPreviousLogin() throws URISyntaxException, IOException, ServletException {
 		// Create the mocks needed for the test.
-		AppConfig appConfig = new AppConfig(new URL("http://example.com/"),
-				new URL("http://example.com/"));
+		AppConfig appConfig = new AppConfig(new URL("http://example.com/"), new URL("http://example.com/"));
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 		Account account = new Account();
 		account.getAuthTokens().add(new AuthToken(account, UUID.randomUUID()));
-		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(
-				account);
+		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(account);
 		CustomMockAccountsClientFactory accountsClientFactory = null;
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				"foo@example.com", "secret");
+		Authentication auth = new UsernamePasswordAuthenticationToken("foo@example.com", "secret");
 
 		// Create the success handler and test it.
-		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(
-				appConfig, accountsClient, accountsClientFactory);
+		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(appConfig, accountsClient,
+				accountsClientFactory);
 		successHandler.onAuthenticationSuccess(mockRequest, mockResponse, auth);
-		Cookie authTokenCookie = mockResponse
-				.getCookie(CustomRememberMeServices.COOKIE_NAME);
+		Cookie authTokenCookie = mockResponse.getCookie(CustomRememberMeServices.COOKIE_NAME);
 		Assert.assertNotNull(authTokenCookie);
 	}
 
@@ -77,43 +72,33 @@ public final class GameLoginSuccessHandlerTest {
 	 *             (won't happen: addresses are hardcoded here)
 	 */
 	@Test
-	public void handleWithPreviousNonAnonLogin() throws URISyntaxException,
-			IOException, ServletException, AddressException {
+	public void handleWithPreviousNonAnonLogin()
+			throws URISyntaxException, IOException, ServletException, AddressException {
 		// Create the mocks needed for the test.
-		AppConfig appConfig = new AppConfig(new URL("http://example.com/"),
-				new URL("http://example.com/"));
+		AppConfig appConfig = new AppConfig(new URL("http://example.com/"), new URL("http://example.com/"));
 		Account accountForPreviousLogin = new Account();
-		accountForPreviousLogin.getAuthTokens().add(
-				new AuthToken(accountForPreviousLogin, UUID.randomUUID()));
-		accountForPreviousLogin.getLogins().add(
-				new GameLoginIdentity(accountForPreviousLogin,
-						new InternetAddress("foo@example.com"), "secret"));
+		accountForPreviousLogin.getAuthTokens().add(new AuthToken(accountForPreviousLogin, UUID.randomUUID()));
+		accountForPreviousLogin.getLogins()
+				.add(new GameLoginIdentity(accountForPreviousLogin, new InternetAddress("foo@example.com"), "secret"));
 		Account accountForNewLogin = new Account();
-		accountForNewLogin.getAuthTokens().add(
-				new AuthToken(accountForNewLogin, UUID.randomUUID()));
+		accountForNewLogin.getAuthTokens().add(new AuthToken(accountForNewLogin, UUID.randomUUID()));
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
-		Cookie cookieForExistingLogin = CustomRememberMeServices
-				.createRememberMeCookie(appConfig, mockRequest,
-						accountForPreviousLogin.getAuthToken().getToken()
-								.toString());
+		Cookie cookieForExistingLogin = CustomRememberMeServices.createRememberMeCookie(appConfig, mockRequest,
+				accountForPreviousLogin.getAuthToken().getToken().toString());
 		mockRequest.setCookies(cookieForExistingLogin);
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
-		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(
-				accountForNewLogin);
+		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(accountForNewLogin);
 		CustomMockAccountsClientFactory accountsClientFactory = new CustomMockAccountsClientFactory(
 				accountForPreviousLogin);
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				"foo@example.com", "secret");
+		Authentication auth = new UsernamePasswordAuthenticationToken("foo@example.com", "secret");
 
 		// Create the success handler and test it.
-		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(
-				appConfig, accountsClient, accountsClientFactory);
+		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(appConfig, accountsClient,
+				accountsClientFactory);
 		successHandler.onAuthenticationSuccess(mockRequest, mockResponse, auth);
-		Cookie authTokenCookie = mockResponse
-				.getCookie(CustomRememberMeServices.COOKIE_NAME);
+		Cookie authTokenCookie = mockResponse.getCookie(CustomRememberMeServices.COOKIE_NAME);
 		Assert.assertNotNull(authTokenCookie);
-		Assert.assertEquals(accountForNewLogin.getAuthToken().getToken()
-				.toString(), authTokenCookie.getValue());
+		Assert.assertEquals(accountForNewLogin.getAuthToken().getToken().toString(), authTokenCookie.getValue());
 		Assert.assertNull(accountsClient.getMergeTargetAccountId());
 		Assert.assertNull(accountsClient.getMergeSourceAccountAuthTokenValue());
 	}
@@ -138,49 +123,37 @@ public final class GameLoginSuccessHandlerTest {
 	 *             (won't happen: using hardcoded fields)
 	 */
 	@Test
-	public void handleWithPreviousAnonLogin() throws URISyntaxException,
-			IOException, ServletException, AddressException,
-			NoSuchFieldException, SecurityException, IllegalArgumentException,
-			IllegalAccessException {
+	public void handleWithPreviousAnonLogin()
+			throws URISyntaxException, IOException, ServletException, AddressException, NoSuchFieldException,
+			SecurityException, IllegalArgumentException, IllegalAccessException {
 		// Create the mocks needed for the test.
-		AppConfig appConfig = new AppConfig(new URL("http://example.com/"),
-				new URL("http://example.com/"));
+		AppConfig appConfig = new AppConfig(new URL("http://example.com/"), new URL("http://example.com/"));
 		Account accountForPreviousLogin = new Account();
-		accountForPreviousLogin.getAuthTokens().add(
-				new AuthToken(accountForPreviousLogin, UUID.randomUUID()));
-		accountForPreviousLogin.getLogins().add(
-				new GuestLoginIdentity(accountForPreviousLogin));
+		accountForPreviousLogin.getAuthTokens().add(new AuthToken(accountForPreviousLogin, UUID.randomUUID()));
+		accountForPreviousLogin.getLogins().add(new GuestLoginIdentity(accountForPreviousLogin));
 		Account accountForNewLogin = new Account();
 		Field accountIdField = Account.class.getDeclaredField("id");
 		accountIdField.setAccessible(true);
 		accountIdField.set(accountForNewLogin, 3);
-		accountForNewLogin.getAuthTokens().add(
-				new AuthToken(accountForNewLogin, UUID.randomUUID()));
+		accountForNewLogin.getAuthTokens().add(new AuthToken(accountForNewLogin, UUID.randomUUID()));
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
-		Cookie cookieForExistingLogin = CustomRememberMeServices
-				.createRememberMeCookie(appConfig, mockRequest,
-						accountForPreviousLogin.getAuthToken().getToken()
-								.toString());
+		Cookie cookieForExistingLogin = CustomRememberMeServices.createRememberMeCookie(appConfig, mockRequest,
+				accountForPreviousLogin.getAuthToken().getToken().toString());
 		mockRequest.setCookies(cookieForExistingLogin);
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
-		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(
-				accountForNewLogin);
+		CustomMockAccountsClient accountsClient = new CustomMockAccountsClient(accountForNewLogin);
 		CustomMockAccountsClientFactory accountsClientFactory = new CustomMockAccountsClientFactory(
 				accountForPreviousLogin);
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				"foo@example.com", "secret");
+		Authentication auth = new UsernamePasswordAuthenticationToken("foo@example.com", "secret");
 
 		// Create the success handler and test it.
-		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(
-				appConfig, accountsClient, accountsClientFactory);
+		GameLoginSuccessHandler successHandler = new GameLoginSuccessHandler(appConfig, accountsClient,
+				accountsClientFactory);
 		successHandler.onAuthenticationSuccess(mockRequest, mockResponse, auth);
-		Cookie authTokenCookie = mockResponse
-				.getCookie(CustomRememberMeServices.COOKIE_NAME);
+		Cookie authTokenCookie = mockResponse.getCookie(CustomRememberMeServices.COOKIE_NAME);
 		Assert.assertNotNull(authTokenCookie);
-		Assert.assertEquals(accountForNewLogin.getAuthToken().getToken()
-				.toString(), authTokenCookie.getValue());
-		Assert.assertEquals(new Long(accountForNewLogin.getId()),
-				accountsClient.getMergeTargetAccountId());
+		Assert.assertEquals(accountForNewLogin.getAuthToken().getToken().toString(), authTokenCookie.getValue());
+		Assert.assertEquals(new Long(accountForNewLogin.getId()), accountsClient.getMergeTargetAccountId());
 		Assert.assertEquals(accountForPreviousLogin.getAuthToken().getToken(),
 				accountsClient.getMergeSourceAccountAuthTokenValue());
 	}
@@ -189,8 +162,7 @@ public final class GameLoginSuccessHandlerTest {
 	 * A mock {@link IAccountsResource} client for use in
 	 * {@link GameLoginSuccessHandlerTest}.
 	 */
-	private static final class CustomMockAccountsClient extends
-			MockAccountsClient {
+	private static final class CustomMockAccountsClient extends MockAccountsClient {
 		private final Account account;
 		private Long mergeTargetAccountId;
 		private UUID mergeSourceAccountAuthTokenValue;
@@ -233,8 +205,7 @@ public final class GameLoginSuccessHandlerTest {
 		 *      java.util.UUID)
 		 */
 		@Override
-		public void mergeAccount(long targetAccountId,
-				UUID sourceAccountAuthTokenValue) {
+		public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
 			this.mergeTargetAccountId = targetAccountId;
 			this.mergeSourceAccountAuthTokenValue = sourceAccountAuthTokenValue;
 		}
@@ -262,8 +233,7 @@ public final class GameLoginSuccessHandlerTest {
 	 * An {@link IAccountsClientFactory} implementation that produces
 	 * {@link CustomMockAccountsClient} instances.
 	 */
-	private static final class CustomMockAccountsClientFactory implements
-			IAccountsClientFactory {
+	private static final class CustomMockAccountsClientFactory implements IAccountsClientFactory {
 		private final Account account;
 
 		/**
@@ -281,8 +251,7 @@ public final class GameLoginSuccessHandlerTest {
 		 * @see com.justdavis.karl.rpstourney.service.client.auth.IAccountsClientFactory#createAccountsClient(java.lang.String)
 		 */
 		@Override
-		public IAccountsResource createAccountsClient(
-				String authTokenValueForAccount) {
+		public IAccountsResource createAccountsClient(String authTokenValueForAccount) {
 			return new CustomMockAccountsClient(account);
 		}
 	}

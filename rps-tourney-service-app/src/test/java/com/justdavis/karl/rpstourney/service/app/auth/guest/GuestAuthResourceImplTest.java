@@ -31,8 +31,7 @@ public final class GuestAuthResourceImplTest {
 		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
 		MockAccountsDao accountsDao = new MockAccountsDao();
-		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
-				accountsDao);
+		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(accountsDao);
 
 		// Create the service.
 		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
@@ -59,8 +58,7 @@ public final class GuestAuthResourceImplTest {
 		HttpServletRequest httpRequest = new MockHttpServletRequest();
 		AccountSecurityContext securityContext = new AccountSecurityContext();
 		MockAccountsDao accountsDao = new MockAccountsDao();
-		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(
-				accountsDao);
+		MockGuestLoginIdentitiesDao loginsDao = new MockGuestLoginIdentitiesDao(accountsDao);
 
 		// Create the service.
 		GuestAuthResourceImpl authService = new GuestAuthResourceImpl();
@@ -73,8 +71,7 @@ public final class GuestAuthResourceImplTest {
 		authService.loginAsGuest();
 
 		// Call the service a second time logged in as the new Account.
-		securityContext = new AccountSecurityContext(
-				accountsDao.accounts.get(0));
+		securityContext = new AccountSecurityContext(accountsDao.accounts.get(0));
 		authService.setSecurityContext(securityContext);
 		expectedException.expect(WebApplicationException.class);
 		expectedException.expectMessage("User already logged in.");
