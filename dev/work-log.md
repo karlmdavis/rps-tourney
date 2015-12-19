@@ -4817,3 +4817,9 @@ This file should never be committed along with other files; it should always be 
 * 0.5h (20:07-20:38): General admin stuff.
     * Ran the new Eclipse Mars formatter on all of the Java files.
     * Removed the long-obsoleted `rps-tourney-api` module.
+
+### 2015-12-19, Saturday
+
+* 0.2h (16:40-16:52): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Started creating the webapp benchmarks.
+    * I'll refactor & rename everything once those are in place.
