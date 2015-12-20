@@ -4823,3 +4823,9 @@ This file should never be committed along with other files; it should always be 
 * 0.2h (16:40-16:52): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Started creating the webapp benchmarks.
     * I'll refactor & rename everything once those are in place.
+
+### 2015-12-20, Sunday
+
+* 0.65h (07:29-07:33,07:47-08:23): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Continued working on `WebAppGameDisplayBenchmarks`.
+    * Going to use HtmlUnit to load the web pages, even though it probably uses more CPU time than I'd like.
