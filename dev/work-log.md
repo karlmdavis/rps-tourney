@@ -4834,3 +4834,10 @@ This file should never be committed along with other files; it should always be 
 
 * 0.6h (21:43-22:18): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Continued working on `WebAppGameDisplayBenchmarks`.
+
+### 2015-12-22, Tuesday
+
+* 0.7h (22:25-23:06): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Finished a first cut of `WebAppGameDisplayBenchmarks`.
+    * Jeepers, HtmlUnit is *slow*. Need to see if there's anything I can do to cope with that...
+        * Maybe run it once during `@Setup`, and somehow figure out which resources it pulls, then just pull the resources in the benchmark?
