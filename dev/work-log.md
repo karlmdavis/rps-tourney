@@ -4841,3 +4841,11 @@ This file should never be committed along with other files; it should always be 
     * Finished a first cut of `WebAppGameDisplayBenchmarks`.
     * Jeepers, HtmlUnit is *slow*. Need to see if there's anything I can do to cope with that...
         * Maybe run it once during `@Setup`, and somehow figure out which resources it pulls, then just pull the resources in the benchmark?
+
+### 2015-12-23, Wednesday
+
+* 0.75h (20:48-21:34): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got HtmlUnit's performance back up by disabling CSS and JS.
+        * Does this still request those resources and just not process them?
+        * Need to enable access logging in a run against WTP and find out.
+        * Couldn't get access logging enabled in Cargo.
