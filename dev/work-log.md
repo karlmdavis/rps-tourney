@@ -4849,3 +4849,12 @@ This file should never be committed along with other files; it should always be 
         * Does this still request those resources and just not process them?
         * Need to enable access logging in a run against WTP and find out.
         * Couldn't get access logging enabled in Cargo.
+
+### 2015-12-24, Thursday
+
+* 0.2h (21:23-21:36): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * HtmlUnit does not load CSS, JS, etc. resources unless CSS & JS are enabled. Drat.
+    * Note: I **am** closing the HtmlUnit resources quickly in each iteration, so that's not the cause of the slowness.
+    * Have to decide how to proceed.
+        * Definitely might as well toss HtmlUnit. It's not doing anything for me.
+        * Do I want to add in loading the CSS and JS resources? Probably, yeah.
