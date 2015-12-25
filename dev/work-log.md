@@ -4858,3 +4858,11 @@ This file should never be committed along with other files; it should always be 
     * Have to decide how to proceed.
         * Definitely might as well toss HtmlUnit. It's not doing anything for me.
         * Do I want to add in loading the CSS and JS resources? Probably, yeah.
+
+### 2015-12-25, Friday
+
+* Merry Christmas!
+* 0.95h (07:26-07:39,07:48-08:31): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got the benchmark loading all of the various resources, except:
+        * Can't get it to load the webapp JSON. 500 error that I need to investigate.
+        * If one of the resources fails to load (e.g. the webapp JSON), I end up with hung threads. No idea why.
