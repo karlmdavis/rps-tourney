@@ -4866,3 +4866,11 @@ This file should never be committed along with other files; it should always be 
     * Got the benchmark loading all of the various resources, except:
         * Can't get it to load the webapp JSON. 500 error that I need to investigate.
         * If one of the resources fails to load (e.g. the webapp JSON), I end up with hung threads. No idea why.
+
+### 2015-12-26, Saturday
+
+* 0.3h (12:26-12:35,12:43-12:51): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Realized why the benchmarks weren't logging the webapp: I had to rebuild the WAR to include the logging config change I'd made.
+    * Filed Issue #109. Need to fix that, and the thread hanging issue it causes.
+* 0.1h (12:36-12:42): [Issue #105: Benchmarks unable to download Tomcat: http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz](https://github.com/karlmdavis/rps-tourney/issues/109)
+    * Fixed, committed.
