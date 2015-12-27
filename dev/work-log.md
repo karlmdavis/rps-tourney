@@ -4872,5 +4872,15 @@ This file should never be committed along with other files; it should always be 
 * 0.3h (12:26-12:35,12:43-12:51): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Realized why the benchmarks weren't logging the webapp: I had to rebuild the WAR to include the logging config change I'd made.
     * Filed Issue #109. Need to fix that, and the thread hanging issue it causes.
-* 0.1h (12:36-12:42): [Issue #105: Benchmarks unable to download Tomcat: http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz](https://github.com/karlmdavis/rps-tourney/issues/109)
+* 0.1h (12:36-12:42): [Issue #109: Benchmarks unable to download Tomcat: http://www.us.apache.org/dist/tomcat/tomcat-7/v7.0.65/bin/apache-tomcat-7.0.65.tar.gz](https://github.com/karlmdavis/rps-tourney/issues/109)
     * Fixed, committed.
+
+### 2015-12-27, Sunday
+
+* 1.1h (07:56-09:01): [Issue #110: Unable to retrieve game JSON before game starts: HTTP 500](https://github.com/karlmdavis/rps-tourney/issues/110)
+    * Fixed, committed.
+* 0.3h (09:21-09:40): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
+    * Got `WebAppGameDisplayBenchmarks` almost finished.
+    * Need to pull out the HtmlUnit stuff.
+    * Need to clean things up and commit.
+    * Then, need to refactor the project a whole bunch.
