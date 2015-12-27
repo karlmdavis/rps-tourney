@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.threeten.bp.Instant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
@@ -238,6 +239,7 @@ class AbstractGame {
 	 *         {@link #getPlayer1()} has won
 	 */
 	@XmlElement
+	@JsonProperty
 	public int getScoreForPlayer1() {
 		Result playerWonResult = Result.PLAYER_1_WON;
 		int playerWins = countRoundsWithResult(playerWonResult);
@@ -249,6 +251,7 @@ class AbstractGame {
 	 *         {@link #getPlayer2()} has won
 	 */
 	@XmlElement
+	@JsonProperty
 	public int getScoreForPlayer2() {
 		Result playerWonResult = Result.PLAYER_2_WON;
 		int playerWins = countRoundsWithResult(playerWonResult);
@@ -286,6 +289,7 @@ class AbstractGame {
 	 * @return the {@link Player} that won this {@link Game}.
 	 */
 	@XmlElement
+	@JsonProperty
 	public Player getWinner() {
 		Player winningPlayer = checkForWinner();
 		return winningPlayer;

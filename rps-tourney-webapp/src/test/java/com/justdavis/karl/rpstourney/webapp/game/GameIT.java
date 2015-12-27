@@ -759,6 +759,12 @@ public final class GameIT {
 					.textToBePresentInElementLocated(By.xpath("//table[@id='rounds']/tbody/tr[4]/td[4]"), "player2"));
 			observerWait.until(ExpectedConditions
 					.textToBePresentInElementLocated(By.xpath("//table[@id='rounds']/tbody/tr[5]/td[4]"), "player2"));
+		} catch (TimeoutException e) {
+			/*
+			 * If one of these are thrown, the page has the wrong state. We need
+			 * to log the page state to help debug the problem.
+			 */
+			throw new TimeoutException("Test case failed. Current page source:\n" + observerDriver.getPageSource(), e);
 		} finally {
 			if (observerDriver != null)
 				observerDriver.quit();

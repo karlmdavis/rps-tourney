@@ -15,6 +15,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
@@ -29,6 +32,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 @Entity
 @Table(name = "`Players`")
 @XmlRootElement
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class Player {
 	/*
 	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
@@ -123,6 +127,7 @@ public class Player {
 	 * @return a user-displayable name for the {@link Player}, or
 	 *         <code>null</code> if no such name has been assigned
 	 */
+	@JsonProperty
 	public String getName() {
 		return humanAccount != null ? humanAccount.getName() : null;
 	}

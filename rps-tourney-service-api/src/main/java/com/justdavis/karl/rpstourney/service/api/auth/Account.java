@@ -36,7 +36,10 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.threeten.bp.Instant;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
@@ -60,6 +63,7 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 @XmlRootElement
 @Entity
 @Table(name = "`Accounts`")
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class Account implements Principal, Serializable {
 	private static final long serialVersionUID = 3016213188245722817L;
 
@@ -281,6 +285,7 @@ public class Account implements Principal, Serializable {
 	 *         other than {@link GuestLoginIdentity}s, <code>true</code>
 	 *         otherwise
 	 */
+	@JsonProperty
 	public boolean isAnonymous() {
 		for (ILoginIdentity login : logins)
 			if (login.getLoginProvider() != LoginProvider.GUEST)

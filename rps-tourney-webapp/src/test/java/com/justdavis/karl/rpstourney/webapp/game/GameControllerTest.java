@@ -172,6 +172,37 @@ public final class GameControllerTest {
 	}
 
 	/**
+	 * Tests {@link GameController#getGameAsJson(String)}, when called before a
+	 * game has started. This is a regression test case for
+	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/110">Issue
+	 * #110: Unable to retrieve game JSON before game starts: HTTP 500</a>.
+	 * 
+	 * @throws Exception
+	 *             (all of the MVC test methods declare this exception)
+	 */
+	@Test
+	public void getGameJsonBeforeStart() throws Exception {
+		// Build the mocks that will be needed by the controller.
+		Game game = new Game(new Player(new Account()));
+		IGameResource gameClient = new MockGameClient(game);
+		IAccountsResource accountsClient = new MockAccountsClient();
+		IPlayersResource playersClient = new MockPlayersClient();
+		IGuestLoginManager guestLoginManager = new MockGuestLoginManager();
+
+		// Build the controller and prepare it for mock testing.
+		GameController GameController = new GameController(gameClient, accountsClient, playersClient,
+				guestLoginManager);
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
+
+		/*
+		 * Run the mock tests against the controller. We'll check the status and
+		 * then just spot-check a few model attributes.
+		 */
+		mockMvc.perform(MockMvcRequestBuilders.get("/game/" + game.getId() + "/data"))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	/**
 	 * A mock {@link IAccountsResource} client implementation for use in
 	 * {@link GameControllerTest#updateName()}, and other tests.
 	 */
