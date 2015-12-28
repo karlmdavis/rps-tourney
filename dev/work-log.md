@@ -4881,6 +4881,14 @@ This file should never be committed along with other files; it should always be 
     * Fixed, committed.
 * 0.3h (09:21-09:40): [Issue #105: Need performance and load tests](https://github.com/karlmdavis/rps-tourney/issues/105)
     * Got `WebAppGameDisplayBenchmarks` almost finished.
-    * Need to pull out the HtmlUnit stuff.
-    * Need to clean things up and commit.
-    * Then, need to refactor the project a whole bunch.
+    * Next steps:
+        * Pull out the HtmlUnit stuff.
+        * Add a benchmark for just passive refreshes.
+        * Clean things up and commit.
+        * Refactor the project a whole bunch.
+
+### 2015-12-28, Monday
+
+* 0.25h (06:27-06:41): [Issue #110: Unable to retrieve game JSON before game starts: HTTP 500](https://github.com/karlmdavis/rps-tourney/issues/110)
+    * Pulled out the HtmlUnit stuff.
+    * Added a benchmark for just passive refreshes.
