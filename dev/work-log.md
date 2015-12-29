@@ -4892,3 +4892,7 @@ This file should never be committed along with other files; it should always be 
 * 0.25h (06:27-06:41): [Issue #110: Unable to retrieve game JSON before game starts: HTTP 500](https://github.com/karlmdavis/rps-tourney/issues/110)
     * Pulled out the HtmlUnit stuff.
     * Added a benchmark for just passive refreshes.
+* 0.4h (19:50-19:54,20:24-20:47): [Issue #110: Unable to retrieve game JSON before game starts: HTTP 500](https://github.com/karlmdavis/rps-tourney/issues/110)
+    * Cleaned up and committed things.
+    * Renamed and refactored the project.
+    * Committed the refactoring, resolvede the issue.
