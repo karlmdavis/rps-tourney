@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rps:appConfig xmlns:rps="http://justdavis.com/karl/rpstourney/app/schema/v1">
+	<rps:baseUrl>will-be-replaced-at-runtime-see-LocalServerManager</rps:baseUrl>
+	<rps:clientServiceRoot>will-be-replaced-at-runtime-see-LocalServerManager</rps:clientServiceRoot>
+</rps:appConfig>

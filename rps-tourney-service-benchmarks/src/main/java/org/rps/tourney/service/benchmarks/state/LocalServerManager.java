@@ -12,11 +12,20 @@ import java.nio.file.StandardCopyOption;
 import javax.mail.internet.InternetAddress;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
@@ -32,6 +41,10 @@ import com.justdavis.karl.tomcat.TomcatServerHelper;
  */
 final class LocalServerManager implements IServerManager {
 	public static final String CONTEXT_ROOT_SERVICE = "rps-tourney-service-app";
+	public static final String CONTEXT_ROOT_WEBAPP = "rps-tourney-webapp";
+
+	// FIXME this should come from somewhere else
+	private static final String RPS_WEBAPP_XML_NS = "http://justdavis.com/karl/rpstourney/app/schema/v1";
 
 	private final InternetAddress adminAddress;
 	private final String adminPassword;
@@ -42,7 +55,12 @@ final class LocalServerManager implements IServerManager {
 	 * from <code>src/main/resources/rps-service-config-benchmarks.xml</code>.
 	 */
 	public LocalServerManager() {
+		Path tomcatDir = Paths.get(".", "target", "tomcat").toAbsolutePath();
+		TomcatServerHelper benchmarksServerHelper = new TomcatServerHelper();
+		this.server = benchmarksServerHelper.createLocallyInstalledServer(tomcatDir);
+
 		Path serviceConfigPath = createServiceConfig();
+		Path webappConfigPath = createWebappConfig();
 
 		// Parse the admin config values from that file
 		try {
@@ -64,17 +82,18 @@ final class LocalServerManager implements IServerManager {
 			throw new BadCodeMonkeyException("Unable to read service config.", e);
 		}
 
-		// Create and launch a local Tomcat instance.
-		// Create, configure, and start Tomcat to run the web service.
-		TomcatServerHelper benchmarksServerHelper = new TomcatServerHelper();
-		Path tomcatDir = Paths.get(".", "target", "tomcat").toAbsolutePath();
-		this.server = benchmarksServerHelper.createLocallyInstalledServer(tomcatDir)
+		// Create, configure, and start Tomcat to run the WARs.
+		this.server
 				.addWar(CONTEXT_ROOT_SERVICE, Paths.get(".."),
 						FileSystems.getDefault()
 								.getPathMatcher("glob:../rps-tourney-service-app/target/rps-tourney-service-app-*.war"))
 				.setJavaSystemProperty("rps.service.config.path", serviceConfigPath.toString())
-				.setJavaSystemProperty("rps.service.logs.path", tomcatDir.toString()).start();
-
+				.setJavaSystemProperty("rps.service.logs.path", tomcatDir.toString())
+				.addWar(CONTEXT_ROOT_WEBAPP, Paths.get(".."),
+						FileSystems.getDefault()
+								.getPathMatcher("glob:../rps-tourney-webapp/target/rps-tourney-webapp-*.war"))
+				.setJavaSystemProperty("rps.webapp.config.path", webappConfigPath.toString())
+				.setJavaSystemProperty("rps.webapp.logs.path", tomcatDir.toString()).start();
 	}
 
 	/**
@@ -82,15 +101,61 @@ final class LocalServerManager implements IServerManager {
 	 */
 	private static Path createServiceConfig() {
 		// Get the path to the config file for the web service to use.
-		InputStream configUrl = Thread.currentThread().getContextClassLoader()
+		InputStream configStream = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream("rps-service-config-benchmarks.xml");
 
 		try {
 			Path serviceConfigPath = Files.createTempFile("rps-service-config-benchmarks", ".xml");
 			serviceConfigPath.toFile().deleteOnExit();
-			Files.copy(configUrl, serviceConfigPath, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(configStream, serviceConfigPath, StandardCopyOption.REPLACE_EXISTING);
 
 			return serviceConfigPath;
+		} catch (IOException e) {
+			throw new UncheckedIoException(e);
+		}
+	}
+
+	/**
+	 * @return the {@link Path} to the web application configuration file
+	 */
+	private Path createWebappConfig() {
+		// Get the path to the template config file for the web service to use.
+		InputStream configStream = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("rps-webapp-config-benchmarks.xml");
+
+		try {
+			// Read it in as a DOM.
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			docBuilderFactory.setNamespaceAware(true);
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(configStream);
+
+			// Edit the /appConfig/baseUrl entry in it.
+			Element baseUrlElement = (Element) doc.getDocumentElement()
+					.getElementsByTagNameNS(RPS_WEBAPP_XML_NS, "baseUrl").item(0);
+			baseUrlElement.setTextContent(getWebAppUrl().toString());
+
+			// Edit the /appConfig/clientServiceRoot entry in it.
+			Element serviceRootElement = (Element) doc.getDocumentElement()
+					.getElementsByTagNameNS(RPS_WEBAPP_XML_NS, "clientServiceRoot").item(0);
+			serviceRootElement.setTextContent(getServiceUrl().toString());
+
+			// Create a temp file for the config (mark it to be deleted at JVM
+			// exit).
+			Path webappConfigPath = Files.createTempFile("rps-service-webapp-benchmarks", ".xml");
+			webappConfigPath.toFile().deleteOnExit();
+
+			// Write out the DOM to the temp file.
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+
+			DOMSource source = new DOMSource(doc);
+			Result result = new StreamResult(webappConfigPath.toFile());
+			transformer.transform(source, result);
+
+			return webappConfigPath;
+		} catch (ParserConfigurationException | SAXException | TransformerException e) {
+			throw new BadCodeMonkeyException(e);
 		} catch (IOException e) {
 			throw new UncheckedIoException(e);
 		}
@@ -102,6 +167,14 @@ final class LocalServerManager implements IServerManager {
 	@Override
 	public URL getServiceUrl() {
 		return server.getUrlWithPath(CONTEXT_ROOT_SERVICE);
+	}
+
+	/**
+	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getWebAppUrl()
+	 */
+	@Override
+	public URL getWebAppUrl() {
+		return server.getUrlWithPath(CONTEXT_ROOT_WEBAPP);
 	}
 
 	/**

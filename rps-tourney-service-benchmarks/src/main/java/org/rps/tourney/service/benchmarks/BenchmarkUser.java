@@ -11,7 +11,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
  * use. Using these identities makes it easier to go clean up any mistakes if
  * the benchmarks fail to clean up after themselves for some reason.
  */
-enum BenchmarkUser {
+public enum BenchmarkUser {
 	USER_A("benchmarker.a@example.com", "player.a.pw1"), USER_B("benchmarker.b@example.com", "player.b.pw1");
 
 	private final InternetAddress address;

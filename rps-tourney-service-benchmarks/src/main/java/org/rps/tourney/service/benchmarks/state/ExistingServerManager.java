@@ -25,6 +25,12 @@ public final class ExistingServerManager implements IServerManager {
 	public static final String PROP_SERVICE_URL = "rps.service.url";
 
 	/**
+	 * The {@link System#getProperties()} key that specifies the {@link URL} of
+	 * the already-running web application to use.
+	 */
+	public static final String PROP_WEBAPP_URL = "rps.webapp.url";
+
+	/**
 	 * The {@link System#getProperties()} key that specifies the email
 	 * address/login of the admin account for the already-running web service to
 	 * use.
@@ -40,8 +46,8 @@ public final class ExistingServerManager implements IServerManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExistingServerManager.class);
 
 	private final URL serviceUrl;
+	private final URL webappUrl;
 	private final InternetAddress adminAddress;
-
 	private final String adminPassword;
 
 	/**
@@ -55,6 +61,15 @@ public final class ExistingServerManager implements IServerManager {
 			throw new IllegalArgumentException();
 		try {
 			this.serviceUrl = new URL(serviceUrlText);
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException(e);
+		}
+
+		String webappUrlText = System.getProperty(PROP_WEBAPP_URL);
+		if (webappUrlText == null)
+			throw new IllegalArgumentException();
+		try {
+			this.webappUrl = new URL(webappUrlText);
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);
 		}
@@ -79,6 +94,14 @@ public final class ExistingServerManager implements IServerManager {
 	@Override
 	public URL getServiceUrl() {
 		return serviceUrl;
+	}
+	
+	/**
+	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getWebAppUrl()
+	 */
+	@Override
+	public URL getWebAppUrl() {
+		return webappUrl;
 	}
 
 	/**
@@ -153,6 +176,7 @@ public final class ExistingServerManager implements IServerManager {
 		List<String> jvmArgs = new LinkedList<>();
 
 		jvmArgs.add(String.format("-D%s=%s", PROP_SERVICE_URL, "http://localhost:9093/rps-tourney-service-app"));
+		jvmArgs.add(String.format("-D%s=%s", PROP_WEBAPP_URL, "http://localhost:9093/rps-tourney-webapp"));
 
 		/*
 		 * The admin login details are specified in

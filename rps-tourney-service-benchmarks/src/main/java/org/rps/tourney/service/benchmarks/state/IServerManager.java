@@ -17,6 +17,11 @@ public interface IServerManager {
 	URL getServiceUrl();
 
 	/**
+	 * @return the {@link URL} of the game web application being benchmarked
+	 */
+	URL getWebAppUrl();
+
+	/**
 	 * @return the web service's admin email address/login
 	 */
 	InternetAddress getAdminAddress();
