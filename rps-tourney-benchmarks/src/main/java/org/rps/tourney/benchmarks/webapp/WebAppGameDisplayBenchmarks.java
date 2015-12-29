@@ -24,8 +24,8 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
-import org.rps.tourney.service.benchmarks.BenchmarkUser;
-import org.rps.tourney.service.benchmarks.state.ServerState;
+import org.rps.tourney.benchmarks.BenchmarkUser;
+import org.rps.tourney.benchmarks.serverutils.ServerState;
 
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedMalformedUrlException;

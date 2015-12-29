@@ -1,4 +1,4 @@
-package org.rps.tourney.service.benchmarks;
+package org.rps.tourney.benchmarks;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

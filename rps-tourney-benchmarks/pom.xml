@@ -9,12 +9,12 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>rps-tourney-service-benchmarks</artifactId>
+	<artifactId>rps-tourney-benchmarks</artifactId>
 	<packaging>jar</packaging>
 
-	<name>rps-tourney-service-benchmarks</name>
+	<name>rps-tourney-benchmarks</name>
 	<description>
-		A set of benchmarks for the "RPS Tourney" web service.
+		A set of benchmarks for the "RPS Tourney" web applications.
 	</description>
 
 	<properties>

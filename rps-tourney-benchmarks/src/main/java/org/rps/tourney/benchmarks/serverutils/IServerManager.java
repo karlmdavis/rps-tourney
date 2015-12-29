@@ -1,4 +1,4 @@
-package org.rps.tourney.service.benchmarks.state;
+package org.rps.tourney.benchmarks.serverutils;
 
 import java.net.URL;
 

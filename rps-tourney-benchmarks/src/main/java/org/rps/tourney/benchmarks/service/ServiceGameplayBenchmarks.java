@@ -1,4 +1,4 @@
-package org.rps.tourney.service.benchmarks;
+package org.rps.tourney.benchmarks.service;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -15,8 +15,9 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
-import org.rps.tourney.service.benchmarks.GameDisplayBenchmarks.GameInProgressState;
-import org.rps.tourney.service.benchmarks.state.ServerState;
+import org.rps.tourney.benchmarks.BenchmarkUser;
+import org.rps.tourney.benchmarks.serverutils.ServerState;
+import org.rps.tourney.benchmarks.service.ServiceGameDisplayBenchmarks.GameInProgressState;
 
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
@@ -32,7 +33,7 @@ import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
  * Contains {@link Benchmark}s for those web service methods related to playing
  * games.
  */
-public class GameplayBenchmarks {
+public class ServiceGameplayBenchmarks {
 	/**
 	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the
 	 * requesting user is unauthenticated.
@@ -111,7 +112,7 @@ public class GameplayBenchmarks {
 	 *             as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
-		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder().include(GameplayBenchmarks.class.getSimpleName())
+		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder().include(ServiceGameplayBenchmarks.class.getSimpleName())
 				.warmupIterations(20).measurementIterations(10).forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
 		// benchmarkOptions.addProfiler(StackProfiler.class);
 		// benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
@@ -121,7 +122,7 @@ public class GameplayBenchmarks {
 
 	/**
 	 * <p>
-	 * Manages the state required for {@link GameplayBenchmarks}.
+	 * Manages the state required for {@link ServiceGameplayBenchmarks}.
 	 * </p>
 	 * <p>
 	 * Also tracks the {@link Game}s that were created during the benchmark and

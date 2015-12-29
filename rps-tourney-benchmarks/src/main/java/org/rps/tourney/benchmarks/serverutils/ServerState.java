@@ -1,4 +1,4 @@
-package org.rps.tourney.service.benchmarks.state;
+package org.rps.tourney.benchmarks.serverutils;
 
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
@@ -11,7 +11,8 @@ import com.justdavis.karl.tomcat.ITomcatServer;
 
 /**
  * Stores the {@link ITomcatServer} instance representing the application
- * server/container that is running the web service, along with related objects.
+ * server/container that is running the web applications, along with related
+ * objects.
  */
 @State(Scope.Benchmark)
 public class ServerState {

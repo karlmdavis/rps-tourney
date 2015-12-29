@@ -1,4 +1,4 @@
-package org.rps.tourney.service.benchmarks.state;
+package org.rps.tourney.benchmarks.serverutils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -89,7 +89,7 @@ public final class ExistingServerManager implements IServerManager {
 	}
 
 	/**
-	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getServiceUrl()
+	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#getServiceUrl()
 	 */
 	@Override
 	public URL getServiceUrl() {
@@ -97,7 +97,7 @@ public final class ExistingServerManager implements IServerManager {
 	}
 	
 	/**
-	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getWebAppUrl()
+	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#getWebAppUrl()
 	 */
 	@Override
 	public URL getWebAppUrl() {
@@ -105,7 +105,7 @@ public final class ExistingServerManager implements IServerManager {
 	}
 
 	/**
-	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getAdminAddress()
+	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#getAdminAddress()
 	 */
 	@Override
 	public InternetAddress getAdminAddress() {
@@ -113,7 +113,7 @@ public final class ExistingServerManager implements IServerManager {
 	}
 
 	/**
-	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#getAdminPassword()
+	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#getAdminPassword()
 	 */
 	@Override
 	public String getAdminPassword() {
@@ -121,7 +121,7 @@ public final class ExistingServerManager implements IServerManager {
 	}
 
 	/**
-	 * @see org.rps.tourney.service.benchmarks.state.IServerManager#tearDown()
+	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#tearDown()
 	 */
 	@Override
 	public void tearDown() {

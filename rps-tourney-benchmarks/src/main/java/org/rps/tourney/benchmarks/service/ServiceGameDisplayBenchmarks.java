@@ -1,17 +1,17 @@
-package org.rps.tourney.service.benchmarks;
+package org.rps.tourney.benchmarks.service;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
-import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.VerboseMode;
-import org.rps.tourney.service.benchmarks.state.ServerState;
+import org.rps.tourney.benchmarks.BenchmarkUser;
+import org.rps.tourney.benchmarks.serverutils.ServerState;
 
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 import com.justdavis.karl.rpstourney.service.api.game.GameView;
@@ -24,7 +24,7 @@ import com.justdavis.karl.rpstourney.service.client.game.GameClient;
  * Contains {@link Benchmark}s for those web service methods related to display
  * of existing game instances.
  */
-public class GameDisplayBenchmarks {
+public class ServiceGameDisplayBenchmarks {
 	/**
 	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the
 	 * requesting user is unauthenticated.
@@ -55,9 +55,9 @@ public class GameDisplayBenchmarks {
 	 */
 	public static void main(String[] args) throws RunnerException {
 		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
-				.include(GameDisplayBenchmarks.class.getSimpleName()).warmupIterations(20).measurementIterations(10)
-				.forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
-		benchmarkOptions.addProfiler(StackProfiler.class);
+				.include(ServiceGameDisplayBenchmarks.class.getSimpleName()).warmupIterations(20)
+				.measurementIterations(10).forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
+		// benchmarkOptions.addProfiler(StackProfiler.class);
 		// benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
 
 		new Runner(benchmarkOptions.build()).run();
