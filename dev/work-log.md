@@ -4895,4 +4895,13 @@ This file should never be committed along with other files; it should always be 
 * 0.4h (19:50-19:54,20:24-20:47): [Issue #110: Unable to retrieve game JSON before game starts: HTTP 500](https://github.com/karlmdavis/rps-tourney/issues/110)
     * Cleaned up and committed things.
     * Renamed and refactored the project.
-    * Committed the refactoring, resolvede the issue.
+    * Committed the refactoring, resolved the issue.
+
+### 2015-12-29, Tuesday
+
+* 0.5h (19:31-20:00): [Issue #108: Web service throws 500 errors at AuthenticationFilter:137 if a 404 is encountered](https://github.com/karlmdavis/rps-tourney/issues/108)
+    * Resolved and committed.
+* Next steps:
+    * Look at Issue #36. Might have already fixed it, back when I made `src/main/webapp` not a source folder.
+    * Need to file an issue to consolidate down to just one app server handler for ITs.
+    * Need to deal with follow up on some of the third party bugs I've filed.
