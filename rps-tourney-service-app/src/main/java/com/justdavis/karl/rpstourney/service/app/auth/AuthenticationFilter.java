@@ -12,11 +12,14 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.SecurityContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -40,9 +43,12 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
  * </p>
  */
 @Priority(Priorities.AUTHENTICATION)
+@PreMatching
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthenticationFilter implements ContainerRequestFilter, ContainerResponseFilter {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationFilter.class);
+
 	/**
 	 * The custom authentication scheme ID used by the application.
 	 * 
@@ -93,6 +99,8 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	 */
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
+		LOGGER.trace("Entering {}.filter(...)", AuthenticationFilter.class);
+		
 		// Is there an auth token cookie? If so, grab the Account for it.
 		Cookie authTokenCookie = requestContext.getCookies().get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
 		Account userAccount = null;
