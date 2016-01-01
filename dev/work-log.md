@@ -4906,8 +4906,16 @@ This file should never be committed along with other files; it should always be 
     * Need to file an issue to consolidate down to just one app server handler for ITs.
     * Need to deal with follow up on some of the third party bugs I've filed.
 
-### 2015-12-30, Wednesday
+### 2015-12-31, Thursday
 
 * _Just completely forgot to work on this project yesterday. No particular reason._
 * 0.3h (22:13-22:31): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
     * Came up with an approach to address this issue. Documented it as a comment on the issue itself.
+
+### 2016-01-01, Friday
+
+* 0.7h (13:46-13:49,14:53-15:32): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
+    * Updated the `rps-tourney-service-app` POM to launch the WAR in Tomcat, via Cargo.
+        * There is a Tomcat plugin for Maven, but it looks mostly dead.
+    * How am I going to rejigger the service ITs to run against an external Tomcat instance?
+        * `AccountsResourceImplIT` (and probably many others) expects to be able to wipe the DB schema after each test case. It also injects DAOs, to create mock data for the tests to run against.
