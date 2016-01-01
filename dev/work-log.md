@@ -4905,3 +4905,9 @@ This file should never be committed along with other files; it should always be 
     * Look at Issue #36. Might have already fixed it, back when I made `src/main/webapp` not a source folder.
     * Need to file an issue to consolidate down to just one app server handler for ITs.
     * Need to deal with follow up on some of the third party bugs I've filed.
+
+### 2015-12-30, Wednesday
+
+* _Just completely forgot to work on this project yesterday. No particular reason._
+* 0.3h (22:13-22:31): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
+    * Came up with an approach to address this issue. Documented it as a comment on the issue itself.
