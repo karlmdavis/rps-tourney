@@ -4918,4 +4918,11 @@ This file should never be committed along with other files; it should always be 
     * Updated the `rps-tourney-service-app` POM to launch the WAR in Tomcat, via Cargo.
         * There is a Tomcat plugin for Maven, but it looks mostly dead.
     * How am I going to rejigger the service ITs to run against an external Tomcat instance?
-        * `AccountsResourceImplIT` (and probably many others) expects to be able to wipe the DB schema after each test case. It also injects DAOs, to create mock data for the tests to run against.
+        * `AccountsResourceImplIT` (and probably many others) expects to be able to wipe the DB schema after each test case. It also injects DAOs to create mock data for the tests to run against.
+
+### 2016-01-02, Saturday
+
+* 0.3h (21:06-21:24): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
+    * Started `ClientConfig.createConfigFromSystemProperties()`.
+        * Just realized: it doesn't store the admin credentials to use. And it shouldn't. Poop. Now where do I stick this functionality?
+        * I guess a new class is needed for the tests to use, that includes `ClientConfig`. Bother.
