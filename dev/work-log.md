@@ -4926,3 +4926,8 @@ This file should never be committed along with other files; it should always be 
     * Started `ClientConfig.createConfigFromSystemProperties()`.
         * Just realized: it doesn't store the admin credentials to use. And it shouldn't. Poop. Now where do I stick this functionality?
         * I guess a new class is needed for the tests to use, that includes `ClientConfig`. Bother.
+
+### 2016-01-03, Sunday
+
+* 0.3h (17:51-18:08): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
+    * Created `TestsConfig` and updated `NotFoundErrorsIT` to use it.
