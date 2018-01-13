@@ -82,7 +82,7 @@
 		<dependency>
 			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
 				used for building and interacting with the application's SQL database. -->
-			<groupId>.org.hibernate</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 			<exclusions>

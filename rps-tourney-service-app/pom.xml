@@ -74,7 +74,7 @@
 		<dependency>
 			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
 				used for building and interacting with the application's SQL database. -->
-			<groupId>.org.hibernate</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 			<exclusions>
@@ -84,6 +84,14 @@
 					<groupId>xml-apis</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's
+				used for building and interacting with the application's SQL database. (We
+				declare it specifically here to cancel out the exclusions for it in 'rps-tourney-service-api'.) -->
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
 			<!-- Provides the Hibernate mappings required to persist the org.threetenbp:threetenbp 
