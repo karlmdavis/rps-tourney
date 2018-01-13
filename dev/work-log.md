@@ -4931,3 +4931,35 @@ This file should never be committed along with other files; it should always be 
 
 * 0.3h (17:51-18:08): [Issue #36: Stop using src/main/webapp resources in EmbeddedServer in ITs](https://github.com/karlmdavis/rps-tourney/issues/36)
     * Created `TestsConfig` and updated `NotFoundErrorsIT` to use it.
+
+### 2018-01-08, Monday
+
+* 1.1h (04:00-05:07): Tried getting build to pass in the new Jenkins server.
+    * Updated config with similar changes as those made to `jessentials`. Still failing, but with a JaCoCo Java class level error.
+    * Looks like Java 7 is EOL'd, but RPS is still using that all over the place. Android _mostly_ supports Java 8 now, it seems.
+    * Java 9 is out now, too! But let's see if we can just get things running on 8, first. Baby steps.
+    * Updated `JAVA_HOME` in `~/.bashrc_local` on `jordan-u` to point to Java 8.
+    * Tried building RPS locally, but ran into errors that look related to what I was working on a couple years ago.
+    * Stashed those changes temporarily, and the build passes! But looks like it's using JDK 7 from the toolchain.
+
+### 2018-01-09, Tuesday
+
+* 0.4h (2205-2230): Picked up incomplete work to switch ITs to Tomcat.
+    * Tomcat is starting, but going boom while deploying WAR, due to dependency issue.
+
+### 2018-01-10, Wednesday
+
+* 0.4h (0650-0715): Picked up incomplete work to switch ITs to Tomcat.
+    * Tried adding missing dependency to POM: ran into another missing dependency. Ideas:
+        * Check `git diff`: did I remove something from POMs or dependency POMs?
+        * Compare Cargo Tomcat's libs to Tomcat libs from old `eddings`.
+* 0.5h (2130-2200): Figured out what's up with the IT failures.
+    * The `-api` project had a typo in a dependency: prefixed the hibernate `groupId` with a dot. Fixing that typo causes these classpath errors, for reasons I don't fully understand yet. Definitely has something to do with how Maven handles transitive exclusions. Upgrading to latest Maven didn't fix it.
+
+### 2018-01-11, Thursday
+
+* 0.7h (0618-0700): Switch ITs to Tomcat.
+    * Had the same typo for different artifacts in both the `-app` and `-api` POMs.
+    * Adding `hibernate-core` as a direct dependency to `-app` fixed the problem.
+    * Next challenge: the `-app` project is using Spring injection all over the place in its ITs. If I move them to Tomcat, that has to be ripped out. Is this still a good idea?
+        * How do folks deal with webapp resources with Spring Test?
