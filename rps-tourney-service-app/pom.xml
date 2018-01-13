@@ -238,6 +238,56 @@
 						<useManifestOnlyJar>false</useManifestOnlyJar>
 					</configuration>
 				</plugin>
+				<plugin>
+					<!-- Configure the Cargo plugin to start up an embedded Tomcat server,
+						running both this project's WAR and the WAR for the web service that it interacts
+						with. -->
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<configuration>
+						<container>
+							<containerId>tomcat7x</containerId>
+							<artifactInstaller>
+								<groupId>org.apache.tomcat</groupId>
+								<artifactId>tomcat</artifactId>
+								<version>${tomcat.version}</version>
+								<type>tar.gz</type>
+							</artifactInstaller>
+							<log>${project.build.directory}/failsafe-reports/cargo.log</log>
+							<output>${project.build.directory}/failsafe-reports/cargo-container.log</output>
+							<systemProperties>
+								<rps.service.config.path>${project.build.testOutputDirectory}/rps-service-config-its.xml</rps.service.config.path>
+								<logback.configurationFile>${project.build.testOutputDirectory}/logback-cargo.xml</logback.configurationFile>
+							</systemProperties>
+							<dependencies>
+								<dependency>
+									<!-- Only used by the web service WAR, but no harm in adding it
+										to the container's classpath. -->
+									<groupId>org.hsqldb</groupId>
+									<artifactId>hsqldb</artifactId>
+								</dependency>
+							</dependencies>
+						</container>
+						<configuration>
+							<properties>
+								<cargo.servlet.port>9093</cargo.servlet.port>
+							</properties>
+						</configuration>
+						<deployables>
+							<deployable>
+								<!-- The web service WAR for the application. As this is the
+									current project, Cargo binds the artifact automatically. All that needs to
+									be done here is to configure the context path. -->
+								<groupId>com.justdavis.karl.rpstourney</groupId>
+								<artifactId>rps-tourney-service-app</artifactId>
+								<type>war</type>
+								<properties>
+									<context>/rps-tourney-service-app</context>
+								</properties>
+							</deployable>
+						</deployables>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -283,6 +333,31 @@
 						<goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Launch a standalone Tomcat instance hosting this project's WAR (as
+					well as the rps-tourney-service-app WAR it depends on) prior to running this
+					project's integration tests, and stop it after the integration tests. Alternatively,
+					for manual testing, manually run 'mvn cargo:run' to start the Tomcat server,
+					and have Cargo wait for a 'ctrl+c' command to stop it. -->
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>start-container</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>

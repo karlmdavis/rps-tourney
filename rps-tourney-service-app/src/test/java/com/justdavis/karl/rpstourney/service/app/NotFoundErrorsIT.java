@@ -1,6 +1,5 @@
 package com.justdavis.karl.rpstourney.service.app;
 
-import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
@@ -10,27 +9,13 @@ import javax.ws.rs.core.Response.Status;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import com.justdavis.karl.misc.jetty.EmbeddedServer;
 
 /**
  * Integration tests to verify that
  * <a href="https://en.wikipedia.org/wiki/HTTP_404">HTTP 404</a> errors are
  * handled properly.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
-@ActiveProfiles(SpringProfile.INTEGRATION_TESTS_WITH_JETTY)
-@WebAppConfiguration
 public final class NotFoundErrorsIT {
-	@Inject
-	private EmbeddedServer server;
-
 	/**
 	 * Ensures that an HTTP 404 is returned as expected when requesting an
 	 * invalid URL. This is a regression test case for
@@ -40,9 +25,11 @@ public final class NotFoundErrorsIT {
 	 */
 	@Test
 	public void return404ForBadUrls() {
+		TestsConfig config = TestsConfig.createConfigFromSystemProperties();
+
 		// Create the JAX-RS client (manually, for this).
 		Client client = ClientBuilder.newClient();
-		Builder requestBuilder = client.target(server.getServerBaseAddress()).path("totallydoesnotexist")
+		Builder requestBuilder = client.target(config.getServiceUrl().toString()).path("totallydoesnotexist")
 				.request(MediaType.TEXT_PLAIN);
 
 		Response response = requestBuilder.get();

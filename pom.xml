@@ -149,6 +149,9 @@
 			tests are stored in a single file in the parent project. The JaCoCo configuration 
 			for integration tests also needs to point to this location. -->
 		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it-all-modules.exec</sonar.jacoco.itReportPath>
+		
+		<!-- The URL of the Tomcat installer to use, in ITs and such. -->
+		<tomcat.version>7.0.82</tomcat.version>
 	</properties>
 
 	<dependencyManagement>
