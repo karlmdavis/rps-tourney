@@ -47,7 +47,7 @@ node {
 	stage('Benchmark') {
 		if (params.benchmarks_run == 'true') {
 			dir('rps-tourney-benchmarks') {
-				java "java -jar target/benchmarks.jar -foe true -rf json -rff target/jmh-result.json -f ${benchmarks_forks} -i ${benchmarks_iterations}"
+				java "-jar target/benchmarks.jar -foe true -rf json -rff target/jmh-result.json -f ${benchmarks_forks} -i ${benchmarks_iterations}"
 			}
 		}
 	}
