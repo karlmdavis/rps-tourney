@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -41,7 +41,7 @@ import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
 @Import({ SecurityConfig.class, GameClientBindings.class, ConfigLoaderBindingForProduction.class })
 @EnableWebMvc
 @ComponentScan(basePackageClasses = { SpringMvcConfig.class })
-public class SpringMvcConfig extends WebMvcConfigurerAdapter {
+public class SpringMvcConfig implements WebMvcConfigurer {
 	@Inject
 	private BaseUrlInterceptor baseUrlInterceptor;
 

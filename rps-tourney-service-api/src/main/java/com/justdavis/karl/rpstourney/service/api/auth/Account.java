@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,9 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
-import org.threeten.bp.Instant;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -68,22 +70,17 @@ public class Account implements Principal, Serializable {
 	private static final long serialVersionUID = 3016213188245722817L;
 
 	/*
-	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
-	 * https://hibernate.atlassian.net/browse/HHH-9430.
-	 */
-	/*
 	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
 	 * https://hibernate.atlassian.net/browse/HHH-9431.
 	 */
 	@XmlElement(required = true)
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Accounts_id_seq")
-	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "accounts_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Accounts_id_seq")
+	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "`accounts_id_seq`")
 	private long id;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	private Instant createdTimestamp;
@@ -114,6 +111,7 @@ public class Account implements Principal, Serializable {
 	private Set<AuthToken> authTokens;
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(value = FetchMode.SUBSELECT)
 	@OrderBy("createdTimestamp ASC")
 	@XmlElementWrapper(name = "logins")
 	@XmlElement(name = "login")
@@ -128,6 +126,7 @@ public class Account implements Principal, Serializable {
 	 *            {@link SecurityRole#USERS} will always be added to this)
 	 */
 	public Account(SecurityRole... roles) {
+		this.id = -1;
 		this.createdTimestamp = Instant.now();
 		this.name = null;
 		this.roles = new HashSet<>();
@@ -151,7 +150,7 @@ public class Account implements Principal, Serializable {
 	 *         it has not
 	 */
 	public boolean hasId() {
-		return id > 0;
+		return id > -1;
 	}
 
 	/**

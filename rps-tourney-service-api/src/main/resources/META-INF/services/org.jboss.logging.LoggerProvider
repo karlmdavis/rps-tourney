@@ -1,0 +1,2 @@
+# Ensure that the (dumb) jboss-logging library routes its log events to SLF4J.
+org.jboss.logging.Slf4jLoggerProvider

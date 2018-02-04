@@ -8,6 +8,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerRegistry;
 
 import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
 import com.justdavis.karl.misc.resources.ResourcePath;
@@ -38,7 +39,7 @@ final class OptionsParser {
 	 */
 	Options parseCommandLineOptions(String[] args) {
 		Options options = new Options();
-		CmdLineParser.registerHandler(InternetAddress.class, InternetAddressOptionHandler.class);
+		OptionHandlerRegistry.getRegistry().registerHandler(InternetAddress.class, InternetAddressOptionHandler.class);
 		CmdLineParser optionsParser = new CmdLineParser(options);
 		try {
 			optionsParser.parseArgument(args);

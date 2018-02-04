@@ -148,9 +148,12 @@ Within Eclipse, the Tomcat instance can be setup as follows:
 1. Go to **Window > Show View > Other...**, select **Server > Servers** and click **OK**.
 1. Right-click a blank spot in the view, and select **New > Server**.
 1. On the *Define a New Server* screen:
-    1. Select the **Tomcat v7.0 Server** node.
+    1. Select the **Tomcat v8.0 Server** node.
+        * Note: If *Server name* and *Server runtime environment* aren't yet visible here, click **Next** and adjust the instructions below a bit. (Those fields aren't available until at least one runtime has been configured for the server type.)
+    1. For *Server name*, enter "`apache-tomcat-8.0.32 at localhost`".
     1. For *Server runtime environment*, click **Add...**. On the *Tomcat Server* dialog this opens:
-        1. Select your `~/workspaces/tools/apache-tomcat-7.0.65` directory as the *Tomcat installation directory*.
+        1. For *Name*, enter "`apache-tomcat-8.0.32`".
+        1. Select your `~/workspaces/tools/apache-tomcat-8.0.32` directory as the *Tomcat installation directory*.
             * This was created by the [devenv-install.py](./devenv-install.py) script.
         1. Click **Finish**.
     1. Click **Next**.
@@ -159,19 +162,21 @@ Within Eclipse, the Tomcat instance can be setup as follows:
 
 Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
 
-1. Copy the sample logging properties file from `/rps-tourney-parent/dev/tomcat-logging.properties` to `/Servers/apache-tomcat-7.0.65 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
+1. Copy the sample logging properties file from `/rps-tourney-parent/dev/tomcat-logging.properties` to `/Servers/apache-tomcat-8.0.32 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
 2. Open the Tomcat server's run configuration in Eclipse, and configure it as follows:
     1. Add the following VM arguments, each on a separate line:
-        * `-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager`
-        * `-Djava.util.logging.config.file=${resource_loc:/rps-tourney-parent/dev/tomcat-logging.properties}`
-        * `-Dlogback.configurationFile=${resource_loc:/rps-tourney-parent/dev/tomcat-logback.xml}`
-        * `-Dsun.io.serialization.extendedDebugInfo=true`
-        * `-Drps.service.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml}`
-        * `-Drps.webapp.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-webapp-config-dev.xml}`
+        ```
+        -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+        -Djava.util.logging.config.file=${resource_loc:/rps-tourney-parent/dev/tomcat-logging.properties}
+        -Dlogback.configurationFile=${resource_loc:/rps-tourney-parent/dev/tomcat-logback.xml}
+        -Dsun.io.serialization.extendedDebugInfo=true
+        -Drps.service.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml}
+        -Drps.webapp.config.path=${resource_loc:/rps-tourney-parent/rps-tourney-webapp/src/test/resources/rps-webapp-config-dev.xml}
+        ```
     2. Set the working directory to: `${workspace_loc}/.metadata/.plugins/org.eclipse.wst.server.core/tmp0`
 3. Configure the HTTP port that Tomcat will use:
     1. Switch to the *Servers* view in Eclipse.
-    2. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Open**.
+    2. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Open**.
     3. Set *Ports > HTTP/1.1* to `9093`, then click **Save** and close the editor.
 
 
@@ -189,12 +194,12 @@ Once all of the required tools are installed, the projects should be imported in
 Configure the `rps-tourney-service-app` and `rps-tourney-webapp` projects to run in Tomcat (via Eclipse WTP), as follows:
 
 1. Switch to the *Servers* view in Eclipse.
-1. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Add and Remove...**.
+1. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Add and Remove...**.
 1. Click **Add All**, then click **Finish**.
 
 Once configured, Tomcat can be run, as follows:
 
 1. Switch to the *Servers* view in Eclipse.
-1. Right-click **apache-tomcat-7.0.65 at localhost**, and select **Start**.
+1. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Start**.
 1. Switch to the **Console** view, and wait for the applications to finish launching.
 1. Access the web application at <http://localhost:9093/rps-tourney-webapp/>.

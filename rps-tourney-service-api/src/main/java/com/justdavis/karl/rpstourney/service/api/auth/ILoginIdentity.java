@@ -1,6 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
-import org.threeten.bp.Instant;
+import java.time.Instant;
 
 /**
  * <p>

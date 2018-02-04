@@ -1,6 +1,8 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
@@ -15,8 +17,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
-import org.threeten.bp.format.DateTimeFormatter;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
@@ -59,7 +59,7 @@ public final class AuthTokenTest {
 		Assert.assertNotNull(accountNode);
 		Node idNode = (Node) xpath.evaluate("/rps:authToken/rps:account/rps:id", domResult.getNode(),
 				XPathConstants.NODE);
-		Assert.assertEquals("0", idNode.getTextContent());
+		Assert.assertEquals("-1", idNode.getTextContent());
 		Node tokenValueNode = (Node) xpath.evaluate("/rps:authToken/rps:token", domResult.getNode(),
 				XPathConstants.NODE);
 		Assert.assertEquals(authToken.getToken().toString(), tokenValueNode.getTextContent());

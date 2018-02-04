@@ -12,8 +12,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -40,7 +40,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
  * </p>
  */
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/*

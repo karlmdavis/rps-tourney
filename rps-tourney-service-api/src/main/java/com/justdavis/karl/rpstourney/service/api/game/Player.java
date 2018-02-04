@@ -44,8 +44,8 @@ public class Player {
 	 */
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "Players_id_seq")
-	@SequenceGenerator(name = "Players_id_seq", sequenceName = "players_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Players_id_seq")
+	@SequenceGenerator(name = "Players_id_seq", sequenceName = "`players_id_seq`")
 	@XmlElement
 	private long id;
 
@@ -100,7 +100,7 @@ public class Player {
 	 *         it has not
 	 */
 	public boolean hasId() {
-		return id > 0;
+		return id > -1;
 	}
 
 	/**

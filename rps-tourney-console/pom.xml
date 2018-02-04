@@ -17,8 +17,6 @@
 	</description>
 
 	<properties>
-		<!-- The version of the Jetty webapp container to use. -->
-		<jetty.version>9.0.6.v20130930</jetty.version>
 	</properties>
 
 	<dependencies>
@@ -55,7 +53,7 @@
 			<!-- Handles command line argument parsing. -->
 			<groupId>args4j</groupId>
 			<artifactId>args4j</artifactId>
-			<version>2.0.25</version>
+			<version>2.33</version>
 		</dependency>
 
 		<dependency>
@@ -77,7 +75,6 @@
 				DB for integration tests. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -119,7 +116,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.4</version>
+					<version>3.1.0</version>
 					<configuration>
 						<descriptors>
 							<descriptor>src/main/assembly/dist.xml</descriptor>
@@ -205,7 +202,7 @@
 							<goal>prepare-agent-integration</goal>
 						</goals>
 						<configuration>
-							<destFile>${sonar.jacoco.itReportPath}</destFile>
+							<destFile>${sonar.integration.reportPath}</destFile>
 							<append>true</append>
 						</configuration>
 					</execution>

@@ -25,7 +25,7 @@ public final class InfoControllerTest {
 
 		// Run the mock tests against the controller.
 		mockMvc.perform(MockMvcRequestBuilders.get("/info/ping")).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.content().contentType(MediaType.TEXT_PLAIN))
+				.andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
 				.andExpect(MockMvcResultMatchers.content().string("OK"));
 	}
 

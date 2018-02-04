@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.threeten.bp.Instant;
+import org.hibernate.annotations.Type;
 
 import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
@@ -51,11 +52,11 @@ public class AuthToken implements Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "`token`", nullable = false, updatable = false)
+	@Type(type = "uuid-binary")
 	private UUID token;
 
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
 	private Instant createdTimestamp;
 

@@ -17,6 +17,12 @@
 		name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl"
 		level="info" />
 
+	<!-- Setting this to 'debug' will log the executed SQL. -->
+	<!-- <logger name="org.hibernate.SQL" level="debug" /> -->
+
+	<!-- Setting this to 'trace' will log the executed SQL params. -->
+	<!-- <logger name="org.hibernate.type" level="trace" /> -->
+
 	<!-- These loggers will print all CXF requests/responses to the log, at 
 		the 'info' level (set to 'warn' or higher to disable them). Actually uses 
 		the application's custom LoggerForInbound and LoggerForOutbound classes, 

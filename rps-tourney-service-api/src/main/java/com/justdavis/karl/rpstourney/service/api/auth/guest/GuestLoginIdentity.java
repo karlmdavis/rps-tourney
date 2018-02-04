@@ -1,11 +1,12 @@
 package com.justdavis.karl.rpstourney.service.api.auth.guest;
 
+import java.time.Instant;
+
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.threeten.bp.Instant;
 
 import com.justdavis.karl.rpstourney.service.api.auth.AbstractLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;

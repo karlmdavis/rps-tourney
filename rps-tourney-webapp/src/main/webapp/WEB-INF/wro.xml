@@ -1,28 +1,18 @@
 <groups xmlns="http://www.isdc.ro/wro">
-
 	<!-- This file configures the Web Resource Optimizer for Java (wro4j). This 
 		tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
 		and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
 		for details. -->
 
-	<group name="bootstrap-theme">
-		<css>/bootstrap-3.2.0/less/theme.less</css>
-		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
-	</group>
+	<!-- Compile Bootstrap together with: 1) the Bootstrap variable customizations in 'bootstrap-customizations.less', 2) some additional JS libraries and other resources (e.g. FontAwesome), 3) the RPS-specific styling in 'rps.less'. -->
 	<group name="rps">
 		<!-- Allows for use of Java '.properties' resource bundles for client-side 
 			JavaScript internationalization. As downloaded from https://github.com/jquery-i18n-properties/jquery-i18n-properties 
 			on 2014-11-22. -->
 		<js>/WEB-INF/resources/js/vendor/jquery.i18n.properties-1.1.js</js>
-
-		<!-- For some reason, trying to include Bootstrap's theme.less here in 
-			wro.xml, in the same group as bootstrap.less, causes wro4j to get stuck in 
-			an endless loop. However, rps.less can '@include' it without any trouble. -->
-		<css>/WEB-INF/resources/css/rps.less</css>
-		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
-		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
 		<js>/WEB-INF/resources/js/main.js</js>
 		<js>/WEB-INF/resources/js/plugins.js</js>
+
 		<!-- The order of the BS JavaScript files matters; errors will be thrown 
 			if it's wrong. The order used here is copied from BS' Gruntfile.js. -->
 		<js>/bootstrap-3.2.0/js/transition.js</js>
@@ -38,13 +28,30 @@
 		<js>/bootstrap-3.2.0/js/tab.js</js>
 		<js>/bootstrap-3.2.0/js/affix.js</js>
 		<js>/bootstrap-3.2.0/js/transition.js</js>
-		
+
+		<!-- Bring in all of Bootstrap. -->
+		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
+
 		<!-- The FontAwesome LESS include, which is just a bunch of '@include's, itself. -->
 		<css>/font-awesome-4.4.0/less/font-awesome.less</css>
 		<css>/WEB-INF/resources/css/fa-customizations.less</css>
+
+		<!-- The RPS-specific styling and JS to include with the theme. -->
+		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
+		<css>/WEB-INF/resources/css/rps.less</css>
 	</group>
+
+	<!-- Compile our application JS. -->
 	<group name="game.min">
 		<js>/WEB-INF/resources/js/game.js</js>
+	</group>
+
+	<!-- Compile our custom Bootstrap theme. -->
+	<group name="rps-bootstrap-theme">
+		<!-- The default Bootstrap theme, with the same variable customizations made to Bootstrap itself. -->
+		<!-- FIXME: We're not currently including this in our pages. Do we want to? -->
+		<css>/bootstrap-3.2.0/less/theme.less</css>
+		<css>/WEB-INF/resources/css/bootstrap-customizations.less</css>
 	</group>
 
 </groups>

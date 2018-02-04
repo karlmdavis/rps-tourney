@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
 		<artifactId>jessentials-parent</artifactId>
-		<version>4.1.1</version>
+		<version>6.0.0</version>
 	</parent>
 
 	<groupId>com.justdavis.karl.rpstourney</groupId>
@@ -41,8 +41,6 @@
 	</issueManagement>
 
 	<ciManagement>
-		<!-- TODO per http://stackoverflow.com/questions/14754372/whats-the-purpose-of-the-maven-3-cimanagement-configuration#comment20752353_14762245, 
-			Sonar (at least) can use this information. -->
 		<system>jenkins</system>
 		<url>https://justdavis.com/jenkins/job/rps-tourney/</url>
 	</ciManagement>
@@ -58,11 +56,11 @@
 	<distributionManagement>
 		<repository>
 			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-releases</url>
+			<url>https://justdavis.com/nexus/repository/opensource-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>justdavis.com-nexus</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots</url>
+			<url>https://justdavis.com/nexus/repository/opensource-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -71,7 +69,7 @@
 			as well (in addition to being specified in the parent itself). -->
 		<repository>
 			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-releases/</url>
+			<url>https://justdavis.com/nexus/repository/opensource-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -81,7 +79,7 @@
 		</repository>
 		<repository>
 			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-snapshots/</url>
+			<url>https://justdavis.com/nexus/repository/opensource-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -100,13 +98,13 @@
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
 			<!-- This repo is used to grab Bootstrap (and perhaps other artifacts). -->
 			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
-			<url>https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/</url>
+			<url>https://justdavis.com/nexus/repository/opensource-thirdparty-releases//</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -129,26 +127,30 @@
 	<properties>
 		<!-- The version of the Spring Framework artifacts to use. This property 
 			isn't used directly here, but is rather intended for use in child projects. -->
-		<spring.version>4.1.2.RELEASE</spring.version>
+		<spring.version>${dependency.springframework.version}</spring.version>
 
 		<!-- The version of Hibernate to use. This property isn't used directly 
 			here, but is rather intended for use in child projects. -->
-		<hibernate.version>4.3.5.Final</hibernate.version>
+		<hibernate.version>5.2.12.Final</hibernate.version>
 
 		<!-- The version of the Apache CXF artifacts to use across the modules. -->
-		<cxf.version>3.0.4</cxf.version>
+		<cxf.version>3.2.1</cxf.version>
 
 		<!-- The version of the Jackson artifacts to use across the modules. -->
-		<jackson.version>2.5.2</jackson.version>
+		<jackson.version>2.9.0</jackson.version>
+		
+		<!-- The version of Jetty to use in ITs across all the modules. -->
+		<jetty.version>9.2.24.v20180105</jetty.version>
 
 		<!-- The default number of parallel forks to use for running the ITs. Note 
 			that "C" stands for "core", but also seems to include hyperthreaded cores. -->
 		<forkCount.its>0.25C</forkCount.its>
 
-		<!-- Configure Sonar such that the coverage reports for all modules' integration 
-			tests are stored in a single file in the parent project. The JaCoCo configuration 
-			for integration tests also needs to point to this location. -->
-		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it-all-modules.exec</sonar.jacoco.itReportPath>
+		<!-- Configure Sonar such that the coverage reports for all modules' unit
+			and integration tests are stored in a single file in the parent project.
+			The JaCoCo configuration for tests also needs to point to this location. -->
+		<sonar.junit.reportPaths>target/surefire-reports,target/failsafe-reports,${project.basedir}/../target/failsafe-reports</sonar.junit.reportPaths>
+		<sonar.integration.reportPath>${project.basedir}/../target/failsafe-reports/jacoco-it-all-modules.exec</sonar.integration.reportPath>
 	</properties>
 
 	<dependencyManagement>
@@ -173,14 +175,14 @@
 				<!-- Used for all sorts of misc. things. -->
 				<groupId>com.justdavis.karl.jessentials</groupId>
 				<artifactId>jessentials-misc</artifactId>
-				<version>[2.0.1-SNAPSHOT,]</version>
+				<version>[4.0.1-SNAPSHOT,]</version>
 			</dependency>
 			<dependency>
 				<!-- Used to provision and manage Tomcat server instances, for integration 
 					tests and such. -->
 				<groupId>com.justdavis.karl.jessentials</groupId>
 				<artifactId>jessentials-tomcat</artifactId>
-				<version>[1.0-SNAPSHOT,]</version>
+				<version>[1.0.0-SNAPSHOT,]</version>
 			</dependency>
 
 			<dependency>
@@ -188,7 +190,7 @@
 					logging events would be sent to it, if this dependency is included. -->
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.13</version>
+				<version>1.2.3</version>
 			</dependency>
 
 			<dependency>
@@ -200,21 +202,27 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			
+			<dependency>
+				<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
+					Java 8 and above and PostgreSQL 8.2 and above. -->
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>42.1.4</version>
+			</dependency>
+			<dependency>
+				<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+					DB for manual development testing, as well as unit/integration tests. -->
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>2.4.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<!-- Set the Java source version used by the compiler. -->
-						<source>${javaSourceVersion}</source>
-						<target>${javaSourceVersion}</target>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
@@ -248,7 +256,7 @@
 					<!-- The Cargo plugin can deploy, run, undeploy, etc. WARs. -->
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
-					<version>1.4.8</version>
+					<version>1.6.6</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -236,8 +235,15 @@ public final class GameIT {
 			driver.findElement(By.cssSelector("div#player-first button.player-name-submit")).click();
 
 			// Player 2 (webapp): Check Player 2's name.
-			Assert.assertEquals("bar (You)",
-					driver.findElement(By.cssSelector("#player-first .player-name")).getText());
+			/*
+			 * FIXME Broken due to apparent HtmlUnit bug, where clicking in a
+			 * form causes a spurious onblur event to be fired first. See
+			 * 2018-02-01 email to the htmlunit-user mailing list for details.
+			 */
+			// Wait<WebDriver> player2Waiter = new WebDriverWait(driver, 20);
+			// player2Waiter.until(ExpectedConditions
+			// .textToBePresentInElementLocated(By.cssSelector("#player-first
+			// .player-name"), "bar (You)"));
 		} finally {
 			if (driver != null)
 				driver.quit();
@@ -588,12 +594,9 @@ public final class GameIT {
 	 * @throws IOException
 	 *             (will be passed through if it occurs, indicating a test
 	 *             error)
-	 * @throws JSONException
-	 *             (will be passed through if it occurs, indicating a test
-	 *             error)
 	 */
 	@Test
-	public void jsonGameData() throws IOException, JSONException {
+	public void jsonGameData() throws IOException {
 		/*
 		 * Use two Selenium players to play through the game a bit, so that the
 		 * game state is "interesting" enough to test.

@@ -1,17 +1,16 @@
 package com.justdavis.karl.rpstourney.webapp.jsp;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.ocpsoft.prettytime.PrettyTime;
-import org.threeten.bp.DateTimeUtils;
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.temporal.TemporalAccessor;
 
 /**
  * A JSP tag handler that provides the
@@ -145,7 +144,7 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		 */
 		@Override
 		public String format(TemporalAccessor temporalValue) {
-			Date date = DateTimeUtils.toDate(Instant.from(temporalValue));
+			Date date = Date.from(Instant.from(temporalValue));
 			PrettyTime prettyTime = new PrettyTime();
 			return prettyTime.format(date);
 		}

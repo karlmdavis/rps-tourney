@@ -2,6 +2,7 @@ package com.justdavis.karl.rpstourney.service.api.auth;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.time.Instant;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,8 +24,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.threeten.bp.Instant;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
@@ -57,17 +56,13 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	private static final long serialVersionUID = 4133421893609326130L;
 
 	/*
-	 * FIXME Would rather use GenerationType.IDENTITY, but can't, due to
-	 * https://hibernate.atlassian.net/browse/HHH-9430.
-	 */
-	/*
 	 * FIXME Would rather sequence name was mixed-case, but it can't be, due to
 	 * https://hibernate.atlassian.net/browse/HHH-9431.
 	 */
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "LoginIdentities_id_seq")
-	@SequenceGenerator(name = "LoginIdentities_id_seq", sequenceName = "loginidentities_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LoginIdentities_id_seq")
+	@SequenceGenerator(name = "LoginIdentities_id_seq", sequenceName = "`loginidentities_id_seq`")
 	@XmlElement
 	protected long id;
 
@@ -79,7 +74,6 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	protected Account account;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	protected Instant createdTimestamp;
@@ -98,6 +92,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 		if (createdTimestamp == null)
 			throw new IllegalArgumentException();
 
+		this.id = -1;
 		this.account = account;
 		this.createdTimestamp = createdTimestamp;
 	}
@@ -118,6 +113,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	 */
 	@Deprecated
 	protected AbstractLoginIdentity() {
+		this.id = -1;
 	}
 
 	/**
@@ -126,7 +122,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	 *         <code>false</code> if it has not
 	 */
 	public boolean hasId() {
-		return id > 0;
+		return id > -1;
 	}
 
 	/**

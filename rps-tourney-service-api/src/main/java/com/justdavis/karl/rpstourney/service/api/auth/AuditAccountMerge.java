@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.service.api.auth;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.threeten.bp.Instant;
 
 import com.justdavis.karl.rpstourney.service.api.game.Game;
 
@@ -44,12 +44,11 @@ public class AuditAccountMerge {
 	 */
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "AuditAccountMerges_id_seq")
-	@SequenceGenerator(name = "AuditAccountMerges_id_seq", sequenceName = "auditaccountmerges_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AuditAccountMerges_id_seq")
+	@SequenceGenerator(name = "AuditAccountMerges_id_seq", sequenceName = "`auditaccountmerges_id_seq`")
 	private long id;
 
 	@Column(name = "`mergeTimestamp`", nullable = false, updatable = false)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	private Instant mergeTimestamp;
 
 	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
@@ -80,6 +79,7 @@ public class AuditAccountMerge {
 	 *            the value to use for {@link #getMergedLogins()}
 	 */
 	public AuditAccountMerge(Account targetAccount, Set<AbstractLoginIdentity> mergedLogins) {
+		this.id = -1;
 		this.mergeTimestamp = Instant.now();
 		this.targetAccount = targetAccount;
 		this.mergedLogins = mergedLogins;
@@ -92,6 +92,7 @@ public class AuditAccountMerge {
 	 */
 	@Deprecated
 	AuditAccountMerge() {
+		this.id = -1;
 	}
 
 	/**
@@ -100,7 +101,7 @@ public class AuditAccountMerge {
 	 *         <code>false</code> if it has not
 	 */
 	public boolean hasId() {
-		return id > 0;
+		return id > -1;
 	}
 
 	/**

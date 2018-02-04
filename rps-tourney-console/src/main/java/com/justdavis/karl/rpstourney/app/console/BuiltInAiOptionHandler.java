@@ -49,7 +49,7 @@ public final class BuiltInAiOptionHandler extends OptionHandler<BuiltInAi> {
 			return 1;
 		}
 
-		throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(params.getParameter(-1), param));
+		throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND, params.getParameter(-1), param);
 	}
 
 	/**
