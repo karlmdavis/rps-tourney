@@ -20,9 +20,9 @@ properties([
 		 * Benchmarks aren't run by default as they're only valid when the
 		 * build server isn't busy with anything else.
 		 */
-		boolean(name: 'benchmarks_run', description: 'Whether or not to run the app benchmarks.', defaultValue: false),
-		int(name: 'benchmarks_forks', description: 'How many forks to run of each benchmark.', defaultValue: 10),
-		int(name: 'benchmarks_iterations', description: 'How many measurement iterations to run of each benchmark (per fork).', defaultValue: 20)
+		string(name: 'benchmarks_run', description: 'The app benchmarks will be run if this is set to true.', defaultValue: 'false'),
+		string(name: 'benchmarks_forks', description: 'How many forks to run of each benchmark.', defaultValue: '10'),
+		string(name: 'benchmarks_iterations', description: 'How many measurement iterations to run of each benchmark (per fork).', defaultValue: '20')
 	])
 ])
 
@@ -45,7 +45,7 @@ node {
 	}
 
 	stage('Benchmark') {
-		if (params.benchmarks_run) {
+		if (params.benchmarks_run == 'true') {
 			dir('rps-tourney-benchmarks') {
 				java "java -jar target/benchmarks.jar -foe true -rf json -rff target/jmh-result.json -f ${benchmarks_forks} -i ${benchmarks_iterations}"
 			}
