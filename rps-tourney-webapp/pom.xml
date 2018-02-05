@@ -347,6 +347,8 @@
 						<configuration>
 							<properties>
 								<cargo.servlet.port>9093</cargo.servlet.port>
+
+								<!-- Collect JaCoCo coverage data for the classes running in the web server. -->
 								<cargo.jvmargs>${argLine}</cargo.jvmargs>
 							</properties>
 						</configuration>
@@ -402,15 +404,6 @@
 						<goals>
 							<goal>prepare-agent-integration</goal>
 						</goals>
-						<configuration>
-							<destFile>${sonar.integration.reportPath}</destFile>
-							<append>true</append>
-							<excludes>
-								<!-- This exclude is for an HTMLUnit dependency that can't be instrumented. 
-									See https://github.com/karlmdavis/rps-tourney/issues/104 for details. -->
-								<exclude>**com.steadystate*</exclude>
-							</excludes>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

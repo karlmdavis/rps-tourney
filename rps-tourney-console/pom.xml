@@ -158,6 +158,9 @@
 						<configuration>
 							<properties>
 								<cargo.servlet.port>9093</cargo.servlet.port>
+
+								<!-- Collect JaCoCo coverage data for the classes running in the web server. -->
+								<cargo.jvmargs>${argLine}</cargo.jvmargs>
 							</properties>
 						</configuration>
 						<deployables>
