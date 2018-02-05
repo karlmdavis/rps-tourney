@@ -204,10 +204,6 @@
 						<goals>
 							<goal>prepare-agent-integration</goal>
 						</goals>
-						<configuration>
-							<destFile>${sonar.integration.reportPath}</destFile>
-							<append>true</append>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

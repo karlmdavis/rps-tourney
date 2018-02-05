@@ -149,8 +149,7 @@
 		<!-- Configure Sonar such that the coverage reports for all modules' unit
 			and integration tests are stored in a single file in the parent project.
 			The JaCoCo configuration for tests also needs to point to this location. -->
-		<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
-		<sonar.junit.reportPaths>target/,${project.basedir}/../target/</sonar.junit.reportPaths>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 	</properties>
 
 	<dependencyManagement>
@@ -247,11 +246,11 @@
 					<configuration>
 						<!-- Write all JaCoCo data to the same file, shared by all modules and all
 							tests (both unit and integration). -->
-						<destFile>${jacoco.reportPath}</destFile>
+						<destFile>${sonar.jacoco.reportPath}</destFile>
 						<append>true</append>
 						
 						<!-- Used by the report goal. -->
-						<dataFile>${jacoco.reportPath}</dataFile>
+						<dataFile>${sonar.jacoco.reportPath}</dataFile>
 					</configuration>
 				</plugin>
 				<plugin>
