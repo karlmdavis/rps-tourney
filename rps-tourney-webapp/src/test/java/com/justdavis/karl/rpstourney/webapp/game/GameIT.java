@@ -191,6 +191,7 @@ public final class GameIT {
 		try {
 			// Create the Selenium driver that will be used for Player 2.
 			driver = new HtmlUnitDriver(true);
+			Wait<WebDriver> wait = new WebDriverWait(driver, 20);
 
 			// Create the web service clients that will be used for Player 1.
 			ClientConfig clientConfig = ITUtils.createClientConfig();
@@ -219,7 +220,8 @@ public final class GameIT {
 
 			// Player 2 (webapp): Check player name controls' state.
 			Assert.assertTrue(driver.findElement(By.cssSelector("#player-first .player-name")).isDisplayed());
-			Assert.assertFalse(driver.findElement(By.xpath("//form[contains(@class, 'player-name')]")).isDisplayed());
+			wait.until(ExpectedConditions
+					.invisibilityOf(driver.findElement(By.xpath("//form[contains(@class, 'player-name')]"))));
 
 			/*
 			 * Player 2 (webapp): Activate the name editor, check the controls'
@@ -240,10 +242,8 @@ public final class GameIT {
 			 * form causes a spurious onblur event to be fired first. See
 			 * 2018-02-01 email to the htmlunit-user mailing list for details.
 			 */
-			// Wait<WebDriver> player2Waiter = new WebDriverWait(driver, 20);
-			// player2Waiter.until(ExpectedConditions
-			// .textToBePresentInElementLocated(By.cssSelector("#player-first
-			// .player-name"), "bar (You)"));
+			// wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#player-first.player-name"),
+			// "bar (You)"));
 		} finally {
 			if (driver != null)
 				driver.quit();
