@@ -1,6 +1,8 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,8 +16,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
-import org.threeten.bp.format.DateTimeFormatter;
 import org.w3c.dom.Node;
 
 import com.justdavis.karl.misc.xml.SimpleNamespaceContext;
@@ -73,7 +73,7 @@ public final class GameViewTest {
 		Assert.assertNotNull(player1AccountNode);
 		Node player1AccountIdNode = (Node) xpath.evaluate("/rps:gameView/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
+		Assert.assertEquals("-1", player1AccountIdNode.getTextContent());
 	}
 
 	/**
@@ -127,7 +127,7 @@ public final class GameViewTest {
 		Assert.assertNotNull(player1AccountNode);
 		Node player1AccountIdNode = (Node) xpath.evaluate("/rps:gameView/rps:player1/rps:humanAccount/rps:id",
 				domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("0", player1AccountIdNode.getTextContent());
+		Assert.assertEquals("-1", player1AccountIdNode.getTextContent());
 		Node throwNode = (Node) xpath.evaluate("/rps:gameView/rps:rounds/rps:round[1]/rps:throwForPlayer1",
 				domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("ROCK", throwNode.getTextContent());

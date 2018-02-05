@@ -1,9 +1,10 @@
 package com.justdavis.karl.rpstourney.service.api.jaxb;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * This JAXB {@link XmlAdapter} marshalls/unmarshalls {@link Instant}s as

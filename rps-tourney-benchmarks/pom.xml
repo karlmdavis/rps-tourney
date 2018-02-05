@@ -19,7 +19,7 @@
 
 	<properties>
 		<!-- The version of the org.openjdk.jmh:* artifacts to use. -->
-		<jmh.version>1.11.2</jmh.version>
+		<jmh.version>1.20</jmh.version>
 
 		<uberjar.name>benchmarks</uberjar.name>
 	</properties>
@@ -68,7 +68,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
-					<version>2.2</version>
+					<version>3.1.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

@@ -1,11 +1,13 @@
 package com.justdavis.karl.rpstourney.account;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.justdavis.karl.rpstourney.webapp.ITUtils;
@@ -61,9 +63,10 @@ public final class AuthenticationIT {
 		WebDriver driverB = null;
 		try {
 			// Register for an account and create a game.
+			String username = buildRandomEmail();
 			driverA = new HtmlUnitDriver(true);
 			driverA.get(ITUtils.buildWebAppUrl("register"));
-			driverA.findElement(By.id("inputEmail")).sendKeys("foo@example.com");
+			driverA.findElement(By.id("inputEmail")).sendKeys(username);
 			driverA.findElement(By.id("inputPassword1")).sendKeys("secret");
 			driverA.findElement(By.id("inputPassword2")).sendKeys("secret");
 			driverA.findElement(By.cssSelector("form#register button[type=submit]")).click();
@@ -76,7 +79,7 @@ public final class AuthenticationIT {
 
 			// Now have that separate session login to the first account.
 			driverB.get(ITUtils.buildWebAppUrl("login"));
-			driverB.findElement(By.id("username")).sendKeys("foo@example.com");
+			driverB.findElement(By.id("username")).sendKeys(username);
 			driverB.findElement(By.id("password")).sendKeys("secret");
 			driverB.findElement(By.cssSelector("form#login button[type=submit]")).click();
 			Assert.assertEquals(ITUtils.buildWebAppUrl("account"), driverB.getCurrentUrl());
@@ -141,7 +144,9 @@ public final class AuthenticationIT {
 			driver.findElement(By.cssSelector("form#account-properties button[type=submit]")).click();
 
 			// Verify that the account control has the name in it.
-			driver.findElement(By.id("nav-collapse-toggle")).click();
+			WebElement navToggle = driver.findElement(By.id("nav-collapse-toggle"));
+			if (navToggle.isDisplayed())
+				navToggle.click();
 			Assert.assertTrue(String.format("Invalid response: %s: %s", driver.getCurrentUrl(), driver.getPageSource()),
 					driver.findElement(By.id("signed-in")).getText().contains("Foo"));
 		} finally {

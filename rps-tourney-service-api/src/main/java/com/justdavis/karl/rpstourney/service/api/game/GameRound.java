@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +23,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.Instant;
 
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.game.AbstractGame.GamePk;
@@ -76,7 +76,6 @@ public class GameRound {
 	private Throw throwForPlayer1;
 
 	@Column(name = "`throwForPlayer1Timestamp`", nullable = true, updatable = true)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	private Instant throwForPlayer1Timestamp;
@@ -87,7 +86,6 @@ public class GameRound {
 	private Throw throwForPlayer2;
 
 	@Column(name = "`throwForPlayer2Timestamp`", nullable = true, updatable = true)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	private Instant throwForPlayer2Timestamp;

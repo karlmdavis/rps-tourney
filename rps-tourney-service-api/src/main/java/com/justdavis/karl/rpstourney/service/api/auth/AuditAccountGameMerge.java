@@ -39,8 +39,8 @@ public class AuditAccountGameMerge {
 	 */
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "AuditAccountGameMerges_id_seq")
-	@SequenceGenerator(name = "AuditAccountGameMerges_id_seq", sequenceName = "auditaccountgamemerges_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AuditAccountGameMerges_id_seq")
+	@SequenceGenerator(name = "AuditAccountGameMerges_id_seq", sequenceName = "`auditaccountgamemerges_id_seq`")
 	private long id;
 
 	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
@@ -72,6 +72,7 @@ public class AuditAccountGameMerge {
 	 *            the value to use for {@link #getPlayerRole()}
 	 */
 	public AuditAccountGameMerge(AuditAccountMerge parentAuditAccountMerge, Game game, PlayerRole playerRole) {
+		this.id = -1;
 		this.parentAuditAccountMerge = parentAuditAccountMerge;
 		this.game = game;
 		this.playerRole = playerRole;
@@ -83,6 +84,7 @@ public class AuditAccountGameMerge {
 	 */
 	@Deprecated
 	AuditAccountGameMerge() {
+		this.id = -1;
 	}
 
 	/**
@@ -91,7 +93,7 @@ public class AuditAccountGameMerge {
 	 *         <code>false</code> if it has not
 	 */
 	public boolean hasId() {
-		return id > 0;
+		return id > -1;
 	}
 
 	/**

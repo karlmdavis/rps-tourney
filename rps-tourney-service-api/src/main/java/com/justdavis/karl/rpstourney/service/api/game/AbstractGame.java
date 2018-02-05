@@ -1,6 +1,7 @@
 package com.justdavis.karl.rpstourney.service.api.game;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,11 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.threeten.bp.Instant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
@@ -41,7 +42,6 @@ class AbstractGame {
 	protected String id;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)
-	@org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentInstantAsTimestamp")
 	@XmlElement
 	@XmlJavaTypeAdapter(InstantJaxbAdapter.class)
 	protected Instant createdTimestamp;

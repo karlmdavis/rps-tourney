@@ -23,10 +23,7 @@
 		<!-- The version of the Spring Security framework artifacts to use. Note 
 			that this library has a different release cycle (and version number) than 
 			the "core" Spring Framework project. -->
-		<spring.security.version>3.2.4.RELEASE</spring.security.version>
-
-		<!-- The version of the Jetty webapp container to use. -->
-		<jetty.version>9.0.6.v20130930</jetty.version>
+		<spring.security.version>5.0.1.RELEASE</spring.security.version>
 
 		<!-- Exclude the third-party JavaScript files from static analysis via 
 			SonarQube. -->
@@ -65,7 +62,7 @@
 				be bundled with whatever application server this WAR is deployed to. -->
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -150,7 +147,7 @@
 				ago". -->
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
-			<version>3.2.5.Final</version>
+			<version>4.0.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -194,7 +191,6 @@
 				DB for unit/integration tests. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -202,7 +198,13 @@
 				this project's integration tests. -->
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.42.2</version>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>htmlunit-driver</artifactId>
+			<version>2.29.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -212,17 +214,8 @@
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<!-- Set the Java source version used by the compiler. -->
-						<source>${javaSourceVersion}</source>
-						<target>${javaSourceVersion}</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.8</version>
+					<version>3.0.2</version>
 					<configuration>
 						<artifactItems>
 							<artifactItem>
@@ -295,7 +288,7 @@
 						for details. -->
 					<groupId>ro.isdc.wro4j</groupId>
 					<artifactId>wro4j-maven-plugin</artifactId>
-					<version>1.7.6</version>
+					<version>1.8.0</version>
 					<configuration>
 						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
 						<!-- Run wro4j against both the unprocessed resource sources and the 
@@ -313,7 +306,7 @@
 						<dependency>
 							<groupId>com.github.sommeri</groupId>
 							<artifactId>less4j</artifactId>
-							<version>1.8.2</version>
+							<version>1.17.2</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -354,6 +347,9 @@
 						<configuration>
 							<properties>
 								<cargo.servlet.port>9093</cargo.servlet.port>
+
+								<!-- Collect JaCoCo coverage data for the classes running in the web server. -->
+								<cargo.jvmargs>${argLine}</cargo.jvmargs>
 							</properties>
 						</configuration>
 						<deployables>
@@ -408,15 +404,6 @@
 						<goals>
 							<goal>prepare-agent-integration</goal>
 						</goals>
-						<configuration>
-							<destFile>${sonar.jacoco.itReportPath}</destFile>
-							<append>true</append>
-							<excludes>
-								<!-- This exclude is for an HTMLUnit dependency that can't be instrumented. 
-									See https://github.com/karlmdavis/rps-tourney/issues/104 for details. -->
-								<exclude>**com.steadystate*</exclude>
-							</excludes>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

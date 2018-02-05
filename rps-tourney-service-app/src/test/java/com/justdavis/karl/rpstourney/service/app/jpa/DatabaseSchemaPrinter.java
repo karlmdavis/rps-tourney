@@ -1,19 +1,15 @@
 package com.justdavis.karl.rpstourney.service.app.jpa;
 
+import java.io.StringWriter;
 import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.metamodel.EntityType;
 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.dialect.HSQLDialect;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.hibernate.tool.hbm2ddl.Target;
+import org.hibernate.cfg.AvailableSettings;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.justdavis.karl.misc.datasources.DataSourceConnectorsManager;
+import com.justdavis.karl.misc.datasources.hsql.HsqlCoordinates;
 import com.justdavis.karl.rpstourney.service.app.SpringBindingsForWebServiceITs;
 import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
@@ -33,19 +29,22 @@ final class DatabaseSchemaPrinter {
 			ServiceConfig appConfig = springContext.getBean(ServiceConfig.class);
 			DataSourceConnectorsManager connectorsManager = springContext.getBean(DataSourceConnectorsManager.class);
 			Map<String, Object> jpaCoords = connectorsManager
-					.convertToJpaProperties(appConfig.getDataSourceCoordinates());
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.justdavis.karl.rpstourney",
-					jpaCoords);
+					.convertToJpaProperties(new HsqlCoordinates("jdbc:hsqldb:mem:foo"));
 
-			Configuration hibernateConfig = new Configuration();
-			hibernateConfig.setProperty(Environment.DIALECT, HSQLDialect.class.getName());
-			for (EntityType<?> entityType : emf.getMetamodel().getEntities()) {
-				hibernateConfig.addAnnotatedClass(entityType.getJavaType());
-			}
-			SchemaExport schemaExporter = new SchemaExport(hibernateConfig);
-			schemaExporter.setFormat(true);
-			schemaExporter.setDelimiter(";");
-			schemaExporter.create(Target.SCRIPT);
+			StringWriter ddlWriter = new StringWriter();
+			jpaCoords.put(AvailableSettings.HBM2DDL_SCRIPTS_ACTION, "create");
+			jpaCoords.put(AvailableSettings.HBM2DDL_SCRIPTS_CREATE_TARGET, ddlWriter);
+			jpaCoords.put(AvailableSettings.HBM2DDL_DELIMITER, ";");
+			Persistence.generateSchema("com.justdavis.karl.rpstourney", jpaCoords);
+
+			String systemNewLine = System.getProperty("line.separator");
+			systemNewLine = !systemNewLine.isEmpty() ? systemNewLine : "\n";
+			String[] ddlLines = ddlWriter.toString().split(systemNewLine);
+
+			System.out.println("\nGenerated SQL DDL:\n----");
+			for (String ddlLine : ddlLines)
+				System.out.println(ddlLine);
+			System.out.println("----\n");
 		} finally {
 			// FIXME Application never actually exits.
 			springContext.stop();

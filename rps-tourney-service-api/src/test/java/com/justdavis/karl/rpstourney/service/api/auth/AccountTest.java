@@ -112,7 +112,7 @@ public final class AccountTest {
 		Node accountNode = (Node) xpath.evaluate("/rps:account", domResult.getNode(), XPathConstants.NODE);
 		Assert.assertNotNull(accountNode);
 		Node idNode = (Node) xpath.evaluate("/rps:account/rps:id", domResult.getNode(), XPathConstants.NODE);
-		Assert.assertEquals("0", idNode.getTextContent());
+		Assert.assertEquals("-1", idNode.getTextContent());
 		Node nameNode = (Node) xpath.evaluate("/rps:account/rps:name", domResult.getNode(), XPathConstants.NODE);
 		Assert.assertEquals("foo", nameNode.getTextContent());
 		Node rolesNode = (Node) xpath.evaluate("/rps:account/rps:roles", domResult.getNode(), XPathConstants.NODE);

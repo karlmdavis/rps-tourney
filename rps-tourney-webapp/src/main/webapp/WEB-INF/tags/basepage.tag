@@ -66,8 +66,8 @@
 			</div>
 		</footer>
 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="${requestScope['rpstourney.config.baseurl']}/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
 		<script src="${requestScope['rpstourney.config.baseurl']}/js/rps.js"></script>
 		
 		<jsp:invoke fragment="bodyscripts" />

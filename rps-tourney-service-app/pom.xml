@@ -68,7 +68,7 @@
 				JPA a bit easier. -->
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
-			<version>1.6.4.RELEASE</version>
+			<version>2.0.3.RELEASE</version>
 		</dependency>
 
 		<dependency>
@@ -94,18 +94,10 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
-			<!-- Provides the Hibernate mappings required to persist the org.threetenbp:threetenbp 
-				classes correctly. -->
-			<groupId>org.jadira.usertype</groupId>
-			<artifactId>usertype.extended</artifactId>
-			<version>3.1.0.CR10</version>
-		</dependency>
-		<dependency>
 			<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
-				Java 7 and above (the '-jdbc4' version supports Java 6 and above). -->
+				Java 8 and above and PostgreSQL 8.2 and above. -->
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.3-1100-jdbc41</version>
 		</dependency>
 		<dependency>
 			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
@@ -114,15 +106,14 @@
 				Eclipse Tomcat plugin. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.3.3</version>
 		</dependency>
 
 		<dependency>
 			<!-- Provides full JSR 349 Bean Validation 1.1 support (it's actually 
 				the reference implementation for it). -->
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.0.2.Final</version>
+			<version>6.0.7.Final</version>
 		</dependency>
 		<dependency>
 			<!-- Contains the API for the "Unified Expression Language" handler, which 
@@ -142,7 +133,7 @@
 			<!-- This is required by hibernate-validator's @SafeHtml annotation. -->
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.8.2</version>
+			<version>1.11.2</version>
 		</dependency>
 
 		<dependency>
@@ -199,21 +190,21 @@
 			<!-- Jetty is used to host the web service for ITs. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>9.2.11.v20150529</version>
+			<version>${jetty.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- Jetty is used to host the web service for ITs. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
-			<version>9.2.11.v20150529</version>
+			<version>${jetty.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<!-- Used to generate the SSL cert that is used in the ITs (by Jetty). -->
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
-			<version>1.49</version>
+			<version>1.59</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -221,15 +212,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<!-- Set the Java source version used by the compiler. -->
-						<source>${javaSourceVersion}</source>
-						<target>${javaSourceVersion}</target>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
@@ -274,10 +256,6 @@
 						<goals>
 							<goal>prepare-agent-integration</goal>
 						</goals>
-						<configuration>
-							<destFile>${sonar.jacoco.itReportPath}</destFile>
-							<append>true</append>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

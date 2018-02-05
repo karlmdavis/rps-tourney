@@ -9,6 +9,10 @@
 		</encoder>
 	</appender>
 
+	<!-- These logging categories are used in the ITs. -->
+	<!-- <logger name="com.gargoylesoftware" level="all" /> -->
+	<!-- <logger name="com.gargoylesoftware.htmlunit.javascript" level="debug" /> -->
+
 	<!-- Log at the INFO level and above by default, to the 'STDOUT' appender. -->
 	<root level="info">
 		<appender-ref ref="STDOUT" />

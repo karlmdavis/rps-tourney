@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * </p>
  * <ul>
  * <li>This must be configured via
- * {@link WebMvcConfigurerAdapter#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)}
+ * {@link WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)}
  * , or some similar mechanism .</li>
  * <li>This will only "catch" requests that are handled by the Spring MVC
  * application.</li>

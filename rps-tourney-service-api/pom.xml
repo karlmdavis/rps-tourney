@@ -18,8 +18,6 @@
 	</description>
 
 	<properties>
-		<!-- Java 1.7 is required to compile this module. -->
-		<javaSourceVersion>1.7</javaSourceVersion>
 	</properties>
 
 	<dependencies>
@@ -38,11 +36,11 @@
 		</dependency>
 
 		<dependency>
-			<!-- The web service resources/methods defined in this project are all 
-				defined as JAX-RS 2.0 resources. -->
+			<!-- The web service resources/methods defined in this project are all
+				defined as JAX-RS 2.1 resources. -->
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
+			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
@@ -72,14 +70,6 @@
 		</dependency>
 
 		<dependency>
-			<!-- The JPA 2.1 API is included in this module as it has a number of 
-				@Entity classes that use the annotations in it. Please note, though, that 
-				this module itself contains no DAOs or other persistence/DB code. -->
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<version>1.0.0.Final</version>
-		</dependency>
-		<dependency>
 			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
 				used for building and interacting with the application's SQL database. -->
 			<groupId>org.hibernate</groupId>
@@ -89,40 +79,36 @@
 				<!-- Excluding all of Hibernate's transitive dependencies, as we're just 
 					using it (in this specific module) for its @Type annotation. -->
 				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>javassist</artifactId>
-					<groupId>org.javassist</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>antlr</artifactId>
-					<groupId>antlr</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jboss-logging</artifactId>
-					<groupId>org.jboss.logging</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>dom4j</artifactId>
-					<groupId>dom4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-commons-annotations</artifactId>
 					<groupId>org.hibernate.common</groupId>
+					<artifactId>hibernate-commons-annotations</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml</groupId>
+					<artifactId>classmate</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
+					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jandex</artifactId>
 					<groupId>org.jboss</groupId>
+					<artifactId>jandex</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>jboss-logging-annotations</artifactId>
 					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>antlr</groupId>
+					<artifactId>antlr</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -139,9 +125,9 @@
 			<!-- This is the reference implementation for the "bean validation" spec, 
 				which has a transitive dependency on the API. The implementation is included 
 				here (instead of just the API) to allow use of its custom validation annotations. -->
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.0.2.Final</version>
+			<version>6.0.7.Final</version>
 		</dependency>
 
 		<dependency>
@@ -151,9 +137,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- Provides a JAX-RS 2.0 implementation for this project's tests to 
-				use. (Without one of these available, some of the tests will blow up with 
-				ClassNotFoundExceptions. For example: GameConflictException can't be used 
+			<!-- Provides a JAX-RS 2.1 implementation for this project's tests to
+				use. (Without one of these available, some of the tests will blow up with
+				ClassNotFoundExceptions. For example: GameConflictException can't be used
 				without this.) -->
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-rs-client</artifactId>
@@ -174,15 +160,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<!-- Set the Java source version used by the compiler. -->
-						<source>${javaSourceVersion}</source>
-						<target>${javaSourceVersion}</target>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -212,7 +189,7 @@
 							<goal>prepare-agent-integration</goal>
 						</goals>
 						<configuration>
-							<destFile>${sonar.jacoco.itReportPath}</destFile>
+							<destFile>${sonar.integration.reportPath}</destFile>
 							<append>true</append>
 						</configuration>
 					</execution>

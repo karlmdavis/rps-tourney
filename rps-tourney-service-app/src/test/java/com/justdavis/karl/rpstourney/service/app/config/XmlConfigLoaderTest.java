@@ -48,7 +48,6 @@ public final class XmlConfigLoaderTest {
 			Files.copy(sampleConfigStream, defaultConfigPath);
 
 			// Use XmlConfigLoader to load the config, then verify it.
-			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
@@ -88,7 +87,6 @@ public final class XmlConfigLoaderTest {
 			Files.copy(sampleConfigStream, tempConfigFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 			// Use XmlConfigLoader to load the config, then verify it.
-			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config = configLoader.getConfig();
 			Assert.assertNotNull(config);
@@ -125,7 +123,6 @@ public final class XmlConfigLoaderTest {
 			Files.copy(sampleConfigStream, defaultConfigPath);
 
 			// Use XmlConfigLoader to load the config twice.
-			@SuppressWarnings("unchecked")
 			XmlConfigLoader configLoader = new XmlConfigLoader(new DataSourceConnectorsManager(new HsqlConnector()));
 			ServiceConfig config1 = configLoader.getConfig();
 			ServiceConfig config2 = configLoader.getConfig();

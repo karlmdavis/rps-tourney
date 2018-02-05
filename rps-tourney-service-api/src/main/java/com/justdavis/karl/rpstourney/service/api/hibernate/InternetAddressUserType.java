@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.hibernate.HibernateException;
 import org.hibernate.annotations.Type;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.internal.util.compare.EqualsHelper;
 import org.hibernate.type.descriptor.sql.VarcharTypeDescriptor;
 import org.hibernate.usertype.UserType;
@@ -72,14 +72,15 @@ public class InternetAddressUserType implements UserType {
 	public int hashCode(Object x) throws HibernateException {
 		return x.hashCode();
 	}
-
+	
 	/**
 	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet,
-	 *      java.lang.String[], org.hibernate.engine.spi.SessionImplementor,
+	 *      java.lang.String[],
+	 *      org.hibernate.engine.spi.SharedSessionContractImplementor,
 	 *      java.lang.Object)
 	 */
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
 		if (names.length != 1)
 			throw new BadCodeMonkeyException();
@@ -94,15 +95,13 @@ public class InternetAddressUserType implements UserType {
 		else
 			return null;
 	}
-
+	
 	/**
-	 * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement,
-	 *      java.lang.Object, int, org.hibernate.engine.spi.SessionImplementor)
+	 * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement, java.lang.Object, int, org.hibernate.engine.spi.SharedSessionContractImplementor)
 	 */
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
 			throws HibernateException, SQLException {
-
 		if (value != null) {
 			if (!(value instanceof InternetAddress))
 				throw new HibernateException("Unexpected value type: " + value);

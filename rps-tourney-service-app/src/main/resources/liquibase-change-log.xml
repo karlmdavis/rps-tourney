@@ -15,8 +15,9 @@
 	<property name="fkColumnName.LoginIdentity.id" value="LOGINIDENTITYID" dbms="hsqldb" />
 	<property name="fkColumnName.LoginIdentity.id" value="loginidentityid" dbms="postgresql" />
 
-	<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9430 
-		and https://hibernate.atlassian.net/browse/HHH-9431. -->
+	<!-- This was required to work around https://hibernate.atlassian.net/browse/HHH-9430 
+		and https://hibernate.atlassian.net/browse/HHH-9431. As of change set 10,
+		though, sequences are used for both DB platforms. -->
 	<property name="option.autoIncrement" value="true" dbms="hsqldb" />
 	<property name="option.autoIncrement" value="false" dbms="postgresql" />
 
@@ -154,8 +155,6 @@
 
 	<changeSet id="2" author="karlmdavis" dbms="postgresql">
 
-		<!-- These are required to work around https://hibernate.atlassian.net/browse/HHH-9430 
-			and https://hibernate.atlassian.net/browse/HHH-9431. -->
 		<createSequence sequenceName="accounts_id_seq" />
 		<createSequence sequenceName="gameloginidentities_id_seq" />
 		<createSequence sequenceName="guestloginidentities_id_seq" />
@@ -220,8 +219,6 @@
 
 	<changeSet id="4" author="karlmdavis" dbms="postgresql">
 
-		<!-- This is required to work around https://hibernate.atlassian.net/browse/HHH-9430 
-			and https://hibernate.atlassian.net/browse/HHH-9431. -->
 		<createSequence sequenceName="loginidentities_id_seq" />
 
 	</changeSet>
@@ -278,8 +275,6 @@
 
 	<changeSet id="6" author="karlmdavis" dbms="postgresql">
 
-		<!-- These are required to work around https://hibernate.atlassian.net/browse/HHH-9430 
-			and https://hibernate.atlassian.net/browse/HHH-9431. -->
 		<createSequence sequenceName="auditaccountmerges_id_seq" />
 		<createSequence sequenceName="auditaccountgamemerges_id_seq" />
 
@@ -344,6 +339,36 @@
 		<addForeignKeyConstraint constraintName="AuditAccountGameMergesToGamesId"
 			baseTableName="AuditAccountGameMerges" baseColumnNames="${fkColumnName.Game.id}"
 			referencedTableName="Games" referencedColumnNames="id" />
+
+	</changeSet>
+
+	<changeSet id="9" author="karlmdavis" dbms="postgresql">
+
+		<!-- Note: This should have been done as part of change set 3 or 4. -->
+
+		<dropSequence sequenceName="gameloginidentities_id_seq" />
+		<dropSequence sequenceName="guestloginidentities_id_seq" />
+
+	</changeSet>
+
+	<changeSet id="10" author="karlmdavis" dbms="hsqldb">
+		<!-- Start using sequences for IDs on HSQL, just like they are on PostgreSQL. -->
+
+		<!-- Change the type of all auto-increment columns to remove the auto-incrementing. -->
+		<modifyDataType tableName="Accounts" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="GameLoginIdentities" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="GuestLoginIdentities" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="Players" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="LoginIdentities" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="AuditAccountMerges" columnName="id" newDataType="bigint" />
+		<modifyDataType tableName="AuditAccountGameMerges" columnName="id" newDataType="bigint" />
+		
+		<!-- Add all of the same sequences used in PostgreSQL. -->
+		<createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="50" />
+		<createSequence sequenceName="players_id_seq" startValue="1" incrementBy="50" />
+		<createSequence sequenceName="loginidentities_id_seq" startValue="1" incrementBy="50" />
+		<createSequence sequenceName="auditaccountmerges_id_seq" startValue="1" incrementBy="50" />
+		<createSequence sequenceName="auditaccountgamemerges_id_seq" startValue="1" incrementBy="50" />
 
 	</changeSet>
 

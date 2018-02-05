@@ -1,12 +1,12 @@
 package com.justdavis.karl.rpstourney.webapp.jsp;
 
 import java.io.IOException;
+import java.time.Instant;
 
 import javax.servlet.jsp.JspException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.threeten.bp.Instant;
 
 /**
  * Unit tests for {@link TemporalFormatTag}.

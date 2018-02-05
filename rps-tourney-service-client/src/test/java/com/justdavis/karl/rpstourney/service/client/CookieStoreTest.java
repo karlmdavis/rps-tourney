@@ -13,9 +13,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.ws.rs.client.AsyncInvoker;
+import javax.ws.rs.client.CompletionStageRxInvoker;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.RxInvoker;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
@@ -512,6 +514,23 @@ public final class CookieStoreTest {
 		 */
 		@Override
 		public Builder property(String name, Object value) {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @see javax.ws.rs.client.Invocation.Builder#rx()
+		 */
+		@Override
+		public CompletionStageRxInvoker rx() {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @see javax.ws.rs.client.Invocation.Builder#rx(java.lang.Class)
+		 */
+		@SuppressWarnings("rawtypes")
+		@Override
+		public <T extends RxInvoker> T rx(Class<T> clazz) {
 			throw new UnsupportedOperationException();
 		}
 	}
