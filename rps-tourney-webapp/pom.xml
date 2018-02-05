@@ -347,6 +347,7 @@
 						<configuration>
 							<properties>
 								<cargo.servlet.port>9093</cargo.servlet.port>
+								<cargo.jvmargs>${argLine}</cargo.jvmargs>
 							</properties>
 						</configuration>
 						<deployables>
