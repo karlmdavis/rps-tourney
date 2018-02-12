@@ -178,6 +178,11 @@
 			#106. -->
 		<validCheckSum>31f186d37ae0605a0f866ba1e47bb3d9</validCheckSum>
 
+		<!-- After upgrading Liquibase from v3.3.2 to v3.5.3 as part of Issue #111,
+			this change set's checksum was coming up as different, even though there
+			were no changes made to it. -->
+		<validCheckSum>90bcfccbd78b4aa501e0d2cbe5d8db8b</validCheckSum>
+
 		<!-- Create the new base table. -->
 		<createTable tableName="LoginIdentities">
 			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
