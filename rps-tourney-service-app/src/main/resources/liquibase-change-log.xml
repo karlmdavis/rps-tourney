@@ -369,11 +369,11 @@
 		<modifyDataType tableName="AuditAccountGameMerges" columnName="id" newDataType="bigint" />
 		
 		<!-- Add all of the same sequences used in PostgreSQL. -->
-		<createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="50" />
-		<createSequence sequenceName="players_id_seq" startValue="1" incrementBy="50" />
-		<createSequence sequenceName="loginidentities_id_seq" startValue="1" incrementBy="50" />
-		<createSequence sequenceName="auditaccountmerges_id_seq" startValue="1" incrementBy="50" />
-		<createSequence sequenceName="auditaccountgamemerges_id_seq" startValue="1" incrementBy="50" />
+		<createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="1" />
+		<createSequence sequenceName="players_id_seq" startValue="1" incrementBy="1" />
+		<createSequence sequenceName="loginidentities_id_seq" startValue="1" incrementBy="1" />
+		<createSequence sequenceName="auditaccountmerges_id_seq" startValue="1" incrementBy="1" />
+		<createSequence sequenceName="auditaccountgamemerges_id_seq" startValue="1" incrementBy="1" />
 
 	</changeSet>
 

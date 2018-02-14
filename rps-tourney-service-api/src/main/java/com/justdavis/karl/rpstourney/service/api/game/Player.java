@@ -45,7 +45,7 @@ public class Player {
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Players_id_seq")
-	@SequenceGenerator(name = "Players_id_seq", sequenceName = "`players_id_seq`")
+	@SequenceGenerator(name = "Players_id_seq", sequenceName = "`players_id_seq`", allocationSize = 1)
 	@XmlElement
 	private long id;
 

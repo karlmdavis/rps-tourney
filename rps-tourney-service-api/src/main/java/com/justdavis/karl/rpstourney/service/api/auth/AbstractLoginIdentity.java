@@ -62,7 +62,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LoginIdentities_id_seq")
-	@SequenceGenerator(name = "LoginIdentities_id_seq", sequenceName = "`loginidentities_id_seq`")
+	@SequenceGenerator(name = "LoginIdentities_id_seq", sequenceName = "`loginidentities_id_seq`", allocationSize = 1)
 	@XmlElement
 	protected long id;
 
