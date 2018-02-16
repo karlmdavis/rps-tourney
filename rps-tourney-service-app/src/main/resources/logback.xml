@@ -29,9 +29,9 @@
 		the application's custom LoggerForInbound and LoggerForOutbound classes, 
 		which attempt to exclude passwords from the log output. -->
 	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor"
-		level="info" />
+		level="warn" />
 	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
-		level="info" />
+		level="warn" />
 
 	<!-- Log at the INFO level and above by default, to the 'FILE' appender. -->
 	<root level="info">
