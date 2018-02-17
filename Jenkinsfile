@@ -87,8 +87,8 @@ node {
 				pysh "ansible-galaxy install --role-file=install_roles.yml --force"
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
-					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
-					pysh "./ansible-playbook-wrapper site.yml"
+					pysh "./ansible-playbook-wrapper site.yml --vault-password-file=${vaultPasswordFile} --syntax-check"
+					pysh "./ansible-playbook-wrapper site.yml --vault-password-file=${vaultPasswordFile}"
 				}
 			} }
 		}
