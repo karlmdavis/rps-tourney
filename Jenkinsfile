@@ -80,6 +80,7 @@ node {
 
 	stage('Deployment') {
 		if (params.deploy_non_master || (env.BRANCH_NAME == 'master')) {
+			dir('rps-tourney-deployment') {
 			withPythonEnv('/usr/bin/python2.7') {
 				pysh "pip install --upgrade setuptools"
 				pysh "pip install --requirement requirements.txt"
@@ -89,7 +90,7 @@ node {
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
 					pysh "ansible-playbook site.yml"
 				}
-			}
+			} }
 		}
 	}
 }
