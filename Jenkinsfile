@@ -85,9 +85,9 @@ node {
 				pysh "pip install --upgrade setuptools"
 				pysh "pip install --requirement requirements.txt"
 				pysh "ansible-galaxy install --role-file=install_roles.yml --force"
-				pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
+					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 					pysh "./ansible-playbook-wrapper site.yml"
 				}
 			} }
