@@ -19,4 +19,10 @@
 			<trim-directive-whitespaces>true</trim-directive-whitespaces>
 		</jsp-property-group>
 	</jsp-config>
+	<error-page>
+		<!-- Points to the Spring-MVC-controller-managed page that will be used
+			to render all errors that aren't handled elsewhere in the application. See
+			com.justdavis.karl.rpstourney.webapp.error.ErrorController. -->
+		<location>/error</location>
+	</error-page>
 </web-app>

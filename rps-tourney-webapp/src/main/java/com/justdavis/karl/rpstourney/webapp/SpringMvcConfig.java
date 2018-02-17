@@ -1,5 +1,6 @@
 package com.justdavis.karl.rpstourney.webapp;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -31,6 +33,7 @@ import org.springframework.web.servlet.view.JstlView;
 import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
 import com.justdavis.karl.rpstourney.webapp.config.BaseUrlInterceptor;
 import com.justdavis.karl.rpstourney.webapp.config.IConfigLoader;
+import com.justdavis.karl.rpstourney.webapp.error.UnhandledExceptionResolver;
 import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
 
 /**
@@ -160,6 +163,18 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
 		localeResolver.setDefaultLocale(Locale.US);
 		return localeResolver;
+	}
+
+	/**
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#extendHandlerExceptionResolvers(java.util.List)
+	 */
+	@Override
+	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		/*
+		 * Add a Spring MVC {@link HandlerExceptionResolver} that configures how
+		 * the application will render unhandled/uncaught {@link Exception}s.
+		 */
+		resolvers.add(new UnhandledExceptionResolver());
 	}
 
 	/**
