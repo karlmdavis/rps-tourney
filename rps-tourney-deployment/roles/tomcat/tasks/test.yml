@@ -1,0 +1,9 @@
+---
+
+- meta: flush_handlers
+
+- name: Check for Tomcat HTTP OK
+  uri:
+    url: "http://localhost:{{ tomcat_port }}/"
+    status_code: 200
+  changed_when: false

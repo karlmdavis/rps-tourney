@@ -1,0 +1,20 @@
+---
+
+- name: Test - Run Query on Master DB
+  command: psql --command="show server_version;"
+  register: psql_server_version
+  become: true
+  become_user: postgres
+  failed_when: "psql_server_version.rc != 0 or '9.5.' not in psql_server_version.stdout"
+  changed_when: false
+
+- name: Test - Run Query on RPS Database
+  expect:
+    command: psql --host=127.0.0.1 --dbname=rps --username="{{ vault_rps_db_username }}" --command="select current_database();"
+    responses:
+      'Password for user rps: ': "{{ vault_rps_db_password }}"
+  register: psql_rps_db_name
+  become: true
+  become_user: postgres
+  failed_when: "psql_rps_db_name.rc != 0 or 'rps' not in psql_rps_db_name.stdout"
+  changed_when: false

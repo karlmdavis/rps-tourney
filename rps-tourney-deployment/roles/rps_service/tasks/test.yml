@@ -1,0 +1,27 @@
+---
+
+- meta: flush_handlers
+
+- name: Verify RPS Tourney Service Status Ping
+  uri:
+    url: "{{ item }}"
+    return_content: true
+  register: rps_service_status_ping
+  until: "rps_service_status_ping.status == 200 and 'pong' in rps_service_status_ping.content"
+  retries: 60
+  delay: 1
+  with_items:
+    - "http://localhost:{{ tomcat_port }}/api/status/ping"
+    - 'https://rpstourney.com/api/status/ping'
+
+- name: Verify RPS Tourney Service Status Version
+  uri:
+    url: "{{ item }}"
+    return_content: true
+  register: rps_service_status_version
+  until: "rps_service_status_version.status == 200 and rps_version in rps_service_status_version.content"
+  retries: 60
+  delay: 1
+  with_items:
+    - "http://localhost:{{ tomcat_port }}/api/status/version"
+    - 'https://rpstourney.com/api/status/version'

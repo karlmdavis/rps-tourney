@@ -59,3 +59,20 @@ The following list notes some of the frameworks/libraries that are being used in
 6. [Spring Security](http://projects.spring.io/spring-security): The Spring Security framework is used by the [rps-tourney-webapp](../rps-tourney-webapp/) module to handle authentication and authorization.
 7. [jQuery](http://jquery.com/): jQuery is used in the web application to provide dynamic updates and other functionality.
 8. [Bootstrap](http://getbootstrap.com/): Bootstrap provides the base template for the web application.
+
+
+## Deployment
+
+Initial thoughts:
+
+* It's tempting to want to use Docker, because it makes it simple to use whatever I feel like. Want the latest JRE and Tomcat? Great!
+    * Did a bit of research, though, and there's still no reasonable story for auto-updates there, though. Ridiculous as that seems.
+* At least for now, the simplest thing to do is just stick with packages available by default on `eddings` and deploy there.
+* I'll want to manage that deployment via Ansible. Where should that role/play go?
+    * Doesn't seem quite right to drop it into the `justdavis-ansible` project. The versioning, lifecycle, etc. would be all wrong.
+    * At the same time, I don't like the idea of managing `eddings` with more than one set of plays.
+    * Maybe just write a role in the `rps-tourney` project and then use that role in the `justdavis-ansible` project?
+        * Does Ansible Galaxy even let you have roles nested like that? If not, I might as well just put everything into `justdavis-ansible`, at least for now.
+            * Almost, but not quite yet: [Ansible Issue #244: Support multiple roles within a single GitHub repo](https://github.com/ansible/galaxy/issues/244).
+    * On the other hand, having the play in `justdavis-ansible` makes it much weirder to run the deploy as part of the `rps-tourney` Jenkins build.
+    * I think my reluctance to having a separate play for `eddings` is misplaced. That's the right move, I think: put a new play in `rps-tourney`.

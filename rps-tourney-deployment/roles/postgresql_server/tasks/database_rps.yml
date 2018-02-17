@@ -1,0 +1,15 @@
+---
+
+- name: Create Database User
+  postgresql_user:
+    name: "{{ vault_rps_db_username }}"
+    password: "{{ vault_rps_db_password }}"
+  become: true
+  become_user: postgres
+
+- name: Create Database
+  postgresql_db:
+    name: rps
+    owner: "{{ vault_rps_db_username }}"
+  become: true
+  become_user: postgres
