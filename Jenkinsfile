@@ -21,10 +21,11 @@ properties([
 		 * Benchmarks aren't run by default as they're only valid when the
 		 * build server isn't busy with anything else.
 		 */
+		booleanParam(name: 'tests_skip', description: 'Whether to skip unit and integration tests.', defaultValue: false),
+		booleanParam(name: 'deploy_non_master', description: 'Whether to deploy non-master-branch builds to production.', defaultValue: false),
 		booleanParam(name: 'benchmarks_run', description: 'The app benchmarks will be run if this is set to true.', defaultValue: false),
 		string(name: 'benchmarks_forks', description: 'How many forks to run of each benchmark.', defaultValue: '10'),
-		string(name: 'benchmarks_iterations', description: 'How many measurement iterations to run of each benchmark (per fork).', defaultValue: '20'),
-		booleanParam(name: 'deploy_non_master', description: 'Whether to deploy non-master-branch builds to production.', defaultValue: false)
+		string(name: 'benchmarks_iterations', description: 'How many measurement iterations to run of each benchmark (per fork).', defaultValue: '20')
 	])
 ])
 
@@ -42,7 +43,7 @@ node {
 		 * Run the build. Keep running if there are test failures (so we can
 		 * report them properly).
 		 */
-		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean ${goal}"
+		mvn "--update-snapshots -DskipTests=${params.tests_skip} -DskipITs=${params.tests_skip} -Dmaven.test.failure.ignore=true clean ${goal}"
 	}
 
 	stage('Benchmark') {
