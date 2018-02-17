@@ -79,7 +79,7 @@ node {
 	}
 
 	stage('Deployment') {
-		if (deploy_non_master || (gitBranchName == 'master')) {
+		if (params.deploy_non_master || (env.BRANCH_NAME == 'master')) {
 			withPythonEnv('/usr/bin/python2.7') {
 				pysh "pip install --upgrade setuptools"
 				pysh "pip install --requirement requirements.txt"
