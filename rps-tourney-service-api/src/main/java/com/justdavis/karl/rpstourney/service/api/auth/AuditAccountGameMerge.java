@@ -40,7 +40,7 @@ public class AuditAccountGameMerge {
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AuditAccountGameMerges_id_seq")
-	@SequenceGenerator(name = "AuditAccountGameMerges_id_seq", sequenceName = "`auditaccountgamemerges_id_seq`")
+	@SequenceGenerator(name = "AuditAccountGameMerges_id_seq", sequenceName = "`auditaccountgamemerges_id_seq`", allocationSize = 1)
 	private long id;
 
 	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,

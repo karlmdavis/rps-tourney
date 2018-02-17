@@ -77,7 +77,7 @@ public class Account implements Principal, Serializable {
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Accounts_id_seq")
-	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "`accounts_id_seq`")
+	@SequenceGenerator(name = "Accounts_id_seq", sequenceName = "`accounts_id_seq`", allocationSize = 1)
 	private long id;
 
 	@Column(name = "`createdTimestamp`", nullable = false, updatable = false)

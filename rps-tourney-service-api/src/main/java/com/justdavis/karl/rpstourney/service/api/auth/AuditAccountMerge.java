@@ -45,7 +45,7 @@ public class AuditAccountMerge {
 	@Id
 	@Column(name = "`id`", nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AuditAccountMerges_id_seq")
-	@SequenceGenerator(name = "AuditAccountMerges_id_seq", sequenceName = "`auditaccountmerges_id_seq`")
+	@SequenceGenerator(name = "AuditAccountMerges_id_seq", sequenceName = "`auditaccountmerges_id_seq`", allocationSize = 1)
 	private long id;
 
 	@Column(name = "`mergeTimestamp`", nullable = false, updatable = false)
