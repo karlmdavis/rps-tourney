@@ -62,7 +62,7 @@ node {
 		 */
 		fingerprint '**/target/*.jar'
 		fingerprint '**/target/*.war'
-		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true
+		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true, allowEmptyResults: true
 		archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
 		archiveArtifacts artifacts: '**/target/jmh-result.json', allowEmptyArchive: true
 	}
