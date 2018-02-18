@@ -88,7 +88,7 @@ node {
 				pysh "ansible-galaxy install --role-file=install_roles.yml --force"
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
-				withCredentials([sshUserPrivateKey(credentialsId: 'eddings-builds-ssh-private-key', keyFilevariable: 'sshPrivateKeyFile', usernameVariable: 'sshUsername')]) {
+				withCredentials([sshUserPrivateKey(credentialsId: 'eddings-builds-ssh-private-key', keyFileVariable: 'sshPrivateKeyFile', usernameVariable: 'sshUsername')]) {
 					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
 					sh "ssh-add ${sshPrivateKeyFile}"
 					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
