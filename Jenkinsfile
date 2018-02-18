@@ -90,7 +90,8 @@ node {
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
 				sshagent(['eddings-builds-ssh-private-key']) {
-					sh "sed --in-place 's/^vault_password_file = .*\$/vault_password_file = ${vaultPasswordFile}/g' ansible.cfg"
+					vaultPasswordFileEscaped = vaultPasswordFile.replaceAll("/", "\\/")
+					sh "sed --in-place 's/^vault_password_file = .*\$/vault_password_file = ${vaultPasswordFileEscaped}/g' ansible.cfg"
 					sh "grep --quiet 'eddings.justdavis.com' ~/.ssh/known_hosts || ssh-keyscan -t rsa eddings.justdavis.com 2>/dev/null >> ~/.ssh/known_hosts"
 					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 					pysh "./ansible-playbook-wrapper site.yml"
