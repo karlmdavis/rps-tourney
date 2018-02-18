@@ -4963,3 +4963,180 @@ This file should never be committed along with other files; it should always be 
     * Adding `hibernate-core` as a direct dependency to `-app` fixed the problem.
     * Next challenge: the `-app` project is using Spring injection all over the place in its ITs. If I move them to Tomcat, that has to be ripped out. Is this still a good idea?
         * How do folks deal with webapp resources with Spring Test?
+
+### 2018-01-12, Friday
+
+* 0.4h (2150-2215): Issue #36: Put it on ice, after documenting my thoughts and committing the WIP changes.
+* 1.75h (2216-0002): Issue #111: Upgrade runtime/platform dependencies.
+    * Spent way too long thinking about whether or not it's a good idea to change project versions in Jenkins builds:
+        * I think I've settled on "no, it's not a good idea"?
+        * Doesn't really provide a lot of value as depending on SNAPSHOT versions that you don't have checked out locally is almost always a bad idea anyways?
+        * And Maven just... doesn't support it well. It's going to break version ranges and other "get the latest" behaviors.
+
+### 2018-01-13, Saturday
+
+* 5h: Issue #111: Upgrade runtime/platform dependencies.
+    * Wasn't tracking time, really.
+    * Fixed several problems with Jenkins to get the `jessentials` `Jenkinsfile` build working. And finally succeeded!
+
+### 2018-01-14, Sunday
+
+* 3h (0700-0740,0950-1045): Issue #111: Upgrade runtime/platform dependencies.
+    * Going through the `jessentials-parent` POM and upgrading things there, reading change logs.
+        * Stopped tracking time on this, as I was at it off and on for much of the day. Maybe 3h total?
+
+### 2018-01-15, Monday
+
+* 1h (1000-1015,2230-2315): Issue #111: Upgrade runtime/platform dependencies.
+    * Upgraded to Eclipse Oxygen, which is required by JUnit 5.
+    * Finished upgrading the `jessentials-*` dependencies and plugins. Got that committed and passing in Jenkins.
+    * Note: Need to add SonarQube support to `Jenkinsfile`. Whoops.
+
+### 2018-01-20, Saturday
+
+* 4h (unknown): Issue #111: Upgrade runtime/platform dependencies.
+    * Got `jessentials` refresh completed.
+    * Got SonarQube analysis working for `jessentials`.
+        * Spent an embarassing amount of time trying to solve nonexistent problems with "IT coverage not being included" (it was). Too damned sleep-deprived.
+
+### 2018-01-26, Friday
+
+* 2.25h (1715-1615,2130-2245): Issue #111: Upgrade runtime/platform dependencies.
+    * Released `jessentials-*` projects.
+    * Started updating everything in the `rps-tourney` POMs.
+
+### 2018-01-27, Saturday
+
+* 5.0h (unknown): Issue #111: Upgrade runtime/platform dependencies.
+    * Started updating dependencies.
+
+### 2018-01-28, Sunday
+
+* 3.5h (unknown): Issue #111: Upgrade runtime/platform dependencies.
+    * Mostly done updating dependencies:
+        * Still need to update to JUnit 5.
+        * Didn't move to very latest Jetty; just to latest of the previous release series (still supported!).
+        * Have two `-webapp` test failures to resolve. Only 2! That's crazypants.
+
+### 2018-01-29, Monday
+
+* 1:25h (0838-1003): Issue #111: Upgrade runtime/platform dependencies.
+    * Resolved one test failure.
+    * Still stuck on the `GameIT` failure, though. Looks like it thinks the form is `display:none` when it goes to submit the name change.
+
+### 2018-01-30, Tuesday
+
+* 0:30h (2157-2227): Issue #111: Upgrade runtime/platform dependencies.
+    * Trying to debug test failure. Started upgrading jQuery.
+
+### 2018-01-31, Wednesday
+
+* 0:33h (0810-0811,2115-2147): Issue #111: Upgrade runtime/platform dependencies.
+    * Kicked off a `mvn verify` with the new jQuery version. Still failed in the same place.
+    * Tried to find how/where to debug the jQuery execution in HtmlUnit. No luck yet.
+
+### 2018-02-01, Thursday
+
+* 3:00h (2015-2315): Issue #111: Upgrade runtime/platform dependencies.
+    * Finally tracked down the remaining `GameIT.updateName()` test failure to an apparent HtmlUnit bug. Sent message to the `htmlunit-user` mailing list about it.
+    * Build is now passing locally!
+    * Need to take a look and see if anything else ought to be updated. JUnit 5, maybe?
+    * Then, need to get build passing in Jenkins.
+
+### 2018-02-03, Saturday
+
+* 3:03h (1326-1410,1440-1530,2106-2235): Issue #111: Upgrade runtime/platform dependencies.
+    * Got benchmarks running again.
+    * Started cleaning up for commit. Still need to:
+        1. Get wro4j changes finalized.
+        2. Fix the Liquibase changelog, to avoid checksum errors.
+        3. Switch to a new branch and commit.
+
+### 2018-02-04, Sunday
+
+* 4:57h (0800-0920,1101-1111,1300-1500,2155-2322): Issue #111: Upgrade runtime/platform dependencies.
+    * Finalized wro4j changes.
+    * Got Jenkins build working.
+    * Cleaned up the Liquibase changelog.
+    * Fixed intermittent testcase.
+    * Fixed code coverage data collection.
+    * Setup new Jenkins project.
+    * Added benchmarks to `Jenkinsfile`.
+    * Committed, merged, resolved.
+    * Next up: deployment.
+
+### 2018-02-10, Saturday
+
+* 0:28h (2110-2138): Issue #111: Upgrade runtime/platform dependencies.
+    * Worked to fix build failure by tweaking Jenkins config.
+    * Looks like Nexus still doesn't see the `jenkins` user, though.
+* 0:15h (2139-2154): Issue #113: Deploy to new `eddings`.
+    * Copied files from `justdavis-ansible.git`.
+    * Started updating that README.
+
+### 2018-02-11, Sunday
+
+* 5:17h (0807-0901,0929-1356): Issue #111: Upgrade runtime/platform dependencies.
+    * Fixed the build.
+        * Was on baby and chore duty for most of this time, so not very productive.
+* 3:57h (1457-1731,2114-2337): Issue #113: Deploy to new `eddings`.
+    * Got deployment working!
+    * Still need to:
+        1. Get `test.sh` working.
+        2. Restore the old `rps` DB.
+        3. Poke at the old DB to verify what the admin account is. Update config XML if necessary.
+        4. Finish play to also generate cert, install Apache, config Apache.
+        5. Wire up `Jenkinsfile` to actually deploy.
+
+### 2018-02-12, Monday
+
+* 1:33h (0830-0959,2129-2133): Issue #114: Liquibase production DB checksum error.
+    * Restored old production `rps` DB.
+    * Investigated, but couldn't find cause.
+    * As a workaround, just added a `<validChecksum/>` entry.
+    * Committed, tested, merged, deployed.
+* 2:49h (2134-0023): Issue #113: Deploy to new `eddings`.
+    * Verified by poking at the DB: my guess as to the admin account was correct.
+    * Had to argue with Tomcat and Apache a lot, but got the production site deployed again!
+    * Yay!!!
+
+### 2018-02-13, Tuesday
+
+* 0:42h (2140-2222): Issue #118: Duplicate key violation during guest login.
+    * Pushed possible fix to PR.
+    * Still need to figure out why errors weren't being captured in the `-webapp` 's log.
+
+### 2018-02-14, Wednesday
+
+* 1:34h (2125-2259): Issue #120: Errors not being logged.
+    * Got 500 errors handled properly.
+    * Still trying to get 404s handled correctly.
+
+### 2018-02-15, Thursday
+
+* 1:32h (0828-1000,2142-2215): Issue #120: Errors not being logged.
+    * Implemented a fix for this and Issue #95. Need to get it passing tests.
+
+### 2018-02-16, Friday
+
+* 0:45h (0735-0820): Issue #120: Errors not being logged.
+    * Got it passing tests and pushed out to a PR.
+    * Now have 3 PRs to merge, but need to be careful, since builds still not safe to run concurrently.
+* 0:45h (2200-2245): Issue #113: Deployment.
+    * Merged everything and redeployed. Success!
+    * Thought real hard about things:
+        * Test envs will be hard. Shouldn't go in as part of this issue.
+        * Need to start getting `Jenkinsfile` to run deploys.
+
+### 2018-02-17, Saturday
+
+* 6:50h (1000-1015,1140-1215,1430-1630,2100-0100): Issue #113: Deployment.
+    * Got the `Jenkinsfile` running deployments successfully.
+    * Merged to `master` and things got a bit odd: ran benchmarks even though I hadn't enabled them. No idea why...
+
+### 2018-02-18, Sunday
+
+* 2:20h (1000-1220): Issue #125: Jenkinsfile tweaks.
+    * Spent way too long stumped by host key checking, but finally came up with a good solution.
+* 1:15h (1325-1440): Issue #127: Ansible Vault password security.
+    * Resolved.
