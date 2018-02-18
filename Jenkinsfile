@@ -89,7 +89,7 @@ node {
 
 				withCredentials([
 						file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile'),
-						sshUserPrivateKey(credentialsId: 'eddings-builds-ssh-private-key', keyFilevariable: 'sshPrivateKeyFile', usernameVariable: 'sshUsername'),
+						sshUserPrivateKey(credentialsId: 'eddings-builds-ssh-private-key', keyFilevariable: 'sshPrivateKeyFile', usernameVariable: 'sshUsername')
 				]) {
 					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
 					sh "ssh-add ${sshPrivateKeyFile}"
