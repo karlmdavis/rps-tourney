@@ -36,35 +36,35 @@ node {
 	}
 
 	stage('Build') {
-		// Only `master` branch builds should be installed or deployed.
+		/*
+		 * Only `master` branch builds should be installed to the local Maven
+		 * repo or deployed to the Nexus repo.
+		 */
 		def goal = env.BRANCH_NAME == "master" ? "deploy" : "verify"
 		
-		/*
-		 * Run the build. Keep running if there are test failures (so we can
-		 * report them properly).
-		 */
-		mvn "--update-snapshots -DskipTests=${params.tests_skip} -DskipITs=${params.tests_skip} -Dmaven.test.failure.ignore=true clean ${goal}"
+		// Run the build. Make sure to archive build results even if it fails.
+		try {
+			mvn "--update-snapshots -DskipTests=${params.tests_skip} -DskipITs=${params.tests_skip} clean ${goal}"
+		} finally {
+			/*
+			 * Fingerprint the output artifacts and archive the test results.
+			 * (Archiving the output artifacts here would waste space, as the
+			 * build deploys them to the local Maven repository.)
+			 */
+			fingerprint '**/target/*.jar'
+			fingerprint '**/target/*.war'
+			junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true, allowEmptyResults: true
+			archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
+		}
 	}
 
 	stage('Benchmark') {
 		if (params.benchmarks_run) {
 			dir('rps-tourney-benchmarks') {
 				java "-jar target/benchmarks.jar -foe true -rf json -rff target/jmh-result.json -f ${benchmarks_forks} -i ${benchmarks_iterations}"
+				archiveArtifacts artifacts: 'target/jmh-result.json', allowEmptyArchive: true
 			}
 		}
-	}
-
-	stage('Archive') {
-		/*
-		 * Fingerprint the output artifacts and archive the test results.
-		 * (Archiving the output artifacts here would waste space, as the build
-		 * deploys them to the local Maven repository.)
-		 */
-		fingerprint '**/target/*.jar'
-		fingerprint '**/target/*.war'
-		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true, allowEmptyResults: true
-		archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
-		archiveArtifacts artifacts: '**/target/jmh-result.json', allowEmptyArchive: true
 	}
 
 	stage('Quality Analysis') {
@@ -72,7 +72,8 @@ node {
 		 * The 'justdavis-sonarqube' SonarQube server will be sent the analysis
 		 * results. See
 		 * https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Jenkins
-		 * for details.
+		 * for details. Note that the free version of SonarQube we're using
+		 * doesn't separate results by branch.
 		 */
 		withSonarQubeEnv('justdavis-sonarqube') {
 			mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar"
@@ -90,7 +91,7 @@ node {
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
 				sshagent(['eddings-builds-ssh-private-key']) {
 					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
-					sh "ssh-keyscan eddings.justdavis.com | tee -a ~/.ssh/known_hosts"
+					sh "grep --quiet 'eddings.justdavis.com' ~/.ssh/known_hosts || ssh-keyscan -t rsa eddings.justdavis.com 2>/dev/null >> ~/.ssh/known_hosts"
 					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 					pysh "./ansible-playbook-wrapper site.yml"
 				} }
