@@ -90,6 +90,7 @@ node {
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
 				sshagent(['eddings-builds-ssh-private-key']) {
 					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
+					sh "ssh-keyscan eddings.justdavis.com | tee -a ~/.ssh/known_hosts"
 					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 					pysh "./ansible-playbook-wrapper site.yml"
 				} }
