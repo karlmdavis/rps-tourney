@@ -1,0 +1,31 @@
+---
+
+- meta: flush_handlers
+
+- name: Verify RPS Tourney Webapp Info Ping
+  uri:
+    url: "{{ item }}"
+    headers:
+      'Accept': 'text/plain'
+    return_content: true
+  register: rps_webapp_info_ping
+  until: "rps_webapp_info_ping.status == 200 and 'OK' in rps_webapp_info_ping.content"
+  retries: 60
+  delay: 1
+  with_items:
+    - "http://localhost:{{ tomcat_port }}/info/ping"
+    - 'https://rpstourney.com/info/ping'
+
+- name: Verify RPS Tourney Webapp Info
+  uri:
+    url: "{{ item }}"
+    headers:
+      'Accept': 'application/xml'
+    return_content: true
+  register: rps_webapp_info
+  until: "rps_webapp_info.status == 200 and rps_version in rps_webapp_info.content"
+  retries: 60
+  delay: 1
+  with_items:
+    - "http://localhost:{{ tomcat_port }}/info"
+    - 'https://rpstourney.com/info'

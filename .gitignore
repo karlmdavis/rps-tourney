@@ -2,6 +2,9 @@
 /.*
 !/.gitignore
 
+# Ignore vim metadata files.
+*.swp
+
 # Ignore Maven output folders
 /target*/
 

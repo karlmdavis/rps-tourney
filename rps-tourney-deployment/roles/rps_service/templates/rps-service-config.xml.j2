@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rps:serviceConfig xmlns:rps="http://justdavis.com/karl/rpstourney/api/schema/v1"
+	xmlns:jed="http://justdavis.com/karl/jessentials/datasources">
+	<jed:postgreSqlCoordinates>
+		<jed:url>jdbc:postgresql://localhost/rps</jed:url>
+		<jed:user>{{ vault_rps_db_username }}</jed:user>
+		<jed:password>{{ vault_rps_db_password }}</jed:password>
+	</jed:postgreSqlCoordinates>
+	<rps:admin>
+		<rps:address>{{ vault_rps_service_admin_email }}</rps:address>
+		<rps:password>{{ vault_rps_service_admin_password }}</rps:password>
+	</rps:admin>
+</rps:serviceConfig>

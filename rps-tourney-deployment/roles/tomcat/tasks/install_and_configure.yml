@@ -1,0 +1,55 @@
+---
+
+- name: Install Tomcat Dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - openjdk-8-jre-headless
+
+- name: Install Tomcat 8.0.x
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  register: package_tomcat
+  with_items:
+    - tomcat8
+
+- name: Remove Default Tomcat Root Content
+  file:
+    path: /var/lib/tomcat8/webapps/ROOT
+    state: absent
+  become: true
+  when: package_tomcat.changed
+
+- name: Configure Tomcat Defaults
+  template:
+    src: templates/defaults_tomcat8.j2
+    dest: /etc/default/tomcat8
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  notify:
+    - "Restart Service 'tomcat8'"
+
+- name: Configure Tomcat server.xml
+  template:
+    src: templates/server.xml.j2
+    dest: /var/lib/tomcat8/conf/server.xml
+    owner: root
+    group: tomcat8
+    mode: u=rw,g=r,o=
+  become: true
+  notify:
+    - "Restart Service 'tomcat8'"
+
+# If Tomcat was stoped before this play was ran and the config wasn't modified,
+# we need to start it back up before we're done.
+- name: Ensure Tomcat is Started
+  service:
+    name: tomcat8
+    state: started
+  become: true

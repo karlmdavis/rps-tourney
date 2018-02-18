@@ -1,0 +1,11 @@
+---
+- name: apache-restart
+  service:
+    name: apache2
+    state: restarted
+  become: true
+- name: apache-reload
+  service:
+    name: apache2
+    state: reloaded
+  become: true

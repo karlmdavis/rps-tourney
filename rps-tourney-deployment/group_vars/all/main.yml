@@ -1,0 +1,8 @@
+---
+
+# By default, assume we're not running a test.
+is_test: false
+
+# Specify the port that Tomcat will run. Tomcat is used to host the RPS
+# Tourney Java applications.
+tomcat_port: 8082

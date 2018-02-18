@@ -48,6 +48,20 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<outputDirectory>${project.build.directory}/config</outputDirectory>
+						<resources>
+							<resource>
+								<!-- Includes YAML config files for the Ansible plays in this module. -->
+								<directory>src/main/config</directory>
+								<filtering>true</filtering>
+							</resource>
+						</resources>
+					</configuration>
+				</plugin>
+				<plugin>
 					<!-- The Cargo plugin can be run to deploy/undeploy the configured WARs 
 						to the justdavis.com Tomcat server. Note that it must be run manually; no 
 						automatic executions are configured here. See the deploy-to-justdavis.sh 
@@ -92,6 +106,23 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- Because this module's packaging is 'pom' the resources plugin doesn't
+							run by default. This is us fixing that, since we happen to need it. -->
+						<id>process-config-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

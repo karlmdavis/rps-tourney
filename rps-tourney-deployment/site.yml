@@ -1,0 +1,39 @@
+---
+# This playbook configures `eddings.justdavis.com` to host the RPS Tourney
+# application and deploys the latest build of that application to it.
+#
+# Usage: This playbook can be run, as follows:
+#
+#     $ ./ansible-playbook-wrapper site.yml
+
+- hosts: os_ubuntu_1604
+  name: Bootstrap Ubuntu Hosts with Python 2.7
+  tags: ['platform']
+  gather_facts: false
+  # Required with Ansible 2.3+, in which most modules require Python 2.x.
+  # Reference: https://groups.google.com/forum/#!topic/ansible-project/DUKzTho3OCI
+  pre_tasks:
+    - raw: sudo apt-get update -qq && sudo apt-get install -y -qq python2.7
+      register: raw_install_python
+      # With -qq, this will only log to stdout when actually installing something.
+      changed_when: "raw_install_python.stdout"
+
+- hosts: eddings.justdavis.com
+  name: Install RPS Tourney Dependencies
+  tags: ['platform']
+  gather_facts: true
+  tasks:
+    - import_role: name=postgresql_server
+    - import_role: name=tomcat
+    - import_role: name=apache
+
+- hosts: eddings.justdavis.com
+  name: Deploy RPS Tourney
+  tags: ['deploy']
+  gather_facts: true
+  tasks:
+    - name: Include Maven-Generated Variables
+      include_vars:
+        file: target/config/project.yml
+    - import_role: name=rps_service
+    - import_role: name=rps_webapp

@@ -15,12 +15,15 @@
  */
 
 properties([
+	disableConcurrentBuilds(),
 	parameters([
 		/*
 		 * Benchmarks aren't run by default as they're only valid when the
 		 * build server isn't busy with anything else.
 		 */
-		string(name: 'benchmarks_run', description: 'The app benchmarks will be run if this is set to true.', defaultValue: 'false'),
+		booleanParam(name: 'tests_skip', description: 'Whether to skip unit and integration tests.', defaultValue: false),
+		booleanParam(name: 'deploy_non_master', description: 'Whether to deploy non-master-branch builds to production.', defaultValue: false),
+		booleanParam(name: 'benchmarks_run', description: 'The app benchmarks will be run if this is set to true.', defaultValue: false),
 		string(name: 'benchmarks_forks', description: 'How many forks to run of each benchmark.', defaultValue: '10'),
 		string(name: 'benchmarks_iterations', description: 'How many measurement iterations to run of each benchmark (per fork).', defaultValue: '20')
 	])
@@ -34,18 +37,17 @@ node {
 
 	stage('Build') {
 		// Only `master` branch builds should be installed or deployed.
-		def gitBranchName = "${env.BRANCH_NAME}".toString()
-		def goal = gitBranchName == "master" ? "deploy" : "verify"
+		def goal = env.BRANCH_NAME == "master" ? "deploy" : "verify"
 		
 		/*
 		 * Run the build. Keep running if there are test failures (so we can
 		 * report them properly).
 		 */
-		mvn "--update-snapshots -Dmaven.test.failure.ignore=true clean ${goal}"
+		mvn "--update-snapshots -DskipTests=${params.tests_skip} -DskipITs=${params.tests_skip} -Dmaven.test.failure.ignore=true clean ${goal}"
 	}
 
 	stage('Benchmark') {
-		if (params.benchmarks_run == 'true') {
+		if (params.benchmarks_run) {
 			dir('rps-tourney-benchmarks') {
 				java "-jar target/benchmarks.jar -foe true -rf json -rff target/jmh-result.json -f ${benchmarks_forks} -i ${benchmarks_iterations}"
 			}
@@ -60,7 +62,7 @@ node {
 		 */
 		fingerprint '**/target/*.jar'
 		fingerprint '**/target/*.war'
-		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true
+		junit testResults: '**/target/*-reports/TEST-*.xml', keepLongStdio: true, allowEmptyResults: true
 		archiveArtifacts artifacts: '**/target/*-reports/*.txt', allowEmptyArchive: true
 		archiveArtifacts artifacts: '**/target/jmh-result.json', allowEmptyArchive: true
 	}
@@ -74,6 +76,25 @@ node {
 		 */
 		withSonarQubeEnv('justdavis-sonarqube') {
 			mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar"
+		}
+	}
+
+	stage('Deployment') {
+		if (params.deploy_non_master || (env.BRANCH_NAME == 'master')) {
+			dir('rps-tourney-deployment') {
+			withPythonEnv('/usr/bin/python2.7') {
+				pysh "pip install --upgrade setuptools"
+				pysh "pip install --requirement requirements.txt"
+				pysh "ansible-galaxy install --role-file=install_roles.yml --force"
+
+				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
+				sshagent(['eddings-builds-ssh-private-key']) {
+					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
+					sh "ssh-keyscan eddings.justdavis.com | tee -a ~/.ssh/known_hosts"
+					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
+					pysh "./ansible-playbook-wrapper site.yml"
+				} }
+			} }
 		}
 	}
 }
