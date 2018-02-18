@@ -90,7 +90,7 @@ node {
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
 				sshagent(['eddings-builds-ssh-private-key']) {
-					vaultPasswordFileEscaped = vaultPasswordFile.replaceAll("/", "\\/")
+					vaultPasswordFileEscaped = vaultPasswordFile.replaceAll("/", "\\\\/")
 					sh "echo '${vaultPasswordFile}' > vault-password-path.txt"
 					sh "echo '${vaultPasswordFileEscaped}' > vault-password-path-escaped.txt"
 					sh "sed --in-place 's/^vault_password_file = .*\$/vault_password_file = ${vaultPasswordFileEscaped}/g' ansible.cfg"
