@@ -89,12 +89,12 @@ node {
 				pysh "ansible-galaxy install --role-file=install_roles.yml --force"
 
 				withCredentials([file(credentialsId: 'rps-tourney-ansible-vault-password', variable: 'vaultPasswordFile')]) {
-				withEnv(['ANSIBLE_HOST_KEY_CHECKING=False']) {
 				sshagent(['eddings-builds-ssh-private-key']) {
 					sh "ln --symbolic --force ${vaultPasswordFile} vault.password"
+					sh "grep --quiet 'eddings.justdavis.com' ~/.ssh/known_hosts || ssh-keyscan -t rsa eddings.justdavis.com 2>/dev/null >> ~/.ssh/known_hosts"
 					pysh "./ansible-playbook-wrapper site.yml --syntax-check"
 					pysh "./ansible-playbook-wrapper site.yml"
-				} } }
+				} }
 			} }
 		}
 	}
