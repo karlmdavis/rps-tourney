@@ -28,6 +28,7 @@ import contextlib
 # The GitHub repo that issues will be pulled from.
 GITHUB_REPO = 'karlmdavis/rps-tourney'
 
+
 def main():
     """
     The main function for this script.
@@ -35,17 +36,17 @@ def main():
 
     # Parse and verify the script args.
     if len(sys.argv) != 3:
-    	raise ValueError("Input and output files not specified");
+        raise ValueError("Input and output files not specified")
     work_log_path = sys.argv[1]
     if not os.path.exists(work_log_path):
-    	raise ValueError("File to parse not found: " + work_log_path)
+        raise ValueError("File to parse not found: " + work_log_path)
     output_path = sys.argv[2]
 
     # Read in the GitHub access token.
     github_token_path = 'github.secret'
     if not os.path.exists(github_token_path):
         raise ValueError("File to parse not found: " + github_token_path)
-    with open (github_token_path, 'r') as github_token_file:
+    with open(github_token_path, 'r') as github_token_file:
         github_token = github_token_file.read().strip()
 
     # Parse the file.
@@ -66,6 +67,7 @@ def main():
     finally:
         connection.close()
 
+
 def parse_work_log(work_log_path):
     """
     Parses the specified work log file.
@@ -78,12 +80,14 @@ def parse_work_log(work_log_path):
     """
 
     LogEntry = collections.namedtuple('LogEntry', ['date', 'duration', 'times',
-            'issue_number', 'line_number', 'text'])
+                                                   'issue_number', 'line_number', 'text'])
     log_entries = []
     date_pattern = re.compile('^### (\d\d\d\d-\d\d-\d\d)')
-    duration_entry_pattern = re.compile('^ *\* (\d+(?:[\.\:]\d+)?)(?:h| hr)( \((.+?)\))?')
+    duration_entry_pattern = re.compile(
+        '^ *\* (\d+(?:[\.\:]\d+)?)(?:h| hr)( \((.+?)\))?')
     issue_number_pattern = re.compile('.*Issue #(\d+)')
-    issue_entry_pattern = re.compile('^ *\* (\d+\.\d+)(?:h| hr)( (.+?): \[Issue #(\d+): .+\]\(.+\))?')
+    issue_entry_pattern = re.compile(
+        '^ *\* (\d+\.\d+)(?:h| hr)( (.+?): \[Issue #(\d+): .+\]\(.+\))?')
     last_date = None
     with open(work_log_path, 'r') as work_log_file:
         for line_number, line in enumerate(work_log_file):
@@ -91,7 +95,7 @@ def parse_work_log(work_log_path):
             date_match = date_pattern.match(line)
             if date_match is not None:
                 last_date = datetime.datetime.strptime(
-                        date_match.group(1), "%Y-%m-%d").date()
+                    date_match.group(1), "%Y-%m-%d").date()
             duration_entry_match = duration_entry_pattern.match(line)
             if duration_entry_match is not None:
                 duration = duration_entry_match.group(1)
@@ -99,12 +103,15 @@ def parse_work_log(work_log_path):
                     duration_tokens = duration.split(':')
                     duration_token_hours = int(duration_tokens[0])
                     duration_token_minutes = int(duration_tokens[1])
-                    duration_minutes = (duration_token_hours * 60) + duration_token_minutes
+                    duration_minutes = (
+                        duration_token_hours * 60) + duration_token_minutes
                 elif '.' in duration:
                     duration_tokens = duration.split('.')
                     duration_token_hours = int(duration_tokens[0])
-                    duration_token_minutes_fraction = float('0.' + duration_tokens[1])
-                    duration_minutes = (duration_token_hours * 60) + (duration_token_minutes_fraction * 60)
+                    duration_token_minutes_fraction = float(
+                        '0.' + duration_tokens[1])
+                    duration_minutes = (
+                        duration_token_hours * 60) + (duration_token_minutes_fraction * 60)
                 else:
                     duration_minutes = int(duration) * 60
 
@@ -117,10 +124,12 @@ def parse_work_log(work_log_path):
                     issue_number = None
 
                 log_entries.append(LogEntry(last_date, duration_minutes, times,
-                        issue_number, line_number, line))
+                                            issue_number, line_number, line))
             else:
-                log_entries.append(LogEntry(None, None, None, None, line_number, line))
+                log_entries.append(
+                    LogEntry(None, None, None, None, line_number, line))
     return log_entries
+
 
 def create_db(output_path):
     """
@@ -140,6 +149,7 @@ def create_db(output_path):
 
     return conn
 
+
 def create_cursor(connection):
     """
     Creates a Cursor handle to the specified SQLite DB.
@@ -158,6 +168,7 @@ def create_cursor(connection):
     cursor.execute('PRAGMA foreign_keys = ON')
 
     return cursor
+
 
 def insert_github_issues(connection, github_token):
     """
@@ -190,11 +201,12 @@ def insert_github_issues(connection, github_token):
         # INSERT all of the entries and issue refs.
         for issue in issues:
             cursor.execute('INSERT INTO github_issues VALUES (?,?,?,?,?)',
-                      (issue.number, issue.title, issue.created_at,
-                       issue.closed_at,
-                       any("bug" == label.name for label in issue.labels)))
+                           (issue.number, issue.title, issue.created_at,
+                            issue.closed_at,
+                            any("bug" == label.name for label in issue.labels)))
     # Commit all of that.
     connection.commit()
+
 
 def insert_work_log_entries(connection, work_log_entries):
     """
@@ -222,10 +234,11 @@ def insert_work_log_entries(connection, work_log_entries):
         for log_entry in work_log_entries:
             if log_entry.date and log_entry.duration:
                 cursor.execute('INSERT INTO work_log_entries VALUES (?,?,?,?)',
-                          (None, log_entry.date, log_entry.duration,
-                           log_entry.issue_number))
+                               (None, log_entry.date, log_entry.duration,
+                                log_entry.issue_number))
     # Commit all of that.
     connection.commit()
+
 
 def create_analysis_utils(connection):
     """
