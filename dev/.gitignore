@@ -1,0 +1,5 @@
+# Ignore Python virtual env.
+venv/
+
+# Ignore GitHub personal access token.
+github.secret
