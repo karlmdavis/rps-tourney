@@ -112,3 +112,20 @@ Given two `"Players"."id"` values representing two players
         NULL, -- "throwForPlayer2"
         NULL -- "throwForPlayer2Timestamp"
       );
+
+Once created, the game will be accessible at `https://<domain>/game/<game_id>`.
+For example, on the [rpstourney.com](https://rpstourney.com/) domain,
+  with a random game ID of "`abcdefghij`",
+  the URL would be: <https://rpstourney.com/game/abcdefghij>.
+
+### Is a Game Complete?
+
+TODO
+
+### For a Completed Game, Who Won?
+
+TODO
+
+### For an Incomplete Game, Which Player(s) Is It Waiting On?
+
+TODO: and also how long has it been waiting
