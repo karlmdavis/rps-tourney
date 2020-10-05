@@ -90,7 +90,7 @@ Either have them create a (throwaway) game or run this:
 ### How Do I Create a New Game for Two Players?
 
 Given two `"Players"."id"` values representing two players
-  and a pre-generated random game ID (ten characters, letters only),
+  and a pre-generated random `<game_id>` (ten characters, letters only),
   you can run these two statements to create a new game between the players:
 
     INSERT INTO "Games" ("id", "createdTimestamp", "state", "maxRounds", "player1Id", "player2Id") VALUES
@@ -120,12 +120,73 @@ For example, on the [rpstourney.com](https://rpstourney.com/) domain,
 
 ### Is a Game Complete?
 
-TODO
+For a given ten-character `<game_id>`, run this query:
+
+    SELECT "state" FROM "Games" WHERE "id" = '<game_id>';
+
+If the returned value is "`FINISHED`", then the game is complete.
+If not, it isn't.
 
 ### For a Completed Game, Who Won?
 
-TODO
+For a given ten-character `<game_id>`, run this query:
+
+    WITH "GameRoundsResults" AS (
+      SELECT
+          "GameRounds".*,
+          CASE
+            WHEN "throwForPlayer1" = 'ROCK' AND "throwForPlayer2" = 'PAPER' THEN 'PLAYER_2'
+            WHEN "throwForPlayer1" = 'ROCK' AND "throwForPlayer2" = 'SCISSORS' THEN 'PLAYER_1'
+            WHEN "throwForPlayer1" = 'PAPER' AND "throwForPlayer2" = 'ROCK' THEN 'PLAYER_1'
+            WHEN "throwForPlayer1" = 'PAPER' AND "throwForPlayer2" = 'SCISSORS' THEN 'PLAYER_2'
+            WHEN "throwForPlayer1" = 'SCISSORS' AND "throwForPlayer2" = 'ROCK' THEN 'PLAYER_2'
+            WHEN "throwForPlayer1" = 'SCISSORS' AND "throwForPlayer2" = 'PAPER' THEN 'PLAYER_1'
+            WHEN "throwForPlayer1" = "throwForPlayer2" THEN 'TIE'
+            ELSE NULL
+          END AS "winner"
+        FROM "GameRounds"
+    )
+    SELECT DISTINCT
+        "Games".*,
+        COUNT("GameRoundsResults"."winner")
+          FILTER (WHERE "GameRoundsResults"."winner" = 'PLAYER_1')
+          AS "player1Score",
+        COUNT("GameRoundsResults"."winner")
+          FILTER (WHERE "GameRoundsResults"."winner" = 'PLAYER_2')
+          AS "player2Score"
+      FROM "Games"
+      INNER JOIN "GameRoundsResults" ON "Games"."id" = "GameRoundsResults"."gameid"
+      GROUP BY
+        "Games"."id"
+      WHERE
+        "Games"."id" = '<game_id>';
+
+If the value of `"state"` is `FINISHED`,
+  then whichever player has the higher score won the game.
 
 ### For an Incomplete Game, Which Player(s) Is It Waiting On?
 
-TODO: and also how long has it been waiting
+For a given ten-character `<game_id>`, run this query:
+
+    SELECT
+        last_value("Games"."state") OVER wnd AS "state",
+        last_value("GameRounds"."roundIndex") OVER wnd AS "roundIndex",
+        last_value("GameRounds"."adjustedRoundIndex") OVER wnd AS "adjustedRoundIndex",
+        last_value("Games"."player1Id") OVER wnd AS "player1Id",
+        last_value("GameRounds"."throwForPlayer1Timestamp") OVER wnd AS "throwForPlayer1Timestamp",
+        last_value("Games"."player2Id") OVER wnd AS "player2Id",
+        last_value("GameRounds"."throwForPlayer2Timestamp") OVER wnd AS "throwForPlayer2Timestamp"
+      FROM "Games"
+      INNER JOIN "GameRounds" ON "Games"."id" = "GameRounds"."gameid"
+      WHERE
+        "gameid" = '<game_id>'
+      WINDOW wnd AS (
+        PARTITION BY "GameRounds"."gameid" ORDER BY "GameRounds"."roundIndex"
+      );
+
+(Please note: the case on the `"GameRounds"."gameid"` column doesn't match other columns in the DB.)
+
+This will retrieve the most recent `"GameRounds"` entry for the specified `<game_id>`,
+  along with some extra information.
+Whichever player or players have a `NULL` value for the throw timestamp
+  have not made a move in the round.
