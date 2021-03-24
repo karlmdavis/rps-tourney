@@ -22,7 +22,7 @@ pyasn1==0.4.2
 pycparser==2.18
 pycrypto==2.6.1
 python-dateutil==2.6.1
-rsa==3.4.2
+rsa==4.1
 s3transfer==0.1.12
 six==1.11.0
 wsgiref==0.1.2
