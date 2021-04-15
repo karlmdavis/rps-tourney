@@ -1,9 +1,10 @@
 ---
 
-- meta: flush_handlers
+- name: Flush Handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Verify RPS Tourney Webapp Info Ping
-  uri:
+  ansible.builtin.uri:
     url: "{{ item }}"
     headers:
       'Accept': 'text/plain'
@@ -17,7 +18,7 @@
     - 'https://rpstourney.com/info/ping'
 
 - name: Verify RPS Tourney Webapp Info
-  uri:
+  ansible.builtin.uri:
     url: "{{ item }}"
     headers:
       'Accept': 'application/xml'

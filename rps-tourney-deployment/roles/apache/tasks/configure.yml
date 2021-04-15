@@ -1,0 +1,62 @@
+---
+
+- name: Create Webroot
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: u=rwx,g=rwx,o=rx
+  become: yes
+  with_items:
+    - "/var/apache2/{{ domain }}"
+    - "/var/apache2/{{ domain }}/logs"
+    - "/var/apache2/{{ domain }}/www"
+
+- name: Create rpstourney.com HTTP Virtual Host
+  ansible.builtin.template:
+    src: rpstourney.conf
+    dest: '/etc/apache2/sites-available/rpstourney.conf'
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify:
+    - apache-reload
+
+- name: Enable rpstourney.com HTTP Virtual Host
+  ansible.builtin.command: "/usr/sbin/a2ensite rpstourney.conf"
+  args:
+    creates: "/etc/apache2/sites-enabled/rpstourney.conf"
+  become: yes
+  notify:
+    - apache-reload
+
+- name: Flush Handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Run Certbot to Add Cert
+  ansible.builtin.command: >-
+    certbot certonly --webroot
+    --noninteractive --agree-tos
+    --email {{ vault_domain_webmaster }}
+    --webroot-path /var/apache2/{{ domain }}/www
+    -d {{ domain }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ domain }}/privkey.pem"
+  become: true
+
+- name: Create rpstourney.com HTTPS Virtual Host
+  ansible.builtin.template:
+    src: rpstourney-https.conf
+    dest: "/etc/apache2/sites-available/rpstourney-https.conf"
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify:
+    - apache-reload
+
+- name: Enable rpstourney.com HTTPS Virtual Host
+  ansible.builtin.command: "/usr/sbin/a2ensite rpstourney-https.conf"
+  args:
+    creates: "/etc/apache2/sites-enabled/rpstourney-https.conf"
+  become: yes
+  notify:
+    - apache-reload

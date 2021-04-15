@@ -1,9 +1,10 @@
 ---
 
-- meta: flush_handlers
+- name: Flush Handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Verify RPS Tourney Service Status Ping
-  uri:
+  ansible.builtin.uri:
     url: "{{ item }}"
     return_content: true
   register: rps_service_status_ping
@@ -15,7 +16,7 @@
     - 'https://rpstourney.com/api/status/ping'
 
 - name: Verify RPS Tourney Service Status Version
-  uri:
+  ansible.builtin.uri:
     url: "{{ item }}"
     return_content: true
   register: rps_service_status_version
