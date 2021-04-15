@@ -53,8 +53,17 @@ public final class AuthTokenCookieHelper {
 		String path = "/";
 		String comment = "";
 		int maxAge = 60 * 60 * 24 * 365 * 1;
+
+		/*
+		 * Workaround: the request host is often prefixed with a '.' but recent
+		 * versions of Tomcat DO NOT like that and will throw errors.
+		 */
+		String domain = requestUri.getHost();
+		if (domain.startsWith("."))
+			domain = domain.substring(1);
+
 		NewCookie authCookie = new NewCookie(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN, authTokenValue, path,
-				requestUri.getHost(), comment, maxAge, true, true);
+				domain, comment, maxAge, true, true);
 
 		return authCookie;
 	}

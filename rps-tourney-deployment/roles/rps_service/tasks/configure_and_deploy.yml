@@ -1,44 +1,43 @@
 ---
 
 - name: Configure RPS Tourney Service
-  template:
-    src: templates/rps-service-config.xml.j2
-    dest: /var/lib/tomcat8/conf/rps-service-config.xml
+  ansible.builtin.template:
+    src: rps-service-config.xml.j2
+    dest: /var/lib/tomcat9/conf/rps-service-config.xml
     owner: root
-    group: tomcat8
+    group: tomcat
     mode: u=rw,g=r,o=
   become: true
   notify:
-    - "Restart Service 'tomcat8'"
+    - "Restart Service 'tomcat9'"
 
 - name: Create Tomcat Deployment Directory for RPS Tourney
-  file:
-    path: /var/lib/tomcat8/rps-tourney-apps
+  ansible.builtin.file:
+    path: /var/lib/tomcat9/rps-tourney-apps
     state: directory
-    owner: tomcat8
-    group: tomcat8
+    owner: tomcat
+    group: tomcat
     mode: u=rwx,g=rx,o=rx
   become: true
 
 - name: Create Tomcat Context for RPS Tourney Service
-  copy:
+  ansible.builtin.copy:
     content: |
       <Context
-        docBase="/var/lib/tomcat8/rps-tourney-apps/rps-tourney-service-app.war"
-        path="/api"
+        docBase="/var/lib/tomcat9/rps-tourney-apps/rps-tourney-service-app.war"
         reloadable="true"
       />
-    dest: /var/lib/tomcat8/conf/Catalina/localhost/api.xml
+    dest: /var/lib/tomcat9/conf/Catalina/localhost/api.xml
     owner: root
-    group: tomcat8
+    group: tomcat
     mode: u=rw,g=r,o=
   become: true
 
 - name: Deploy RPS Tourney Service
-  copy:
+  ansible.builtin.copy:
     src: ../rps-tourney-service-app/target/rps-tourney-service-app-{{ rps_version }}.war
-    dest: /var/lib/tomcat8/rps-tourney-apps/rps-tourney-service-app.war
-    owner: tomcat8
-    group: tomcat8
+    dest: /var/lib/tomcat9/rps-tourney-apps/rps-tourney-service-app.war
+    owner: tomcat
+    group: tomcat
     mode: u=rw,g=r,o=r
   become: true

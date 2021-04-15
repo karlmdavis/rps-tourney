@@ -1,9 +1,12 @@
 ---
 
-- meta: flush_handlers
+- name: Flush Handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Check for Tomcat HTTP OK
-  uri:
+  ansible.builtin.uri:
     url: "http://localhost:{{ tomcat_port }}/"
-    status_code: 200
+    status_code:
+      - 200
+      - 404
   changed_when: false

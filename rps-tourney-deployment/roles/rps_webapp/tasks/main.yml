@@ -1,5 +1,8 @@
 ---
-- import_tasks: configure_and_deploy.yml
 
-- import_tasks: test.yml
+- name: Run Tasks to Configure and Deploy App
+  ansible.builtin.import_tasks: configure_and_deploy.yml
+
+- name: Run Tasks to Test App
+  ansible.builtin.import_tasks: test.yml
   tags: test

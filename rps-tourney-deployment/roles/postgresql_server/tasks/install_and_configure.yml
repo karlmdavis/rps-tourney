@@ -1,13 +1,13 @@
 ---
 
 - name: Install PostgreSQL
-  apt:
-    name: "{{ item }}"
+  ansible.builtin.package:
+    name:
+      # RPS Tourney will use a PostgreSQL DB to store most of its data.
+      - postgresql
+      # The psql client is useful for managing the server (from the server console).
+      - postgresql-client
+      # The psycopg2 lib is needed by Ansible's postgresql_db module.
+      - python3-psycopg2
+    state: present
   become: true
-  with_items:
-    # RPS Tourney will use a PostgreSQL DB to store most of its data.
-    - postgresql
-    # The psql client is useful for managing the server (from the server console).
-    - postgresql-client
-    # The psycopg2 lib is needed by Ansible's postgresql_db module.
-    - python-psycopg2
