@@ -125,21 +125,13 @@ public final class CookiesUtils {
 		String domain = applicationUrl.getHost();
 
 		/*
-		 * Per http://www.ietf.org/rfc/rfc2109.txt, the Domain property must
-		 * always have a leading '.'. Testing with FF and Chromium, though,
-		 * indicates that browsers will also accept a non-prefixed IP address.
-		 */
-		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain).matches();
-		if (!isLikelyAnIpAddress && !domain.startsWith("."))
-			domain = "." + domain;
-
-		/*
 		 * Per http://code.google.com/p/chromium/issues/detail?id=56211 and
 		 * http://curl.haxx.se/rfc/cookie_spec.html, the Domain property must
 		 * never refer to top-level domains. Chrome, in particular, gets very
 		 * upset about this and ignores the cookies entirely. So, if we're about
 		 * to try and do that: stop. Leave the property unassigned, instead.
 		 */
+		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain).matches();
 		if (!isLikelyAnIpAddress && !VALID_COOKIE_DOMAIN.matcher(domain).matches())
 			return null;
 
