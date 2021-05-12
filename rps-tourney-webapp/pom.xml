@@ -23,7 +23,7 @@
 		<!-- The version of the Spring Security framework artifacts to use. Note 
 			that this library has a different release cycle (and version number) than 
 			the "core" Spring Framework project. -->
-		<spring.security.version>5.0.1.RELEASE</spring.security.version>
+		<spring.security.version>5.2.10.RELEASE</spring.security.version>
 
 		<!-- Exclude the third-party JavaScript files from static analysis via 
 			SonarQube. -->
