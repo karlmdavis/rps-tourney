@@ -72,14 +72,22 @@
 		
 		<jsp:invoke fragment="bodyscripts" />
 
-		<!-- Google Analytics: UA-43685799-2 is the rpstourney.com Tracking ID. -->
+		<!-- Global site tag (gtag.js) - Google Analytics (Universal Analytics property) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43685799-2"></script>
 		<script>
-			(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-			function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-			e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-			e.src='//www.google-analytics.com/analytics.js';
-			r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-			ga('create','UA-43685799-2');ga('send','pageview');
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		  gtag('config', 'UA-43685799-2');
+		</script>
+
+		<!-- Global site tag (gtag.js) - Google Analytics (Google Analytics 4 property) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJYQ96CT0K"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		  gtag('config', 'G-ZJYQ96CT0K');
 		</script>
 	</body>
 </html>
