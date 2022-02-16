@@ -207,7 +207,7 @@
 					Java 8 and above and PostgreSQL 8.2 and above. -->
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>42.1.4</version>
+				<version>42.3.3</version>
 			</dependency>
 			<dependency>
 				<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
