@@ -104,7 +104,26 @@ def eclipse_install_archive(eclipse_archive_path):
         # Extract the Eclipse install.
         print('   - Extracting ' + eclipse_name + '... ', end="", flush=True)
         with tarfile.open(eclipse_archive_path) as eclipse_archive:
-            eclipse_archive.extractall(eclipse_install_path_tmp)
+            def is_within_directory(directory, target):
+                
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+            
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+            
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+            
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+                
+            
+            safe_extract(eclipse_archive, eclipse_install_path_tmp)
 
         # Make the extracted 'eclipse...-tmp/eclipse' directory the actual 
         # install.
@@ -362,7 +381,26 @@ def tomcat_install(tomcat_archive_path):
         print('   - Extracting ' + tomcat_name + '... ', end="", flush=True)
 
         with tarfile.open(tomcat_archive_path) as tomcat_archive:
-            tomcat_archive.extractall(tomcat_install_path_tmp)
+            def is_within_directory(directory, target):
+                
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+            
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+            
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+            
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+                
+            
+            safe_extract(tomcat_archive, tomcat_install_path_tmp)
 
         # Make the extracted 'apache-tomcat...-tmp/apache-tomcat-8.0.48' directory the
         # actual install.
