@@ -33,7 +33,7 @@
 		<css>/bootstrap-3.2.0/less/bootstrap.less</css>
 
 		<!-- The FontAwesome LESS include, which is just a bunch of '@include's, itself. -->
-		<css>/font-awesome-4.4.0/less/font-awesome.less</css>
+		<css>/font-awesome-4.7.0/less/font-awesome.less</css>
 		<css>/WEB-INF/resources/css/fa-customizations.less</css>
 
 		<!-- The RPS-specific styling and JS to include with the theme. -->

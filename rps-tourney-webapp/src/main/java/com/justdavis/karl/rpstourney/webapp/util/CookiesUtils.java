@@ -23,7 +23,7 @@ public final class CookiesUtils {
 	 * must start with a '<code>.</code>' and contain a second one somewhere
 	 * else.
 	 */
-	private static final Pattern VALID_COOKIE_DOMAIN = Pattern.compile("\\..*\\..*");
+	private static final Pattern VALID_COOKIE_DOMAIN = Pattern.compile(".*\\..*");
 
 	/**
 	 * A regex that will match against IP-only values. (Note: This will allow
@@ -135,6 +135,7 @@ public final class CookiesUtils {
 		if (!isLikelyAnIpAddress && !VALID_COOKIE_DOMAIN.matcher(domain).matches())
 			return null;
 
-		return domain;
+		// TODO why do I need to prefix this?
+		return "." + domain;
 	}
 }
