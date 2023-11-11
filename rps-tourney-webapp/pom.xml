@@ -213,53 +213,10 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.0.2</version>
-					<configuration>
-						<artifactItems>
-							<artifactItem>
-								<!-- Bootstrap is an HTML5 template, and is the basis of this web 
-									application's design. The soruce version of Bootstrap is used here (rather 
-									than the release distributable) so that the LESS mixins can be used. Rather 
-									than including it in our sources, we instead download and unpack it as part 
-									of every build. -->
-								<!-- This artifact was uploaded to Nexus with the following command: 
-									'mvn deploy:deploy-file -Durl=https://justdavis.com/nexus/content/repositories/thirdparty/ 
-									-DrepositoryId=justdavis.com-nexus -DupdateReleaseInfo=true -Dfile=bootstrap-3.2.0.zip 
-									-DgroupId=com.getbootstrap -DartifactId=bootstrap -Dversion=3.2.0 -Dclassifier=sources 
-									-Dpackaging=zip' -->
-								<groupId>com.getbootstrap</groupId>
-								<artifactId>bootstrap</artifactId>
-								<version>3.2.0</version>
-								<type>zip</type>
-								<classifier>sources</classifier>
-								<overWrite>false</overWrite>
-								<!-- Drop the bootstrap source and resources into the WAR's output 
-									resources directory, as the fonts from Bootstrap will need to be referenced 
-									by its compiled LESS. -->
-								<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
-							</artifactItem>
-							<artifactItem>
-								<!-- Font Awesome is similar to Bootstrap's Glyphicons, but way more 
-									comprehensive: it provides a symbol font and CSS classes to make it easier 
-									to use. -->
-								<!-- This artifact was uploaded to Nexus with the following command: 
-									'mvn deploy:deploy-file -Durl=https://justdavis.com/nexus/content/repositories/opensource-thirdparty-releases/ 
-									-DrepositoryId=justdavis.com-nexus -DupdateReleaseInfo=true -Dfile=font-awesome-4.4.0.zip 
-									-DgeneratePom=false -DgroupId=io.github.fortawesome -DartifactId=font-awesome 
-									-Dversion=4.4.0 -Dpackaging=zip' -->
-								<groupId>io.github.fortawesome</groupId>
-								<artifactId>font-awesome</artifactId>
-								<version>4.4.0</version>
-								<type>zip</type>
-								<overWrite>false</overWrite>
-								<!-- Drop the Font Awesome resources into the WAR's output resources 
-									directory. -->
-								<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
-							</artifactItem>
-						</artifactItems>
-					</configuration>
+					<!-- Used to fetch web resources required for build. -->
+					<groupId>com.googlecode.maven-download-plugin</groupId>
+					<artifactId>download-maven-plugin</artifactId>
+					<version>1.7.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -275,7 +232,7 @@
 								<targetPath>WEB-INF/resources</targetPath>
 								<includes>
 									<include>bootstrap-3.2.0/fonts/**</include>
-									<include>font-awesome-4.4.0/fonts/**</include>
+									<include>font-awesome-4.7.0/fonts/**</include>
 								</includes>
 							</resource>
 						</webResources>
@@ -307,6 +264,13 @@
 							<groupId>com.github.sommeri</groupId>
 							<artifactId>less4j</artifactId>
 							<version>1.17.2</version>
+						</dependency>
+						<dependency>
+								<!-- This is a workaround for an error that only appears when trying to build in Eclipse.
+									Reference: https://stackoverflow.com/a/55909779 -->
+							<groupId>org.mockito</groupId>
+							<artifactId>mockito-core</artifactId>
+							<version>2.18.0</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -408,14 +372,48 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<!-- Bootstrap is an HTML5 template, and is the basis of this web
+							application's design. The source version of Bootstrap is used here (rather
+							than the release distributable) so that the LESS mixins can be used. Rather
+							than including it in our sources, we instead download and unpack it as part
+							of every build. -->
+						<id>fetch-bootstrap</id>
 						<phase>generate-resources</phase>
 						<goals>
-							<goal>unpack</goal>
+							<goal>wget</goal>
 						</goals>
+						<configuration>
+							<url>https://github.com/twbs/bootstrap/archive/v3.2.0.zip</url>
+							<unpack>true</unpack>
+							<!-- Drop the bootstrap source and resources into the WAR's output
+								resources directory, as the fonts from Bootstrap will need to be referenced
+								by its compiled LESS. -->
+							<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
+							<md5>a8596bafe547e31e922a72406e61657b</md5>
+						</configuration>
+					</execution>
+					<execution>
+						<!-- Font Awesome is similar to Bootstrap's Glyphicons, but way more
+							comprehensive: it provides a symbol font and CSS classes to make it easier
+							to use. -->
+						<id>fetch-fontawesome</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<!-- TODO verify that 4.7.0 works, as 4.4.0 was being used before -->
+							<url>https://fontawesome.com/v4/assets/font-awesome-4.7.0.zip</url>
+							<unpack>true</unpack>
+							<!-- Drop the Font Awesome resources into the WAR's output resources
+								directory. -->
+							<outputDirectory>${project.build.directory}/generated-war-resources</outputDirectory>
+							<md5>91d2dc6bc4a47d77c9862bf49892d524</md5>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

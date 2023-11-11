@@ -93,8 +93,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 		 */
 		registry.addResourceHandler("/bootstrap-3.2.0/fonts/**")
 				.addResourceLocations("/WEB-INF/resources/bootstrap-3.2.0/fonts/");
-		registry.addResourceHandler("/font-awesome-4.4.0/fonts/**")
-				.addResourceLocations("/WEB-INF/resources/font-awesome-4.4.0/fonts/");
+		registry.addResourceHandler("/font-awesome-4.7.0/fonts/**")
+				.addResourceLocations("/WEB-INF/resources/font-awesome-4.7.0/fonts/");
 	}
 
 	/**

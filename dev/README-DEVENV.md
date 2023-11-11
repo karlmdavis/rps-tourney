@@ -24,60 +24,32 @@ In addition, you'll probably want to grab the [jessentials](https://github.com/k
 
 ## Installing the Development Tools
 
-Most of the tools required to develop the project can be installed with a provided helper script, as described below. There are other tools required, though, e.g. PostgreSQL, whose manual installation and configuration is also documented in these subsections.
+### SDKMAN!: Install Manager for Java, Maven, and Tomcat
 
+It is recommended that folks install [SDKMAN!](https://sdkman.io) and use it to install and manage the required development tools that it supports: Java, Maven, and Tomcat.
 
-### Using the `devenv.py` Script
+You can see the versions of these dependencies currently in use by inspecting this project's `[.sdkmanrc](./sdkmanrc)` file.
 
-This project includes a simple Pyhton [devenv.py](./devenv.py) script that installs the following dependencies:
+```shell-session
+$ curl -s "https://get.sdkman.io" | bash
+$ source "/home/karl/.sdkman/bin/sdkman-init.sh"
+$ sdk env install
+```
 
-* Eclipse, and the plugins needed for it
-* Maven
-* Tomcat
+Then, the tools can be activated (given preference in your `PATH`) by running this command in an active terminal session:
 
-Run that script as follows (after cloning the `rps-tourney` repo from Git):
+```shell-session
+$ sdk env
+```
 
-    $ cd rps-tourney.git/
-    $ ./dev/devenv-install.py
-
-That's it. There should now be an **Eclipse Luna** application launcher available in the Ubuntu dash.
-
-
-### Java
-
-The Java 8 SDK is required to build the code for this project. Either the Oracle or OpenJDK distribution should be fine.
-
-On Ubuntu Trusty, this should probably be installed via the `webupd8` PPA, as described in the following article: [Install Oracle Java 8 In Ubuntu Or Linux Mint Via PPA Repository [JDK8]](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html).
-
-If you'd prefer not to use that PPA (though it does seem to be fairly well-supported), it's recommended that you just download the JDK from Oracle and unzip it into `~/workspaces/tools/` directory—development with Eclipse doesn't require it to be *installed* on your system, just present.
-
-
-#### SSL Certificates: Gandi Standard
-
-If the <https://justdavis.com/nexus> repository is being used, the Gandi CA certificates that it requires will need to be added to the Java/system truststore. The following commands should accomplish that for OpenJDK:
-
-    $ sudo curl http://crt.gandi.net/GandiStandardSSLCA2.crt -o /usr/local/share/ca-certificates/GandiStandardSSLCA2.crt
-    $ sudo update-ca-certificates
-
-
-### Apache Maven
-
-[Apache Maven](https://maven.apache.org/) is used to build, test, and release this project.
-
-This dependency can be installed via the [devenv.py](./devenv.py) script.
+Or, alternatively, you can set `sdkman_auto_env=true` to automatically activate the required tools when you `cd` into the project's directory.
 
 
 ### Eclipse
 
-References:
+The "Java EE" edition of Eclipse, version 2023-09, should be installed and used for development of this project.
 
-* [Davis IT: Install Eclipse](https://justdavis.com/karl/it/davis/misc/eclipse.html)
-
-While you can certainly use whatever editor/IDE you want to develop this project, Eclipse is the "default" choice here (per the lead developer, Karl M. Davis). Specifically, Eclipse JavaEE Luna is required.
-
-While Ubuntu does have a somewhat-recent version of Eclipse in its repositories, it's rarely the latest release. On Ubuntu 12.10, the Eclipse in the repositories is 3.8, which is **very** out of date.
-
-This dependency can be installed via the [devenv.py](./devenv.py) script. The script will also install the various Eclipse plugins that are required.
+Obviously, other IDEs _could_ be used, but that specific version of Eclipse is known to work.
 
 
 #### Troubleshooting: JavaDoc Rendering
@@ -95,17 +67,17 @@ If the JavaDoc displays in Eclipse are rendering everything as plain text with t
 
 References:
 
-* [Ubuntu Wiki: PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
+* [How To Install and Use Docker on Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
 
 This application makes use of a database for its persistent data store. At this time, [PostgreSQL](http://www.postgresql.org/) is the primary database used in production and development (though in-memory [HSQL](http://hsqldb.org/) databases are also used for many of the automated tests). Accordingly, a PostgreSQL database server needs to be available for use during development.
 
-If needed, a PostgreSQL server can be installed as follows:
+The simplest way to acquire and launch the necessary PostgreSQL server is via Docker. On Ubuntu 22.04, you should follow the instructions here to install and configure an up to date version of Docker: [How To Install and Use Docker on Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04).
 
-    $ sudo apt-get install postgresql
-    
-After installation, run the following command to create a user/role in PostgreSQL tied to your local Ubuntu user account:
+Once Docker is installed, a DB server for this project can be launched as follows:
 
-    $ sudo -u postgres createuser --superuser yourusername --pwprompt
+```shell-session
+$ docker run --name postgresql-rps -e POSTGRES_PASSWORD=rockpaperscissors -d -p 5432:5432 postgres
+```
 
 The projects' integration tests are careful not to assume that every developer will have their database servers available at the exact same URL or with the exact same accounts. Instead, [Maven's resource filtering](http://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html) is used to supply these parameters during the builds. For instance, the `jessentials-misc/src/test/resources/datasource-provisioning-targets.xml` file contains properties that are resolved by the Maven build.
 
@@ -121,8 +93,8 @@ Each developer must edit their `~/.m2/settings.xml` file to contain the necessar
           <id>justdavis-integration-tests</id>
           <properties>
             <com.justdavis.karl.datasources.provisioner.postgresql.server.url>jdbc:postgresql:postgres</com.justdavis.karl.datasources.provisioner.postgresql.server.url>
-            <com.justdavis.karl.datasources.provisioner.postgresql.server.user>karl</com.justdavis.karl.datasources.provisioner.postgresql.server.user>
-            <com.justdavis.karl.datasources.provisioner.postgresql.server.password>secretpw</com.justdavis.karl.datasources.provisioner.postgresql.server.password>
+            <com.justdavis.karl.datasources.provisioner.postgresql.server.user>postgres</com.justdavis.karl.datasources.provisioner.postgresql.server.user>
+            <com.justdavis.karl.datasources.provisioner.postgresql.server.password>rockpaperscissors</com.justdavis.karl.datasources.provisioner.postgresql.server.password>
           </properties>
         </profile>
       </profiles>
@@ -141,20 +113,20 @@ References:
 * [Eclipse WTP Tomcat FAQ](https://wiki.eclipse.org/WTP_Tomcat_FAQ)
 * [Stack Overflow: Where can I view Tomcat log files in Eclipse?](http://stackoverflow.com/a/7354545/1851299)
 
-During development, it's recommended that the web applications be run in Apache Tomcat via Eclipse's WTP plugin. This is recommended as it's both easy to use and also similar to the production deployment (which also uses Tomcat). The `devenv-install.py` script will create a standalone Tomcat installation for this purpose.
+During development, it's recommended that the web applications be run in Apache Tomcat via Eclipse's WTP plugin. This is recommended as it's both easy to use and also similar to the production deployment (which also uses Tomcat). The SDKMAN! instructions above should have installed a Tomcat server for this purpose.
 
 Within Eclipse, the Tomcat instance can be setup as follows:
 
 1. Go to **Window > Show View > Other...**, select **Server > Servers** and click **OK**.
 1. Right-click a blank spot in the view, and select **New > Server**.
 1. On the *Define a New Server* screen:
-    1. Select the **Tomcat v8.0 Server** node.
+    1. Select the **Tomcat v8.5 Server** node.
         * Note: If *Server name* and *Server runtime environment* aren't yet visible here, click **Next** and adjust the instructions below a bit. (Those fields aren't available until at least one runtime has been configured for the server type.)
-    1. For *Server name*, enter "`apache-tomcat-8.0.32 at localhost`".
+    1. For *Server name*, enter "`apache-tomcat-8.5.94 at localhost`".
     1. For *Server runtime environment*, click **Add...**. On the *Tomcat Server* dialog this opens:
-        1. For *Name*, enter "`apache-tomcat-8.0.32`".
-        1. Select your `~/workspaces/tools/apache-tomcat-8.0.32` directory as the *Tomcat installation directory*.
-            * This was created by the [devenv-install.py](./devenv-install.py) script.
+        1. For *Name*, enter "`apache-tomcat-8.5.94`".
+        1. Select the directory output by running `sdk home tomcat 8.5.94` from a terminal as the *Tomcat installation directory*.
+            * This was created by SDKMAN!.
         1. Click **Finish**.
     1. Click **Next**.
 1. On the **Add and Remove** screen:
@@ -162,7 +134,7 @@ Within Eclipse, the Tomcat instance can be setup as follows:
 
 Once setup and available, the following should be done to ensure that Tomcat is configured correctly for running the RPS applications:
 
-1. Copy the sample logging properties file from `/rps-tourney-parent/dev/tomcat-logging.properties` to `/Servers/apache-tomcat-8.0.32 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
+1. Copy the sample logging properties file from `/rps-tourney-parent/dev/tomcat-logging.properties` to `/Servers/apache-tomcat-8.5.94 at localhost-config` directory in Eclipse's *Package Explorer*. Right-click the Tomcat server and select **Publish** to apply this configuration change.
 2. Open the Tomcat server's run configuration in Eclipse, and configure it as follows:
     1. Add the following VM arguments, each on a separate line:
         ```
@@ -176,7 +148,7 @@ Once setup and available, the following should be done to ensure that Tomcat is 
     2. Set the working directory to: `${workspace_loc}/.metadata/.plugins/org.eclipse.wst.server.core/tmp0`
 3. Configure the HTTP port that Tomcat will use:
     1. Switch to the *Servers* view in Eclipse.
-    2. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Open**.
+    2. Right-click **apache-tomcat-8.5.94 at localhost**, and select **Open**.
     3. Set *Ports > HTTP/1.1* to `9093`, then click **Save** and close the editor.
 
 
@@ -194,12 +166,29 @@ Once all of the required tools are installed, the projects should be imported in
 Configure the `rps-tourney-service-app` and `rps-tourney-webapp` projects to run in Tomcat (via Eclipse WTP), as follows:
 
 1. Switch to the *Servers* view in Eclipse.
-1. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Add and Remove...**.
+1. Right-click **apache-tomcat-8.5.94 at localhost**, and select **Add and Remove...**.
 1. Click **Add All**, then click **Finish**.
 
 Once configured, Tomcat can be run, as follows:
 
 1. Switch to the *Servers* view in Eclipse.
-1. Right-click **apache-tomcat-8.0.32 at localhost**, and select **Start**.
+1. Right-click **apache-tomcat-8.5.94 at localhost**, and select **Start**.
 1. Switch to the **Console** view, and wait for the applications to finish launching.
 1. Access the web application at <http://localhost:9093/rps-tourney-webapp/>.
+
+
+### Troubleshooting: Missing JS and CSS in Web App
+
+Using wr04j with Eclipse technically requires the [m2e-wr04j](https://github.com/jbosstools/m2e-wro4j) plugin to be installed in Eclipse. Unfortunately, the latest version of Eclipse doesn't support running this plugin with a Java 8 JDK, which the RPS project currently requires.
+
+Without this plugin installed, the webapp build published to Tomcat will not include any of the CSS or JS compiled by wr04j. A workaround is available:
+
+1. Right-click the `rps-tourney-webapp` project in Eclipse and select **Properties**.
+1. Select the **Deployment Assembly** section.
+1. Click **Add...**.
+1. Select **Folder** and then click **Next >**.
+1. Select the `target/rps-tourney-webapp-2.0.0-SNAPSHOT` folder and click **Finish**.
+1. Click **Apply and Close**.
+1. Clean and Republish the project in Tomcat.
+
+This workaround will need to be performed every time the Eclipse project configuration is updated by Maven.

@@ -64,56 +64,6 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<repositories>
-		<!-- Because the parent is in these repos, they have to be specified here, 
-			as well (in addition to being specified in the parent itself). -->
-		<repository>
-			<id>justdavis.com-nexus-opensource-releases</id>
-			<url>https://justdavis.com/nexus/repository/opensource-releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>justdavis.com-nexus-opensource-snapshots</id>
-			<url>https://justdavis.com/nexus/repository/opensource-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<!-- This repo is used to grab Hibernate and related artifacts. While 
-				Maven Central has many older releases, for some reason the latest artifacts 
-				don't appear to be syncing there. -->
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<!-- This repo is used to grab Bootstrap (and perhaps other artifacts). -->
-			<id>justdavis.com-nexus-opensource-thirdparty-releases</id>
-			<url>https://justdavis.com/nexus/repository/opensource-thirdparty-releases//</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<modules>
 		<module>rps-tourney-service-api</module>
 		<module>rps-tourney-service-client</module>
@@ -207,7 +157,7 @@
 					Java 8 and above and PostgreSQL 8.2 and above. -->
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>42.1.4</version>
+				<version>42.6.0</version>
 			</dependency>
 			<dependency>
 				<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
