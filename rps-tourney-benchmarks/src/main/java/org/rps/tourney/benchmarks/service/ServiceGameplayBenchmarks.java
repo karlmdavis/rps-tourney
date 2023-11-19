@@ -30,17 +30,14 @@ import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 import com.justdavis.karl.rpstourney.service.client.game.PlayersClient;
 
 /**
- * Contains {@link Benchmark}s for those web service methods related to playing
- * games.
+ * Contains {@link Benchmark}s for those web service methods related to playing games.
  */
 public class ServiceGameplayBenchmarks {
 	/**
-	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the
-	 * requesting user is unauthenticated.
-	 * 
+	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the requesting user is unauthenticated.
+	 *
 	 * @param gameInProgressState
-	 *            a {@link GameInProgressState} instance that provides the game
-	 *            to be requested from the web service
+	 *            a {@link GameInProgressState} instance that provides the game to be requested from the web service
 	 */
 	@Benchmark
 	public void playScriptedFiveRoundGame(GameplayState gameplayState) {
@@ -101,19 +98,18 @@ public class ServiceGameplayBenchmarks {
 	}
 
 	/**
-	 * This method is only here to allow this {@link Benchmark} class to be run
-	 * inside Eclipse. These configuration settings specified in here are only
-	 * applied within Eclipse.
-	 * 
+	 * This method is only here to allow this {@link Benchmark} class to be run inside Eclipse. These configuration
+	 * settings specified in here are only applied within Eclipse.
+	 *
 	 * @param args
 	 *            (not used)
 	 * @throws RunnerException
-	 *             Any failures in the benchmarks will be wrapped and rethrown
-	 *             as {@link RunnerException}s.
+	 *             Any failures in the benchmarks will be wrapped and rethrown as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
-		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder().include(ServiceGameplayBenchmarks.class.getSimpleName())
-				.warmupIterations(20).measurementIterations(10).forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
+		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
+				.include(ServiceGameplayBenchmarks.class.getSimpleName()).warmupIterations(20).measurementIterations(10)
+				.forks(1).threads(10 ^ 2).verbosity(VerboseMode.EXTRA);
 		// benchmarkOptions.addProfiler(StackProfiler.class);
 		// benchmarkOptions.jvmArgsAppend(ExistingServerManager.jvmArgsForTomcatWtp());
 
@@ -125,8 +121,8 @@ public class ServiceGameplayBenchmarks {
 	 * Manages the state required for {@link ServiceGameplayBenchmarks}.
 	 * </p>
 	 * <p>
-	 * Also tracks the {@link Game}s that were created during the benchmark and
-	 * cleans them up afterwards in a {@link TearDown}.
+	 * Also tracks the {@link Game}s that were created during the benchmark and cleans them up afterwards in a
+	 * {@link TearDown}.
 	 * </p>
 	 */
 	@State(Scope.Benchmark)
@@ -143,8 +139,7 @@ public class ServiceGameplayBenchmarks {
 
 		/**
 		 * @param gameToCleanup
-		 *            the {@link GameView} for the game to be cleaned up at the
-		 *            end of the benchmarks
+		 *            the {@link GameView} for the game to be cleaned up at the end of the benchmarks
 		 */
 		public void addGameForCleanup(GameView gameToCleanup) {
 			gameIds.add(gameToCleanup.getId());
@@ -152,7 +147,7 @@ public class ServiceGameplayBenchmarks {
 
 		/**
 		 * Initializes {@link GameplayState} instances.
-		 * 
+		 *
 		 * @param serverState
 		 *            the {@link ServerState} that the web service is running in
 		 */
@@ -195,9 +190,7 @@ public class ServiceGameplayBenchmarks {
 		}
 
 		/**
-		 * Cleans up all of the games passed to
-		 * {@link #addGameForCleanup(GameView)} over the course of the
-		 * benchmarks.
+		 * Cleans up all of the games passed to {@link #addGameForCleanup(GameView)} over the course of the benchmarks.
 		 */
 		@TearDown
 		public void tearDown() {

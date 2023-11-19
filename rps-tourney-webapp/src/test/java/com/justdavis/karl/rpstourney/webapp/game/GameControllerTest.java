@@ -34,7 +34,7 @@ public final class GameControllerTest {
 	 * Tests
 	 * {@link GameController#createNewGame(java.security.Principal, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)}
 	 * .
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -66,10 +66,8 @@ public final class GameControllerTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link GameController#getGameAsHtml(String, java.security.Principal, java.util.Locale)}
-	 * .
-	 * 
+	 * Tests {@link GameController#getGameAsHtml(String, java.security.Principal, java.util.Locale)} .
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -88,8 +86,8 @@ public final class GameControllerTest {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		/*
-		 * Run the mock tests against the controller. We'll check the status and
-		 * then just spot-check a few model attributes.
+		 * Run the mock tests against the controller. We'll check the status and then just spot-check a few model
+		 * attributes.
 		 */
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/" + game.getId()))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -100,7 +98,7 @@ public final class GameControllerTest {
 	 * Tests
 	 * {@link GameController#updateName(String, String, Principal, org.springframework.web.servlet.mvc.support.RedirectAttributes)}
 	 * .
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -120,8 +118,7 @@ public final class GameControllerTest {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build();
 
 		/*
-		 * Run the mock tests against the controller, and verify that nothing
-		 * goes boom.
+		 * Run the mock tests against the controller, and verify that nothing goes boom.
 		 */
 		String gamePath = "/game/" + game.getId();
 		String updateNamePath = gamePath + "/updateName";
@@ -140,7 +137,7 @@ public final class GameControllerTest {
 	 * Tests
 	 * {@link GameController#updateName(String, String, Principal, org.springframework.web.servlet.mvc.support.RedirectAttributes)}
 	 * to verify that it handles web service validation errors as expected.
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -160,8 +157,7 @@ public final class GameControllerTest {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(gameController).build();
 
 		/*
-		 * Run the mock tests against the controller, and verify that it
-		 * generates a user-visible warning, as expected.
+		 * Run the mock tests against the controller, and verify that it generates a user-visible warning, as expected.
 		 */
 		String gamePath = "/game/" + game.getId();
 		String updateNamePath = gamePath + "/updateName";
@@ -172,11 +168,10 @@ public final class GameControllerTest {
 	}
 
 	/**
-	 * Tests {@link GameController#getGameAsJson(String)}, when called before a
-	 * game has started. This is a regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/110">Issue
-	 * #110: Unable to retrieve game JSON before game starts: HTTP 500</a>.
-	 * 
+	 * Tests {@link GameController#getGameAsJson(String)}, when called before a game has started. This is a regression
+	 * test case for <a href="https://github.com/karlmdavis/rps-tourney/issues/110">Issue #110: Unable to retrieve game
+	 * JSON before game starts: HTTP 500</a>.
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -195,23 +190,23 @@ public final class GameControllerTest {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(GameController).build();
 
 		/*
-		 * Run the mock tests against the controller. We'll check the status and
-		 * then just spot-check a few model attributes.
+		 * Run the mock tests against the controller. We'll check the status and then just spot-check a few model
+		 * attributes.
 		 */
 		mockMvc.perform(MockMvcRequestBuilders.get("/game/" + game.getId() + "/data"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	/**
-	 * A mock {@link IAccountsResource} client implementation for use in
-	 * {@link GameControllerTest#updateName()}, and other tests.
+	 * A mock {@link IAccountsResource} client implementation for use in {@link GameControllerTest#updateName()}, and
+	 * other tests.
 	 */
 	private static final class MockUpdatableAccountsClient extends MockAccountsClient {
 		private Account account;
 
 		/**
 		 * Constructs a new {@link MockUpdatableAccountsClient} instance.
-		 * 
+		 *
 		 * @param account
 		 *            the value to use for {@link #getAccount()}
 		 */

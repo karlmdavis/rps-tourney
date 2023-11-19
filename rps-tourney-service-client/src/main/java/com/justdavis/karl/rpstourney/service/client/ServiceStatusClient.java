@@ -14,15 +14,14 @@ import com.justdavis.karl.rpstourney.service.api.IServiceStatusResource;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IServiceStatusResource}
- * web service.
+ * A client-side implementation/binding for the {@link IServiceStatusResource} web service.
  */
 public class ServiceStatusClient implements IServiceStatusResource {
 	private final ClientConfig config;
 
 	/**
 	 * Constructs a new {@link ServiceStatusClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 */

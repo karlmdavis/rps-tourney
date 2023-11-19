@@ -22,8 +22,7 @@ public final class GuestAuthResourceImplTest {
 	public ExpectedException expectedException = ExpectedException.none();
 
 	/**
-	 * Ensures that {@link GuestAuthResourceImpl} creates new
-	 * {@link GuestLoginIdentity}s as expected.
+	 * Ensures that {@link GuestAuthResourceImpl} creates new {@link GuestLoginIdentity}s as expected.
 	 */
 	@Test
 	public void createLogin() {
@@ -49,8 +48,8 @@ public final class GuestAuthResourceImplTest {
 	}
 
 	/**
-	 * Ensures that {@link GuestAuthResourceImpl#loginAsGuest()} behaves as
-	 * expected when the user/client already has an active login.
+	 * Ensures that {@link GuestAuthResourceImpl#loginAsGuest()} behaves as expected when the user/client already has an
+	 * active login.
 	 */
 	@Test
 	public void existingLogin() {

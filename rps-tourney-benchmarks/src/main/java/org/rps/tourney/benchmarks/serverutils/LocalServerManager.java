@@ -36,8 +36,7 @@ import com.justdavis.karl.tomcat.ITomcatServer;
 import com.justdavis.karl.tomcat.TomcatServerHelper;
 
 /**
- * This {@link IServerManager} implementation stands up a local
- * {@link ITomcatServer} for the benchmarks to run against.
+ * This {@link IServerManager} implementation stands up a local {@link ITomcatServer} for the benchmarks to run against.
  */
 final class LocalServerManager implements IServerManager {
 	public static final String CONTEXT_ROOT_SERVICE = "rps-tourney-service-app";
@@ -51,8 +50,8 @@ final class LocalServerManager implements IServerManager {
 	private final ITomcatServer server;
 
 	/**
-	 * Constructs a new {@link LocalServerManager}, reading the configuration
-	 * from <code>src/main/resources/rps-service-config-benchmarks.xml</code>.
+	 * Constructs a new {@link LocalServerManager}, reading the configuration from
+	 * <code>src/main/resources/rps-service-config-benchmarks.xml</code>.
 	 */
 	public LocalServerManager() {
 		Path tomcatDir = Paths.get(".", "target", "tomcat").toAbsolutePath();

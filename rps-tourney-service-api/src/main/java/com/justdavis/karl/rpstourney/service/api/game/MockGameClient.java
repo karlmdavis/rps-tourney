@@ -13,10 +13,9 @@ public class MockGameClient implements IGameResource {
 
 	/**
 	 * Constructs a new {@link MockGameClient} instance.
-	 * 
+	 *
 	 * @param games
-	 *            the {@link GameView} instances that will be returned by this
-	 *            {@link IGameResource}
+	 *            the {@link GameView} instances that will be returned by this {@link IGameResource}
 	 */
 	public MockGameClient(GameView... games) {
 		this.games = games;
@@ -24,10 +23,10 @@ public class MockGameClient implements IGameResource {
 
 	/**
 	 * Constructs a new {@link MockGameClient} instance.
-	 * 
+	 *
 	 * @param games
-	 *            the {@link Game} instances that will be wrapped in
-	 *            {@link GameView}s and returned by this {@link IGameResource}
+	 *            the {@link Game} instances that will be wrapped in {@link GameView}s and returned by this
+	 *            {@link IGameResource}
 	 */
 	public MockGameClient(Game... games) {
 		this(wrapInGameViews(games));
@@ -36,8 +35,7 @@ public class MockGameClient implements IGameResource {
 	/**
 	 * @param games
 	 *            the {@link Game}s to wrap
-	 * @return an array of {@link GameView}s wrapping each of the specified
-	 *         {@link Game}s
+	 * @return an array of {@link GameView}s wrapping each of the specified {@link Game}s
 	 */
 	private static GameView[] wrapInGameViews(Game[] games) {
 		if (games == null)
@@ -83,8 +81,7 @@ public class MockGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String,
-	 *      int, int)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String, int, int)
 	 */
 	@Override
 	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
@@ -92,8 +89,7 @@ public class MockGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
-	 *      long)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String, long)
 	 */
 	@Override
 	public void inviteOpponent(String gameId, long playerId) throws NotFoundException, GameConflictException {
@@ -117,8 +113,8 @@ public class MockGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String,
-	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String, int,
+	 *      com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@Override
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {

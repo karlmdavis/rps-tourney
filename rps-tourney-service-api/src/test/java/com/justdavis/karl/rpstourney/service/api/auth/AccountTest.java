@@ -36,8 +36,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
  */
 public final class AccountTest {
 	/**
-	 * Ensures that {@link Account#getAuthToken(java.util.UUID)} works as
-	 * expected.
+	 * Ensures that {@link Account#getAuthToken(java.util.UUID)} works as expected.
 	 */
 	@Test
 	public void getAuthTokenForUuid() {
@@ -81,7 +80,7 @@ public final class AccountTest {
 
 	/**
 	 * Ensures that {@link Account} instances can be marshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -142,7 +141,7 @@ public final class AccountTest {
 
 	/**
 	 * Ensures that {@link Account} instances can be unmarshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -171,7 +170,7 @@ public final class AccountTest {
 
 	/**
 	 * Tests {@link Account#equals(Object)} and {@link Account#hashCode()}.
-	 * 
+	 *
 	 * @throws SecurityException
 	 *             (won't happen)
 	 * @throws NoSuchFieldException
@@ -194,10 +193,9 @@ public final class AccountTest {
 		Assert.assertNotEquals(accountA, accountB);
 
 		/*
-		 * The logic for Account.equals(...) is different for persisted vs.
-		 * non-persisted objects, and we want to cover that logic with this
-		 * test. To avoid having to involve the DB here (and actually persist
-		 * things), we'll cheat and set the fields' values via reflection.
+		 * The logic for Account.equals(...) is different for persisted vs. non-persisted objects, and we want to cover
+		 * that logic with this test. To avoid having to involve the DB here (and actually persist things), we'll cheat
+		 * and set the fields' values via reflection.
 		 */
 		Field accountIdField = Account.class.getDeclaredField("id");
 		accountIdField.setAccessible(true);
@@ -216,9 +214,8 @@ public final class AccountTest {
 	}
 
 	/**
-	 * Verifies that {@link Account}s can be properly serialized and
-	 * deserialized.
-	 * 
+	 * Verifies that {@link Account}s can be properly serialized and deserialized.
+	 *
 	 * @throws IOException
 	 *             Might be thrown if serialization or deserialization fails.
 	 * @throws ClassNotFoundException

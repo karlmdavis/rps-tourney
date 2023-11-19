@@ -14,16 +14,15 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 /**
  * <p>
- * An immutable, point-in-time view of a {@link Game}'s state, filtered to hide
- * moves that shouldn't yet be revealed to other players.
+ * An immutable, point-in-time view of a {@link Game}'s state, filtered to hide moves that shouldn't yet be revealed to
+ * other players.
  * </p>
  * <p>
- * Instances of this class, rather than {@link Game}, should be returned by the
- * web service in order to:
+ * Instances of this class, rather than {@link Game}, should be returned by the web service in order to:
  * </p>
  * <ul>
- * <li>Prevent web service users from trying to directly modify the game state,
- * rather than going through the web service.</li>
+ * <li>Prevent web service users from trying to directly modify the game state, rather than going through the web
+ * service.</li>
  * <li>Hide moves made by players in rounds that aren't yet complete.</li>
  * </ul>
  */
@@ -36,10 +35,9 @@ public final class GameView extends AbstractGame {
 
 	/**
 	 * Constructs a new {@link GameView} instance.
-	 * 
+	 *
 	 * @param gameToWrap
-	 *            the {@link Game} instance that the new {@link GameView} will
-	 *            be a view of
+	 *            the {@link Game} instance that the new {@link GameView} will be a view of
 	 * @param viewPlayer
 	 *            the value to use for {@link #getViewPlayer()}
 	 */
@@ -51,8 +49,7 @@ public final class GameView extends AbstractGame {
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB spec.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB spec.
 	 */
 	@Deprecated
 	GameView() {
@@ -61,14 +58,11 @@ public final class GameView extends AbstractGame {
 
 	/**
 	 * @param gameToWrap
-	 *            the {@link Game} instance to filter the
-	 *            {@link Game#getRounds()} of
+	 *            the {@link Game} instance to filter the {@link Game#getRounds()} of
 	 * @param player
-	 *            the {@link Player} who requested or will be shown the
-	 *            resulting {@link GameView}, or <code>null</code> if it's for
-	 *            someone other than one of the game's players
-	 * @return the filtered {@link GameRound}s that should be visible to the
-	 *         specified {@link Player}
+	 *            the {@link Player} who requested or will be shown the resulting {@link GameView}, or <code>null</code>
+	 *            if it's for someone other than one of the game's players
+	 * @return the filtered {@link GameRound}s that should be visible to the specified {@link Player}
 	 */
 	private static List<GameRound> filterRoundsForPlayer(Game gameToWrap, Player player) {
 		boolean isPlayer1 = player != null && player.equals(gameToWrap.getPlayer1());
@@ -101,11 +95,9 @@ public final class GameView extends AbstractGame {
 	}
 
 	/**
-	 * @return the {@link Player} in the {@link Game} who requested or will be
-	 *         shown the resulting {@link GameView}, which will be used to
-	 *         determine how to filter {@link GameView#getRounds()}, or
-	 *         <code>null</code> if it will be displayed to someone who is not
-	 *         one of the {@link Game}'s {@link Player}s
+	 * @return the {@link Player} in the {@link Game} who requested or will be shown the resulting {@link GameView},
+	 *         which will be used to determine how to filter {@link GameView#getRounds()}, or <code>null</code> if it
+	 *         will be displayed to someone who is not one of the {@link Game}'s {@link Player}s
 	 */
 	public Player getViewPlayer() {
 		return viewPlayer;

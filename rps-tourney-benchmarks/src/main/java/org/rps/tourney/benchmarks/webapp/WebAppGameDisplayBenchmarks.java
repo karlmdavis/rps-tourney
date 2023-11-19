@@ -37,17 +37,15 @@ import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 
 /**
- * Contains {@link Benchmark}s for those web app resources related to display of
- * existing game instances.
+ * Contains {@link Benchmark}s for those web app resources related to display of existing game instances.
  */
 public class WebAppGameDisplayBenchmarks {
 	/**
-	 * A {@link Benchmark} for server side rendering of the game page and its
-	 * associated resources, with an unauthenticated user.
-	 * 
+	 * A {@link Benchmark} for server side rendering of the game page and its associated resources, with an
+	 * unauthenticated user.
+	 *
 	 * @param gameInProgressState
-	 *            a {@link GameInProgressState} instance that provides the game
-	 *            to be requested from the web service
+	 *            a {@link GameInProgressState} instance that provides the game to be requested from the web service
 	 */
 	@Benchmark
 	public void viewGameAsUnauthenticatedUser(GameInProgressState gameInProgressState) {
@@ -56,8 +54,8 @@ public class WebAppGameDisplayBenchmarks {
 		URL gameUrl = resolve(webAppUrl, "/game/" + gameInProgressState.getGameId());
 
 		/*
-		 * Specify the resources to be loaded, in groups. Each top-level element
-		 * here is a group of resources that will be loaded concurrently.
+		 * Specify the resources to be loaded, in groups. Each top-level element here is a group of resources that will
+		 * be loaded concurrently.
 		 */
 		URL[] resources1 = new URL[] { gameUrl };
 		URL[] resources2 = new URL[] { resolve(webAppUrl, "/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"),
@@ -99,12 +97,10 @@ public class WebAppGameDisplayBenchmarks {
 	}
 
 	/**
-	 * A {@link Benchmark} for server side rendering of the game
-	 * update/refresh/status JSON, as an unauthenticated user.
-	 * 
+	 * A {@link Benchmark} for server side rendering of the game update/refresh/status JSON, as an unauthenticated user.
+	 *
 	 * @param gameInProgressState
-	 *            a {@link GameInProgressState} instance that provides the game
-	 *            to be requested from the web service
+	 *            a {@link GameInProgressState} instance that provides the game to be requested from the web service
 	 */
 	@Benchmark
 	public void refreshGameAsUnauthenticatedUser(GameInProgressState gameInProgressState) {
@@ -141,15 +137,13 @@ public class WebAppGameDisplayBenchmarks {
 	}
 
 	/**
-	 * This method is only here to allow this {@link Benchmark} class to be run
-	 * inside Eclipse. These configuration settings specified in here are only
-	 * applied within Eclipse.
-	 * 
+	 * This method is only here to allow this {@link Benchmark} class to be run inside Eclipse. These configuration
+	 * settings specified in here are only applied within Eclipse.
+	 *
 	 * @param args
 	 *            (not used)
 	 * @throws RunnerException
-	 *             Any failures in the benchmarks will be wrapped and rethrown
-	 *             as {@link RunnerException}s.
+	 *             Any failures in the benchmarks will be wrapped and rethrown as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
 		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
@@ -163,15 +157,14 @@ public class WebAppGameDisplayBenchmarks {
 
 	/**
 	 * A {@link Callable} that can be used in
-	 * {@link WebAppGameDisplayBenchmarks#retrieveGameHtmlOnlyAsUnauthenticatedUser(GameInProgressState)}
-	 * .
+	 * {@link WebAppGameDisplayBenchmarks#retrieveGameHtmlOnlyAsUnauthenticatedUser(GameInProgressState)} .
 	 */
 	private static final class ResourceLoader implements Callable<ResourceResult> {
 		private final URL resource;
 
 		/**
 		 * Constructs a new {@link ResourceLoader}.
-		 * 
+		 *
 		 * @param resource
 		 *            the {@link URL} of the resource to be loaded
 		 */
@@ -199,7 +192,7 @@ public class WebAppGameDisplayBenchmarks {
 
 		/**
 		 * Constructs a new {@link ResourceResult}.
-		 * 
+		 *
 		 * @param resource
 		 *            the value to use for {@link #getResource()}
 		 * @param responseCode
@@ -218,8 +211,7 @@ public class WebAppGameDisplayBenchmarks {
 		}
 
 		/**
-		 * @return the HTTP response/status code that was encountered while
-		 *         loading the resource
+		 * @return the HTTP response/status code that was encountered while loading the resource
 		 */
 		public int getResponseCode() {
 			return responseCode;
@@ -241,8 +233,7 @@ public class WebAppGameDisplayBenchmarks {
 	}
 
 	/**
-	 * Represents a {@link Game} that is already in-progress and can be
-	 * retrieved from the web service.
+	 * Represents a {@link Game} that is already in-progress and can be retrieved from the web service.
 	 */
 	@State(Scope.Benchmark)
 	public static class GameInProgressState {
@@ -257,8 +248,7 @@ public class WebAppGameDisplayBenchmarks {
 		}
 
 		/**
-		 * @return the {@link Game#getId()} for the {@link Game} represented by
-		 *         this instance
+		 * @return the {@link Game#getId()} for the {@link Game} represented by this instance
 		 */
 		public String getGameId() {
 			return gameId;
@@ -266,7 +256,7 @@ public class WebAppGameDisplayBenchmarks {
 
 		/**
 		 * Initializes {@link GameInProgressState} instances.
-		 * 
+		 *
 		 * @param serverState
 		 *            the {@link ServerState} that the web service is running in
 		 */

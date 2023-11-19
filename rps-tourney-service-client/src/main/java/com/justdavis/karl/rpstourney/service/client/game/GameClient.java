@@ -23,8 +23,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IGameResource} web
- * service.
+ * A client-side implementation/binding for the {@link IGameResource} web service.
  */
 public final class GameClient implements IGameResource {
 	private final ClientConfig config;
@@ -32,7 +31,7 @@ public final class GameClient implements IGameResource {
 
 	/**
 	 * Constructs a new {@link GameClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 * @param cookieStore
@@ -112,8 +111,7 @@ public final class GameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String,
-	 *      int, int)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String, int, int)
 	 */
 	@Override
 	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
@@ -141,8 +139,7 @@ public final class GameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
-	 *      long)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String, long)
 	 */
 	@Override
 	public void inviteOpponent(String gameId, long playerId) throws NotFoundException, GameConflictException {
@@ -216,8 +213,8 @@ public final class GameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String,
-	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String, int,
+	 *      com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@Override
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {

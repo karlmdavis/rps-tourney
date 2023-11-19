@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public final class InfoControllerTest {
 	/**
 	 * Tests the {@link InfoController#ping()} response.
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -31,7 +31,7 @@ public final class InfoControllerTest {
 
 	/**
 	 * Tests the {@link InfoController#getAppInfo()} response.
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */

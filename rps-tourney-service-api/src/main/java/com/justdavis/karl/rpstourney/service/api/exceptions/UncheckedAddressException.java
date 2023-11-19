@@ -10,7 +10,7 @@ public final class UncheckedAddressException extends RuntimeException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param e
 	 *            the checked exception to wrap
 	 */

@@ -21,9 +21,8 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
  */
 final class Options {
 	/*
-	 * In order to support parsing via CmdLineParser, the following is required:
-	 * 1) a non-private default constructor must be present, and 2) none of the
-	 * fields here may be final.
+	 * In order to support parsing via CmdLineParser, the following is required: 1) a non-private default constructor
+	 * must be present, and 2) none of the fields here may be final.
 	 */
 
 	static final String DEFAULT_SERVER = "https://rpstourney.com/api";
@@ -86,8 +85,7 @@ final class Options {
 	}
 
 	/**
-	 * @return <code>true</code> if network play (and saving history) are
-	 *         disabled, <code>false</code> if they are not
+	 * @return <code>true</code> if network play (and saving history) are disabled, <code>false</code> if they are not
 	 */
 	public boolean isOnline() {
 		return online;
@@ -117,9 +115,8 @@ final class Options {
 	}
 
 	/**
-	 * @return the email address of the user to login as (if {@link #isOnline()}
-	 *         is <code>false</code>), if not set, an anonymous account will be
-	 *         created and used
+	 * @return the email address of the user to login as (if {@link #isOnline()} is <code>false</code>), if not set, an
+	 *         anonymous account will be created and used
 	 */
 	public InternetAddress getEmailAddress() {
 		return emailAddress;
@@ -149,8 +146,7 @@ final class Options {
 	}
 
 	/**
-	 * @return the URL of the RPS Tourney game to join (instead of starting a
-	 *         new game)
+	 * @return the URL of the RPS Tourney game to join (instead of starting a new game)
 	 */
 	public URI getGameUri() {
 		return gameUri;
@@ -198,9 +194,8 @@ final class Options {
 	}
 
 	/**
-	 * @return <code>true</code> if the application should write debug/logging
-	 *         output to <code>STDERR</code>, <code>false</code> if all such
-	 *         output should be suppressed
+	 * @return <code>true</code> if the application should write debug/logging output to <code>STDERR</code>,
+	 *         <code>false</code> if all such output should be suppressed
 	 */
 	public boolean isDebugEnabled() {
 		return debugEnabled;
@@ -215,10 +210,8 @@ final class Options {
 	}
 
 	/**
-	 * @return <code>true</code> if the application should write the command
-	 *         line help text to <code>STDOUT</code> and then exit,
-	 *         <code>false</code> if the application should attempt to just run
-	 *         normally
+	 * @return <code>true</code> if the application should write the command line help text to <code>STDOUT</code> and
+	 *         then exit, <code>false</code> if the application should attempt to just run normally
 	 */
 	public boolean isHelpRequested() {
 		return helpRequested;

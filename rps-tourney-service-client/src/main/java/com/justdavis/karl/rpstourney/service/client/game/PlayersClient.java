@@ -21,8 +21,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IPlayersResource} web
- * service.
+ * A client-side implementation/binding for the {@link IPlayersResource} web service.
  */
 public final class PlayersClient implements IPlayersResource {
 	private final ClientConfig config;
@@ -30,7 +29,7 @@ public final class PlayersClient implements IPlayersResource {
 
 	/**
 	 * Constructs a new {@link PlayersClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 * @param cookieStore

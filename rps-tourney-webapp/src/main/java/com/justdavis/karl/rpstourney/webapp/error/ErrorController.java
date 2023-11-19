@@ -18,10 +18,8 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 public class ErrorController {
 	/**
 	 * @param httpRequest
-	 *            the {@link HttpServletRequest} that resulted in the error
-	 *            being rendered
-	 * @return a {@link ModelAndView} that can be used to render an application
-	 *         error
+	 *            the {@link HttpServletRequest} that resulted in the error being rendered
+	 * @return a {@link ModelAndView} that can be used to render an application error
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
@@ -39,9 +37,8 @@ public class ErrorController {
 	}
 
 	/**
-	 * Always throws an {@link Exception} when requested. Useful for testing
-	 * purposes -- to verify that the application is handling errors as
-	 * expected.
+	 * Always throws an {@link Exception} when requested. Useful for testing purposes -- to verify that the application
+	 * is handling errors as expected.
 	 */
 	@RequestMapping(value = "go-boom", method = RequestMethod.GET)
 	public void goBoom() {
@@ -50,8 +47,7 @@ public class ErrorController {
 
 	/**
 	 * @param httpRequest
-	 *            the {@link HttpServletRequest} that resulted in the error
-	 *            being rendered
+	 *            the {@link HttpServletRequest} that resulted in the error being rendered
 	 * @return the {@link HttpStatus#value()} of the error being rendered
 	 */
 	private static int getErrorCode(HttpServletRequest httpRequest) {

@@ -1,14 +1,13 @@
-<persistence version="2.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
 
 	<persistence-unit name="com.justdavis.karl.rpstourney">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="validate" />
-			<!-- The other Hibernate properties are all supplied at runtime when calling 
-				Persistence.createEntityManagerFactory(...). This allows the DB to be configured 
-				elsewhere, rather than in this file that will be built into the app package. -->
+			<!-- The other Hibernate properties are all supplied at runtime when calling Persistence.createEntityManagerFactory(...).
+				This allows the DB to be configured elsewhere, rather than in this file that will be built into the app package. -->
 		</properties>
 	</persistence-unit>
 </persistence>

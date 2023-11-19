@@ -9,20 +9,18 @@ import org.apache.cxf.interceptor.LoggingMessage;
 import com.justdavis.karl.rpstourney.service.api.auth.game.IGameAuthResource;
 
 /**
- * A custom {@link LoggingInInterceptor} subclass that doesn't add linebreaks to
- * the log output and attempts to prevent passwords from ending up in the log.
+ * A custom {@link LoggingInInterceptor} subclass that doesn't add linebreaks to the log output and attempts to prevent
+ * passwords from ending up in the log.
  */
 public final class LoggerForInbound extends LoggingInInterceptor {
 	/**
-	 * The number of bytes of each message to log out, before truncating the
-	 * rest.
+	 * The number of bytes of each message to log out, before truncating the rest.
 	 */
 	static final int MESSAGE_BYTES_TRUNCATION_LIMIT = 1000;
 
 	/**
 	 * Should match password strings in {@link LoggingMessage#getPayload()} from
-	 * {@link IGameAuthResource#createGameLogin(javax.mail.internet.InternetAddress, String)}
-	 * requests/responses.
+	 * {@link IGameAuthResource#createGameLogin(javax.mail.internet.InternetAddress, String)} requests/responses.
 	 */
 	static final Pattern GAME_ACCOUNT_PASSWORD_REGEX = Pattern.compile("password=[^&]*");
 
@@ -40,8 +38,7 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 				loggingMessageIdField.setAccessible(true);
 
 				/*
-				 * Thread safety: this might get set multiple times, but that's
-				 * not actually a problem.
+				 * Thread safety: this might get set multiple times, but that's not actually a problem.
 				 */
 				LoggerForInbound.loggingMessageIdField = loggingMessageIdField;
 			} catch (NoSuchFieldException e) {
@@ -82,10 +79,8 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 
 	/**
 	 * @param loggingMessage
-	 *            the {@link LoggingMessage} to get the <code>id</code> field's
-	 *            value for
-	 * @return the value of the specified {@link LoggingMessage}'s private
-	 *         <code>id</code> field
+	 *            the {@link LoggingMessage} to get the <code>id</code> field's value for
+	 * @return the value of the specified {@link LoggingMessage}'s private <code>id</code> field
 	 */
 	private String getId(LoggingMessage loggingMessage) {
 		if (loggingMessage == null)
@@ -100,11 +95,9 @@ public final class LoggerForInbound extends LoggingInInterceptor {
 
 	/**
 	 * @param loggingMessage
-	 *            the {@link LoggingMessage} to get the
-	 *            {@link LoggingMessage#getPayload()} value for
-	 * @return the {@link LoggingMessage#getPayload()} value from the specified
-	 *         {@link LoggingMessage}, with (hopefully) any sensitive contents
-	 *         stripped out
+	 *            the {@link LoggingMessage} to get the {@link LoggingMessage#getPayload()} value for
+	 * @return the {@link LoggingMessage#getPayload()} value from the specified {@link LoggingMessage}, with (hopefully)
+	 *         any sensitive contents stripped out
 	 */
 	private String getPayload(LoggingMessage loggingMessage) {
 		String address = loggingMessage.getAddress().toString();

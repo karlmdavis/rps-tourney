@@ -34,16 +34,14 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 	private IGameLoginIndentitiesDao loginsDao;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public GameAuthResourceImpl() {
 	}
 
 	/**
 	 * @param httpRequest
-	 *            the {@link HttpServletRequest} that the
-	 *            {@link GameAuthResourceImpl} was instantiated to handle
+	 *            the {@link HttpServletRequest} that the {@link GameAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setHttpServletRequest(HttpServletRequest httpRequest) {
@@ -56,8 +54,8 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link GameAuthResourceImpl} was instantiated to handle
+	 *            the {@link SecurityContext} for the request that the {@link GameAuthResourceImpl} was instantiated to
+	 *            handle
 	 */
 	@Context
 	public void setSecurityContext(SecurityContext securityContext) {
@@ -102,8 +100,8 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 	@Transactional
 	public Account loginWithGameAccount(InternetAddress emailAddress, String password) {
 		/*
-		 * Never, ever allow this method to kill an existing login. If
-		 * users/clients want to log out, they must do so explicitly.
+		 * Never, ever allow this method to kill an existing login. If users/clients want to log out, they must do so
+		 * explicitly.
 		 */
 		if (securityContext.getUserPrincipal() != null)
 			throw new WebApplicationException("User already logged in.", Status.CONFLICT);
@@ -123,8 +121,7 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
-		 * Store the login in the HTTP request, so the response
-		 * AuthenticationFilter can record it in a cookie.
+		 * Store the login in the HTTP request, so the response AuthenticationFilter can record it in a cookie.
 		 */
 		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 
@@ -170,8 +167,7 @@ public class GameAuthResourceImpl implements IGameAuthResource {
 		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
-		 * Store the new login in the HTTP request, so the response
-		 * AuthenticationFilter can record it in a cookie.
+		 * Store the new login in the HTTP request, so the response AuthenticationFilter can record it in a cookie.
 		 */
 		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 

@@ -21,13 +21,12 @@ import com.justdavis.karl.rpstourney.service.api.game.Player;
 
 /**
  * <p>
- * A JSP tag handler that provides the
- * <code>&lt;rps:gameTitle game="${someGame}" /&gt;</code> tag, for printing out
- * the title/display label to use for {@link GameView}s.
+ * A JSP tag handler that provides the <code>&lt;rps:gameTitle game="${someGame}" /&gt;</code> tag, for printing out the
+ * title/display label to use for {@link GameView}s.
  * </p>
  * <p>
- * Please note that this class and its properties must be correctly listed in
- * this project's <code>src/main/webapp/WEB-INF/rps.tld</code> file.
+ * Please note that this class and its properties must be correctly listed in this project's
+ * <code>src/main/webapp/WEB-INF/rps.tld</code> file.
  * </p>
  */
 public final class GameTitleTag extends RequestContextAwareTag {
@@ -41,7 +40,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 
 	/**
 	 * This is passed in as a required tag attribute.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link GameView} to be rendered
 	 */
@@ -56,18 +55,17 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	 * <p>
 	 * If this value is set, this tag will not render any page output.
 	 * </p>
-	 * 
+	 *
 	 * @param var
-	 *            the name of the page variable whose value will be set to this
-	 *            {@link GameTitleTag}'s output
+	 *            the name of the page variable whose value will be set to this {@link GameTitleTag}'s output
 	 */
 	public void setVar(String variableName) {
 		this.variableName = variableName;
 	}
 
 	/**
-	 * @return the {@link SecurityContext} that should be used, to determine the
-	 *         logged in user for the request being processed
+	 * @return the {@link SecurityContext} that should be used, to determine the logged in user for the request being
+	 *         processed
 	 */
 	private SecurityContext getSecurityContext() {
 		if (mockSecurityContext != null)
@@ -77,16 +75,14 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * <strong>Warning:</strong> This method is only intended for use by unit
-	 * tests.
-	 * 
+	 * <strong>Warning:</strong> This method is only intended for use by unit tests.
+	 *
 	 * @param mockSecurityContext
 	 *            the mock {@link SecurityContext} to use
 	 */
 	void setMockSecurityContext(SecurityContext mockSecurityContext) {
 		/*
-		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
-		 * or inject SecurityContext instances.
+		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind or inject SecurityContext instances.
 		 */
 		this.mockSecurityContext = mockSecurityContext;
 	}
@@ -107,8 +103,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	protected int doStartTagInternal() throws Exception {
 		if (!initialized) {
 			/*
-			 * If we haven't already initialized ourselves, inject dependencies
-			 * into this instance now.
+			 * If we haven't already initialized ourselves, inject dependencies into this instance now.
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
@@ -144,8 +139,8 @@ public final class GameTitleTag extends RequestContextAwareTag {
 
 	/**
 	 * @param textOnly
-	 *            if <code>true</code>, only text will be returned, if
-	 *            <code>false</code>, the result will include HTML markup
+	 *            if <code>true</code>, only text will be returned, if <code>false</code>, the result will include HTML
+	 *            markup
 	 * @return the text, tags, etc. to be rendered
 	 */
 	private String generateContent(boolean textOnly) {
@@ -179,8 +174,7 @@ public final class GameTitleTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link Account} of the currently-authenticated user, or
-	 *         <code>null</code> if the user isn't logged in
+	 * @return the {@link Account} of the currently-authenticated user, or <code>null</code> if the user isn't logged in
 	 */
 	private Account getAuthenticatedAccount() {
 		// Get the Authentication token for the current user (if any).
@@ -189,16 +183,14 @@ public final class GameTitleTag extends RequestContextAwareTag {
 			return null;
 
 		/*
-		 * Grab the Principal from the token. All of the tokens used in this app
-		 * should have a principal.
+		 * Grab the Principal from the token. All of the tokens used in this app should have a principal.
 		 */
 		Object principal = auth.getPrincipal();
 		if (principal == null)
 			throw new BadCodeMonkeyException();
 
 		/*
-		 * All of the tokens used in this app should use an Account as
-		 * principal.
+		 * All of the tokens used in this app should use an Account as principal.
 		 */
 		if (principal != null && !(principal instanceof Account))
 			throw new BadCodeMonkeyException();

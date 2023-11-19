@@ -24,9 +24,9 @@ import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentica
  */
 public class PlayerNameTagTest {
 	/**
-	 * Tests usage of {@link PlayerNameTag} when the {@link Player} has no name,
-	 * is set as {@link GameView#getPlayer1()}, and is the current user.
-	 * 
+	 * Tests usage of {@link PlayerNameTag} when the {@link Player} has no name, is set as
+	 * {@link GameView#getPlayer1()}, and is the current user.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -57,10 +57,9 @@ public class PlayerNameTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link PlayerNameTag} when the {@link Player} has a name
-	 * and is set as both {@link GameView#getPlayer1()}
-	 * {@link GameView#getPlayer2()}.
-	 * 
+	 * Tests usage of {@link PlayerNameTag} when the {@link Player} has a name and is set as both
+	 * {@link GameView#getPlayer1()} {@link GameView#getPlayer2()}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -93,9 +92,9 @@ public class PlayerNameTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link PlayerNameTag} when it's set to render out as a
-	 * not-yet-joined {@link GameView#getPlayer2()}.
-	 * 
+	 * Tests usage of {@link PlayerNameTag} when it's set to render out as a not-yet-joined
+	 * {@link GameView#getPlayer2()}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -125,9 +124,9 @@ public class PlayerNameTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link PlayerNameTag} when it's set to render out as a
-	 * {@link GameView#getPlayer2()} that is a {@link BuiltInAi}.
-	 * 
+	 * Tests usage of {@link PlayerNameTag} when it's set to render out as a {@link GameView#getPlayer2()} that is a
+	 * {@link BuiltInAi}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

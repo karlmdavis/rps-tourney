@@ -15,19 +15,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * <p>
- * A Spring {@link HandlerInterceptor} that will log request and response
- * details (if its logging category is enabled). Please note:
+ * A Spring {@link HandlerInterceptor} that will log request and response details (if its logging category is enabled).
+ * Please note:
  * </p>
  * <ul>
  * <li>This must be configured via
- * {@link WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)}
- * , or some similar mechanism .</li>
- * <li>This will only "catch" requests that are handled by the Spring MVC
- * application.</li>
- * <li>The logging will almost certainly end up containing sensitive
- * information, such as passwords, and thus <strong>must never</strong> be
- * enabled in production. (It's also going to be slow, which is another reason
- * to not use it in production.)</li>
+ * {@link WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)} , or
+ * some similar mechanism .</li>
+ * <li>This will only "catch" requests that are handled by the Spring MVC application.</li>
+ * <li>The logging will almost certainly end up containing sensitive information, such as passwords, and thus
+ * <strong>must never</strong> be enabled in production. (It's also going to be slow, which is another reason to not use
+ * it in production.)</li>
  * </ul>
  */
 public final class RequestResponseLoggingInterceptor extends HandlerInterceptorAdapter {
@@ -76,24 +74,22 @@ public final class RequestResponseLoggingInterceptor extends HandlerInterceptorA
 			requestRepresentation.append('}');
 
 			/*
-			 * Note: We don't currently log the body/message content. It's
-			 * tricky to get, and I don't (yet) have a need for it.
+			 * Note: We don't currently log the body/message content. It's tricky to get, and I don't (yet) have a need
+			 * for it.
 			 */
 
 			LOGGER.trace("Request: {}", requestRepresentation.toString());
 		}
 
 		/*
-		 * Returning true indicates that the request should continue to be
-		 * handled.
+		 * Returning true indicates that the request should continue to be handled.
 		 */
 		return true;
 	}
 
 	/**
 	 * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#postHandle(javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
-	 *      org.springframework.web.servlet.ModelAndView)
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -128,8 +124,8 @@ public final class RequestResponseLoggingInterceptor extends HandlerInterceptorA
 			responseRepresentation.append('}');
 
 			/*
-			 * Note: We don't currently log the body/message content. It's
-			 * tricky to get, and I don't (yet) have a need for it.
+			 * Note: We don't currently log the body/message content. It's tricky to get, and I don't (yet) have a need
+			 * for it.
 			 */
 
 			LOGGER.trace("Response: {}", responseRepresentation.toString());

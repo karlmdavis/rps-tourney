@@ -11,13 +11,12 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import com.justdavis.karl.rpstourney.webapp.ITUtils;
 
 /**
- * Integration tests for both {@link RegisterController} and
- * <code>register.jsp</code>.
+ * Integration tests for both {@link RegisterController} and <code>register.jsp</code>.
  */
 public final class RegisterIT {
 	/**
-	 * Ensures that users can register and successfully view their account
-	 * details, when they weren't logged in at all beforehand.
+	 * Ensures that users can register and successfully view their account details, when they weren't logged in at all
+	 * beforehand.
 	 */
 	@Test
 	public void registerWithNoLoginAndViewAccount() {
@@ -52,8 +51,8 @@ public final class RegisterIT {
 	}
 
 	/**
-	 * Ensures that users can register a login for an existing anonymous
-	 * account, without losing their game history, etc.
+	 * Ensures that users can register a login for an existing anonymous account, without losing their game history,
+	 * etc.
 	 */
 	@Test
 	public void registerWithAnonymousLogin() {

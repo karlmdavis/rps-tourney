@@ -21,14 +21,13 @@ import com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource;
 
 /**
  * <p>
- * A JSP tag handler that provides the <code>&lt;rps:accountName /&gt;</code>
- * tag, for printing out the {@link Account#getName()} value for the currently
- * authenticated user (if any), or "<code>Anonymous</code>" if not (or whatever
- * the localized version of that is).
+ * A JSP tag handler that provides the <code>&lt;rps:accountName /&gt;</code> tag, for printing out the
+ * {@link Account#getName()} value for the currently authenticated user (if any), or "<code>Anonymous</code>" if not (or
+ * whatever the localized version of that is).
  * </p>
  * <p>
- * Please note that this class and its properties must be correctly listed in
- * this project's <code>src/main/webapp/WEB-INF/rps.tld</code> file.
+ * Please note that this class and its properties must be correctly listed in this project's
+ * <code>src/main/webapp/WEB-INF/rps.tld</code> file.
  * </p>
  */
 public final class AccountNameTag extends RequestContextAwareTag {
@@ -51,8 +50,8 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link SecurityContext} that should be used, to determine the
-	 *         logged in user for the request being processed
+	 * @return the {@link SecurityContext} that should be used, to determine the logged in user for the request being
+	 *         processed
 	 */
 	private SecurityContext getSecurityContext() {
 		if (mockSecurityContext != null)
@@ -67,8 +66,7 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	 */
 	void setMockSecurityContext(SecurityContext securityContext) {
 		/*
-		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
-		 * or inject SecurityContext instances.
+		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind or inject SecurityContext instances.
 		 */
 		this.mockSecurityContext = securityContext;
 	}
@@ -98,8 +96,7 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	protected int doStartTagInternal() throws Exception {
 		if (!initialized) {
 			/*
-			 * If we haven't already initialized ourselves, inject dependencies
-			 * into this instance now.
+			 * If we haven't already initialized ourselves, inject dependencies into this instance now.
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
@@ -126,8 +123,7 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the current user's name, or whatever alternative should be
-	 *         displayed instead
+	 * @return the current user's name, or whatever alternative should be displayed instead
 	 */
 	private String getAccountDisplayName() throws IOException {
 		// Determine the current authenticated account (if any).
@@ -138,11 +134,9 @@ public final class AccountNameTag extends RequestContextAwareTag {
 			return getAnonDisplayText();
 
 		/*
-		 * At this point, we know the user is authenticated. Even though we have
-		 * an Account instance, that instance is old; it was populated when the
-		 * user first authenticated the current session. We need to grab the
-		 * current Account data to determine what the current Account.getName()
-		 * value is.
+		 * At this point, we know the user is authenticated. Even though we have an Account instance, that instance is
+		 * old; it was populated when the user first authenticated the current session. We need to grab the current
+		 * Account data to determine what the current Account.getName() value is.
 		 */
 
 		// Grab the latest Account.
@@ -156,8 +150,8 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the text to display if the user is not authenticated, or if their
-	 *         {@link Account#getName()} is <code>null</code>
+	 * @return the text to display if the user is not authenticated, or if their {@link Account#getName()} is
+	 *         <code>null</code>
 	 */
 	private String getAnonDisplayText() {
 		Locale locale = pageContext.getELContext().getLocale();
@@ -165,8 +159,7 @@ public final class AccountNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link Account} of the currently-authenticated user, or
-	 *         <code>null</code> if the user isn't logged in
+	 * @return the {@link Account} of the currently-authenticated user, or <code>null</code> if the user isn't logged in
 	 */
 	private Account getAuthenticatedAccount() {
 		// Get the Authentication token for the current user (if any).
@@ -175,16 +168,14 @@ public final class AccountNameTag extends RequestContextAwareTag {
 			return null;
 
 		/*
-		 * Grab the Principal from the token. All of the tokens used in this app
-		 * should have a principal.
+		 * Grab the Principal from the token. All of the tokens used in this app should have a principal.
 		 */
 		Object principal = auth.getPrincipal();
 		if (principal == null)
 			throw new BadCodeMonkeyException();
 
 		/*
-		 * All of the tokens used in this app should use an Account as
-		 * principal.
+		 * All of the tokens used in this app should use an Account as principal.
 		 */
 		if (principal != null && !(principal instanceof Account))
 			throw new BadCodeMonkeyException();

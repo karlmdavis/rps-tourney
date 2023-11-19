@@ -41,22 +41,18 @@ public class GameClientBindings {
 	}
 
 	/**
-	 * @return the {@link CookieStore} for the application to use, which will be
-	 *         session-scoped via a proxy to ensure that each client gets their
-	 *         own instance
+	 * @return the {@link CookieStore} for the application to use, which will be session-scoped via a proxy to ensure
+	 *         that each client gets their own instance
 	 */
 	@Bean
 	@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 	public CookieStore cookieStore() {
 		/*
-		 * The CookieStore will be used to store the authentication
-		 * tokens/cookies used by the web service clients (and possibly other
-		 * stuff, later). Keeping the CookieStore, and those auth cookies,
-		 * around in the sessions prevents us from having to recreate it on each
-		 * request. (As an alternative, if this turns out to be a bad idea, the
-		 * auth cookies could be rebuilt from the Authentication instances or
-		 * Account principals in them that Spring Security is already saving in
-		 * the session.)
+		 * The CookieStore will be used to store the authentication tokens/cookies used by the web service clients (and
+		 * possibly other stuff, later). Keeping the CookieStore, and those auth cookies, around in the sessions
+		 * prevents us from having to recreate it on each request. (As an alternative, if this turns out to be a bad
+		 * idea, the auth cookies could be rebuilt from the Authentication instances or Account principals in them that
+		 * Spring Security is already saving in the session.)
 		 */
 
 		CookieStore cookieStore = new CookieStore();
@@ -66,8 +62,7 @@ public class GameClientBindings {
 	/**
 	 * @param config
 	 *            the {@link ClientConfig} being used
-	 * @return the {@link IServiceStatusResource} client for the application to
-	 *         use
+	 * @return the {@link IServiceStatusResource} client for the application to use
 	 */
 	@Bean
 	public IServiceStatusResource statusClient(ClientConfig config) {
@@ -79,8 +74,7 @@ public class GameClientBindings {
 	 * @param config
 	 *            the {@link ClientConfig} being used
 	 * @param cookieStore
-	 *            the {@link CookieStore} being used (likely session scoped and
-	 *            proxied)
+	 *            the {@link CookieStore} being used (likely session scoped and proxied)
 	 * @return the {@link IAccountsResource} client for the application to use
 	 */
 	@Bean
@@ -92,8 +86,7 @@ public class GameClientBindings {
 	/**
 	 * @param config
 	 *            the {@link ClientConfig} being used
-	 * @return the {@link IAccountsClientFactory} client for the application to
-	 *         use
+	 * @return the {@link IAccountsClientFactory} client for the application to use
 	 */
 	@Bean
 	public IAccountsClientFactory accountsClientFactory(ClientConfig config) {
@@ -105,8 +98,7 @@ public class GameClientBindings {
 	 * @param config
 	 *            the {@link ClientConfig} being used
 	 * @param cookieStore
-	 *            the {@link CookieStore} being used (likely session scoped and
-	 *            proxied)
+	 *            the {@link CookieStore} being used (likely session scoped and proxied)
 	 * @return the {@link IGuestAuthResource} client for the application to use
 	 */
 	@Bean
@@ -119,8 +111,7 @@ public class GameClientBindings {
 	 * @param config
 	 *            the {@link ClientConfig} being used
 	 * @param cookieStore
-	 *            the {@link CookieStore} being used (likely session scoped and
-	 *            proxied)
+	 *            the {@link CookieStore} being used (likely session scoped and proxied)
 	 * @return the {@link IGameAuthResource} client for the application to use
 	 */
 	@Bean
@@ -133,8 +124,7 @@ public class GameClientBindings {
 	 * @param config
 	 *            the {@link ClientConfig} being used
 	 * @param cookieStore
-	 *            the {@link CookieStore} being used (likely session scoped and
-	 *            proxied)
+	 *            the {@link CookieStore} being used (likely session scoped and proxied)
 	 * @return the {@link IGameResource} client for the application to use
 	 */
 	@Bean
@@ -147,8 +137,7 @@ public class GameClientBindings {
 	 * @param config
 	 *            the {@link ClientConfig} being used
 	 * @param cookieStore
-	 *            the {@link CookieStore} being used (likely session scoped and
-	 *            proxied)
+	 *            the {@link CookieStore} being used (likely session scoped and proxied)
 	 * @return the {@link IPlayersResource} client for the application to use
 	 */
 	@Bean

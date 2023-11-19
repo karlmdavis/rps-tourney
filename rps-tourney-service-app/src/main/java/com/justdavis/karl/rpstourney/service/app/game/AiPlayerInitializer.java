@@ -23,13 +23,12 @@ import com.justdavis.karl.rpstourney.service.app.SpringProfile;
 
 /**
  * <p>
- * Ensures that {@link Player} records exist for all active {@link BuiltInAi}s
- * (where {@link BuiltInAi#isRetired()} is <code>false</code>).
+ * Ensures that {@link Player} records exist for all active {@link BuiltInAi}s (where {@link BuiltInAi#isRetired()} is
+ * <code>false</code>).
  * </p>
  * <p>
- * This Spring Bean is registered as an {@link ApplicationListener} for
- * {@link ContextRefreshedEvent}s, and will call {@link #initializeAiPlayers()}
- * when that event is fired.
+ * This Spring Bean is registered as an {@link ApplicationListener} for {@link ContextRefreshedEvent}s, and will call
+ * {@link #initializeAiPlayers()} when that event is fired.
  * </p>
  */
 @Component
@@ -42,7 +41,7 @@ public class AiPlayerInitializer implements ApplicationListener<ContextRefreshed
 
 	/**
 	 * Constructs a new {@link AiPlayerInitializer} instance.
-	 * 
+	 *
 	 * @param playersDao
 	 *            the {@link IPlayersDao} to use
 	 */
@@ -61,9 +60,8 @@ public class AiPlayerInitializer implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Ensures that {@link Player} records exist for all active
-	 * {@link BuiltInAi}s (where {@link BuiltInAi#isRetired()} is
-	 * <code>false</code>).
+	 * Ensures that {@link Player} records exist for all active {@link BuiltInAi}s (where {@link BuiltInAi#isRetired()}
+	 * is <code>false</code>).
 	 */
 	public void initializeAiPlayers() {
 		// First, figure out which AIs we're looking for.
@@ -78,18 +76,15 @@ public class AiPlayerInitializer implements ApplicationListener<ContextRefreshed
 
 	/**
 	 * <p>
-	 * Ensures that {@link Player} records exist for the specified
-	 * {@link BuiltInAi}s.
+	 * Ensures that {@link Player} records exist for the specified {@link BuiltInAi}s.
 	 * </p>
 	 * <p>
-	 * This method is mostly intended for use in tests, as it allows the use of
-	 * non-active {@link BuiltInAi}s, such as
+	 * This method is mostly intended for use in tests, as it allows the use of non-active {@link BuiltInAi}s, such as
 	 * {@link BuiltInAi#ONE_SIDED_DIE_ROCK}.
 	 * </p>
-	 * 
+	 *
 	 * @param ais
-	 *            the {@link BuiltInAi}s to ensure that {@link Player}s exist
-	 *            for
+	 *            the {@link BuiltInAi}s to ensure that {@link Player}s exist for
 	 */
 	@Transactional
 	public void initializeAiPlayers(BuiltInAi... ais) {

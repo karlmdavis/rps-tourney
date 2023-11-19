@@ -10,9 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.justdavis.karl.tomcat.ITomcatServer;
 
 /**
- * Stores the {@link ITomcatServer} instance representing the application
- * server/container that is running the web applications, along with related
- * objects.
+ * Stores the {@link ITomcatServer} instance representing the application server/container that is running the web
+ * applications, along with related objects.
  */
 @State(Scope.Benchmark)
 public class ServerState {
@@ -21,17 +20,15 @@ public class ServerState {
 	private IServerManager serverManager;
 
 	/**
-	 * @return the {@link IServerManager} for the application server being
-	 *         benchmarked
+	 * @return the {@link IServerManager} for the application server being benchmarked
 	 */
 	public IServerManager getServerManager() {
 		return serverManager;
 	}
 
 	/**
-	 * Initializes this {@link ServerState} instance. Will be called by the
-	 * benchmark framework after the instance has been constructed, but before
-	 * it is used.
+	 * Initializes this {@link ServerState} instance. Will be called by the benchmark framework after the instance has
+	 * been constructed, but before it is used.
 	 */
 	@Setup
 	public void setup() {

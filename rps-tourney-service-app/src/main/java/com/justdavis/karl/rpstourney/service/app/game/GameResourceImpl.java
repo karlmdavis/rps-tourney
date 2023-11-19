@@ -35,8 +35,7 @@ import com.justdavis.karl.rpstourney.service.app.auth.AccountSecurityContext;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthenticationFilter;
 
 /**
- * The web service implementation of {@link IGameResource}, which is the primary
- * service for gameplay interactions.
+ * The web service implementation of {@link IGameResource}, which is the primary service for gameplay interactions.
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -49,16 +48,15 @@ public class GameResourceImpl implements IGameResource {
 	private AiGameplayHelper aiHelper;
 
 	/**
-	 * This public, default/no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default/no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public GameResourceImpl() {
 	}
 
 	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link GameResourceImpl} was instantiated to handle
+	 *            the {@link SecurityContext} for the request that the {@link GameResourceImpl} was instantiated to
+	 *            handle
 	 */
 	@Context
 	public void setSecurityContext(SecurityContext securityContext) {
@@ -170,8 +168,7 @@ public class GameResourceImpl implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String,
-	 *      int, int)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String, int, int)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
@@ -180,8 +177,7 @@ public class GameResourceImpl implements IGameResource {
 		Game game = getRawGame(gameId);
 
 		/*
-		 * Check to make sure that the requesting user is one of the two
-		 * players.
+		 * Check to make sure that the requesting user is one of the two players.
 		 */
 		Account userAccount = getUserAccount();
 		Player userPlayer = playersDao.findOrCreatePlayerForAccount(userAccount);
@@ -196,8 +192,7 @@ public class GameResourceImpl implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
-	 *      long)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String, long)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
@@ -266,8 +261,7 @@ public class GameResourceImpl implements IGameResource {
 	@Override
 	public GameView prepareRound(String gameId) {
 		/*
-		 * Note: This method is intentionally not marked with @RolesAllowed, as
-		 * it doesn't really matter who calls it.
+		 * Note: This method is intentionally not marked with @RolesAllowed, as it doesn't really matter who calls it.
 		 */
 
 		LOGGER.trace("Prepare round start.");
@@ -291,8 +285,8 @@ public class GameResourceImpl implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String,
-	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String, int,
+	 *      com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@RolesAllowed({ SecurityRole.ID_USERS })
 	@Transactional
@@ -336,8 +330,7 @@ public class GameResourceImpl implements IGameResource {
 	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} value to match
-	 * @return the specified {@link Game} instance (not wrapped in a
-	 *         {@link GameView})
+	 * @return the specified {@link Game} instance (not wrapped in a {@link GameView})
 	 */
 	private Game getRawGame(String gameId) {
 		// Look up the specified game.
@@ -350,11 +343,11 @@ public class GameResourceImpl implements IGameResource {
 
 	/**
 	 * This method should only be used on web service requests annotated with
-	 * <code>@RolesAllowed({ SecurityRole.ID_USERS })</code>, as it assumes that
-	 * the request currently being processed is authenticated.
-	 * 
-	 * @return the requestor's Account from {@link #securityContext}, which will
-	 *         have been set by the {@link AuthenticationFilter}
+	 * <code>@RolesAllowed({ SecurityRole.ID_USERS })</code>, as it assumes that the request currently being processed
+	 * is authenticated.
+	 *
+	 * @return the requestor's Account from {@link #securityContext}, which will have been set by the
+	 *         {@link AuthenticationFilter}
 	 */
 	private Account getUserAccount() {
 		Account userAccount = securityContext.getUserPrincipal();

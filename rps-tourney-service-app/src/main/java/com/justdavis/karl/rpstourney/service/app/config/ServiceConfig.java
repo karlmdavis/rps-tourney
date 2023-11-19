@@ -10,9 +10,9 @@ import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.app.auth.AdminAccountInitializer;
 
 /**
- * Represents the game web service application's configuration data. Please note
- * that instances of this class can be marshalled/unmarshalled via JAX-B.
- * 
+ * Represents the game web service application's configuration data. Please note that instances of this class can be
+ * marshalled/unmarshalled via JAX-B.
+ *
  * @see IConfigLoader
  */
 @XmlRootElement
@@ -34,7 +34,7 @@ public final class ServiceConfig {
 
 	/**
 	 * Constructs a new {@link ServiceConfig} instance.
-	 * 
+	 *
 	 * @param dataSourceCoordinates
 	 *            the value to use for {@link #getDataSourceCoordinates()}
 	 * @param adminAccountConfig
@@ -46,18 +46,16 @@ public final class ServiceConfig {
 	}
 
 	/**
-	 * @return the {@link IDataSourceCoordinates} that identify the database
-	 *         that the application will persist all of its relational data to
+	 * @return the {@link IDataSourceCoordinates} that identify the database that the application will persist all of
+	 *         its relational data to
 	 */
 	public IDataSourceCoordinates getDataSourceCoordinates() {
 		return dataSourceCoordinates;
 	}
 
 	/**
-	 * @return the {@link AdminAccountConfig} that specifies the application's
-	 *         default {@link SecurityRole#ADMINS} {@link Account}, which will
-	 *         be managed by {@link AdminAccountInitializer} at application
-	 *         startup
+	 * @return the {@link AdminAccountConfig} that specifies the application's default {@link SecurityRole#ADMINS}
+	 *         {@link Account}, which will be managed by {@link AdminAccountInitializer} at application startup
 	 */
 	public AdminAccountConfig getAdminAccountConfig() {
 		return adminAccountConfig;

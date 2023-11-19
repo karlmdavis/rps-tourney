@@ -12,12 +12,13 @@
 	<packaging>jar</packaging>
 
 	<name>rps-tourney-service-api</name>
-	<description>
-		The API definitions for the web service layer of the "Rock-Paper-Scissors Tourney"
-		game, which allow for play over the Internet.
-	</description>
+	<description>The API definitions for the web service layer of the "Rock-Paper-Scissors Tourney"
+		game, which allow for play over the Internet.</description>
 
 	<properties>
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
 	</properties>
 
 	<dependencies>
@@ -28,8 +29,8 @@
 		</dependency>
 
 		<dependency>
-			<!-- SLF4J is used to make the Java logging dependency mess somewhat sane. 
-				Its APIs should be used by all of the application suite for logging, rather 
+			<!-- SLF4J is used to make the Java logging dependency mess somewhat sane.
+				Its APIs should be used by all of the application suite for logging, rather
 				than the java.util logging, log4j, or whatever else. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -43,7 +44,7 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
-			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
+			<!-- Provides annotations for securing resources, e.g. @RolesAllowed,
 				@PermitAll, etc. -->
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
@@ -51,8 +52,8 @@
 		</dependency>
 
 		<dependency>
-			<!-- The Jackson annotation library is used to ensure that any of the 
-				model classes here are handled properly if some other project (e.g. the webapp) 
+			<!-- The Jackson annotation library is used to ensure that any of the
+				model classes here are handled properly if some other project (e.g. the webapp)
 				marshalls them to JSON using Jackson. -->
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -60,9 +61,9 @@
 		</dependency>
 
 		<dependency>
-			<!-- Provides the InternetAddress class used to represent email addresses 
+			<!-- Provides the InternetAddress class used to represent email addresses
 				in this project. -->
-			<!-- This dependency will be shadowed/overridden if this is deployed to 
+			<!-- This dependency will be shadowed/overridden if this is deployed to
 				a Java EE container. -->
 			<groupId>org.eclipse.jetty.orbit</groupId>
 			<artifactId>javax.mail.glassfish</artifactId>
@@ -70,13 +71,13 @@
 		</dependency>
 
 		<dependency>
-			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
+			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's
 				used for building and interacting with the application's SQL database. -->
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 			<exclusions>
-				<!-- Excluding all of Hibernate's transitive dependencies, as we're just 
+				<!-- Excluding all of Hibernate's transitive dependencies, as we're just
 					using it (in this specific module) for its @Type annotation. -->
 				<exclusion>
 					<groupId>org.hibernate.common</groupId>
@@ -113,8 +114,8 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<!-- The Hibernate JPA Model Generator, which will produce MetaModel classes 
-				for JPA entities. This happens happens automagically via javac's annotation 
+			<!-- The Hibernate JPA Model Generator, which will produce MetaModel classes
+				for JPA entities. This happens happens automagically via javac's annotation
 				processor. -->
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
@@ -122,8 +123,8 @@
 		</dependency>
 
 		<dependency>
-			<!-- This is the reference implementation for the "bean validation" spec, 
-				which has a transitive dependency on the API. The implementation is included 
+			<!-- This is the reference implementation for the "bean validation" spec,
+				which has a transitive dependency on the API. The implementation is included
 				here (instead of just the API) to allow use of its custom validation annotations. -->
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -147,8 +148,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- The Jackson library is used by some downstream projects (e.g. the 
-				webapp) to serialize this project's model objects via JSON. Used here in 
+			<!-- The Jackson library is used by some downstream projects (e.g. the
+				webapp) to serialize this project's model objects via JSON. Used here in
 				tests to verify that serialization works correctly. -->
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -159,8 +160,7 @@
 
 	<build>
 		<pluginManagement>
-			<plugins>
-			</plugins>
+			<plugins></plugins>
 		</pluginManagement>
 		<plugins>
 			<plugin>
@@ -168,10 +168,10 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on unit test coverage), such that 
-							it can be passed as a VM argument to the application under test. Surefire 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on unit test coverage), such that
+							it can be passed as a VM argument to the application under test. Surefire
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent</id>
 						<goals>
@@ -179,10 +179,10 @@
 						</goals>
 					</execution>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on integration test coverage), such 
-							that it can be passed as a VM argument to the application under test. Failsafe 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on integration test coverage), such
+							that it can be passed as a VM argument to the application under test. Failsafe
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent-integration</id>
 						<goals>
@@ -196,7 +196,7 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Ensure that this project's integration tests are run as part of 
+				<!-- Ensure that this project's integration tests are run as part of
 					the build. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>

@@ -44,9 +44,8 @@ import com.justdavis.karl.rpstourney.service.app.jpa.SpringBindingsForJpa;
 @Import({ SpringBindingsForDaos.class, SpringBindingsForJpa.class })
 public class SpringBindingsForWebServices {
 	/**
-	 * @return Returns the {@link SpringBus} that the CXF application uses. Such
-	 *         a {@link SpringBus} instance <strong>must</strong> be provided in
-	 *         the application's {@link Configuration}.
+	 * @return Returns the {@link SpringBus} that the CXF application uses. Such a {@link SpringBus} instance
+	 *         <strong>must</strong> be provided in the application's {@link Configuration}.
 	 */
 	@Bean(destroyMethod = "shutdown")
 	SpringBus cxf() {
@@ -54,9 +53,8 @@ public class SpringBindingsForWebServices {
 
 		/*
 		 * Enable request/response logging. These messages will use the
-		 * 'org.apache.cxf.interceptor.LoggingInInterceptor' and
-		 * 'org.apache.cxf.interceptor.LoggingOutInterceptor' logging
-		 * categories, at the 'INFO' level.
+		 * 'org.apache.cxf.interceptor.LoggingInInterceptor' and 'org.apache.cxf.interceptor.LoggingOutInterceptor'
+		 * logging categories, at the 'INFO' level.
 		 */
 		LoggerForInbound inInterceptor = new LoggerForInbound();
 		LoggerForOutbound outInterceptor = new LoggerForOutbound();
@@ -69,10 +67,8 @@ public class SpringBindingsForWebServices {
 	}
 
 	/**
-	 * @return Returns the {@link Application} instance that the JAX-RS
-	 *         application uses. Such an {@link Application} instance
-	 *         <strong>must</strong> be provided in the application's
-	 *         {@link Configuration}.
+	 * @return Returns the {@link Application} instance that the JAX-RS application uses. Such an {@link Application}
+	 *         instance <strong>must</strong> be provided in the application's {@link Configuration}.
 	 */
 	@Bean
 	ServiceApplication jaxRsApiApplication() {
@@ -81,17 +77,13 @@ public class SpringBindingsForWebServices {
 
 	/**
 	 * @param springApplicationContext
-	 *            the Spring {@link ApplicationContext} that the {@link Server}
-	 *            will be running in
+	 *            the Spring {@link ApplicationContext} that the {@link Server} will be running in
 	 * @param authenticationFilter
-	 *            the injected {@link AuthenticationFilter} bean for the
-	 *            application
-	 * @return Returns the {@link Server} instance that the CXF application
-	 *         uses. Such an {@link Server} instance <strong>must</strong> be
-	 *         provided in the application's {@link Configuration}. This largely
-	 *         replaces the resource/provider declarations that would be
-	 *         included in an {@link Application} instance for non-Spring JAX-RS
-	 *         applications.
+	 *            the injected {@link AuthenticationFilter} bean for the application
+	 * @return Returns the {@link Server} instance that the CXF application uses. Such an {@link Server} instance
+	 *         <strong>must</strong> be provided in the application's {@link Configuration}. This largely replaces the
+	 *         resource/provider declarations that would be included in an {@link Application} instance for non-Spring
+	 *         JAX-RS applications.
 	 */
 	@Bean
 	@DependsOn({ "cxf" })
@@ -116,18 +108,16 @@ public class SpringBindingsForWebServices {
 		resourceProviders.add(new RequestScopeResourceFactory("gameResourceImpl"));
 
 		/*
-		 * Initialize all of the SpringResourceFactory instances. This
-		 * non-obvious step is required, and I came across the idea here:
-		 * https://issues.apache.org/jira/browse/CXF-3725
+		 * Initialize all of the SpringResourceFactory instances. This non-obvious step is required, and I came across
+		 * the idea here: https://issues.apache.org/jira/browse/CXF-3725
 		 */
 		for (ResourceProvider resourceProvider : resourceProviders)
 			if (resourceProvider instanceof SpringResourceFactory)
 				((SpringResourceFactory) resourceProvider).setApplicationContext(springApplicationContext);
 
 		/*
-		 * This is equivalent to <jaxrs:serviceFactories/> elements in a Spring
-		 * XML configuration, as can be seen in org.apache.cxf.jaxrs.spring
-		 * .JAXRSServerFactoryBeanDefinitionParser.mapElement(...).
+		 * This is equivalent to <jaxrs:serviceFactories/> elements in a Spring XML configuration, as can be seen in
+		 * org.apache.cxf.jaxrs.spring .JAXRSServerFactoryBeanDefinitionParser.mapElement(...).
 		 */
 		factory.setResourceProviders(resourceProviders);
 
@@ -142,20 +132,17 @@ public class SpringBindingsForWebServices {
 	}
 
 	/**
-	 * @return The {@link List} of JAX-RS/CXF providers that Spring/CXF should
-	 *         register via {@link JAXRSServerFactoryBean#setProviders(List)}.
-	 *         Basically, this would be anything else that can be a singleton
-	 *         that might have been specified in
-	 *         {@link Application#getClasses()} or
+	 * @return The {@link List} of JAX-RS/CXF providers that Spring/CXF should register via
+	 *         {@link JAXRSServerFactoryBean#setProviders(List)}. Basically, this would be anything else that can be a
+	 *         singleton that might have been specified in {@link Application#getClasses()} or
 	 *         {@link Application#getSingletons()}.
 	 */
 	private static List<Object> getProviders() {
 		List<Object> providers = new LinkedList<>();
 
 		/*
-		 * Right now, these providers are all being created manually. However,
-		 * if any of them require injection, they'd need to be injected into
-		 * here via Spring.
+		 * Right now, these providers are all being created manually. However, if any of them require injection, they'd
+		 * need to be injected into here via Spring.
 		 */
 
 		// Register the entity translators.
@@ -182,8 +169,7 @@ public class SpringBindingsForWebServices {
 	/**
 	 * @param configLoader
 	 *            the injected {@link IConfigLoader} for the application
-	 * @return the application's settings, as represented by a
-	 *         {@link ServiceConfig} instance
+	 * @return the application's settings, as represented by a {@link ServiceConfig} instance
 	 */
 	@Bean
 	ServiceConfig serviceConfig(IConfigLoader configLoader) {
@@ -192,8 +178,7 @@ public class SpringBindingsForWebServices {
 
 	/**
 	 * @param dsConnectorsManager
-	 *            the injected {@link DataSourceConnectorsManager} for the
-	 *            application
+	 *            the injected {@link DataSourceConnectorsManager} for the application
 	 * @param serviceConfig
 	 *            the injected {@link ServiceConfig} for the application
 	 * @return the {@link DataSource} for the application's database

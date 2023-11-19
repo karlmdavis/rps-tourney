@@ -22,9 +22,8 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
  */
 public final class ConsoleGameDriverTest {
 	/**
-	 * Plays a short game via {@link ConsoleGameDriver}, to ensure that
-	 * everything works as expected.
-	 * 
+	 * Plays a short game via {@link ConsoleGameDriver}, to ensure that everything works as expected.
+	 *
 	 * @throws UnsupportedEncodingException
 	 *             (should not occur)
 	 */
@@ -50,9 +49,8 @@ public final class ConsoleGameDriverTest {
 	}
 
 	/**
-	 * Plays a short game via {@link ConsoleGameDriver}, to ensure that
-	 * everything works as expected.
-	 * 
+	 * Plays a short game via {@link ConsoleGameDriver}, to ensure that everything works as expected.
+	 *
 	 * @throws UnsupportedEncodingException
 	 *             (should not occur)
 	 */

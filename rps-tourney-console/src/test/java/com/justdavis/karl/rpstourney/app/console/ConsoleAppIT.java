@@ -34,12 +34,10 @@ public final class ConsoleAppIT {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleAppIT.class);
 
 	/**
-	 * Runs the app, creating a new local game against an AI opponent. The
-	 * "human" player in the test will make the same throw over and over until
-	 * the game ends. It's a bit nondeterministic, but the best we can do
-	 * without allowing users to specify one of the deterministic AIs (which
-	 * would be a bad idea).
-	 * 
+	 * Runs the app, creating a new local game against an AI opponent. The "human" player in the test will make the same
+	 * throw over and over until the game ends. It's a bit nondeterministic, but the best we can do without allowing
+	 * users to specify one of the deterministic AIs (which would be a bad idea).
+	 *
 	 * @throws AddressException
 	 *             (won't happen; addresses are hardcoded)
 	 * @throws IOException
@@ -51,11 +49,9 @@ public final class ConsoleAppIT {
 		final MockInputStream gameInputStream = new MockInputStream();
 
 		/*
-		 * Because we need to review the output and then respond to it (via the
-		 * input), the game must be run on a separate thread. This thread will
-		 * block whenever it's waiting for new input. When the
-		 * MockInputStream.exit() method is called, it will stop blocking and
-		 * just return -1 after exhausting all existing input.
+		 * Because we need to review the output and then respond to it (via the input), the game must be run on a
+		 * separate thread. This thread will block whenever it's waiting for new input. When the MockInputStream.exit()
+		 * method is called, it will stop blocking and just return -1 after exhausting all existing input.
 		 */
 		ExecutorService gameExecutor = Executors.newSingleThreadExecutor();
 		Runnable gameRunnable = new GameRunnable(gameInputStream, gameOutputStream, "--ai", "Hard", "-r", "1");
@@ -84,12 +80,10 @@ public final class ConsoleAppIT {
 	}
 
 	/**
-	 * Runs the app, creating a new online game against an AI opponent. The
-	 * "human" player in the test will make the same throw over and over until
-	 * the game ends. It's a bit nondeterministic, but the best we can do
-	 * without allowing users to specify one of the deterministic AIs (which
-	 * would be a bad idea).
-	 * 
+	 * Runs the app, creating a new online game against an AI opponent. The "human" player in the test will make the
+	 * same throw over and over until the game ends. It's a bit nondeterministic, but the best we can do without
+	 * allowing users to specify one of the deterministic AIs (which would be a bad idea).
+	 *
 	 * @throws AddressException
 	 *             (won't happen; addresses are hardcoded)
 	 * @throws IOException
@@ -107,11 +101,9 @@ public final class ConsoleAppIT {
 		final MockInputStream gameInputStream = new MockInputStream();
 
 		/*
-		 * Because we need to review the output and then respond to it (via the
-		 * input), the game must be run on a separate thread. This thread will
-		 * block whenever it's waiting for new input. When the
-		 * MockInputStream.exit() method is called, it will stop blocking and
-		 * just return -1 after exhausting all existing input.
+		 * Because we need to review the output and then respond to it (via the input), the game must be run on a
+		 * separate thread. This thread will block whenever it's waiting for new input. When the MockInputStream.exit()
+		 * method is called, it will stop blocking and just return -1 after exhausting all existing input.
 		 */
 		ExecutorService gameExecutor = Executors.newSingleThreadExecutor();
 		Runnable gameRunnable = new GameRunnable(gameInputStream, gameOutputStream, "--online", "--server",
@@ -151,16 +143,13 @@ public final class ConsoleAppIT {
 
 		/**
 		 * Constructs a new {@link GameRunnable} instance.
-		 * 
+		 *
 		 * @param gameInputStream
-		 *            the {@link InputStream} that will be used to interact with
-		 *            the game
+		 *            the {@link InputStream} that will be used to interact with the game
 		 * @param gameOutputStream
-		 *            the {@link ByteArrayOutputStream} that the game will
-		 *            display to
+		 *            the {@link ByteArrayOutputStream} that the game will display to
 		 * @param gameArgs
-		 *            the list of arguments to pass to
-		 *            {@link ConsoleApp#runApp(String[], PrintStream, InputStream)}
+		 *            the list of arguments to pass to {@link ConsoleApp#runApp(String[], PrintStream, InputStream)}
 		 */
 		private GameRunnable(InputStream gameInputStream, ByteArrayOutputStream gameOutputStream, String... gameArgs) {
 			this.gameInputStream = gameInputStream;
@@ -178,8 +167,8 @@ public final class ConsoleAppIT {
 				app.runApp(gameArgs, new PrintStream(gameOutputStream), gameInputStream);
 			} catch (Exception e) {
 				/*
-				 * Catch and rethrow errors, also logging the console output to
-				 * that point. Otherwise, things are impossible to debug.
+				 * Catch and rethrow errors, also logging the console output to that point. Otherwise, things are
+				 * impossible to debug.
 				 */
 				try {
 					LOGGER.error("Test failed. Game output:\n"
@@ -213,7 +202,7 @@ public final class ConsoleAppIT {
 
 		/**
 		 * Adds a new message to the queue of those to be read through.
-		 * 
+		 *
 		 * @param message
 		 *            the new message to read (messages are read in FIFO order)
 		 */
@@ -222,14 +211,13 @@ public final class ConsoleAppIT {
 		}
 
 		/**
-		 * After calling this method, {@link #read()} will no longer block if no
-		 * further messages are (yet) available to be read.
+		 * After calling this method, {@link #read()} will no longer block if no further messages are (yet) available to
+		 * be read.
 		 */
 		public void exit() {
 			/*
-			 * Per the suggestion in BlockingQueue's javadoc, we use a
-			 * "magic object" message to signal that we should stop waiting for
-			 * new content.
+			 * Per the suggestion in BlockingQueue's javadoc, we use a "magic object" message to signal that we should
+			 * stop waiting for new content.
 			 */
 			this.messages.offer(MAGIC_OBJECT_EXIT);
 		}
@@ -245,10 +233,9 @@ public final class ConsoleAppIT {
 			// If there was no result, grab the next message.
 			if (nextResult == -1) {
 				/*
-				 * This stream is read on a different thread than the one used
-				 * to construct and add content to it. The moveToNextMessage()
-				 * call will block the read() thread until a message is
-				 * available, or until exit() has been called.
+				 * This stream is read on a different thread than the one used to construct and add content to it. The
+				 * moveToNextMessage() call will block the read() thread until a message is available, or until exit()
+				 * has been called.
 				 */
 				moveToNextMessage();
 				nextResult = currentMessage.read();
@@ -258,8 +245,7 @@ public final class ConsoleAppIT {
 		}
 
 		/**
-		 * Waits for and/or moves to the next message. Adjusts {@link #messages}
-		 * and {@link #currentMessage}.
+		 * Waits for and/or moves to the next message. Adjusts {@link #messages} and {@link #currentMessage}.
 		 */
 		private void moveToNextMessage() {
 			if (this.currentMessage == MAGIC_OBJECT_EXIT)
@@ -269,9 +255,8 @@ public final class ConsoleAppIT {
 				this.currentMessage = this.messages.take();
 			} catch (InterruptedException e) {
 				/*
-				 * If this thread is interrupted (whether or not it's currently
-				 * waiting), that likely means someone is asking us to shut
-				 * down.
+				 * If this thread is interrupted (whether or not it's currently waiting), that likely means someone is
+				 * asking us to shut down.
 				 */
 				LOGGER.warn("Interrupted, so closing down this stream.", e);
 				this.exit();

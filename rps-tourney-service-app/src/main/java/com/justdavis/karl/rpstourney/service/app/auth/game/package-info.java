@@ -1,8 +1,6 @@
 /**
- * Contains
- * {@link com.justdavis.karl.rpstourney.service.app.auth.game.GameAuthResourceImpl}
- * , which allows users to login via game-specific accounts associated with an
- * email address.
+ * Contains {@link com.justdavis.karl.rpstourney.service.app.auth.game.GameAuthResourceImpl} , which allows users to
+ * login via game-specific accounts associated with an email address.
  */
 @XmlSchema(namespace = XmlNamespace.RPSTOURNEY_API, xmlns = {
 		@XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY_API) }, elementFormDefault = XmlNsForm.QUALIFIED)

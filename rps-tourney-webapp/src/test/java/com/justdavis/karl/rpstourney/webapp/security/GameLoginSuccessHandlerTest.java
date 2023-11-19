@@ -32,9 +32,8 @@ import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
  */
 public final class GameLoginSuccessHandlerTest {
 	/**
-	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a
-	 * user that was not already authenticated.
-	 * 
+	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a user that was not already authenticated.
+	 *
 	 * @throws ServletException
 	 *             (shouldn't happen, but indicates test failure if it does)
 	 * @throws IOException
@@ -61,9 +60,9 @@ public final class GameLoginSuccessHandlerTest {
 	}
 
 	/**
-	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a
-	 * user that was already authenticated to an Account that was not anonymous.
-	 * 
+	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a user that was already authenticated to an
+	 * Account that was not anonymous.
+	 *
 	 * @throws ServletException
 	 *             (shouldn't happen, but indicates test failure if it does)
 	 * @throws IOException
@@ -104,9 +103,9 @@ public final class GameLoginSuccessHandlerTest {
 	}
 
 	/**
-	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a
-	 * user that was already authenticated to an Account that was anonymous.
-	 * 
+	 * Tests {@link GameLoginSuccessHandler} as if the login event was for a user that was already authenticated to an
+	 * Account that was anonymous.
+	 *
 	 * @throws ServletException
 	 *             (shouldn't happen, but indicates test failure if it does)
 	 * @throws IOException
@@ -159,8 +158,7 @@ public final class GameLoginSuccessHandlerTest {
 	}
 
 	/**
-	 * A mock {@link IAccountsResource} client for use in
-	 * {@link GameLoginSuccessHandlerTest}.
+	 * A mock {@link IAccountsResource} client for use in {@link GameLoginSuccessHandlerTest}.
 	 */
 	private static final class CustomMockAccountsClient extends MockAccountsClient {
 		private final Account account;
@@ -169,7 +167,7 @@ public final class GameLoginSuccessHandlerTest {
 
 		/**
 		 * Constructor.
-		 * 
+		 *
 		 * @param account
 		 *            the mock {@link Account} that will be used
 		 */
@@ -201,8 +199,7 @@ public final class GameLoginSuccessHandlerTest {
 		}
 
 		/**
-		 * @see com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient#mergeAccount(long,
-		 *      java.util.UUID)
+		 * @see com.justdavis.karl.rpstourney.service.api.auth.MockAccountsClient#mergeAccount(long, java.util.UUID)
 		 */
 		@Override
 		public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
@@ -211,18 +208,16 @@ public final class GameLoginSuccessHandlerTest {
 		}
 
 		/**
-		 * @return the <code>targetAccountId</code> value that was passed to
-		 *         {@link #mergeAccount(long, UUID)}, or <code>null</code> if it
-		 *         has not been called
+		 * @return the <code>targetAccountId</code> value that was passed to {@link #mergeAccount(long, UUID)}, or
+		 *         <code>null</code> if it has not been called
 		 */
 		public Long getMergeTargetAccountId() {
 			return mergeTargetAccountId;
 		}
 
 		/**
-		 * @return the <code>sourceAccountAuthTokenValue</code> value that was
-		 *         passed to {@link #mergeAccount(long, UUID)}, or
-		 *         <code>null</code> if it has not been called
+		 * @return the <code>sourceAccountAuthTokenValue</code> value that was passed to
+		 *         {@link #mergeAccount(long, UUID)}, or <code>null</code> if it has not been called
 		 */
 		public UUID getMergeSourceAccountAuthTokenValue() {
 			return mergeSourceAccountAuthTokenValue;
@@ -230,18 +225,16 @@ public final class GameLoginSuccessHandlerTest {
 	}
 
 	/**
-	 * An {@link IAccountsClientFactory} implementation that produces
-	 * {@link CustomMockAccountsClient} instances.
+	 * An {@link IAccountsClientFactory} implementation that produces {@link CustomMockAccountsClient} instances.
 	 */
 	private static final class CustomMockAccountsClientFactory implements IAccountsClientFactory {
 		private final Account account;
 
 		/**
 		 * Constructs a new {@link CustomMockAccountsClientFactory} instance.
-		 * 
+		 *
 		 * @param account
-		 *            the mock {@link Account} that will be used in the
-		 *            {@link CustomMockAccountsClient} instances
+		 *            the mock {@link Account} that will be used in the {@link CustomMockAccountsClient} instances
 		 */
 		public CustomMockAccountsClientFactory(Account account) {
 			this.account = account;

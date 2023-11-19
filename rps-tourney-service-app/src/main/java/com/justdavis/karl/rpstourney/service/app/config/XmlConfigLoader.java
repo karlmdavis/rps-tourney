@@ -22,35 +22,31 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedJaxbException;
 
 /**
  * <p>
- * This {@link IConfigLoader} implementation loads the application's
- * configuration from a JAX-B-unmarshallable XML file.
+ * This {@link IConfigLoader} implementation loads the application's configuration from a JAX-B-unmarshallable XML file.
  * </p>
  * <p>
- * By default, the application's configuration will be read from a file located
- * at {@link #CONFIG_DEFAULT}, which is in the application's (or container's)
- * current working directory. This, however, can be overridden by specifying a
+ * By default, the application's configuration will be read from a file located at {@link #CONFIG_DEFAULT}, which is in
+ * the application's (or container's) current working directory. This, however, can be overridden by specifying a
  * different path via the {@link #CONFIG_PROP} Java system property.
  * </p>
  */
 public class XmlConfigLoader implements IConfigLoader {
 	/**
-	 * The default path that the application's configuration will be read from,
-	 * unless overridden via {@link #CONFIG_PROP}.
+	 * The default path that the application's configuration will be read from, unless overridden via
+	 * {@link #CONFIG_PROP}.
 	 */
 	public static final String CONFIG_DEFAULT = "./rps-service-config.xml";
 
 	/**
-	 * The Java system property that specifies the path that the application's
-	 * configuration will be read from, overriding the default path specified in
-	 * {@link #CONFIG_DEFAULT}.
-	 * 
+	 * The Java system property that specifies the path that the application's configuration will be read from,
+	 * overriding the default path specified in {@link #CONFIG_DEFAULT}.
+	 *
 	 * @see System#getProperty(String)
 	 */
 	public static final String CONFIG_PROP = "rps.service.config.path";
 
 	/**
-	 * This static field is used as a cache for the application's
-	 * {@link ServiceConfig}.
+	 * This static field is used as a cache for the application's {@link ServiceConfig}.
 	 */
 	private static ServiceConfig cachedConfig = null;
 
@@ -58,7 +54,7 @@ public class XmlConfigLoader implements IConfigLoader {
 
 	/**
 	 * Constructs a new {@link XmlConfigLoader} instance.
-	 * 
+	 *
 	 * @param dsConnectorsManager
 	 *            the application's {@link DataSourceConnectorsManager}
 	 */
@@ -73,12 +69,10 @@ public class XmlConfigLoader implements IConfigLoader {
 	@Override
 	public synchronized ServiceConfig getConfig() {
 		/*
-		 * This method is marked as synchronized to prevent different parts of
-		 * the application from ending up with different config instances. If
-		 * this proves to be a bottleneck, we'll want to create a second
-		 * IConfigLoader implementation that takes an already-loaded config
-		 * value, and set the application to just use that implementation
-		 * (pre-loading the config via this implementation at startup).
+		 * This method is marked as synchronized to prevent different parts of the application from ending up with
+		 * different config instances. If this proves to be a bottleneck, we'll want to create a second IConfigLoader
+		 * implementation that takes an already-loaded config value, and set the application to just use that
+		 * implementation (pre-loading the config via this implementation at startup).
 		 */
 
 		// Do we already have a cached copy available?
@@ -114,7 +108,7 @@ public class XmlConfigLoader implements IConfigLoader {
 
 	/**
 	 * Note: Integration tests may want to override this method.
-	 * 
+	 *
 	 * @return an {@link InputStream} for the application's configuration file
 	 */
 	protected InputStream retrieveConfigFile() {
@@ -134,9 +128,8 @@ public class XmlConfigLoader implements IConfigLoader {
 	}
 
 	/**
-	 * @return an {@link InputStream} for the file available at
-	 *         {@link #CONFIG_DEFAULT}, or <code>null</code> if no such file
-	 *         exists
+	 * @return an {@link InputStream} for the file available at {@link #CONFIG_DEFAULT}, or <code>null</code> if no such
+	 *         file exists
 	 */
 	private static InputStream retrieveConfigFile_default() {
 		try {
@@ -153,13 +146,11 @@ public class XmlConfigLoader implements IConfigLoader {
 	}
 
 	/**
-	 * @return an {@link InputStream} for the file specified by
-	 *         {@link #CONFIG_PROP}, or <code>null</code> if that property
-	 *         wasn't set
+	 * @return an {@link InputStream} for the file specified by {@link #CONFIG_PROP}, or <code>null</code> if that
+	 *         property wasn't set
 	 * @throws ServiceConfigException
-	 *             A {@link CodeGenerationException} will be thrown if the
-	 *             {@link #CONFIG_PROP} property has been set to a value that
-	 *             does not point to an actual file.
+	 *             A {@link CodeGenerationException} will be thrown if the {@link #CONFIG_PROP} property has been set to
+	 *             a value that does not point to an actual file.
 	 */
 	private static InputStream retrieveConfigFile_overridden() throws ServiceConfigException {
 		try {

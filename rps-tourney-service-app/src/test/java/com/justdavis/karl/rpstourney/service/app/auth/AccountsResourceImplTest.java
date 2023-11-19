@@ -15,8 +15,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
  */
 public final class AccountsResourceImplTest {
 	/**
-	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as
-	 * expected.
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as expected.
 	 */
 	@Test
 	public void validateAuth() {
@@ -37,8 +36,7 @@ public final class AccountsResourceImplTest {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()} works
-	 * as expected.
+	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()} works as expected.
 	 */
 	@Test
 	public void selectOrCreateAuthToken() throws AddressException {

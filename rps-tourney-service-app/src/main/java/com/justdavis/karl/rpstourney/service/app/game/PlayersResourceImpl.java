@@ -33,16 +33,15 @@ public class PlayersResourceImpl implements IPlayersResource {
 	private IPlayersDao playersDao;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public PlayersResourceImpl() {
 	}
 
 	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link PlayersResourceImpl} was instantiated to handle
+	 *            the {@link SecurityContext} for the request that the {@link PlayersResourceImpl} was instantiated to
+	 *            handle
 	 */
 	@Context
 	public void setSecurityContext(SecurityContext securityContext) {
@@ -90,11 +89,11 @@ public class PlayersResourceImpl implements IPlayersResource {
 
 	/**
 	 * This method should only be used on web service requests annotated with
-	 * <code>@RolesAllowed({ SecurityRole.ID_USERS })</code>, as it assumes that
-	 * the request currently being processed is authenticated.
-	 * 
-	 * @return the requestor's Account from {@link #securityContext}, which will
-	 *         have been set by the {@link AuthenticationFilter}
+	 * <code>@RolesAllowed({ SecurityRole.ID_USERS })</code>, as it assumes that the request currently being processed
+	 * is authenticated.
+	 *
+	 * @return the requestor's Account from {@link #securityContext}, which will have been set by the
+	 *         {@link AuthenticationFilter}
 	 */
 	private Account getUserAccount() {
 		Account userAccount = securityContext.getUserPrincipal();

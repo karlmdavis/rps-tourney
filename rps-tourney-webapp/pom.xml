@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -13,29 +12,29 @@
 	<packaging>war</packaging>
 
 	<name>rps-tourney-webapp</name>
-	<description>
-		A web application for playing the "Rock-Paper-Scissors Tourney" game.
-		Uses rps-tourney-service-app to handle all gameplay (and a bunch of 
-		other functions.)
-	</description>
+	<description>A web application for playing the "Rock-Paper-Scissors Tourney" game.
+		Uses rps-tourney-service-app to handle all gameplay (and a bunch of
+		other functions.)</description>
 
 	<properties>
-		<!-- The version of the Spring Security framework artifacts to use. Note 
-			that this library has a different release cycle (and version number) than 
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
+
+		<!-- The version of the Spring Security framework artifacts to use. Note
+			that this library has a different release cycle (and version number) than
 			the "core" Spring Framework project. -->
 		<spring.security.version>5.0.1.RELEASE</spring.security.version>
 
-		<!-- Exclude the third-party JavaScript files from static analysis via 
+		<!-- Exclude the third-party JavaScript files from static analysis via
 			SonarQube. -->
-		<sonar.exclusions>
-			src/main/webapp/WEB-INF/resources/js/vendor/*
-		</sonar.exclusions>
+		<sonar.exclusions>src/main/webapp/WEB-INF/resources/js/vendor/*</sonar.exclusions>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<!-- This BOM is required to avoid problems caused by the different (but 
+				<!-- This BOM is required to avoid problems caused by the different (but
 					compatible) versions of Spring MVC and Spring Security being used here. -->
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
@@ -58,7 +57,7 @@
 		</dependency>
 
 		<dependency>
-			<!-- A version of this library is needed to compile, but will already 
+			<!-- A version of this library is needed to compile, but will already
 				be bundled with whatever application server this WAR is deployed to. -->
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -66,8 +65,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<!-- This API is needed to compile the custom JSP tags in this project. 
-				Marked provided so that it doesn't conflict with the deployment container's 
+			<!-- This API is needed to compile the custom JSP tags in this project.
+				Marked provided so that it doesn't conflict with the deployment container's
 				built-in JSP library. -->
 			<groupId>org.eclipse.jetty.orbit</groupId>
 			<artifactId>javax.servlet.jsp</artifactId>
@@ -75,8 +74,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<!-- Provides a JSP implementation to use at compile time (also required 
-				by some of the unit tests). At runtime, though, this will be supplied by 
+			<!-- Provides a JSP implementation to use at compile time (also required
+				by some of the unit tests). At runtime, though, this will be supplied by
 				the application container. -->
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp</artifactId>
@@ -84,21 +83,21 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<!-- The Spring MVC web framework (which includes many other Spring libraries, 
+			<!-- The Spring MVC web framework (which includes many other Spring libraries,
 				including their dependency injection framework). -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<exclusions>
 				<exclusion>
-					<!-- We're using SLF4J to handle logging, so need to exclude this and 
+					<groupId>commons-logging</groupId>
+					<!-- We're using SLF4J to handle logging, so need to exclude this and
 						then include org.slf4j:jcl-over-slf4j in its place. -->
 					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<!-- Used to re-route commons-logging:commons-logging calls to SLF4J. 
+			<!-- Used to re-route commons-logging:commons-logging calls to SLF4J.
 				Seems that spring-webmvc needs this. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
@@ -128,7 +127,7 @@
 			<version>${spring.security.version}</version>
 		</dependency>
 		<dependency>
-			<!-- Provides annotations for securing resources, e.g. @RolesAllowed, 
+			<!-- Provides annotations for securing resources, e.g. @RolesAllowed,
 				@PermitAll, etc. -->
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
@@ -143,7 +142,7 @@
 		</dependency>
 
 		<dependency>
-			<!-- Used to format date-times into "pretty" strings, e.g. "5 minutes 
+			<!-- Used to format date-times into "pretty" strings, e.g. "5 minutes
 				ago". -->
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
@@ -151,16 +150,16 @@
 		</dependency>
 
 		<dependency>
-			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
-			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that at 
-				least jetty-jsp needs this, and we'll include it in the compile scope just 
+			<!-- Used to re-route java.util.logging calls to SLF4J. Seems that at
+				least jetty-jsp needs this, and we'll include it in the compile scope just
 				to cover anything else that might be. -->
-			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html
 				for details on how to activate this re-routing within an application. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
@@ -178,7 +177,7 @@
 			<artifactId>spring-test</artifactId>
 		</dependency>
 		<dependency>
-			<!-- The web service WAR, which also needs to be deployed during integration 
+			<!-- The web service WAR, which also needs to be deployed during integration
 				testing. -->
 			<groupId>com.justdavis.karl.rpstourney</groupId>
 			<artifactId>rps-tourney-service-app</artifactId>
@@ -187,14 +186,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision
 				DB for unit/integration tests. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- Selenium is a browser automation/test framework and is used to drive 
+			<!-- Selenium is a browser automation/test framework and is used to drive
 				this project's integration tests. -->
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -224,9 +223,9 @@
 					<configuration>
 						<webResources>
 							<resource>
-								<!-- This entry here is needed as WRO4J leaves out the fonts from 
+								<!-- This entry here is needed as WRO4J leaves out the fonts from
 									Bootstrap and FontAwesome. -->
-								<!-- Any resources listed here also have to be whitelisted in SecurityConfig.configure(WebSecurity) 
+								<!-- Any resources listed here also have to be whitelisted in SecurityConfig.configure(WebSecurity)
 									and SpringMvcConfig.addResourceHandlers(ResourceHandlerRegistry). -->
 								<directory>${project.build.directory}/generated-war-resources/</directory>
 								<targetPath>WEB-INF/resources</targetPath>
@@ -239,19 +238,19 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<!-- Configure the Web Resource Optimizer for Java (wro4j) as part of 
-						the build. This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
-						and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
+					<!-- Configure the Web Resource Optimizer for Java (wro4j) as part of
+						the build. This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/
+						and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project
 						for details. -->
 					<groupId>ro.isdc.wro4j</groupId>
 					<artifactId>wro4j-maven-plugin</artifactId>
 					<version>1.8.0</version>
 					<configuration>
 						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-						<!-- Run wro4j against both the unprocessed resource sources and the 
-							generated WAR resources (e.g. Bootstrap). Note that wro4j will not perform 
+						<!-- Run wro4j against both the unprocessed resource sources and the
+							generated WAR resources (e.g. Bootstrap). Note that wro4j will not perform
 							Maven resource filtering. -->
-						<!-- A large part of the inspiration for this particular configuration 
+						<!-- A large part of the inspiration for this particular configuration
 							is taken from the m2e-wro4j documentation: https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project -->
 						<contextFolder>${basedir}/src/main/webapp,${project.build.directory}/generated-war-resources/</contextFolder>
 						<ignoreMissingResources>false</ignoreMissingResources>
@@ -266,7 +265,7 @@
 							<version>1.17.2</version>
 						</dependency>
 						<dependency>
-								<!-- This is a workaround for an error that only appears when trying to build in Eclipse.
+							<!-- This is a workaround for an error that only appears when trying to build in Eclipse.
 									Reference: https://stackoverflow.com/a/55909779 -->
 							<groupId>org.mockito</groupId>
 							<artifactId>mockito-core</artifactId>
@@ -275,8 +274,8 @@
 					</dependencies>
 				</plugin>
 				<plugin>
-					<!-- Configure the Cargo plugin to start up an embedded Jetty server, 
-						running both this project's WAR and the WAR for the web service that it interacts 
+					<!-- Configure the Cargo plugin to start up an embedded Jetty server,
+						running both this project's WAR and the WAR for the web service that it interacts
 						with. -->
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
@@ -284,9 +283,9 @@
 						<container>
 							<containerId>jetty9x</containerId>
 							<artifactInstaller>
-								<!-- Use a throwaway Jetty install (in the project's target/ directory) 
-									to run the ITs. Tried using an embedded Jetty instance via Cargo, but the 
-									web application fails to deploy that way for some reason: it throws "java.lang.IllegalStateException: 
+								<!-- Use a throwaway Jetty install (in the project's target/ directory)
+									to run the ITs. Tried using an embedded Jetty instance via Cargo, but the
+									web application fails to deploy that way for some reason: it throws "java.lang.IllegalStateException:
 									zip file closed" errors. -->
 								<groupId>org.eclipse.jetty</groupId>
 								<artifactId>jetty-distribution</artifactId>
@@ -301,7 +300,7 @@
 							</systemProperties>
 							<dependencies>
 								<dependency>
-									<!-- Only used by the web service WAR, but no harm in adding it 
+									<!-- Only used by the web service WAR, but no harm in adding it
 										to the container's classpath. -->
 									<groupId>org.hsqldb</groupId>
 									<artifactId>hsqldb</artifactId>
@@ -327,8 +326,8 @@
 								</properties>
 							</deployable>
 							<deployable>
-								<!-- The end-user web site WAR for the application. As this is the 
-									current project, Cargo binds the artifact automatically. All that needs to 
+								<!-- The end-user web site WAR for the application. As this is the
+									current project, Cargo binds the artifact automatically. All that needs to
 									be done here is to configure the context path. -->
 								<groupId>com.justdavis.karl.rpstourney</groupId>
 								<artifactId>rps-tourney-webapp</artifactId>
@@ -348,10 +347,10 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on unit test coverage), such that 
-							it can be passed as a VM argument to the application under test. Surefire 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on unit test coverage), such that
+							it can be passed as a VM argument to the application under test. Surefire
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent</id>
 						<goals>
@@ -359,10 +358,10 @@
 						</goals>
 					</execution>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on integration test coverage), such 
-							that it can be passed as a VM argument to the application under test. Failsafe 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on integration test coverage), such
+							that it can be passed as a VM argument to the application under test. Failsafe
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent-integration</id>
 						<goals>
@@ -382,10 +381,10 @@
 							than including it in our sources, we instead download and unpack it as part
 							of every build. -->
 						<id>fetch-bootstrap</id>
-						<phase>generate-resources</phase>
 						<goals>
 							<goal>wget</goal>
 						</goals>
+						<phase>generate-resources</phase>
 						<configuration>
 							<url>https://github.com/twbs/bootstrap/archive/v3.2.0.zip</url>
 							<unpack>true</unpack>
@@ -401,10 +400,10 @@
 							comprehensive: it provides a symbol font and CSS classes to make it easier
 							to use. -->
 						<id>fetch-fontawesome</id>
-						<phase>generate-resources</phase>
 						<goals>
 							<goal>wget</goal>
 						</goals>
+						<phase>generate-resources</phase>
 						<configuration>
 							<!-- TODO verify that 4.7.0 works, as 4.4.0 was being used before -->
 							<url>https://fontawesome.com/v4/assets/font-awesome-4.7.0.zip</url>
@@ -418,48 +417,48 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Run the Web Resource Optimizer for Java (wro4j) as part of the build. 
-					This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/ 
-					and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project 
+				<!-- Run the Web Resource Optimizer for Java (wro4j) as part of the build.
+					This tool minifies JS, compiles LESS CSS, etc. See https://code.google.com/p/wro4j/
+					and https://github.com/jbosstools/m2e-wro4j/wiki/Sample-twitter-bootstrap-project
 					for details. -->
 				<groupId>ro.isdc.wro4j</groupId>
 				<artifactId>wro4j-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>compile</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
+						<phase>compile</phase>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Launch an embedded Jetty instance hosting this project's WAR (as 
-					well as the rps-tourney-service-app WAR it depends on) prior to running this 
-					project's integration tests, and stop it after the integration tests. Alternatively, 
-					for manual testing, manually run 'mvn cargo:run' to start the Jetty server, 
+				<!-- Launch an embedded Jetty instance hosting this project's WAR (as
+					well as the rps-tourney-service-app WAR it depends on) prior to running this
+					project's integration tests, and stop it after the integration tests. Alternatively,
+					for manual testing, manually run 'mvn cargo:run' to start the Jetty server,
 					and have Cargo wait for a 'ctrl+c' command to stop it. -->
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>start-container</id>
-						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>start</goal>
 						</goals>
+						<phase>pre-integration-test</phase>
 					</execution>
 					<execution>
 						<id>stop-container</id>
-						<phase>post-integration-test</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
+						<phase>post-integration-test</phase>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Ensure that this project's integration tests are run as part of 
+				<!-- Ensure that this project's integration tests are run as part of
 					the build. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -477,7 +476,7 @@
 
 	<profiles>
 		<profile>
-			<!-- This profile will only be active when building inside of Eclipse, 
+			<!-- This profile will only be active when building inside of Eclipse,
 				with the m2e plugin installed. -->
 			<id>m2e</id>
 			<activation>
@@ -488,7 +487,7 @@
 			<build>
 				<pluginManagement>
 					<plugins>
-						<!--This plugin's configuration is used to store Eclipse m2e settings 
+						<!--This plugin's configuration is used to store Eclipse m2e settings
 							only. It has no influence on the Maven build itself. -->
 						<plugin>
 							<groupId>org.eclipse.m2e</groupId>

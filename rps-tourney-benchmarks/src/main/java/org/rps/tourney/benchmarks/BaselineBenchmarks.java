@@ -17,21 +17,18 @@ public class BaselineBenchmarks {
 	@Benchmark
 	public void emptyMethod() {
 		/*
-		 * This method is intentionally left empty. It can be used to assess the
-		 * benchmarks' overhead.
+		 * This method is intentionally left empty. It can be used to assess the benchmarks' overhead.
 		 */
 	}
 
 	/**
-	 * This method is only here to allow this {@link Benchmark} class to be run
-	 * inside Eclipse. These configuration settings specified in here are only
-	 * applied within Eclipse.
-	 * 
+	 * This method is only here to allow this {@link Benchmark} class to be run inside Eclipse. These configuration
+	 * settings specified in here are only applied within Eclipse.
+	 *
 	 * @param args
 	 *            (not used)
 	 * @throws RunnerException
-	 *             Any failures in the benchmarks will be wrapped and rethrown
-	 *             as {@link RunnerException}s.
+	 *             Any failures in the benchmarks will be wrapped and rethrown as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
 		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder().include(BaselineBenchmarks.class.getSimpleName())

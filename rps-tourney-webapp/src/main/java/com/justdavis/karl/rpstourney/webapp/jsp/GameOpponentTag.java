@@ -20,13 +20,12 @@ import com.justdavis.karl.rpstourney.service.api.game.GameView;
 
 /**
  * <p>
- * A JSP tag handler that provides the
- * <code>&lt;rps:gameOpponent game="${someGame}" /&gt;</code> tag, for printing
- * out a user's opponent in a {@link GameView}.
+ * A JSP tag handler that provides the <code>&lt;rps:gameOpponent game="${someGame}" /&gt;</code> tag, for printing out
+ * a user's opponent in a {@link GameView}.
  * </p>
  * <p>
- * Please note that this class and its properties must be correctly listed in
- * this project's <code>src/main/webapp/WEB-INF/rps.tld</code> file.
+ * Please note that this class and its properties must be correctly listed in this project's
+ * <code>src/main/webapp/WEB-INF/rps.tld</code> file.
  * </p>
  */
 public final class GameOpponentTag extends RequestContextAwareTag {
@@ -46,8 +45,8 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link SecurityContext} that should be used, to determine the
-	 *         logged in user for the request being processed
+	 * @return the {@link SecurityContext} that should be used, to determine the logged in user for the request being
+	 *         processed
 	 */
 	private SecurityContext getSecurityContext() {
 		if (mockSecurityContext != null)
@@ -62,8 +61,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	 */
 	void setMockSecurityContext(SecurityContext securityContext) {
 		/*
-		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
-		 * or inject SecurityContext instances.
+		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind or inject SecurityContext instances.
 		 */
 		this.mockSecurityContext = securityContext;
 	}
@@ -84,8 +82,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	protected int doStartTagInternal() throws Exception {
 		if (!initialized) {
 			/*
-			 * If we haven't already initialized ourselves, inject dependencies
-			 * into this instance now.
+			 * If we haven't already initialized ourselves, inject dependencies into this instance now.
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
@@ -139,8 +136,7 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link Account} of the currently-authenticated user, or
-	 *         <code>null</code> if the user isn't logged in
+	 * @return the {@link Account} of the currently-authenticated user, or <code>null</code> if the user isn't logged in
 	 */
 	private Account getAuthenticatedAccount() {
 		// Get the Authentication token for the current user (if any).
@@ -149,16 +145,14 @@ public final class GameOpponentTag extends RequestContextAwareTag {
 			return null;
 
 		/*
-		 * Grab the Principal from the token. All of the tokens used in this app
-		 * should have a principal.
+		 * Grab the Principal from the token. All of the tokens used in this app should have a principal.
 		 */
 		Object principal = auth.getPrincipal();
 		if (principal == null)
 			throw new BadCodeMonkeyException();
 
 		/*
-		 * All of the tokens used in this app should use an Account as
-		 * principal.
+		 * All of the tokens used in this app should use an Account as principal.
 		 */
 		if (principal != null && !(principal instanceof Account))
 			throw new BadCodeMonkeyException();

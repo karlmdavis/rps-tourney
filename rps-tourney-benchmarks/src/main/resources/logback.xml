@@ -2,16 +2,12 @@
 	<!-- Required to ensure that JUL respects log level changes. -->
 	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator" />
 
-	<!-- While the benchmarks are running, JMH suppresses System.out output, 
-		and leaves System.err alone. This is most likely done to ensure that the 
-		JMH report is readable, and also to cut down on I/O delays. Accordingly, 
-		all of this project's SLF4J logging is sent to a file, instead of to the 
-		console. -->
+	<!-- While the benchmarks are running, JMH suppresses System.out output, and leaves System.err alone. This is most likely
+		done to ensure that the JMH report is readable, and also to cut down on I/O delays. Accordingly, all of this project's SLF4J
+		logging is sent to a file, instead of to the console. -->
 
-	<!-- A file-based logging target, which will rollover daily and clean up 
-		log archives older than 14 days. -->
-	<appender name="FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<!-- A file-based logging target, which will rollover daily and clean up log archives older than 14 days. -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- Note the 'logs/' directory being used, which is required for Tomcat. -->
 		<file>target/logs/${project.artifactId}.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

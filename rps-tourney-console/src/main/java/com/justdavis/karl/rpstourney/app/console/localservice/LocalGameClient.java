@@ -13,14 +13,12 @@ import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
  * <p>
- * This {@link IGameResource} implementation only supports local games. It's
- * really just used to enable this application to play local games using the
- * same interface as remote games must be played with.
+ * This {@link IGameResource} implementation only supports local games. It's really just used to enable this application
+ * to play local games using the same interface as remote games must be played with.
  * </p>
  * <p>
- * Each {@link LocalGameClient} instance is associated with a single new
- * {@link Game} instance; a new {@link LocalGameClient} is needed for each game
- * to be played.
+ * Each {@link LocalGameClient} instance is associated with a single new {@link Game} instance; a new
+ * {@link LocalGameClient} is needed for each game to be played.
  * </p>
  */
 public final class LocalGameClient implements IGameResource {
@@ -29,7 +27,7 @@ public final class LocalGameClient implements IGameResource {
 
 	/**
 	 * Constructs a new {@link LocalGameClient} instance.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link Game} to be played/manipulated
 	 * @param localPlayer
@@ -69,8 +67,7 @@ public final class LocalGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String,
-	 *      int, int)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#setMaxRounds(java.lang.String, int, int)
 	 */
 	@Override
 	public GameView setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
@@ -79,8 +76,7 @@ public final class LocalGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String,
-	 *      long)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#inviteOpponent(java.lang.String, long)
 	 */
 	@Override
 	public void inviteOpponent(String gameId, long playerId) {
@@ -105,8 +101,8 @@ public final class LocalGameClient implements IGameResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String,
-	 *      int, com.justdavis.karl.rpstourney.service.api.game.Throw)
+	 * @see com.justdavis.karl.rpstourney.service.api.game.IGameResource#submitThrow(java.lang.String, int,
+	 *      com.justdavis.karl.rpstourney.service.api.game.Throw)
 	 */
 	@Override
 	public GameView submitThrow(String gameId, int roundIndex, Throw throwToPlay) {

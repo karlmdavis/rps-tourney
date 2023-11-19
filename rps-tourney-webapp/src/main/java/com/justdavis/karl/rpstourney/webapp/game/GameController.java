@@ -50,9 +50,8 @@ import com.justdavis.karl.rpstourney.webapp.security.IGuestLoginManager;
 public class GameController {
 	/**
 	 * <p>
-	 * The {@link RedirectAttributes#getFlashAttributes()} key used to store
-	 * error codes when problems are encountered. The following error codes are
-	 * supported:
+	 * The {@link RedirectAttributes#getFlashAttributes()} key used to store error codes when problems are encountered.
+	 * The following error codes are supported:
 	 * </p>
 	 * <ul>
 	 * <li>All of the {@link GameConflictException} constant names.</li>
@@ -73,7 +72,7 @@ public class GameController {
 
 	/**
 	 * Constructs a new {@link GameController} instance.
-	 * 
+	 *
 	 * @param gameClient
 	 *            the {@link IGameResource} client to use
 	 * @param accountsClient
@@ -94,24 +93,20 @@ public class GameController {
 
 	/**
 	 * <p>
-	 * Creates a new persistent {@link Game} and redirects to
-	 * {@link #getGame(String, Principal)} to display it.
+	 * Creates a new persistent {@link Game} and redirects to {@link #getGame(String, Principal)} to display it.
 	 * </p>
 	 * <p>
-	 * Note: If the requesting client is not logged in/authenticated when making
-	 * this request, they will be automatically logged in via
-	 * {@link IGuestLoginManager} as a guest.
+	 * Note: If the requesting client is not logged in/authenticated when making this request, they will be
+	 * automatically logged in via {@link IGuestLoginManager} as a guest.
 	 * </p>
-	 * 
+	 *
 	 * @param authenticatedUser
-	 *            the currently logged in user {@link Principal}, or
-	 *            <code>null</code> if no user is logged in
+	 *            the currently logged in user {@link Principal}, or <code>null</code> if no user is logged in
 	 * @param request
 	 *            the {@link HttpServletRequest} being processed
 	 * @param response
 	 *            the {@link HttpServletResponse} being generated
-	 * @return a <code>redirect:</code> view name for the {@link Game} that's
-	 *         been created
+	 * @return a <code>redirect:</code> view name for the {@link Game} that's been created
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public String createNewGame(Principal authenticatedUser, HttpServletRequest request, HttpServletResponse response) {
@@ -134,19 +129,15 @@ public class GameController {
 	 *            the currently logged in user {@link Principal}
 	 * @param locale
 	 *            the {@link Locale} to target for display
-	 * @return a {@link ModelAndView} that can be used to render an existing
-	 *         gameplay session
+	 * @return a {@link ModelAndView} that can be used to render an existing gameplay session
 	 */
 	@RequestMapping(value = "/{gameId}", method = RequestMethod.GET)
 	public ModelAndView getGameAsHtml(@PathVariable String gameId, Principal authenticatedUser, Locale locale) {
 		/*
-		 * FIXME Per the suggestion in
-		 * https://jira.spring.io/browse/SPR-12481?focusedCommentId
-		 * =110879&page=com
-		 * .atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel
-		 * #comment-110879, this method's @RequestMapping is not marked as
-		 * "produces = MediaType.TEXT_HTML_VALUE". It does return HTML, though.
-		 * This workaround should be removed if that JIRA issue is resolved.
+		 * FIXME Per the suggestion in https://jira.spring.io/browse/SPR-12481?focusedCommentId =110879&page=com
+		 * .atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel #comment-110879, this method's @RequestMapping
+		 * is not marked as "produces = MediaType.TEXT_HTML_VALUE". It does return HTML, though. This workaround should
+		 * be removed if that JIRA issue is resolved.
 		 */
 
 		GameView game = loadGame(gameId);
@@ -159,8 +150,7 @@ public class GameController {
 	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being requested
-	 * @return a {@link GameView} instance with the current game state for the
-	 *         requesting user
+	 * @return a {@link GameView} instance with the current game state for the requesting user
 	 */
 	@RequestMapping(value = "/{gameId}/data", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -171,17 +161,15 @@ public class GameController {
 
 	/**
 	 * The controller for accepting {@link Account#getName()} updates.
-	 * 
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param inputPlayerName
 	 *            the new value for {@link Account#getName()}
 	 * @param authenticatedUser
-	 *            the currently logged in user {@link Principal} (whose
-	 *            {@link Account#getName()} is to be updated)
+	 *            the currently logged in user {@link Principal} (whose {@link Account#getName()} is to be updated)
 	 * @param redirectAttributes
-	 *            the Spring MVC {@link RedirectAttributes} that will be used to
-	 *            pass flash attributes around
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/updateName", method = {
@@ -201,9 +189,8 @@ public class GameController {
 		account.setName(inputPlayerName);
 
 		/*
-		 * Try to submit the name update. If the user has specified an invalid
-		 * name (per the web service's bean validation), this will go boom with
-		 * an HTTP 400.
+		 * Try to submit the name update. If the user has specified an invalid name (per the web service's bean
+		 * validation), this will go boom with an HTTP 400.
 		 */
 		try {
 			accountsClient.updateAccount(account);
@@ -217,18 +204,15 @@ public class GameController {
 	}
 
 	/**
-	 * The controller facade for
-	 * {@link IGameResource#submitThrow(String, int, Throw)}.
-	 * 
+	 * The controller facade for {@link IGameResource#submitThrow(String, int, Throw)}.
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param throwToPlay
-	 *            the {@link Throw} that the current user/player is submitting
-	 *            for the current {@link GameRound} in the specified
-	 *            {@link Game}
+	 *            the {@link Throw} that the current user/player is submitting for the current {@link GameRound} in the
+	 *            specified {@link Game}
 	 * @param redirectAttributes
-	 *            the Spring MVC {@link RedirectAttributes} that will be used to
-	 *            pass flash attributes around
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/playThrow", method = { RequestMethod.GET,
@@ -245,9 +229,8 @@ public class GameController {
 		} catch (HttpClientException e) {
 			if (e.getStatus().getStatusCode() == Status.CONFLICT.getStatusCode()) {
 				/*
-				 * This is perfectly normal and not a problem: it can happen due
-				 * to one of the clients being slightly out of date before
-				 * making the call.
+				 * This is perfectly normal and not a problem: it can happen due to one of the clients being slightly
+				 * out of date before making the call.
 				 */
 			} else {
 				// For anything other than a CONFLICT, wrap & rethrow.
@@ -270,7 +253,7 @@ public class GameController {
 
 	/**
 	 * The controller facade for {@link IGameResource#joinGame(String)}.
-	 * 
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param request
@@ -280,8 +263,7 @@ public class GameController {
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param redirectAttributes
-	 *            the Spring MVC {@link RedirectAttributes} that will be used to
-	 *            pass flash attributes around
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/join", method = { RequestMethod.GET,
@@ -310,22 +292,19 @@ public class GameController {
 	}
 
 	/**
-	 * The controller facade for
-	 * {@link IGameResource#inviteOpponent(String, long)}.
-	 * 
+	 * The controller facade for {@link IGameResource#inviteOpponent(String, long)}.
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param opponentType
-	 *            either <code>friend</code> or <code>ai</code>, indicating
-	 *            which type of opponent the user has requested
+	 *            either <code>friend</code> or <code>ai</code>, indicating which type of opponent the user has
+	 *            requested
 	 * @param playerId
-	 *            the {@link Player#getId()} of the player being invited as the
-	 *            user's opponent
+	 *            the {@link Player#getId()} of the player being invited as the user's opponent
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param redirectAttributes
-	 *            the Spring MVC {@link RedirectAttributes} that will be used to
-	 *            pass flash attributes around
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/inviteOpponent", method = { RequestMethod.GET,
@@ -336,9 +315,8 @@ public class GameController {
 		GameView game = loadGame(gameId);
 
 		/*
-		 * If they haven't requested an AI opponent, do nothing. (The submit
-		 * button generally wouldn't be visible for them, but if they have
-		 * disabled JS, they might still use it.)
+		 * If they haven't requested an AI opponent, do nothing. (The submit button generally wouldn't be visible for
+		 * them, but if they have disabled JS, they might still use it.)
 		 */
 		if (!"ai".equals(opponentType))
 			return "redirect:/game/" + gameId;
@@ -361,21 +339,18 @@ public class GameController {
 	}
 
 	/**
-	 * The controller facade for
-	 * {@link IGameResource#setMaxRounds(String, int, int)}.
-	 * 
+	 * The controller facade for {@link IGameResource#setMaxRounds(String, int, int)}.
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param oldMaxRoundsValue
-	 *            the current/old value of {@link Game#getMaxRounds()} (used to
-	 *            help prevent synchronization issues)
+	 *            the current/old value of {@link Game#getMaxRounds()} (used to help prevent synchronization issues)
 	 * @param newMaxRoundsValue
 	 *            the new value for {@link Game#getMaxRounds()}
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
 	 * @param redirectAttributes
-	 *            the Spring MVC {@link RedirectAttributes} that will be used to
-	 *            pass flash attributes around
+	 *            the Spring MVC {@link RedirectAttributes} that will be used to pass flash attributes around
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/{gameId}/setMaxRounds", method = { RequestMethod.GET,
@@ -406,8 +381,7 @@ public class GameController {
 	/**
 	 * @param gameId
 	 *            the {@link Game#getId()} to match against
-	 * @return the specified {@link GameView}, as returned by
-	 *         {@link #gameClient}
+	 * @return the specified {@link GameView}, as returned by {@link #gameClient}
 	 */
 	private GameView loadGame(String gameId) {
 		GameView game = null;
@@ -436,8 +410,7 @@ public class GameController {
 		modelAndView.addObject("game", game);
 
 		/*
-		 * Determine Player display order. Always display current user first, if
-		 * they're a Player.
+		 * Determine Player display order. Always display current user first, if they're a Player.
 		 */
 		Player firstPlayer = isUserThisPlayer(authenticatedUser, game.getPlayer2()) ? game.getPlayer2()
 				: game.getPlayer1();
@@ -452,9 +425,8 @@ public class GameController {
 				: game.getRounds().get(game.getRounds().size() - 1).getAdjustedRoundIndex());
 
 		/*
-		 * The following model entries are ONLY used for display purposes. They
-		 * are not and should not be used for any sort of real/actual access
-		 * control.
+		 * The following model entries are ONLY used for display purposes. They are not and should not be used for any
+		 * sort of real/actual access control.
 		 */
 		boolean isPlayer1 = isUserThisPlayer(authenticatedUser, game.getPlayer1());
 		boolean isPlayer2 = isUserThisPlayer(authenticatedUser, game.getPlayer2());
@@ -473,14 +445,12 @@ public class GameController {
 		List<Player> aiPlayersList = new ArrayList<>(aiPlayersSet);
 		Collections.sort(aiPlayersList, new Comparator<Player>() {
 			/**
-			 * @see java.util.Comparator#compare(java.lang.Object,
-			 *      java.lang.Object)
+			 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 			 */
 			@Override
 			public int compare(Player o1, Player o2) {
 				/*
-				 * This is hacky, but it gives the AIs a stable order that
-				 * happens to be from least-->most difficult.
+				 * This is hacky, but it gives the AIs a stable order that happens to be from least-->most difficult.
 				 */
 				Integer ai1Ordinal = o1.getBuiltInAi().ordinal();
 				Integer ai2Ordinal = o2.getBuiltInAi().ordinal();
@@ -494,21 +464,18 @@ public class GameController {
 
 	/**
 	 * @param authenticatedUser
-	 *            the user/client {@link Principal} that made the request, or
-	 *            <code>null</code> if the request was unauthenticated
+	 *            the user/client {@link Principal} that made the request, or <code>null</code> if the request was
+	 *            unauthenticated
 	 * @param player
-	 *            the {@link Player} to check against, or <code>null</code> if
-	 *            the player hasn't joined the game yet
-	 * @return <code>true</code> if the specified {@link Principal} is the
-	 *         specified {@link Player}, <code>false</code> if not
+	 *            the {@link Player} to check against, or <code>null</code> if the player hasn't joined the game yet
+	 * @return <code>true</code> if the specified {@link Principal} is the specified {@link Player}, <code>false</code>
+	 *         if not
 	 */
 	private static boolean isUserThisPlayer(Principal authenticatedUser, Player player) {
 		/*
-		 * This is a bit tricky. Because we're using Spring Security, we can
-		 * expect that the Principal instances passed to any controller methods
-		 * will be Authentication instances. From that Authentication, we can
-		 * extract the actual/underlying principal. Given this application's
-		 * SecurityConfig, that should always be an Account.
+		 * This is a bit tricky. Because we're using Spring Security, we can expect that the Principal instances passed
+		 * to any controller methods will be Authentication instances. From that Authentication, we can extract the
+		 * actual/underlying principal. Given this application's SecurityConfig, that should always be an Account.
 		 */
 		Object actualPrincipal = null;
 		if (authenticatedUser == null)
@@ -522,8 +489,7 @@ public class GameController {
 			return false;
 		if (player.getHumanAccount() == null)
 			/*
-			 * AI players will not & cannot use the web app; they must use the
-			 * web service or Java API.
+			 * AI players will not & cannot use the web app; they must use the web service or Java API.
 			 */
 			return false;
 

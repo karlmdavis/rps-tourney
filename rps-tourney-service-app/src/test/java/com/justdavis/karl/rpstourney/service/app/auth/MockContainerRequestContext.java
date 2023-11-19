@@ -46,8 +46,7 @@ final class MockContainerRequestContext implements ContainerRequestContext {
 	}
 
 	/**
-	 * @see javax.ws.rs.container.ContainerRequestContext#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see javax.ws.rs.container.ContainerRequestContext#setProperty(java.lang.String, java.lang.Object)
 	 */
 	@Override
 	public void setProperty(String name, Object object) {
@@ -87,8 +86,7 @@ final class MockContainerRequestContext implements ContainerRequestContext {
 	}
 
 	/**
-	 * @see javax.ws.rs.container.ContainerRequestContext#setRequestUri(java.net.URI,
-	 *      java.net.URI)
+	 * @see javax.ws.rs.container.ContainerRequestContext#setRequestUri(java.net.URI, java.net.URI)
 	 */
 	@Override
 	public void setRequestUri(URI baseUri, URI requestUri) throws IllegalStateException {
@@ -240,8 +238,8 @@ final class MockContainerRequestContext implements ContainerRequestContext {
 	}
 
 	/**
-	 * @return the {@link Response} passed to {@link #abortWith(Response)}, or
-	 *         <code>null</code> if that hasn't been called at all
+	 * @return the {@link Response} passed to {@link #abortWith(Response)}, or <code>null</code> if that hasn't been
+	 *         called at all
 	 */
 	Response getAbortResponse() {
 		return abortResponse;

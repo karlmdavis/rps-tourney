@@ -16,8 +16,8 @@ import com.justdavis.karl.misc.exceptions.unchecked.UncheckedIoException;
 import com.justdavis.karl.rpstourney.webapp.XmlNamespace;
 
 /**
- * Just a simple {@link Controller} that returns some information about the web
- * application. Intended for use mostly just as an "is it up?" canary.
+ * Just a simple {@link Controller} that returns some information about the web application. Intended for use mostly
+ * just as an "is it up?" canary.
  */
 @Controller
 @RequestMapping("/info")
@@ -34,15 +34,13 @@ public class InfoController {
 	}
 
 	/**
-	 * @return a {@link ModelAndView} that can be used to render some basic
-	 *         information about the application
+	 * @return a {@link ModelAndView} that can be used to render some basic information about the application
 	 */
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
 	public ModelAndView getAppInfo() {
 		/*
-		 * While this view could be rendered as marshalled XML, it acts as a
-		 * better "canary" if it uses JSP to produce the XML, instead. So, it
-		 * does.
+		 * While this view could be rendered as marshalled XML, it acts as a better "canary" if it uses JSP to produce
+		 * the XML, instead. So, it does.
 		 */
 
 		Map<String, String> modelProps = new HashMap<>();

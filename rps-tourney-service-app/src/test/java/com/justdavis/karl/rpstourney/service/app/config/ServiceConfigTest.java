@@ -27,7 +27,7 @@ import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
 public final class ServiceConfigTest {
 	/**
 	 * Ensures that {@link ServiceConfig} instances can be marshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -65,7 +65,7 @@ public final class ServiceConfigTest {
 
 	/**
 	 * Ensures that {@link ServiceConfig} instances can be unmarshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException

@@ -39,8 +39,7 @@ public class MockAccountsClient implements IAccountsResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long,
-	 *      java.util.UUID)
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long, java.util.UUID)
 	 */
 	@Override
 	public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {

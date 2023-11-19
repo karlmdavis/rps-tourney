@@ -8,18 +8,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * This Spring interceptor runs on every request/response and sets the value of
- * {@link AppConfig#getBaseUrl()} as a
+ * This Spring interceptor runs on every request/response and sets the value of {@link AppConfig#getBaseUrl()} as a
  * {@link HttpServletRequest#getAttribute(String)} entry (using the key
- * {@link BaseUrlInterceptor#REQUEST_ATTRIB_BASE_URL}). This allows the JSP
- * views to use it to build correct URLs. (This is necessary in the case of a
- * proxy deployment when the proxied location has a different context path.)
+ * {@link BaseUrlInterceptor#REQUEST_ATTRIB_BASE_URL}). This allows the JSP views to use it to build correct URLs. (This
+ * is necessary in the case of a proxy deployment when the proxied location has a different context path.)
  */
 @Component
 public class BaseUrlInterceptor extends HandlerInterceptorAdapter {
 	/**
-	 * The {@link HttpServletRequest#setAttribute(String, Object)} key used to
-	 * store the application's {@link AppConfig#getBaseUrl()} value.
+	 * The {@link HttpServletRequest#setAttribute(String, Object)} key used to store the application's
+	 * {@link AppConfig#getBaseUrl()} value.
 	 */
 	public static final String REQUEST_ATTRIB_BASE_URL = "rpstourney.config.baseurl";
 
@@ -27,7 +25,7 @@ public class BaseUrlInterceptor extends HandlerInterceptorAdapter {
 
 	/**
 	 * Constructs a new {@link BaseUrlInterceptor} instance.
-	 * 
+	 *
 	 * @param appConfig
 	 *            the application's {@link AppConfig}
 	 */

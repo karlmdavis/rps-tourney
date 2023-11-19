@@ -13,9 +13,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.ocpsoft.prettytime.PrettyTime;
 
 /**
- * A JSP tag handler that provides the
- * <code>&lt;rps:instant value="${someInstant}" /&gt;</code> tag, for printing
- * out formatted {@link Instant}s and other {@link TemporalAccessor}s.
+ * A JSP tag handler that provides the <code>&lt;rps:instant value="${someInstant}" /&gt;</code> tag, for printing out
+ * formatted {@link Instant}s and other {@link TemporalAccessor}s.
  */
 public final class TemporalFormatTag extends SimpleTagSupport {
 	private TemporalAccessor value;
@@ -53,8 +52,7 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Enumerates the supported {@link DateTimeFormatter}s for
-	 * {@link TemporalFormatTag}.
+	 * Enumerates the supported {@link DateTimeFormatter}s for {@link TemporalFormatTag}.
 	 */
 	private static enum Format {
 		/**
@@ -76,10 +74,9 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 
 		/**
 		 * Constructs a new {@link Format} constant.
-		 * 
+		 *
 		 * @param formatter
-		 *            the {@link DateTimeFormatter} that this {@link Format}
-		 *            constant will represent
+		 *            the {@link DateTimeFormatter} that this {@link Format} constant will represent
 		 */
 		private Format(TemporalFormatter formatter) {
 			this.formatter = formatter;
@@ -87,29 +84,26 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Abstracts the functionality of the various formatters used in
-	 * {@link Format}.
+	 * Abstracts the functionality of the various formatters used in {@link Format}.
 	 */
 	private static interface TemporalFormatter {
 		/**
 		 * @param temporalValue
 		 *            the {@link TemporalAccessor} to be formatted
-		 * @return the formatted-for-humans representation of the specified
-		 *         {@link TemporalAccessor}
+		 * @return the formatted-for-humans representation of the specified {@link TemporalAccessor}
 		 */
 		String format(TemporalAccessor temporalValue);
 	}
 
 	/**
-	 * A {@link TemporalFormatter} implementation for the
-	 * <code>threetenbp</code> library's {@link DateTimeFormatter}.
+	 * A {@link TemporalFormatter} implementation for the <code>threetenbp</code> library's {@link DateTimeFormatter}.
 	 */
 	private static final class ThreeTenFormatter implements TemporalFormatter {
 		private final DateTimeFormatter formatter;
 
 		/**
 		 * Constructs a new {@link ThreeTenFormatter} instance.
-		 * 
+		 *
 		 * @param formatter
 		 *            the {@link DateTimeFormatter} to use
 		 */
@@ -123,8 +117,8 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 		@Override
 		public String format(TemporalAccessor temporalValue) {
 			/*
-			 * If the value to be formatted is an Instant, it can only be
-			 * converted to a date-time in the context of a timezone.
+			 * If the value to be formatted is an Instant, it can only be converted to a date-time in the context of a
+			 * timezone.
 			 */
 			DateTimeFormatter formatterToUse = formatter;
 			if (temporalValue instanceof Instant)
@@ -135,8 +129,7 @@ public final class TemporalFormatTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * A {@link TemporalFormatter} implementation that uses the
-	 * {@link PrettyTime} library.
+	 * A {@link TemporalFormatter} implementation that uses the {@link PrettyTime} library.
 	 */
 	private static final class PrettyTimeFormatter implements TemporalFormatter {
 		/**

@@ -12,7 +12,7 @@ public final class GameBundle {
 
 	/**
 	 * Constructs a new {@link GameBundle} instance.
-	 * 
+	 *
 	 * @param gameClient
 	 *            the value to use for {@link #getGameClient()}
 	 * @param gameId
@@ -24,8 +24,7 @@ public final class GameBundle {
 	}
 
 	/**
-	 * @return the {@link IGameResource} that will be used to interact with the
-	 *         game being played
+	 * @return the {@link IGameResource} that will be used to interact with the game being played
 	 */
 	public IGameResource getGameClient() {
 		return gameClient;

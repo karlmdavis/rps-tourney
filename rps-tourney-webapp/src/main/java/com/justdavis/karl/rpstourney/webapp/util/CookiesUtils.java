@@ -19,22 +19,19 @@ public final class CookiesUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CookiesUtils.class);
 
 	/**
-	 * A regex for validating the <code>Domain</code> property of cookies: it
-	 * must start with a '<code>.</code>' and contain a second one somewhere
-	 * else.
+	 * A regex for validating the <code>Domain</code> property of cookies: it must start with a '<code>.</code>' and
+	 * contain a second one somewhere else.
 	 */
 	private static final Pattern VALID_COOKIE_DOMAIN = Pattern.compile(".*\\..*");
 
 	/**
-	 * A regex that will match against IP-only values. (Note: This will allow
-	 * components greater than 255, so isn't 100% effective, but it's good
-	 * enough for our purposes here.)
+	 * A regex that will match against IP-only values. (Note: This will allow components greater than 255, so isn't 100%
+	 * effective, but it's good enough for our purposes here.)
 	 */
 	private static final Pattern LIKELY_IP_ADDRESS = Pattern.compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
 
 	/**
-	 * Private constructor; instances of this class aren't needed, as all
-	 * methods are static.
+	 * Private constructor; instances of this class aren't needed, as all methods are static.
 	 */
 	private CookiesUtils() {
 	}
@@ -43,10 +40,8 @@ public final class CookiesUtils {
 	 * @param cookieName
 	 *            the name of the {@link Cookie} to extract
 	 * @param request
-	 *            the {@link HttpServletRequest} to extract the specified
-	 *            {@link Cookie} from
-	 * @return the specified {@link Cookie} in the specified
-	 *         {@link HttpServletRequest}, or <code>null</code> if no such
+	 *            the {@link HttpServletRequest} to extract the specified {@link Cookie} from
+	 * @return the specified {@link Cookie} in the specified {@link HttpServletRequest}, or <code>null</code> if no such
 	 *         {@link Cookie} is present
 	 */
 	public static Cookie extractCookie(String cookieName, HttpServletRequest request) {
@@ -62,9 +57,9 @@ public final class CookiesUtils {
 	}
 
 	/**
-	 * Cancels a cookie for the client that made the request, by including a new
-	 * expired version of the cookie in the response.
-	 * 
+	 * Cancels a cookie for the client that made the request, by including a new expired version of the cookie in the
+	 * response.
+	 *
 	 * @param response
 	 *            the {@link HttpServletResponse} to cancel the cookie in
 	 */
@@ -77,11 +72,10 @@ public final class CookiesUtils {
 	}
 
 	/**
-	 * Configures the {@link Cookie#setHttpOnly(boolean)},
-	 * {@link Cookie#setDomain(String)}, {@link Cookie#setPath(String)}, and
-	 * {@link Cookie#setSecure(boolean)} properties for the specified
+	 * Configures the {@link Cookie#setHttpOnly(boolean)}, {@link Cookie#setDomain(String)},
+	 * {@link Cookie#setPath(String)}, and {@link Cookie#setSecure(boolean)} properties for the specified
 	 * {@link Cookie}, based on the specified {@link AppConfig}.
-	 * 
+	 *
 	 * @param cookie
 	 *            the {@link Cookie} to be configured
 	 * @param appConfig
@@ -99,10 +93,8 @@ public final class CookiesUtils {
 		cookie.setPath(path);
 
 		/*
-		 * This application will store user's authentication status in session
-		 * cookies and will also store AuthTokens themselves in cookies (which
-		 * are just s private as a username and password). It MUST be hosted
-		 * securely.
+		 * This application will store user's authentication status in session cookies and will also store AuthTokens
+		 * themselves in cookies (which are just s private as a username and password). It MUST be hosted securely.
 		 */
 		boolean isHttps = "https".equals(baseUrl.getProtocol());
 		if (isHttps)
@@ -113,23 +105,19 @@ public final class CookiesUtils {
 
 	/**
 	 * @param applicationUrl
-	 *            a {@link URL} that the application to build a cookie for is
-	 *            being hosted at (does not have to be the base/root {@link URL}
-	 *            )
-	 * @return the cookie <code>Domain</code> property to use for application
-	 *         being hosted at the specified {@link URL}, or <code>null</code>
-	 *         if no <code>Domain</code> property is allowed (per the specs) for
-	 *         that {@link URL}
+	 *            a {@link URL} that the application to build a cookie for is being hosted at (does not have to be the
+	 *            base/root {@link URL} )
+	 * @return the cookie <code>Domain</code> property to use for application being hosted at the specified {@link URL},
+	 *         or <code>null</code> if no <code>Domain</code> property is allowed (per the specs) for that {@link URL}
 	 */
 	private static String computeCookieDomainProperty(URL applicationUrl) {
 		String domain = applicationUrl.getHost();
 
 		/*
-		 * Per http://code.google.com/p/chromium/issues/detail?id=56211 and
-		 * http://curl.haxx.se/rfc/cookie_spec.html, the Domain property must
-		 * never refer to top-level domains. Chrome, in particular, gets very
-		 * upset about this and ignores the cookies entirely. So, if we're about
-		 * to try and do that: stop. Leave the property unassigned, instead.
+		 * Per http://code.google.com/p/chromium/issues/detail?id=56211 and http://curl.haxx.se/rfc/cookie_spec.html,
+		 * the Domain property must never refer to top-level domains. Chrome, in particular, gets very upset about this
+		 * and ignores the cookies entirely. So, if we're about to try and do that: stop. Leave the property unassigned,
+		 * instead.
 		 */
 		boolean isLikelyAnIpAddress = LIKELY_IP_ADDRESS.matcher(domain).matches();
 		if (!isLikelyAnIpAddress && !VALID_COOKIE_DOMAIN.matcher(domain).matches())

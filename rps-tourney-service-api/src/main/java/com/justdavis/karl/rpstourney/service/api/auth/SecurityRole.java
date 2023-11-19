@@ -4,7 +4,7 @@ import javax.annotation.security.RolesAllowed;
 
 /**
  * Enumerates the security roles used by the application.
- * 
+ *
  * @see RolesAllowed
  */
 public enum SecurityRole {
@@ -32,7 +32,7 @@ public enum SecurityRole {
 
 	/**
 	 * Enum constant constructor.
-	 * 
+	 *
 	 * @param id
 	 *            the value to use for {@link #getId()}
 	 */
@@ -41,9 +41,8 @@ public enum SecurityRole {
 	}
 
 	/**
-	 * @return the unique identifier for this {@link SecurityRole}, which for
-	 *         use with the {@link RolesAllowed} annotation, will also be
-	 *         available as a <code>SecurityRole.ID_NNN</code> constant
+	 * @return the unique identifier for this {@link SecurityRole}, which for use with the {@link RolesAllowed}
+	 *         annotation, will also be available as a <code>SecurityRole.ID_NNN</code> constant
 	 */
 	public String getId() {
 		return id;

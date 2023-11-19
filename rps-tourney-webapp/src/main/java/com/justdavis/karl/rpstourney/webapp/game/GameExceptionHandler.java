@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * This {@link ControllerAdvice} helper maps some specific application
- * exceptions to HTTP response codes.
+ * This {@link ControllerAdvice} helper maps some specific application exceptions to HTTP response codes.
  */
 @ControllerAdvice
 public final class GameExceptionHandler {

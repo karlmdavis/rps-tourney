@@ -15,8 +15,8 @@ public final class GuestLoginIdentityTest {
 	@Test
 	public void simpleUsage() {
 		/*
-		 * This is a silly & pointless test. It's really just a placeholder for
-		 * now. Once persistence has been added, it'll be worth testing that.
+		 * This is a silly & pointless test. It's really just a placeholder for now. Once persistence has been added,
+		 * it'll be worth testing that.
 		 */
 
 		Account account = new Account();

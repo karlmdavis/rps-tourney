@@ -28,8 +28,7 @@ public final class WinStayLoseShiftBrainTest {
 		game.submitThrow(0, game.getPlayer2(), Throw.ROCK);
 
 		/*
-		 * The AI didn't win that round, so it should make the "opposite" Throw
-		 * this round.
+		 * The AI didn't win that round, so it should make the "opposite" Throw this round.
 		 */
 		game.submitThrow(1, game.getPlayer1(), Throw.ROCK);
 		Throw aiThrowSecond = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
@@ -37,8 +36,7 @@ public final class WinStayLoseShiftBrainTest {
 		game.submitThrow(1, game.getPlayer2(), aiThrowSecond);
 
 		/*
-		 * The AI did win that round, so it should make the same Throw this
-		 * round.
+		 * The AI did win that round, so it should make the same Throw this round.
 		 */
 		Throw aiThrowThird = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
 		Assert.assertEquals(Throw.PAPER, aiThrowThird);

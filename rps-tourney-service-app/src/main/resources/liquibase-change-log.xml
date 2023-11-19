@@ -15,17 +15,15 @@
 	<property name="fkColumnName.LoginIdentity.id" value="LOGINIDENTITYID" dbms="hsqldb" />
 	<property name="fkColumnName.LoginIdentity.id" value="loginidentityid" dbms="postgresql" />
 
-	<!-- This was required to work around https://hibernate.atlassian.net/browse/HHH-9430 
-		and https://hibernate.atlassian.net/browse/HHH-9431. As of change set 10,
-		though, sequences are used for both DB platforms. -->
+	<!-- This was required to work around https://hibernate.atlassian.net/browse/HHH-9430 and https://hibernate.atlassian.net/browse/HHH-9431.
+		As of change set 10, though, sequences are used for both DB platforms. -->
 	<property name="option.autoIncrement" value="true" dbms="hsqldb" />
 	<property name="option.autoIncrement" value="false" dbms="postgresql" />
 
 	<changeSet id="1" author="karlmdavis">
 
 		<createTable tableName="Accounts">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="createdTimestamp" type="timestamp">
@@ -36,8 +34,8 @@
 
 		<createTable tableName="AccountRoles">
 			<column name="accountId" type="bigint">
-				<constraints primaryKey="true" nullable="false"
-					foreignKeyName="AccountRolesToAccounts" referencedTableName="Accounts" />
+				<constraints primaryKey="true" nullable="false" foreignKeyName="AccountRolesToAccounts"
+					referencedTableName="Accounts" />
 			</column>
 			<column name="role" type="varchar(50)">
 				<constraints primaryKey="true" nullable="false" />
@@ -49,8 +47,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="accountId" type="bigint">
-				<constraints nullable="false" foreignKeyName="AuthTokensToAccounts"
-					referencedTableName="Accounts" />
+				<constraints nullable="false" foreignKeyName="AuthTokensToAccounts" referencedTableName="Accounts" />
 			</column>
 			<column name="createdTimestamp" type="timestamp">
 				<constraints nullable="false" />
@@ -58,8 +55,7 @@
 		</createTable>
 
 		<createTable tableName="GameLoginIdentities">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="accountId" type="bigint">
@@ -78,8 +74,7 @@
 		</createTable>
 
 		<createTable tableName="GuestLoginIdentities">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="accountId" type="bigint">
@@ -102,30 +97,27 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="player1Id" type="bigint">
-				<constraints foreignKeyName="GamesToPlayers1"
-					referencedTableName="Players" />
+				<constraints foreignKeyName="GamesToPlayers1" referencedTableName="Players" />
 			</column>
 			<column name="player2Id" type="bigint">
-				<constraints foreignKeyName="GamesToPlayers2"
-					referencedTableName="Players" />
+				<constraints foreignKeyName="GamesToPlayers2" referencedTableName="Players" />
 			</column>
 		</createTable>
 
 		<createTable tableName="Players">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="humanAccountId" type="bigint">
-				<constraints nullable="false" unique="true"
-					foreignKeyName="PlayersToAccounts" referencedTableName="Accounts" />
+				<constraints nullable="false" unique="true" foreignKeyName="PlayersToAccounts"
+					referencedTableName="Accounts" />
 			</column>
 		</createTable>
 
 		<createTable tableName="GameRounds">
 			<column name="${fkColumnName.Game.id}" type="${type.gameId}">
-				<constraints primaryKey="true" nullable="false"
-					foreignKeyName="GameRoundsToGame" referencedTableName="Games" />
+				<constraints primaryKey="true" nullable="false" foreignKeyName="GameRoundsToGame"
+					referencedTableName="Games" />
 			</column>
 			<column name="roundIndex" type="int">
 				<constraints primaryKey="true" nullable="false" />
@@ -143,13 +135,12 @@
 			<column name="throwForPlayer2Timestamp" type="timestamp" />
 		</createTable>
 
-		<!-- Create a TRIGGER-based constraint that ensures that GameRounds.throwForPlayerN 
-			can only ever be set once. This is required in the face of multiple conflicting 
-			concurrent requests, so that only one such request ever succeeds. -->
-		<sqlFile path="trigger-GameRounds_throwProtect-hsqldb.sql"
-			relativeToChangelogFile="true" splitStatements="false" dbms="hsqldb" />
-		<sqlFile path="trigger-GameRounds_throwProtect-postgresql.sql"
-			relativeToChangelogFile="true" splitStatements="false" dbms="postgresql" />
+		<!-- Create a TRIGGER-based constraint that ensures that GameRounds.throwForPlayerN can only ever be set once. This is
+			required in the face of multiple conflicting concurrent requests, so that only one such request ever succeeds. -->
+		<sqlFile path="trigger-GameRounds_throwProtect-hsqldb.sql" relativeToChangelogFile="true"
+			splitStatements="false" dbms="hsqldb" />
+		<sqlFile path="trigger-GameRounds_throwProtect-postgresql.sql" relativeToChangelogFile="true"
+			splitStatements="false" dbms="postgresql" />
 
 	</changeSet>
 
@@ -164,29 +155,23 @@
 
 	<changeSet id="3" author="karlmdavis">
 
-		<!-- A new AbstractLoginIdentity base class was created for GameLoginIdentity 
-			and GuestLoginIdentity. As the webapp didn't yet support creating game logins, 
-			we truncate that table, and copy all guest login IDs into the new "base" 
-			table. -->
+		<!-- A new AbstractLoginIdentity base class was created for GameLoginIdentity and GuestLoginIdentity. As the webapp didn't
+			yet support creating game logins, we truncate that table, and copy all guest login IDs into the new "base" table. -->
 
-		<!-- Note, though, that this is right around where I realized that guest 
-			logins don't actually have any non-base data associated with them. I need 
-			to think about it some still, but they probably ought to have the AuthTokens, 
-			rather than those being associated directly with Accounts. -->
+		<!-- Note, though, that this is right around where I realized that guest logins don't actually have any non-base data associated
+			with them. I need to think about it some still, but they probably ought to have the AuthTokens, rather than those being associated
+			directly with Accounts. -->
 
-		<!-- This change set had a goof that had to be hacked out, as part of Issue 
-			#106. -->
+		<!-- This change set had a goof that had to be hacked out, as part of Issue #106. -->
 		<validCheckSum>7:90bcfccbd78b4aa501e0d2cbe5d8db8b</validCheckSum>
 
 		<!-- Create the new base table. -->
 		<createTable tableName="LoginIdentities">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="accountId" type="bigint">
-				<constraints nullable="false" foreignKeyName="LoginIdentitiesToAccounts"
-					referencedTableName="Accounts" />
+				<constraints nullable="false" foreignKeyName="LoginIdentitiesToAccounts" referencedTableName="Accounts" />
 			</column>
 			<column name="createdTimestamp" type="timestamp">
 				<constraints nullable="false" />
@@ -197,7 +182,8 @@
 		<sql dbms="hsqldb, postgresql">
 			INSERT INTO "LoginIdentities" ("id", "accountId",
 			"createdTimestamp")
-			SELECT "id", "accountId", '2015-01-19 12:00:00
+			SELECT "id", "accountId",
+			'2015-01-19 12:00:00
 			America/New_York'
 			FROM "GuestLoginIdentities";
 		</sql>
@@ -210,8 +196,8 @@
 			DELETE FROM "GameLoginIdentities";
 		</sql>
 		<addForeignKeyConstraint constraintName="GameLoginIdentitiesIdToLoginIdentitiesId"
-			referencedTableName="LoginIdentities" baseColumnNames="id"
-			baseTableName="GameLoginIdentities" referencedColumnNames="id" />
+			referencedTableName="LoginIdentities" baseColumnNames="id" baseTableName="GameLoginIdentities"
+			referencedColumnNames="id" />
 		<dropColumn tableName="GameLoginIdentities" columnName="accountId" />
 		<dropColumn tableName="GameLoginIdentities" columnName="createdTimestamp" />
 
@@ -226,8 +212,7 @@
 	<changeSet id="5" author="karlmdavis">
 
 		<createTable tableName="AuditAccountMerges">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="mergeTimestamp" type="timestamp">
@@ -242,29 +227,24 @@
 		<createTable tableName="AuditAccountLoginMerges">
 			<column name="auditAccountMergeId" type="bigint">
 				<constraints primaryKey="true" nullable="false"
-					foreignKeyName="AuditAccountLoginMergesToAuditAccountMerges"
-					referencedTableName="AuditAccountMerges" />
+					foreignKeyName="AuditAccountLoginMergesToAuditAccountMerges" referencedTableName="AuditAccountMerges" />
 			</column>
 			<column name="${fkColumnName.LoginIdentity.id}" type="bigint">
-				<constraints nullable="false"
-					foreignKeyName="AuditAccountLoginMergesToLoginIdentities"
+				<constraints nullable="false" foreignKeyName="AuditAccountLoginMergesToLoginIdentities"
 					referencedTableName="LoginIdentities" />
 			</column>
 		</createTable>
 
 		<createTable tableName="AuditAccountGameMerges">
-			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}"
-				startWith="1">
+			<column name="id" type="bigint" autoIncrement="${option.autoIncrement}" startWith="1">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="parentAuditAccountMergeId" type="bigint">
-				<constraints nullable="false"
-					foreignKeyName="AuditAccountGameMergesToAuditAccountMerges"
+				<constraints nullable="false" foreignKeyName="AuditAccountGameMergesToAuditAccountMerges"
 					referencedTableName="AuditAccountMerges" />
 			</column>
 			<column name="${fkColumnName.Game.id}" type="${type.gameId}">
-				<constraints nullable="false" foreignKeyName="AuditAccountGameMergesToGames"
-					referencedTableName="Games" />
+				<constraints nullable="false" foreignKeyName="AuditAccountGameMergesToGames" referencedTableName="Games" />
 			</column>
 			<column name="playerRole" type="varchar(50)">
 				<constraints nullable="false" />
@@ -294,51 +274,41 @@
 
 	<changeSet id="8" author="karlmdavis">
 
-		<!-- These FK contraints were all missing, due to me forgetting to include 
-			the 'referencedColumnNames' attribute in my 'createTable/column/constraints' 
-			directives, above. Fixed as part of https://github.com/karlmdavis/rps-tourney/issues/106. -->
+		<!-- These FK contraints were all missing, due to me forgetting to include the 'referencedColumnNames' attribute in my
+			'createTable/column/constraints' directives, above. Fixed as part of https://github.com/karlmdavis/rps-tourney/issues/106. -->
 
 		<addForeignKeyConstraint constraintName="AccountRolesToAccountsId"
-			baseTableName="AccountRoles" baseColumnNames="accountId"
-			referencedTableName="Accounts" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="AuthTokensToAccountsId"
-			baseTableName="AuthTokens" baseColumnNames="accountId"
-			referencedTableName="Accounts" referencedColumnNames="id" />
+			baseTableName="AccountRoles" baseColumnNames="accountId" referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuthTokensToAccountsId" baseTableName="AuthTokens"
+			baseColumnNames="accountId" referencedTableName="Accounts" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="GuestLoginIdentitiesToLoginIdentitiesId"
-			baseTableName="GuestLoginIdentities" baseColumnNames="id"
-			referencedTableName="LoginIdentities" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="GamesToPlayersId1"
-			baseTableName="Games" baseColumnNames="player1Id"
-			referencedTableName="Players" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="GamesToPlayersId2"
-			baseTableName="Games" baseColumnNames="player2Id"
-			referencedTableName="Players" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="PlayersToAccountsId"
-			baseTableName="Players" baseColumnNames="humanAccountId"
-			referencedTableName="Accounts" referencedColumnNames="id" />
-		<addForeignKeyConstraint constraintName="GameRoundsToGamesId"
-			baseTableName="GameRounds" baseColumnNames="${fkColumnName.Game.id}"
-			referencedTableName="Games" referencedColumnNames="id" />
+			baseTableName="GuestLoginIdentities" baseColumnNames="id" referencedTableName="LoginIdentities"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GamesToPlayersId1" baseTableName="Games"
+			baseColumnNames="player1Id" referencedTableName="Players" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GamesToPlayersId2" baseTableName="Games"
+			baseColumnNames="player2Id" referencedTableName="Players" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="PlayersToAccountsId" baseTableName="Players"
+			baseColumnNames="humanAccountId" referencedTableName="Accounts" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="GameRoundsToGamesId" baseTableName="GameRounds"
+			baseColumnNames="${fkColumnName.Game.id}" referencedTableName="Games" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="LoginIdentitiesToAccountsId"
-			baseTableName="LoginIdentities" baseColumnNames="accountId"
-			referencedTableName="Accounts" referencedColumnNames="id" />
+			baseTableName="LoginIdentities" baseColumnNames="accountId" referencedTableName="Accounts" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="AuditAccountMergesToAccountsId"
-			baseTableName="AuditAccountMerges" baseColumnNames="targetAccountId"
-			referencedTableName="Accounts" referencedColumnNames="id" />
-		<addForeignKeyConstraint
-			constraintName="AuditAccountLoginMergesToAuditAccountMergesId"
+			baseTableName="AuditAccountMerges" baseColumnNames="targetAccountId" referencedTableName="Accounts"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="AuditAccountLoginMergesToAuditAccountMergesId"
 			baseTableName="AuditAccountLoginMerges" baseColumnNames="auditAccountMergeId"
 			referencedTableName="AuditAccountMerges" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="AuditAccountLoginMergesToLoginIdentitiesId"
 			baseTableName="AuditAccountLoginMerges" baseColumnNames="${fkColumnName.LoginIdentity.id}"
 			referencedTableName="LoginIdentities" referencedColumnNames="id" />
-		<addForeignKeyConstraint
-			constraintName="AuditAccountGameMergesToAuditAccountMergesId"
+		<addForeignKeyConstraint constraintName="AuditAccountGameMergesToAuditAccountMergesId"
 			baseTableName="AuditAccountGameMerges" baseColumnNames="parentAuditAccountMergeId"
 			referencedTableName="AuditAccountMerges" referencedColumnNames="id" />
 		<addForeignKeyConstraint constraintName="AuditAccountGameMergesToGamesId"
-			baseTableName="AuditAccountGameMerges" baseColumnNames="${fkColumnName.Game.id}"
-			referencedTableName="Games" referencedColumnNames="id" />
+			baseTableName="AuditAccountGameMerges" baseColumnNames="${fkColumnName.Game.id}" referencedTableName="Games"
+			referencedColumnNames="id" />
 
 	</changeSet>
 
@@ -362,7 +332,7 @@
 		<modifyDataType tableName="LoginIdentities" columnName="id" newDataType="bigint" />
 		<modifyDataType tableName="AuditAccountMerges" columnName="id" newDataType="bigint" />
 		<modifyDataType tableName="AuditAccountGameMerges" columnName="id" newDataType="bigint" />
-		
+
 		<!-- Add all of the same sequences used in PostgreSQL. -->
 		<createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="1" />
 		<createSequence sequenceName="players_id_seq" startValue="1" incrementBy="1" />

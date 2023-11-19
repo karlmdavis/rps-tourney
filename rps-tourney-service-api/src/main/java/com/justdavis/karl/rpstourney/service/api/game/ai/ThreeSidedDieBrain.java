@@ -7,9 +7,8 @@ import com.justdavis.karl.rpstourney.service.api.game.PlayerRole;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
- * This {@link IPositronicBrain} rolls a "three-sided die" to determine which
- * {@link Throw} to make. It's just random; history and tactics are completely
- * ignored.
+ * This {@link IPositronicBrain} rolls a "three-sided die" to determine which {@link Throw} to make. It's just random;
+ * history and tactics are completely ignored.
  */
 public final class ThreeSidedDieBrain implements IPositronicBrain {
 	/**
@@ -22,12 +21,10 @@ public final class ThreeSidedDieBrain implements IPositronicBrain {
 	}
 
 	/**
-	 * This has been extracted into a static method for the convenience of other
-	 * {@link IPositronicBrain} implementations, as many of them will sometimes
-	 * need to select a random {@link Throw}.
-	 * 
-	 * @return a random {@link Throw}, where all possibilities are weighted
-	 *         equally
+	 * This has been extracted into a static method for the convenience of other {@link IPositronicBrain}
+	 * implementations, as many of them will sometimes need to select a random {@link Throw}.
+	 *
+	 * @return a random {@link Throw}, where all possibilities are weighted equally
 	 */
 	static Throw calculateRandomThrow() {
 		ThreadLocalRandom rng = ThreadLocalRandom.current();

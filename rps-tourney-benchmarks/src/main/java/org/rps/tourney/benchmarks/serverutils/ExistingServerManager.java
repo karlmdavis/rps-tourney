@@ -14,32 +14,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This {@link IServerManager} implementation is used when the benchmarks should
- * run against an already-running server, such as production.
+ * This {@link IServerManager} implementation is used when the benchmarks should run against an already-running server,
+ * such as production.
  */
 public final class ExistingServerManager implements IServerManager {
 	/**
-	 * The {@link System#getProperties()} key that specifies the {@link URL} of
-	 * the already-running web service to use.
+	 * The {@link System#getProperties()} key that specifies the {@link URL} of the already-running web service to use.
 	 */
 	public static final String PROP_SERVICE_URL = "rps.service.url";
 
 	/**
-	 * The {@link System#getProperties()} key that specifies the {@link URL} of
-	 * the already-running web application to use.
+	 * The {@link System#getProperties()} key that specifies the {@link URL} of the already-running web application to
+	 * use.
 	 */
 	public static final String PROP_WEBAPP_URL = "rps.webapp.url";
 
 	/**
-	 * The {@link System#getProperties()} key that specifies the email
-	 * address/login of the admin account for the already-running web service to
-	 * use.
+	 * The {@link System#getProperties()} key that specifies the email address/login of the admin account for the
+	 * already-running web service to use.
 	 */
 	public static final String PROP_SERVICE_ADMIN_ADDRESS = "rps.service.admin.address";
 
 	/**
-	 * The {@link System#getProperties()} key that specifies the password of the
-	 * admin account for the already-running web service to use.
+	 * The {@link System#getProperties()} key that specifies the password of the admin account for the already-running
+	 * web service to use.
 	 */
 	public static final String PROP_SERVICE_ADMIN_PASSWORD = "rps.service.admin.password";
 
@@ -51,9 +49,8 @@ public final class ExistingServerManager implements IServerManager {
 	private final String adminPassword;
 
 	/**
-	 * Constructs a new {@link ExistingServerManager} instance. Will attempt to
-	 * configure itself based on the current Java system properties. If it
-	 * fails, it will throw an {@link IllegalArgumentException}.
+	 * Constructs a new {@link ExistingServerManager} instance. Will attempt to configure itself based on the current
+	 * Java system properties. If it fails, it will throw an {@link IllegalArgumentException}.
 	 */
 	public ExistingServerManager() {
 		String serviceUrlText = System.getProperty(PROP_SERVICE_URL);
@@ -95,7 +92,7 @@ public final class ExistingServerManager implements IServerManager {
 	public URL getServiceUrl() {
 		return serviceUrl;
 	}
-	
+
 	/**
 	 * @see org.rps.tourney.benchmarks.serverutils.IServerManager#getWebAppUrl()
 	 */
@@ -145,10 +142,8 @@ public final class ExistingServerManager implements IServerManager {
 	}
 
 	/**
-	 * @return <code>true</code> if the necessary {@link System#getProperties()}
-	 *         entries have been provided to properly configure an
-	 *         {@link ExistingServerManager}, <code>false</code> if they have
-	 *         not
+	 * @return <code>true</code> if the necessary {@link System#getProperties()} entries have been provided to properly
+	 *         configure an {@link ExistingServerManager}, <code>false</code> if they have not
 	 */
 	public static boolean isConfigured() {
 		try {
@@ -162,14 +157,12 @@ public final class ExistingServerManager implements IServerManager {
 
 	/**
 	 * <p>
-	 * Generates the Java System properties that would configure the benchmarks
-	 * to run against a local Tomcat instance running out of Eclipse on port
-	 * <code>9093</code>.
+	 * Generates the Java System properties that would configure the benchmarks to run against a local Tomcat instance
+	 * running out of Eclipse on port <code>9093</code>.
 	 * </p>
 	 * <p>
-	 * Just a convenience method for use in {@link Benchmark} classes'
-	 * <code>main(...)</code> methods. Should be used with
-	 * {@link ChainedOptionsBuilder#jvmArgsAppend(String...)}.
+	 * Just a convenience method for use in {@link Benchmark} classes' <code>main(...)</code> methods. Should be used
+	 * with {@link ChainedOptionsBuilder#jvmArgsAppend(String...)}.
 	 * </p>
 	 */
 	public static String[] jvmArgsForTomcatWtp() {
@@ -179,8 +172,7 @@ public final class ExistingServerManager implements IServerManager {
 		jvmArgs.add(String.format("-D%s=%s", PROP_WEBAPP_URL, "http://localhost:9093/rps-tourney-webapp"));
 
 		/*
-		 * The admin login details are specified in
-		 * /rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml.
+		 * The admin login details are specified in /rps-tourney-webapp/src/test/resources/rps-service-config-dev.xml.
 		 */
 		jvmArgs.add(String.format("-D%s=%s", PROP_SERVICE_ADMIN_ADDRESS, "admin@example.com"));
 		jvmArgs.add(String.format("-D%s=%s", PROP_SERVICE_ADMIN_PASSWORD, "password"));

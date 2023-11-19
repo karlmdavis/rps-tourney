@@ -22,9 +22,8 @@ import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
  */
 public final class DefaultGuestLoginManagerTest {
 	/**
-	 * Verifies that
-	 * {@link DefaultGuestLoginManager#loginClientAsGuest(HttpServletRequest, HttpServletResponse)}
-	 * works as expected.
+	 * Verifies that {@link DefaultGuestLoginManager#loginClientAsGuest(HttpServletRequest, HttpServletResponse)} works
+	 * as expected.
 	 */
 	@Test
 	public void loginClientAsGuest() {
@@ -48,9 +47,8 @@ public final class DefaultGuestLoginManagerTest {
 	}
 
 	/**
-	 * Verifies that
-	 * {@link DefaultGuestLoginManager#loginClientAsGuest(HttpServletRequest, HttpServletResponse)}
-	 * fails as expected when called for an already-authenticated request.
+	 * Verifies that {@link DefaultGuestLoginManager#loginClientAsGuest(HttpServletRequest, HttpServletResponse)} fails
+	 * as expected when called for an already-authenticated request.
 	 */
 	@Test(expected = BadCodeMonkeyException.class)
 	public void loginClientAsGuest_alreadyAuhenticated() {
@@ -72,15 +70,14 @@ public final class DefaultGuestLoginManagerTest {
 	}
 
 	/**
-	 * A mock {@link SecurityContextHolderStrategy} implementation for use in
-	 * tests.
+	 * A mock {@link SecurityContextHolderStrategy} implementation for use in tests.
 	 */
 	private static final class MockSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
 		private final SecurityContext securityContext;
 
 		/**
 		 * Constructs a new {@link MockSecurityContextHolderStrategy} instance.
-		 * 
+		 *
 		 * @param securityContext
 		 *            the value to use for {@link #getContext()}
 		 */
@@ -129,7 +126,7 @@ public final class DefaultGuestLoginManagerTest {
 
 		/**
 		 * Constructs a new {@link MockGuestAuthClient} instance.
-		 * 
+		 *
 		 * @param loginResult
 		 *            the vaue to return for {@link #loginAsGuest()}
 		 */
@@ -172,8 +169,7 @@ public final class DefaultGuestLoginManagerTest {
 
 		/**
 		 * @see org.springframework.security.web.authentication.RememberMeServices#loginSuccess(javax.servlet.http.HttpServletRequest,
-		 *      javax.servlet.http.HttpServletResponse,
-		 *      org.springframework.security.core.Authentication)
+		 *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)
 		 */
 		@Override
 		public void loginSuccess(HttpServletRequest request, HttpServletResponse response,

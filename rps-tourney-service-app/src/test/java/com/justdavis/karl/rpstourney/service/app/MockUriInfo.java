@@ -9,8 +9,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * A mock implementation of {@link UriInfo} for use in tests. Any methods needed
- * in a given test should be overridden.
+ * A mock implementation of {@link UriInfo} for use in tests. Any methods needed in a given test should be overridden.
  */
 public class MockUriInfo implements UriInfo {
 	/**

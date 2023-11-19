@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -11,18 +12,20 @@
 	<packaging>pom</packaging>
 
 	<name>rps-tourney-deployment</name>
-	<description>
-		A stub project used to provide the configuration needed
-		for the Maven Cargo plugin to deploy things. Note that 
-		nothing will be deployed automatically as part of a normal 
-		build; deployments must be run manually. See the 
-		deploy-to-justdavis.sh script.
-	</description>
+	<description>A stub project used to provide the configuration needed
+		for the Maven Cargo plugin to deploy things. Note that
+		nothing will be deployed automatically as part of a normal
+		build; deployments must be run manually. See the
+		deploy-to-justdavis.sh script.</description>
 
 	<properties>
-		<!-- This property is used to allow the version to be specified/overridden 
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
+
+		<!-- This property is used to allow the version to be specified/overridden
 			on the command line via '-Drps.version=...'. -->
-		<!-- The maven-release-plugin does update this version (as necessary) during 
+		<!-- The maven-release-plugin does update this version (as necessary) during
 			releases. -->
 		<rps.version>2.0.0-SNAPSHOT</rps.version>
 	</properties>
@@ -62,9 +65,9 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<!-- The Cargo plugin can be run to deploy/undeploy the configured WARs 
-						to the justdavis.com Tomcat server. Note that it must be run manually; no 
-						automatic executions are configured here. See the deploy-to-justdavis.sh 
+					<!-- The Cargo plugin can be run to deploy/undeploy the configured WARs
+						to the justdavis.com Tomcat server. Note that it must be run manually; no
+						automatic executions are configured here. See the deploy-to-justdavis.sh
 						script. -->
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
@@ -77,7 +80,7 @@
 							<type>runtime</type>
 							<properties>
 								<cargo.remote.uri>https://justdavis.com/manager/text</cargo.remote.uri>
-								<!-- The username and password for this server must be specified 
+								<!-- The username and password for this server must be specified
 									in the user's settings.xml file, as described at http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide. -->
 								<cargo.server.settings>justdavis.com-jetty</cargo.server.settings>
 							</properties>
@@ -115,10 +118,10 @@
 						<!-- Because this module's packaging is 'pom' the resources plugin doesn't
 							run by default. This is us fixing that, since we happen to need it. -->
 						<id>process-config-resources</id>
-						<phase>process-resources</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
+						<phase>process-resources</phase>
 					</execution>
 				</executions>
 			</plugin>

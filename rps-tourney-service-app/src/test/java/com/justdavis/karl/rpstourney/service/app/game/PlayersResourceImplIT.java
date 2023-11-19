@@ -62,8 +62,7 @@ public final class PlayersResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link PlayersResourceImpl#findOrCreatePlayer()} works
-	 * correctly.
+	 * Ensures that {@link PlayersResourceImpl#findOrCreatePlayer()} works correctly.
 	 */
 	@Test
 	public void findOrCreatePlayer() {
@@ -87,9 +86,7 @@ public final class PlayersResourceImplIT {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link PlayersResourceImpl#getPlayersForBuiltInAis(java.util.List)} works
-	 * correctly.
+	 * Ensures that {@link PlayersResourceImpl#getPlayersForBuiltInAis(java.util.List)} works correctly.
 	 */
 	@Test
 	public void getPlayersForBuiltInAis() {

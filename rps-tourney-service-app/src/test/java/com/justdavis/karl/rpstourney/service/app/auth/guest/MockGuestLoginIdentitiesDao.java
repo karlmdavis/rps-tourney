@@ -7,8 +7,8 @@ import com.justdavis.karl.rpstourney.service.api.auth.guest.GuestLoginIdentity;
 import com.justdavis.karl.rpstourney.service.app.auth.MockAccountsDao;
 
 /**
- * A mock {@link IGuestLoginIndentitiesDao} implementation for use in tests.
- * Stores {@link GuestLoginIdentity} instances in-memory.
+ * A mock {@link IGuestLoginIndentitiesDao} implementation for use in tests. Stores {@link GuestLoginIdentity} instances
+ * in-memory.
  */
 public final class MockGuestLoginIdentitiesDao implements IGuestLoginIndentitiesDao {
 	public final List<GuestLoginIdentity> logins = new ArrayList<>();
@@ -16,7 +16,7 @@ public final class MockGuestLoginIdentitiesDao implements IGuestLoginIndentities
 
 	/**
 	 * Constructs a new {@link MockGuestLoginIdentitiesDao} instance.
-	 * 
+	 *
 	 * @param accountsDao
 	 *            the {@link MockAccountsDao} instance that's also being used
 	 */

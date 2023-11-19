@@ -47,19 +47,19 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
- * Each {@link Account} instance represents a given user. It is what a user's
- * details, preferences, and history are associated with.
+ * Each {@link Account} instance represents a given user. It is what a user's details, preferences, and history are
+ * associated with.
  * </p>
  * <p>
- * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
- * specified in the <code>META-INF/orm.xml</code> file.
+ * This class supports JPA. The JPA SQL-specific data (e.g. column names) is specified in the
+ * <code>META-INF/orm.xml</code> file.
  * </p>
  * <p>
  * This class supports JAX-B.
  * </p>
  * <p>
- * This class is marked as {@link Serializable}, as Spring Security will store
- * instances of it as the authenticated {@link Principal}s in user sessions.
+ * This class is marked as {@link Serializable}, as Spring Security will store instances of it as the authenticated
+ * {@link Principal}s in user sessions.
  * </p>
  */
 @XmlRootElement
@@ -95,15 +95,14 @@ public class Account implements Principal, Serializable {
 	@XmlElementWrapper(name = "roles", required = true)
 	@XmlElement(name = "role")
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`") )
+	@CollectionTable(name = "`AccountRoles`", joinColumns = @JoinColumn(name = "`accountId`"))
 	@Column(name = "`role`")
 	@Enumerated(EnumType.STRING)
 	private Set<SecurityRole> roles;
 
 	/**
-	 * This field is marked {@link XmlTransient} to help ensure it's never sent
-	 * off of the server by mistake. Any web services wishing to use it in a
-	 * response will have to do so explicitly.
+	 * This field is marked {@link XmlTransient} to help ensure it's never sent off of the server by mistake. Any web
+	 * services wishing to use it in a response will have to do so explicitly.
 	 */
 	@XmlTransient
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE,
@@ -120,10 +119,9 @@ public class Account implements Principal, Serializable {
 
 	/**
 	 * Constructs a new {@link Account} instance.
-	 * 
+	 *
 	 * @param roles
-	 *            the value to use for {@link #getRoles()} (
-	 *            {@link SecurityRole#USERS} will always be added to this)
+	 *            the value to use for {@link #getRoles()} ( {@link SecurityRole#USERS} will always be added to this)
 	 */
 	public Account(SecurityRole... roles) {
 		this.id = -1;
@@ -145,9 +143,8 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @return <code>true</code> if this {@link Account} has been assigned an ID
-	 *         (which it should if it's been persisted), <code>false</code> if
-	 *         it has not
+	 * @return <code>true</code> if this {@link Account} has been assigned an ID (which it should if it's been
+	 *         persisted), <code>false</code> if it has not
 	 */
 	public boolean hasId() {
 		return id > -1;
@@ -155,16 +152,14 @@ public class Account implements Principal, Serializable {
 
 	/**
 	 * <p>
-	 * Returns the unique integer that identifies and represents this
-	 * {@link Account} instance.
+	 * Returns the unique integer that identifies and represents this {@link Account} instance.
 	 * </p>
 	 * <p>
-	 * This value will be assigned by JPA when the {@link Entity} is persisted.
-	 * Until then, this value should not be accessed.
+	 * This value will be assigned by JPA when the {@link Entity} is persisted. Until then, this value should not be
+	 * accessed.
 	 * </p>
-	 * 
-	 * @return the unique integer that identifies and represents this
-	 *         {@link Account} instance
+	 *
+	 * @return the unique integer that identifies and represents this {@link Account} instance
 	 */
 	public long getId() {
 		if (!hasId())
@@ -181,23 +176,20 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * Returns the modifiable {@link Set} of {@link SecurityRole}s that this
-	 * user {@link Account} is a member of. This {@link Set} should never be
-	 * modified to remove {@link SecurityRole#USERS}; all {@link Account}s
-	 * should be a member of that {@link SecurityRole}.
-	 * 
-	 * @return the modifiable {@link Set} of {@link SecurityRole}s that this
-	 *         user {@link Account} is a member of
+	 * Returns the modifiable {@link Set} of {@link SecurityRole}s that this user {@link Account} is a member of. This
+	 * {@link Set} should never be modified to remove {@link SecurityRole#USERS}; all {@link Account}s should be a
+	 * member of that {@link SecurityRole}.
+	 *
+	 * @return the modifiable {@link Set} of {@link SecurityRole}s that this user {@link Account} is a member of
 	 */
 	public Set<SecurityRole> getRoles() {
 		return roles;
 	}
 
 	/**
-	 * @return the user-defined name for this {@link Account}, or
-	 *         <code>null</code> if the user has not (yet) specified a name for
-	 *         themselves
-	 * 
+	 * @return the user-defined name for this {@link Account}, or <code>null</code> if the user has not (yet) specified
+	 *         a name for themselves
+	 *
 	 * @see java.security.Principal#getName()
 	 */
 	@XmlTransient
@@ -217,8 +209,8 @@ public class Account implements Principal, Serializable {
 	/**
 	 * @param role
 	 *            the {@link SecurityRole} to check for
-	 * @return <code>true</code> if {@link Account#getRoles()} contains the
-	 *         specified {@link SecurityRole}, <code>false</code> if it does not
+	 * @return <code>true</code> if {@link Account#getRoles()} contains the specified {@link SecurityRole},
+	 *         <code>false</code> if it does not
 	 */
 	public boolean hasRole(SecurityRole role) {
 		if (role == null)
@@ -228,8 +220,7 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @return the modifiable {@link Set} of {@link AuthToken}s for this
-	 *         {@link Account}
+	 * @return the modifiable {@link Set} of {@link AuthToken}s for this {@link Account}
 	 */
 	public Set<AuthToken> getAuthTokens() {
 		return authTokens;
@@ -238,8 +229,8 @@ public class Account implements Principal, Serializable {
 	/**
 	 * @param authTokenValue
 	 *            the {@link AuthToken#getToken()} value to match against
-	 * @return the {@link #getAuthTokens()} entry that matches the specified
-	 *         value, or <code>null</code> if no match is found
+	 * @return the {@link #getAuthTokens()} entry that matches the specified value, or <code>null</code> if no match is
+	 *         found
 	 */
 	public AuthToken getAuthToken(UUID authTokenValue) {
 		for (AuthToken authToken : authTokens)
@@ -250,8 +241,7 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @return the first valid {@link #getAuthTokens()} entry found, or
-	 *         <code>null</code> if no such entry is found
+	 * @return the first valid {@link #getAuthTokens()} entry found, or <code>null</code> if no such entry is found
 	 */
 	public AuthToken getAuthToken() {
 		for (AuthToken authToken : authTokens)
@@ -263,16 +253,14 @@ public class Account implements Principal, Serializable {
 	/**
 	 * @param authTokenValue
 	 *            the {@link AuthToken#getToken()} value to match against
-	 * @return <code>true</code> if a matching {@link #getAuthTokens()} entry
-	 *         could be found, <code>false</code> if not
+	 * @return <code>true</code> if a matching {@link #getAuthTokens()} entry could be found, <code>false</code> if not
 	 */
 	public boolean isValidAuthToken(UUID authTokenValue) {
 		return getAuthToken(authTokenValue) != null;
 	}
 
 	/**
-	 * @return the {@link List} of {@link AbstractLoginIdentity}s associated
-	 *         with this {@link Account}, ordered by
+	 * @return the {@link List} of {@link AbstractLoginIdentity}s associated with this {@link Account}, ordered by
 	 *         {@link AbstractLoginIdentity#getCreatedTimestamp()}
 	 */
 	public List<AbstractLoginIdentity> getLogins() {
@@ -280,9 +268,8 @@ public class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @return <code>false</code> if {@link #getLogins()} contains anything
-	 *         other than {@link GuestLoginIdentity}s, <code>true</code>
-	 *         otherwise
+	 * @return <code>false</code> if {@link #getLogins()} contains anything other than {@link GuestLoginIdentity}s,
+	 *         <code>true</code> otherwise
 	 */
 	@JsonProperty
 	public boolean isAnonymous() {
@@ -298,15 +285,13 @@ public class Account implements Principal, Serializable {
 	@Override
 	public int hashCode() {
 		/*
-		 * Uses the id field (which has a UNIQUE constraint in the DB) when
-		 * present, otherwise falls back to the superclass' implementation
-		 * (mostly for the benefit of unit tests).
+		 * Uses the id field (which has a UNIQUE constraint in the DB) when present, otherwise falls back to the
+		 * superclass' implementation (mostly for the benefit of unit tests).
 		 */
 
 		if (hasId()) {
 			/*
-			 * Generated by Eclipse's
-			 * "Source > Generate hashCode() and equals()..." function.
+			 * Generated by Eclipse's "Source > Generate hashCode() and equals()..." function.
 			 */
 			final int prime = 31;
 			int result = 1;
@@ -323,15 +308,13 @@ public class Account implements Principal, Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		/*
-		 * Uses the id field (which has a UNIQUE constraint in the DB) when
-		 * present, otherwise falls back to instance equality (mostly for the
-		 * benefit of unit tests).
+		 * Uses the id field (which has a UNIQUE constraint in the DB) when present, otherwise falls back to instance
+		 * equality (mostly for the benefit of unit tests).
 		 */
 
 		if (hasId()) {
 			/*
-			 * Generated by Eclipse's
-			 * "Source > Generate hashCode() and equals()..." function.
+			 * Generated by Eclipse's "Source > Generate hashCode() and equals()..." function.
 			 */
 			if (this == obj)
 				return true;
@@ -363,9 +346,8 @@ public class Account implements Principal, Serializable {
 		builder.append(", roles=");
 		builder.append(roles);
 		/*
-		 * Warning: printing out the actual authTokens here would be a very bad
-		 * idea, as it might enable security leaks in logs, error messages, and
-		 * such.
+		 * Warning: printing out the actual authTokens here would be a very bad idea, as it might enable security leaks
+		 * in logs, error messages, and such.
 		 */
 		builder.append(", authTokens.size()=");
 		builder.append(authTokens.size());

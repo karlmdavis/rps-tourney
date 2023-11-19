@@ -19,9 +19,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.justdavis.karl.misc.jetty.EmbeddedServer;
 
 /**
- * Integration tests to verify that
- * <a href="https://en.wikipedia.org/wiki/HTTP_404">HTTP 404</a> errors are
- * handled properly.
+ * Integration tests to verify that <a href="https://en.wikipedia.org/wiki/HTTP_404">HTTP 404</a> errors are handled
+ * properly.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SpringBindingsForWebServiceITs.class })
@@ -32,11 +31,9 @@ public final class NotFoundErrorsIT {
 	private EmbeddedServer server;
 
 	/**
-	 * Ensures that an HTTP 404 is returned as expected when requesting an
-	 * invalid URL. This is a regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/108">Issue
-	 * #108: Web service throws 500 errors at AuthenticationFilter:137 if a 404
-	 * is encountered</a>.
+	 * Ensures that an HTTP 404 is returned as expected when requesting an invalid URL. This is a regression test case
+	 * for <a href="https://github.com/karlmdavis/rps-tourney/issues/108">Issue #108: Web service throws 500 errors at
+	 * AuthenticationFilter:137 if a 404 is encountered</a>.
 	 */
 	@Test
 	public void return404ForBadUrls() {

@@ -34,7 +34,7 @@ final class MockPageContext extends PageContext {
 
 	/**
 	 * Constructs a new {@link MockPageContext} instance.
-	 * 
+	 *
 	 * @param jspWriter
 	 *            the {@link JspWriter} to return for calls to {@link #getOut()}
 	 */
@@ -44,12 +44,11 @@ final class MockPageContext extends PageContext {
 
 	/**
 	 * Constructs a new {@link MockPageContext} instance.
-	 * 
+	 *
 	 * @param jspWriter
 	 *            the {@link JspWriter} to return for calls to {@link #getOut()}
 	 * @param servletContext
-	 *            the {@link ServletContext} to return for calls to
-	 *            {@link #getServletContext()}
+	 *            the {@link ServletContext} to return for calls to {@link #getServletContext()}
 	 */
 	public MockPageContext(JspWriter jspWriter, ServletContext servletContext) {
 		this.jspWriter = jspWriter;
@@ -58,8 +57,7 @@ final class MockPageContext extends PageContext {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspContext#setAttribute(java.lang.String,
-	 *      java.lang.Object)
+	 * @see javax.servlet.jsp.JspContext#setAttribute(java.lang.String, java.lang.Object)
 	 */
 	@Override
 	public void setAttribute(String name, Object value) {
@@ -67,8 +65,7 @@ final class MockPageContext extends PageContext {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.JspContext#setAttribute(java.lang.String,
-	 *      java.lang.Object, int)
+	 * @see javax.servlet.jsp.JspContext#setAttribute(java.lang.String, java.lang.Object, int)
 	 */
 	@Override
 	public void setAttribute(String name, Object value, int scope) {
@@ -164,14 +161,13 @@ final class MockPageContext extends PageContext {
 	}
 
 	/**
-	 * @see javax.servlet.jsp.PageContext#initialize(javax.servlet.Servlet,
-	 *      javax.servlet.ServletRequest, javax.servlet.ServletResponse,
-	 *      java.lang.String, boolean, int, boolean)
+	 * @see javax.servlet.jsp.PageContext#initialize(javax.servlet.Servlet, javax.servlet.ServletRequest,
+	 *      javax.servlet.ServletResponse, java.lang.String, boolean, int, boolean)
 	 */
 	@Override
 	public void initialize(Servlet servlet, ServletRequest request, ServletResponse response, String errorPageURL,
 			boolean needsSession, int bufferSize, boolean autoFlush)
-					throws IOException, IllegalStateException, IllegalArgumentException {
+			throws IOException, IllegalStateException, IllegalArgumentException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -280,8 +276,7 @@ final class MockPageContext extends PageContext {
 	}
 
 	/**
-	 * A mock {@link ELContext} implementation for use with
-	 * {@link MockPageContext}.
+	 * A mock {@link ELContext} implementation for use with {@link MockPageContext}.
 	 */
 	private static final class MockELContext extends ELContext {
 		/**

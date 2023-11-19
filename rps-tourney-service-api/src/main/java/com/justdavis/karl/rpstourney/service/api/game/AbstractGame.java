@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
@@ -75,7 +74,7 @@ class AbstractGame {
 
 	/**
 	 * Constructs a new {@link AbstractGame} instance.
-	 * 
+	 *
 	 * @param id
 	 *            the value to use for {@link #getId()}t
 	 * @param createdTimestamp
@@ -115,16 +114,15 @@ class AbstractGame {
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB and JPA specs.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
 	protected AbstractGame() {
 	}
 
 	/**
-	 * @return the unique ID for this {@link Game}, which will match the
-	 *         following regular expression: <code>[a-zA-Z]{1,10}</code>
+	 * @return the unique ID for this {@link Game}, which will match the following regular expression:
+	 *         <code>[a-zA-Z]{1,10}</code>
 	 */
 	public String getId() {
 		return id;
@@ -145,36 +143,30 @@ class AbstractGame {
 	}
 
 	/**
-	 * @return the maximum number of non-tied rounds that play will continue for
-	 *         (though play will end early if a player takes a non-loseable
-	 *         lead), which will be at least 1, an odd number, and less than or
-	 *         equal to {@link #MAX_MAX_ROUNDS}
+	 * @return the maximum number of non-tied rounds that play will continue for (though play will end early if a player
+	 *         takes a non-loseable lead), which will be at least 1, an odd number, and less than or equal to
+	 *         {@link #MAX_MAX_ROUNDS}
 	 */
 	public int getMaxRounds() {
 		return maxRounds;
 	}
 
 	/**
-	 * Returns an immutable copy of the {@link List} of {@link GameRound}s that
-	 * are part of this {@link Game}, where the last {@link GameRound} in the
-	 * {@link List} will be the current or final round of play. Will return an
-	 * empty {@link List} if {@link #getState()} is
-	 * {@value State#WAITING_FOR_PLAYER}.
-	 * 
-	 * @return an immutable copy of the {@link List} of {@link GameRound}s that
-	 *         are part of this {@link Game}, or an empty {@link List} if
-	 *         {@link #getState()} is {@value State#WAITING_FOR_PLAYER}
+	 * Returns an immutable copy of the {@link List} of {@link GameRound}s that are part of this {@link Game}, where the
+	 * last {@link GameRound} in the {@link List} will be the current or final round of play. Will return an empty
+	 * {@link List} if {@link #getState()} is {@value State#WAITING_FOR_PLAYER}.
+	 *
+	 * @return an immutable copy of the {@link List} of {@link GameRound}s that are part of this {@link Game}, or an
+	 *         empty {@link List} if {@link #getState()} is {@value State#WAITING_FOR_PLAYER}
 	 */
 	public List<GameRound> getRounds() {
 		return Collections.unmodifiableList(rounds);
 	}
 
 	/**
-	 * 
-	 * @return <code>true</code> if {@link Game#prepareRound()} needs to be
-	 *         called before the next
-	 *         {@link Game#submitThrow(int, Player, Throw)}, <code>false</code>
-	 *         if it does not
+	 *
+	 * @return <code>true</code> if {@link Game#prepareRound()} needs to be called before the next
+	 *         {@link Game#submitThrow(int, Player, Throw)}, <code>false</code> if it does not
 	 * @see Game#prepareRound()
 	 */
 	public boolean isRoundPrepared() {
@@ -187,8 +179,7 @@ class AbstractGame {
 		GameRound currentRound = rounds.get(currentRoundIndex);
 
 		/*
-		 * Is the current round complete? (Note that the game isn't marked
-		 * FINISHED.)
+		 * Is the current round complete? (Note that the game isn't marked FINISHED.)
 		 */
 		if (currentRound.getResult() != null) {
 			return false;
@@ -200,8 +191,7 @@ class AbstractGame {
 	/**
 	 * @return the latest/current {@link GameRound}
 	 * @throws IllegalStateException
-	 *             An {@link IllegalStateException} will be thrown if this is
-	 *             called while {@link #getState()} is
+	 *             An {@link IllegalStateException} will be thrown if this is called while {@link #getState()} is
 	 *             {@link State#WAITING_FOR_PLAYER}.
 	 */
 	public GameRound getCurrentRound() {
@@ -214,10 +204,8 @@ class AbstractGame {
 
 	/**
 	 * @return the latest {@link GameRound#getThrowForPlayer1Timestamp()} /
-	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the
-	 *         {@link GameRound}s in this {@link Game}, or
-	 *         {@link Game#getCreatedTimestamp()} if no throws have yet been
-	 *         made
+	 *         {@link GameRound#getThrowForPlayer2Timestamp()} value for the {@link GameRound}s in this {@link Game}, or
+	 *         {@link Game#getCreatedTimestamp()} if no throws have yet been made
 	 */
 	public Instant getLastThrowTimestamp() {
 		Instant lastThrowTime = createdTimestamp;
@@ -235,8 +223,7 @@ class AbstractGame {
 	}
 
 	/**
-	 * @return the number of {@link GameRound}s in {@link #getRounds()} that
-	 *         {@link #getPlayer1()} has won
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} that {@link #getPlayer1()} has won
 	 */
 	@XmlElement
 	@JsonProperty
@@ -247,8 +234,7 @@ class AbstractGame {
 	}
 
 	/**
-	 * @return the number of {@link GameRound}s in {@link #getRounds()} that
-	 *         {@link #getPlayer2()} has won
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} that {@link #getPlayer2()} has won
 	 */
 	@XmlElement
 	@JsonProperty
@@ -261,15 +247,14 @@ class AbstractGame {
 	/**
 	 * @param result
 	 *            the {@link GameRound#getResult()} value to match
-	 * @return the number of {@link GameRound}s in {@link #getRounds()} with the
-	 *         specified {@link GameRound#getResult()} value
+	 * @return the number of {@link GameRound}s in {@link #getRounds()} with the specified {@link GameRound#getResult()}
+	 *         value
 	 */
 	private int countRoundsWithResult(Result result) {
 		int playerWins = 0;
 		for (GameRound round : rounds) {
 			/*
-			 * If this round isn't complete, the game is still in-progress and
-			 * we can stop counting early.
+			 * If this round isn't complete, the game is still in-progress and we can stop counting early.
 			 */
 			if (round.getResult() == null)
 				break;
@@ -282,10 +267,9 @@ class AbstractGame {
 	}
 
 	/**
-	 * Determines the {@link Player} that won this {@link Game}, or
-	 * <code>null</code> if {@link Game#getState()} is not yet
-	 * {@link State#FINISHED}.
-	 * 
+	 * Determines the {@link Player} that won this {@link Game}, or <code>null</code> if {@link Game#getState()} is not
+	 * yet {@link State#FINISHED}.
+	 *
 	 * @return the {@link Player} that won this {@link Game}.
 	 */
 	@XmlElement
@@ -296,8 +280,7 @@ class AbstractGame {
 	}
 
 	/**
-	 * @return the {@link Player} that won this {@link Game}, or
-	 *         <code>null</code> if the game is still in-progress
+	 * @return the {@link Player} that won this {@link Game}, or <code>null</code> if the game is still in-progress
 	 */
 	protected Player checkForWinner() {
 		if (state == State.WAITING_FOR_PLAYER)
@@ -323,7 +306,7 @@ class AbstractGame {
 
 	/**
 	 * Note: Player order has no effect on gameplay.
-	 * 
+	 *
 	 * @return the first {@link Player}
 	 */
 	public Player getPlayer1() {
@@ -332,9 +315,8 @@ class AbstractGame {
 
 	/**
 	 * Note: Player order has no effect on gameplay.
-	 * 
-	 * @return the second {@link Player}, or <code>null</code> if they have not
-	 *         yet been identified
+	 *
+	 * @return the second {@link Player}, or <code>null</code> if they have not yet been identified
 	 */
 	public Player getPlayer2() {
 		return player2;
@@ -342,12 +324,11 @@ class AbstractGame {
 
 	/**
 	 * A utility method for working with game {@link Player}s.
-	 * 
+	 *
 	 * @param player
 	 *            the {@link Player} to check
-	 * @return <code>true</code> if the specified {@link Player} represents
-	 *         {@link #getPlayer1()} or {@link #getPlayer2()},
-	 *         <code>false</code> otherwise
+	 * @return <code>true</code> if the specified {@link Player} represents {@link #getPlayer1()} or
+	 *         {@link #getPlayer2()}, <code>false</code> otherwise
 	 */
 	public boolean isPlayer(Player player) {
 		if (player == null)
@@ -367,12 +348,11 @@ class AbstractGame {
 
 	/**
 	 * A utility method for working with game {@link Player}s.
-	 * 
+	 *
 	 * @param account
 	 *            the {@link Account} to check
-	 * @return <code>true</code> if the specified {@link Account} represents
-	 *         {@link #getPlayer1()} or {@link #getPlayer2()},
-	 *         <code>false</code> otherwise
+	 * @return <code>true</code> if the specified {@link Account} represents {@link #getPlayer1()} or
+	 *         {@link #getPlayer2()}, <code>false</code> otherwise
 	 */
 	public boolean isPlayer(Account account) {
 		if (account == null)
@@ -394,12 +374,10 @@ class AbstractGame {
 
 	/**
 	 * A utility method for working with game {@link Player}s.
-	 * 
+	 *
 	 * @param player
-	 *            the {@link Player} to determine the {@link PlayerRole}s for in
-	 *            this {@link AbstractGame}
-	 * @return the {@link PlayerRole}s represented by the specified
-	 *         {@link Player} in this {@link AbstractGame}
+	 *            the {@link Player} to determine the {@link PlayerRole}s for in this {@link AbstractGame}
+	 * @return the {@link PlayerRole}s represented by the specified {@link Player} in this {@link AbstractGame}
 	 */
 	public PlayerRole[] getPlayerRoles(Player player) {
 		List<PlayerRole> roles = new ArrayList<>(2);
@@ -412,19 +390,16 @@ class AbstractGame {
 
 	/**
 	 * A utility method for working with game {@link Player}s.
-	 * 
+	 *
 	 * @param account
-	 *            the {@link Account} to select the opponent of (from this
-	 *            {@link AbstractGame}), which must be one of the two players
-	 * @return if the specified {@link Account} is represented by
-	 *         {@link #getPlayer1()} this will return the value of
-	 *         {@link #getPlayer2()}, or if the specified {@link Account} is
-	 *         represented by {@link #getPlayer1()} this will return the value
-	 *         of {@link #getPlayer1()}
+	 *            the {@link Account} to select the opponent of (from this {@link AbstractGame}), which must be one of
+	 *            the two players
+	 * @return if the specified {@link Account} is represented by {@link #getPlayer1()} this will return the value of
+	 *         {@link #getPlayer2()}, or if the specified {@link Account} is represented by {@link #getPlayer1()} this
+	 *         will return the value of {@link #getPlayer1()}
 	 * @throws IllegalArgumentException
-	 *             An {@link IllegalArgumentException} will be thrown if
-	 *             {@link #isPlayer(Account)} returns <code>false</code> for the
-	 *             specified {@link Account}.
+	 *             An {@link IllegalArgumentException} will be thrown if {@link #isPlayer(Account)} returns
+	 *             <code>false</code> for the specified {@link Account}.
 	 */
 	public Player determineOpponent(Account account) {
 		// Are they Player 1?
@@ -443,14 +418,11 @@ class AbstractGame {
 
 	/**
 	 * @param playerAccount
-	 *            the {@link Account} of one of the {@link Player}s in this
-	 *            {@link AbstractGame}
-	 * @return the {@link Player} in this {@link AbstractGame} that corresponds
-	 *         to the specified {@link Account}
+	 *            the {@link Account} of one of the {@link Player}s in this {@link AbstractGame}
+	 * @return the {@link Player} in this {@link AbstractGame} that corresponds to the specified {@link Account}
 	 * @throws IllegalArgumentException
-	 *             An {@link IllegalArgumentException} will be thrown if the
-	 *             specified {@link Account} does not correspond to
-	 *             {@link #getPlayer1()} or {@link #getPlayer2()}.
+	 *             An {@link IllegalArgumentException} will be thrown if the specified {@link Account} does not
+	 *             correspond to {@link #getPlayer1()} or {@link #getPlayer2()}.
 	 */
 	public Player getPlayer(Account playerAccount) {
 		if (getPlayer1().getHumanAccount() != null && getPlayer1().getHumanAccount().equals(playerAccount))
@@ -463,11 +435,9 @@ class AbstractGame {
 
 	/**
 	 * @param player
-	 *            the {@link Player} in this {@link AbstractGame} to calculate
-	 *            the score of
-	 * @return the score for the specified {@link Player} in this
-	 *         {@link AbstractGame}, or <code>0</code> if a <code>null</code>
-	 *         {@link Player} was specified
+	 *            the {@link Player} in this {@link AbstractGame} to calculate the score of
+	 * @return the score for the specified {@link Player} in this {@link AbstractGame}, or <code>0</code> if a
+	 *         <code>null</code> {@link Player} was specified
 	 */
 	public int getScoreForPlayer(Player player) {
 		if (player == null)
@@ -508,9 +478,8 @@ class AbstractGame {
 	 */
 	public static final class GamePk implements Serializable {
 		/*
-		 * Design note: This IDClass is required because GameRound has a
-		 * compound PK-and-FK relationship to Game, and its IdClass must
-		 * reference this one.
+		 * Design note: This IDClass is required because GameRound has a compound PK-and-FK relationship to Game, and
+		 * its IdClass must reference this one.
 		 */
 
 		private static final long serialVersionUID = -2542571612762568669L;
@@ -524,8 +493,7 @@ class AbstractGame {
 		}
 
 		/**
-		 * @return this {@link IdClass} field corresponds to
-		 *         {@link Game#getId()}
+		 * @return this {@link IdClass} field corresponds to {@link Game#getId()}
 		 */
 		public String getId() {
 			return id;
@@ -545,8 +513,7 @@ class AbstractGame {
 		@Override
 		public int hashCode() {
 			/*
-			 * This method was generated via Eclipse's 'Source > Generate
-			 * hashCode() and equals()...' function.
+			 * This method was generated via Eclipse's 'Source > Generate hashCode() and equals()...' function.
 			 */
 
 			final int prime = 31;
@@ -561,8 +528,7 @@ class AbstractGame {
 		@Override
 		public boolean equals(Object obj) {
 			/*
-			 * This method was generated via Eclipse's 'Source > Generate
-			 * hashCode() and equals()...' function.
+			 * This method was generated via Eclipse's 'Source > Generate hashCode() and equals()...' function.
 			 */
 
 			if (this == obj)

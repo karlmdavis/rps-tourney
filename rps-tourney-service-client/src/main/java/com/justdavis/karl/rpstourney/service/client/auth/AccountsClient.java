@@ -24,8 +24,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IAccountsResource} web
- * service.
+ * A client-side implementation/binding for the {@link IAccountsResource} web service.
  */
 public class AccountsClient implements IAccountsResource {
 	private final ClientConfig config;
@@ -33,7 +32,7 @@ public class AccountsClient implements IAccountsResource {
 
 	/**
 	 * Constructs a new {@link AccountsClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 * @param cookieStore
@@ -130,8 +129,7 @@ public class AccountsClient implements IAccountsResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long,
-	 *      java.util.UUID)
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long, java.util.UUID)
 	 */
 	@Override
 	public void mergeAccount(long targetAccountId, UUID sourceAccountAuthTokenValue) {
@@ -154,15 +152,14 @@ public class AccountsClient implements IAccountsResource {
 	}
 
 	/**
-	 * The default {@link IAccountsClientFactory} implementation, which produces
-	 * {@link AccountsClient} instances.
+	 * The default {@link IAccountsClientFactory} implementation, which produces {@link AccountsClient} instances.
 	 */
 	public static final class DefaultAccountsClientFactory implements IAccountsClientFactory {
 		private final ClientConfig config;
 
 		/**
 		 * Constructs a new {@link DefaultAccountsClientFactory} instance.
-		 * 
+		 *
 		 * @param config
 		 *            the {@link ClientConfig} to use
 		 */
@@ -176,10 +173,8 @@ public class AccountsClient implements IAccountsResource {
 		@Override
 		public IAccountsResource createAccountsClient(String authTokenValueForAccount) {
 			/*
-			 * Create a new (separate) CookieStore for the new client instance
-			 * to use. Note that this CookieStore will not be shared with other
-			 * clients, and will thus not receive any updates/modifications
-			 * applied to them.
+			 * Create a new (separate) CookieStore for the new client instance to use. Note that this CookieStore will
+			 * not be shared with other clients, and will thus not receive any updates/modifications applied to them.
 			 */
 			CookieStore cookieStore = new CookieStore();
 			NewCookie authTokenCookie = AuthTokenCookieHelper.createAuthTokenCookie(authTokenValueForAccount,

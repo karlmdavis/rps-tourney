@@ -24,7 +24,7 @@ public class HomeController {
 
 	/**
 	 * Constructs a new {@link HomeController} instance.
-	 * 
+	 *
 	 * @param gameClient
 	 *            the {@link IGameResource} client to use
 	 */
@@ -34,8 +34,7 @@ public class HomeController {
 	}
 
 	/**
-	 * @return a {@link ModelAndView} that can be used to render some basic
-	 *         information about the application
+	 * @return a {@link ModelAndView} that can be used to render some basic information about the application
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getHomePage() {
@@ -50,8 +49,7 @@ public class HomeController {
 	}
 
 	/**
-	 * Sorts {@link GameView} instances based on their
-	 * {@link GameView#getLastThrowTimestamp()} value, latest first.
+	 * Sorts {@link GameView} instances based on their {@link GameView#getLastThrowTimestamp()} value, latest first.
 	 */
 	private static final class GamesSorter implements Comparator<GameView> {
 		/**

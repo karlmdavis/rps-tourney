@@ -19,9 +19,8 @@ public final class UnhandledExceptionResolver extends SimpleMappingExceptionReso
 	 */
 	public UnhandledExceptionResolver() {
 		/*
-		 * This isn't set by default, so without it Spring MVC generates an ugly
-		 * page with the full stack trace on it, which is a bad idea. Instead,
-		 * we point it at the error-default.jsp view.
+		 * This isn't set by default, so without it Spring MVC generates an ugly page with the full stack trace on it,
+		 * which is a bad idea. Instead, we point it at the error-default.jsp view.
 		 */
 		setDefaultErrorView("error-default");
 		setDefaultStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -34,9 +33,8 @@ public final class UnhandledExceptionResolver extends SimpleMappingExceptionReso
 	@Override
 	protected void logException(Exception ex, HttpServletRequest request) {
 		/*
-		 * Overriding this superclass method accomplishes two things, 1)
-		 * configures Spring MVC to actually log errors (it doesn't by default),
-		 * and 2) lets us customize how those errors are logged.
+		 * Overriding this superclass method accomplishes two things, 1) configures Spring MVC to actually log errors
+		 * (it doesn't by default), and 2) lets us customize how those errors are logged.
 		 */
 
 		LOGGER.error("Unhandled error encountered for request: '{}'", getFullRequestUrl(request), ex);
@@ -45,8 +43,7 @@ public final class UnhandledExceptionResolver extends SimpleMappingExceptionReso
 	/**
 	 * @param request
 	 *            the {@link HttpServletRequest} to get the full URL of
-	 * @return the full request URL, including
-	 *         {@link HttpServletRequest#getRequestURL()} and
+	 * @return the full request URL, including {@link HttpServletRequest#getRequestURL()} and
 	 *         {@link HttpServletRequest#getQueryString()} (if any)
 	 */
 	private String getFullRequestUrl(HttpServletRequest request) {

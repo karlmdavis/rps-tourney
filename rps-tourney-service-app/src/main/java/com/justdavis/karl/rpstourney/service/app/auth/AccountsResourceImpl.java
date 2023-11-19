@@ -49,16 +49,15 @@ public class AccountsResourceImpl implements IAccountsResource {
 	private IGamesDao gamesDao;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public AccountsResourceImpl() {
 	}
 
 	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link AccountsResourceImpl} was instantiated to handle
+	 *            the {@link SecurityContext} for the request that the {@link AccountsResourceImpl} was instantiated to
+	 *            handle
 	 */
 	@Context
 	public void setSecurityContext(SecurityContext securityContext) {
@@ -129,8 +128,8 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new BadCodeMonkeyException("RolesAllowed not working.");
 
 		/*
-		 * Return a response with the account and the auth token (as a cookie,
-		 * so the login is persisted between requests).
+		 * Return a response with the account and the auth token (as a cookie, so the login is persisted between
+		 * requests).
 		 */
 		return authenticatedAccount;
 	}
@@ -170,9 +169,8 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new ForbiddenException();
 
 		/*
-		 * Prevent AuthTokens and logins from being affected by the merge. All
-		 * or some of the fields in these objects are excluded from JAXB, so the
-		 * passed in Account will be incomplete for these fields.
+		 * Prevent AuthTokens and logins from being affected by the merge. All or some of the fields in these objects
+		 * are excluded from JAXB, so the passed in Account will be incomplete for these fields.
 		 */
 		accountToUpdate.getAuthTokens().addAll(existingAccount.getAuthTokens());
 		accountToUpdate.getLogins().clear();
@@ -202,8 +200,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long,
-	 *      java.util.UUID)
+	 * @see com.justdavis.karl.rpstourney.service.api.auth.IAccountsResource#mergeAccount(long, java.util.UUID)
 	 */
 	@Override
 	@RolesAllowed({ SecurityRole.ID_USERS })
@@ -226,16 +223,14 @@ public class AccountsResourceImpl implements IAccountsResource {
 			throw new IllegalArgumentException("Unable to find source account with specified AuthToken");
 
 		/*
-		 * Verify that the target Account is the current user (unless the
-		 * current user is an admin).
+		 * Verify that the target Account is the current user (unless the current user is an admin).
 		 */
 		boolean userIsTarget = authenticatedAccount.getId() == targetAccountId;
 		if (!userIsTarget && !userIsAdmin)
 			throw new ForbiddenException();
 
 		/*
-		 * Verify that the source Account is anonymous (unless the current user
-		 * is an admin).
+		 * Verify that the source Account is anonymous (unless the current user is an admin).
 		 */
 		boolean sourceIsAnon = sourceAccount.isAnonymous();
 		if (!sourceIsAnon && !userIsAdmin)
@@ -290,8 +285,7 @@ public class AccountsResourceImpl implements IAccountsResource {
 		}
 
 		/*
-		 * Save the audit entries and the target Account, then delete the (now
-		 * empty) source Account.
+		 * Save the audit entries and the target Account, then delete the (now empty) source Account.
 		 */
 		accountsDao.save(targetAccount);
 		accountsDao.save(auditAccountEntry);
@@ -301,13 +295,12 @@ public class AccountsResourceImpl implements IAccountsResource {
 	}
 
 	/**
-	 * @return the {@link Account} of the currently-authenticated user/client,
-	 *         or <code>null</code> if the user/client is not authenticated
+	 * @return the {@link Account} of the currently-authenticated user/client, or <code>null</code> if the user/client
+	 *         is not authenticated
 	 */
 	private Account getAuthenticatedAccount() {
 		/*
-		 * Grab the requestor's Account from the SecurityContext. This will have
-		 * been set by the AuthenticationFilter.
+		 * Grab the requestor's Account from the SecurityContext. This will have been set by the AuthenticationFilter.
 		 */
 		Principal userPrincipal = securityContext.getUserPrincipal();
 		if (userPrincipal == null)

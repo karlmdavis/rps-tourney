@@ -32,8 +32,7 @@ public final class HomeIT {
 	}
 
 	/**
-	 * Tests {@link HomeController#getHomePage()} for an authenticated user that
-	 * has at least one game to be displayed.
+	 * Tests {@link HomeController#getHomePage()} for an authenticated user that has at least one game to be displayed.
 	 */
 	@Test
 	public void home_withGame() {
@@ -56,13 +55,10 @@ public final class HomeIT {
 	}
 
 	/**
-	 * Ensures that the home page doesn't throw errors when it displays a game
-	 * at the {@link State#WAITING_FOR_FIRST_THROW} step. This is a regression
-	 * test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/66">Error on
-	 * home page after new game has been joined:
-	 * "No message found under code 'home.games.game.state.WAITING_FOR_FIRST_THROW'..."
-	 * </a>.
+	 * Ensures that the home page doesn't throw errors when it displays a game at the
+	 * {@link State#WAITING_FOR_FIRST_THROW} step. This is a regression test case for
+	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/66">Error on home page after new game has been joined:
+	 * "No message found under code 'home.games.game.state.WAITING_FOR_FIRST_THROW'..." </a>.
 	 */
 	@Test
 	public void home_withGameBeforeFirstThrow() {

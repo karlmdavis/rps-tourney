@@ -39,10 +39,8 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class GamesDaoImplIT {
 	/**
-	 * @return the test run parameters to pass to
-	 *         {@link #GamesDaoImplIT(IProvisioningRequest)}, where each
-	 *         top-level element in the returned {@link Collection} represents a
-	 *         test run
+	 * @return the test run parameters to pass to {@link #GamesDaoImplIT(IProvisioningRequest)}, where each top-level
+	 *         element in the returned {@link Collection} represents a test run
 	 */
 	@Parameterized.Parameters(name = "{index}: IProvisioningRequest={0}")
 	public static Collection<Object[]> createTestParameters() {
@@ -62,28 +60,25 @@ public final class GamesDaoImplIT {
 	public DaoTestHelper daoTestHelper;
 
 	/**
-	 * Constructs a new {@link GamesDaoImplIT} instance. The test runner will
-	 * generate the parameters to pass to this from the
-	 * {@link #createTestParameters()} method.
-	 * 
+	 * Constructs a new {@link GamesDaoImplIT} instance. The test runner will generate the parameters to pass to this
+	 * from the {@link #createTestParameters()} method.
+	 *
 	 * @param provisioningRequest
 	 * @throws Exception
-	 *             An {@link Exception} might be thrown by the Spring context
-	 *             initialization.
+	 *             An {@link Exception} might be thrown by the Spring context initialization.
 	 */
 	public GamesDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
-		 * Initialize Spring. We're using this mechanism, rather than the {@link
-		 * SpringJUnit4ClassRunner}, as this test is already using a different
-		 * runner: {@link Parameterized}.
+		 * Initialize Spring. We're using this mechanism, rather than the {@link SpringJUnit4ClassRunner}, as this test
+		 * is already using a different runner: {@link Parameterized}.
 		 */
 		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
-		 * Register the DaoTestHelper with the Spring test context, so it can
-		 * snag the ApplicationContext from it. (This is a hack.)
+		 * Register the DaoTestHelper with the Spring test context, so it can snag the ApplicationContext from it. (This
+		 * is a hack.)
 		 */
 		testContextManager.registerTestExecutionListeners(daoTestHelper);
 		testContextManager.prepareTestInstance(this);
@@ -181,8 +176,7 @@ public final class GamesDaoImplIT {
 	}
 
 	/**
-	 * Tests {@link GamesDaoImpl#save(Game)} with a {@link Game} that has some
-	 * {@link GameRound}s.
+	 * Tests {@link GamesDaoImpl#save(Game)} with a {@link Game} that has some {@link GameRound}s.
 	 */
 	@Test
 	public void saveWithRounds() {
@@ -353,8 +347,8 @@ public final class GamesDaoImplIT {
 			Assert.assertEquals(0, gamesDao.getGames().size());
 
 			/*
-			 * Verify that the GameRounds were also deleted. Have to fall back
-			 * to JPA here, as they're not directly exposed by a DAO.
+			 * Verify that the GameRounds were also deleted. Have to fall back to JPA here, as they're not directly
+			 * exposed by a DAO.
 			 */
 			CriteriaBuilder criteriaBuilder = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 			CriteriaQuery<GameRound> criteria = criteriaBuilder.createQuery(GameRound.class);

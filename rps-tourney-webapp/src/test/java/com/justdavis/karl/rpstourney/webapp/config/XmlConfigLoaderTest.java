@@ -21,17 +21,16 @@ public final class XmlConfigLoaderTest {
 	public TemporaryFolder tempFolder = new TemporaryFolder();
 
 	/**
-	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly loads files
-	 * from the default path.
-	 * 
+	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly loads files from the default path.
+	 *
 	 * @throws IOException
 	 *             (would indicate a problem with the test code itself)
 	 */
 	@Test
 	public void loadFromDefaultPath() throws IOException {
 		/*
-		 * Sanity check: We're going to create a config file in the working
-		 * directory, so lets make sure that there isn't one there already.
+		 * Sanity check: We're going to create a config file in the working directory, so lets make sure that there
+		 * isn't one there already.
 		 */
 		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))
@@ -58,17 +57,16 @@ public final class XmlConfigLoaderTest {
 	}
 
 	/**
-	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly loads files
-	 * from an override path value.
-	 * 
+	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly loads files from an override path value.
+	 *
 	 * @throws IOException
 	 *             (would indicate a problem with the test code itself)
 	 */
 	@Test
 	public void loadFromOverridePath() throws IOException {
 		/*
-		 * Sanity check: We're going to set the config file system property, so
-		 * let's make sure it doesn't already have a value.
+		 * Sanity check: We're going to set the config file system property, so let's make sure it doesn't already have
+		 * a value.
 		 */
 		if (System.getProperties().containsKey(XmlConfigLoader.CONFIG_PROP))
 			throw new IllegalStateException();
@@ -98,17 +96,16 @@ public final class XmlConfigLoaderTest {
 	}
 
 	/**
-	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly caches loaded
-	 * files.
-	 * 
+	 * Ensures that {@link XmlConfigLoader#getConfig()} correctly caches loaded files.
+	 *
 	 * @throws IOException
 	 *             (would indicate a problem with the test code itself)
 	 */
 	@Test
 	public void caching() throws IOException {
 		/*
-		 * Sanity check: We're going to create a config file in the working
-		 * directory, so lets make sure that there isn't one there already.
+		 * Sanity check: We're going to create a config file in the working directory, so lets make sure that there
+		 * isn't one there already.
 		 */
 		Path defaultConfigPath = FileSystems.getDefault().getPath(XmlConfigLoader.CONFIG_DEFAULT);
 		if (Files.exists(defaultConfigPath))

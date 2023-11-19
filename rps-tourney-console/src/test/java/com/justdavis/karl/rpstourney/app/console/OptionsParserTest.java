@@ -20,7 +20,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 public final class OptionsParserTest {
 	/**
 	 * Parses an empty set of arguments.
-	 * 
+	 *
 	 * @throws URISyntaxException
 	 *             (won't happen; address is hardcoded)
 	 */
@@ -43,7 +43,7 @@ public final class OptionsParserTest {
 
 	/**
 	 * Parses a set of arguments containing all network play options.
-	 * 
+	 *
 	 * @throws URISyntaxException
 	 *             (won't happen; addresses are hardcoded)
 	 * @throws AddressException
@@ -84,9 +84,8 @@ public final class OptionsParserTest {
 	}
 
 	/**
-	 * Makes sure that {@link OptionsParser#printUsage(java.io.PrintStream)}
-	 * works as expected.
-	 * 
+	 * Makes sure that {@link OptionsParser#printUsage(java.io.PrintStream)} works as expected.
+	 *
 	 * @throws UnsupportedEncodingException
 	 *             (should not occur)
 	 */

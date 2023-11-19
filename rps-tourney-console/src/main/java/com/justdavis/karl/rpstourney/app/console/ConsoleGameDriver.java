@@ -22,8 +22,8 @@ import com.justdavis.karl.rpstourney.service.api.game.State;
 import com.justdavis.karl.rpstourney.service.api.game.Throw;
 
 /**
- * Allows a "Rock-Paper-Scissors Tourney" game to be played via a text console
- * (or something else connected to an input & output stream).
+ * Allows a "Rock-Paper-Scissors Tourney" game to be played via a text console (or something else connected to an input
+ * & output stream).
  */
 final class ConsoleGameDriver {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleGameDriver.class);
@@ -32,7 +32,7 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Constructs a new {@link ConsoleGameDriver} instance.
-	 * 
+	 *
 	 * @param resourceBundleLoader
 	 *            the {@link IResourceBundleLoader} to use
 	 */
@@ -41,12 +41,10 @@ final class ConsoleGameDriver {
 	}
 
 	/**
-	 * Allows the user at the specified input/output streams to play the
-	 * specified game.
-	 * 
+	 * Allows the user at the specified input/output streams to play the specified game.
+	 *
 	 * @param gameBundle
-	 *            the {@link GameBundle} containing the game and the services
-	 *            needed to play through it
+	 *            the {@link GameBundle} containing the game and the services needed to play through it
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param in
@@ -86,10 +84,9 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Plays a full, single round in the specified game.
-	 * 
+	 *
 	 * @param gameBundle
-	 *            the {@link GameBundle} containing the game and the services
-	 *            needed to play through it
+	 *            the {@link GameBundle} containing the game and the services needed to play through it
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param scanner
@@ -140,8 +137,7 @@ final class ConsoleGameDriver {
 	 *            the {@link PrintStream} to display the game on
 	 * @param scanner
 	 *            the {@link Scanner} to read the player's input from
-	 * @return the {@link Throw} selected by the human player, that they would
-	 *         like to next make
+	 * @return the {@link Throw} selected by the human player, that they would like to next make
 	 */
 	private static Throw requestHumanMove(PrintStream out, Scanner scanner) {
 		Throw humanMove = null;
@@ -167,13 +163,11 @@ final class ConsoleGameDriver {
 
 	/**
 	 * @param gameBundle
-	 *            the {@link GameBundle} containing the game and the services
-	 *            needed to play through it
+	 *            the {@link GameBundle} containing the game and the services needed to play through it
 	 * @param roundIndex
-	 *            the {@link GameRound#getRoundIndex()} of the game round to
-	 *            wait for the opponent to make a move in
-	 * @return an updated {@link GameView} instance, wherein the opponent has
-	 *         now made their move for the specified round
+	 *            the {@link GameRound#getRoundIndex()} of the game round to wait for the opponent to make a move in
+	 * @return an updated {@link GameView} instance, wherein the opponent has now made their move for the specified
+	 *         round
 	 */
 	private static void waitForOpponentThrow(GameBundle gameBundle, int roundIndex) {
 		GameView game = getGame(gameBundle);
@@ -206,8 +200,7 @@ final class ConsoleGameDriver {
 	 *            the {@link IResourceBundleLoader} to use
 	 * @param gameBundle
 	 *            the {@link GameBundle} for the active game
-	 * @return the display name to use for the user's opponent in the active
-	 *         game
+	 * @return the display name to use for the user's opponent in the active game
 	 */
 	private static String computeOpponentName(IResourceBundleLoader resourceBundleLoader, GameBundle gameBundle) {
 		GameView game = getGame(gameBundle);
@@ -231,11 +224,10 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Determines the "won/lost" text to display for a completed game.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link GameView} to calculate the result for
-	 * @return the text "<code>You won!</code>" or "<code>You lost.</code>", as
-	 *         appropriate
+	 * @return the text "<code>You won!</code>" or "<code>You lost.</code>", as appropriate
 	 */
 	private static String determineWonOrLostText(GameView game) {
 		if (game == null)
@@ -263,13 +255,12 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Determines the "won/lost" text to display for a completed game round.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link GameView} to calculate the result for
 	 * @param round
 	 *            the {@link GameRound} to calculate the result for
-	 * @return the text "<code>You won!</code>", or "<code>You lost.</code>
-	 *         ", or "<code>Tied.</code>", as appropriate
+	 * @return the text "<code>You won!</code>", or "<code>You lost.</code> ", or "<code>Tied.</code>", as appropriate
 	 */
 	private static String determineWonOrLostText(GameView game, GameRound round) {
 		if (game == null)
@@ -291,11 +282,10 @@ final class ConsoleGameDriver {
 
 	/**
 	 * Determines the score text to display.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link GameView} to calculate the score from
-	 * @return the score so far in the form of "<code>You: X, Opponent: Y</code>
-	 *         "
+	 * @return the score so far in the form of "<code>You: X, Opponent: Y</code> "
 	 */
 	private static String determineScoreText(GameView game) {
 		if (game == null)
@@ -315,8 +305,7 @@ final class ConsoleGameDriver {
 	}
 
 	/**
-	 * Associates each {@link Throw} with a token that can be used to represent
-	 * it.
+	 * Associates each {@link Throw} with a token that can be used to represent it.
 	 */
 	private enum ThrowToken {
 		ROCK("R", "Rock", Throw.ROCK),
@@ -331,7 +320,7 @@ final class ConsoleGameDriver {
 
 		/**
 		 * Enum constant constructor.
-		 * 
+		 *
 		 * @param token
 		 *            the value to use for {@link #getToken()}
 		 * @param fullDisplayText
@@ -346,16 +335,14 @@ final class ConsoleGameDriver {
 		}
 
 		/**
-		 * @return the short {@link String} to use to represent the
-		 *         {@link #getMove()} {@link Throw}
+		 * @return the short {@link String} to use to represent the {@link #getMove()} {@link Throw}
 		 */
 		public String getToken() {
 			return token;
 		}
 
 		/**
-		 * @return the full display {@link String} to use to represent the
-		 *         {@link #getMove()} {@link Throw}
+		 * @return the full display {@link String} to use to represent the {@link #getMove()} {@link Throw}
 		 */
 		public String getFullDisplayText() {
 			return fullDisplayText;
@@ -369,13 +356,11 @@ final class ConsoleGameDriver {
 		}
 
 		/**
-		 * Checks all of the {@link ThrowToken}s to find the one that matches
-		 * the specified token, if any.
-		 * 
+		 * Checks all of the {@link ThrowToken}s to find the one that matches the specified token, if any.
+		 *
 		 * @param token
 		 *            the possible {@link #getToken()} value to match
-		 * @return the matching {@link ThrowToken}, or <code>null</code> if no
-		 *         match is found
+		 * @return the matching {@link ThrowToken}, or <code>null</code> if no match is found
 		 */
 		public static ThrowToken match(String token) {
 			for (ThrowToken throwToken : ThrowToken.values())
@@ -386,9 +371,8 @@ final class ConsoleGameDriver {
 		}
 
 		/**
-		 * Checks all of the {@link ThrowToken}s to find the one that matches
-		 * the specified {@link Throw}.
-		 * 
+		 * Checks all of the {@link ThrowToken}s to find the one that matches the specified {@link Throw}.
+		 *
 		 * @param move
 		 *            the {@link Throw} value to match
 		 * @return the matching {@link ThrowToken}
