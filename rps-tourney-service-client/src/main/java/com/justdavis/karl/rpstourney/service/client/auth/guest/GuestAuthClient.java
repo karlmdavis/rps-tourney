@@ -16,8 +16,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IGuestAuthResource} web
- * service.
+ * A client-side implementation/binding for the {@link IGuestAuthResource} web service.
  */
 public final class GuestAuthClient implements IGuestAuthResource {
 	private final ClientConfig config;
@@ -25,7 +24,7 @@ public final class GuestAuthClient implements IGuestAuthResource {
 
 	/**
 	 * Constructs a new {@link GuestAuthClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 * @param cookieStore

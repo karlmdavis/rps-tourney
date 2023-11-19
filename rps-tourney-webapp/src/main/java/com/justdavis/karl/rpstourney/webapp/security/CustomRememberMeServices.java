@@ -38,37 +38,31 @@ import com.justdavis.karl.rpstourney.webapp.util.CookiesUtils;
 
 /**
  * <p>
- * A custom Spring Security {@link RememberMeServices} implementation. Allows
- * for the use of cookie authentication tokens that authenticate requests to a
- * user's {@link Account}.
+ * A custom Spring Security {@link RememberMeServices} implementation. Allows for the use of cookie authentication
+ * tokens that authenticate requests to a user's {@link Account}.
  * </p>
  * <p>
- * This custom implementation is necessary, as
- * {@link PersistentTokenBasedRememberMeServices} requires a
- * {@link UserDetailsService}, which in turn requires that every account have a
- * username. If, at some point, {@link Account}s do all have a unique username,
- * this class can be replaced.
+ * This custom implementation is necessary, as {@link PersistentTokenBasedRememberMeServices} requires a
+ * {@link UserDetailsService}, which in turn requires that every account have a username. If, at some point,
+ * {@link Account}s do all have a unique username, this class can be replaced.
  * </p>
  */
 @Component
 public class CustomRememberMeServices implements RememberMeServices {
 	/**
-	 * The {@link Cookie#getName()} value for the "remember me" cookie used by
-	 * this class.
+	 * The {@link Cookie#getName()} value for the "remember me" cookie used by this class.
 	 */
 	static final String COOKIE_NAME = AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN;
 
 	/**
 	 * <p>
-	 * This is the value used to construct
-	 * {@link RememberMeAuthenticationToken#getKeyHash()} for all
+	 * This is the value used to construct {@link RememberMeAuthenticationToken#getKeyHash()} for all
 	 * {@link RememberMeAuthenticationToken}s created by the application.
 	 * </p>
 	 * <p>
-	 * In the standard {@link RememberMeServices} implementations, this value is
-	 * included in all of the cookies, as some sort of guard against cookie
-	 * spoofing. That, however, seems wholly ineffective as cookies are in no
-	 * way unreadable. Accordingly, we're just using a hardcoded string here.
+	 * In the standard {@link RememberMeServices} implementations, this value is included in all of the cookies, as some
+	 * sort of guard against cookie spoofing. That, however, seems wholly ineffective as cookies are in no way
+	 * unreadable. Accordingly, we're just using a hardcoded string here.
 	 * </p>
 	 */
 	static final String REMEMBER_ME_TOKEN_KEY = "foobar";
@@ -83,12 +77,11 @@ public class CustomRememberMeServices implements RememberMeServices {
 
 	/**
 	 * Constructs a new {@link CustomRememberMeServices} instance.
-	 * 
+	 *
 	 * @param appConfig
 	 *            the {@link AppConfig} for the application
 	 * @param serviceClientCookieStore
-	 *            the injected {@link CookieStore} for all web service clients
-	 *            (session scoped)
+	 *            the injected {@link CookieStore} for all web service clients (session scoped)
 	 * @param accountsClient
 	 *            the injected {@link AccountsClient} to use
 	 */
@@ -109,9 +102,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 		LOGGER.trace("Authenticating request...");
 
 		/*
-		 * This method will be called during every unauthenticated request,
-		 * giving this class a chance to check for a valid "remember me" login
-		 * token, and authenticate the rest of the request.
+		 * This method will be called during every unauthenticated request, giving this class a chance to check for a
+		 * valid "remember me" login token, and authenticate the rest of the request.
 		 */
 
 		// Grab the cookie (if any).
@@ -130,11 +122,9 @@ public class CustomRememberMeServices implements RememberMeServices {
 		}
 
 		/*
-		 * Snag the auth token from this web app cookie, and use it to create a
-		 * cookie in the web service client. This cookie will saved in our
-		 * CookieStore, and used in turn by any web service clients in the same
-		 * session. (This is a bit hokey, but it saves us from needing to create
-		 * our token store in this layer of the application.)
+		 * Snag the auth token from this web app cookie, and use it to create a cookie in the web service client. This
+		 * cookie will saved in our CookieStore, and used in turn by any web service clients in the same session. (This
+		 * is a bit hokey, but it saves us from needing to create our token store in this layer of the application.)
 		 */
 		String requestUrlString = request.getRequestURL().toString();
 		URI requestUri;
@@ -142,8 +132,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 			requestUri = new URI(requestUrlString);
 		} catch (URISyntaxException e) {
 			/*
-			 * If this ever occurs, it's almost certainly due to an encoding
-			 * issue that needs to be fixed in the above code.
+			 * If this ever occurs, it's almost certainly due to an encoding issue that needs to be fixed in the above
+			 * code.
 			 */
 			throw new BadCodeMonkeyException(e);
 		}
@@ -151,8 +141,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 		serviceClientCookieStore.remember(serviceClientAuthCookie);
 
 		/*
-		 * Just having a cookie doesn't mean we're actually authenticated.
-		 * Verify that using the web service.
+		 * Just having a cookie doesn't mean we're actually authenticated. Verify that using the web service.
 		 */
 		Account validatedAccount = null;
 		try {
@@ -160,8 +149,7 @@ public class CustomRememberMeServices implements RememberMeServices {
 		} catch (HttpClientException e) {
 			if (e.getStatus().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
 				/*
-				 * Called the web service successfully, but it said the login
-				 * was invalid.
+				 * Called the web service successfully, but it said the login was invalid.
 				 */
 				LOGGER.warn(String.format("Invalid remember me token '%s' on request '%s'.", rememberMeValue, request));
 				CookiesUtils.cancelCookie(COOKIE_NAME, response);
@@ -173,9 +161,8 @@ public class CustomRememberMeServices implements RememberMeServices {
 		}
 
 		/*
-		 * Create a Spring Security 'Authentication' token for the login. This
-		 * token will end up being saved in the session. The principal saved in
-		 * the token will be passed to anything else that asks for the request's
+		 * Create a Spring Security 'Authentication' token for the login. This token will end up being saved in the
+		 * session. The principal saved in the token will be passed to anything else that asks for the request's
 		 * security/authorization principal.
 		 */
 		List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
@@ -195,75 +182,62 @@ public class CustomRememberMeServices implements RememberMeServices {
 	@Override
 	public void loginFail(HttpServletRequest request, HttpServletResponse response) {
 		/*
-		 * This method's JavaDoc instructs that, whenever a user tries to login
-		 * and supplies invalid credentials, that their auto-login token should
-		 * be cancelled. Given the use case here though, logins that are _only_
-		 * tracked by the token, we can only cancel authentication tokens when
-		 * the user has another login mechanism to recover access to their
-		 * account. And even then, it's dubious as to whether or not there's any
-		 * value in doing so. For now, we'll just ignore this.
+		 * This method's JavaDoc instructs that, whenever a user tries to login and supplies invalid credentials, that
+		 * their auto-login token should be cancelled. Given the use case here though, logins that are _only_ tracked by
+		 * the token, we can only cancel authentication tokens when the user has another login mechanism to recover
+		 * access to their account. And even then, it's dubious as to whether or not there's any value in doing so. For
+		 * now, we'll just ignore this.
 		 */
 	}
 
 	/**
 	 * @see org.springframework.security.web.authentication.RememberMeServices#loginSuccess(javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse,
-	 *      org.springframework.security.core.Authentication)
+	 *      javax.servlet.http.HttpServletResponse, org.springframework.security.core.Authentication)
 	 */
 	@Override
 	public void loginSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication successfulAuthentication) {
 		/*
-		 * Typical RememberMeServices implementations would check the request
-		 * for a parameter indicating whether or not the user checked the
-		 * "Remember my login" option in the login form. However, this
-		 * application does not have such an option in its login forms. Instead,
-		 * it assumes that the user always wants that option. This is a security
-		 * risk for users using the application on a public computer, but it's
-		 * just a freaking rock paper scissors game.
+		 * Typical RememberMeServices implementations would check the request for a parameter indicating whether or not
+		 * the user checked the "Remember my login" option in the login form. However, this application does not have
+		 * such an option in its login forms. Instead, it assumes that the user always wants that option. This is a
+		 * security risk for users using the application on a public computer, but it's just a freaking rock paper
+		 * scissors game.
 		 */
 
 		saveRememberMeToken(request, response, successfulAuthentication);
 	}
 
 	/**
-	 * Saves a "remember me" authentication token in a cookie in the outgoing
-	 * {@link HttpServletResponse}.
-	 * 
+	 * Saves a "remember me" authentication token in a cookie in the outgoing {@link HttpServletResponse}.
+	 *
 	 * @param request
-	 *            an {@link HttpServletRequest} that resulted in a successful
-	 *            authentication
+	 *            an {@link HttpServletRequest} that resulted in a successful authentication
 	 * @param response
 	 *            the outgoing {@link HttpServletResponse} to save the cookie in
 	 * @param successfulAuthentication
-	 *            the principal that was successfully authenticated in the
-	 *            specified {@link HttpServletRequest}
+	 *            the principal that was successfully authenticated in the specified {@link HttpServletRequest}
 	 */
 	private void saveRememberMeToken(HttpServletRequest request, HttpServletResponse response,
 			Authentication successfulAuthentication) {
 		/*
-		 * This is a bit hokey, but to avoid having to create a separate model
-		 * class, table, etc. to store authentication tokens for this layer of
-		 * the application, we re-use the web service's setup for that here.
+		 * This is a bit hokey, but to avoid having to create a separate model class, table, etc. to store
+		 * authentication tokens for this layer of the application, we re-use the web service's setup for that here.
 		 */
 		/*
-		 * TODO: Should 'successfulAuthentication' be required to still have a
-		 * password in it? Because someone needs to also login to the web
-		 * service client, and if we aren't passed a PW here, that will have to
-		 * be the responsibility of whoever logged in the Account in the first
-		 * place. I'm thinking that it's the responsibility of whoever logged in
-		 * the Account, as that seems out of scope given this method's name.
+		 * TODO: Should 'successfulAuthentication' be required to still have a password in it? Because someone needs to
+		 * also login to the web service client, and if we aren't passed a PW here, that will have to be the
+		 * responsibility of whoever logged in the Account in the first place. I'm thinking that it's the responsibility
+		 * of whoever logged in the Account, as that seems out of scope given this method's name.
 		 */
 
 		if (successfulAuthentication == null)
 			throw new IllegalArgumentException();
 
 		/*
-		 * It's great that we've got a successful Authentication here and all,
-		 * but the object itself isn't too helpful, as Account instances
-		 * returned by the web service never contain AuthToken (for paranoia
-		 * reasons). So, we'll pretty much ignore it and instead snag the
-		 * AuthToken out of the CookieStore.
+		 * It's great that we've got a successful Authentication here and all, but the object itself isn't too helpful,
+		 * as Account instances returned by the web service never contain AuthToken (for paranoia reasons). So, we'll
+		 * pretty much ignore it and instead snag the AuthToken out of the CookieStore.
 		 */
 		javax.ws.rs.core.Cookie serviceClientAuthTokenCookie = serviceClientCookieStore
 				.get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
@@ -282,14 +256,12 @@ public class CustomRememberMeServices implements RememberMeServices {
 	 * @param appConfig
 	 *            the {@link AppConfig} for the application
 	 * @param request
-	 *            the {@link HttpServletRequest} that the {@link Cookie} is
-	 *            being created in response to
+	 *            the {@link HttpServletRequest} that the {@link Cookie} is being created in response to
 	 * @param authTokenCookieValue
-	 *            the {@link AuthToken#getToken()} value to be stored in the
-	 *            cookie, for the user it will help authenticate
-	 * @return the "remember me" cookie used by this application, which
-	 *         basically just contains the same {@link AuthToken} as is used by
-	 *         the web service clients
+	 *            the {@link AuthToken#getToken()} value to be stored in the cookie, for the user it will help
+	 *            authenticate
+	 * @return the "remember me" cookie used by this application, which basically just contains the same
+	 *         {@link AuthToken} as is used by the web service clients
 	 */
 	static Cookie createRememberMeCookie(AppConfig appConfig, HttpServletRequest request, String authTokenCookieValue) {
 		Cookie servletResponseAuthTokenCookie = new Cookie(COOKIE_NAME, authTokenCookieValue);

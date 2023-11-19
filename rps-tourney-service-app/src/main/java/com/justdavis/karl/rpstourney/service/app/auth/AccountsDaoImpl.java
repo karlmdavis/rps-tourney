@@ -38,8 +38,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 
 	/**
 	 * @param entityManager
-	 *            a JPA {@link EntityManager} connected to the application's
-	 *            database
+	 *            a JPA {@link EntityManager} connected to the application's database
 	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -138,9 +137,8 @@ public final class AccountsDaoImpl implements IAccountsDao {
 		// Verify the results.
 		if (authTokenValue != null && results.isEmpty()) {
 			/*
-			 * If there was an auth token, a match for it wasn't found. Either
-			 * someone's trying to hack, the Account has been deleted, or
-			 * something's gone fairly badly wrong.
+			 * If there was an auth token, a match for it wasn't found. Either someone's trying to hack, the Account has
+			 * been deleted, or something's gone fairly badly wrong.
 			 */
 			LOGGER.warn("Unable to find an existing account for auth token: {}", authTokenValue);
 		}
@@ -173,8 +171,7 @@ public final class AccountsDaoImpl implements IAccountsDao {
 		authToken = new AuthToken(account, UUID.randomUUID());
 		account.getAuthTokens().add(authToken);
 		/*
-		 * Note: If this needs to support detached instances, things will have
-		 * to be reworked.
+		 * Note: If this needs to support detached instances, things will have to be reworked.
 		 */
 		entityManager.persist(account);
 

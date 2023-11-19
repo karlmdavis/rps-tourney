@@ -63,9 +63,9 @@ public final class GameIT {
 	}
 
 	/**
-	 * Tests {@link GameController} and {@link GameExceptionHandler} to ensure
-	 * that {@link GameNotFoundException}s are converted to 404s.
-	 * 
+	 * Tests {@link GameController} and {@link GameExceptionHandler} to ensure that {@link GameNotFoundException}s are
+	 * converted to 404s.
+	 *
 	 * @throws IOException
 	 *             (indicates a test failure)
 	 */
@@ -83,8 +83,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Uses {@link GameController} and {@link GameClient} to ensure that a game
-	 * can be played via the web application.
+	 * Uses {@link GameController} and {@link GameClient} to ensure that a game can be played via the web application.
 	 */
 	@Test
 	public void playShortGame() {
@@ -133,8 +132,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Exercises the web application to ensure that game can be played against
-	 * an AI opponent.
+	 * Exercises the web application to ensure that game can be played against an AI opponent.
 	 */
 	@Test
 	public void playGameVsAi() {
@@ -169,11 +167,9 @@ public final class GameIT {
 					aiThrowText.equals("Rock") || aiThrowText.equals("Paper") || aiThrowText.equals("Scissors"));
 
 			/*
-			 * Because the AI for Player 2 will just make random moves, we don't
-			 * really want to try and play to the end of the game-- no point.
-			 * The web service ITs verify that AI games will play all the way to
-			 * the end. We just want to ensure they at least start correctly in
-			 * the web interface.
+			 * Because the AI for Player 2 will just make random moves, we don't really want to try and play to the end
+			 * of the game-- no point. The web service ITs verify that AI games will play all the way to the end. We
+			 * just want to ensure they at least start correctly in the web interface.
 			 */
 		} finally {
 			if (player1Driver != null)
@@ -182,8 +178,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Uses {@link GameController} and {@link GameClient} to ensure that players
-	 * can change their names.
+	 * Uses {@link GameController} and {@link GameClient} to ensure that players can change their names.
 	 */
 	@Test
 	public void updateName() {
@@ -224,8 +219,7 @@ public final class GameIT {
 					.invisibilityOf(driver.findElement(By.xpath("//form[contains(@class, 'player-name')]"))));
 
 			/*
-			 * Player 2 (webapp): Activate the name editor, check the controls'
-			 * state.
+			 * Player 2 (webapp): Activate the name editor, check the controls' state.
 			 */
 			driver.findElement(By.cssSelector("#player-first .player-name")).click();
 			Assert.assertTrue(driver.findElement(By.xpath("//form[contains(@class, 'player-name')]")).isDisplayed());
@@ -238,9 +232,8 @@ public final class GameIT {
 
 			// Player 2 (webapp): Check Player 2's name.
 			/*
-			 * FIXME Broken due to apparent HtmlUnit bug, where clicking in a
-			 * form causes a spurious onblur event to be fired first. See
-			 * 2018-02-01 email to the htmlunit-user mailing list for details.
+			 * FIXME Broken due to apparent HtmlUnit bug, where clicking in a form causes a spurious onblur event to be
+			 * fired first. See 2018-02-01 email to the htmlunit-user mailing list for details.
 			 */
 			// wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("#player-first.player-name"),
 			// "bar (You)"));
@@ -251,8 +244,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Ensures that the game behaves correctly if the user attempts to set the
-	 * number of rounds to an invalid value.
+	 * Ensures that the game behaves correctly if the user attempts to set the number of rounds to an invalid value.
 	 */
 	@Test
 	public void setMaxRoundsToInvalidValue() {
@@ -282,8 +274,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Ensures that the throw controls are hidden before a game starts and
-	 * displayed once it does.
+	 * Ensures that the throw controls are hidden before a game starts and displayed once it does.
 	 */
 	@Test
 	public void hideThrowsBeforeStart() {
@@ -328,8 +319,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Ensures that the game behaves correctly if the user attempts to submit
-	 * more than one throw for the same round.
+	 * Ensures that the game behaves correctly if the user attempts to submit more than one throw for the same round.
 	 */
 	@Test
 	public void submitThrowTwiceInSameRound() {
@@ -371,8 +361,7 @@ public final class GameIT {
 	}
 
 	/**
-	 * Verifies that the web application updates the display of in-progress
-	 * games via background AJAX refreshes.
+	 * Verifies that the web application updates the display of in-progress games via background AJAX refreshes.
 	 */
 	@Test
 	public void ajaxRefresh() {
@@ -434,8 +423,8 @@ public final class GameIT {
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".player-throws")));
 		} catch (TimeoutException e) {
 			/*
-			 * If one of these are thrown, the page has the wrong state. We need
-			 * to log the page state to help debug the problem.
+			 * If one of these are thrown, the page has the wrong state. We need to log the page state to help debug the
+			 * problem.
 			 */
 			throw new TimeoutException("Test case failed. Current page source:\n" + driver.getPageSource(), e);
 		} finally {
@@ -446,12 +435,10 @@ public final class GameIT {
 
 	/**
 	 * <p>
-	 * Ensures that games display the correct round count, with and without
-	 * JavaScript.
+	 * Ensures that games display the correct round count, with and without JavaScript.
 	 * </p>
 	 * <p>
-	 * This is a regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/53">Issue #53:
+	 * This is a regression test case for <a href="https://github.com/karlmdavis/rps-tourney/issues/53">Issue #53:
 	 * Current round counter is very goofy.</a>.
 	 * </p>
 	 */
@@ -481,8 +468,7 @@ public final class GameIT {
 			player2Driver.get(ITUtils.buildWebAppUrl("game/" + gameId));
 
 			/*
-			 * Play through a three-round game, checking the round counts for
-			 * both players at every step.
+			 * Play through a three-round game, checking the round counts for both players at every step.
 			 */
 			player1Wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("round-counter-current"), "1"));
 			Assert.assertEquals("1", getRoundCounterCurrent(player2Driver));
@@ -523,8 +509,7 @@ public final class GameIT {
 	 * Ensures that the JavaScript correctly creates the max round controls.
 	 * </p>
 	 * <p>
-	 * This is a regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/73">Issue #73:
+	 * This is a regression test case for <a href="https://github.com/karlmdavis/rps-tourney/issues/73">Issue #73:
 	 * Webapp 404s when setting max rounds</a>.
 	 * </p>
 	 */
@@ -555,9 +540,8 @@ public final class GameIT {
 			player2Driver.findElement(By.id("join-game")).click();
 
 			/*
-			 * Player 1: Wait for player 2's status to refresh. All this wait is
-			 * really needed for is to delay adjusting the rounds until at least
-			 * one JS update cycle has completed.
+			 * Player 1: Wait for player 2's status to refresh. All this wait is really needed for is to delay adjusting
+			 * the rounds until at least one JS update cycle has completed.
 			 */
 			player1Wait.until(ExpectedConditions.not(ExpectedConditions
 					.textToBePresentInElementLocated(By.cssSelector("div#player-second .player-name"), "Waiting")));
@@ -588,18 +572,16 @@ public final class GameIT {
 	}
 
 	/**
-	 * Ensures that the web application correctly returns the game state as
-	 * JSON.
-	 * 
+	 * Ensures that the web application correctly returns the game state as JSON.
+	 *
 	 * @throws IOException
-	 *             (will be passed through if it occurs, indicating a test
-	 *             error)
+	 *             (will be passed through if it occurs, indicating a test error)
 	 */
 	@Test
 	public void jsonGameData() throws IOException {
 		/*
-		 * Use two Selenium players to play through the game a bit, so that the
-		 * game state is "interesting" enough to test.
+		 * Use two Selenium players to play through the game a bit, so that the game state is "interesting" enough to
+		 * test.
 		 */
 		WebDriver player1Driver = null;
 		WebDriver player2Driver = null;
@@ -629,8 +611,7 @@ public final class GameIT {
 		}
 
 		/*
-		 * Now, pull the game state as JSON data and verify that it looks
-		 * correct.
+		 * Now, pull the game state as JSON data and verify that it looks correct.
 		 */
 		URL gameDataUrl = new URL(ITUtils.buildWebAppUrl("game/" + gameId + "/data"));
 		InputStream gameDataStream = null;
@@ -653,11 +634,9 @@ public final class GameIT {
 	}
 
 	/**
-	 * A regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/78">Issue #78:
-	 * "You Won" / "You Lost" display wrong: a 3 to 1 win reports "You Lost"</a>
-	 * . Verifies that the AJAXy win/loss display is correct when your opponent
-	 * makes the final move and loses.
+	 * A regression test case for <a href="https://github.com/karlmdavis/rps-tourney/issues/78">Issue #78: "You Won" /
+	 * "You Lost" display wrong: a 3 to 1 win reports "You Lost"</a> . Verifies that the AJAXy win/loss display is
+	 * correct when your opponent makes the final move and loses.
 	 */
 	@Test
 	public void ajaxOpponentLoses() {
@@ -697,12 +676,10 @@ public final class GameIT {
 
 	/**
 	 * <p>
-	 * Verifies that the AJAXy round history updates are rendered correctly for
-	 * non-players.
+	 * Verifies that the AJAXy round history updates are rendered correctly for non-players.
 	 * </p>
 	 * <p>
-	 * This is also a regression test case for
-	 * <a href="https://github.com/karlmdavis/rps-tourney/issues/79">Issue #79:
+	 * This is also a regression test case for <a href="https://github.com/karlmdavis/rps-tourney/issues/79">Issue #79:
 	 * Round history table updates goofily: rows out of order</a>.
 	 * </p>
 	 */
@@ -764,8 +741,8 @@ public final class GameIT {
 					.textToBePresentInElementLocated(By.xpath("//table[@id='rounds']/tbody/tr[5]/td[4]"), "player2"));
 		} catch (TimeoutException e) {
 			/*
-			 * If one of these are thrown, the page has the wrong state. We need
-			 * to log the page state to help debug the problem.
+			 * If one of these are thrown, the page has the wrong state. We need to log the page state to help debug the
+			 * problem.
 			 */
 			throw new TimeoutException("Test case failed. Current page source:\n" + observerDriver.getPageSource(), e);
 		} finally {
@@ -777,8 +754,8 @@ public final class GameIT {
 	/**
 	 * @param driver
 	 *            the {@link WebDriver} to use
-	 * @return the value of the <code>#round-counter-current</code> element on
-	 *         the specified {@link WebDriver}'s current page
+	 * @return the value of the <code>#round-counter-current</code> element on the specified {@link WebDriver}'s current
+	 *         page
 	 */
 	private String getRoundCounterCurrent(WebDriver driver) {
 		return driver.findElement(By.id("round-counter-current")).getText();

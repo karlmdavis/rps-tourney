@@ -14,10 +14,9 @@ public class MockPlayersClient implements IPlayersResource {
 
 	/**
 	 * Constructs a new {@link MockPlayersClient} instance.
-	 * 
+	 *
 	 * @param players
-	 *            the {@link Player} instances that will be returned by this
-	 *            {@link IGameResource}
+	 *            the {@link Player} instances that will be returned by this {@link IGameResource}
 	 */
 	public MockPlayersClient(Player... players) {
 		this.players = players;

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
 
 	<parent>
 		<groupId>com.justdavis.karl.jessentials</groupId>
@@ -19,9 +14,7 @@
 	<packaging>pom</packaging>
 
 	<name>rps-tourney-parent</name>
-	<description>
-		The parent POM for the "Rock-Paper-Scissors Tourney" games.
-	</description>
+	<description>The parent POM for the "Rock-Paper-Scissors Tourney" games.</description>
 	<url>https://github.com/karlmdavis/rps-tourney</url>
 	<organization>
 		<name>Karl M. Davis</name>
@@ -33,8 +26,30 @@
 		</license>
 	</licenses>
 
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<modules>
+		<module>rps-tourney-service-api</module>
+		<module>rps-tourney-service-client</module>
+		<module>rps-tourney-service-app</module>
+		<module>rps-tourney-console</module>
+		<module>rps-tourney-webapp</module>
+		<module>rps-tourney-benchmarks</module>
+		<module>rps-tourney-deployment</module>
+	</modules>
+
+	<scm>
+		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
+		<connection>scm:git:git@github.com:karlmdavis/rps-tourney.git</connection>
+		<developerConnection>scm:git:git@github.com:karlmdavis/rps-tourney.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/karlmdavis/rps-tourney</url>
+	</scm>
+
 	<issueManagement>
-		<!-- There doesn't seem to be any tooling support for this yet, but it 
+		<!-- There doesn't seem to be any tooling support for this yet, but it
 			doesn't hurt to include it. -->
 		<system>GitHub Issues</system>
 		<url>https://github.com/karlmdavis/rps-tourney/issues</url>
@@ -44,14 +59,6 @@
 		<system>jenkins</system>
 		<url>https://justdavis.com/jenkins/job/rps-tourney/</url>
 	</ciManagement>
-
-	<scm>
-		<!-- URL format taken from http://www.sonatype.com/people/2009/09/maven-tips-and-tricks-using-github/ -->
-		<connection>scm:git:git@github.com:karlmdavis/rps-tourney.git</connection>
-		<developerConnection>scm:git:git@github.com:karlmdavis/rps-tourney.git</developerConnection>
-		<url>https://github.com/karlmdavis/rps-tourney</url>
-		<tag>HEAD</tag>
-	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -64,22 +71,16 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<modules>
-		<module>rps-tourney-service-api</module>
-		<module>rps-tourney-service-client</module>
-		<module>rps-tourney-service-app</module>
-		<module>rps-tourney-console</module>
-		<module>rps-tourney-webapp</module>
-		<module>rps-tourney-benchmarks</module>
-		<module>rps-tourney-deployment</module>
-	</modules>
-
 	<properties>
-		<!-- The version of the Spring Framework artifacts to use. This property 
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/dev</rps.dev.path>
+
+		<!-- The version of the Spring Framework artifacts to use. This property
 			isn't used directly here, but is rather intended for use in child projects. -->
 		<spring.version>${dependency.springframework.version}</spring.version>
 
-		<!-- The version of Hibernate to use. This property isn't used directly 
+		<!-- The version of Hibernate to use. This property isn't used directly
 			here, but is rather intended for use in child projects. -->
 		<hibernate.version>5.2.12.Final</hibernate.version>
 
@@ -88,11 +89,11 @@
 
 		<!-- The version of the Jackson artifacts to use across the modules. -->
 		<jackson.version>2.9.0</jackson.version>
-		
+
 		<!-- The version of Jetty to use in ITs across all the modules. -->
 		<jetty.version>9.2.24.v20180105</jetty.version>
 
-		<!-- The default number of parallel forks to use for running the ITs. Note 
+		<!-- The default number of parallel forks to use for running the ITs. Note
 			that "C" stands for "core", but also seems to include hyperthreaded cores. -->
 		<forkCount.its>0.25C</forkCount.its>
 
@@ -127,7 +128,7 @@
 				<version>[4.0.1-SNAPSHOT,]</version>
 			</dependency>
 			<dependency>
-				<!-- Used to provision and manage Tomcat server instances, for integration 
+				<!-- Used to provision and manage Tomcat server instances, for integration
 					tests and such. -->
 				<groupId>com.justdavis.karl.jessentials</groupId>
 				<artifactId>jessentials-tomcat</artifactId>
@@ -135,7 +136,7 @@
 			</dependency>
 
 			<dependency>
-				<!-- Logback can be used as the logging target/backend for SLF4J: all 
+				<!-- Logback can be used as the logging target/backend for SLF4J: all
 					logging events would be sent to it, if this dependency is included. -->
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -143,7 +144,7 @@
 			</dependency>
 
 			<dependency>
-				<!-- Many/most of this project's modules currently use various Spring 
+				<!-- Many/most of this project's modules currently use various Spring
 					libraries. This BOM will help prevent version conflicts between them. -->
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
@@ -151,16 +152,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
+
 			<dependency>
-				<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
+				<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports
 					Java 8 and above and PostgreSQL 8.2 and above. -->
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>42.6.0</version>
 			</dependency>
 			<dependency>
-				<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+				<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision
 					DB for manual development testing, as well as unit/integration tests. -->
 				<groupId>org.hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
@@ -173,10 +174,71 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<!-- Used to manage Git hook scripts for developers. -->
+					<groupId>com.rudikershaw.gitbuildhook</groupId>
+					<artifactId>git-build-hook-maven-plugin</artifactId>
+					<version>3.4.1</version>
+				</plugin>
+				<plugin>
+					<!-- Used to format and verify the format of source files. -->
+					<groupId>com.diffplug.spotless</groupId>
+					<artifactId>spotless-maven-plugin</artifactId>
+					<version>2.30.0</version>
+					<configuration>
+						<pom>
+							<!-- Format Maven POMs. -->
+							<sortPom>
+								<nrOfIndentSpace>-1</nrOfIndentSpace>
+							</sortPom>
+							<trimTrailingWhitespace></trimTrailingWhitespace>
+							<endWithNewline></endWithNewline>
+						</pom>
+						<java>
+							<!-- Format Java files. -->
+							<includes>
+								<include>rps-tourney-*/**/*.java</include>
+							</includes>
+							<!-- TODO: consider adding in <cleanthat /> after JDK/plugin upgrade. -->
+							<eclipse>
+								<file>${rps.dev.path}/eclipse-formatter-java.xml</file>
+							</eclipse>
+							<trimTrailingWhitespace></trimTrailingWhitespace>
+							<endWithNewline></endWithNewline>
+						</java>
+						<formats>
+							<format>
+								<!-- Format JavaScript files. -->
+								<includes>
+									<include>src/main/webapp/resources/js/*.js</include>
+								</includes>
+								<eclipseWtp>
+									<type>JS</type>
+								</eclipseWtp>
+								<trimTrailingWhitespace></trimTrailingWhitespace>
+								<endWithNewline></endWithNewline>
+							</format>
+							<format>
+								<!-- Format XML files. -->
+								<includes>
+									<include>src/**/*.xml</include>
+								</includes>
+								<eclipseWtp>
+									<type>XML</type>
+									<files>
+										<file>${rps.dev.path}/eclipse-formatter-xml.prefs</file>
+									</files>
+								</eclipseWtp>
+								<trimTrailingWhitespace></trimTrailingWhitespace>
+								<endWithNewline></endWithNewline>
+							</format>
+						</formats>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
 					<configuration>
-						<!-- This setting is marked as experimental, but should prevent partial 
+						<!-- This setting is marked as experimental, but should prevent partial
 							installs in multi-module builds and releases. -->
 						<installAtEnd>true</installAtEnd>
 					</configuration>
@@ -185,7 +247,7 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<configuration>
-						<!-- This setting is marked as experimental, but should prevent partial 
+						<!-- This setting is marked as experimental, but should prevent partial
 							deploys in multi-module builds and releases. -->
 						<deployAtEnd>true</deployAtEnd>
 					</configuration>
@@ -198,7 +260,7 @@
 							tests (both unit and integration). -->
 						<destFile>${sonar.jacoco.reportPath}</destFile>
 						<append>true</append>
-						
+
 						<!-- Used by the report goal. -->
 						<dataFile>${sonar.jacoco.reportPath}</dataFile>
 					</configuration>
@@ -207,8 +269,8 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<configuration>
-						<!-- Run the ITs in parallel by default, using a separate fork for 
-							each runner. To override this, specify a value of "1" for the 'forkCount.its' 
+						<!-- Run the ITs in parallel by default, using a separate fork for
+							each runner. To override this, specify a value of "1" for the 'forkCount.its'
 							property on the command line. -->
 						<forkCount>${forkCount.its}</forkCount>
 						<redirectTestOutputToFile>true</redirectTestOutputToFile>
@@ -242,6 +304,42 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<!-- Used to manage Git hook scripts for developers. -->
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+						<configuration>
+							<installHooks>
+								<!-- Will install/update the developer's local Git hooks, as part of the
+									build process. -->
+								<pre-commit>../.github/git-hook-pre-commit.sh</pre-commit>
+							</installHooks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Used to format and verify the format of source files. -->
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<!-- Use this plugin to run the formatter on every build, which will
+								auto-format source files per the configuation above. Note that we
+								have a Git pre-commit hook that will verify this formatting. -->
+							<goal>apply</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

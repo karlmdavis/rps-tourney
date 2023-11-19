@@ -37,8 +37,8 @@ import com.justdavis.karl.rpstourney.webapp.error.UnhandledExceptionResolver;
 import com.justdavis.karl.rpstourney.webapp.security.SecurityConfig;
 
 /**
- * The Spring configuration used by {@link GameWebApplicationInitializer}, and
- * thus the entire Spring Web MVC application.
+ * The Spring configuration used by {@link GameWebApplicationInitializer}, and thus the entire Spring Web MVC
+ * application.
  */
 @Configuration
 @Import({ SecurityConfig.class, GameClientBindings.class, ConfigLoaderBindingForProduction.class })
@@ -62,11 +62,9 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 		/*
-		 * Older browsers, like IE8, send less-than-great "Accept" headers.
-		 * We'll assume that any client that cares will request a specific
-		 * content type, and anything requesting "*" is a dumb browser. (See
-		 * https://jira.spring.io/browse/SPR-12481 for details on how this
-		 * doesn't work quite as expected.)
+		 * Older browsers, like IE8, send less-than-great "Accept" headers. We'll assume that any client that cares will
+		 * request a specific content type, and anything requesting "*" is a dumb browser. (See
+		 * https://jira.spring.io/browse/SPR-12481 for details on how this doesn't work quite as expected.)
 		 */
 		configurer.defaultContentType(MediaType.TEXT_HTML);
 	}
@@ -77,8 +75,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		/*
-		 * Each entry here will also need a corresponding entry in
-		 * SecurityConfig.configure(WebSecurity).
+		 * Each entry here will also need a corresponding entry in SecurityConfig.configure(WebSecurity).
 		 */
 
 		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/resources/css/");
@@ -86,10 +83,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/i18n/**").addResourceLocations("/WEB-INF/i18n/");
 
 		/*
-		 * Though all of the sources from Bootstrap and FontAwesome are
-		 * available, only the fonts from them are needed. (All of their LESS
-		 * and JS have been copied by wro4j-maven-plugin into the css and js
-		 * folders.)
+		 * Though all of the sources from Bootstrap and FontAwesome are available, only the fonts from them are needed.
+		 * (All of their LESS and JS have been copied by wro4j-maven-plugin into the css and js folders.)
 		 */
 		registry.addResourceHandler("/bootstrap-3.2.0/fonts/**")
 				.addResourceLocations("/WEB-INF/resources/bootstrap-3.2.0/fonts/");
@@ -115,8 +110,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		/*
-		 * The login view's controller is provided by the Spring Security
-		 * filters.
+		 * The login view's controller is provided by the Spring Security filters.
 		 */
 		registry.addViewController("/login").setViewName("login");
 		registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
@@ -154,9 +148,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	}
 
 	/**
-	 * @return the {@link CookieLocaleResolver} that will be used as the
-	 *         application's {@link LocaleResolver} (Spring looks this up by
-	 *         bean name)
+	 * @return the {@link CookieLocaleResolver} that will be used as the application's {@link LocaleResolver} (Spring
+	 *         looks this up by bean name)
 	 */
 	@Bean
 	public LocaleResolver localeResolver() {
@@ -171,8 +164,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		/*
-		 * Add a Spring MVC {@link HandlerExceptionResolver} that configures how
-		 * the application will render unhandled/uncaught {@link Exception}s.
+		 * Add a Spring MVC {@link HandlerExceptionResolver} that configures how the application will render
+		 * unhandled/uncaught {@link Exception}s.
 		 */
 		resolvers.add(new UnhandledExceptionResolver());
 	}
@@ -180,8 +173,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 	/**
 	 * @param configLoader
 	 *            the injected {@link IConfigLoader} for the application
-	 * @return the application's settings, as represented by a {@link AppConfig}
-	 *         instance
+	 * @return the application's settings, as represented by a {@link AppConfig} instance
 	 */
 	@Bean
 	AppConfig appConfig(IConfigLoader configLoader) {

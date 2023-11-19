@@ -23,10 +23,9 @@ import com.justdavis.karl.rpstourney.service.app.auth.game.PasswordUtils;
 import com.justdavis.karl.rpstourney.service.app.config.ServiceConfig;
 
 /**
- * This {@link ServletContextListener} runs at application startup to ensure
- * that the application has the expected default {@link SecurityRole#ADMINS}
- * {@link GameLoginIdentity}. If not, it fixes that.
- * 
+ * This {@link ServletContextListener} runs at application startup to ensure that the application has the expected
+ * default {@link SecurityRole#ADMINS} {@link GameLoginIdentity}. If not, it fixes that.
+ *
  * @see ServiceConfig#getAdminAccountConfig()
  */
 @Component
@@ -40,7 +39,7 @@ public class AdminAccountInitializer implements ApplicationListener<ContextRefre
 
 	/**
 	 * Constructs a new {@link AdminAccountInitializer} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the injected {@link ServiceConfig} to use
 	 * @param loginsDao
@@ -67,8 +66,8 @@ public class AdminAccountInitializer implements ApplicationListener<ContextRefre
 	}
 
 	/**
-	 * @return a new {@link GameLoginIdentity} instance for the application's
-	 *         default admin, with associated {@link Account}, etc.
+	 * @return a new {@link GameLoginIdentity} instance for the application's default admin, with associated
+	 *         {@link Account}, etc.
 	 */
 	private GameLoginIdentity createAdminLogin() {
 		InternetAddress emailAddress = config.getAdminAccountConfig().getAddress();
@@ -84,10 +83,9 @@ public class AdminAccountInitializer implements ApplicationListener<ContextRefre
 	}
 
 	/**
-	 * Verifies that the specified {@link GameLoginIdentity} has the correct
-	 * permissions, username, and password. If not, updates it such that it
-	 * does.
-	 * 
+	 * Verifies that the specified {@link GameLoginIdentity} has the correct permissions, username, and password. If
+	 * not, updates it such that it does.
+	 *
 	 * @param adminLogin
 	 *            the admin {@link GameLoginIdentity} to be rectified
 	 */
@@ -95,8 +93,7 @@ public class AdminAccountInitializer implements ApplicationListener<ContextRefre
 		boolean somethingWasChanged = false;
 
 		/*
-		 * Actually, no need to check the email address, since we found the
-		 * login with it.
+		 * Actually, no need to check the email address, since we found the login with it.
 		 */
 
 		// Handle the password.

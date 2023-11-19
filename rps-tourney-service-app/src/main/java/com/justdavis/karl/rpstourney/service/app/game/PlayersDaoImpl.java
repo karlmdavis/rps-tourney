@@ -35,8 +35,7 @@ public final class PlayersDaoImpl implements IPlayersDao {
 
 	/**
 	 * @param entityManager
-	 *            a JPA {@link EntityManager} connected to the application's
-	 *            database
+	 *            a JPA {@link EntityManager} connected to the application's database
 	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -73,8 +72,7 @@ public final class PlayersDaoImpl implements IPlayersDao {
 		List<Player> results = query.getResultList();
 
 		/*
-		 * The Player.id field should have a UNIQUE constraint, so this should
-		 * only return 0 or 1 results.
+		 * The Player.id field should have a UNIQUE constraint, so this should only return 0 or 1 results.
 		 */
 		if (results.isEmpty())
 			return null;
@@ -131,9 +129,8 @@ public final class PlayersDaoImpl implements IPlayersDao {
 			return existingPlayer;
 
 		/*
-		 * If the specified Account has already been persisted, look it up
-		 * again, to ensure we have a managed copy of it (rather than a detached
-		 * copy).
+		 * If the specified Account has already been persisted, look it up again, to ensure we have a managed copy of it
+		 * (rather than a detached copy).
 		 */
 		if (account.hasId())
 			account = entityManager.find(Account.class, account.getId());
@@ -154,10 +151,9 @@ public final class PlayersDaoImpl implements IPlayersDao {
 
 	/**
 	 * @param account
-	 *            the {@link Player#getHumanAccount()} value to find a matching
-	 *            {@link Player} for
-	 * @return the existing {@link Player} record that matches the specified
-	 *         criteria, or <code>null</code> if no such record is found
+	 *            the {@link Player#getHumanAccount()} value to find a matching {@link Player} for
+	 * @return the existing {@link Player} record that matches the specified criteria, or <code>null</code> if no such
+	 *         record is found
 	 */
 	private Player find(Account account) {
 		if (account == null)
@@ -177,8 +173,7 @@ public final class PlayersDaoImpl implements IPlayersDao {
 		List<Player> results = query.getResultList();
 
 		/*
-		 * The Player.humanAccount field should have a UNIQUE constraint, so
-		 * this should only return 0 or 1 results.
+		 * The Player.humanAccount field should have a UNIQUE constraint, so this should only return 0 or 1 results.
 		 */
 		if (results.isEmpty())
 			return null;

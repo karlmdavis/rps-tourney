@@ -23,14 +23,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * {@link AuthorizationFilter} instances can be registered for specific JAX-RS
- * resources, and will ensure that the {@link SecurityContext} of users
- * requesting the resource is in at least one of the required roles.
+ * {@link AuthorizationFilter} instances can be registered for specific JAX-RS resources, and will ensure that the
+ * {@link SecurityContext} of users requesting the resource is in at least one of the required roles.
  * </p>
  * <p>
- * This filter will typically be dynamically registered by
- * {@link AuthorizationFilterFeature}, but only for those webservice methods and
- * classes marked with {@link DenyAll} and/or {@link RolesAllowed} annotations.
+ * This filter will typically be dynamically registered by {@link AuthorizationFilterFeature}, but only for those
+ * webservice methods and classes marked with {@link DenyAll} and/or {@link RolesAllowed} annotations.
  * </p>
  */
 @Priority(Priorities.AUTHORIZATION)
@@ -39,12 +37,10 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 
 	/**
 	 * Constructs a new instance of the {@link AuthorizationFilter}.
-	 * 
+	 *
 	 * @param rolesAllowed
-	 *            the whitelist of {@link SecurityContext} roles that are
-	 *            allowed to access resources "guarded" by the
-	 *            {@link AuthorizationFilter} ( <code>null</code> values/entries
-	 *            are ignored)
+	 *            the whitelist of {@link SecurityContext} roles that are allowed to access resources "guarded" by the
+	 *            {@link AuthorizationFilter} ( <code>null</code> values/entries are ignored)
 	 */
 	public AuthorizationFilter(String... rolesAllowed) {
 		this.rolesAllowed = rolesAllowed;
@@ -52,9 +48,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 
 	/**
 	 * <strong>Only for use in testing.</strong>
-	 * 
-	 * @return the array of role IDs that was passed to
-	 *         {@link #AuthorizationFilter(String...)}
+	 *
+	 * @return the array of role IDs that was passed to {@link #AuthorizationFilter(String...)}
 	 */
 	String[] getRolesAllowed() {
 		return Arrays.copyOf(rolesAllowed, rolesAllowed.length);
@@ -66,10 +61,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		/*
-		 * Grab the SecurityContext, which should have been setup by the
-		 * AuthenticationFilter. FIXME Grabbing it from a property is a
-		 * workaround for a bug in CXF 2.7. See AccountSecurityContextProvider
-		 * for details.
+		 * Grab the SecurityContext, which should have been setup by the AuthenticationFilter. FIXME Grabbing it from a
+		 * property is a workaround for a bug in CXF 2.7. See AccountSecurityContextProvider for details.
 		 */
 		SecurityContext securityContext = requestContext.getSecurityContext();
 		// SecurityContext securityContext = (SecurityContext) requestContext
@@ -85,9 +78,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 	}
 
 	/**
-	 * This {@link DynamicFeature} will register {@link AuthorizationFilter} (as
-	 * appropriate) for JAX-RS webservice methods and classes that are marked up
-	 * with any of the {@link PermitAll}, {@link DenyAll}, and/or
+	 * This {@link DynamicFeature} will register {@link AuthorizationFilter} (as appropriate) for JAX-RS webservice
+	 * methods and classes that are marked up with any of the {@link PermitAll}, {@link DenyAll}, and/or
 	 * {@link RolesAllowed} annotations.
 	 */
 	public static final class AuthorizationFilterFeature implements DynamicFeature {
@@ -100,19 +92,16 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 		@Override
 		public void configure(ResourceInfo resourceInfo, FeatureContext context) {
 			/*
-			 * This method will be called once for every webservice method that
-			 * is registered with the JAX-RS application. The Configurable can
-			 * be used to register ContainerRequestFilter (or other related
-			 * features, e.g. ContainerResponseFilter) implementations, "tying"
-			 * them to the specific webservice methods. This is opposed to
-			 * registering/declaring them in the JAX-RS application globally,
-			 * where the features would be active for all webservice methods.
+			 * This method will be called once for every webservice method that is registered with the JAX-RS
+			 * application. The Configurable can be used to register ContainerRequestFilter (or other related features,
+			 * e.g. ContainerResponseFilter) implementations, "tying" them to the specific webservice methods. This is
+			 * opposed to registering/declaring them in the JAX-RS application globally, where the features would be
+			 * active for all webservice methods.
 			 */
 
 			/*
-			 * Evaluate the security annotations on the webservice method &
-			 * class. This has to be done here, as AuthFilter.filter(...)
-			 * doesn't have access to the info.
+			 * Evaluate the security annotations on the webservice method & class. This has to be done here, as
+			 * AuthFilter.filter(...) doesn't have access to the info.
 			 */
 			Class<?> webServiceClass = resourceInfo.getResourceClass();
 			RolesAllowed rolesAllowedForClass = webServiceClass.getAnnotation(RolesAllowed.class);
@@ -122,9 +111,8 @@ public final class AuthorizationFilter implements ContainerRequestFilter {
 			RolesAllowed rolesAllowedForMethod = webServiceMethod.getAnnotation(RolesAllowed.class);
 
 			/*
-			 * The overriding rules specified for these annotations (in their
-			 * JavaDoc) are a bit complex, but in general, method-level
-			 * annotations always override class-level ones.
+			 * The overriding rules specified for these annotations (in their JavaDoc) are a bit complex, but in
+			 * general, method-level annotations always override class-level ones.
 			 */
 			RolesAllowed rolesAllowed = rolesAllowedForMethod != null ? rolesAllowedForMethod : rolesAllowedForClass;
 

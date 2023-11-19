@@ -28,8 +28,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class SpringBindingsForJpa {
 	/**
-	 * @return the Spring {@link JpaVendorAdapter} for the application's
-	 *         database
+	 * @return the Spring {@link JpaVendorAdapter} for the application's database
 	 */
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
@@ -41,26 +40,21 @@ public class SpringBindingsForJpa {
 
 	/**
 	 * <p>
-	 * Creates the {@link LocalContainerEntityManagerFactoryBean} which
-	 * manages/creates the application's JPA {@link EntityManagerFactory}.
+	 * Creates the {@link LocalContainerEntityManagerFactoryBean} which manages/creates the application's JPA
+	 * {@link EntityManagerFactory}.
 	 * </p>
 	 * <p>
-	 * Note that the application's <code>persistence.xml</code> has set the
-	 * Hibernate "schema creation" flag to "validate (not create) the schema".
-	 * for this validation to succeed, the database schema must be
-	 * created/updated before this Spring bean is created, which is why this
-	 * method has a {@link DependsOn} annotation.
+	 * Note that the application's <code>persistence.xml</code> has set the Hibernate "schema creation" flag to
+	 * "validate (not create) the schema". for this validation to succeed, the database schema must be created/updated
+	 * before this Spring bean is created, which is why this method has a {@link DependsOn} annotation.
 	 * </p>
-	 * 
+	 *
 	 * @param dataSource
-	 *            the injected {@link DataSource} that the JPA
-	 *            {@link EntityManagerFactory} should be connected to
+	 *            the injected {@link DataSource} that the JPA {@link EntityManagerFactory} should be connected to
 	 * @param jpaVendorAdapter
 	 *            the injected {@link JpaVendorAdapter} for the application
-	 * @return the {@link LocalContainerEntityManagerFactoryBean} instance that
-	 *         Spring will use to inject the application's
-	 *         {@link EntityManagerFactory} and {@link EntityManager}s, when
-	 *         requested
+	 * @return the {@link LocalContainerEntityManagerFactoryBean} instance that Spring will use to inject the
+	 *         application's {@link EntityManagerFactory} and {@link EntityManager}s, when requested
 	 */
 	@Bean
 	@DependsOn({ "databaseSchemaInitializer" })
@@ -74,11 +68,9 @@ public class SpringBindingsForJpa {
 
 	/**
 	 * @param entityManagerFactoryBean
-	 *            the injected {@link LocalContainerEntityManagerFactoryBean}
-	 *            that the {@link PlatformTransactionManager} will be associated
-	 *            with
-	 * @return the {@link PlatformTransactionManager} that Spring will use for
-	 *         its managed transactions
+	 *            the injected {@link LocalContainerEntityManagerFactoryBean} that the
+	 *            {@link PlatformTransactionManager} will be associated with
+	 * @return the {@link PlatformTransactionManager} that Spring will use for its managed transactions
 	 */
 	@Bean
 	public PlatformTransactionManager transactionManager(
@@ -89,9 +81,8 @@ public class SpringBindingsForJpa {
 	}
 
 	/**
-	 * @return a Spring {@link BeanPostProcessor} that enables the use of the
-	 *         JPA {@link PersistenceUnit} and {@link PersistenceContext}
-	 *         annotations for injection of {@link EntityManagerFactory} and
+	 * @return a Spring {@link BeanPostProcessor} that enables the use of the JPA {@link PersistenceUnit} and
+	 *         {@link PersistenceContext} annotations for injection of {@link EntityManagerFactory} and
 	 *         {@link EntityManager} instances, respectively, into beans
 	 */
 	@Bean
@@ -100,20 +91,17 @@ public class SpringBindingsForJpa {
 	}
 
 	/**
-	 * @return a Spring {@link BeanPostProcessor} that enables Spring's data/JPA
-	 *         exception translation for any beans marked with Spring's
-	 *         <code>@Repository</code> annotation
+	 * @return a Spring {@link BeanPostProcessor} that enables Spring's data/JPA exception translation for any beans
+	 *         marked with Spring's <code>@Repository</code> annotation
 	 */
 	@Bean
 	public PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor() {
 		/*
-		 * FIXME This doesn't actually seem to be working, for some very
-		 * frustrating, unknown reason. My best guess is that it has something
-		 * to do with whatever's actually closing my transactions not being
-		 * involved. Note that even marking my JAX-RS resources (the ones with
-		 * 
-		 * @Transactional annotations) with @Repository doesn't seem to resolve
-		 * the problem.
+		 * FIXME This doesn't actually seem to be working, for some very frustrating, unknown reason. My best guess is
+		 * that it has something to do with whatever's actually closing my transactions not being involved. Note that
+		 * even marking my JAX-RS resources (the ones with
+		 *
+		 * @Transactional annotations) with @Repository doesn't seem to resolve the problem.
 		 */
 		return new PersistenceExceptionTranslationPostProcessor();
 	}

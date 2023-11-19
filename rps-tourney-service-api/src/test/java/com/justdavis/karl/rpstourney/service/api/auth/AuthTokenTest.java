@@ -28,7 +28,7 @@ import com.justdavis.karl.rpstourney.service.api.XmlNamespace;
 public final class AuthTokenTest {
 	/**
 	 * Ensures that {@link AuthToken} instances can be marshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -71,7 +71,7 @@ public final class AuthTokenTest {
 
 	/**
 	 * Ensures that {@link AuthToken} instances can be unmarshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException

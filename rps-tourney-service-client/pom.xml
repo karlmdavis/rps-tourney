@@ -12,12 +12,13 @@
 	<packaging>jar</packaging>
 
 	<name>rps-tourney-service-client</name>
-	<description>
-		The client-side implementation to the web service layer of the 
-		"Rock-Paper-Scissors Tourney" game.
-	</description>
+	<description>The client-side implementation to the web service layer of the
+		"Rock-Paper-Scissors Tourney" game.</description>
 
 	<properties>
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
 	</properties>
 
 	<dependencies>
@@ -33,7 +34,7 @@
 		</dependency>
 
 		<dependency>
-			<!-- Provides the JAX-RS 2.0 implementation for this project's classes 
+			<!-- Provides the JAX-RS 2.0 implementation for this project's classes
 				to use. -->
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-rs-client</artifactId>
@@ -50,11 +51,9 @@
 
 	<build>
 		<pluginManagement>
-			<plugins>
-			</plugins>
+			<plugins></plugins>
 		</pluginManagement>
-		<plugins>
-		</plugins>
+		<plugins></plugins>
 	</build>
 
 </project>

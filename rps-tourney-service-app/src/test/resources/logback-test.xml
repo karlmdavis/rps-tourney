@@ -11,11 +11,8 @@
 		</encoder>
 	</appender>
 
-	<!-- There's a bug in this class' logging, that causes spurious exceptions 
-		if it's enabled at the debug level. -->
-	<logger
-		name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl"
-		level="info" />
+	<!-- There's a bug in this class' logging, that causes spurious exceptions if it's enabled at the debug level. -->
+	<logger name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl" level="info" />
 
 	<!-- Setting this to 'debug' will log the executed SQL. -->
 	<!-- <logger name="org.hibernate.SQL" level="debug" /> -->
@@ -23,24 +20,18 @@
 	<!-- Setting this to 'trace' will log the executed SQL params. -->
 	<!-- <logger name="org.hibernate.type" level="trace" /> -->
 
-	<!-- These loggers will print all CXF requests/responses to the log, at 
-		the 'info' level (set to 'warn' or higher to disable them). Actually uses 
-		the application's custom LoggerForInbound and LoggerForOutbound classes, 
-		which attempt to exclude passwords from the log output. -->
-	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor"
-		level="info" />
-	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
-		level="info" />
+	<!-- These loggers will print all CXF requests/responses to the log, at the 'info' level (set to 'warn' or higher to disable
+		them). Actually uses the application's custom LoggerForInbound and LoggerForOutbound classes, which attempt to exclude passwords
+		from the log output. -->
+	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor" level="info" />
+	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor" level="info" />
 
 	<!-- Log all traffic from the JAX-RS clients at a low level. -->
-	<!-- <logger name="sun.net.www.protocol.http.HttpURLConnection" level="all" 
-		/> -->
-	<!-- <logger name="org.apache.cxf.transport.http.HTTPConduit" level="all" 
-		/> -->
+	<!-- <logger name="sun.net.www.protocol.http.HttpURLConnection" level="all" /> -->
+	<!-- <logger name="org.apache.cxf.transport.http.HTTPConduit" level="all" /> -->
 
-	<!-- This Jetty logger will be used at almost the very start of every incoming 
-		HTTP request. It provides a simple way to debug request handling at a lower 
-		level. -->
+	<!-- This Jetty logger will be used at almost the very start of every incoming HTTP request. It provides a simple way to
+		debug request handling at a lower level. -->
 	<!-- <logger name="org.eclipse.jetty.server.Server" level="all" /> -->
 
 	<!-- Log at the INFO level and above by default, to the console. -->

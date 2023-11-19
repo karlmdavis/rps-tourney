@@ -24,19 +24,17 @@ import com.justdavis.karl.rpstourney.service.api.auth.guest.IGuestAuthResource;
 
 /**
  * <p>
- * This Spring {@link Configuration} handles most of the configuration related
- * to <a href="http://projects.spring.io/spring-security/">Spring Security</a>.
+ * This Spring {@link Configuration} handles most of the configuration related to
+ * <a href="http://projects.spring.io/spring-security/">Spring Security</a>.
  * </p>
  * <p>
- * It enables the use of the JSR-250 security annotations on controller methods
- * to secure things: {@link DenyAll}, {@link RolesAllowed}, etc. By default,
- * everything is unsecured. When required, form-based authentication will be
+ * It enables the use of the JSR-250 security annotations on controller methods to secure things: {@link DenyAll},
+ * {@link RolesAllowed}, etc. By default, everything is unsecured. When required, form-based authentication will be
  * used.
  * </p>
  * <p>
- * The actual authentication and authorization is handled with calls to the
- * application's web service. The {@link IGameAuthResource} and
- * {@link IGuestAuthResource} mechanisms are supported.
+ * The actual authentication and authorization is handled with calls to the application's web service. The
+ * {@link IGameAuthResource} and {@link IGuestAuthResource} mechanisms are supported.
  * </p>
  */
 @Configuration
@@ -54,32 +52,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private GameLoginAuthenticationProvider gameLoginAuthProvider;
 
 	/**
-	 * The {@link AuthenticationSuccessHandler} for {@link IGameAuthResource}
-	 * logins.
+	 * The {@link AuthenticationSuccessHandler} for {@link IGameAuthResource} logins.
 	 */
 	@Inject
 	private GameLoginSuccessHandler gameLoginSuccessHandler;
 
 	/**
-	 * The {@link RememberMeServices} implementation to be used. (note that
-	 * we're cheating a bit here: we both define and use this bean in the same
-	 * class).
+	 * The {@link RememberMeServices} implementation to be used. (note that we're cheating a bit here: we both define
+	 * and use this bean in the same class).
 	 */
 	@Inject
 	private RememberMeServices rememberMeServices;
 
 	/**
-	 * Takes the application's {@link AuthenticationManagerBuilder} bean and
-	 * configures it to use the correct authentication mechanisms.
+	 * Takes the application's {@link AuthenticationManagerBuilder} bean and configures it to use the correct
+	 * authentication mechanisms.
 	 */
 	@Inject
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		/*
-		 * Note: I'm not really sure why this method is used, rather than just
-		 * overriding the superclass' configure(AuthenticationManagerBuilder
-		 * auth) method, but doing it this way works (and the other way
-		 * doesn't). The Spring Security maintainer, Rob Winch, has a GitHub
-		 * pull request doing things this way:
+		 * Note: I'm not really sure why this method is used, rather than just overriding the superclass'
+		 * configure(AuthenticationManagerBuilder auth) method, but doing it this way works (and the other way doesn't).
+		 * The Spring Security maintainer, Rob Winch, has a GitHub pull request doing things this way:
 		 * https://github.com/jhipster/jhipster-sample-app/pull/2.
 		 */
 
@@ -105,21 +99,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		/*
-		 * This is fairly unusual for a Spring Security config (note the lack of
-		 * a '.authorizeRequests()' call), but meets this application's need
-		 * quite well. All or almost all of the application's authorization is
-		 * done programmatically, and the MVC Controllers are all responsible
-		 * for redirecting to '/login' as necessary.
+		 * This is fairly unusual for a Spring Security config (note the lack of a '.authorizeRequests()' call), but
+		 * meets this application's need quite well. All or almost all of the application's authorization is done
+		 * programmatically, and the MVC Controllers are all responsible for redirecting to '/login' as necessary.
 		 */
 
 		/*
-		 * Spring Security's "remember me" services are used as a form of
-		 * automatic anonymous-ish login. If users, for example, start a game,
-		 * they will be logged in automatically with a new anonymous account
-		 * that gets created for them. If the user at some point decides they
-		 * want a normal username+password account (perhaps to play the same
-		 * games across multiple devices), the anonymous accounts can be
-		 * "merged" into the new username+password accounts.
+		 * Spring Security's "remember me" services are used as a form of automatic anonymous-ish login. If users, for
+		 * example, start a game, they will be logged in automatically with a new anonymous account that gets created
+		 * for them. If the user at some point decides they want a normal username+password account (perhaps to play the
+		 * same games across multiple devices), the anonymous accounts can be "merged" into the new username+password
+		 * accounts.
 		 */
 		gameLoginSuccessHandler.setDefaultTargetUrl("/account");
 		http.formLogin().loginPage("/login").successHandler(gameLoginSuccessHandler).and().logout().and().httpBasic()
@@ -128,14 +118,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * @return the {@link SecurityContextHolderStrategy} that the application is
-	 *         using
+	 * @return the {@link SecurityContextHolderStrategy} that the application is using
 	 */
 	@Bean
 	public SecurityContextHolderStrategy securityContextHolderStrategy() {
 		/*
-		 * Just exposing this strategy as a bean; Spring Security has a non-bean
-		 * mechanism for configuring it.
+		 * Just exposing this strategy as a bean; Spring Security has a non-bean mechanism for configuring it.
 		 */
 		return SecurityContextHolder.getContextHolderStrategy();
 	}

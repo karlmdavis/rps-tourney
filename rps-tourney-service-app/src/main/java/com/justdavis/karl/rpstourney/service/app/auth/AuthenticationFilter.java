@@ -31,15 +31,14 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
 
 /**
  * <p>
- * {@link AuthenticationFilter} will filter both requests and responses, to
- * apply the application's authentication scheme to them.
+ * {@link AuthenticationFilter} will filter both requests and responses, to apply the application's authentication
+ * scheme to them.
  * </p>
  * <p>
- * For requests, it checks for authentication token cookies, and if found, sets
- * the {@link SecurityContext} for the rest of the request to use the logged-in
- * {@link Account}. For responses, it sets/refreshes those authentication token
- * cookies, to ensure that the expiration date and other properties of those
- * cookies are updated every time a client makes a webservice call.
+ * For requests, it checks for authentication token cookies, and if found, sets the {@link SecurityContext} for the rest
+ * of the request to use the logged-in {@link Account}. For responses, it sets/refreshes those authentication token
+ * cookies, to ensure that the expiration date and other properties of those cookies are updated every time a client
+ * makes a webservice call.
  * </p>
  */
 @Priority(Priorities.AUTHENTICATION)
@@ -51,17 +50,15 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 
 	/**
 	 * The custom authentication scheme ID used by the application.
-	 * 
+	 *
 	 * @see SecurityContext#getAuthenticationScheme()
 	 */
 	public static String AUTH_SCHEME = "GameAuth";
 
 	/**
-	 * The {@link HttpServletRequest#getAttribute(String)} key that should be
-	 * used to signal/record successful logon events. If the value of this
-	 * attribute is a valid {@link AuthToken} instance, the
-	 * {@link AuthenticationFilter} will set a cookie on outgoing responses
-	 * that, if returned, will be used to authenticate that user/account on
+	 * The {@link HttpServletRequest#getAttribute(String)} key that should be used to signal/record successful logon
+	 * events. If the value of this attribute is a valid {@link AuthToken} instance, the {@link AuthenticationFilter}
+	 * will set a cookie on outgoing responses that, if returned, will be used to authenticate that user/account on
 	 * future requests.
 	 */
 	public static final String LOGIN_PROPERTY = AuthenticationFilter.class.getName() + ".login";
@@ -69,8 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	private IAccountsDao accountsDao;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public AuthenticationFilter() {
 	}
@@ -89,18 +85,16 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	}
 
 	/**
-	 * This callback will be passed each request towards the start of the
-	 * processing chain for it. It checks the request for a cookie containing an
-	 * authentication token. If such a cookie is found, it sets the
-	 * {@link SecurityContext} for the request to reflect the {@link Account} of
-	 * the user/client making the request.
-	 * 
+	 * This callback will be passed each request towards the start of the processing chain for it. It checks the request
+	 * for a cookie containing an authentication token. If such a cookie is found, it sets the {@link SecurityContext}
+	 * for the request to reflect the {@link Account} of the user/client making the request.
+	 *
 	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.ContainerRequestContext)
 	 */
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		LOGGER.trace("Entering {}.filter(...)", AuthenticationFilter.class);
-		
+
 		// Is there an auth token cookie? If so, grab the Account for it.
 		Cookie authTokenCookie = requestContext.getCookies().get(AuthTokenCookieHelper.COOKIE_NAME_AUTH_TOKEN);
 		Account userAccount = null;
@@ -118,12 +112,10 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	}
 
 	/**
-	 * This callback will be passed each request and response towards the end of
-	 * the processing chain for it. It checks the {@link SecurityContext} for
-	 * the request, and if it contains a valid {@link Account} for the
-	 * user/client that made the request, it will refresh the cookie containing
-	 * the authentication token for that {@link Account}.
-	 * 
+	 * This callback will be passed each request and response towards the end of the processing chain for it. It checks
+	 * the {@link SecurityContext} for the request, and if it contains a valid {@link Account} for the user/client that
+	 * made the request, it will refresh the cookie containing the authentication token for that {@link Account}.
+	 *
 	 * @see javax.ws.rs.container.ContainerResponseFilter#filter(javax.ws.rs.container.ContainerRequestContext,
 	 *      javax.ws.rs.container.ContainerResponseContext)
 	 */
@@ -131,16 +123,14 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
 		/*
-		 * This filter method will be run towards the end of each request's
-		 * response chain.
+		 * This filter method will be run towards the end of each request's response chain.
 		 */
 
 		// Pull the login the request came in with (if any).
 		AccountSecurityContext securityContext = (AccountSecurityContext) requestContext.getSecurityContext();
 
 		/*
-		 * Pull the auth token for the login that was set during the response
-		 * (if any).
+		 * Pull the auth token for the login that was set during the response (if any).
 		 */
 		AuthToken authTokenForLogin = (AuthToken) requestContext.getProperty(LOGIN_PROPERTY);
 
@@ -158,13 +148,12 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	 * </p>
 	 * <p>
 	 * Should be used instead of
-	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)}
-	 * when the request didn't already come in with a valid login/cookie.
+	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)} when the
+	 * request didn't already come in with a valid login/cookie.
 	 * </p>
-	 * 
+	 *
 	 * @param authTokenForLogin
-	 *            the {@link AuthToken} to be included as a cookie in the
-	 *            response
+	 *            the {@link AuthToken} to be included as a cookie in the response
 	 * @param requestContext
 	 *            the request being processed
 	 * @param responseContext
@@ -181,18 +170,16 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 
 	/**
 	 * <p>
-	 * Refreshes the current login {@link AuthToken} cookie on the outgoing
-	 * response being generated.
+	 * Refreshes the current login {@link AuthToken} cookie on the outgoing response being generated.
 	 * </p>
 	 * <p>
 	 * Should be used instead of
-	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)}
-	 * when the request didn't already come in with a valid login/cookie.
+	 * {@link #refreshLoginCookie(AccountSecurityContext, ContainerRequestContext, ContainerResponseContext)} when the
+	 * request didn't already come in with a valid login/cookie.
 	 * </p>
-	 * 
+	 *
 	 * @param securityContext
-	 *            the {@link AccountSecurityContext} containing the active login
-	 *            to be refreshed
+	 *            the {@link AccountSecurityContext} containing the active login to be refreshed
 	 * @param requestContext
 	 *            the request being processed
 	 * @param responseContext
@@ -219,21 +206,17 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
 	}
 
 	/**
-	 * Adds the specified {@link NewCookie} instance to the specified
-	 * {@link ContainerResponseContext} response instance. Will replace any
-	 * existing cookie that matches the specified cookie's
-	 * {@link NewCookie#getName()}.
-	 * 
+	 * Adds the specified {@link NewCookie} instance to the specified {@link ContainerResponseContext} response
+	 * instance. Will replace any existing cookie that matches the specified cookie's {@link NewCookie#getName()}.
+	 *
 	 * @param responseContext
-	 *            the {@link ContainerResponseContext} instance that represents
-	 *            the response being generated
+	 *            the {@link ContainerResponseContext} instance that represents the response being generated
 	 * @param authTokenCookie
 	 *            the {@link NewCookie} to include in the response
 	 */
 	private static void addCookieToResponse(ContainerResponseContext responseContext, NewCookie authTokenCookie) {
 		/*
-		 * Loop through the Cookies, checking to see if any match the one being
-		 * set.
+		 * Loop through the Cookies, checking to see if any match the one being set.
 		 */
 		boolean matchingCookieFound = false;
 		if (responseContext.getHeaders().containsKey(HttpHeaders.SET_COOKIE)) {

@@ -19,11 +19,10 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 
 /**
  * <p>
- * A Hibernate {@link UserType} for persisting {@link InternetAddress} fields.
- * Any JPA field that's an {@link InternetAddress} will have to add a Hibernate
- * {@link Type} annotation referencing this class, e.g.:
+ * A Hibernate {@link UserType} for persisting {@link InternetAddress} fields. Any JPA field that's an
+ * {@link InternetAddress} will have to add a Hibernate {@link Type} annotation referencing this class, e.g.:
  * </p>
- * 
+ *
  * <pre>
  * &#64;Entity
  * public class SomeEntity {
@@ -35,8 +34,8 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
  */
 public class InternetAddressUserType implements UserType {
 	/**
-	 * The same as {@code InternetAddressUserType.class.getName()}, but a
-	 * constant expression that can be referenced in annotations.
+	 * The same as {@code InternetAddressUserType.class.getName()}, but a constant expression that can be referenced in
+	 * annotations.
 	 */
 	public static final String TYPE_NAME = "com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserType";
 
@@ -57,8 +56,7 @@ public class InternetAddressUserType implements UserType {
 	}
 
 	/**
-	 * @see org.hibernate.usertype.UserType#equals(java.lang.Object,
-	 *      java.lang.Object)
+	 * @see org.hibernate.usertype.UserType#equals(java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object x, Object y) throws HibernateException {
@@ -72,12 +70,10 @@ public class InternetAddressUserType implements UserType {
 	public int hashCode(Object x) throws HibernateException {
 		return x.hashCode();
 	}
-	
+
 	/**
-	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet,
-	 *      java.lang.String[],
-	 *      org.hibernate.engine.spi.SharedSessionContractImplementor,
-	 *      java.lang.Object)
+	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[],
+	 *      org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
 	 */
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
@@ -95,9 +91,10 @@ public class InternetAddressUserType implements UserType {
 		else
 			return null;
 	}
-	
+
 	/**
-	 * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement, java.lang.Object, int, org.hibernate.engine.spi.SharedSessionContractImplementor)
+	 * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement, java.lang.Object, int,
+	 *      org.hibernate.engine.spi.SharedSessionContractImplementor)
 	 */
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
@@ -150,8 +147,7 @@ public class InternetAddressUserType implements UserType {
 	}
 
 	/**
-	 * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable,
-	 *      java.lang.Object)
+	 * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)
 	 */
 	@Override
 	public Object assemble(Serializable cached, Object owner) throws HibernateException {
@@ -169,8 +165,7 @@ public class InternetAddressUserType implements UserType {
 	}
 
 	/**
-	 * @see org.hibernate.usertype.UserType#replace(java.lang.Object,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see org.hibernate.usertype.UserType#replace(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public Object replace(Object original, Object target, Object owner) throws HibernateException {

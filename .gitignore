@@ -1,6 +1,7 @@
 # Ignore Eclipse metadata files, but include .gitignore itself
 /.*
 !/.gitignore
+!/.github/
 
 # Ignore vim metadata files.
 *.swp

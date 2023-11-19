@@ -35,8 +35,7 @@ public class GamesDaoImpl implements IGamesDao {
 
 	/**
 	 * @param entityManager
-	 *            a JPA {@link EntityManager} connected to the application's
-	 *            database
+	 *            a JPA {@link EntityManager} connected to the application's database
 	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -119,8 +118,7 @@ public class GamesDaoImpl implements IGamesDao {
 	}
 
 	/**
-	 * @see com.justdavis.karl.rpstourney.service.app.game.IGamesDao#setMaxRounds(java.lang.String,
-	 *      int, int)
+	 * @see com.justdavis.karl.rpstourney.service.app.game.IGamesDao#setMaxRounds(java.lang.String, int, int)
 	 */
 	@Override
 	public Game setMaxRounds(String gameId, int oldMaxRoundsValue, int newMaxRoundsValue) {
@@ -128,10 +126,9 @@ public class GamesDaoImpl implements IGamesDao {
 		Game.validateMaxRoundsValue(newMaxRoundsValue);
 
 		/*
-		 * Build an update query for the matching game. Note that in addition to
-		 * matching against the game's ID, we also match against the current/old
-		 * maxRounds value. This helps to prevent "mid-air collision" issues
-		 * when multiple users/clients try to update this at the same time.
+		 * Build an update query for the matching game. Note that in addition to matching against the game's ID, we also
+		 * match against the current/old maxRounds value. This helps to prevent "mid-air collision" issues when multiple
+		 * users/clients try to update this at the same time.
 		 */
 		CriteriaBuilder cb = entityManager.getEntityManagerFactory().getCriteriaBuilder();
 		CriteriaUpdate<Game> cu = cb.createCriteriaUpdate(Game.class);
@@ -149,9 +146,8 @@ public class GamesDaoImpl implements IGamesDao {
 			throw new BadCodeMonkeyException();
 
 		/*
-		 * The executeUpdate(...) above sidesteps the Hibernate entity cache, so
-		 * the Game retrieved here will be stale. Calling refresh(...) fixes
-		 * that.
+		 * The executeUpdate(...) above sidesteps the Hibernate entity cache, so the Game retrieved here will be stale.
+		 * Calling refresh(...) fixes that.
 		 */
 		Game game = findById(gameId);
 		entityManager.refresh(game);
@@ -164,10 +160,8 @@ public class GamesDaoImpl implements IGamesDao {
 	@Override
 	public void delete(String gameId) {
 		/*
-		 * Note: I'd prefer to use a CriteriaDelete here, as it saves an extra
-		 * query, but Hibernate 4 doesn't seem to correctly handle
-		 * CascadeType.REMOVE with that API.
-		 * https://hibernate.atlassian.net/browse/HHH-8993
+		 * Note: I'd prefer to use a CriteriaDelete here, as it saves an extra query, but Hibernate 4 doesn't seem to
+		 * correctly handle CascadeType.REMOVE with that API. https://hibernate.atlassian.net/browse/HHH-8993
 		 */
 		Game game = findById(gameId);
 		entityManager.remove(game);

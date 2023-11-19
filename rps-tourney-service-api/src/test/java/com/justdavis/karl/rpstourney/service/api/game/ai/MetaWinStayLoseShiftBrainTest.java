@@ -28,8 +28,7 @@ public final class MetaWinStayLoseShiftBrainTest {
 		game.submitThrow(0, game.getPlayer2(), Throw.PAPER);
 
 		/*
-		 * The AI didn't win that round, so it should throw the opposite of the
-		 * other player's move from it.
+		 * The AI didn't win that round, so it should throw the opposite of the other player's move from it.
 		 */
 		game.submitThrow(1, game.getPlayer1(), Throw.PAPER);
 		Throw aiThrowSecond = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
@@ -37,8 +36,7 @@ public final class MetaWinStayLoseShiftBrainTest {
 		game.submitThrow(1, game.getPlayer2(), aiThrowSecond);
 
 		/*
-		 * The AI did win that round, so it should throw the thing that would
-		 * beat the one it just played.
+		 * The AI did win that round, so it should throw the thing that would beat the one it just played.
 		 */
 		Throw aiThrowThird = ai.calculateNextThrow(new GameView(game, game.getPlayer2()), PlayerRole.PLAYER_2);
 		Assert.assertEquals(Throw.ROCK, aiThrowThird);

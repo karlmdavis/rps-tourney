@@ -10,20 +10,17 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
 
 /**
  * <p>
- * A Hibernate plugin that registers the user type mappings provided by this
- * project with Hibernate.
+ * A Hibernate plugin that registers the user type mappings provided by this project with Hibernate.
  * </p>
  * <p>
  * It's "plugged in" via Java's SPI mechanism; see
- * <code>src/main/resources/META-INF/services/org.hibernate.integrator.spi.Integrator</code>
- * .
+ * <code>src/main/resources/META-INF/services/org.hibernate.integrator.spi.Integrator</code> .
  * </p>
  */
 public class HibernateUserTypesIntegrator implements Integrator {
 	/**
 	 * @see org.hibernate.integrator.spi.Integrator#integrate(org.hibernate.boot.Metadata,
-	 *      org.hibernate.engine.spi.SessionFactoryImplementor,
-	 *      org.hibernate.service.spi.SessionFactoryServiceRegistry)
+	 *      org.hibernate.engine.spi.SessionFactoryImplementor, org.hibernate.service.spi.SessionFactoryServiceRegistry)
 	 */
 	@Override
 	public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory,

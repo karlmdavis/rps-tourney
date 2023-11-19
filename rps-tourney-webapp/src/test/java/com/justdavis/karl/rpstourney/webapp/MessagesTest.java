@@ -22,8 +22,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
  */
 public final class MessagesTest {
 	/**
-	 * Verifies that all of the {@link BuiltInAi#getDisplayNameKey()} messages
-	 * that should exist, do exist.
+	 * Verifies that all of the {@link BuiltInAi#getDisplayNameKey()} messages that should exist, do exist.
 	 */
 	@Test
 	public void aiNames() {

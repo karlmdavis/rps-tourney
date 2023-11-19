@@ -34,10 +34,9 @@ import com.justdavis.karl.rpstourney.webapp.config.AppConfig;
  */
 public final class CustomerRememberMeServicesTest {
 	/**
-	 * Tests
-	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
-	 * on requests with no authentication token.
-	 * 
+	 * Tests {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)} on requests with no
+	 * authentication token.
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
@@ -57,10 +56,9 @@ public final class CustomerRememberMeServicesTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
-	 * on requests with an empty authentication token.
-	 * 
+	 * Tests {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)} on requests with an
+	 * empty authentication token.
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
@@ -81,10 +79,9 @@ public final class CustomerRememberMeServicesTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
-	 * on requests with an invalid authentication token.
-	 * 
+	 * Tests {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)} on requests with an
+	 * invalid authentication token.
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
@@ -114,10 +111,9 @@ public final class CustomerRememberMeServicesTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)}
-	 * on requests with a valid authentication token.
-	 * 
+	 * Tests {@link CustomRememberMeServices#autoLogin(HttpServletRequest, HttpServletResponse)} on requests with a
+	 * valid authentication token.
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */
@@ -149,10 +145,9 @@ public final class CustomerRememberMeServicesTest {
 	}
 
 	/**
-	 * Tests that
-	 * {@link CustomRememberMeServices#loginSuccess(HttpServletRequest, HttpServletResponse, Authentication)}
+	 * Tests that {@link CustomRememberMeServices#loginSuccess(HttpServletRequest, HttpServletResponse, Authentication)}
 	 * saves an authentication cookie as expected.
-	 * 
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 * @throws URISyntaxException
@@ -192,7 +187,7 @@ public final class CustomerRememberMeServicesTest {
 	private static class MockAccountsClient extends AccountsClient {
 		/**
 		 * Constructs a new {@link MockAccountsClient} instance.
-		 * 
+		 *
 		 * @param cookieStore
 		 *            the {@link CookieStore} to use
 		 */

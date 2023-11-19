@@ -20,9 +20,8 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
  */
 public final class GameLoginAuthenticationProviderTest {
 	/**
-	 * Tests
-	 * {@link GameLoginAuthenticationProvider#authenticate(Authentication)} when
-	 * presented with invalid credentials.
+	 * Tests {@link GameLoginAuthenticationProvider#authenticate(Authentication)} when presented with invalid
+	 * credentials.
 	 */
 	@Test(expected = BadCredentialsException.class)
 	public void authenticate_failedLogin() {
@@ -37,9 +36,7 @@ public final class GameLoginAuthenticationProviderTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link GameLoginAuthenticationProvider#authenticate(Authentication)} when
-	 * presented with valid credentials.
+	 * Tests {@link GameLoginAuthenticationProvider#authenticate(Authentication)} when presented with valid credentials.
 	 */
 	@Test
 	public void authenticate_successfulLogin() {
@@ -72,19 +69,18 @@ public final class GameLoginAuthenticationProviderTest {
 	}
 
 	/**
-	 * A mock client-side implementation of {@link IGameAuthResource}, for use
-	 * in tests.
+	 * A mock client-side implementation of {@link IGameAuthResource}, for use in tests.
 	 */
 	private static final class MockGameAuthClient implements IGameAuthResource {
 		private final Account accountToLogin;
 
 		/**
 		 * Constructs a new {@link MockGameAuthClient} instance.
-		 * 
+		 *
 		 * @param accountToLogin
 		 *            the {@link Account} to return from all calls to
-		 *            {@link #loginWithGameAccount(InternetAddress, String)}, or
-		 *            <code>null</code> if all logins should fail
+		 *            {@link #loginWithGameAccount(InternetAddress, String)}, or <code>null</code> if all logins should
+		 *            fail
 		 */
 		public MockGameAuthClient(Account accountToLogin) {
 			this.accountToLogin = accountToLogin;

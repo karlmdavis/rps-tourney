@@ -22,9 +22,9 @@ import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentica
  */
 public class GameTitleTagTest {
 	/**
-	 * Tests usage of {@link GameTitleTag} when {@link GameView#getPlayer1()} is
-	 * the current user and {@link GameView#getPlayer2()} is <code>null</code>.
-	 * 
+	 * Tests usage of {@link GameTitleTag} when {@link GameView#getPlayer1()} is the current user and
+	 * {@link GameView#getPlayer2()} is <code>null</code>.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -57,10 +57,9 @@ public class GameTitleTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link GameTitleTag} when {@link GameView#getPlayer1()}
-	 * exists but has no name and {@link GameView#getPlayer2()} is the current
-	 * user.
-	 * 
+	 * Tests usage of {@link GameTitleTag} when {@link GameView#getPlayer1()} exists but has no name and
+	 * {@link GameView#getPlayer2()} is the current user.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -93,9 +92,9 @@ public class GameTitleTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link GameTitleTag} when both {@link Player}s have a
-	 * display name, and neither are the current user.
-	 * 
+	 * Tests usage of {@link GameTitleTag} when both {@link Player}s have a display name, and neither are the current
+	 * user.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -129,9 +128,8 @@ public class GameTitleTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link GameTitleTag} when it's set to just output to a
-	 * variable.
-	 * 
+	 * Tests usage of {@link GameTitleTag} when it's set to just output to a variable.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

@@ -7,9 +7,8 @@ import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 
 /**
- * Enumerates the standard {@link GameLoginIdentity}s that the benchmarks should
- * use. Using these identities makes it easier to go clean up any mistakes if
- * the benchmarks fail to clean up after themselves for some reason.
+ * Enumerates the standard {@link GameLoginIdentity}s that the benchmarks should use. Using these identities makes it
+ * easier to go clean up any mistakes if the benchmarks fail to clean up after themselves for some reason.
  */
 public enum BenchmarkUser {
 	USER_A("benchmarker.a@example.com", "player.a.pw1"), USER_B("benchmarker.b@example.com", "player.b.pw1");
@@ -19,7 +18,7 @@ public enum BenchmarkUser {
 
 	/**
 	 * Enum constant constructor.
-	 * 
+	 *
 	 * @param address
 	 *            the value to use for {@link #getAddress()}
 	 * @param password
@@ -35,16 +34,14 @@ public enum BenchmarkUser {
 	}
 
 	/**
-	 * @return the {@link GameLoginIdentity#getEmailAddress()} value for this
-	 *         {@link BenchmarkUser}
+	 * @return the {@link GameLoginIdentity#getEmailAddress()} value for this {@link BenchmarkUser}
 	 */
 	public InternetAddress getAddress() {
 		return address;
 	}
 
 	/**
-	 * @return the (unhashed) {@link GameLoginIdentity#getPasswordHash()} value
-	 *         for this {@link BenchmarkUser}
+	 * @return the (unhashed) {@link GameLoginIdentity#getPasswordHash()} value for this {@link BenchmarkUser}
 	 */
 	public String getPassword() {
 		return password;

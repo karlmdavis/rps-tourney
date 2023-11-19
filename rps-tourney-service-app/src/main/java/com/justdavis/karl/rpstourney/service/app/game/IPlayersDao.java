@@ -19,19 +19,17 @@ public interface IPlayersDao {
 
 	/**
 	 * @param playerId
-	 *            the {@link Player#getId()} value to find a matching
-	 *            {@link Player} for
-	 * @return the existing {@link Player} record that matches the specified
-	 *         criteria, or <code>null</code> if no existing record was found
+	 *            the {@link Player#getId()} value to find a matching {@link Player} for
+	 * @return the existing {@link Player} record that matches the specified criteria, or <code>null</code> if no
+	 *         existing record was found
 	 */
 	Player getPlayer(long playerId);
 
 	/**
 	 * @param account
-	 *            the {@link Account} record to find a matching {@link Player}
-	 *            for
-	 * @return the existing {@link Player} record that matches the specified
-	 *         criteria, or <code>null</code> if no existing record was found
+	 *            the {@link Account} record to find a matching {@link Player} for
+	 * @return the existing {@link Player} record that matches the specified criteria, or <code>null</code> if no
+	 *         existing record was found
 	 */
 	Player findPlayerForAccount(Account account);
 
@@ -44,11 +42,9 @@ public interface IPlayersDao {
 
 	/**
 	 * @param account
-	 *            the {@link Account} record to find/create a matching
-	 *            {@link Player} for
-	 * @return the existing {@link Player} record that matches the specified
-	 *         criteria, or a new matching {@link Player} record (if no existing
-	 *         record was found)
+	 *            the {@link Account} record to find/create a matching {@link Player} for
+	 * @return the existing {@link Player} record that matches the specified criteria, or a new matching {@link Player}
+	 *         record (if no existing record was found)
 	 */
 	Player findOrCreatePlayerForAccount(Account account);
 
@@ -59,9 +55,8 @@ public interface IPlayersDao {
 	void delete(Player player);
 
 	/**
-	 * Note: This method is really only appropriate for use in testing; it's a
-	 * bad idea to use it in production code.
-	 * 
+	 * Note: This method is really only appropriate for use in testing; it's a bad idea to use it in production code.
+	 *
 	 * @return all of the {@link Player} instances in the database
 	 */
 	List<Player> getPlayers();

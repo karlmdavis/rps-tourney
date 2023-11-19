@@ -64,8 +64,7 @@ public final class CookieStoreTest {
 	}
 
 	/**
-	 * Tests {@link CookieStore#remember(NewCookie)} and
-	 * {@link CookieStore#get(String)}.
+	 * Tests {@link CookieStore#remember(NewCookie)} and {@link CookieStore#get(String)}.
 	 */
 	@Test
 	public void rememberAndGet() {
@@ -116,9 +115,8 @@ public final class CookieStoreTest {
 	}
 
 	/**
-	 * Verifies that {@link CookieStore}s can be properly serialized and
-	 * deserialized.
-	 * 
+	 * Verifies that {@link CookieStore}s can be properly serialized and deserialized.
+	 *
 	 * @throws IOException
 	 *             Might be thrown if serialization or deserialization fails.
 	 * @throws ClassNotFoundException
@@ -191,8 +189,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#put(javax.ws.rs.client.Entity,
-		 *      java.lang.Class)
+		 * @see javax.ws.rs.client.SyncInvoker#put(javax.ws.rs.client.Entity, java.lang.Class)
 		 */
 		@Override
 		public <T> T put(Entity<?> entity, Class<T> responseType) {
@@ -200,8 +197,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#put(javax.ws.rs.client.Entity,
-		 *      javax.ws.rs.core.GenericType)
+		 * @see javax.ws.rs.client.SyncInvoker#put(javax.ws.rs.client.Entity, javax.ws.rs.core.GenericType)
 		 */
 		@Override
 		public <T> T put(Entity<?> entity, GenericType<T> responseType) {
@@ -217,8 +213,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#post(javax.ws.rs.client.Entity,
-		 *      java.lang.Class)
+		 * @see javax.ws.rs.client.SyncInvoker#post(javax.ws.rs.client.Entity, java.lang.Class)
 		 */
 		@Override
 		public <T> T post(Entity<?> entity, Class<T> responseType) {
@@ -226,8 +221,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#post(javax.ws.rs.client.Entity,
-		 *      javax.ws.rs.core.GenericType)
+		 * @see javax.ws.rs.client.SyncInvoker#post(javax.ws.rs.client.Entity, javax.ws.rs.core.GenericType)
 		 */
 		@Override
 		public <T> T post(Entity<?> entity, GenericType<T> responseType) {
@@ -323,8 +317,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String,
-		 *      java.lang.Class)
+		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String, java.lang.Class)
 		 */
 		@Override
 		public <T> T method(String name, Class<T> responseType) {
@@ -332,8 +325,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String,
-		 *      javax.ws.rs.core.GenericType)
+		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String, javax.ws.rs.core.GenericType)
 		 */
 		@Override
 		public <T> T method(String name, GenericType<T> responseType) {
@@ -341,8 +333,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String,
-		 *      javax.ws.rs.client.Entity)
+		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String, javax.ws.rs.client.Entity)
 		 */
 		@Override
 		public Response method(String name, Entity<?> entity) {
@@ -350,8 +341,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String,
-		 *      javax.ws.rs.client.Entity, java.lang.Class)
+		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String, javax.ws.rs.client.Entity, java.lang.Class)
 		 */
 		@Override
 		public <T> T method(String name, Entity<?> entity, Class<T> responseType) {
@@ -359,8 +349,8 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String,
-		 *      javax.ws.rs.client.Entity, javax.ws.rs.core.GenericType)
+		 * @see javax.ws.rs.client.SyncInvoker#method(java.lang.String, javax.ws.rs.client.Entity,
+		 *      javax.ws.rs.core.GenericType)
 		 */
 		@Override
 		public <T> T method(String name, Entity<?> entity, GenericType<T> responseType) {
@@ -376,8 +366,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.Invocation.Builder#build(java.lang.String,
-		 *      javax.ws.rs.client.Entity)
+		 * @see javax.ws.rs.client.Invocation.Builder#build(java.lang.String, javax.ws.rs.client.Entity)
 		 */
 		@Override
 		public Invocation build(String method, Entity<?> entity) {
@@ -474,8 +463,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.Invocation.Builder#cookie(java.lang.String,
-		 *      java.lang.String)
+		 * @see javax.ws.rs.client.Invocation.Builder#cookie(java.lang.String, java.lang.String)
 		 */
 		@Override
 		public Builder cookie(String name, String value) {
@@ -492,8 +480,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.Invocation.Builder#header(java.lang.String,
-		 *      java.lang.Object)
+		 * @see javax.ws.rs.client.Invocation.Builder#header(java.lang.String, java.lang.Object)
 		 */
 		@Override
 		public Builder header(String name, Object value) {
@@ -509,8 +496,7 @@ public final class CookieStoreTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.client.Invocation.Builder#property(java.lang.String,
-		 *      java.lang.Object)
+		 * @see javax.ws.rs.client.Invocation.Builder#property(java.lang.String, java.lang.Object)
 		 */
 		@Override
 		public Builder property(String name, Object value) {

@@ -23,13 +23,12 @@ import com.justdavis.karl.rpstourney.service.api.auth.SecurityRole;
 import com.justdavis.karl.rpstourney.service.app.auth.AuthorizationFilter.AuthorizationFilterFeature;
 
 /**
- * Unit tests for {@link AuthorizationFilter} and
- * {@link AuthorizationFilterFeature}.
+ * Unit tests for {@link AuthorizationFilter} and {@link AuthorizationFilterFeature}.
  */
 public class AuthorizationFilterTest {
 	/**
-	 * Tests {@link AuthorizationFilterFeature} against a resource with the
-	 * {@link RolesAllowed} annotation just on its class.
+	 * Tests {@link AuthorizationFilterFeature} against a resource with the {@link RolesAllowed} annotation just on its
+	 * class.
 	 */
 	@Test
 	public void configureForRoles() {
@@ -47,8 +46,8 @@ public class AuthorizationFilterTest {
 	}
 
 	/**
-	 * Tests {@link AuthorizationFilterFeature} against a resource with the
-	 * {@link RolesAllowed} annotation on both its class and method.
+	 * Tests {@link AuthorizationFilterFeature} against a resource with the {@link RolesAllowed} annotation on both its
+	 * class and method.
 	 */
 	@Test
 	public void configureForOverriddenRoles() {
@@ -66,8 +65,7 @@ public class AuthorizationFilterTest {
 	}
 
 	/**
-	 * Tests {@link AuthorizationFilterFeature} against a resource with the
-	 * {@link PermitAll} annotation on its method.
+	 * Tests {@link AuthorizationFilterFeature} against a resource with the {@link PermitAll} annotation on its method.
 	 */
 	@Test
 	public void configureForPermitAll() {
@@ -83,8 +81,7 @@ public class AuthorizationFilterTest {
 	}
 
 	/**
-	 * Tests {@link AuthorizationFilterFeature} against a resource with the
-	 * {@link DenyAll} annotation on its method.
+	 * Tests {@link AuthorizationFilterFeature} against a resource with the {@link DenyAll} annotation on its method.
 	 */
 	@Test
 	public void configureForDenyAll() {
@@ -102,9 +99,8 @@ public class AuthorizationFilterTest {
 	}
 
 	/**
-	 * Tests {@link AuthorizationFilter} to see if its denies requests, when
-	 * expected.
-	 * 
+	 * Tests {@link AuthorizationFilter} to see if its denies requests, when expected.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */
@@ -124,9 +120,8 @@ public class AuthorizationFilterTest {
 	}
 
 	/**
-	 * Tests {@link AuthorizationFilter} to see if its allows requests, when
-	 * expected.
-	 * 
+	 * Tests {@link AuthorizationFilter} to see if its allows requests, when expected.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */
@@ -181,12 +176,12 @@ public class AuthorizationFilterTest {
 
 		/**
 		 * Constructs a new {@link MockResourceInfo} implementation.
-		 * 
+		 *
 		 * @param resourceClass
 		 *            the value to use for {@link #getResourceClass()}
 		 * @param resourceMethodName
-		 *            the name of the {@link Method} in the specified
-		 *            {@link Class} to use for {@link #getResourceMethod()}
+		 *            the name of the {@link Method} in the specified {@link Class} to use for
+		 *            {@link #getResourceMethod()}
 		 */
 		public MockResourceInfo(Class<?> resourceClass, String resourceMethodName) {
 			this.resourceClass = resourceClass;
@@ -233,8 +228,7 @@ public class AuthorizationFilterTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#property(java.lang.String,
-		 *      java.lang.Object)
+		 * @see javax.ws.rs.core.Configurable#property(java.lang.String, java.lang.Object)
 		 */
 		@Override
 		public FeatureContext property(String name, Object value) {
@@ -258,8 +252,7 @@ public class AuthorizationFilterTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class,
-		 *      java.lang.Class[])
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class, java.lang.Class[])
 		 */
 		@Override
 		public FeatureContext register(Class<?> componentClass, Class<?>... contracts) {
@@ -267,8 +260,7 @@ public class AuthorizationFilterTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class,
-		 *      java.util.Map)
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Class, java.util.Map)
 		 */
 		@Override
 		public FeatureContext register(Class<?> componentClass, Map<Class<?>, Integer> contracts) {
@@ -293,8 +285,7 @@ public class AuthorizationFilterTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object,
-		 *      java.lang.Class[])
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object, java.lang.Class[])
 		 */
 		@Override
 		public FeatureContext register(Object component, Class<?>... contracts) {
@@ -302,8 +293,7 @@ public class AuthorizationFilterTest {
 		}
 
 		/**
-		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object,
-		 *      java.util.Map)
+		 * @see javax.ws.rs.core.Configurable#register(java.lang.Object, java.util.Map)
 		 */
 		@Override
 		public FeatureContext register(Object component, Map<Class<?>, Integer> contracts) {

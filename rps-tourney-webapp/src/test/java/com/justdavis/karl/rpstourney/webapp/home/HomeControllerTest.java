@@ -26,7 +26,7 @@ import com.justdavis.karl.rpstourney.service.api.game.Throw;
 public final class HomeControllerTest {
 	/**
 	 * Tests the {@link HomeController#getHomePage()} response.
-	 * 
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -42,18 +42,17 @@ public final class HomeControllerTest {
 	}
 
 	/**
-	 * Tests {@link HomeController#getHomePage()} to ensure its model properly
-	 * includes the results of {@link IGameResource#getGamesForPlayer()}.
-	 * 
+	 * Tests {@link HomeController#getHomePage()} to ensure its model properly includes the results of
+	 * {@link IGameResource#getGamesForPlayer()}.
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
 	@Test
 	public void getGamesForPlayer() throws Exception {
 		/*
-		 * Build the mocks needed for the test. Add an artificial delay between
-		 * creating the two games, to ensure they end up with different
-		 * timestamps.
+		 * Build the mocks needed for the test. Add an artificial delay between creating the two games, to ensure they
+		 * end up with different timestamps.
 		 */
 		Player player1 = new Player(new Account());
 		Player player2 = new Player(new Account());
@@ -75,8 +74,7 @@ public final class HomeControllerTest {
 			@Override
 			public boolean matches(Object item) {
 				/*
-				 * Note the order of the games here: games updated last should
-				 * now be first in the model's list.
+				 * Note the order of the games here: games updated last should now be first in the model's list.
 				 */
 				return Arrays.asList(gameViewB, gameViewA).equals(item);
 			}

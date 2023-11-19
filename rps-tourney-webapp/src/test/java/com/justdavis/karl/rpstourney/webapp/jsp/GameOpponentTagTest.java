@@ -23,9 +23,8 @@ import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentica
  */
 public class GameOpponentTagTest {
 	/**
-	 * Tests usage of {@link GameOpponentTag} when an opponent can be found, and
-	 * that opponent has a name.
-	 * 
+	 * Tests usage of {@link GameOpponentTag} when an opponent can be found, and that opponent has a name.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -58,9 +57,8 @@ public class GameOpponentTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link GameOpponentTag} when the opponent hasn't yet
-	 * joined.
-	 * 
+	 * Tests usage of {@link GameOpponentTag} when the opponent hasn't yet joined.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -90,9 +88,8 @@ public class GameOpponentTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link GameOpponentTag} when the opponent is a
-	 * {@link BuiltInAi}.
-	 * 
+	 * Tests usage of {@link GameOpponentTag} when the opponent is a {@link BuiltInAi}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

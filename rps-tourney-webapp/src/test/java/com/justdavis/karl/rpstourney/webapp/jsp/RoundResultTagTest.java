@@ -25,9 +25,8 @@ import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentica
  */
 public class RoundResultTagTest {
 	/**
-	 * Tests usage of {@link RoundResultTag} when the current user won the
-	 * {@link GameRound}.
-	 * 
+	 * Tests usage of {@link RoundResultTag} when the current user won the {@link GameRound}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -65,9 +64,9 @@ public class RoundResultTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link RoundResultTag} when the current user is just an
-	 * observer and {@link GameRound#getResult()} is {@link Result#TIED}.
-	 * 
+	 * Tests usage of {@link RoundResultTag} when the current user is just an observer and {@link GameRound#getResult()}
+	 * is {@link Result#TIED}.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

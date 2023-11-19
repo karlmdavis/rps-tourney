@@ -18,15 +18,13 @@ import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.utils.HttpUtils;
 
 /**
- * Allows web service methods to accept email addresses, in the form of
- * {@link InternetAddress} instances.
+ * Allows web service methods to accept email addresses, in the form of {@link InternetAddress} instances.
  */
 @Provider
 public final class InternetAddressReader implements MessageBodyReader<InternetAddress> {
 	/**
-	 * @see javax.ws.rs.ext.MessageBodyReader#isReadable(java.lang.Class,
-	 *      java.lang.reflect.Type, java.lang.annotation.Annotation[],
-	 *      javax.ws.rs.core.MediaType)
+	 * @see javax.ws.rs.ext.MessageBodyReader#isReadable(java.lang.Class, java.lang.reflect.Type,
+	 *      java.lang.annotation.Annotation[], javax.ws.rs.core.MediaType)
 	 */
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -34,15 +32,14 @@ public final class InternetAddressReader implements MessageBodyReader<InternetAd
 	}
 
 	/**
-	 * @see javax.ws.rs.ext.MessageBodyReader#readFrom(java.lang.Class,
-	 *      java.lang.reflect.Type, java.lang.annotation.Annotation[],
-	 *      javax.ws.rs.core.MediaType, javax.ws.rs.core.MultivaluedMap,
+	 * @see javax.ws.rs.ext.MessageBodyReader#readFrom(java.lang.Class, java.lang.reflect.Type,
+	 *      java.lang.annotation.Annotation[], javax.ws.rs.core.MediaType, javax.ws.rs.core.MultivaluedMap,
 	 *      java.io.InputStream)
 	 */
 	@Override
 	public InternetAddress readFrom(Class<InternetAddress> type, Type genericType, Annotation[] annotations,
 			MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
-					throws IOException, WebApplicationException {
+			throws IOException, WebApplicationException {
 		// Pull the email address out of the stream as a String.
 		String emailAddressString = IOUtils.toString(entityStream, HttpUtils.getEncoding(mediaType, "UTF-8"));
 

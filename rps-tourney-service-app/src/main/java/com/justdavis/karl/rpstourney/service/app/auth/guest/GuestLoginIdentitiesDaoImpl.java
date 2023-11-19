@@ -27,8 +27,7 @@ public class GuestLoginIdentitiesDaoImpl implements IGuestLoginIndentitiesDao {
 
 	/**
 	 * @param entityManager
-	 *            a JPA {@link EntityManager} connected to the application's
-	 *            database
+	 *            a JPA {@link EntityManager} connected to the application's database
 	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {

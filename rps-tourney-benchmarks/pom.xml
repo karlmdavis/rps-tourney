@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -13,11 +12,13 @@
 	<packaging>jar</packaging>
 
 	<name>rps-tourney-benchmarks</name>
-	<description>
-		A set of benchmarks for the "RPS Tourney" web applications.
-	</description>
+	<description>A set of benchmarks for the "RPS Tourney" web applications.</description>
 
 	<properties>
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
+
 		<!-- The version of the org.openjdk.jmh:* artifacts to use. -->
 		<jmh.version>1.20</jmh.version>
 
@@ -55,7 +56,7 @@
 		</dependency>
 
 		<dependency>
-			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -78,22 +79,20 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- The shade plugin is suggested for use with JMH, to build a single 
-							executable/"uber" JAR. That JAR, when run, executes all of the benchmarks 
-							defined in this project. -->
-						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
 						</goals>
+						<!-- The shade plugin is suggested for use with JMH, to build a single
+							executable/"uber" JAR. That JAR, when run, executes all of the benchmarks
+							defined in this project. -->
+						<phase>package</phase>
 						<configuration>
 							<finalName>${uberjar.name}</finalName>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.openjdk.jmh.Main</mainClass>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<!-- Required for the CXF JAX-RS client, per https://cwiki.apache.org/confluence/display/CXF20DOC/Bundling+CXF+into+single+jar+with+Maven+shade+plugin. -->
 									<resource>META-INF/cxf/bus-extensions.txt</resource>
 								</transformer>

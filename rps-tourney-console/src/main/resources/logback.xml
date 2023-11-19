@@ -11,8 +11,7 @@
 		</encoder>
 	</appender>
 
-	<!-- Disable all logging by default. The app's Options.debugEnabled flag 
-		can be used to enable logging, if desired. -->
+	<!-- Disable all logging by default. The app's Options.debugEnabled flag can be used to enable logging, if desired. -->
 	<root level="OFF">
 		<appender-ref ref="APP_LOG" />
 	</root>

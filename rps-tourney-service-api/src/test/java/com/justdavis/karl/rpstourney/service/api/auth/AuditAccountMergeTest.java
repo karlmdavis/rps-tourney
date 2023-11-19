@@ -10,13 +10,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link AuditAccountMerge} and {@link AuditAccountGameMerge}
- * (they're always used together).
+ * Unit tests for {@link AuditAccountMerge} and {@link AuditAccountGameMerge} (they're always used together).
  */
 public final class AuditAccountMergeTest {
 	/**
 	 * Tests {@link Account#equals(Object)} and {@link Account#hashCode()}.
-	 * 
+	 *
 	 * @throws SecurityException
 	 *             (won't happen)
 	 * @throws NoSuchFieldException
@@ -47,11 +46,9 @@ public final class AuditAccountMergeTest {
 		Assert.assertNotEquals(auditEntryA, auditEntryB);
 
 		/*
-		 * The logic for AuditAccountMerge.equals(...) is different for
-		 * persisted vs. non-persisted objects, and we want to cover that logic
-		 * with this test. To avoid having to involve the DB here (and actually
-		 * persist things), we'll cheat and set the fields' values via
-		 * reflection.
+		 * The logic for AuditAccountMerge.equals(...) is different for persisted vs. non-persisted objects, and we want
+		 * to cover that logic with this test. To avoid having to involve the DB here (and actually persist things),
+		 * we'll cheat and set the fields' values via reflection.
 		 */
 		Field auditIdField = AuditAccountMerge.class.getDeclaredField("id");
 		auditIdField.setAccessible(true);

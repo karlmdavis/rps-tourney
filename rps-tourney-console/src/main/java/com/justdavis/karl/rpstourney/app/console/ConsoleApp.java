@@ -34,34 +34,30 @@ import ch.qos.logback.classic.LoggerContext;
 
 /**
  * <p>
- * The main entry point/driver for the text console version of the
- * "Rock-Paper-Scissors Tourney" game. When run, it will allow a human to play
- * the game using the text console (or whatever is connected to
- * {@link System#out} and {@link System#in}). The player's opponent will be a
- * computer/AI player.
+ * The main entry point/driver for the text console version of the "Rock-Paper-Scissors Tourney" game. When run, it will
+ * allow a human to play the game using the text console (or whatever is connected to {@link System#out} and
+ * {@link System#in}). The player's opponent will be a computer/AI player.
  * </p>
  * <p>
- * This class is pretty much only responsible for application initialization. It
- * delegates the user interface and gameplay to {@link ConsoleGameDriver}.
+ * This class is pretty much only responsible for application initialization. It delegates the user interface and
+ * gameplay to {@link ConsoleGameDriver}.
  * </p>
  */
 public final class ConsoleApp {
 	/**
-	 * By convention, applications return this value as an exit code to indicate
-	 * that they ran successfully and are exiting normally.
+	 * By convention, applications return this value as an exit code to indicate that they ran successfully and are
+	 * exiting normally.
 	 */
 	private static final int EXIT_CODE_OK = 0;
 
 	/**
-	 * This is the exit code that the application will return if the command
-	 * line options cannot be parsed correctly.
+	 * This is the exit code that the application will return if the command line options cannot be parsed correctly.
 	 */
 	private static final int EXIT_CODE_BAD_ARGS = 1;
 
 	/**
-	 * The {@link Pattern} that will be used to extract {@link Game#getId()}
-	 * values from {@link Options#getGameUri()}. The group at index
-	 * <code>1</code> will contain the game ID.
+	 * The {@link Pattern} that will be used to extract {@link Game#getId()} values from {@link Options#getGameUri()}.
+	 * The group at index <code>1</code> will contain the game ID.
 	 */
 	private static final Pattern GAME_URI_PATTERN = Pattern
 			.compile("^https?://.+/(" + Game.ID_PATTERN.pattern() + ")$");
@@ -79,12 +75,10 @@ public final class ConsoleApp {
 
 	/**
 	 * The application entry point for {@link ConsoleApp}.
-	 * 
+	 *
 	 * @param args
-	 *            the command line arguments passed to the application when it
-	 *            was launched. See
-	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for
-	 *            details on how these are parsed.
+	 *            the command line arguments passed to the application when it was launched. See
+	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for details on how these are parsed.
 	 */
 	public static void main(String[] args) {
 		// Create and run the app.
@@ -92,11 +86,9 @@ public final class ConsoleApp {
 		int exitCode = app.runApp(args, System.out, System.in);
 
 		/*
-		 * This application doesn't have any expected error conditions, aside
-		 * from unanticipated (and unhandled) runtime exceptions. Accordingly,
-		 * we'll always return an "all clear" exit code if we make it this far.
-		 * We'll let the JVM deal with any unhandled exceptions, presumably by
-		 * dumping a stack trace and returning an error code.
+		 * This application doesn't have any expected error conditions, aside from unanticipated (and unhandled) runtime
+		 * exceptions. Accordingly, we'll always return an "all clear" exit code if we make it this far. We'll let the
+		 * JVM deal with any unhandled exceptions, presumably by dumping a stack trace and returning an error code.
 		 */
 		System.exit(exitCode);
 	}
@@ -108,18 +100,15 @@ public final class ConsoleApp {
 	 * <p>
 	 * The method is only in the default/package scope to enable unit testing.
 	 * </p>
-	 * 
+	 *
 	 * @param args
-	 *            the command line arguments passed to the application when it
-	 *            was launched. See
-	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for
-	 *            details on how these are parsed.
+	 *            the command line arguments passed to the application when it was launched. See
+	 *            {@link OptionsParser#parseCommandLineOptions(String[])} for details on how these are parsed.
 	 * @param out
 	 *            the {@link PrintStream} to display the game on
 	 * @param in
 	 *            the {@link InputStream} to read the player's input from
-	 * @return the exit code that the application should return, e.g.
-	 *         {@link #EXIT_CODE_OK}
+	 * @return the exit code that the application should return, e.g. {@link #EXIT_CODE_OK}
 	 */
 	int runApp(String[] args, PrintStream out, InputStream in) {
 		// Parse the command line options.
@@ -129,17 +118,15 @@ public final class ConsoleApp {
 		}
 
 		/*
-		 * Enable debug logging, if requested. We must be careful not to
-		 * accidentally log anything before now, as any such log events will
-		 * never be written out.
+		 * Enable debug logging, if requested. We must be careful not to accidentally log anything before now, as any
+		 * such log events will never be written out.
 		 */
 		if (options.isDebugEnabled())
 			enableDebugLogging();
 		LOGGER.debug("Command line arguments: {}", Arrays.toString(args));
 
 		/*
-		 * Did the user request the command line help? If so, display it and
-		 * exit early.
+		 * Did the user request the command line help? If so, display it and exit early.
 		 */
 		if (options.isHelpRequested()) {
 			optionsParser.printUsage(out);
@@ -174,8 +161,7 @@ public final class ConsoleApp {
 		ch.qos.logback.classic.Logger rootLogbackLogger = loggerContext.getLogger(Logger.ROOT_LOGGER_NAME);
 
 		/*
-		 * Enable all logging levels at the root logger, which will in turn
-		 * enable them for all child loggers.
+		 * Enable all logging levels at the root logger, which will in turn enable them for all child loggers.
 		 */
 		rootLogbackLogger.setLevel(Level.ALL);
 	}
@@ -197,11 +183,10 @@ public final class ConsoleApp {
 	/**
 	 * @param options
 	 *            the {@link Options} specified for the game
-	 * @return a {@link GameBundle} for playing an online game using the web
-	 *         service
+	 * @return a {@link GameBundle} for playing an online game using the web service
 	 * @throws ConsoleGameExitException
-	 *             A {@link GameConflictException} may be thrown if a problem is
-	 *             found with the provided {@link Options}.
+	 *             A {@link GameConflictException} may be thrown if a problem is found with the provided
+	 *             {@link Options}.
 	 */
 	private static GameBundle createOnlineGame(Options options) throws ConsoleGameExitException {
 		ClientConfig config = new ClientConfig(options.getServerUri());

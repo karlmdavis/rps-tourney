@@ -16,15 +16,13 @@ import com.justdavis.karl.rpstourney.service.app.config.MockConfigLoader;
 
 /**
  * <p>
- * This Spring {@link Configuration} should be used for integration tests that
- * require the web service to actually be running and responding to requests. It
- * adds a bean that will start a Jetty instance along with the Spring
+ * This Spring {@link Configuration} should be used for integration tests that require the web service to actually be
+ * running and responding to requests. It adds a bean that will start a Jetty instance along with the Spring
  * {@link ApplicationContext}, and stop it when the context is stopped.
  * </p>
  * <p>
- * It also {@link Import}s the following additional {@link Configuration}s:
- * {@link AppConfigBindingsForITs} and {@link SpringBindingsForWebServices}
- * (which itself imports others).
+ * It also {@link Import}s the following additional {@link Configuration}s: {@link AppConfigBindingsForITs} and
+ * {@link SpringBindingsForWebServices} (which itself imports others).
  * </p>
  */
 @Configuration
@@ -33,8 +31,7 @@ import com.justdavis.karl.rpstourney.service.app.config.MockConfigLoader;
 public class SpringBindingsForWebServiceITs {
 	/**
 	 * @param dsConnectorsManager
-	 *            the injected {@link DataSourceConnectorsManager} for the
-	 *            application
+	 *            the injected {@link DataSourceConnectorsManager} for the application
 	 * @return the {@link IConfigLoader} implementation for the application
 	 */
 	@Bean
@@ -44,11 +41,9 @@ public class SpringBindingsForWebServiceITs {
 
 	/**
 	 * @param springContext
-	 *            the Spring {@link ApplicationContext} that this bean is being
-	 *            created in/for
-	 * @return an {@link EmbeddedServer} bean that will start up a Jetty
-	 *         container along with the Spring {@link ApplicationContext}, and
-	 *         will stop it when the {@link ApplicationContext} is destroyed
+	 *            the Spring {@link ApplicationContext} that this bean is being created in/for
+	 * @return an {@link EmbeddedServer} bean that will start up a Jetty container along with the Spring
+	 *         {@link ApplicationContext}, and will stop it when the {@link ApplicationContext} is destroyed
 	 */
 	@Bean(initMethod = "startServer", destroyMethod = "stopServer")
 	public EmbeddedServer embeddedServer(ApplicationContext springContext) {

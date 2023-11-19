@@ -30,8 +30,7 @@ public final class GameLoginIdentitiesDaoImpl implements IGameLoginIndentitiesDa
 
 	/**
 	 * @param entityManager
-	 *            a JPA {@link EntityManager} connected to the application's
-	 *            database
+	 *            a JPA {@link EntityManager} connected to the application's database
 	 */
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -66,8 +65,7 @@ public final class GameLoginIdentitiesDaoImpl implements IGameLoginIndentitiesDa
 		List<GameLoginIdentity> results = query.getResultList();
 
 		/*
-		 * The GameLoginIdentity.emailAddress field should have a UNIQUE
-		 * constraint.
+		 * The GameLoginIdentity.emailAddress field should have a UNIQUE constraint.
 		 */
 		if (results.isEmpty())
 			return null;

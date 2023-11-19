@@ -23,17 +23,14 @@ import com.justdavis.karl.rpstourney.service.api.game.PlayerRole;
 
 /**
  * <p>
- * A JSP tag handler that provides the
- * <code>&lt;rps:playerName game=${someGame} player="${player}" /&gt;</code>
- * tag, for printing out the {@link Player#getName()} value for the specified
- * {@link Player}, or a suitable set of "filler" text if that value is
- * <code>null</code>. Note that this tag will also render with CSS classes equal
- * to {@link PlayerRole#PLAYER_1} and/or {@link PlayerRole#PLAYER_2}, as
- * appropriate.
+ * A JSP tag handler that provides the <code>&lt;rps:playerName game=${someGame} player="${player}" /&gt;</code> tag,
+ * for printing out the {@link Player#getName()} value for the specified {@link Player}, or a suitable set of "filler"
+ * text if that value is <code>null</code>. Note that this tag will also render with CSS classes equal to
+ * {@link PlayerRole#PLAYER_1} and/or {@link PlayerRole#PLAYER_2}, as appropriate.
  * </p>
  * <p>
- * Please note that this class and its properties must be correctly listed in
- * this project's <code>src/main/webapp/WEB-INF/rps.tld</code> file.
+ * Please note that this class and its properties must be correctly listed in this project's
+ * <code>src/main/webapp/WEB-INF/rps.tld</code> file.
  * </p>
  */
 public final class PlayerNameTag extends RequestContextAwareTag {
@@ -47,7 +44,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 
 	/**
 	 * This is passed in as a required tag attribute.
-	 * 
+	 *
 	 * @param game
 	 *            the {@link GameView} to be rendered
 	 */
@@ -57,12 +54,10 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 
 	/**
 	 * This is passed in as a required tag attribute.
-	 * 
+	 *
 	 * @param player
-	 *            the {@link Player} to be rendered, which must be one of the
-	 *            {@link Player}s in the value passed to
-	 *            {@link #setGame(GameView)}, or must instead be
-	 *            <code>null</code>, to indicate that the game's
+	 *            the {@link Player} to be rendered, which must be one of the {@link Player}s in the value passed to
+	 *            {@link #setGame(GameView)}, or must instead be <code>null</code>, to indicate that the game's
 	 *            {@link PlayerRole#PLAYER_2} has not yet joined
 	 */
 	public void setPlayer(Player player) {
@@ -70,8 +65,8 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link SecurityContext} that should be used, to determine the
-	 *         logged in user for the request being processed
+	 * @return the {@link SecurityContext} that should be used, to determine the logged in user for the request being
+	 *         processed
 	 */
 	private SecurityContext getSecurityContext() {
 		if (mockSecurityContext != null)
@@ -81,16 +76,14 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * <strong>Warning:</strong> This method is only intended for use by unit
-	 * tests.
-	 * 
+	 * <strong>Warning:</strong> This method is only intended for use by unit tests.
+	 *
 	 * @param mockSecurityContext
 	 *            the mock {@link SecurityContext} to use
 	 */
 	void setMockSecurityContext(SecurityContext mockSecurityContext) {
 		/*
-		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind
-		 * or inject SecurityContext instances.
+		 * Note: the lack of @Inject here is intentional, as Spring doesn't bind or inject SecurityContext instances.
 		 */
 		this.mockSecurityContext = mockSecurityContext;
 	}
@@ -111,8 +104,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	protected int doStartTagInternal() throws Exception {
 		if (!initialized) {
 			/*
-			 * If we haven't already initialized ourselves, inject dependencies
-			 * into this instance now.
+			 * If we haven't already initialized ourselves, inject dependencies into this instance now.
 			 */
 			ApplicationContext applicationContext = WebApplicationContextUtils
 					.getWebApplicationContext(pageContext.getServletContext());
@@ -148,18 +140,16 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	 * @param locale
 	 *            the {@link Locale} being rendered to
 	 * @param authenticatedAccount
-	 *            the currently-authenticated user {@link Account}, or
-	 *            <code>null</code> if no user is authenticated
+	 *            the currently-authenticated user {@link Account}, or <code>null</code> if no user is authenticated
 	 * @param game
 	 *            the {@link GameView} to render the {@link Player} for
 	 * @param player
 	 *            the {@link Player} whose name is being rendered
 	 * @param textOnly
-	 *            if <code>true</code>, only text will be returned, if
-	 *            <code>false</code>, the result will include HTML markup
-	 * @return a rendered <code>&lt;span /&gt;</code> tag that wraps the
-	 *         specified {@link Player}'s name, and includes CSS classes
-	 *         indicating which {@link PlayerRole}s they represent
+	 *            if <code>true</code>, only text will be returned, if <code>false</code>, the result will include HTML
+	 *            markup
+	 * @return a rendered <code>&lt;span /&gt;</code> tag that wraps the specified {@link Player}'s name, and includes
+	 *         CSS classes indicating which {@link PlayerRole}s they represent
 	 */
 	static String generateContent(MessageSource messageSource, Locale locale, Account authenticatedAccount,
 			GameView game, Player player, boolean textOnly) {
@@ -209,11 +199,9 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 
 	/**
 	 * @param displayName
-	 *            the display text for the {@link Player} being rendered by this
-	 *            {@link PlayerNameTag}
+	 *            the display text for the {@link Player} being rendered by this {@link PlayerNameTag}
 	 * @param roles
-	 *            the {@link PlayerRole}s represented by the {@link Player}
-	 *            being rendered
+	 *            the {@link PlayerRole}s represented by the {@link Player} being rendered
 	 * @return the generated tag output
 	 */
 	private static String generateTag(String displayName, PlayerRole... roles) {
@@ -229,8 +217,7 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 	}
 
 	/**
-	 * @return the {@link Account} of the currently-authenticated user, or
-	 *         <code>null</code> if the user isn't logged in
+	 * @return the {@link Account} of the currently-authenticated user, or <code>null</code> if the user isn't logged in
 	 */
 	private Account getAuthenticatedAccount() {
 		// Get the Authentication token for the current user (if any).
@@ -239,16 +226,14 @@ public final class PlayerNameTag extends RequestContextAwareTag {
 			return null;
 
 		/*
-		 * Grab the Principal from the token. All of the tokens used in this app
-		 * should have a principal.
+		 * Grab the Principal from the token. All of the tokens used in this app should have a principal.
 		 */
 		Object principal = auth.getPrincipal();
 		if (principal == null)
 			throw new BadCodeMonkeyException();
 
 		/*
-		 * All of the tokens used in this app should use an Account as
-		 * principal.
+		 * All of the tokens used in this app should use an Account as principal.
 		 */
 		if (principal != null && !(principal instanceof Account))
 			throw new BadCodeMonkeyException();

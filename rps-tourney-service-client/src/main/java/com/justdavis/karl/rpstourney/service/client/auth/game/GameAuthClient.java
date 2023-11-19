@@ -18,8 +18,7 @@ import com.justdavis.karl.rpstourney.service.client.HttpClientException;
 import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 
 /**
- * A client-side implementation/binding for the {@link IGameAuthResource} web
- * service.
+ * A client-side implementation/binding for the {@link IGameAuthResource} web service.
  */
 public final class GameAuthClient implements IGameAuthResource {
 	private final ClientConfig config;
@@ -27,7 +26,7 @@ public final class GameAuthClient implements IGameAuthResource {
 
 	/**
 	 * Constructs a new {@link GameAuthClient} instance.
-	 * 
+	 *
 	 * @param config
 	 *            the {@link ClientConfig} to use
 	 * @param cookieStore

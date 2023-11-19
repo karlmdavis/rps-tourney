@@ -9,24 +9,22 @@ import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningReq
 import com.justdavis.karl.misc.datasources.provisioners.hsql.HsqlProvisioningTarget;
 
 /**
- * An {@link IConfigLoader} that is intended for use with the application's
- * integration tests.
+ * An {@link IConfigLoader} that is intended for use with the application's integration tests.
  */
 public final class MockConfigLoader implements IConfigLoader {
 	private final ServiceConfig config;
 
 	/**
 	 * Constructs a new {@link MockConfigLoader} instance.
-	 * 
+	 *
 	 * @param dsConnectorsManager
 	 *            the application's {@link DataSourceConnectorsManager}
 	 */
 	@Inject
 	public MockConfigLoader(DataSourceConnectorsManager dsConnectorsManager) {
 		/*
-		 * Once ServiceConfig has more to it than just a set of DB coords, I'd
-		 * recommend loading the rest of the config from an XML file using a
-		 * separate (customized) XmlConfigLoader instance.
+		 * Once ServiceConfig has more to it than just a set of DB coords, I'd recommend loading the rest of the config
+		 * from an XML file using a separate (customized) XmlConfigLoader instance.
 		 */
 
 		HsqlProvisioningRequest hsqlProvisioningRequest = HsqlProvisioningRequest

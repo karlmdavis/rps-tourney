@@ -32,16 +32,14 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 	private IGuestLoginIndentitiesDao loginsDao;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public GuestAuthResourceImpl() {
 	}
 
 	/**
 	 * @param httpRequest
-	 *            the {@link HttpServletRequest} that the
-	 *            {@link GuestAuthResourceImpl} was instantiated to handle
+	 *            the {@link HttpServletRequest} that the {@link GuestAuthResourceImpl} was instantiated to handle
 	 */
 	@Context
 	public void setHttpServletRequest(HttpServletRequest httpRequest) {
@@ -54,8 +52,8 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 
 	/**
 	 * @param securityContext
-	 *            the {@link SecurityContext} for the request that the
-	 *            {@link GuestAuthResourceImpl} was instantiated to handle
+	 *            the {@link SecurityContext} for the request that the {@link GuestAuthResourceImpl} was instantiated to
+	 *            handle
 	 */
 	@Context
 	public void setSecurityContext(SecurityContext securityContext) {
@@ -99,8 +97,8 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 	@Transactional
 	public Account loginAsGuest() {
 		/*
-		 * Never, ever allow this method to kill an existing login. If
-		 * users/clients want to log out, they must do so explicitly.
+		 * Never, ever allow this method to kill an existing login. If users/clients want to log out, they must do so
+		 * explicitly.
 		 */
 		if (securityContext.getUserPrincipal() != null)
 			throw new WebApplicationException("User already logged in.", Status.CONFLICT);
@@ -110,14 +108,13 @@ public class GuestAuthResourceImpl implements IGuestAuthResource {
 		AuthToken authTokenForLogin = accountsDao.selectOrCreateAuthToken(login.getAccount());
 
 		/*
-		 * Store the new login's auth token in the HTTP request, so the response
-		 * AuthenticationFilter can record it in a cookie.
+		 * Store the new login's auth token in the HTTP request, so the response AuthenticationFilter can record it in a
+		 * cookie.
 		 */
 		httpRequest.setAttribute(AuthenticationFilter.LOGIN_PROPERTY, authTokenForLogin);
 
 		/*
-		 * Return a response with the new account that's associated with the
-		 * login.
+		 * Return a response with the new account that's associated with the login.
 		 */
 		return login.getAccount();
 	}

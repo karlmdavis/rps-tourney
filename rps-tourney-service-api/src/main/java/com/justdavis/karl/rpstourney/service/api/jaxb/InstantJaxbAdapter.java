@@ -5,10 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-
 /**
- * This JAXB {@link XmlAdapter} marshalls/unmarshalls {@link Instant}s as
- * {@link String}s.
+ * This JAXB {@link XmlAdapter} marshalls/unmarshalls {@link Instant}s as {@link String}s.
  */
 public final class InstantJaxbAdapter extends XmlAdapter<String, Instant> {
 	/**

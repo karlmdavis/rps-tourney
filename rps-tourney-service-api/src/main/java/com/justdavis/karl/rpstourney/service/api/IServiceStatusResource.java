@@ -10,14 +10,12 @@ import javax.ws.rs.core.MediaType;
 import com.justdavis.karl.rpstourney.service.api.auth.Account;
 
 /**
- * Implementations of this service allow clients to check the web service's
- * status.
+ * Implementations of this service allow clients to check the web service's status.
  */
 @Path(IServiceStatusResource.SERVICE_PATH)
 public interface IServiceStatusResource {
 	/**
-	 * The {@link Path} that this this resource class' methods will be hosted
-	 * at.
+	 * The {@link Path} that this this resource class' methods will be hosted at.
 	 */
 	public static final String SERVICE_PATH = "/status/";
 
@@ -42,9 +40,8 @@ public interface IServiceStatusResource {
 	public static final String PONG = "pong";
 
 	/**
-	 * Returns a simple response ({@link #PONG}) to indicate that the service is
-	 * up and running.
-	 * 
+	 * Returns a simple response ({@link #PONG}) to indicate that the service is up and running.
+	 *
 	 * @return the user's/client's {@link Account}
 	 */
 	@GET
@@ -53,9 +50,8 @@ public interface IServiceStatusResource {
 	String ping();
 
 	/**
-	 * Returns the specified text back to verify that form submission is
-	 * working.
-	 * 
+	 * Returns the specified text back to verify that form submission is working.
+	 *
 	 * @param text
 	 *            the value to echo back
 	 * @return the value that was passed in via the <code>text</code> parameter
@@ -67,7 +63,7 @@ public interface IServiceStatusResource {
 
 	/**
 	 * Returns the version number of the web service.
-	 * 
+	 *
 	 * @return the version number of the web service
 	 */
 	@GET

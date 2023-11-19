@@ -52,11 +52,9 @@ public final class AdminAccountInitializerIT {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link AdminAccountInitializer#contextInitialized(javax.servlet.ServletContextEvent)}
-	 * is being fired at application startup, and creating the default admin
-	 * account, as expected.
-	 * 
+	 * Ensures that {@link AdminAccountInitializer#contextInitialized(javax.servlet.ServletContextEvent)} is being fired
+	 * at application startup, and creating the default admin account, as expected.
+	 *
 	 * @throws AddressException
 	 *             (won't happen; address is hardcoded)
 	 */

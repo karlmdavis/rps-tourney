@@ -27,9 +27,9 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
  */
 public final class GameViewTest {
 	/**
-	 * Ensures that {@link GameView} instances can be marshalled when
-	 * {@link GameView#getState()} is {@link State#WAITING_FOR_PLAYER}.
-	 * 
+	 * Ensures that {@link GameView} instances can be marshalled when {@link GameView#getState()} is
+	 * {@link State#WAITING_FOR_PLAYER}.
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -77,9 +77,9 @@ public final class GameViewTest {
 	}
 
 	/**
-	 * Ensures that {@link GameView} instances can be marshalled when
-	 * {@link GameView#getState()} is {@link State#STARTED}.
-	 * 
+	 * Ensures that {@link GameView} instances can be marshalled when {@link GameView#getState()} is
+	 * {@link State#STARTED}.
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -135,7 +135,7 @@ public final class GameViewTest {
 
 	/**
 	 * Ensures that {@link GameView} instances can be unmarshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -196,8 +196,7 @@ public final class GameViewTest {
 		Assert.assertNull(gameViewForNullPlayer.getRounds().get(0).getThrowForPlayer1());
 
 		/*
-		 * Move to the next round, have Player 2 go first, and verify that the
-		 * rounds are filtered as expected.
+		 * Move to the next round, have Player 2 go first, and verify that the rounds are filtered as expected.
 		 */
 		game.submitThrow(0, player2, Throw.PAPER);
 		game.submitThrow(1, player2, Throw.SCISSORS);

@@ -10,14 +10,12 @@ import com.justdavis.karl.rpstourney.service.api.auth.Account;
 import com.justdavis.karl.rpstourney.service.api.game.GameRound.Result;
 
 /**
- * Unit tests for {@link Game}. The JAXB tests here also cover {@link Player}
- * and {@link GameRound}.
+ * Unit tests for {@link Game}. The JAXB tests here also cover {@link Player} and {@link GameRound}.
  */
 public final class GameTest {
 	/**
-	 * Ensures that {@link Game} instances' state transitions correctly at the
-	 * start of a game.
-	 * 
+	 * Ensures that {@link Game} instances' state transitions correctly at the start of a game.
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -56,9 +54,8 @@ public final class GameTest {
 	}
 
 	/**
-	 * Ensures that {@link Game} instances' state transitions correctly as
-	 * rounds are completed.
-	 * 
+	 * Ensures that {@link Game} instances' state transitions correctly as rounds are completed.
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -211,9 +208,8 @@ public final class GameTest {
 	}
 
 	/**
-	 * Tests a game where a player wins "early" (in less than the maximum amount
-	 * of rounds). The game should end as soon as it becomes impossible for the
-	 * other player to win, regardless of the number of rounds left.
+	 * Tests a game where a player wins "early" (in less than the maximum amount of rounds). The game should end as soon
+	 * as it becomes impossible for the other player to win, regardless of the number of rounds left.
 	 */
 	@Test
 	public void earlyWinner() {
@@ -246,8 +242,7 @@ public final class GameTest {
 	}
 
 	/**
-	 * Tests that {@link Game#setMaxRounds(int)} throws a
-	 * {@link GameConflictException} when it should.
+	 * Tests that {@link Game#setMaxRounds(int)} throws a {@link GameConflictException} when it should.
 	 */
 	@Test(expected = GameConflictException.class)
 	public void setMaxRounds_conflicts() {
@@ -262,8 +257,8 @@ public final class GameTest {
 	}
 
 	/**
-	 * Tests that {@link Game#submitThrow(int, Player, Throw)} throws a
-	 * {@link GameConflictException} when the wrong round is specified.
+	 * Tests that {@link Game#submitThrow(int, Player, Throw)} throws a {@link GameConflictException} when the wrong
+	 * round is specified.
 	 */
 	@Test(expected = GameConflictException.class)
 	public void submitThrow_conflictingRound() {

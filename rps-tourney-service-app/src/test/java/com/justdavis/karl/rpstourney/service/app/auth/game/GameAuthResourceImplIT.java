@@ -56,9 +56,8 @@ public final class GameAuthResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link GameAuthResourceImpl} creates new
-	 * {@link GameLoginIdentity}s as expected.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl} creates new {@link GameLoginIdentity}s as expected.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */
@@ -88,10 +87,9 @@ public final class GameAuthResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link GameAuthResourceImpl} creates new
-	 * {@link GameLoginIdentity}s as expected when they're being added to an
-	 * existing account.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl} creates new {@link GameLoginIdentity}s as expected when they're being
+	 * added to an existing account.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */
@@ -114,10 +112,8 @@ public final class GameAuthResourceImplIT {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link GameAuthResourceImpl#loginWithGameAccount(InternetAddress, String)}
-	 * works as expected.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl#loginWithGameAccount(InternetAddress, String)} works as expected.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */

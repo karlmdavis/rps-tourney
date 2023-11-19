@@ -7,13 +7,11 @@
 		<rps:role>USERS</rps:role>
 	</rps:roles>
 	<rps:logins>
-		<rps:login xsi:type="rps:gameLoginIdentity"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<rps:login xsi:type="rps:gameLoginIdentity" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<rps:id>3</rps:id>
 			<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 		</rps:login>
-		<rps:login xsi:type="rps:gameLoginIdentity"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<rps:login xsi:type="rps:gameLoginIdentity" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<rps:id>3</rps:id>
 			<rps:createdTimestamp>2007-12-03T10:15:30Z</rps:createdTimestamp>
 			<rps:emailAddress>foo@example.com</rps:emailAddress>

@@ -35,15 +35,12 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * A common base class for all {@link ILoginIdentity} implementations.
  * </p>
  * <p>
- * This is required by JPA, to enable queries of the
- * "select all logins for user 'foo'" variety. Specifically, JPA only supports
- * those queries for for supertypes if the types all share a common base
- * class/table.
+ * This is required by JPA, to enable queries of the "select all logins for user 'foo'" variety. Specifically, JPA only
+ * supports those queries for for supertypes if the types all share a common base class/table.
  * </p>
  * <p>
- * This class is marked as {@link Serializable}, as Spring Security will store
- * instances of it as part of the authenticated {@link Principal}s in user
- * sessions (via {@link Account#getLogins()}).
+ * This class is marked as {@link Serializable}, as Spring Security will store instances of it as part of the
+ * authenticated {@link Principal}s in user sessions (via {@link Account#getLogins()}).
  * </p>
  */
 @Entity
@@ -80,7 +77,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 
 	/**
 	 * Constructs a new {@link AbstractLoginIdentity} instance.
-	 * 
+	 *
 	 * @param account
 	 *            the value to use for {@link #getAccount()}
 	 * @param createdTimestamp
@@ -99,7 +96,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 
 	/**
 	 * Constructs a new {@link AbstractLoginIdentity} instance.
-	 * 
+	 *
 	 * @param account
 	 *            the value to use for {@link #getAccount()}
 	 */
@@ -108,8 +105,7 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB and JPA specs.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
 	protected AbstractLoginIdentity() {
@@ -117,9 +113,8 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	}
 
 	/**
-	 * @return <code>true</code> if this {@link AbstractLoginIdentity} has been
-	 *         assigned an ID (which it should if it's been persisted),
-	 *         <code>false</code> if it has not
+	 * @return <code>true</code> if this {@link AbstractLoginIdentity} has been assigned an ID (which it should if it's
+	 *         been persisted), <code>false</code> if it has not
 	 */
 	public boolean hasId() {
 		return id > -1;
@@ -127,16 +122,14 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 
 	/**
 	 * <p>
-	 * Returns the unique integer that identifies and represents this
-	 * {@link AbstractLoginIdentity} instance.
+	 * Returns the unique integer that identifies and represents this {@link AbstractLoginIdentity} instance.
 	 * </p>
 	 * <p>
-	 * This value will be assigned by JPA when the {@link Entity} is persisted.
-	 * Until then, this value should not be accessed.
+	 * This value will be assigned by JPA when the {@link Entity} is persisted. Until then, this value should not be
+	 * accessed.
 	 * </p>
-	 * 
-	 * @return the unique integer that identifies and represents this
-	 *         {@link AbstractLoginIdentity} instance
+	 *
+	 * @return the unique integer that identifies and represents this {@link AbstractLoginIdentity} instance
 	 */
 	public long getId() {
 		return id;
@@ -167,19 +160,16 @@ public abstract class AbstractLoginIdentity implements ILoginIdentity, Serializa
 	}
 
 	/**
-	 * This method will be called by JAXB during unmarshalling, and allows
-	 * instances of this class to rebuild their {@link #getAccount()} references
-	 * (which would otherwise be lost due to the {@link XmlTransient} annotation
-	 * on the field). This setup is necessary to avoid cycle problems, per
-	 * <a href=
-	 * "https://jaxb.java.net/guide/Mapping_cyclic_references_to_XML.html">
-	 * Mapping cyclic references to XML</a>.
-	 * 
+	 * This method will be called by JAXB during unmarshalling, and allows instances of this class to rebuild their
+	 * {@link #getAccount()} references (which would otherwise be lost due to the {@link XmlTransient} annotation on the
+	 * field). This setup is necessary to avoid cycle problems, per
+	 * <a href= "https://jaxb.java.net/guide/Mapping_cyclic_references_to_XML.html"> Mapping cyclic references to
+	 * XML</a>.
+	 *
 	 * @param u
 	 *            the JAXB {@link Unmarshaller} being used
 	 * @param parent
-	 *            the child element/object's containing/parent object (always an
-	 *            Account, in this case)
+	 *            the child element/object's containing/parent object (always an Account, in this case)
 	 */
 	public void afterUnmarshal(Unmarshaller u, Object parent) {
 		this.account = (Account) parent;

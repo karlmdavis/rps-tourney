@@ -14,7 +14,7 @@ import org.junit.Test;
 public class TemporalFormatTagTest {
 	/**
 	 * Tests normal usage of {@link TemporalFormatTag}.
-	 * 
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

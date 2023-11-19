@@ -34,11 +34,9 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
  * Represents a round of a {@link Game}, tracking the moves made by the players.
  * </p>
  * <p>
- * Please note that instances of this class are <strong>not</strong> immutable:
- * the {@link #setThrowForPlayer1(Throw)} and {@link #setThrowForPlayer2(Throw)}
- * methods will modify data. However, as both of those methods may only be
- * called once, instances are effectively immutable after they've both been
- * supplied with a value.
+ * Please note that instances of this class are <strong>not</strong> immutable: the {@link #setThrowForPlayer1(Throw)}
+ * and {@link #setThrowForPlayer2(Throw)} methods will modify data. However, as both of those methods may only be called
+ * once, instances are effectively immutable after they've both been supplied with a value.
  * </p>
  */
 @Entity
@@ -52,8 +50,7 @@ public class GameRound {
 
 	@Id
 	/*
-	 * FIXME This column can't be quoted unless/until
-	 * https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
+	 * FIXME This column can't be quoted unless/until https://hibernate.atlassian.net/browse/HHH-9427 is resolved.
 	 */
 	@JoinColumn(name = "gameId", nullable = false)
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
@@ -92,7 +89,7 @@ public class GameRound {
 
 	/**
 	 * Constructs a new {@link GameRound} instance.
-	 * 
+	 *
 	 * @param game
 	 *            the value to use for {@link #getGame()}
 	 * @param roundIndex
@@ -120,66 +117,58 @@ public class GameRound {
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB and JPA specs.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
 	GameRound() {
 	}
 
 	/**
-	 * @return the {@link Game} that this {@link GameRound} is a part of, or
-	 *         <code>null</code> if this {@link GameRound} was accessed via an
-	 *         unmarshalled {@link GameView}
+	 * @return the {@link Game} that this {@link GameRound} is a part of, or <code>null</code> if this {@link GameRound}
+	 *         was accessed via an unmarshalled {@link GameView}
 	 */
 	public Game getGame() {
 		return game;
 	}
 
 	/**
-	 * @return the index of this {@link GameRound} in the {@link Game} it's part
-	 *         of
+	 * @return the index of this {@link GameRound} in the {@link Game} it's part of
 	 */
 	public int getRoundIndex() {
 		return roundIndex;
 	}
 
 	/**
-	 * @return the index of this {@link GameRound} as if the {@link Game} it's
-	 *         part of had not had any ties
+	 * @return the index of this {@link GameRound} as if the {@link Game} it's part of had not had any ties
 	 */
 	public int getAdjustedRoundIndex() {
 		return adjustedRoundIndex;
 	}
 
 	/**
-	 * @return the {@link Throw} that was selected by the first player in this
-	 *         {@link GameRound}, or <code>null</code> if that player has not
-	 *         yet selected their move
+	 * @return the {@link Throw} that was selected by the first player in this {@link GameRound}, or <code>null</code>
+	 *         if that player has not yet selected their move
 	 */
 	public Throw getThrowForPlayer1() {
 		return throwForPlayer1;
 	}
 
 	/**
-	 * @return the date-time that {@link #setThrowForPlayer1(Throw)} was called
-	 *         (with a valid value) for this {@link GameRound}, or
-	 *         <code>null</code> if it hasn't yet
+	 * @return the date-time that {@link #setThrowForPlayer1(Throw)} was called (with a valid value) for this
+	 *         {@link GameRound}, or <code>null</code> if it hasn't yet
 	 */
 	public Instant getThrowForPlayer1Timestamp() {
 		return throwForPlayer1Timestamp;
 	}
 
 	/**
-	 * Note: this method may only be called once, and should only be called by
-	 * {@link Game}.
-	 * 
+	 * Note: this method may only be called once, and should only be called by {@link Game}.
+	 *
 	 * @param throwForPlayer1
 	 *            the value to use for {@link #getThrowForPlayer1()}
 	 * @throws GameConflictException
-	 *             A {@link GameConflictException} will be thrown if the
-	 *             {@link Player} has already submitted a {@link Throw} for this
-	 *             {@link GameRound}.
+	 *             A {@link GameConflictException} will be thrown if the {@link Player} has already submitted a
+	 *             {@link Throw} for this {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer1(Throw throwForPlayer1) {
@@ -187,17 +176,15 @@ public class GameRound {
 	}
 
 	/**
-	 * Note: this method may only be called once, and should only be called by
-	 * {@link GameView}.
-	 * 
+	 * Note: this method may only be called once, and should only be called by {@link GameView}.
+	 *
 	 * @param throwForPlayer1
 	 *            the value to use for {@link #getThrowForPlayer1()}
 	 * @param throwForPlayer1Timestamp
 	 *            the value to use for {@link #getThrowForPlayer1Timestamp()}
 	 * @throws GameConflictException
-	 *             A {@link GameConflictException} will be thrown if the
-	 *             {@link Player} has already submitted a {@link Throw} for this
-	 *             {@link GameRound}.
+	 *             A {@link GameConflictException} will be thrown if the {@link Player} has already submitted a
+	 *             {@link Throw} for this {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer1(Throw throwForPlayer1, Instant throwForPlayer1Timestamp) {
@@ -213,33 +200,29 @@ public class GameRound {
 	}
 
 	/**
-	 * @return the {@link Throw} that was selected by the second player in this
-	 *         {@link GameRound}, or <code>null</code> if that player has not
-	 *         yet selected their move
+	 * @return the {@link Throw} that was selected by the second player in this {@link GameRound}, or <code>null</code>
+	 *         if that player has not yet selected their move
 	 */
 	public Throw getThrowForPlayer2() {
 		return throwForPlayer2;
 	}
 
 	/**
-	 * @return the date-time that {@link #setThrowForPlayer2(Throw)} was called
-	 *         (with a valid value) for this {@link GameRound}, or
-	 *         <code>null</code> if it hasn't yet
+	 * @return the date-time that {@link #setThrowForPlayer2(Throw)} was called (with a valid value) for this
+	 *         {@link GameRound}, or <code>null</code> if it hasn't yet
 	 */
 	public Instant getThrowForPlayer2Timestamp() {
 		return throwForPlayer2Timestamp;
 	}
 
 	/**
-	 * Note: this method may only be called once, and should only be called by
-	 * {@link Game}.
-	 * 
+	 * Note: this method may only be called once, and should only be called by {@link Game}.
+	 *
 	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
 	 * @throws GameConflictException
-	 *             A {@link GameConflictException} will be thrown if the
-	 *             {@link Player} has already submitted a {@link Throw} for this
-	 *             {@link GameRound}.
+	 *             A {@link GameConflictException} will be thrown if the {@link Player} has already submitted a
+	 *             {@link Throw} for this {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer2(Throw throwForPlayer2) {
@@ -247,17 +230,15 @@ public class GameRound {
 	}
 
 	/**
-	 * Note: this method may only be called once, and should only be called by
-	 * {@link GameView}.
-	 * 
+	 * Note: this method may only be called once, and should only be called by {@link GameView}.
+	 *
 	 * @param throwForPlayer2
 	 *            the value to use for {@link #getThrowForPlayer2()}
 	 * @param throwForPlayer2Timestamp
 	 *            the value to use for {@link #getThrowForPlayer2Timestamp()}
 	 * @throws GameConflictException
-	 *             A {@link GameConflictException} will be thrown if the
-	 *             {@link Player} has already submitted a {@link Throw} for this
-	 *             {@link GameRound}.
+	 *             A {@link GameConflictException} will be thrown if the {@link Player} has already submitted a
+	 *             {@link Throw} for this {@link GameRound}.
 	 * @see Game#submitThrow(int, Player, Throw)
 	 */
 	void setThrowForPlayer2(Throw throwForPlayer2, Instant throwForPlayer2Timestamp) {
@@ -275,8 +256,7 @@ public class GameRound {
 	/**
 	 * @param role
 	 *            the {@link PlayerRole} to get the {@link Throw} (if any) for
-	 * @return the result of either {@link #getThrowForPlayer1()} or
-	 *         {@link #getThrowForPlayer2()}, as specified
+	 * @return the result of either {@link #getThrowForPlayer1()} or {@link #getThrowForPlayer2()}, as specified
 	 */
 	public Throw getThrowForPlayer(PlayerRole role) {
 		if (role == null)
@@ -292,16 +272,16 @@ public class GameRound {
 	}
 
 	/**
-	 * @return the {@link Result} of this {@link GameRound}, or
-	 *         <code>null</code> if the {@link GameRound} has not yet completed.
+	 * @return the {@link Result} of this {@link GameRound}, or <code>null</code> if the {@link GameRound} has not yet
+	 *         completed.
 	 */
 	public Result getResult() {
 		if (throwForPlayer1 == null || throwForPlayer2 == null)
 			return null;
 
 		/*
-		 * Eventually, I may want to abstract out this logic to allow for custom
-		 * Throw types. For right now, though, this works.
+		 * Eventually, I may want to abstract out this logic to allow for custom Throw types. For right now, though,
+		 * this works.
 		 */
 		if (throwForPlayer1.equals(throwForPlayer2))
 			return Result.TIED;
@@ -354,7 +334,7 @@ public class GameRound {
 
 		/**
 		 * Enum constant constructor.
-		 * 
+		 *
 		 * @param playerRole
 		 *            the value to use for {@link #getWinningPlayerRole()}
 		 */
@@ -363,8 +343,8 @@ public class GameRound {
 		}
 
 		/**
-		 * @return the winning {@link PlayerRole} represented by this
-		 *         {@link Result}, or <code>null</code> for {@link Result#TIED}
+		 * @return the winning {@link PlayerRole} represented by this {@link Result}, or <code>null</code> for
+		 *         {@link Result#TIED}
 		 */
 		public PlayerRole getWinningPlayerRole() {
 			return playerRole;
@@ -387,9 +367,8 @@ public class GameRound {
 		}
 
 		/**
-		 * @return this {@link IdClass} field corresponds to
-		 *         {@link GameRound#getGame()}, which is mapped as a foreign key
-		 *         to {@link Game#getId()}
+		 * @return this {@link IdClass} field corresponds to {@link GameRound#getGame()}, which is mapped as a foreign
+		 *         key to {@link Game#getId()}
 		 */
 		public GamePk getGame() {
 			return game;
@@ -404,8 +383,7 @@ public class GameRound {
 		}
 
 		/**
-		 * @return this {@link IdClass} field corresponds to
-		 *         {@link GameRound#getRoundIndex()}
+		 * @return this {@link IdClass} field corresponds to {@link GameRound#getRoundIndex()}
 		 */
 		public int getRoundIndex() {
 			return roundIndex;
@@ -425,8 +403,7 @@ public class GameRound {
 		@Override
 		public int hashCode() {
 			/*
-			 * This method was generated via Eclipse's 'Source > Generate
-			 * hashCode() and equals()...' function.
+			 * This method was generated via Eclipse's 'Source > Generate hashCode() and equals()...' function.
 			 */
 
 			final int prime = 31;
@@ -442,8 +419,7 @@ public class GameRound {
 		@Override
 		public boolean equals(Object obj) {
 			/*
-			 * This method was generated via Eclipse's 'Source > Generate
-			 * hashCode() and equals()...' function.
+			 * This method was generated via Eclipse's 'Source > Generate hashCode() and equals()...' function.
 			 */
 
 			if (this == obj)

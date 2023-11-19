@@ -1,11 +1,9 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<!-- The majority of the application's web.xml configuration is provided 
-		via Servlet 3.0's javax.servlet.ServletContainerInitializer mechanism. See 
-		the com.justdavis.karl.rpstourney.webapp.GameWebApplicationInitializer class 
-		for more details. -->
+	<!-- The majority of the application's web.xml configuration is provided via Servlet 3.0's javax.servlet.ServletContainerInitializer
+		mechanism. See the com.justdavis.karl.rpstourney.webapp.GameWebApplicationInitializer class for more details. -->
 
 	<welcome-file-list>
 		<!-- This is mapped to HomeController. -->
@@ -20,9 +18,8 @@
 		</jsp-property-group>
 	</jsp-config>
 	<error-page>
-		<!-- Points to the Spring-MVC-controller-managed page that will be used
-			to render all errors that aren't handled elsewhere in the application. See
-			com.justdavis.karl.rpstourney.webapp.error.ErrorController. -->
+		<!-- Points to the Spring-MVC-controller-managed page that will be used to render all errors that aren't handled elsewhere
+			in the application. See com.justdavis.karl.rpstourney.webapp.error.ErrorController. -->
 		<location>/error</location>
 	</error-page>
 </web-app>

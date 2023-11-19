@@ -23,7 +23,7 @@ import com.justdavis.karl.rpstourney.webapp.security.WebServiceAccountAuthentica
 public class AccountNameTagTest {
 	/**
 	 * Tests usage of {@link AccountNameTag} when the user is not authenticated.
-	 * 
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -53,9 +53,8 @@ public class AccountNameTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link AccountNameTag} when the user is authenticated but
-	 * has no name.
-	 * 
+	 * Tests usage of {@link AccountNameTag} when the user is authenticated but has no name.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException
@@ -94,9 +93,8 @@ public class AccountNameTagTest {
 	}
 
 	/**
-	 * Tests usage of {@link AccountNameTag} when the user is authenticated and
-	 * has a name.
-	 * 
+	 * Tests usage of {@link AccountNameTag} when the user is authenticated and has a name.
+	 *
 	 * @throws IOException
 	 *             (indicates a problem with the test setup)
 	 * @throws JspException

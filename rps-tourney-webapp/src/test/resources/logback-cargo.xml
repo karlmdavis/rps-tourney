@@ -7,34 +7,24 @@
 		<file>${project.build.directory}/failsafe-reports/cargo-logback-output.log</file>
 		<append>true</append>
 		<prudent>true</prudent>
-		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
-			by default -->
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
 		<encoder>
 			<pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<!-- There's a bug in this class' logging, that causes spurious exceptions 
-		if it's enabled at the debug level. -->
-	<logger
-		name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl"
-		level="info" />
+	<!-- There's a bug in this class' logging, that causes spurious exceptions if it's enabled at the debug level. -->
+	<logger name="org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl" level="info" />
 
-	<!-- These loggers will print all CXF requests/responses to the log, at 
-		the 'info' level (set to 'warn' or higher to disable them). Actually uses 
-		the application's custom LoggerForInbound and LoggerForOutbound classes, 
-		which attempt to exclude passwords from the log output. -->
-	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor"
-		level="info" />
-	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor"
-		level="info" />
+	<!-- These loggers will print all CXF requests/responses to the log, at the 'info' level (set to 'warn' or higher to disable
+		them). Actually uses the application's custom LoggerForInbound and LoggerForOutbound classes, which attempt to exclude passwords
+		from the log output. -->
+	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor" level="info" />
+	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor" level="info" />
 
-	<!-- This logger will print all Spring MVC requests/responses to the log, 
-		at the 'trace' level (set to 'debug' or higher to disable it). Does not attempt 
-		to escape passwords or other sensitive data; MUST NOT be enabled in production. -->
-	<logger
-		name="com.justdavis.karl.rpstourney.webapp.RequestResponseLoggingInterceptor"
-		level="trace" />
+	<!-- This logger will print all Spring MVC requests/responses to the log, at the 'trace' level (set to 'debug' or higher
+		to disable it). Does not attempt to escape passwords or other sensitive data; MUST NOT be enabled in production. -->
+	<logger name="com.justdavis.karl.rpstourney.webapp.RequestResponseLoggingInterceptor" level="trace" />
 
 	<!-- Set to the 'all' level when debugging issues with Spring MVC. -->
 	<logger name="org.springframework.web" level="info" />

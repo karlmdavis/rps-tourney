@@ -8,8 +8,8 @@ import com.justdavis.karl.rpstourney.webapp.config.IConfigLoader;
 import com.justdavis.karl.rpstourney.webapp.config.XmlConfigLoader;
 
 /**
- * The Spring {@link Configuration} for the {@link IConfigLoader} to use in
- * {@link SpringProfile#PRODUCTION} and {@link SpringProfile#DEVELOPMENT}.
+ * The Spring {@link Configuration} for the {@link IConfigLoader} to use in {@link SpringProfile#PRODUCTION} and
+ * {@link SpringProfile#DEVELOPMENT}.
  */
 @Configuration
 @Profile(value = { SpringProfile.PRODUCTION, SpringProfile.DEVELOPMENT })

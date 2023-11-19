@@ -12,16 +12,14 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 /**
- * This Args4J {@link OptionHandler} handles parsing of {@link InternetAddress}
- * instances from {@link String}s.
+ * This Args4J {@link OptionHandler} handles parsing of {@link InternetAddress} instances from {@link String}s.
  */
 public final class InternetAddressOptionHandler extends OptionHandler<InternetAddress> {
 	/**
 	 * Constructs a new {@link InternetAddressOptionHandler} instance.
-	 * 
+	 *
 	 * @param parser
-	 *            the {@link CmdLineParser} that this {@link OptionHandler} will
-	 *            be used with
+	 *            the {@link CmdLineParser} that this {@link OptionHandler} will be used with
 	 * @param option
 	 *            the {@link OptionDef} being handled
 	 * @param setter

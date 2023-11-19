@@ -12,10 +12,9 @@ public final class HttpClientException extends RuntimeException {
 
 	/**
 	 * Constructs a new {@link HttpClientException}.
-	 * 
+	 *
 	 * @param status
-	 *            the unexpected HTTP {@link StatusType} response that was
-	 *            received
+	 *            the unexpected HTTP {@link StatusType} response that was received
 	 */
 	public HttpClientException(StatusType status) {
 		super(buildMessage(status));
@@ -29,10 +28,9 @@ public final class HttpClientException extends RuntimeException {
 
 	/**
 	 * Constructs a new {@link HttpClientException}.
-	 * 
+	 *
 	 * @param cause
-	 *            the unexpected {@link HttpClientException} being wrapped and
-	 *            rethrown
+	 *            the unexpected {@link HttpClientException} being wrapped and rethrown
 	 */
 	public HttpClientException(HttpClientException cause) {
 		super(buildMessage(cause.getStatus()), cause);
@@ -40,8 +38,8 @@ public final class HttpClientException extends RuntimeException {
 	}
 
 	/**
-	 * @return the unexpected HTTP {@link StatusType} response that was
-	 *         received, and caused this {@link HttpClientException}
+	 * @return the unexpected HTTP {@link StatusType} response that was received, and caused this
+	 *         {@link HttpClientException}
 	 */
 	public StatusType getStatus() {
 		return status;

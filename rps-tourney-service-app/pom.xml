@@ -12,10 +12,14 @@
 	<packaging>war</packaging>
 
 	<name>rps-tourney-service-app</name>
-	<description>
-		The server-side implementation of the web service layer of the 
-		"Rock-Paper-Scissors Tourney" game, which allow for play over the Internet.
-	</description>
+	<description>The server-side implementation of the web service layer of the
+		"Rock-Paper-Scissors Tourney" game, which allow for play over the Internet.</description>
+
+	<properties>
+		<!-- The path to the parent POM's `dev` directory'. Needs to be redefined in each project, so that POM
+			inheritance doesn't goof it up. -->
+		<rps.dev.path>${project.basedir}/../dev</rps.dev.path>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -24,14 +28,14 @@
 		</dependency>
 
 		<dependency>
-			<!-- Apache CXF is the framework used to run the JAX-RS web service in 
+			<!-- Apache CXF is the framework used to run the JAX-RS web service in
 				this project. -->
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
-			<!-- A version of this library is needed to compile, but will already 
+			<!-- A version of this library is needed to compile, but will already
 				be bundled with whatever application server this WAR is deployed to. -->
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -50,21 +54,21 @@
 			<artifactId>spring-web</artifactId>
 			<exclusions>
 				<exclusion>
-					<!-- We're using SLF4J to handle logging, so need to exclude this and 
+					<groupId>commons-logging</groupId>
+					<!-- We're using SLF4J to handle logging, so need to exclude this and
 						then include org.slf4j:jcl-over-slf4j in its place. -->
 					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<!-- Used to re-route commons-logging:commons-logging calls to SLF4J. 
+			<!-- Used to re-route commons-logging:commons-logging calls to SLF4J.
 				Seems that spring-web needs this. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<!-- The Spring framework's JPA-related APIs, which make working with 
+			<!-- The Spring framework's JPA-related APIs, which make working with
 				JPA a bit easier. -->
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
@@ -72,16 +76,16 @@
 		</dependency>
 
 		<dependency>
-			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's 
+			<!-- Hibernate is a popular ORM that implements the JPA 2.1 spec. It's
 				used for building and interacting with the application's SQL database. -->
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 			<exclusions>
 				<exclusion>
+					<groupId>xml-apis</groupId>
 					<!-- These interfaces, etc. are now included in the JRE. -->
 					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -94,36 +98,36 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
-			<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports 
+			<!-- JDBC drivers for the PostgreSQL open source RDBMS. This version supports
 				Java 8 and above and PostgreSQL 8.2 and above. -->
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
 		<dependency>
-			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision 
+			<!-- An in-memory embedded SQL DB. Used as a fast and easy-to-provision
 				DB for manual development testing, as well as unit/integration tests. -->
-			<!-- Not marked as 'test' scope or optional, to allow its use with the 
+			<!-- Not marked as 'test' scope or optional, to allow its use with the
 				Eclipse Tomcat plugin. -->
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 
 		<dependency>
-			<!-- Provides full JSR 349 Bean Validation 1.1 support (it's actually 
+			<!-- Provides full JSR 349 Bean Validation 1.1 support (it's actually
 				the reference implementation for it). -->
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.0.7.Final</version>
 		</dependency>
 		<dependency>
-			<!-- Contains the API for the "Unified Expression Language" handler, which 
+			<!-- Contains the API for the "Unified Expression Language" handler, which
 				is used as part of bean validation. -->
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-			<!-- Contains an implementation for the "Unified Expression Language" 
+			<!-- Contains an implementation for the "Unified Expression Language"
 				handler, which is used as part of bean validation. -->
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
@@ -137,28 +141,28 @@
 		</dependency>
 
 		<dependency>
-			<!-- Logback is used as the logging target/backend for SLF4J: all logging 
+			<!-- Logback is used as the logging target/backend for SLF4J: all logging
 				events will be sent to it. -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
-			<!-- Used to re-route java.util.logging calls to SLF4J. No clue if anything's 
+			<!-- Used to re-route java.util.logging calls to SLF4J. No clue if anything's
 				using JUL, but it seems likely, so we'll include this just in case. -->
-			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html 
+			<!-- See http://www.slf4j.org/api/org/slf4j/bridge/SLF4JBridgeHandler.html
 				for details on how to activate this re-routing within an application. -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<!-- Needed to replace log4j, which is used by other dependencies here 
+			<!-- Needed to replace log4j, which is used by other dependencies here
 				(and excluded). -->
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 		</dependency>
 
 		<dependency>
-			<!-- Provides access to both a native (platform-specific) and a pure-Java 
+			<!-- Provides access to both a native (platform-specific) and a pure-Java
 				implementation of the scrypt key derivation function. -->
 			<groupId>com.lambdaworks</groupId>
 			<artifactId>scrypt</artifactId>
@@ -172,9 +176,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<!-- The rps-tourney-service-client project is used to integration test 
-				this project, and vice-versa. Sonar and JaCoCo are smart enough to pick up 
-				the code coverage for both, even though the integration tests are only run 
+			<!-- The rps-tourney-service-client project is used to integration test
+				this project, and vice-versa. Sonar and JaCoCo are smart enough to pick up
+				the code coverage for both, even though the integration tests are only run
 				in this project. -->
 			<groupId>com.justdavis.karl.rpstourney</groupId>
 			<artifactId>rps-tourney-service-client</artifactId>
@@ -216,14 +220,14 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<configuration>
-						<!-- For some mysterious reason, I get SocketExceptions if I run the 
-							ITs on OpenJDK without forking for each test. I'd guess that there's a bug 
+						<!-- For some mysterious reason, I get SocketExceptions if I run the
+							ITs on OpenJDK without forking for each test. I'd guess that there's a bug
 							in OpenJDK's HttpClient, but I really haven't been able to diagnose the issue. -->
 						<reuseForks>false</reuseForks>
 
-						<!-- This is required to ensure that Jetty's classpath scanning works 
-							correctly. Without it, we'll get "No Spring WebApplicationInitializer types 
-							detected on classpath" errors in Jetty, and the webapp will fail to start 
+						<!-- This is required to ensure that Jetty's classpath scanning works
+							correctly. Without it, we'll get "No Spring WebApplicationInitializer types
+							detected on classpath" errors in Jetty, and the webapp will fail to start
 							correctly during our tests. Reported the bug to Eclipse: https://bugs.eclipse.org/bugs/show_bug.cgi?id=447790. -->
 						<useManifestOnlyJar>false</useManifestOnlyJar>
 					</configuration>
@@ -236,10 +240,10 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on unit test coverage), such that 
-							it can be passed as a VM argument to the application under test. Surefire 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on unit test coverage), such that
+							it can be passed as a VM argument to the application under test. Surefire
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent</id>
 						<goals>
@@ -247,10 +251,10 @@
 						</goals>
 					</execution>
 					<execution>
-						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime 
-							agent (configured to track information on integration test coverage), such 
-							that it can be passed as a VM argument to the application under test. Failsafe 
-							will pick up this property automatically, by default. Sonar can then pick 
+						<!-- Will set the 'argline' Maven property to point to the JaCoCo runtime
+							agent (configured to track information on integration test coverage), such
+							that it can be passed as a VM argument to the application under test. Failsafe
+							will pick up this property automatically, by default. Sonar can then pick
 							up the output produced by JaCoCo. -->
 						<id>default-prepare-agent-integration</id>
 						<goals>
@@ -260,7 +264,7 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Ensure that this project's integration tests are run as part of 
+				<!-- Ensure that this project's integration tests are run as part of
 					the build. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>

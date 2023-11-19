@@ -18,29 +18,25 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * Initializes the JAX-RS game web service application via Spring.
  * </p>
  * <p>
- * If deployed in a Servlet 3.0 container, this application will be found and
- * loaded automagically, as this project includes Spring's
- * {@link SpringServletContainerInitializer} in its dependencies. That class is
- * a registered {@link ServletContainerInitializer} SPI and will in turn search
- * for and enable any {@link WebApplicationInitializer} implementations (such as
- * this class).
+ * If deployed in a Servlet 3.0 container, this application will be found and loaded automagically, as this project
+ * includes Spring's {@link SpringServletContainerInitializer} in its dependencies. That class is a registered
+ * {@link ServletContainerInitializer} SPI and will in turn search for and enable any {@link WebApplicationInitializer}
+ * implementations (such as this class).
  * </p>
  * <p>
- * By default, this will create a new standalone Spring
- * {@link ApplicationContext}. If, however, this will be running inside of a
- * parent Spring {@link ApplicationContext} (as is the case with some of this
- * project's integration tests), that parent context should be provided via the
- * {@link #SPRING_PARENT_CONTEXT} mechanism.
+ * By default, this will create a new standalone Spring {@link ApplicationContext}. If, however, this will be running
+ * inside of a parent Spring {@link ApplicationContext} (as is the case with some of this project's integration tests),
+ * that parent context should be provided via the {@link #SPRING_PARENT_CONTEXT} mechanism.
  * </p>
- * 
+ *
  * @see SpringBindingsForWebServices
  */
 public final class GameServiceApplicationInitializer implements WebApplicationInitializer {
 	/**
-	 * The web application context-wide initialization parameter that specifies
-	 * the Spring parent {@link ApplicationContext} instance that should used
-	 * (if any). This is mostly intended for use by integration tests.
-	 * 
+	 * The web application context-wide initialization parameter that specifies the Spring parent
+	 * {@link ApplicationContext} instance that should used (if any). This is mostly intended for use by integration
+	 * tests.
+	 *
 	 * @see ServletContext#setAttribute(String, Object)
 	 */
 	public static final String SPRING_PARENT_CONTEXT = "spring.context.parent";
@@ -54,12 +50,10 @@ public final class GameServiceApplicationInitializer implements WebApplicationIn
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 
 		/*
-		 * If a parent Spring ApplicationContext is available, we'll use its
-		 * configuration. If one is not available, we'll configure things
-		 * ourselves. It's expected that any integration tests that use Jetty as
-		 * the web application container will provide a parent
-		 * ApplicationContext. (See com.justdavis.karl.rpstourney.service.app.
-		 * SpringBindingsForWebServiceITs for more details.)
+		 * If a parent Spring ApplicationContext is available, we'll use its configuration. If one is not available,
+		 * we'll configure things ourselves. It's expected that any integration tests that use Jetty as the web
+		 * application container will provide a parent ApplicationContext. (See
+		 * com.justdavis.karl.rpstourney.service.app. SpringBindingsForWebServiceITs for more details.)
 		 */
 		ApplicationContext springParentContext = findSpringParentContext(container);
 		if (springParentContext != null) {
@@ -91,16 +85,13 @@ public final class GameServiceApplicationInitializer implements WebApplicationIn
 	}
 
 	/**
-	 * Allow the web application context's attributes to provide a parent
-	 * {@link ApplicationContext} for Spring. This is intended for use in
-	 * integration tests, where the container (i.e. Jetty) will be created in
-	 * the parent context and the JAX-RS application will be created in its own
-	 * child context.
-	 * 
+	 * Allow the web application context's attributes to provide a parent {@link ApplicationContext} for Spring. This is
+	 * intended for use in integration tests, where the container (i.e. Jetty) will be created in the parent context and
+	 * the JAX-RS application will be created in its own child context.
+	 *
 	 * @param container
 	 *            the {@link ServletContext} being configured
-	 * @return the parent {@link ApplicationContext} for Spring, or
-	 *         <code>null</code> if none was found
+	 * @return the parent {@link ApplicationContext} for Spring, or <code>null</code> if none was found
 	 */
 	private static ApplicationContext findSpringParentContext(ServletContext container) {
 		ApplicationContext springParentContext = (ApplicationContext) container.getAttribute(SPRING_PARENT_CONTEXT);

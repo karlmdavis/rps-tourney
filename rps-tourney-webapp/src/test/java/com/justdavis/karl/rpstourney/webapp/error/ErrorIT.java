@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import com.justdavis.karl.rpstourney.webapp.ITUtils;
 
 /**
- * Integration tests for both {@link ErrorController} and
- * <code>error-*.jsp</code>.
+ * Integration tests for both {@link ErrorController} and <code>error-*.jsp</code>.
  */
 public final class ErrorIT {
 	/**

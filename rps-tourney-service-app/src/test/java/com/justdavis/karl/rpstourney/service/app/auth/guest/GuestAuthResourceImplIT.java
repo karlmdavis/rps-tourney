@@ -35,8 +35,7 @@ public final class GuestAuthResourceImplIT {
 	private IGuestLoginIndentitiesDao loginsDao;
 
 	/**
-	 * Ensures that {@link GuestAuthResourceImpl} creates new
-	 * {@link GuestLoginIdentity}s as expected.
+	 * Ensures that {@link GuestAuthResourceImpl} creates new {@link GuestLoginIdentity}s as expected.
 	 */
 	@Test
 	public void createLogin() {

@@ -11,17 +11,15 @@ import org.kohsuke.args4j.spi.Setter;
 import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 
 /**
- * This Args4J {@link OptionHandler} handles parsing of {@link BuiltInAi}
- * instances from {@link String}s. This will map "Easy", "Medium", or "Hard"
- * {@link String}s to hardcoded {@link BuiltInAi} constants.
+ * This Args4J {@link OptionHandler} handles parsing of {@link BuiltInAi} instances from {@link String}s. This will map
+ * "Easy", "Medium", or "Hard" {@link String}s to hardcoded {@link BuiltInAi} constants.
  */
 public final class BuiltInAiOptionHandler extends OptionHandler<BuiltInAi> {
 	/**
 	 * Constructs a new {@link BuiltInAiOptionHandler} instance.
-	 * 
+	 *
 	 * @param parser
-	 *            the {@link CmdLineParser} that this {@link OptionHandler} will
-	 *            be used with
+	 *            the {@link CmdLineParser} that this {@link OptionHandler} will be used with
 	 * @param option
 	 *            the {@link OptionDef} being handled
 	 * @param setter

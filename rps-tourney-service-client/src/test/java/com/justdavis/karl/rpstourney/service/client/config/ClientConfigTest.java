@@ -12,7 +12,7 @@ import org.junit.Test;
 public final class ClientConfigTest {
 	/**
 	 * Tests {@link ClientConfig#getServiceRoot()}.
-	 * 
+	 *
 	 * @throws URISyntaxException
 	 *             (won't happen))
 	 */

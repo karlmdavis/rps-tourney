@@ -17,15 +17,12 @@ import com.justdavis.karl.rpstourney.service.api.hibernate.InternetAddressUserTy
 
 /**
  * <p>
- * The {@link ILoginIdentity} implementation for {@link LoginProvider#GAME}
- * logins.
+ * The {@link ILoginIdentity} implementation for {@link LoginProvider#GAME} logins.
  * </p>
  * <p>
- * Each {@link GameLoginIdentity} instance is basically just a username (always
- * an email address) and password hash, with an associated {@link Account}. When
- * creating one of these accounts, the game UI should also prompt users to flesh
- * out some of the {@link Account} details, e.g. their name, though that's not
- * required.
+ * Each {@link GameLoginIdentity} instance is basically just a username (always an email address) and password hash,
+ * with an associated {@link Account}. When creating one of these accounts, the game UI should also prompt users to
+ * flesh out some of the {@link Account} details, e.g. their name, though that's not required.
  * </p>
  * <p>
  * This class supports JPA.
@@ -44,9 +41,8 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 	private InternetAddress emailAddress;
 
 	/*
-	 * This field is marked {@link XmlTransient} to help ensure it's never sent
-	 * off of the server by mistake. Any web services wishing to use it in a
-	 * response will have to do so explicitly.
+	 * This field is marked {@link XmlTransient} to help ensure it's never sent off of the server by mistake. Any web
+	 * services wishing to use it in a response will have to do so explicitly.
 	 */
 	@Column(name = "`passwordHash`", nullable = false)
 	@XmlTransient
@@ -54,7 +50,7 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 
 	/**
 	 * Constructs a new {@link GameLoginIdentity} instance.
-	 * 
+	 *
 	 * @param account
 	 *            the value to use for {@link #getAccount()}
 	 * @param emailAddress
@@ -70,8 +66,7 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB and JPA specs.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
 	GameLoginIdentity() {
@@ -94,13 +89,12 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 
 	/**
 	 * <p>
-	 * Returns the scrypt hash of the user's password that is stored for
-	 * authentication purposes.
+	 * Returns the scrypt hash of the user's password that is stored for authentication purposes.
 	 * </p>
 	 * <p>
 	 * In general, this should never be sent off of the server.
 	 * </p>
-	 * 
+	 *
 	 * @return the scrypt hash of the user's password
 	 */
 	public String getPasswordHash() {
@@ -124,8 +118,7 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 		builder.append("GameLoginIdentity [id=");
 		builder.append(id);
 		/*
-		 * Can't just include account.toString(), as that would create a
-		 * recursive never-ending loop.
+		 * Can't just include account.toString(), as that would create a recursive never-ending loop.
 		 */
 		builder.append(", account.getId()=");
 		builder.append(account.hasId() ? account.getId() : "N/A");
@@ -134,8 +127,7 @@ public class GameLoginIdentity extends AbstractLoginIdentity implements ILoginId
 		builder.append(", emailAddress=");
 		builder.append(emailAddress);
 		/*
-		 * Can't print out the passwordHash itself, as that value needs to be
-		 * very carefully protected.
+		 * Can't print out the passwordHash itself, as that value needs to be very carefully protected.
 		 */
 		builder.append(", passwordHash=");
 		builder.append(passwordHash != null ? "(not null)" : "(null)");

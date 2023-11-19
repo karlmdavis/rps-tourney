@@ -17,7 +17,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 public final class PlayerTest {
 	/**
 	 * Tests {@link Player#equals(Object)} and {@link Player#hashCode()}.
-	 * 
+	 *
 	 * @throws SecurityException
 	 *             (won't happen)
 	 * @throws NoSuchFieldException
@@ -42,10 +42,9 @@ public final class PlayerTest {
 		Assert.assertNotEquals(playerA, playerB);
 
 		/*
-		 * The logic for Player.equals(...) is different for persisted vs.
-		 * non-persisted objects, and we want to cover that logic with this
-		 * test. To avoid having to involve the DB here (and actually persist
-		 * things), we'll cheat and set the fields' values via reflection.
+		 * The logic for Player.equals(...) is different for persisted vs. non-persisted objects, and we want to cover
+		 * that logic with this test. To avoid having to involve the DB here (and actually persist things), we'll cheat
+		 * and set the fields' values via reflection.
 		 */
 		Field accountIdField = Account.class.getDeclaredField("id");
 		accountIdField.setAccessible(true);
@@ -71,7 +70,7 @@ public final class PlayerTest {
 
 	/**
 	 * Verifies that instances serialize correctly with Jackson.
-	 * 
+	 *
 	 * @throws JsonProcessingException
 	 *             (indicates a test failure)
 	 * @throws SecurityException

@@ -19,23 +19,18 @@ import com.justdavis.karl.misc.resources.ResourcePath;
 final class OptionsParser {
 	/**
 	 * <p>
-	 * Parses the specified {@link String} array of command line options and
-	 * returns an {@link Options} instance representing them, or
-	 * <code>null</code> if they could not be parsed.
+	 * Parses the specified {@link String} array of command line options and returns an {@link Options} instance
+	 * representing them, or <code>null</code> if they could not be parsed.
 	 * </p>
 	 * <p>
-	 * <strong>Side Effects:</strong> If the command line arguments could not be
-	 * parsed successfully, this method will also print out a (hopefully)
-	 * helpful error message and the application usage text, all to
-	 * {@link System#err}.
+	 * <strong>Side Effects:</strong> If the command line arguments could not be parsed successfully, this method will
+	 * also print out a (hopefully) helpful error message and the application usage text, all to {@link System#err}.
 	 * </p>
-	 * 
+	 *
 	 * @param args
-	 *            the command line arguments passed to the application when it
-	 *            was launched
-	 * @return an {@link Options} instance representing the command line
-	 *         arguments passed to the application when it was launched, or
-	 *         <code>null</code> if they could not be parsed
+	 *            the command line arguments passed to the application when it was launched
+	 * @return an {@link Options} instance representing the command line arguments passed to the application when it was
+	 *         launched, or <code>null</code> if they could not be parsed
 	 */
 	Options parseCommandLineOptions(String[] args) {
 		Options options = new Options();
@@ -45,8 +40,7 @@ final class OptionsParser {
 			optionsParser.parseArgument(args);
 		} catch (CmdLineException e) {
 			/*
-			 * This exception will be thrown if the command line options cannot
-			 * be parsed correctly.
+			 * This exception will be thrown if the command line options cannot be parsed correctly.
 			 */
 
 			// Print the error and usage.
@@ -59,10 +53,9 @@ final class OptionsParser {
 
 	/**
 	 * Prints out help text regarding the application's command line options.
-	 * 
+	 *
 	 * @param outputStream
-	 *            the {@link PrintStream} to write to, typically
-	 *            {@link System#out} or {@link System#err}
+	 *            the {@link PrintStream} to write to, typically {@link System#out} or {@link System#err}
 	 */
 	void printUsage(PrintStream outputStream) {
 		// Create a throw-away parser to use here.
@@ -82,10 +75,8 @@ final class OptionsParser {
 	 */
 	private static String getExpectedOutputJarName() {
 		/*
-		 * To pull this off, I've created a .properties resource file that Maven
-		 * should filter, dropping the output JAR's name into it. This method
-		 * just loads that properties file and pulls the filtered value out from
-		 * it.
+		 * To pull this off, I've created a .properties resource file that Maven should filter, dropping the output
+		 * JAR's name into it. This method just loads that properties file and pulls the filtered value out from it.
 		 */
 
 		// Get the path to the resource.

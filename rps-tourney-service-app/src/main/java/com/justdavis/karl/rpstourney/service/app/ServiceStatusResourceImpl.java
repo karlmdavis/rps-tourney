@@ -20,8 +20,7 @@ public class ServiceStatusResourceImpl implements IServiceStatusResource {
 	private final String version;
 
 	/**
-	 * This public, default, no-arg constructor is required by Spring (for
-	 * request-scoped beans).
+	 * This public, default, no-arg constructor is required by Spring (for request-scoped beans).
 	 */
 	public ServiceStatusResourceImpl() {
 		try {

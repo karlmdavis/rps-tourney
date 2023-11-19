@@ -17,8 +17,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
 @Path(IPlayersResource.SERVICE_PATH)
 public interface IPlayersResource {
 	/**
-	 * The {@link Path} that this this resource class' methods will be hosted
-	 * at.
+	 * The {@link Path} that this this resource class' methods will be hosted at.
 	 */
 	public static final String SERVICE_PATH = "/players";
 

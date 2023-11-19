@@ -30,7 +30,7 @@ public class AccountController {
 
 	/**
 	 * Constructs a new {@link AccountController} instance.
-	 * 
+	 *
 	 * @param accountsClient
 	 *            the {@link IAccountsResource} client to use
 	 */
@@ -42,14 +42,12 @@ public class AccountController {
 	/**
 	 * @param authenticatedUser
 	 *            the currently logged in user {@link Principal}
-	 * @return a {@link ModelAndView} that can be used to render some basic
-	 *         information about the current user
+	 * @return a {@link ModelAndView} that can be used to render some basic information about the current user
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getPage(Principal authenticatedUser) {
 		/*
-		 * If a client requests this page without having authenticated, we want
-		 * to redirect them to the login page.
+		 * If a client requests this page without having authenticated, we want to redirect them to the login page.
 		 */
 		if (authenticatedUser == null)
 			return new ModelAndView("redirect:/login");
@@ -79,23 +77,20 @@ public class AccountController {
 	}
 
 	/**
-	 * Accepts form submissions from <code>account.jsp</code>, allowing users to
-	 * make changes to their {@link Account}.
-	 * 
+	 * Accepts form submissions from <code>account.jsp</code>, allowing users to make changes to their {@link Account}.
+	 *
 	 * @param gameId
 	 *            the {@link Game#getId()} of the game being updated
 	 * @param inputName
 	 *            the new value for {@link Account#getName()}
 	 * @param authenticatedUser
-	 *            the currently logged in user {@link Principal} (whose
-	 *            {@link Account#getName()} is to be updated)
+	 *            the currently logged in user {@link Principal} (whose {@link Account#getName()} is to be updated)
 	 * @return a <code>redirect:</code> view name for the updated {@link Game}
 	 */
 	@RequestMapping(value = "/update", method = { RequestMethod.POST }, produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView updateAccount(Principal authenticatedUser, String inputName) {
 		/*
-		 * If a client requests this page without having authenticated, we want
-		 * to redirect them to the login page.
+		 * If a client requests this page without having authenticated, we want to redirect them to the login page.
 		 */
 		if (authenticatedUser == null)
 			return new ModelAndView("redirect:/login");

@@ -34,10 +34,8 @@ import com.justdavis.karl.rpstourney.service.app.jpa.DaoTestHelper;
 @ActiveProfiles(SpringProfile.INTEGRATION_TESTS)
 public final class PlayersDaoImplIT {
 	/**
-	 * @return the test run parameters to pass to
-	 *         {@link #PlayersDaoImplIT(IProvisioningRequest)}, where each
-	 *         top-level element in the returned {@link Collection} represents a
-	 *         test run
+	 * @return the test run parameters to pass to {@link #PlayersDaoImplIT(IProvisioningRequest)}, where each top-level
+	 *         element in the returned {@link Collection} represents a test run
 	 */
 	@Parameterized.Parameters(name = "{index}: IProvisioningRequest={0}")
 	public static Collection<Object[]> createTestParameters() {
@@ -57,28 +55,25 @@ public final class PlayersDaoImplIT {
 	public DaoTestHelper daoTestHelper;
 
 	/**
-	 * Constructs a new {@link PlayersDaoImplIT} instance. The test runner will
-	 * generate the parameters to pass to this from the
-	 * {@link #createTestParameters()} method.
-	 * 
+	 * Constructs a new {@link PlayersDaoImplIT} instance. The test runner will generate the parameters to pass to this
+	 * from the {@link #createTestParameters()} method.
+	 *
 	 * @param provisioningRequest
 	 * @throws Exception
-	 *             An {@link Exception} might be thrown by the Spring context
-	 *             initialization.
+	 *             An {@link Exception} might be thrown by the Spring context initialization.
 	 */
 	public PlayersDaoImplIT(IProvisioningRequest provisioningRequest) throws Exception {
 		this.daoTestHelper = new DaoTestHelper(provisioningRequest);
 
 		/*
-		 * Initialize Spring. We're using this mechanism, rather than the {@link
-		 * SpringJUnit4ClassRunner}, as this test is already using a different
-		 * runner: {@link Parameterized}.
+		 * Initialize Spring. We're using this mechanism, rather than the {@link SpringJUnit4ClassRunner}, as this test
+		 * is already using a different runner: {@link Parameterized}.
 		 */
 		TestContextManager testContextManager = new TestContextManager(getClass());
 
 		/*
-		 * Register the DaoTestHelper with the Spring test context, so it can
-		 * snag the ApplicationContext from it. (This is a hack.)
+		 * Register the DaoTestHelper with the Spring test context, so it can snag the ApplicationContext from it. (This
+		 * is a hack.)
 		 */
 		testContextManager.registerTestExecutionListeners(daoTestHelper);
 		testContextManager.prepareTestInstance(this);
@@ -115,9 +110,8 @@ public final class PlayersDaoImplIT {
 			}
 
 			/*
-			 * Pull the persisted Account out of the new Player and call
-			 * findPlayerForAccount(...) again. This time, it should return the
-			 * already-created Player instance.
+			 * Pull the persisted Account out of the new Player and call findPlayerForAccount(...) again. This time, it
+			 * should return the already-created Player instance.
 			 */
 			Account savedAccount = newPlayer.getHumanAccount();
 			Assert.assertNotNull(savedAccount);
@@ -156,8 +150,7 @@ public final class PlayersDaoImplIT {
 			playersDao.setEntityManager(entityManager);
 
 			/*
-			 * Call findPlayerForBuiltInAi(...) with BuiltInAis that don't
-			 * already have Player instances.
+			 * Call findPlayerForBuiltInAi(...) with BuiltInAis that don't already have Player instances.
 			 */
 			Set<Player> returnedPlayers = null;
 			EntityTransaction tx = entityManager.getTransaction();
@@ -191,8 +184,7 @@ public final class PlayersDaoImplIT {
 			}
 
 			/*
-			 * Call findPlayerForBuiltInAi(...) again for the BuiltInAis. This
-			 * time, it should have results.
+			 * Call findPlayerForBuiltInAi(...) again for the BuiltInAis. This time, it should have results.
 			 */
 			returnedPlayers = null;
 			tx = entityManager.getTransaction();
@@ -227,8 +219,8 @@ public final class PlayersDaoImplIT {
 			playersDao.setEntityManager(entityManager);
 
 			/*
-			 * Call findOrCreatePlayerForAccount(...) with an Account that
-			 * doesn't already have a Player instance for it.
+			 * Call findOrCreatePlayerForAccount(...) with an Account that doesn't already have a Player instance for
+			 * it.
 			 */
 			Account account = new Account();
 			Player newPlayer = null;
@@ -243,9 +235,8 @@ public final class PlayersDaoImplIT {
 			}
 
 			/*
-			 * Pull the persisted Account out of the new Player and call
-			 * findOrCreatePlayerForAccount(...) again. This time, it should
-			 * return the already-created Player instance.
+			 * Pull the persisted Account out of the new Player and call findOrCreatePlayerForAccount(...) again. This
+			 * time, it should return the already-created Player instance.
 			 */
 			Account savedAccount = newPlayer.getHumanAccount();
 			Assert.assertNotNull(savedAccount);

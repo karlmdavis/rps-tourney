@@ -50,9 +50,8 @@ public final class CookiesUtilsTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link CookiesUtils#applyCookieSecurityProperties(Cookie, AppConfig)}.
-	 * 
+	 * Tests {@link CookiesUtils#applyCookieSecurityProperties(Cookie, AppConfig)}.
+	 *
 	 * @throws MalformedURLException
 	 *             (won't occur, as {@link URL}s are hardcoded)
 	 */

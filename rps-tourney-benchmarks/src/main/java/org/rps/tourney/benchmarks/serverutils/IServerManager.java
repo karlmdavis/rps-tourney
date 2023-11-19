@@ -7,8 +7,8 @@ import javax.mail.internet.InternetAddress;
 import org.openjdk.jmh.annotations.TearDown;
 
 /**
- * Encapsulates the information that the application's benchmarks need from
- * {@link ServerState}: where the applications are, logins to use for them, etc.
+ * Encapsulates the information that the application's benchmarks need from {@link ServerState}: where the applications
+ * are, logins to use for them, etc.
  */
 public interface IServerManager {
 	/**
@@ -32,9 +32,8 @@ public interface IServerManager {
 	String getAdminPassword();
 
 	/**
-	 * Call this method as part of the benchmarks' {@link TearDown} to release
-	 * any resources that were acquired to start or interact with this
-	 * {@link IServerManager}.
+	 * Call this method as part of the benchmarks' {@link TearDown} to release any resources that were acquired to start
+	 * or interact with this {@link IServerManager}.
 	 */
 	void tearDown();
 }

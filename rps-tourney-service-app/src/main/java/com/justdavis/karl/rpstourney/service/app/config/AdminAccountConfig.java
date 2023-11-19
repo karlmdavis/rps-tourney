@@ -12,9 +12,8 @@ import com.justdavis.karl.rpstourney.service.api.auth.game.GameLoginIdentity;
 import com.justdavis.karl.rpstourney.service.api.exceptions.UncheckedAddressException;
 
 /**
- * Models the configuration of the application's default
- * {@link SecurityRole#ADMINS} {@link Account}.
- * 
+ * Models the configuration of the application's default {@link SecurityRole#ADMINS} {@link Account}.
+ *
  * @see ServiceConfig
  */
 public final class AdminAccountConfig {
@@ -27,7 +26,7 @@ public final class AdminAccountConfig {
 
 	/**
 	 * Constructs a new {@link AdminAccountConfig} instance.
-	 * 
+	 *
 	 * @param address
 	 *            the value to use for {@link #getAddress()}
 	 * @param password
@@ -40,7 +39,7 @@ public final class AdminAccountConfig {
 
 	/**
 	 * Constructs a new {@link AdminAccountConfig} instance.
-	 * 
+	 *
 	 * @param address
 	 *            the value to use for {@link #getAddress()}
 	 * @param password
@@ -52,8 +51,7 @@ public final class AdminAccountConfig {
 
 	/**
 	 * @param address
-	 *            the value to pass in to
-	 *            {@link InternetAddress#InternetAddress(String)}
+	 *            the value to pass in to {@link InternetAddress#InternetAddress(String)}
 	 * @return a new {@link InternetAddress} instance
 	 */
 	private static InternetAddress createInternetAddress(String address) {
@@ -74,25 +72,23 @@ public final class AdminAccountConfig {
 	}
 
 	/**
-	 * @return the {@link GameLoginIdentity#getEmailAddress()} value for the
-	 *         application's default {@link SecurityRole#ADMINS} {@link Account}
+	 * @return the {@link GameLoginIdentity#getEmailAddress()} value for the application's default
+	 *         {@link SecurityRole#ADMINS} {@link Account}
 	 */
 	public InternetAddress getAddress() {
 		return address;
 	}
 
 	/**
-	 * @return the (not yet hashed) {@link GameLoginIdentity#getPasswordHash()}
-	 *         value for the application's default {@link SecurityRole#ADMINS}
-	 *         {@link Account}
+	 * @return the (not yet hashed) {@link GameLoginIdentity#getPasswordHash()} value for the application's default
+	 *         {@link SecurityRole#ADMINS} {@link Account}
 	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * This JAX-B {@link XmlAdapter} marshalls {@link InternetAddress} instances
-	 * as {@link String}s.
+	 * This JAX-B {@link XmlAdapter} marshalls {@link InternetAddress} instances as {@link String}s.
 	 */
 	private static final class InternetAddressStringAdapter extends XmlAdapter<String, InternetAddress> {
 		/**

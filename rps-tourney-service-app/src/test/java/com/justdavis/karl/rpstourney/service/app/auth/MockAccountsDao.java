@@ -9,8 +9,7 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuditAccountMerge;
 import com.justdavis.karl.rpstourney.service.api.auth.AuthToken;
 
 /**
- * A mock {@link IAccountsDao} implementation for use in tests. Stores
- * {@link Account} instances in-memory.
+ * A mock {@link IAccountsDao} implementation for use in tests. Stores {@link Account} instances in-memory.
  */
 public final class MockAccountsDao implements IAccountsDao {
 	public final List<Account> accounts = new ArrayList<>();

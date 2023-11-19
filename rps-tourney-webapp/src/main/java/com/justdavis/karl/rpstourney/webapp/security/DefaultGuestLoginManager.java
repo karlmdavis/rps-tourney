@@ -24,7 +24,7 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 
 	/**
 	 * Constructs a new {@link DefaultGuestLoginManager} instance.
-	 * 
+	 *
 	 * @param securityContextStrategy
 	 *            the {@link SecurityContextHolderStrategy} for the application
 	 * @param guestAuthClient
@@ -47,8 +47,8 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 	@Override
 	public void loginClientAsGuest(HttpServletRequest request, HttpServletResponse response) {
 		/*
-		 * This method shouldn't be called if the request/client is already
-		 * authenticated. If it is, whatever called this method screwed up.
+		 * This method shouldn't be called if the request/client is already authenticated. If it is, whatever called
+		 * this method screwed up.
 		 */
 		Authentication existingAuth = securityContextStrategy.getContext().getAuthentication();
 		if (existingAuth != null)
@@ -62,8 +62,7 @@ public class DefaultGuestLoginManager implements IGuestLoginManager {
 		securityContextStrategy.getContext().setAuthentication(guestAuth);
 
 		/*
-		 * Take the login and use it to "turn on" the remember-me feature of
-		 * Spring Security.
+		 * Take the login and use it to "turn on" the remember-me feature of Spring Security.
 		 */
 		rememberMeServices.loginSuccess(request, response, guestAuth);
 	}

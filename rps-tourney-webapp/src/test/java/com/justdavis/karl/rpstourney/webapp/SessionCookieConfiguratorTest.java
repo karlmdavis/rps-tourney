@@ -20,10 +20,9 @@ import com.justdavis.karl.rpstourney.webapp.config.IConfigLoader;
  */
 public final class SessionCookieConfiguratorTest {
 	/**
-	 * Tests
-	 * {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when
-	 * {@link AppConfig#getBaseUrl()} has a context path.
-	 * 
+	 * Tests {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when {@link AppConfig#getBaseUrl()}
+	 * has a context path.
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -43,10 +42,9 @@ public final class SessionCookieConfiguratorTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when
-	 * {@link AppConfig#getBaseUrl()} does not have a context path.
-	 * 
+	 * Tests {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when {@link AppConfig#getBaseUrl()}
+	 * does not have a context path.
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -66,10 +64,9 @@ public final class SessionCookieConfiguratorTest {
 	}
 
 	/**
-	 * Tests
-	 * {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when
-	 * {@link AppConfig#getBaseUrl()} has <code>localhost</code> as the domain.
-	 * 
+	 * Tests {@link SessionCookieConfigurator#applyConfiguration(ServletContext)} when {@link AppConfig#getBaseUrl()}
+	 * has <code>localhost</code> as the domain.
+	 *
 	 * @throws Exception
 	 *             (all of the MVC test methods declare this exception)
 	 */
@@ -85,15 +82,14 @@ public final class SessionCookieConfiguratorTest {
 
 		/*
 		 * Verify that things were configured, as expected. See the comments for
-		 * CookiesUtils.computeCookieDomainProperty(URL), for an explanation of
-		 * why the domain should be null in this case.
+		 * CookiesUtils.computeCookieDomainProperty(URL), for an explanation of why the domain should be null in this
+		 * case.
 		 */
 		Assert.assertNull(servletContext.getSessionCookieConfig().getDomain());
 	}
 
 	/**
-	 * A mock Spring {@link Configuration} for use in
-	 * {@link SessionCookieConfiguratorTest}.
+	 * A mock Spring {@link Configuration} for use in {@link SessionCookieConfiguratorTest}.
 	 */
 	@Configuration
 	static class MockConfigLoaderBindingA {
@@ -121,8 +117,7 @@ public final class SessionCookieConfiguratorTest {
 	}
 
 	/**
-	 * A mock Spring {@link Configuration} for use in
-	 * {@link SessionCookieConfiguratorTest}.
+	 * A mock Spring {@link Configuration} for use in {@link SessionCookieConfiguratorTest}.
 	 */
 	@Configuration
 	static class MockConfigLoaderBindingB {
@@ -150,8 +145,7 @@ public final class SessionCookieConfiguratorTest {
 	}
 
 	/**
-	 * A mock Spring {@link Configuration} for use in
-	 * {@link SessionCookieConfiguratorTest}.
+	 * A mock Spring {@link Configuration} for use in {@link SessionCookieConfiguratorTest}.
 	 */
 	@Configuration
 	static class MockConfigLoaderBindingC {

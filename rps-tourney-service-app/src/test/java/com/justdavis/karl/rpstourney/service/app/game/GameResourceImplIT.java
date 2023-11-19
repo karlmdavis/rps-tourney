@@ -80,13 +80,11 @@ public final class GameResourceImplIT {
 
 	/**
 	 * <p>
-	 * Ensures that {@link GameResourceImpl#getGamesForPlayer()} works correctly
-	 * when the requesting client has an {@link Account}, but no associated
-	 * {@link Player}.
+	 * Ensures that {@link GameResourceImpl#getGamesForPlayer()} works correctly when the requesting client has an
+	 * {@link Account}, but no associated {@link Player}.
 	 * </p>
 	 * <p>
-	 * This is a regression test case for an issue encountered during
-	 * development.
+	 * This is a regression test case for an issue encountered during development.
 	 * </p>
 	 */
 	@Test
@@ -104,8 +102,8 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server {@link IGameResource#createGame()} and
-	 * {@link IGameResource#getGame(String)} implementations work correctly.
+	 * Ensures that the client and server {@link IGameResource#createGame()} and {@link IGameResource#getGame(String)}
+	 * implementations work correctly.
 	 */
 	@Test
 	public void createAndGet() {
@@ -133,9 +131,9 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server {@link IGameResource} implementations
-	 * work correctly for a simple 1-round game.
-	 * 
+	 * Ensures that the client and server {@link IGameResource} implementations work correctly for a simple 1-round
+	 * game.
+	 *
 	 * @throws AddressException
 	 *             (won't be thrown; address is correct and static)
 	 */
@@ -176,9 +174,9 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server {@link IGameResource} implementations
-	 * work correctly for a simple game with a human and an AI player.
-	 * 
+	 * Ensures that the client and server {@link IGameResource} implementations work correctly for a simple game with a
+	 * human and an AI player.
+	 *
 	 * @throws AddressException
 	 *             (won't be thrown; address is correct and static)
 	 */
@@ -215,10 +213,9 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link GameResourceImpl#inviteOpponent(String, long)}
-	 * correctly handles security: only player 1 should be able to invite
-	 * opponents into their game.
-	 * 
+	 * Ensures that {@link GameResourceImpl#inviteOpponent(String, long)} correctly handles security: only player 1
+	 * should be able to invite opponents into their game.
+	 *
 	 * @throws AddressException
 	 *             (won't be thrown; address is correct and static)
 	 */
@@ -257,10 +254,9 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link GameResourceImpl} doesn't reveal moves made in the
-	 * current round, except to the player that made them. If this were to
-	 * happen, it would allow players to cheat, as they would be able to see
-	 * their opponent's move before making their own.
+	 * Ensures that {@link GameResourceImpl} doesn't reveal moves made in the current round, except to the player that
+	 * made them. If this were to happen, it would allow players to cheat, as they would be able to see their opponent's
+	 * move before making their own.
 	 */
 	@Test
 	public void opponentsMoveNotRevealed() throws AddressException {
@@ -300,10 +296,9 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the server
-	 * {@link IGameResource#setMaxRounds(String, int, int)} implementation works
-	 * correctly in the face of concurrent calls.
-	 * 
+	 * Ensures that the server {@link IGameResource#setMaxRounds(String, int, int)} implementation works correctly in
+	 * the face of concurrent calls.
+	 *
 	 * @throws ExecutionException
 	 *             (should never happen, as we never cancel tasks)
 	 * @throws InterruptedException
@@ -312,10 +307,8 @@ public final class GameResourceImplIT {
 	@Test
 	public void setMaxRoundsConcurrency() throws InterruptedException, ExecutionException {
 		/*
-		 * Note to self: On 2014-04-27, I saw this test fail one of its
-		 * assertions but was unable to reproduce (can't recall which
-		 * assertion). I'd guess there's still an intermittent concurrency bug
-		 * lurking.
+		 * Note to self: On 2014-04-27, I saw this test fail one of its assertions but was unable to reproduce (can't
+		 * recall which assertion). I'd guess there's still an intermittent concurrency bug lurking.
 		 */
 
 		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
@@ -335,13 +328,10 @@ public final class GameResourceImplIT {
 		gameClientForPlayer2.joinGame(game.getId());
 
 		/*
-		 * What we need to ensure can't happen is this: two or more simultaneous
-		 * requests that both succeed. Because of the guard "oldMaxRounds"
-		 * parameter required, only one concurrent call to this method should
-		 * ever be told it succeeded. The others should all fail because they
-		 * pass in an out-of-date "oldMaxRounds" value. To test this, we'll run
-		 * pairs of these requests concurrently and ensure that only one ever
-		 * succeeds.
+		 * What we need to ensure can't happen is this: two or more simultaneous requests that both succeed. Because of
+		 * the guard "oldMaxRounds" parameter required, only one concurrent call to this method should ever be told it
+		 * succeeded. The others should all fail because they pass in an out-of-date "oldMaxRounds" value. To test this,
+		 * we'll run pairs of these requests concurrently and ensure that only one ever succeeds.
 		 */
 
 		// Request 'A' will always try to set the rounds from 3 to 5.
@@ -352,14 +342,12 @@ public final class GameResourceImplIT {
 					GameView gameAfterModification = gameClientForPlayer1.setMaxRounds(game.getId(), 3, 5);
 
 					/*
-					 * We'll use a non-null result to signal that the request
-					 * succeeded.
+					 * We'll use a non-null result to signal that the request succeeded.
 					 */
 					return gameAfterModification;
 				} catch (GameConflictException t) {
 					/*
-					 * We'll use a null result to signal that the request
-					 * failed.
+					 * We'll use a null result to signal that the request failed.
 					 */
 					return null;
 				}
@@ -374,14 +362,12 @@ public final class GameResourceImplIT {
 					GameView gameAfterModification = gameClientForPlayer2.setMaxRounds(game.getId(), 3, 7);
 
 					/*
-					 * We'll use a non-null result to signal that the request
-					 * succeeded.
+					 * We'll use a non-null result to signal that the request succeeded.
 					 */
 					return gameAfterModification;
 				} catch (GameConflictException t) {
 					/*
-					 * We'll use a null result to signal that the request
-					 * failed.
+					 * We'll use a null result to signal that the request failed.
 					 */
 					return null;
 				}
@@ -417,17 +403,15 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the server
-	 * {@link IGameResource#submitThrow(String, int, Throw)} implementation
-	 * works correctly in the face of concurrent calls.
-	 * 
+	 * Ensures that the server {@link IGameResource#submitThrow(String, int, Throw)} implementation works correctly in
+	 * the face of concurrent calls.
+	 *
 	 * @throws ExecutionException
 	 *             (should never happen, as we never cancel tasks)
 	 * @throws InterruptedException
 	 *             (should never happen, as we never cancel tasks)
 	 * @throws AddressException
-	 *             (should never happen, as we only use static, valid addresses
-	 *             here)
+	 *             (should never happen, as we only use static, valid addresses here)
 	 */
 	@Test
 	public void submitThrowConcurrency() throws InterruptedException, ExecutionException, AddressException {
@@ -450,11 +434,9 @@ public final class GameResourceImplIT {
 		gameClientForPlayer2.setMaxRounds(gameId, game.getMaxRounds(), 999999);
 
 		/*
-		 * What we want to ensure here is that the following scenario works
-		 * correctly: three concurrent calls from three separate clients. The
-		 * first player is submitting two separate throws at once. The second
-		 * player is also submitting its throw. We want to ensure that, for the
-		 * first player, only one of the two calls succeeds.
+		 * What we want to ensure here is that the following scenario works correctly: three concurrent calls from three
+		 * separate clients. The first player is submitting two separate throws at once. The second player is also
+		 * submitting its throw. We want to ensure that, for the first player, only one of the two calls succeeds.
 		 */
 
 		CookieStore cookiesForPlayer1b = new CookieStore();
@@ -473,14 +455,12 @@ public final class GameResourceImplIT {
 							Throw.ROCK);
 
 					/*
-					 * We'll use a non-null result to signal that the request
-					 * succeeded.
+					 * We'll use a non-null result to signal that the request succeeded.
 					 */
 					return gameAfterModification;
 				} catch (Throwable t) {
 					/*
-					 * We'll use a null result to signal that the request
-					 * failed.
+					 * We'll use a null result to signal that the request failed.
 					 */
 					return null;
 				}
@@ -496,14 +476,12 @@ public final class GameResourceImplIT {
 							Throw.PAPER);
 
 					/*
-					 * We'll use a non-null result to signal that the request
-					 * succeeded.
+					 * We'll use a non-null result to signal that the request succeeded.
 					 */
 					return gameAfterModification;
 				} catch (Throwable t) {
 					/*
-					 * We'll use a null result to signal that the request
-					 * failed.
+					 * We'll use a null result to signal that the request failed.
 					 */
 					return null;
 				}
@@ -519,14 +497,12 @@ public final class GameResourceImplIT {
 							Throw.SCISSORS);
 
 					/*
-					 * We'll use a non-null result to signal that the request
-					 * succeeded.
+					 * We'll use a non-null result to signal that the request succeeded.
 					 */
 					return gameAfterModification;
 				} catch (Throwable t) {
 					/*
-					 * We'll use a null result to signal that the request
-					 * failed.
+					 * We'll use a null result to signal that the request failed.
 					 */
 					return null;
 				}
@@ -554,9 +530,8 @@ public final class GameResourceImplIT {
 			GameView gameThusFar = gameClientForPlayer2.prepareRound(gameId);
 
 			/*
-			 * Sanity check: ensure that the round's result is correct. (While
-			 * developing this test, intermittent failures were seen where
-			 * player 2's throw wasn't actually showing up.)
+			 * Sanity check: ensure that the round's result is correct. (While developing this test, intermittent
+			 * failures were seen where player 2's throw wasn't actually showing up.)
 			 */
 			Assert.assertEquals("Game state is off: " + gameThusFar, i + 2, gameThusFar.getRounds().size());
 
@@ -568,8 +543,7 @@ public final class GameResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the client and server
-	 * {@link IGameResource#deleteGame(String)} implementations work correctly.
+	 * Ensures that the client and server {@link IGameResource#deleteGame(String)} implementations work correctly.
 	 */
 	@Test
 	public void delete() {

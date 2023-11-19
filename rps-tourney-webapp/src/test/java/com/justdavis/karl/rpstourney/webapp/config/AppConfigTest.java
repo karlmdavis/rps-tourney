@@ -28,7 +28,7 @@ import com.justdavis.karl.rpstourney.webapp.XmlNamespace;
 public final class AppConfigTest {
 	/**
 	 * Ensures that {@link AppConfig} instances can be marshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException
@@ -64,7 +64,7 @@ public final class AppConfigTest {
 
 	/**
 	 * Ensures that {@link AppConfig} instances can be unmarshalled.
-	 * 
+	 *
 	 * @throws JAXBException
 	 *             (shouldn't be thrown if things are working)
 	 * @throws XPathExpressionException

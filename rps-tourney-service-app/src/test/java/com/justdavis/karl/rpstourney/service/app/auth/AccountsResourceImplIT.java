@@ -65,24 +65,21 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#validateAuth()} returns
-	 * {@link Status#UNAUTHORIZED} as expected when called without
-	 * authentication.
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} returns {@link Status#UNAUTHORIZED} as expected when
+	 * called without authentication.
 	 */
 	@Test
 	public void validateGuestLoginDenied() {
 		/*
-		 * Just a note: the AccountsResourceImpl will never even be run if
-		 * everything is working correctly. Instead, the AuthorizationFilter
-		 * will handle this.
+		 * Just a note: the AccountsResourceImpl will never even be run if everything is working correctly. Instead, the
+		 * AuthorizationFilter will handle this.
 		 */
 
 		ClientConfig clientConfig = new ClientConfig(server.getServerBaseAddress());
 		CookieStore cookieStore = new CookieStore();
 
 		/*
-		 * Attempt to validate the login, which should fail with an HTTP 401
-		 * Unauthorized error.
+		 * Attempt to validate the login, which should fail with an HTTP 401 Unauthorized error.
 		 */
 		AccountsClient accountsClient = new AccountsClient(clientConfig, cookieStore);
 		expectedException.expect(HttpClientException.class);
@@ -91,9 +88,8 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as
-	 * expected when used with an {@link Account} created via
-	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
+	 * Ensures that {@link AccountsResourceImpl#validateAuth()} works as expected when used with an {@link Account}
+	 * created via {@link GuestAuthResourceImpl#loginAsGuest()}.
 	 */
 	@Test
 	public void createAndValidateGuestLogin() {
@@ -118,8 +114,8 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#updateAccount(Account)} works as
-	 * expected to modify an already-existing {@link Account}.
+	 * Ensures that {@link AccountsResourceImpl#updateAccount(Account)} works as expected to modify an already-existing
+	 * {@link Account}.
 	 */
 	@Test
 	public void updateAccount() {
@@ -148,9 +144,8 @@ public final class AccountsResourceImplIT {
 		Assert.assertEquals(originalAuthToken.getToken(), copyOfAuthToken.getToken());
 
 		/*
-		 * Pull the Account again and verify that the changes are still there.
-		 * (Basically making sure that the TX was committed, which I had screwed
-		 * up at one point.)
+		 * Pull the Account again and verify that the changes are still there. (Basically making sure that the TX was
+		 * committed, which I had screwed up at one point.)
 		 */
 		Account copyOfAccount = accountsClient.getAccount();
 		Assert.assertEquals(createdAccount.getId(), copyOfAccount.getId());
@@ -158,9 +153,7 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that the bean validation on
-	 * {@link AccountsResourceImpl#updateAccount(Account)} is working as
-	 * expected.
+	 * Ensures that the bean validation on {@link AccountsResourceImpl#updateAccount(Account)} is working as expected.
 	 */
 	@Test
 	public void updateAccountValidation() {
@@ -173,8 +166,7 @@ public final class AccountsResourceImplIT {
 		Account createdAccount = guestAuthClient.loginAsGuest();
 
 		/*
-		 * Set the Account.name to something invalid and try to apply that. This
-		 * should go boom with an HTTP 400.
+		 * Set the Account.name to something invalid and try to apply that. This should go boom with an HTTP 400.
 		 */
 		createdAccount.setName("<script>alert(\"pwned!\");</script>");
 		BadRequestException error = null;
@@ -188,9 +180,8 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()} works
-	 * as expected when used with an {@link Account} created via
-	 * {@link GuestAuthResourceImpl#loginAsGuest()}.
+	 * Ensures that {@link AccountsResourceImpl#selectOrCreateAuthToken()} works as expected when used with an
+	 * {@link Account} created via {@link GuestAuthResourceImpl#loginAsGuest()}.
 	 */
 	@Test
 	public void selectOrCreateAuthToken() {
@@ -210,8 +201,7 @@ public final class AccountsResourceImplIT {
 	}
 
 	/**
-	 * Ensures that {@link AccountsResourceImpl#mergeAccount(Account)} works as
-	 * expected.
+	 * Ensures that {@link AccountsResourceImpl#mergeAccount(Account)} works as expected.
 	 */
 	@Test
 	public void mergeAccount() {
@@ -236,8 +226,7 @@ public final class AccountsResourceImplIT {
 		Account targetAccount = targetGuestAuthClient.loginAsGuest();
 
 		/*
-		 * Merge the source Account and associated objects to the target
-		 * Account.
+		 * Merge the source Account and associated objects to the target Account.
 		 */
 		targetAccountsClient.mergeAccount(targetAccount.getId(), sourceAuthToken.getToken());
 

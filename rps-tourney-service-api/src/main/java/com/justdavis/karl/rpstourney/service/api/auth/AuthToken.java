@@ -21,21 +21,20 @@ import com.justdavis.karl.rpstourney.service.api.jaxb.InstantJaxbAdapter;
 
 /**
  * <p>
- * Each {@link AuthToken} instance represents an authentication token that has
- * been issued for a specific {@link Account}.
+ * Each {@link AuthToken} instance represents an authentication token that has been issued for a specific
+ * {@link Account}.
  * </p>
  * <p>
- * For all intents and purposes, these values are a "free pass" to a user's
- * account. Any time they're sent over the network, care must be taken to ensure
- * they are transmitted and managed securely.
+ * For all intents and purposes, these values are a "free pass" to a user's account. Any time they're sent over the
+ * network, care must be taken to ensure they are transmitted and managed securely.
  * </p>
  * <p>
- * This class supports JPA. The JPA SQL-specific data (e.g. column names) is
- * specified in the <code>META-INF/orm.xml</code> file.
+ * This class supports JPA. The JPA SQL-specific data (e.g. column names) is specified in the
+ * <code>META-INF/orm.xml</code> file.
  * </p>
  * <p>
- * This class is marked as {@link Serializable}, as it is contained in
- * {@link Account} instances, which are also {@link Serializable}.
+ * This class is marked as {@link Serializable}, as it is contained in {@link Account} instances, which are also
+ * {@link Serializable}.
  * </p>
  */
 @XmlRootElement
@@ -62,7 +61,7 @@ public class AuthToken implements Serializable {
 
 	/**
 	 * Constructs a new {@link AuthToken} instance.
-	 * 
+	 *
 	 * @param account
 	 *            the value to use for {@link #getAccount()}
 	 * @param token
@@ -82,8 +81,7 @@ public class AuthToken implements Serializable {
 	}
 
 	/**
-	 * <strong>Not intended for use:</strong> This constructor is only provided
-	 * to comply with the JAXB and JPA specs.
+	 * <strong>Not intended for use:</strong> This constructor is only provided to comply with the JAXB and JPA specs.
 	 */
 	@Deprecated
 	AuthToken() {
@@ -97,20 +95,17 @@ public class AuthToken implements Serializable {
 	}
 
 	/**
-	 * @return the unique, random token that represents and identifies this
-	 *         {@link AuthToken}
+	 * @return the unique, random token that represents and identifies this {@link AuthToken}
 	 */
 	public UUID getToken() {
 		return token;
 	}
 
 	/**
-	 * Note: Because this will be persisted as a SQL <code>TIMESTAMP</code>
-	 * column, sub-second values will likely be discarded when it's persisted to
-	 * a database via JPA.
-	 * 
-	 * @return the timestamp for (approximately) when this {@link AuthToken} was
-	 *         created
+	 * Note: Because this will be persisted as a SQL <code>TIMESTAMP</code> column, sub-second values will likely be
+	 * discarded when it's persisted to a database via JPA.
+	 *
+	 * @return the timestamp for (approximately) when this {@link AuthToken} was created
 	 */
 	public Instant getCreatedTimestamp() {
 		return createdTimestamp;
@@ -122,8 +117,7 @@ public class AuthToken implements Serializable {
 	@Override
 	public int hashCode() {
 		/*
-		 * Created by Eclipse's "Source > Generate hashCode() and equals()..."
-		 * function.
+		 * Created by Eclipse's "Source > Generate hashCode() and equals()..." function.
 		 */
 
 		final int prime = 31;
@@ -138,8 +132,7 @@ public class AuthToken implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		/*
-		 * Created by Eclipse's "Source > Generate hashCode() and equals()..."
-		 * function.
+		 * Created by Eclipse's "Source > Generate hashCode() and equals()..." function.
 		 */
 
 		if (this == obj)

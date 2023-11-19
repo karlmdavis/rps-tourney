@@ -13,17 +13,15 @@ import org.junit.Test;
  * Unit tests for {@link ConsoleApp}.
  * </p>
  * <p>
- * These tests should probably include a simulated game. However, that's tough
- * to do as the app's API doesn't (and probably shouldn't) allow for the AI
- * opponent to be specified. Without that, there's no way to ensure that the
- * game will end in the expected number of rounds (hypothetically, it could keep
- * tieing forever).
+ * These tests should probably include a simulated game. However, that's tough to do as the app's API doesn't (and
+ * probably shouldn't) allow for the AI opponent to be specified. Without that, there's no way to ensure that the game
+ * will end in the expected number of rounds (hypothetically, it could keep tieing forever).
  * </p>
  */
 public final class ConsoleAppTest {
 	/**
 	 * Runs the app with the "<code>--help</code>" flag.
-	 * 
+	 *
 	 * @throws UnsupportedEncodingException
 	 *             (should not occur)
 	 */

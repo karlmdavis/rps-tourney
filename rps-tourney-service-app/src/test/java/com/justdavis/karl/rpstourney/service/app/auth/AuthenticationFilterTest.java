@@ -37,10 +37,9 @@ import com.justdavis.karl.rpstourney.service.api.auth.AuthTokenCookieHelper;
  */
 public class AuthenticationFilterTest {
 	/**
-	 * Ensures that {@link AuthenticationFilter} sets the
-	 * {@link SecurityContext} and {@link AccountSecurityContext} as expected
-	 * when an authentication token is provided.
-	 * 
+	 * Ensures that {@link AuthenticationFilter} sets the {@link SecurityContext} and {@link AccountSecurityContext} as
+	 * expected when an authentication token is provided.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */
@@ -71,10 +70,9 @@ public class AuthenticationFilterTest {
 	}
 
 	/**
-	 * Ensures that {@link AuthenticationFilter} sets the
-	 * {@link SecurityContext} and {@link AccountSecurityContext} as expected
-	 * when no authentication token is provided.
-	 * 
+	 * Ensures that {@link AuthenticationFilter} sets the {@link SecurityContext} and {@link AccountSecurityContext} as
+	 * expected when no authentication token is provided.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */
@@ -98,9 +96,9 @@ public class AuthenticationFilterTest {
 	}
 
 	/**
-	 * Ensures that {@link AuthenticationFilter} updates the auth token cookie
-	 * in the response when an {@link Account} is authenticated for the request.
-	 * 
+	 * Ensures that {@link AuthenticationFilter} updates the auth token cookie in the response when an {@link Account}
+	 * is authenticated for the request.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */
@@ -134,9 +132,9 @@ public class AuthenticationFilterTest {
 	}
 
 	/**
-	 * Ensures that {@link AuthenticationFilter} updates the auth token cookie
-	 * in the response when no {@link Account} is authenticated for the request.
-	 * 
+	 * Ensures that {@link AuthenticationFilter} updates the auth token cookie in the response when no {@link Account}
+	 * is authenticated for the request.
+	 *
 	 * @throws IOException
 	 *             (not expected to be thrown)
 	 */

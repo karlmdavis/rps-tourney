@@ -1,6 +1,6 @@
 /**
- * Contains the JPA {@link javax.persistence.Entity} classes and JAX-RS
- * resources/services involved in actually playing the game.
+ * Contains the JPA {@link javax.persistence.Entity} classes and JAX-RS resources/services involved in actually playing
+ * the game.
  */
 @XmlSchema(namespace = XmlNamespace.RPSTOURNEY_API, xmlns = {
 		@XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY_API) }, elementFormDefault = XmlNsForm.QUALIFIED)

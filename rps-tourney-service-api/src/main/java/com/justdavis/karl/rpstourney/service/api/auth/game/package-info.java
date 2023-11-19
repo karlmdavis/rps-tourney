@@ -1,6 +1,5 @@
 /**
- * Contains the types related to the "accounts-are-specific-to-this-app"
- * authentication mechanism.
+ * Contains the types related to the "accounts-are-specific-to-this-app" authentication mechanism.
  */
 @XmlSchema(namespace = XmlNamespace.RPSTOURNEY_API, xmlns = {
 		@XmlNs(prefix = "rps", namespaceURI = XmlNamespace.RPSTOURNEY_API) }, elementFormDefault = XmlNsForm.QUALIFIED)

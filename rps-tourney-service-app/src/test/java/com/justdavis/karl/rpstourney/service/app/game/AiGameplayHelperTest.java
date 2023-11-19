@@ -14,8 +14,7 @@ import com.justdavis.karl.rpstourney.service.api.game.ai.BuiltInAi;
  */
 public final class AiGameplayHelperTest {
 	/**
-	 * Verifies that {@link AiGameplayHelper} works as expected when only one of
-	 * the players in a {@link Game} is AI.
+	 * Verifies that {@link AiGameplayHelper} works as expected when only one of the players in a {@link Game} is AI.
 	 */
 	@Test
 	public void singleAiPlayer() {
@@ -24,8 +23,7 @@ public final class AiGameplayHelperTest {
 		game.setPlayer2(new Player(BuiltInAi.ONE_SIDED_DIE_ROCK));
 
 		/*
-		 * Walk through a game, using the AiGameplayHelper, and verifying it
-		 * does what it's supposed to.
+		 * Walk through a game, using the AiGameplayHelper, and verifying it does what it's supposed to.
 		 */
 		game.submitThrow(0, game.getPlayer1(), Throw.ROCK);
 		aiHelper.advanceGameForAiPlayers(game);
@@ -39,8 +37,7 @@ public final class AiGameplayHelperTest {
 	}
 
 	/**
-	 * Verifies that {@link AiGameplayHelper} works as expected when both of the
-	 * players in a {@link Game} are AI.
+	 * Verifies that {@link AiGameplayHelper} works as expected when both of the players in a {@link Game} are AI.
 	 */
 	@Test
 	public void twoAiPlayers() {
@@ -49,9 +46,8 @@ public final class AiGameplayHelperTest {
 		game.setPlayer2(new Player(BuiltInAi.ONE_SIDED_DIE_PAPER));
 
 		/*
-		 * Start the AiGameplayHelper on the game, which should cause it to
-		 * advance all the way through until player 2 wins. Verify that went as
-		 * expected.
+		 * Start the AiGameplayHelper on the game, which should cause it to advance all the way through until player 2
+		 * wins. Verify that went as expected.
 		 */
 		aiHelper.advanceGameForAiPlayers(game);
 		Assert.assertEquals(2, game.getRounds().size());

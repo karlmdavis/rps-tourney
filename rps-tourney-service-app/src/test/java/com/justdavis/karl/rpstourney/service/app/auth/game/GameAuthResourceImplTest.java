@@ -21,9 +21,8 @@ import com.justdavis.karl.rpstourney.service.app.auth.MockAccountsDao;
  */
 public final class GameAuthResourceImplTest {
 	/**
-	 * Ensures that {@link GameAuthResourceImpl} creates new
-	 * {@link GameLoginIdentity}s as expected.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl} creates new {@link GameLoginIdentity}s as expected.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */
@@ -51,10 +50,9 @@ public final class GameAuthResourceImplTest {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link GameAuthResourceImpl#createGameLogin(InternetAddress, String)}
-	 * behaves as expected when the user/client already has an active login.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl#createGameLogin(InternetAddress, String)} behaves as expected when the
+	 * user/client already has an active login.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */
@@ -90,10 +88,9 @@ public final class GameAuthResourceImplTest {
 	}
 
 	/**
-	 * Ensures that
-	 * {@link GameAuthResourceImpl#loginWithGameAccount(InternetAddress, String)}
-	 * behaves as expected when the user/client is not already logged in.
-	 * 
+	 * Ensures that {@link GameAuthResourceImpl#loginWithGameAccount(InternetAddress, String)} behaves as expected when
+	 * the user/client is not already logged in.
+	 *
 	 * @throws AddressException
 	 *             (should not occur if test is successful)
 	 */

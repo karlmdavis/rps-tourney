@@ -21,17 +21,14 @@ import com.justdavis.karl.rpstourney.service.client.config.ClientConfig;
 import com.justdavis.karl.rpstourney.service.client.game.GameClient;
 
 /**
- * Contains {@link Benchmark}s for those web service methods related to display
- * of existing game instances.
+ * Contains {@link Benchmark}s for those web service methods related to display of existing game instances.
  */
 public class ServiceGameDisplayBenchmarks {
 	/**
-	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the
-	 * requesting user is unauthenticated.
-	 * 
+	 * A {@link Benchmark} for {@link GameClient#getGame(String)}, when the requesting user is unauthenticated.
+	 *
 	 * @param gameInProgressState
-	 *            a {@link GameInProgressState} instance that provides the game
-	 *            to be requested from the web service
+	 *            a {@link GameInProgressState} instance that provides the game to be requested from the web service
 	 */
 	@Benchmark
 	public void retrieveGameAsUnauthenticatedUser(GameInProgressState gameInProgressState) {
@@ -43,15 +40,13 @@ public class ServiceGameDisplayBenchmarks {
 	}
 
 	/**
-	 * This method is only here to allow this {@link Benchmark} class to be run
-	 * inside Eclipse. These configuration settings specified in here are only
-	 * applied within Eclipse.
-	 * 
+	 * This method is only here to allow this {@link Benchmark} class to be run inside Eclipse. These configuration
+	 * settings specified in here are only applied within Eclipse.
+	 *
 	 * @param args
 	 *            (not used)
 	 * @throws RunnerException
-	 *             Any failures in the benchmarks will be wrapped and rethrown
-	 *             as {@link RunnerException}s.
+	 *             Any failures in the benchmarks will be wrapped and rethrown as {@link RunnerException}s.
 	 */
 	public static void main(String[] args) throws RunnerException {
 		ChainedOptionsBuilder benchmarkOptions = new OptionsBuilder()
@@ -64,8 +59,7 @@ public class ServiceGameDisplayBenchmarks {
 	}
 
 	/**
-	 * Represents a {@link Game} that is already in-progress and can be
-	 * retrieved from the web service.
+	 * Represents a {@link Game} that is already in-progress and can be retrieved from the web service.
 	 */
 	@State(Scope.Benchmark)
 	public static class GameInProgressState {
@@ -80,8 +74,7 @@ public class ServiceGameDisplayBenchmarks {
 		}
 
 		/**
-		 * @return the {@link Game#getId()} for the {@link Game} represented by
-		 *         this instance
+		 * @return the {@link Game#getId()} for the {@link Game} represented by this instance
 		 */
 		public String getGameId() {
 			return gameId;
@@ -89,7 +82,7 @@ public class ServiceGameDisplayBenchmarks {
 
 		/**
 		 * Initializes {@link GameInProgressState} instances.
-		 * 
+		 *
 		 * @param serverState
 		 *            the {@link ServerState} that the web service is running in
 		 */

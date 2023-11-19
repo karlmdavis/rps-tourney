@@ -8,17 +8,15 @@ import javax.inject.Inject;
 import com.justdavis.karl.misc.exceptions.BadCodeMonkeyException;
 
 /**
- * An {@link IConfigLoader} that is intended for use with the application's
- * integration tests.
+ * An {@link IConfigLoader} that is intended for use with the application's integration tests.
  */
 public final class MockConfigLoader implements IConfigLoader {
 	private final AppConfig config;
 
 	/**
-	 * Constructs a new {@link MockConfigLoader} instance. This constructor is
-	 * intended for use in unit tests, as they can pass in the appropriate
-	 * parameters manually.
-	 * 
+	 * Constructs a new {@link MockConfigLoader} instance. This constructor is intended for use in unit tests, as they
+	 * can pass in the appropriate parameters manually.
+	 *
 	 * @param baseUrl
 	 *            the value to use for {@link AppConfig#getBaseUrl()}
 	 * @param clientServiceRoot
@@ -35,17 +33,15 @@ public final class MockConfigLoader implements IConfigLoader {
 	@Inject
 	public MockConfigLoader() {
 		/*
-		 * Once AppConfig has more to it than just a couple of fields, I'd
-		 * recommend loading the rest of the config from an XML file using a
-		 * separate (customized) XmlConfigLoader instance.
+		 * Once AppConfig has more to it than just a couple of fields, I'd recommend loading the rest of the config from
+		 * an XML file using a separate (customized) XmlConfigLoader instance.
 		 */
 
 		this(getBaseUrlForManualTesting(), getServiceUrlForManualTesting());
 	}
 
 	/**
-	 * @return the {@link AppConfig#getClientServiceRoot()} that will work when
-	 *         things are being tested manually via
+	 * @return the {@link AppConfig#getClientServiceRoot()} that will work when things are being tested manually via
 	 *         <code>WebAppJettyLauncher</code>
 	 */
 	private static URL getBaseUrlForManualTesting() {
@@ -61,10 +57,8 @@ public final class MockConfigLoader implements IConfigLoader {
 	}
 
 	/**
-	 * @return the {@link AppConfig#getClientServiceRoot()} that will work when
-	 *         things are being tested manually via
-	 *         <code>ServiceAppJettyLauncher</code> and
-	 *         <code>WebAppJettyLauncher</code>
+	 * @return the {@link AppConfig#getClientServiceRoot()} that will work when things are being tested manually via
+	 *         <code>ServiceAppJettyLauncher</code> and <code>WebAppJettyLauncher</code>
 	 */
 	private static URL getServiceUrlForManualTesting() {
 		URL clientServiceRoot;

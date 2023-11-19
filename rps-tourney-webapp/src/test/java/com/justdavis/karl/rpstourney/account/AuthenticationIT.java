@@ -15,8 +15,7 @@ import com.justdavis.karl.rpstourney.webapp.account.AccountController;
 import com.justdavis.karl.rpstourney.webapp.account.RegisterController;
 
 /**
- * Integration tests for {@link RegisterController}, {@link AccountController},
- * and <code>login.jsp</code>.
+ * Integration tests for {@link RegisterController}, {@link AccountController}, and <code>login.jsp</code>.
  */
 public final class AuthenticationIT {
 	/**
@@ -53,9 +52,8 @@ public final class AuthenticationIT {
 	}
 
 	/**
-	 * Ensures that users who login from an existing anonymous account have
-	 * their game history, etc. merged into the account that they are logging
-	 * into.
+	 * Ensures that users who login from an existing anonymous account have their game history, etc. merged into the
+	 * account that they are logging into.
 	 */
 	@Test
 	public void loginFromAnonymousAccount() {
@@ -85,8 +83,7 @@ public final class AuthenticationIT {
 			Assert.assertEquals(ITUtils.buildWebAppUrl("account"), driverB.getCurrentUrl());
 
 			/*
-			 * Verify that the login worked and that the account is now
-			 * associated with both games.
+			 * Verify that the login worked and that the account is now associated with both games.
 			 */
 			driverB.get(ITUtils.buildWebAppUrl(""));
 			Assert.assertEquals(2, driverB.findElements(By.cssSelector("table#player-games tbody tr")).size());
@@ -97,8 +94,7 @@ public final class AuthenticationIT {
 	}
 
 	/**
-	 * Ensures that the sign in/account control that's part of the pages'
-	 * template works correctly.
+	 * Ensures that the sign in/account control that's part of the pages' template works correctly.
 	 */
 	@Test
 	public void signInAndAccountControl() {
@@ -130,8 +126,7 @@ public final class AuthenticationIT {
 			driver.findElement(By.cssSelector("form#register button[type=submit]")).click();
 
 			/*
-			 * Ensure the Sign In control was replaced with the current account
-			 * control.
+			 * Ensure the Sign In control was replaced with the current account control.
 			 */
 			driver.get(ITUtils.buildWebAppUrl("/"));
 			Assert.assertEquals(
