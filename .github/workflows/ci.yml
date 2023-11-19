@@ -19,14 +19,53 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # The workflow runner will start these containers before the job's steps, and then stop them afterwards.
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Opens the port on the host and service container
+          - 5432:5432
+
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Project
+      uses: actions/checkout@v3
     - name: Set up JDK 8
       uses: actions/setup-java@v3
       with:
         java-version: '8'
         distribution: 'temurin'
         cache: maven
+    - name: Configure Maven Settings for ITs
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        profiles: |
+          [
+            {
+              "id": "rps",
+              "properties": {
+                "com.justdavis.karl.datasources.provisioner.postgresql.server.url": "jdbc:postgresql:postgres",
+                "com.justdavis.karl.datasources.provisioner.postgresql.server.user": "postgres",
+                "com.justdavis.karl.datasources.provisioner.postgresql.server.password": "postgres"
+              }
+            }
+          ]
+        active_profiles: |
+          [
+            "rps"
+          ]
+
     - name: Build with Maven
       run: mvn -B verify --file pom.xml
 
