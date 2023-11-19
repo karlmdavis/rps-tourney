@@ -88,7 +88,7 @@
 		<cxf.version>3.2.1</cxf.version>
 
 		<!-- The version of the Jackson artifacts to use across the modules. -->
-		<jackson.version>2.9.0</jackson.version>
+		<jackson.version>2.12.7.1</jackson.version>
 
 		<!-- The version of Jetty to use in ITs across all the modules. -->
 		<jetty.version>9.2.24.v20180105</jetty.version>
