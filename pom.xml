@@ -236,6 +236,15 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<configuration>
+						<!-- Disable GPG signing of JARs as we're no longer deploying them to Maven Central (and the
+							signing isn't needed or working for CI). -->
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
 					<configuration>
 						<!-- This setting is marked as experimental, but should prevent partial
