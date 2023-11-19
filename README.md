@@ -2,7 +2,7 @@ RPS Tourney
 ===========
 *A Collection of Rock-Paper-Scissors Games*
 
-[![Build Status](https://justdavis.com/jenkins/buildStatus/icon?job=rps-tourney)](https://justdavis.com/jenkins/job/rps-tourney/)
+[![Java CI with Maven](https://github.com/karlmdavis/rps-tourney/actions/workflows/ci.yml/badge.svg)](https://github.com/karlmdavis/rps-tourney/actions/workflows/ci.yml)
 
 ## Introduction
 
@@ -56,4 +56,3 @@ The following documents document the architecture and development of the game:
     * Release Date: 2013-11-03
     * Issues: [1.0.0](https://github.com/karlmdavis/rps-tourney/issues?q=milestone%3A1.0)
     * Binaries: [com.justdavis.karl.rpstourney:*:1.0.0](https://justdavis.com/nexus/#nexus-search;gav~com.justdavis.karl.rpstourney~~1.0.0~~)
-    
